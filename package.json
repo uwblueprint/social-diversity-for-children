@@ -8,9 +8,13 @@
         "start": "next start",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "svgr": "npx @svgr/cli -d src/components/icons --ignore-existing --icon --typescript public/icons",        
-        "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
-        "prettier": "prettier --write '**/*.{js,jsx,ts,tsx}'",
+        "svgr": "npx @svgr/cli -d src/components/icons --ignore-existing --icon --typescript public/icons",
+        "lint": "yarn lint:prettier && yarn lint:eslint",
+        "lint:prettier": "prettier --check .",
+        "lint:eslint": "eslint --cache --format stylish",
+        "fix": "yarn fix:eslint && yarn fix:prettier",
+        "fix:prettier": "prettier --write .",
+        "fix:eslint": "eslint './**/*.{js,jsx,ts,tsx}' --format stylish --fix",
         "test": "jest -c test/jest.config.js",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run --config video=false",
@@ -66,15 +70,15 @@
         "cypress": "^6.2.1",
         "start-server-and-test": "^1.11.0"
     },
-    "lint-staged": {
-        "*.{js,jsx,ts,tsx}": [
-            "eslint --cache --fix", 
-            "prettier --write"
-        ]
-    },
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
         }
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --cache --fix",
+            "prettier --write"
+        ]
     }
 }
