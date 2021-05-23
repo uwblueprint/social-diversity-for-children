@@ -19,7 +19,7 @@ import theme from "@definitions/chakra/theme";
 export const AllTheProviders = ({ children }) => {
     return (
         <>
-            <ChakraProvider theme={theme}></ChakraProvider>
+            <ChakraProvider theme={theme}>{children}</ChakraProvider>
         </>
     );
 };
