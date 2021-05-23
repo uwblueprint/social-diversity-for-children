@@ -78,8 +78,8 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,md}": [
-            "eslint --cache --fix",
-            "prettier --write"
+            "eslint './**/*.{js,jsx,ts,tsx}' --format stylish --cache --fix",
+            "prettier --write ."
         ]
     }
 }
