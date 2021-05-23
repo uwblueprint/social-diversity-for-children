@@ -11,7 +11,7 @@
         "svgr": "npx @svgr/cli -d src/components/icons --ignore-existing --icon --typescript public/icons",
         "lint": "yarn lint:prettier && yarn lint:eslint",
         "lint:prettier": "prettier --check '*.{js,jsx,ts,tsx}'",
-        "lint:eslint": "eslint '*.{js,jsx,ts,tsx} --cache --format stylish",
+        "lint:eslint": "eslint '*.{js,jsx,ts,tsx}' --cache --format stylish",
         "fix": "yarn fix:eslint && yarn fix:prettier",
         "fix:prettier": "prettier --write '*.{js,jsx,ts,tsx}'",
         "fix:eslint": "eslint '*.{js,jsx,ts,tsx}' --format stylish --fix",
