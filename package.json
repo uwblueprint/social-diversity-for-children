@@ -13,8 +13,8 @@
         "lint:prettier": "prettier --check .",
         "lint:eslint": "eslint --cache --format stylish",
         "fix": "yarn fix:eslint && yarn fix:prettier",
-        "fix:prettier": "prettier --write .",
-        "fix:eslint": "eslint . --format stylish --fix",
+        "fix:prettier": "prettier --write '*.{js,jsx,ts,tsx}'",
+        "fix:eslint": "eslint '*.{js,jsx,ts,tsx}' --format stylish --fix",
         "test": "jest -c test/jest.config.js",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run --config video=false",
@@ -75,7 +75,7 @@
         }
     },
     "lint-staged": {
-        "*": [
+        "*.{js,jsx,ts,tsx}": [
             "eslint . --format stylish --cache --fix",
             "prettier --write ."
         ]
