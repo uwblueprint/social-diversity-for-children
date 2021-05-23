@@ -77,9 +77,9 @@
         }
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx,md}": [
-            "eslint './**/*.{js,jsx,ts,tsx,json,md}' --format stylish --fix",
-            "prettier --write ."
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --cache --format stylish --fix",
+            "prettier --write"
         ]
     }
 }
