@@ -78,7 +78,8 @@
     },
     "lint-staged": {
         "*": [
-            "yarn fix"
+            "eslint --fix",
+            "prettier --write"
         ]
     }
 }
