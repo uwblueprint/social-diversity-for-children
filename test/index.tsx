@@ -7,8 +7,6 @@ import {
 
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "@definitions/chakra/theme";
-import { Provider } from "react-redux";
-import store from "@redux/store";
 
 /**
  * Custom renderer example with @testing-library/react
@@ -21,9 +19,7 @@ import store from "@redux/store";
 export const AllTheProviders = ({ children }) => {
     return (
         <>
-            <ChakraProvider theme={theme}>
-                <Provider store={store}>{children}</Provider>
-            </ChakraProvider>
+            <ChakraProvider theme={theme}>{children}</ChakraProvider>
         </>
     );
 };

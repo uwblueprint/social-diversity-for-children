@@ -1,29 +1,22 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { createContainer } from "unstated-next";
 
-import { increase, decrease } from "@redux/actions";
-import { RootState } from "@redux/reducers";
-import { useAppDispatch } from "@redux/store";
+function useCounter(initialState = 0) {
+    const [count, setCount] = useState(initialState);
+    const decrement = () => setCount(count - 1);
+    const increment = () => setCount(count + 1);
+    return { count, decrement, increment };
+}
 
-export default function Counter() {
-    const dispatch = useAppDispatch();
-    const count = useSelector((state: RootState) => state.counter.count);
+const Counter = createContainer(useCounter);
 
+function CounterDisplay() {
+    const counter = Counter.useContainer();
     return (
         <div>
-            <div>
-                <h2>Counter</h2>
-                <button type="button" onClick={() => dispatch(increase())}>
-                    +
-                </button>
-                <span>{count}</span>
-                <button type="button" onClick={() => dispatch(decrease())}>
-                    -
-                </button>
-            </div>
-            <a href="https://react-redux.js.org/" target="_blank">
-                Go To Documentation
-            </a>
+            <button onClick={counter.decrement}>-</button>
+            <span>{counter.count}</span>
+            <button onClick={counter.increment}>+</button>
         </div>
     );
 }

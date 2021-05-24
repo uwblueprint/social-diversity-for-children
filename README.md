@@ -86,11 +86,11 @@ React Hooks library for data fetching from Vercel
 
 [Go To Documentation](https://swr.vercel.app/)
 
-### **React Redux**
+### **Unstated-Next**
 
-Redux helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.
+Unstated-Next will be used for state management
 
-[Go To Documentation](https://redux.js.org/introduction/getting-started)
+[Go To Documentation](https://github.com/jamiebuilds/unstated-next)
 
 ### **next-i18next**
 
