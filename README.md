@@ -93,7 +93,8 @@ yarn fix
 
 ## Deployment
 
-Deployments occur automatically on push to main and staging branches.
+Deployments occur automatically on push to main and staging branches through [Railway](https://docs.railway.app/).
+
 
 ## License
 
