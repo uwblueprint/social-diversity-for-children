@@ -2,8 +2,6 @@
 
 Program registration platform for [Social Diversity for Children Foundation](https://www.socialdiversity.org). 
 
-TODO: Add in more detail about what we are building.
-
 Currently in development!
 
 This project was generated with [superplate](https://github.com/pankod/superplate).
