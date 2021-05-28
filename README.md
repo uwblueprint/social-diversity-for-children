@@ -1,21 +1,25 @@
 # Social Diversity for Children Foundation
 
-Program registration platform for [Social Diversity for Children Foundation](https://www.socialdiversity.org).
+Program registration platform for [Social Diversity for Children Foundation](https://www.socialdiversity.org). 
+
+TODO: Add in more detail about what we are building.
+
+Currently in development!
 
 This project was generated with [superplate](https://github.com/pankod/superplate).
 
 ## Team
-Project Lead: Eric Feng
-Product Manager: Raewyn Tsai
-Designers: Stacy Kwok, Christina Ru
+Project Lead: Eric Feng\
+Product Manager: Raewyn Tsai\
+Designers: Stacy Kwok, Christina Ru\
 Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad Zaryab
 
-## General Architecture
+## Project Architecture
 
 1. [NodeJS](https://nodejs.org/en/) application powered by the [Next.JS](https://nextjs.org/)
-   framework.
+   framework
 2. [Prisma](https://www.prisma.io/) ORM for [PostgreSQL](https://www.postgresql.org/)
-3. [Chakra UI](https://chakra-ui.com/) for building accessible and responsive frontend components.
+3. [Chakra UI](https://chakra-ui.com/) for building accessible and responsive frontend components
 4. [i18next](https://www.i18next.com/) for internationalization and translations, specifically [next-i18next](https://github.com/isaachinman/next-i18next)
 5. [NextAuth.js](https://next-auth.js.org/) for authentication 
 6. Service: [Amazon S3](https://aws.amazon.com/s3/) for file storage
@@ -85,7 +89,7 @@ Linters run automatically as a pre-commit hook on edited ```.js, .jsx, .ts, .tsx
 To run the linters manually:
 ```bash
 # Runs linting
-yarn linting
+yarn lint
 
 # Correct  linting issues
 yarn fix
