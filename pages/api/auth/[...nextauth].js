@@ -6,14 +6,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default NextAuth({
-    // Configure one or more authentication providers
+    site: process.env.NEXTAUTH_URL,
     providers: [
         Providers.Email({
             server: process.env.EMAIL_SERVER,
             from: process.env.EMAIL_FROM,
+            maxAge: 24 * 60,
         }),
     ],
-
     adapter: PrismaAdapter({
         prisma: prisma,
         modelMapping: {
@@ -23,4 +23,12 @@ export default NextAuth({
             VerificationRequest: "verificationRequest",
         },
     }),
+    session: {
+        jwt: true,
+        maxAge: 30 * 24 * 60 * 60,
+        updateAge: 0,
+    },
+    jwt: {
+        secret: process.env.JWT_SECRET,
+    },
 });
