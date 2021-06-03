@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import PrismaAdapter from "@next-auth/prisma-adapter";
+import Adapters from "next-auth/adapters";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -21,8 +21,8 @@ export default NextAuth({
         }),
     ],
     // map database adapter to prisma client
-    adapter: PrismaAdapter({
-        prisma: prisma,
+    adapter: Adapters.Prisma.Adapter({
+        prisma,
         modelMapping: {
             User: "user",
             Account: "account",
@@ -30,6 +30,12 @@ export default NextAuth({
             VerificationRequest: "verificationRequest",
         },
     }),
+    pages: {
+        // On errors, redirect to home
+        error: "/",
+        // On email verification request, redirect to verify page
+        verifyRequest: "/verify",
+    },
     session: {
         // use JSON web tokens for session handling
         jwt: true,
