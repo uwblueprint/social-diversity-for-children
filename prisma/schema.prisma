@@ -10,3 +10,175 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Program {
+  program_id         Int                  @id @default(autoincrement())
+  price              Float
+  start_date         DateTime             @default(now())
+  end_date           DateTime
+  weekday            Weekday
+  start_time         Int
+  duration_minutes   Int
+  space_total        Int
+  space_available    Int
+  is_archived        Boolean              @default(false)
+  VolunteerReg       VolunteerReg[]
+  CouponUsers        CouponUsers[]
+  ProgramWaitlist    ProgramWaitlist[]
+  ParentReg          ParentReg[]
+  ProgramTranslation ProgramTranslation[]
+  TeacherReg         TeacherReg[]
+}
+
+model Volunteer {
+  volunteer_id    Int     @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  phone_number    String
+  email           String
+  is_valid        Boolean @default(false)
+  background_form String
+
+  address_line1      String // street name and number
+  address_line2      String? // unit number, floor, room etc
+  postal_code        String
+  city_name          String
+  province           Province
+  preferred_language String
+
+  VolunteerReg VolunteerReg[]
+  ParentReg    ParentReg[]
+}
+
+model VolunteerReg {
+  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+  volunteer_id Int
+  program      Program   @relation(fields: [program_id], references: [program_id])
+  program_id   Int
+  is_valid     Boolean   @default(false)
+
+  @@id([volunteer_id, program_id])
+}
+
+model Parent {
+  parent_id          Int               @id @default(autoincrement())
+  first_name         String
+  last_name          String
+  phone_number       String
+  email              String
+  is_low_income      Boolean           @default(false)
+  address_line1      String // street name and number
+  address_line2      String? // unit number, floor, room etc
+  postal_code        String
+  city_name          String
+  province           Province
+  preferred_language String
+  CouponUsers        CouponUsers[]
+  ProgramWaitlist    ProgramWaitlist[]
+  ParentReg          ParentReg[]
+  ParentOfStudent    ParentOfStudent[]
+}
+
+model CouponUsers {
+  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
+  parent_id  Int
+  coupon_id  String
+  program    Program @relation(fields: [program_id], references: [program_id])
+  program_id Int
+
+  @@id([parent_id, program_id])
+}
+
+model ProgramWaitlist {
+  program    Program @relation(fields: [program_id], references: [program_id])
+  program_id Int
+  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
+  parent_id  Int
+
+  @@id([program_id, parent_id])
+}
+
+model Student {
+  student_id      Int               @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  allergies       String
+  additional_info String
+  ParentReg       ParentReg[]
+  ParentOfStudent ParentOfStudent[]
+}
+
+model ParentOfStudent {
+  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
+  parent_id  Int
+  student    Student @relation(fields: [student_id], references: [student_id])
+  student_id Int
+
+  @@id([student_id, parent_id])
+}
+
+model ParentReg {
+  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+  volunteer_id Int
+  parent       Parent    @relation(fields: [parent_id], references: [parent_id])
+  parent_id    Int
+  student      Student   @relation(fields: [student_id], references: [student_id])
+  student_id   Int
+  program      Program   @relation(fields: [program_id], references: [program_id])
+  program_id   Int
+
+  is_valid Boolean
+
+  @@id([student_id, program_id])
+}
+
+model Admin {
+  id         Int    @id @default(autoincrement())
+  email      String
+  first_name String
+  last_name  String
+}
+
+model TeacherReg {
+  teacher_id Int
+  program    Program @relation(fields: [program_id], references: [program_id])
+  program_id Int
+
+  @@id([program_id])
+}
+
+model ProgramTranslation {
+  program     Program @relation(fields: [program_id], references: [program_id])
+  program_id  Int
+  name        Int
+  description String
+  language    String
+
+  @@id([program_id])
+}
+
+enum Province {
+  NL
+  PE
+  NS
+  NB
+  QC
+  ON
+  MB
+  SK
+  AB
+  BC
+  YT
+  NT
+  NU
+}
+
+enum Weekday {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+}
