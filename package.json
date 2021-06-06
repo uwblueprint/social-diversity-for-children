@@ -14,11 +14,7 @@
         "lint:eslint": "eslint '*.{js,jsx,ts,tsx}' --cache --format stylish",
         "fix": "yarn fix:eslint && yarn fix:prettier",
         "fix:prettier": "prettier --write '*.{js,jsx,ts,tsx}'",
-        "fix:eslint": "eslint '*.{js,jsx,ts,tsx}' --format stylish --fix",
-        "test": "jest -c test/jest.config.js",
-        "cypress:open": "cypress open",
-        "cypress:run": "cypress run --config video=false",
-        "cypress:test": "start-server-and-test start http://localhost:3000 cypress:run"
+        "fix:eslint": "eslint '*.{js,jsx,ts,tsx}' --format stylish --fix"
     },
     "dependencies": {
         "@chakra-ui/react": "^1.1.4",
@@ -54,7 +50,6 @@
         "@typescript-eslint/parser": "^4.9.1",
         "babel-loader": "^8.2.2",
         "css-loader": "^5.0.1",
-        "cypress": "^6.2.1",
         "dotenv": "^8.2.0",
         "eslint": "^7.15.0",
         "eslint-config-prettier": "^7.0.0",
