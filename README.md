@@ -95,6 +95,17 @@ yarn lint
 yarn fix
 ```
 
+## Database 
+If you have made changes to the `prisma.schema` file and would like those changes to reflect in your database without generating a migration, run the following command: 
+```bash
+npx prisma db push
+```
+
+If you would like to generate a new migration and then apply the migrations to the database, run the following command: 
+```bash
+npx prisma migrate dev # generate migrations and apply them
+```
+
 ## Deployment
 
 Deployments occur automatically on push to main and staging branches through [Railway](https://docs.railway.app/).
