@@ -94,6 +94,7 @@ yarn lint
 # Correct  linting issues
 yarn fix
 ```
+
 ## Deployment
 
 Deployments occur automatically on push to main and staging branches through [Railway](https://docs.railway.app/).
