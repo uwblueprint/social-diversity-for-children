@@ -27,6 +27,7 @@
         "@prisma/client": "^2.23.0",
         "framer-motion": "^3.2.1",
         "next": "10.0.0",
+        "next-auth": "^3.24.0",
         "next-compose-plugins": "^2.2.1",
         "next-i18next": "^7.0.1",
         "prettier": "^2.2.1",
