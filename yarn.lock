@@ -2427,11 +2427,6 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@next-auth/prisma-adapter@^0.4.4-canary.64":
-  version "0.4.4-canary.64"
-  resolved "https://registry.yarnpkg.com/@next-auth/prisma-adapter/-/prisma-adapter-0.4.4-canary.64.tgz#fff0be32537aca5317b668eae420f1ed22d1fc74"
-  integrity sha512-N7NohoLVxwjCwYFEtuTwrqdvYj5880y45y02tWtoesYIjEkWQXrp+TM2ZcEs9VJZYY5gg3x1ie5DXYJ8GWp/QQ==
-
 "@next-auth/prisma-legacy-adapter@0.0.1-canary.127":
   version "0.0.1-canary.127"
   resolved "https://registry.yarnpkg.com/@next-auth/prisma-legacy-adapter/-/prisma-legacy-adapter-0.0.1-canary.127.tgz#09223de6d0350e53afc4bd0dda056a2fde27d8d3"

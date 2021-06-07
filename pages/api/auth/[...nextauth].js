@@ -25,8 +25,6 @@ export default NextAuth({
         prisma,
         modelMapping: {
             User: "user",
-            Account: "account",
-            Session: "session",
             VerificationRequest: "verificationRequest",
         },
     }),
