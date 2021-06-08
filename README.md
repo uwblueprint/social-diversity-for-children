@@ -34,7 +34,6 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ├── .github
 │   ├── workflows/ci.yml # Github workflow
 │   └── pull_request_template.md # PR template
-├── cypress # Cypress tests
 ├── pages # Pages
 │   ├── _app.tsx
 │   ├── api # API routes
@@ -47,10 +46,6 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ├── src # Frontend tools
 │   ├── components # Components
 │   └── definitions # Chakra
-├── test # Jest
-│   ├── index.tsx
-│   └── jest.config.js
-│   └── jest.setup.ts
 # Misc individual files
 ├── .babelrc
 ├── .eslintignore
@@ -60,7 +55,6 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ├── .prettierrc
 ├── LICENSE
 ├── README.md
-├── cypress.json
 ├── i18n.js
 ├── next-env.d.ts
 ├── next.config.js
