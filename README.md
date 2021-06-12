@@ -64,8 +64,7 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ```
 
 ## Run Locally
-
-To deploy your database schema run (one-time):
+Reset your database on Heroku and then deploy your database schema run (one-time):
 
 ```bash
 # Deploy schema.sql to Heroku postgres
