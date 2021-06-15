@@ -7,16 +7,15 @@ const S3 = new aws.S3();
 /* 
 
 Uploads a file to the AWS S3 bucket corresponding to AWS_BUCKET_NAME in .env.
-    
-filePath: the path of the file to upload
-
-If upload fails, returns the error. Otherwise, it returns the response data.
+    * filePath: the path of the file to upload
+    * returns: upload response if successful, error object otherwise
 
 Sample usage:
     myFile = "~/documents/my_file.txt"
     res = uploadToS3(myFile)
 
 */
+
 const uploadToS3 = (filePath: string): void => {
     aws.config.update({
         accessKeyId: process.env.AWS_ACCESS_KEY,
