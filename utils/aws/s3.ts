@@ -2,6 +2,8 @@ import aws from "aws-sdk";
 import fs from "fs";
 import path from "path";
 
+const S3 = new aws.S3();
+
 /* 
 
 Uploads a file to the AWS S3 bucket corresponding to AWS_BUCKET_NAME in .env.
@@ -22,7 +24,6 @@ const uploadToS3 = (filePath: string): void => {
         region: process.env.AWS_REGION,
         signatureVersion: "v4",
     });
-    const s3 = new aws.S3();
 
     const fileStream = fs.createReadStream(filePath);
     const uploadParams = {
@@ -30,7 +31,7 @@ const uploadToS3 = (filePath: string): void => {
         Key: path.basename(filePath),
         Body: fileStream,
     };
-    s3.upload(uploadParams, function (err, data) {
+    S3.upload(uploadParams, function (err, data) {
         if (err) {
             return err;
         }
@@ -38,4 +39,5 @@ const uploadToS3 = (filePath: string): void => {
     });
 };
 
+export { S3 };
 export default uploadToS3;
