@@ -1,11 +1,8 @@
-require('dotenv').config();
-var aws = require("aws-sdk");
-var fs = require("fs");
-var path = require("path");
+import aws from "aws-sdk";
+import fs from "fs";
+import path from "path";
 
-//TODO: Update to typescript
-
-export function s3Upload(filePath) {
+export const s3Uploader = (filePath : string): void => {
     aws.config.update({
         accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -13,6 +10,7 @@ export function s3Upload(filePath) {
         signatureVersion: "v4",
     });
     const s3 = new aws.S3();
+    
     const fileStream = fs.createReadStream(filePath);
     const uploadParams = {
         Bucket: process.env.AWS_BUCKET_NAME,
@@ -26,4 +24,5 @@ export function s3Upload(filePath) {
             console.log("SUCCESS: ", data.Location);
         }
     });
-}
+};
+
