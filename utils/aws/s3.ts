@@ -39,5 +39,4 @@ const uploadToS3 = (filePath: string): void => {
     });
 };
 
-export { S3 };
-export default uploadToS3;
+export { S3, uploadToS3 };
