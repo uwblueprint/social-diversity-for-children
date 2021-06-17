@@ -1,18 +1,25 @@
 // Nodemailer with SES transport, more info here: https://nodemailer.com/transports/ses/
 import { transporter } from "aws/index";
 import { ResponseObject } from "src/models/response";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * Sends an email to the targetAddress email from the process.env.EMAIL_FROM email
  * @param targetAddress the email address we want to send to (string)
- * @returns nothing
+ * @param subject email subject/title (string)
+ * @param text email body (string)
+ * @returns Promise<void>
  */
-export async function sendEmail(targetAddress: string) {
+async function sendEmail(
+    targetAddress: string,
+    subject: string,
+    text: string,
+): Promise<void> {
     await transporter.sendMail({
         from: process.env.EMAIL_FROM,
-        to: targetAddress, // only for testing, aws ses is in sandbox (recipient email must be verified)
-        subject: "Test Message",
-        text: "This is a test message from the SDC server!",
+        to: targetAddress,
+        subject: subject,
+        text: text,
         ses: {},
     });
 }
@@ -21,12 +28,19 @@ export async function sendEmail(targetAddress: string) {
  * Handles the request to /api/mail (POST)
  * @param req request object
  * @param res response object
- * @returns json object back to the client (type: ResponseObject)
+ * @returns Promise<void> and sends json object back to the client (type: ResponseObject)
  */
-export default async function mailHandler(req, res) {
+export default async function mailHandler(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     if (req.method == "POST") {
-        // this is hardcoded for now until AWS is not sandboxed (change to sendEmail(req.body.targetEmail))
-        await sendEmail(process.env.EMAIL_FROM)
+        // TODO: this is hardcoded for now until AWS is not sandboxed (change to sendEmail(req.body.targetEmail))
+        await sendEmail(
+            process.env.EMAIL_FROM,
+            "Test Message",
+            "This is a test message from the SDC server!",
+        )
             .then(() => {
                 const successResponse: ResponseObject = {
                     status: 200,
