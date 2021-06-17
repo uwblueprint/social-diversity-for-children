@@ -8,11 +8,10 @@ import path from "path";
  * @param {string} filePath - Path of the file to upload
  * @returns {object} - S3 upload response data
  */
-
-const uploadToS3 = (filePath: string): ManagedUpload => {
+const uploadToS3 = (bucketName: string, filePath: string): ManagedUpload => {
     const fileStream = fs.createReadStream(filePath);
     const uploadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME,
+        Bucket: bucketName,
         Key: path.basename(filePath),
         Body: fileStream,
     };
