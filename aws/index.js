@@ -6,5 +6,3 @@ aws.config.update({
     region: process.env.AWS_REGION,
     signatureVersion: "v4",
 });
-
-export { aws };
