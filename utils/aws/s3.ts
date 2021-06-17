@@ -1,9 +1,7 @@
-import aws from "aws-sdk";
 import { ManagedUpload } from "aws-sdk/clients/s3";
+import { s3 } from "aws/index";
 import fs from "fs";
 import path from "path";
-
-const S3 = new aws.S3();
 
 /**
  * Uploads a file to the AWS S3 bucket corresponding to env.AWS_BUCKET_NAME
@@ -19,7 +17,7 @@ const uploadToS3 = (filePath: string): ManagedUpload => {
         Body: fileStream,
     };
 
-    const res = S3.upload(uploadParams, function (err, data) {
+    const res = s3.upload(uploadParams, function (err, data) {
         console.log(err, data);
     });
 
