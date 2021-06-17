@@ -43,14 +43,12 @@ export default async function mailHandler(
         )
             .then(() => {
                 const successResponse: ResponseObject = {
-                    status: 200,
                     message: "The email has successfully been sent!",
                 };
                 res.status(200).json(successResponse);
             })
             .catch((err) => {
                 const errorResponse: ResponseObject = {
-                    status: 400,
                     message: "There was an error sending the email",
                 };
                 res.status(400).json(errorResponse);
@@ -58,7 +56,6 @@ export default async function mailHandler(
     } else {
         res.setHeader("Allow", ["POST"]);
         const methodErrorResponse: ResponseObject = {
-            status: 405,
             message: `Method ${req.method} Not Allowed`,
         };
         res.status(405).end(methodErrorResponse);
