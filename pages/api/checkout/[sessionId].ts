@@ -32,6 +32,7 @@ export default async function sessionIdHandler(
         // return session information
         res.status(200).json({ session });
     } else {
+        res.setHeader("Allow", ["GET"]);
         // TODO: add JSON response for method not allowed
         res.status(405);
     }
