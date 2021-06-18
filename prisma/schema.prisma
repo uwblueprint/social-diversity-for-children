@@ -7,24 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model admin {
+model Admin {
   id         Int     @id @default(autoincrement())
   first_name String  @db.VarChar(255)
   last_name  String  @db.VarChar(255)
   email      String? @unique @db.VarChar(255)
+  @@map(name: "admin")
 }
 
-model coupon_users {
+model CouponUsers {
   program_id Int
   parent_id  Int
   coupon_id  String? @db.VarChar(255)
-  parent     parent  @relation(fields: [parent_id], references: [parent_id])
-  program    program @relation(fields: [program_id], references: [program_id])
+  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
+  program    Program @relation(fields: [program_id], references: [program_id])
 
   @@id([parent_id, program_id])
+  @@map(name: "coupon_users")
 }
 
-model parent {
+model Parent {
   parent_id          Int                 @id @default(autoincrement())
   first_name         String              @db.VarChar(255)
   last_name          String              @db.VarChar(255)
@@ -35,43 +37,46 @@ model parent {
   address_line2      String?             @db.VarChar(255)
   postal_code        String              @db.VarChar(10)
   city_name          String              @db.VarChar(50)
-  province           provinces
+  province           Provinces
   preferred_language String              @db.VarChar(20)
-  coupon_users       coupon_users[]
-  parent_of_student  parent_of_student[]
-  parent_reg         parent_reg[]
-  program_waitlist   program_waitlist[]
+  coupon_users       CouponUsers[]
+  parent_of_student  ParentOfStudent[]
+  parent_reg         ParentReg[]
+  program_waitlist   ProgramWaitlist[]
+  @@map(name: "parent")
 }
 
-model parent_of_student {
+model ParentOfStudent {
   parent_id  Int
   student_id Int
-  parent     parent  @relation(fields: [parent_id], references: [parent_id])
-  student    student @relation(fields: [student_id], references: [student_id])
+  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
+  student    Student @relation(fields: [student_id], references: [student_id])
 
   @@id([student_id, parent_id])
+  @@map(name: "parent_of_student")
 }
 
-model parent_reg {
+model ParentReg {
   volunteer_id Int
   parent_id    Int
   student_id   Int
   program_id   Int
   is_valid     Boolean
-  parent       parent    @relation(fields: [parent_id], references: [parent_id])
-  program      program   @relation(fields: [program_id], references: [program_id])
-  student      student   @relation(fields: [student_id], references: [student_id])
-  volunteer    volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+  parent       Parent    @relation(fields: [parent_id], references: [parent_id])
+  program      Program   @relation(fields: [program_id], references: [program_id])
+  student      Student   @relation(fields: [student_id], references: [student_id])
+  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([student_id, program_id])
+  @@map(name: "parent_reg")
 }
 
-model program {
+model Program {
   program_id                Int                  @id @default(autoincrement())
   price                     Int
   start_date                DateTime             @db.Timestamptz(6)
   end_date                  DateTime             @db.Timestamptz(6)
-  weekday                   weekdays
+  weekday                   Weekdays
   start_time_minutes        Int
   duration_minutes          Int
   space_total               Int
@@ -79,59 +84,69 @@ model program {
   volunteer_space_total     Int
   volunteer_space_available Int
   is_archived               Boolean              @default(false)
-  coupon_users              coupon_users[]
-  parent_reg                parent_reg[]
-  program_translation       program_translation?
-  program_waitlist          program_waitlist[]
-  teacher_reg               teacher_reg[]
-  volunteer_reg             volunteer_reg[]
+  coupon_users              CouponUsers[]
+  parent_reg                ParentReg[]
+  program_translation       ProgramTranslation?
+  program_waitlist          ProgramWaitlist[]
+  teacher_reg               TeacherReg[]
+  volunteer_reg             VolunteerReg[]
+  @@map(name: "program")
 }
 
-model program_translation {
+model ProgramTranslation {
   program_id  Int     @id
   name        String? @db.VarChar(255)
   description String?
   language    String? @db.VarChar(20)
-  program     program @relation(fields: [program_id], references: [program_id])
+  program     Program @relation(fields: [program_id], references: [program_id])
+  @@map(name: "program_translation")
 }
 
-model program_waitlist {
+model ProgramWaitlist {
   program_id Int
   parent_id  Int
-  parent     parent  @relation(fields: [parent_id], references: [parent_id])
-  program    program @relation(fields: [program_id], references: [program_id])
+  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
+  program    Program @relation(fields: [program_id], references: [program_id])
 
   @@id([parent_id, program_id])
+  @@map(name: "program_waitlist")
+
 }
 
-model student {
+model Student {
   student_id        Int                 @id @default(autoincrement())
   first_name        String              @db.VarChar(255)
   last_name         String              @db.VarChar(255)
   allergies         String              @db.VarChar(255)
   additional_info   String?             @db.VarChar(255)
-  parent_of_student parent_of_student[]
-  parent_reg        parent_reg[]
+  parent_of_student ParentOfStudent[]
+  parent_reg        ParentReg[]
+  @@map(name: "student")
+
 }
 
-model teacher {
+model Teacher {
   teacher_id  Int           @id @default(autoincrement())
   first_name  String        @db.VarChar(255)
   last_name   String        @db.VarChar(255)
   email       String?       @unique @db.VarChar(255)
-  teacher_reg teacher_reg[]
+  teacher_reg TeacherReg[]
+  @@map(name: "teacher")
+
 }
 
-model teacher_reg {
+model TeacherReg {
   teacher_id Int
   program_id Int
-  program    program @relation(fields: [program_id], references: [program_id])
-  teacher    teacher @relation(fields: [teacher_id], references: [teacher_id])
+  program    Program @relation(fields: [program_id], references: [program_id])
+  teacher    Teacher @relation(fields: [teacher_id], references: [teacher_id])
 
   @@id([program_id, teacher_id])
+  @@map(name: "teacher_reg")
+
 }
 
-model users {
+model Users {
   id             Int       @id @default(autoincrement())
   name           String?   @db.VarChar(255)
   email          String?   @unique @db.VarChar(255)
@@ -139,18 +154,21 @@ model users {
   image          String?
   created_at     DateTime  @default(now()) @db.Timestamptz(6)
   updated_at     DateTime  @default(now()) @db.Timestamptz(6)
+  @@map(name: "users")
 }
 
-model verification_requests {
+model VerificationRequests {
   id         Int      @id @default(autoincrement())
   identifier String   @db.VarChar(255)
   token      String   @unique @db.VarChar(255)
   expires    DateTime @db.Timestamptz(6)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+  @@map(name: "verification_requests")
+
 }
 
-model volunteer {
+model Volunteer {
   volunteer_id         Int             @id @default(autoincrement())
   first_name           String          @db.VarChar(255)
   last_name            String          @db.VarChar(255)
@@ -162,23 +180,26 @@ model volunteer {
   address_line2        String?         @db.VarChar(255)
   postal_code          String?         @db.VarChar(10)
   city_name            String?         @db.VarChar(255)
-  province             provinces?
+  province             Provinces?
   preferred_language   String?         @db.VarChar(20)
-  parent_reg           parent_reg[]
-  volunteer_reg        volunteer_reg[]
+  parent_reg           ParentReg[]
+  volunteer_reg        VolunteerReg[]
+  @@map(name: "volunteer")
 }
 
-model volunteer_reg {
+model VolunteerReg {
   volunteer_id Int
   program_id   Int
   is_valid     Boolean?  @default(false)
-  program      program   @relation(fields: [program_id], references: [program_id])
-  volunteer    volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+  program      Program   @relation(fields: [program_id], references: [program_id])
+  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([volunteer_id, program_id])
+  @@map(name: "volunteer_reg")
+
 }
 
-enum provinces {
+enum Provinces {
   NL
   PE
   NS
@@ -194,7 +215,7 @@ enum provinces {
   NU
 }
 
-enum weekdays {
+enum Weekdays {
   MON
   TUE
   WED
