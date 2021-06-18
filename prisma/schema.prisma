@@ -7,174 +7,178 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                  Int                @id @default(autoincrement())
-  name                String?            @db.VarChar(255)
-  email               String?            @unique @db.VarChar(255)
-  emailVerified       DateTime?          @map("email_verified") @db.Timestamptz(6)
-  image               String?
-  created_at          DateTime           @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime           @default(now()) @db.Timestamptz(6)
-  @@map("users")
+model admin {
+  id         Int     @id @default(autoincrement())
+  first_name String  @db.VarChar(255)
+  last_name  String  @db.VarChar(255)
+  email      String? @unique @db.VarChar(255)
 }
 
-model VerificationRequest {
+model coupon_users {
+  program_id Int
+  parent_id  Int
+  coupon_id  String? @db.VarChar(255)
+  parent     parent  @relation(fields: [parent_id], references: [parent_id])
+  program    program @relation(fields: [program_id], references: [program_id])
+
+  @@id([parent_id, program_id])
+}
+
+model parent {
+  parent_id          Int                 @id @default(autoincrement())
+  first_name         String              @db.VarChar(255)
+  last_name          String              @db.VarChar(255)
+  phone_number       String              @db.VarChar(50)
+  email              String              @unique @db.VarChar(255)
+  is_low_income      Boolean?            @default(false)
+  address_line1      String              @db.VarChar(255)
+  address_line2      String?             @db.VarChar(255)
+  postal_code        String              @db.VarChar(10)
+  city_name          String              @db.VarChar(50)
+  province           provinces
+  preferred_language String              @db.VarChar(20)
+  coupon_users       coupon_users[]
+  parent_of_student  parent_of_student[]
+  parent_reg         parent_reg[]
+  program_waitlist   program_waitlist[]
+}
+
+model parent_of_student {
+  parent_id  Int
+  student_id Int
+  parent     parent  @relation(fields: [parent_id], references: [parent_id])
+  student    student @relation(fields: [student_id], references: [student_id])
+
+  @@id([student_id, parent_id])
+}
+
+model parent_reg {
+  volunteer_id Int
+  parent_id    Int
+  student_id   Int
+  program_id   Int
+  is_valid     Boolean
+  parent       parent    @relation(fields: [parent_id], references: [parent_id])
+  program      program   @relation(fields: [program_id], references: [program_id])
+  student      student   @relation(fields: [student_id], references: [student_id])
+  volunteer    volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+
+  @@id([student_id, program_id])
+}
+
+model program {
+  program_id                Int                  @id @default(autoincrement())
+  price                     Int
+  start_date                DateTime             @db.Timestamptz(6)
+  end_date                  DateTime             @db.Timestamptz(6)
+  weekday                   weekdays
+  start_time_minutes        Int
+  duration_minutes          Int
+  space_total               Int
+  space_available           Int
+  volunteer_space_total     Int
+  volunteer_space_available Int
+  is_archived               Boolean              @default(false)
+  coupon_users              coupon_users[]
+  parent_reg                parent_reg[]
+  program_translation       program_translation?
+  program_waitlist          program_waitlist[]
+  teacher_reg               teacher_reg[]
+  volunteer_reg             volunteer_reg[]
+}
+
+model program_translation {
+  program_id  Int     @id
+  name        String? @db.VarChar(255)
+  description String?
+  language    String? @db.VarChar(20)
+  program     program @relation(fields: [program_id], references: [program_id])
+}
+
+model program_waitlist {
+  program_id Int
+  parent_id  Int
+  parent     parent  @relation(fields: [parent_id], references: [parent_id])
+  program    program @relation(fields: [program_id], references: [program_id])
+
+  @@id([parent_id, program_id])
+}
+
+model student {
+  student_id        Int                 @id @default(autoincrement())
+  first_name        String              @db.VarChar(255)
+  last_name         String              @db.VarChar(255)
+  allergies         String              @db.VarChar(255)
+  additional_info   String?             @db.VarChar(255)
+  parent_of_student parent_of_student[]
+  parent_reg        parent_reg[]
+}
+
+model teacher {
+  teacher_id  Int           @id @default(autoincrement())
+  first_name  String        @db.VarChar(255)
+  last_name   String        @db.VarChar(255)
+  email       String?       @unique @db.VarChar(255)
+  teacher_reg teacher_reg[]
+}
+
+model teacher_reg {
+  teacher_id Int
+  program_id Int
+  program    program @relation(fields: [program_id], references: [program_id])
+  teacher    teacher @relation(fields: [teacher_id], references: [teacher_id])
+
+  @@id([program_id, teacher_id])
+}
+
+model users {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  email          String?   @unique @db.VarChar(255)
+  email_verified DateTime? @db.Timestamptz(6)
+  image          String?
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime  @default(now()) @db.Timestamptz(6)
+}
+
+model verification_requests {
   id         Int      @id @default(autoincrement())
   identifier String   @db.VarChar(255)
   token      String   @unique @db.VarChar(255)
   expires    DateTime @db.Timestamptz(6)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-  @@map("verification_requests")
 }
 
-model Program {
-  program_id         Int                  @id @default(autoincrement())
-  price              Float
-  start_date         DateTime             @default(now())
-  end_date           DateTime
-  weekday            Weekday
-  start_time         Int
-  duration_minutes   Int
-  space_total        Int
-  space_available    Int
-  is_archived        Boolean              @default(false)
-  VolunteerReg       VolunteerReg[]
-  CouponUsers        CouponUsers[]
-  ProgramWaitlist    ProgramWaitlist[]
-  ParentReg          ParentReg[]
-  ProgramTranslation ProgramTranslation[]
-  TeacherReg         TeacherReg[]
+model volunteer {
+  volunteer_id         Int             @id @default(autoincrement())
+  first_name           String          @db.VarChar(255)
+  last_name            String          @db.VarChar(255)
+  email                String?         @unique @db.VarChar(255)
+  phone_number         String?         @db.VarChar(50)
+  is_valid             Boolean?        @default(false)
+  background_form_link String?
+  address_line1        String?         @db.VarChar(255)
+  address_line2        String?         @db.VarChar(255)
+  postal_code          String?         @db.VarChar(10)
+  city_name            String?         @db.VarChar(255)
+  province             provinces?
+  preferred_language   String?         @db.VarChar(20)
+  parent_reg           parent_reg[]
+  volunteer_reg        volunteer_reg[]
 }
 
-model Volunteer {
-  volunteer_id    Int     @id @default(autoincrement())
-  first_name      String
-  last_name       String
-  phone_number    String
-  email           String
-  is_valid        Boolean @default(false)
-  background_form String
-
-  address_line1      String // street name and number
-  address_line2      String? // unit number, floor, room etc
-  postal_code        String
-  city_name          String
-  province           Province
-  preferred_language String
-
-  VolunteerReg VolunteerReg[]
-  ParentReg    ParentReg[]
-}
-
-model VolunteerReg {
-  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+model volunteer_reg {
   volunteer_id Int
-  program      Program   @relation(fields: [program_id], references: [program_id])
   program_id   Int
-  is_valid     Boolean   @default(false)
+  is_valid     Boolean?  @default(false)
+  program      program   @relation(fields: [program_id], references: [program_id])
+  volunteer    volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([volunteer_id, program_id])
 }
 
-model Parent {
-  parent_id          Int               @id @default(autoincrement())
-  first_name         String
-  last_name          String
-  phone_number       String
-  email              String
-  is_low_income      Boolean           @default(false)
-  address_line1      String // street name and number
-  address_line2      String? // unit number, floor, room etc
-  postal_code        String
-  city_name          String
-  province           Province
-  preferred_language String
-  CouponUsers        CouponUsers[]
-  ProgramWaitlist    ProgramWaitlist[]
-  ParentReg          ParentReg[]
-  ParentOfStudent    ParentOfStudent[]
-}
-
-model CouponUsers {
-  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
-  parent_id  Int
-  coupon_id  String
-  program    Program @relation(fields: [program_id], references: [program_id])
-  program_id Int
-
-  @@id([parent_id, program_id])
-}
-
-model ProgramWaitlist {
-  program    Program @relation(fields: [program_id], references: [program_id])
-  program_id Int
-  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
-  parent_id  Int
-
-  @@id([program_id, parent_id])
-}
-
-model Student {
-  student_id      Int               @id @default(autoincrement())
-  first_name      String
-  last_name       String
-  allergies       String
-  additional_info String
-  ParentReg       ParentReg[]
-  ParentOfStudent ParentOfStudent[]
-}
-
-model ParentOfStudent {
-  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
-  parent_id  Int
-  student    Student @relation(fields: [student_id], references: [student_id])
-  student_id Int
-
-  @@id([student_id, parent_id])
-}
-
-model ParentReg {
-  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
-  volunteer_id Int
-  parent       Parent    @relation(fields: [parent_id], references: [parent_id])
-  parent_id    Int
-  student      Student   @relation(fields: [student_id], references: [student_id])
-  student_id   Int
-  program      Program   @relation(fields: [program_id], references: [program_id])
-  program_id   Int
-
-  is_valid Boolean
-
-  @@id([student_id, program_id])
-}
-
-model Admin {
-  id         Int    @id @default(autoincrement())
-  email      String
-  first_name String
-  last_name  String
-}
-
-model TeacherReg {
-  teacher_id Int
-  program    Program @relation(fields: [program_id], references: [program_id])
-  program_id Int
-
-  @@id([program_id])
-}
-
-model ProgramTranslation {
-  program     Program @relation(fields: [program_id], references: [program_id])
-  program_id  Int
-  name        Int
-  description String
-  language    String
-
-  @@id([program_id])
-}
-
-enum Province {
+enum provinces {
   NL
   PE
   NS
@@ -190,7 +194,7 @@ enum Province {
   NU
 }
 
-enum Weekday {
+enum weekdays {
   MON
   TUE
   WED
