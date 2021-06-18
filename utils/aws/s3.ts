@@ -5,6 +5,7 @@ import path from "path";
 
 /**
  * Uploads a file to the AWS S3 bucket corresponding to env.AWS_BUCKET_NAME
+ * @param {string} bucketName - Name of the bucket to upload the file to
  * @param {string} filePath - Path of the file to upload
  * @returns {object} - S3 upload response data
  */
