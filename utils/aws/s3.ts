@@ -8,7 +8,7 @@ import path from "path";
  * @param {string} filePath - Path of the file to upload
  * @returns {object} - S3 upload response data
  */
-const uploadToS3 = (bucketName: string, filePath: string): ManagedUpload => {
+const uploadToS3 = (bucketName: string, filePath: string): Promise<any> => {
     const fileStream = fs.createReadStream(filePath);
     const uploadParams = {
         Bucket: bucketName,
@@ -16,11 +16,8 @@ const uploadToS3 = (bucketName: string, filePath: string): ManagedUpload => {
         Body: fileStream,
     };
 
-    const res = s3.upload(uploadParams, function (err, data) {
-        console.log(err, data);
-    });
-
-    return res;
+    const s3Upload = s3.upload(uploadParams).promise();
+    return s3Upload;
 };
 
 export { uploadToS3 };
