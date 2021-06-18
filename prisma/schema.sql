@@ -1,7 +1,6 @@
 CREATE TYPE provinces AS ENUM('NL', 'PE', 'NS', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU');
 CREATE TYPE weekdays AS ENUM ('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN');
 
--- npx prisma introspect && npx prisma generate
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -23,6 +22,7 @@ CREATE TABLE verification_requests (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- create program table
 CREATE TABLE program (
   program_id SERIAL PRIMARY KEY NOT NULL,
   price INTEGER NOT NULL, -- cents
@@ -38,6 +38,7 @@ CREATE TABLE program (
   is_archived BOOLEAN DEFAULT false NOT NULL
 );
 
+-- create parent table
 CREATE TABLE parent (
   parent_id SERIAL PRIMARY KEY NOT NULL,
   first_name VARCHAR(255) NOT NULL,
@@ -53,6 +54,7 @@ CREATE TABLE parent (
   preferred_language VARCHAR(20) NOT NULL
 );
 
+-- create volunteer table
 CREATE TABLE volunteer (
   volunteer_id SERIAL PRIMARY KEY NOT NULL,
   first_name VARCHAR(255)  NOT NULL,
@@ -71,6 +73,7 @@ CREATE TABLE volunteer (
   preferred_language VARCHAR(20) -- how long is a language name...
 );
 
+-- create volunteer registration table
 CREATE TABLE volunteer_reg (
   volunteer_id INTEGER NOT NULL,
   program_id INTEGER NOT NULL,
@@ -80,6 +83,7 @@ CREATE TABLE volunteer_reg (
   PRIMARY KEY (volunteer_id, program_id)
 );
 
+-- create coupon users table
 CREATE TABLE coupon_users (
   program_id INTEGER,
   parent_id INTEGER,
@@ -89,6 +93,7 @@ CREATE TABLE coupon_users (
   PRIMARY KEY (parent_id, program_id)
 );
 
+-- create program waitlist table
 CREATE TABLE  program_waitlist(
   program_id INTEGER,
   parent_id INTEGER,
@@ -97,6 +102,7 @@ CREATE TABLE  program_waitlist(
   PRIMARY KEY (parent_id, program_id)
 );
 
+-- create student table
 CREATE TABLE student(
   student_id SERIAL PRIMARY KEY NOT NULL,
   first_name VARCHAR(255)  NOT NULL,
@@ -105,6 +111,7 @@ CREATE TABLE student(
   additional_info VARCHAR(255) 
 );
 
+-- create table for relationship between parent and student
 CREATE TABLE parent_of_student(
   parent_id INTEGER,
   student_id INTEGER,
@@ -113,6 +120,7 @@ CREATE TABLE parent_of_student(
   PRIMARY KEY (student_id, parent_id)
 );
 
+-- create table for registration with parents and students
 CREATE TABLE parent_reg (
   volunteer_id INTEGER NOT NULL,
   parent_id INTEGER NOT NULL,
@@ -126,13 +134,15 @@ CREATE TABLE parent_reg (
   PRIMARY KEY (student_id, program_id)
 );
 
-CREATE TABLE "admin" (
+-- create program admin users table
+CREATE TABLE program_admin (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name VARCHAR(255)  NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE
 );
 
+-- create teacber table
 CREATE TABLE teacher (
   teacher_id SERIAL PRIMARY KEY NOT NULL,
   first_name VARCHAR(255)  NOT NULL,
@@ -140,6 +150,7 @@ CREATE TABLE teacher (
   email VARCHAR(255) UNIQUE
 );
 
+-- create teacher registration table
 CREATE TABLE teacher_reg (
   teacher_id INTEGER NOT NULL,
   program_id INTEGER NOT NULL,
@@ -148,6 +159,7 @@ CREATE TABLE teacher_reg (
   PRIMARY KEY (program_id, teacher_id)
 );
 
+-- create program translation table
 CREATE TABLE program_translation (
   program_id INTEGER NOT NULL,
   name VARCHAR(255),
