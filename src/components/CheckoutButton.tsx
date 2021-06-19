@@ -13,6 +13,7 @@ const stripePromise = loadStripe(
  * stripe checkout page
  */
 export const CheckoutButton: React.FC = () => {
+    // TODO: use helper function to make HTTP call
     const handleClick = async () => {
         const { sessionId } = await fetch("/api/checkout/session", {
             method: "POST",
