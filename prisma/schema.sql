@@ -37,7 +37,7 @@ CREATE TABLE verification_requests (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create program table
-CREATE TABLE program (
+CREATE TABLE programs (
   program_id SERIAL PRIMARY KEY NOT NULL,
   price INTEGER NOT NULL, -- price in cents, to make it integer
   start_date TIMESTAMPTZ NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE program (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create parent table
-CREATE TABLE parent (
+CREATE TABLE parents (
   parent_id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE parent (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create volunteer table
-CREATE TABLE volunteer (
+CREATE TABLE volunteers (
   volunteer_id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -89,11 +89,11 @@ CREATE TABLE volunteer (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create volunteer registration table
-CREATE TABLE volunteer_reg (
+CREATE TABLE volunteer_regs (
   volunteer_id INTEGER NOT NULL,
   program_id INTEGER NOT NULL,
-  FOREIGN KEY(volunteer_id) REFERENCES volunteer(volunteer_id),
-  FOREIGN KEY(program_id) REFERENCES program(program_id),
+  FOREIGN KEY(volunteer_id) REFERENCES volunteers(volunteer_id),
+  FOREIGN KEY(program_id) REFERENCES programs(program_id),
   is_valid BOOLEAN DEFAULT false,
   PRIMARY KEY (volunteer_id, program_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -103,23 +103,23 @@ CREATE TABLE volunteer_reg (
 CREATE TABLE coupon_users (
   program_id INTEGER NOT NULL,
   parent_id INTEGER NOT NULL,
-  FOREIGN KEY (parent_id) REFERENCES parent(parent_id) ON DELETE CASCADE,
-  FOREIGN KEY (program_id) REFERENCES program(program_id) ON DELETE CASCADE,
+  FOREIGN KEY (parent_id) REFERENCES parents(parent_id) ON DELETE CASCADE,
+  FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE,
   coupon_id TEXT,
   PRIMARY KEY (parent_id, program_id)
 );
 -- create program waitlist table
-CREATE TABLE program_waitlist(
+CREATE TABLE program_waitlists(
   program_id INTEGER NOT NULL,
   parent_id INTEGER NOT NULL,
-  FOREIGN KEY (parent_id) REFERENCES parent(parent_id) ON DELETE CASCADE,
-  FOREIGN KEY (program_id) REFERENCES program(program_id) ON DELETE CASCADE,
+  FOREIGN KEY (parent_id) REFERENCES parents(parent_id) ON DELETE CASCADE,
+  FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE,
   PRIMARY KEY (parent_id, program_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create student table
-CREATE TABLE student(
+CREATE TABLE students(
   student_id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -129,32 +129,32 @@ CREATE TABLE student(
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create table for relationship between parent and student
-CREATE TABLE parent_of_student(
+CREATE TABLE parent_of_students(
   parent_id INTEGER NOT NULL,
   student_id INTEGER NOT NULL,
-  FOREIGN KEY (parent_id) REFERENCES parent(parent_id) ON DELETE CASCADE,
-  FOREIGN KEY (student_id) REFERENCES student(student_id) ON DELETE CASCADE,
+  FOREIGN KEY (parent_id) REFERENCES parents(parent_id) ON DELETE CASCADE,
+  FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
   PRIMARY KEY (student_id, parent_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create table for registration with parents and students
-CREATE TABLE parent_reg (
+CREATE TABLE parent_regs (
   volunteer_id INTEGER NOT NULL,
   parent_id INTEGER NOT NULL,
   student_id INTEGER NOT NULL,
   program_id INTEGER NOT NULL,
   is_valid BOOLEAN NOT NULL,
-  FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id) ON DELETE CASCADE,
-  FOREIGN KEY (parent_id) REFERENCES parent(parent_id) ON DELETE CASCADE,
-  FOREIGN KEY (student_id) REFERENCES student(student_id) ON DELETE CASCADE,
-  FOREIGN KEY (program_id) REFERENCES program(program_id) ON DELETE CASCADE,
+  FOREIGN KEY (volunteer_id) REFERENCES volunteers(volunteer_id) ON DELETE CASCADE,
+  FOREIGN KEY (parent_id) REFERENCES parents(parent_id) ON DELETE CASCADE,
+  FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+  FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE,
   PRIMARY KEY (student_id, program_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create program admin users table
-CREATE TABLE program_admin (
+CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE program_admin (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create teacber table
-CREATE TABLE teacher (
+CREATE TABLE teachers (
   teacher_id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -172,22 +172,22 @@ CREATE TABLE teacher (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create teacher registration table
-CREATE TABLE teacher_reg (
+CREATE TABLE teacher_regs (
   teacher_id INTEGER NOT NULL,
   program_id INTEGER NOT NULL,
-  FOREIGN KEY(teacher_id) REFERENCES teacher(teacher_id) ON DELETE CASCADE,
-  FOREIGN KEY(program_id) REFERENCES program(program_id) ON DELETE CASCADE,
+  FOREIGN KEY(teacher_id) REFERENCES teachers(teacher_id) ON DELETE CASCADE,
+  FOREIGN KEY(program_id) REFERENCES programs(program_id) ON DELETE CASCADE,
   PRIMARY KEY (program_id, teacher_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create program translation table
-CREATE TABLE program_translation (
+CREATE TABLE program_translations (
   program_id INTEGER NOT NULL,
   name TEXT NOT NULL,
   description TEXT NOT NULL,
   language locales NOT NULL,
-  FOREIGN KEY (program_id) REFERENCES program(program_id) ON DELETE CASCADE,
+  FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE,
   PRIMARY KEY (program_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP

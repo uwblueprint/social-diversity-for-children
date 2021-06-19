@@ -1,5 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
@@ -37,7 +38,7 @@ model Parent {
   parent_reg         ParentReg[]
   program_waitlist   ProgramWaitlist[]
 
-  @@map("parent")
+  @@map("parents")
 }
 
 model ParentOfStudent {
@@ -49,7 +50,7 @@ model ParentOfStudent {
   student    Student  @relation(fields: [student_id], references: [student_id])
 
   @@id([student_id, parent_id])
-  @@map("parent_of_student")
+  @@map("parent_of_students")
 }
 
 model ParentReg {
@@ -66,7 +67,7 @@ model ParentReg {
   volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([student_id, program_id])
-  @@map("parent_reg")
+  @@map("parent_regs")
 }
 
 model Program {
@@ -91,7 +92,7 @@ model Program {
   teacher_reg               TeacherReg[]
   volunteer_reg             VolunteerReg[]
 
-  @@map("program")
+  @@map("programs")
 }
 
 model ProgramTranslation {
@@ -103,7 +104,7 @@ model ProgramTranslation {
   updated_at  DateTime @default(now()) @db.Timestamptz(6)
   program     Program  @relation(fields: [program_id], references: [program_id])
 
-  @@map("program_translation")
+  @@map("program_translations")
 }
 
 model ProgramWaitlist {
@@ -115,7 +116,7 @@ model ProgramWaitlist {
   program    Program  @relation(fields: [program_id], references: [program_id])
 
   @@id([parent_id, program_id])
-  @@map("program_waitlist")
+  @@map("program_waitlists")
 }
 
 model Student {
@@ -129,7 +130,7 @@ model Student {
   parent_of_student ParentOfStudent[]
   parent_reg        ParentReg[]
 
-  @@map("student")
+  @@map("students")
 }
 
 model Teacher {
@@ -141,7 +142,7 @@ model Teacher {
   updated_at  DateTime     @default(now()) @db.Timestamptz(6)
   teacher_reg TeacherReg[]
 
-  @@map("teacher")
+  @@map("teachers")
 }
 
 model TeacherReg {
@@ -153,7 +154,7 @@ model TeacherReg {
   teacher    Teacher  @relation(fields: [teacher_id], references: [teacher_id])
 
   @@id([program_id, teacher_id])
-  @@map("teacher_reg")
+  @@map("teacher_regs")
 }
 
 model Users {
@@ -198,7 +199,7 @@ model Volunteer {
   parent_reg           ParentReg[]
   volunteer_reg        VolunteerReg[]
 
-  @@map("volunteer")
+  @@map("volunteers")
 }
 
 model VolunteerReg {
@@ -211,16 +212,18 @@ model VolunteerReg {
   volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([volunteer_id, program_id])
-  @@map("volunteer_reg")
+  @@map("volunteer_regs")
 }
 
-model program_admin {
+model ProgramAdmin {
   id         Int      @id @default(autoincrement())
   first_name String
   last_name  String
   email      String?  @unique
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@map("program_admins")
 }
 
 enum locales {
