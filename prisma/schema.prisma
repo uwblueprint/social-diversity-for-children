@@ -7,53 +7,50 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
-  id         Int     @id @default(autoincrement())
-  first_name String  @db.VarChar(255)
-  last_name  String  @db.VarChar(255)
-  email      String? @unique @db.VarChar(255)
-  @@map(name: "admin")
-}
-
 model CouponUsers {
   program_id Int
   parent_id  Int
-  coupon_id  String? @db.VarChar(255)
+  coupon_id  String?
   parent     Parent  @relation(fields: [parent_id], references: [parent_id])
   program    Program @relation(fields: [program_id], references: [program_id])
 
   @@id([parent_id, program_id])
-  @@map(name: "coupon_users")
+  @@map("coupon_users")
 }
 
 model Parent {
-  parent_id          Int                 @id @default(autoincrement())
-  first_name         String              @db.VarChar(255)
-  last_name          String              @db.VarChar(255)
-  phone_number       String              @db.VarChar(50)
-  email              String              @unique @db.VarChar(255)
-  is_low_income      Boolean?            @default(false)
-  address_line1      String              @db.VarChar(255)
-  address_line2      String?             @db.VarChar(255)
-  postal_code        String              @db.VarChar(10)
-  city_name          String              @db.VarChar(50)
-  province           Provinces
-  preferred_language String              @db.VarChar(20)
+  parent_id          Int               @id @default(autoincrement())
+  first_name         String
+  last_name          String
+  phone_number       String            @db.VarChar(50)
+  email              String            @unique
+  is_low_income      Boolean?          @default(false)
+  address_line1      String
+  address_line2      String?
+  postal_code        String            @db.VarChar(10)
+  city_name          String            @db.VarChar(50)
+  province           provinces
+  preferred_language locales
+  created_at         DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime          @default(now()) @db.Timestamptz(6)
   coupon_users       CouponUsers[]
   parent_of_student  ParentOfStudent[]
   parent_reg         ParentReg[]
   program_waitlist   ProgramWaitlist[]
-  @@map(name: "parent")
+
+  @@map("parent")
 }
 
 model ParentOfStudent {
   parent_id  Int
   student_id Int
-  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
-  student    Student @relation(fields: [student_id], references: [student_id])
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  parent     Parent   @relation(fields: [parent_id], references: [parent_id])
+  student    Student  @relation(fields: [student_id], references: [student_id])
 
   @@id([student_id, parent_id])
-  @@map(name: "parent_of_student")
+  @@map("parent_of_student")
 }
 
 model ParentReg {
@@ -62,144 +59,179 @@ model ParentReg {
   student_id   Int
   program_id   Int
   is_valid     Boolean
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime  @default(now()) @db.Timestamptz(6)
   parent       Parent    @relation(fields: [parent_id], references: [parent_id])
   program      Program   @relation(fields: [program_id], references: [program_id])
   student      Student   @relation(fields: [student_id], references: [student_id])
   volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([student_id, program_id])
-  @@map(name: "parent_reg")
+  @@map("parent_reg")
 }
 
 model Program {
-  program_id                Int                  @id @default(autoincrement())
+  program_id                Int                 @id @default(autoincrement())
   price                     Int
-  start_date                DateTime             @db.Timestamptz(6)
-  end_date                  DateTime             @db.Timestamptz(6)
-  weekday                   Weekdays
+  start_date                DateTime            @db.Timestamptz(6)
+  end_date                  DateTime            @db.Timestamptz(6)
+  weekday                   weekdays
   start_time_minutes        Int
   duration_minutes          Int
   space_total               Int
   space_available           Int
   volunteer_space_total     Int
   volunteer_space_available Int
-  is_archived               Boolean              @default(false)
+  is_archived               Boolean             @default(false)
+  created_at                DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime            @default(now()) @db.Timestamptz(6)
   coupon_users              CouponUsers[]
   parent_reg                ParentReg[]
   program_translation       ProgramTranslation?
   program_waitlist          ProgramWaitlist[]
   teacher_reg               TeacherReg[]
   volunteer_reg             VolunteerReg[]
-  @@map(name: "program")
+
+  @@map("program")
 }
 
 model ProgramTranslation {
-  program_id  Int     @id
-  name        String? @db.VarChar(255)
-  description String?
-  language    String? @db.VarChar(20)
-  program     Program @relation(fields: [program_id], references: [program_id])
-  @@map(name: "program_translation")
+  program_id  Int      @id
+  name        String
+  description String
+  language    locales
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  program     Program  @relation(fields: [program_id], references: [program_id])
+
+  @@map("program_translation")
 }
 
 model ProgramWaitlist {
   program_id Int
   parent_id  Int
-  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
-  program    Program @relation(fields: [program_id], references: [program_id])
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  parent     Parent   @relation(fields: [parent_id], references: [parent_id])
+  program    Program  @relation(fields: [program_id], references: [program_id])
 
   @@id([parent_id, program_id])
-  @@map(name: "program_waitlist")
-
+  @@map("program_waitlist")
 }
 
 model Student {
-  student_id        Int                 @id @default(autoincrement())
-  first_name        String              @db.VarChar(255)
-  last_name         String              @db.VarChar(255)
-  allergies         String              @db.VarChar(255)
-  additional_info   String?             @db.VarChar(255)
+  student_id        Int               @id @default(autoincrement())
+  first_name        String
+  last_name         String
+  allergies         String
+  additional_info   String?
+  created_at        DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime          @default(now()) @db.Timestamptz(6)
   parent_of_student ParentOfStudent[]
   parent_reg        ParentReg[]
-  @@map(name: "student")
 
+  @@map("student")
 }
 
 model Teacher {
-  teacher_id  Int           @id @default(autoincrement())
-  first_name  String        @db.VarChar(255)
-  last_name   String        @db.VarChar(255)
-  email       String?       @unique @db.VarChar(255)
+  teacher_id  Int          @id @default(autoincrement())
+  first_name  String
+  last_name   String
+  email       String?      @unique
+  created_at  DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime     @default(now()) @db.Timestamptz(6)
   teacher_reg TeacherReg[]
-  @@map(name: "teacher")
 
+  @@map("teacher")
 }
 
 model TeacherReg {
   teacher_id Int
   program_id Int
-  program    Program @relation(fields: [program_id], references: [program_id])
-  teacher    Teacher @relation(fields: [teacher_id], references: [teacher_id])
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  program    Program  @relation(fields: [program_id], references: [program_id])
+  teacher    Teacher  @relation(fields: [teacher_id], references: [teacher_id])
 
   @@id([program_id, teacher_id])
-  @@map(name: "teacher_reg")
-
+  @@map("teacher_reg")
 }
 
 model Users {
   id             Int       @id @default(autoincrement())
-  name           String?   @db.VarChar(255)
-  email          String?   @unique @db.VarChar(255)
+  name           String?
+  email          String?   @unique
   email_verified DateTime? @db.Timestamptz(6)
   image          String?
   created_at     DateTime  @default(now()) @db.Timestamptz(6)
   updated_at     DateTime  @default(now()) @db.Timestamptz(6)
-  @@map(name: "users")
+
+  @@map("users")
 }
 
 model VerificationRequests {
   id         Int      @id @default(autoincrement())
-  identifier String   @db.VarChar(255)
-  token      String   @unique @db.VarChar(255)
+  identifier String
+  token      String   @unique
   expires    DateTime @db.Timestamptz(6)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-  @@map(name: "verification_requests")
 
+  @@map("verification_requests")
 }
 
 model Volunteer {
-  volunteer_id         Int             @id @default(autoincrement())
-  first_name           String          @db.VarChar(255)
-  last_name            String          @db.VarChar(255)
-  email                String?         @unique @db.VarChar(255)
-  phone_number         String?         @db.VarChar(50)
-  is_valid             Boolean?        @default(false)
+  volunteer_id         Int            @id @default(autoincrement())
+  first_name           String
+  last_name            String
+  email                String?        @unique
+  phone_number         String?        @db.VarChar(50)
+  is_valid             Boolean?       @default(false)
   background_form_link String?
-  address_line1        String?         @db.VarChar(255)
-  address_line2        String?         @db.VarChar(255)
-  postal_code          String?         @db.VarChar(10)
-  city_name            String?         @db.VarChar(255)
-  province             Provinces?
-  preferred_language   String?         @db.VarChar(20)
+  address_line1        String?
+  address_line2        String?
+  postal_code          String?        @db.VarChar(10)
+  city_name            String?
+  province             provinces?
+  preferred_language   locales?
+  created_at           DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime       @default(now()) @db.Timestamptz(6)
   parent_reg           ParentReg[]
   volunteer_reg        VolunteerReg[]
-  @@map(name: "volunteer")
+
+  @@map("volunteer")
 }
 
 model VolunteerReg {
   volunteer_id Int
   program_id   Int
   is_valid     Boolean?  @default(false)
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime  @default(now()) @db.Timestamptz(6)
   program      Program   @relation(fields: [program_id], references: [program_id])
   volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
 
   @@id([volunteer_id, program_id])
-  @@map(name: "volunteer_reg")
-
+  @@map("volunteer_reg")
 }
 
-enum Provinces {
+model program_admin {
+  id         Int      @id @default(autoincrement())
+  first_name String
+  last_name  String
+  email      String?  @unique
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+enum locales {
+  zh
+  en
+  ja
+  ko
+}
+
+enum provinces {
   NL
   PE
   NS
@@ -215,7 +247,7 @@ enum Provinces {
   NU
 }
 
-enum Weekdays {
+enum weekdays {
   MON
   TUE
   WED
