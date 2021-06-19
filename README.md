@@ -64,6 +64,7 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ```
 
 ## Run Locally
+
 Reset your database on Heroku and then deploy your database schema run (one-time):
 
 ```bash
