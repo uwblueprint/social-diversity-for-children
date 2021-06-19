@@ -1,19 +1,18 @@
-import { useSession, signIn, signOut } from "next-auth/client";
+import React from "react";
+import { Spacer, Flex } from "@chakra-ui/react";
 
-export default function Component() {
-    const [session, loading] = useSession();
-    if (session) {
-        return (
-            <>
-                Signed in as {session.user.email} <br />
-                <button onClick={() => signOut()}>Sign out</button>
-            </>
-        );
-    }
+import { Header, Main, Cards, Footer } from "@components";
+
+const Home: React.FC = () => {
     return (
-        <>
-            Not signed in <br />
-            <button onClick={() => signIn()}>Sign in</button>
-        </>
+        <Flex direction="column" minH="100vh">
+            <Header />
+            <Main />
+            <Cards />
+            <Spacer />
+            <Footer />
+        </Flex>
     );
-}
+};
+
+export default Home;
