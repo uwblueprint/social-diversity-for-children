@@ -64,15 +64,6 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ```
 
 ## Run Locally
-Reset your database on Heroku and then deploy your database schema run (one-time):
-
-```bash
-# Deploy schema.sql to Heroku postgres
-heroku pg:psql -a YOUR_APP_NAME -f prisma/schema.sql
-
-# Regenerate Prisma schema and client
-npx prisma introspect && npx prisma generate
-```
 
 To run the application:
 
