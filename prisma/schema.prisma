@@ -54,17 +54,15 @@ model ParentOfStudent {
 }
 
 model ParentReg {
-  volunteer_id Int
-  parent_id    Int
-  student_id   Int
-  program_id   Int
-  is_valid     Boolean
-  created_at   DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime  @default(now()) @db.Timestamptz(6)
-  parents      Parent    @relation("parent_regsToparents", fields: [parent_id], references: [id])
-  programs     Program   @relation("parent_regsToprograms", fields: [program_id], references: [id])
-  students     Student   @relation("parent_regsTostudents", fields: [student_id], references: [id])
-  volunteers   Volunteer @relation("parent_regsTovolunteers", fields: [volunteer_id], references: [id])
+  parent_id  Int
+  student_id Int
+  program_id Int
+  is_valid   Boolean
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  parents    Parent   @relation("parent_regsToparents", fields: [parent_id], references: [id])
+  programs   Program  @relation("parent_regsToprograms", fields: [program_id], references: [id])
+  students   Student  @relation("parent_regsTostudents", fields: [student_id], references: [id])
 
   @@id([student_id, program_id])
   @@map("parent_regs")
@@ -196,7 +194,6 @@ model Volunteer {
   preferred_language   locales?
   created_at           DateTime       @default(now()) @db.Timestamptz(6)
   updated_at           DateTime       @default(now()) @db.Timestamptz(6)
-  parent_regs          ParentReg[]    @relation("parent_regsTovolunteers")
   volunteer_regs       VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")

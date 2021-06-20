@@ -140,12 +140,10 @@ CREATE TABLE parent_of_students(
 );
 -- create table for registration with parents and students
 CREATE TABLE parent_regs (
-  volunteer_id INTEGER NOT NULL,
   parent_id INTEGER NOT NULL,
   student_id INTEGER NOT NULL,
   program_id INTEGER NOT NULL,
   is_valid BOOLEAN NOT NULL,
-  FOREIGN KEY (volunteer_id) REFERENCES volunteers(id) ON DELETE CASCADE,
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
   FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
   FOREIGN KEY (program_id) REFERENCES programs(id) ON DELETE CASCADE,
