@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Uploads a file to the AWS S3 bucket corresponding to env.AWS_BUCKET_NAME
+ * Uploads a file to an AWS S3 bucket
  * @param {string} bucketName - Name of the bucket to upload the file to
  * @param {string} filePath - Path of the file to upload
  * @returns {promise} - S3 upload response object on resolve, error object on reject
