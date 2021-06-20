@@ -8,7 +8,7 @@ import path from "path";
  * @param {string} filePath - Path of the file to upload
  * @returns {promise} - S3 upload response object on resolve, error object on reject
  */
-const uploadToS3 = (bucketName: string, filePath: string): Promise<unknown> => {
+const uploadToS3 = (bucketName: string, filePath: string): unknown => {
     const fileStream = fs.createReadStream(filePath);
     const uploadParams = {
         Bucket: bucketName,
