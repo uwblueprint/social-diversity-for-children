@@ -155,7 +155,7 @@ model TeacherReg {
   @@map("teacher_regs")
 }
 
-model Users {
+model User {
   id             Int       @id @default(autoincrement())
   name           String?
   email          String?   @unique
@@ -167,7 +167,7 @@ model Users {
   @@map("users")
 }
 
-model VerificationRequests {
+model VerificationRequest {
   id         Int      @id @default(autoincrement())
   identifier String
   token      String   @unique

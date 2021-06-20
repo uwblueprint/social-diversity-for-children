@@ -8,3 +8,5 @@ node_modules
 !.env.sample
 # eslint
 .eslintcache
+# yarn error log
+yarn-error.log

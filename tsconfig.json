@@ -25,11 +25,9 @@
             "@styles": ["src/styles"],
             "@components/icons/*": ["src/components/icons/*"],
             "@components/icons": ["src/components/icons"],
-            "@i18n": ["./i18n"],
-            "@test/*": ["test/*"],
-            "@test": ["test"]
+            "@i18n": ["./i18n"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules", "test/*", "cypress/*"]
+    "exclude": ["node_modules"]
 }
