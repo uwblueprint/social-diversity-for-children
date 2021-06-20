@@ -11,15 +11,15 @@ model CouponUsers {
   program_id Int
   parent_id  Int
   coupon_id  String?
-  parent     Parent  @relation(fields: [parent_id], references: [parent_id])
-  program    Program @relation(fields: [program_id], references: [program_id])
+  parents    Parent  @relation("coupon_usersToparents", fields: [parent_id], references: [id])
+  programs   Program @relation("coupon_usersToprograms", fields: [program_id], references: [id])
 
   @@id([parent_id, program_id])
   @@map("coupon_users")
 }
 
 model Parent {
-  parent_id          Int               @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   first_name         String
   last_name          String
   phone_number       String            @db.VarChar(50)
@@ -33,10 +33,10 @@ model Parent {
   preferred_language locales
   created_at         DateTime          @default(now()) @db.Timestamptz(6)
   updated_at         DateTime          @default(now()) @db.Timestamptz(6)
-  coupon_users       CouponUsers[]
-  parent_of_student  ParentOfStudent[]
-  parent_reg         ParentReg[]
-  program_waitlist   ProgramWaitlist[]
+  coupon_users       CouponUsers[]     @relation("coupon_usersToparents")
+  parent_of_students ParentOfStudent[] @relation("parent_of_studentsToparents")
+  parent_regs        ParentReg[]       @relation("parent_regsToparents")
+  program_waitlists  ProgramWaitlist[] @relation("parentsToprogram_waitlists")
 
   @@map("parents")
 }
@@ -46,8 +46,8 @@ model ParentOfStudent {
   student_id Int
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-  parent     Parent   @relation(fields: [parent_id], references: [parent_id])
-  student    Student  @relation(fields: [student_id], references: [student_id])
+  parents    Parent   @relation("parent_of_studentsToparents", fields: [parent_id], references: [id])
+  students   Student  @relation("parent_of_studentsTostudents", fields: [student_id], references: [id])
 
   @@id([student_id, parent_id])
   @@map("parent_of_students")
@@ -61,17 +61,17 @@ model ParentReg {
   is_valid     Boolean
   created_at   DateTime  @default(now()) @db.Timestamptz(6)
   updated_at   DateTime  @default(now()) @db.Timestamptz(6)
-  parent       Parent    @relation(fields: [parent_id], references: [parent_id])
-  program      Program   @relation(fields: [program_id], references: [program_id])
-  student      Student   @relation(fields: [student_id], references: [student_id])
-  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+  parents      Parent    @relation("parent_regsToparents", fields: [parent_id], references: [id])
+  programs     Program   @relation("parent_regsToprograms", fields: [program_id], references: [id])
+  students     Student   @relation("parent_regsTostudents", fields: [student_id], references: [id])
+  volunteers   Volunteer @relation("parent_regsTovolunteers", fields: [volunteer_id], references: [id])
 
   @@id([student_id, program_id])
   @@map("parent_regs")
 }
 
 model Program {
-  program_id                Int                 @id @default(autoincrement())
+  id                        Int                 @id @default(autoincrement())
   price                     Int
   start_date                DateTime            @db.Timestamptz(6)
   end_date                  DateTime            @db.Timestamptz(6)
@@ -85,12 +85,12 @@ model Program {
   is_archived               Boolean             @default(false)
   created_at                DateTime            @default(now()) @db.Timestamptz(6)
   updated_at                DateTime            @default(now()) @db.Timestamptz(6)
-  coupon_users              CouponUsers[]
-  parent_reg                ParentReg[]
-  program_translation       ProgramTranslation?
-  program_waitlist          ProgramWaitlist[]
-  teacher_reg               TeacherReg[]
-  volunteer_reg             VolunteerReg[]
+  coupon_users              CouponUsers[]       @relation("coupon_usersToprograms")
+  parent_regs               ParentReg[]         @relation("parent_regsToprograms")
+  program_translations      ProgramTranslation? @relation("program_translationsToprograms")
+  program_waitlists         ProgramWaitlist[]   @relation("program_waitlistsToprograms")
+  teacher_regs              TeacherReg[]        @relation("programsToteacher_regs")
+  volunteer_regs            VolunteerReg[]      @relation("programsTovolunteer_regs")
 
   @@map("programs")
 }
@@ -102,7 +102,7 @@ model ProgramTranslation {
   language    locales
   created_at  DateTime @default(now()) @db.Timestamptz(6)
   updated_at  DateTime @default(now()) @db.Timestamptz(6)
-  program     Program  @relation(fields: [program_id], references: [program_id])
+  programs    Program  @relation("program_translationsToprograms", fields: [program_id], references: [id])
 
   @@map("program_translations")
 }
@@ -112,35 +112,35 @@ model ProgramWaitlist {
   parent_id  Int
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-  parent     Parent   @relation(fields: [parent_id], references: [parent_id])
-  program    Program  @relation(fields: [program_id], references: [program_id])
+  parents    Parent   @relation("parentsToprogram_waitlists", fields: [parent_id], references: [id])
+  programs   Program  @relation("program_waitlistsToprograms", fields: [program_id], references: [id])
 
   @@id([parent_id, program_id])
   @@map("program_waitlists")
 }
 
 model Student {
-  student_id        Int               @id @default(autoincrement())
-  first_name        String
-  last_name         String
-  allergies         String
-  additional_info   String?
-  created_at        DateTime          @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime          @default(now()) @db.Timestamptz(6)
-  parent_of_student ParentOfStudent[]
-  parent_reg        ParentReg[]
+  id                 Int               @id @default(autoincrement())
+  first_name         String
+  last_name          String
+  allergies          String
+  additional_info    String?
+  created_at         DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime          @default(now()) @db.Timestamptz(6)
+  parent_of_students ParentOfStudent[] @relation("parent_of_studentsTostudents")
+  parent_regs        ParentReg[]       @relation("parent_regsTostudents")
 
   @@map("students")
 }
 
 model Teacher {
-  teacher_id  Int          @id @default(autoincrement())
-  first_name  String
-  last_name   String
-  email       String?      @unique
-  created_at  DateTime     @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime     @default(now()) @db.Timestamptz(6)
-  teacher_reg TeacherReg[]
+  id           Int          @id @default(autoincrement())
+  first_name   String
+  last_name    String
+  email        String?      @unique
+  created_at   DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime     @default(now()) @db.Timestamptz(6)
+  teacher_regs TeacherReg[] @relation("teacher_regsToteachers")
 
   @@map("teachers")
 }
@@ -150,8 +150,8 @@ model TeacherReg {
   program_id Int
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-  program    Program  @relation(fields: [program_id], references: [program_id])
-  teacher    Teacher  @relation(fields: [teacher_id], references: [teacher_id])
+  programs   Program  @relation("programsToteacher_regs", fields: [program_id], references: [id])
+  teachers   Teacher  @relation("teacher_regsToteachers", fields: [teacher_id], references: [id])
 
   @@id([program_id, teacher_id])
   @@map("teacher_regs")
@@ -181,7 +181,7 @@ model VerificationRequests {
 }
 
 model Volunteer {
-  volunteer_id         Int            @id @default(autoincrement())
+  id                   Int            @id @default(autoincrement())
   first_name           String
   last_name            String
   email                String?        @unique
@@ -196,8 +196,8 @@ model Volunteer {
   preferred_language   locales?
   created_at           DateTime       @default(now()) @db.Timestamptz(6)
   updated_at           DateTime       @default(now()) @db.Timestamptz(6)
-  parent_reg           ParentReg[]
-  volunteer_reg        VolunteerReg[]
+  parent_regs          ParentReg[]    @relation("parent_regsTovolunteers")
+  volunteer_regs       VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")
 }
@@ -208,8 +208,8 @@ model VolunteerReg {
   is_valid     Boolean?  @default(false)
   created_at   DateTime  @default(now()) @db.Timestamptz(6)
   updated_at   DateTime  @default(now()) @db.Timestamptz(6)
-  program      Program   @relation(fields: [program_id], references: [program_id])
-  volunteer    Volunteer @relation(fields: [volunteer_id], references: [volunteer_id])
+  programs     Program   @relation("programsTovolunteer_regs", fields: [program_id], references: [id])
+  volunteers   Volunteer @relation("volunteer_regsTovolunteers", fields: [volunteer_id], references: [id])
 
   @@id([volunteer_id, program_id])
   @@map("volunteer_regs")
