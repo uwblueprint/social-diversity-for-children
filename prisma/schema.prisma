@@ -20,6 +20,7 @@ model CouponUsers {
 
 model Parent {
   id                 Int               @id @default(autoincrement())
+  user_id            Int
   first_name         String
   last_name          String
   phone_number       String            @db.VarChar(50)
@@ -33,6 +34,7 @@ model Parent {
   preferred_language locales
   created_at         DateTime          @default(now()) @db.Timestamptz(6)
   updated_at         DateTime          @default(now()) @db.Timestamptz(6)
+  users              User              @relation("parentsTousers", fields: [user_id], references: [id])
   coupon_users       CouponUsers[]     @relation("coupon_usersToparents")
   parent_of_students ParentOfStudent[] @relation("parent_of_studentsToparents")
   parent_regs        ParentReg[]       @relation("parent_regsToparents")
@@ -133,11 +135,13 @@ model Student {
 
 model Teacher {
   id           Int          @id @default(autoincrement())
+  user_id      Int
   first_name   String
   last_name    String
   email        String?      @unique
   created_at   DateTime     @default(now()) @db.Timestamptz(6)
   updated_at   DateTime     @default(now()) @db.Timestamptz(6)
+  users        User         @relation("teachersTousers", fields: [user_id], references: [id])
   teacher_regs TeacherReg[] @relation("teacher_regsToteachers")
 
   @@map("teachers")
@@ -156,13 +160,17 @@ model TeacherReg {
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   name           String?
-  email          String?   @unique
-  email_verified DateTime? @db.Timestamptz(6)
+  email          String?        @unique
+  email_verified DateTime?      @db.Timestamptz(6)
   image          String?
-  created_at     DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime  @default(now()) @db.Timestamptz(6)
+  created_at     DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime       @default(now()) @db.Timestamptz(6)
+  parents        Parent[]       @relation("parentsTousers")
+  program_admins ProgramAdmin[] @relation("program_adminsTousers")
+  teachers       Teacher[]      @relation("teachersTousers")
+  volunteers     Volunteer[]    @relation("usersTovolunteers")
 
   @@map("users")
 }
@@ -180,6 +188,7 @@ model VerificationRequest {
 
 model Volunteer {
   id                   Int            @id @default(autoincrement())
+  user_id              Int
   first_name           String
   last_name            String
   email                String?        @unique
@@ -194,6 +203,7 @@ model Volunteer {
   preferred_language   locales?
   created_at           DateTime       @default(now()) @db.Timestamptz(6)
   updated_at           DateTime       @default(now()) @db.Timestamptz(6)
+  users                User           @relation("usersTovolunteers", fields: [user_id], references: [id])
   volunteer_regs       VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")
@@ -214,11 +224,13 @@ model VolunteerReg {
 
 model ProgramAdmin {
   id         Int      @id @default(autoincrement())
+  user_id    Int
   first_name String
   last_name  String
   email      String?  @unique
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+  users      User     @relation("program_adminsTousers", fields: [user_id], references: [id])
 
   @@map("program_admins")
 }

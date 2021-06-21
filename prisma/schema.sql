@@ -13,10 +13,13 @@ CREATE TYPE provinces AS ENUM(
   'NT',
   'NU'
 );
+
 CREATE TYPE weekdays AS ENUM ('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN');
+
 -- https://stackoverflow.com/questions/3191664/list-of-all-locales-and-their-short-codes
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
+
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -27,6 +30,7 @@ CREATE TABLE users (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- Create email verification requests table
 CREATE TABLE verification_requests (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -36,6 +40,7 @@ CREATE TABLE verification_requests (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create program table
 CREATE TABLE programs (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -53,6 +58,7 @@ CREATE TABLE programs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create parent table
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -67,9 +73,11 @@ CREATE TABLE parents (
   city_name VARCHAR(50) NOT NULL,
   province provinces NOT NULL,
   preferred_language locales NOT NULL,
+  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create volunteer table
 CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -85,9 +93,11 @@ CREATE TABLE volunteers (
   city_name TEXT,
   province provinces,
   preferred_language locales,
+  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create volunteer registration table
 CREATE TABLE volunteer_regs (
   volunteer_id INTEGER NOT NULL,
@@ -99,6 +109,7 @@ CREATE TABLE volunteer_regs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create coupon users table
 CREATE TABLE coupon_users (
   program_id INTEGER NOT NULL,
@@ -108,6 +119,7 @@ CREATE TABLE coupon_users (
   coupon_id TEXT,
   PRIMARY KEY (parent_id, program_id)
 );
+
 -- create program waitlist table
 CREATE TABLE program_waitlists(
   program_id INTEGER NOT NULL,
@@ -118,6 +130,7 @@ CREATE TABLE program_waitlists(
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create student table
 CREATE TABLE students(
   id SERIAL PRIMARY KEY NOT NULL,
@@ -128,6 +141,7 @@ CREATE TABLE students(
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create table for relationship between parent and student
 CREATE TABLE parent_of_students(
   parent_id INTEGER NOT NULL,
@@ -138,6 +152,7 @@ CREATE TABLE parent_of_students(
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create table for registration with parents and students
 CREATE TABLE parent_regs (
   parent_id INTEGER NOT NULL,
@@ -151,24 +166,29 @@ CREATE TABLE parent_regs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create program admin users table
 CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   email TEXT UNIQUE,
+  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create teacber table
 CREATE TABLE teachers (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   email TEXT UNIQUE,
+  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create teacher registration table
 CREATE TABLE teacher_regs (
   teacher_id INTEGER NOT NULL,
@@ -179,6 +199,7 @@ CREATE TABLE teacher_regs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
 -- create program translation table
 CREATE TABLE program_translations (
   program_id INTEGER NOT NULL,
