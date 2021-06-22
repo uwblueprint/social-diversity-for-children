@@ -1,6 +1,6 @@
 // Nodemailer with SES transport, more info here: https://nodemailer.com/transports/ses/
 import { transporter } from "aws/index";
-import { ResponseObject } from "src/models/response";
+import { ResponseObject } from "models/response";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
