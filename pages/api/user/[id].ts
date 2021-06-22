@@ -1,3 +1,4 @@
+import { ServiceResponse } from "models/response";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getUser } from "../../../services/database/user";
 // TODO: Type the response dataF
@@ -17,10 +18,17 @@ export default async function handle(
 
         // obtain user with provided userId
         const user = await getUser(id as string);
+        const response = new ServiceResponse();
 
         // TODO: Improve error handling
-        if (!user)
-            res.status(404).json({ error: "User with provided id not found." });
+        if (!user) {
+            response.respondWithNotFound(
+                res,
+                "User with provided id not found.",
+            );
+            return;
+        }
+        // res.status(404).json({ error: "User with provided id not found." });
 
         res.status(200).json(user);
     } else {
