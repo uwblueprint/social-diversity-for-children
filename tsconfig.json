@@ -26,7 +26,8 @@
             "@components/icons/*": ["src/components/icons/*"],
             "@components/icons": ["src/components/icons"],
             "@i18n": ["./i18n"],
-            "@prisma": ["prisma"]
+            "@prisma": ["prisma"],
+            "@aws":["services/aws"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
