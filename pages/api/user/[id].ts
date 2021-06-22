@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-// TODO: Type the response data
+import { getUser } from "../../../services/database/user";
+// TODO: Type the response dataF
 /**
  * handle takes the userId parameter and returns
  * the user associated with the userId
@@ -13,7 +13,10 @@ export default async function handle(
 ): Promise<void> {
     if (req.method == "GET") {
         // Obtain user id
-        const { userId } = req.query;
+        const { id } = req.query;
+
+        // obtain user with provided userId
+        const user = await getUser(id as string);
 
         // TODO: Improve error handling
         if (!user)
@@ -26,23 +29,3 @@ export default async function handle(
         res.status(405);
     }
 }
-
-// /**
-//  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
-//  * getUser takes the id parameter and returns
-//  * the user associated with the userId
-//  * @param id userId in string
-//  */
-// async function getUser(id: string) {
-//     return prisma.user.findUnique({
-//         where: {
-//             id: parseInt(id),
-//         },
-//         include: {
-//             teachers: true,
-//             parents: true,
-//             program_admins: true,
-//             volunteers: true,
-//         },
-//     });
-// }
