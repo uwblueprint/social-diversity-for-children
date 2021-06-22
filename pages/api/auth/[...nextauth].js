@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import Adapters from "next-auth/adapters";
-import prisma from "@prisma";
+import prisma from "../../../services/database";
 
 export default NextAuth({
     // site URL for authentication redirect

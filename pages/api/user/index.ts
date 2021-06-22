@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@prisma";
 
 // TODO: Type the response data
 export default async function handle(
@@ -8,8 +7,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const users = await getUsers();
-            res.status(200).json(users);
+            res.status(200).json({});
             break;
         }
         case "POST": {
@@ -31,13 +29,13 @@ export default async function handle(
     }
 }
 
-async function getUsers() {
-    return prisma.user.findMany({
-        include: {
-            teachers: true,
-            parents: true,
-            program_admins: true,
-            volunteers: true,
-        },
-    });
-}
+// async function getUsers() {
+//     return prisma.user.findMany({
+//         include: {
+//             teachers: true,
+//             parents: true,
+//             program_admins: true,
+//             volunteers: true,
+//         },
+//     });
+// }

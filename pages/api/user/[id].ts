@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@prisma";
 
 // TODO: Type the response data
 /**
@@ -16,8 +15,6 @@ export default async function handle(
         // Obtain user id
         const { userId } = req.query;
 
-        const user = await getUser(userId as string);
-
         // TODO: Improve error handling
         if (!user)
             res.status(404).json({ error: "User with provided id not found." });
@@ -30,22 +27,22 @@ export default async function handle(
     }
 }
 
-/**
- * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
- * getUser takes the id parameter and returns
- * the user associated with the userId
- * @param id userId in string
- */
-async function getUser(id: string) {
-    return prisma.user.findUnique({
-        where: {
-            id: parseInt(id),
-        },
-        include: {
-            teachers: true,
-            parents: true,
-            program_admins: true,
-            volunteers: true,
-        },
-    });
-}
+// /**
+//  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
+//  * getUser takes the id parameter and returns
+//  * the user associated with the userId
+//  * @param id userId in string
+//  */
+// async function getUser(id: string) {
+//     return prisma.user.findUnique({
+//         where: {
+//             id: parseInt(id),
+//         },
+//         include: {
+//             teachers: true,
+//             parents: true,
+//             program_admins: true,
+//             volunteers: true,
+//         },
+//     });
+// }
