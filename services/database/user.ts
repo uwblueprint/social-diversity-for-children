@@ -20,4 +20,19 @@ async function getUser(id: string) {
     return user;
 }
 
-export { getUser };
+/**
+ * getUsers returns all the users
+ */
+async function getUsers() {
+    const users = await prisma.user.findMany({
+        include: {
+            teachers: true,
+            parents: true,
+            program_admins: true,
+            volunteers: true,
+        },
+    });
+    return users;
+}
+
+export { getUser, getUsers };

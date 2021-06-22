@@ -1,6 +1,6 @@
 // Nodemailer with SES transport, more info here: https://nodemailer.com/transports/ses/
 import { transporter } from "@aws";
-import { ResponseObject } from "models/response";
+import { ResponseUtil } from "utils/response";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
@@ -34,6 +34,7 @@ export default async function mailHandler(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
+    const response = new ResponseUtil();
     if (req.method == "POST") {
         // TODO: this is hardcoded for now until AWS is not sandboxed (change to sendEmail(req.body.targetEmail))
         await sendEmail(
@@ -42,22 +43,25 @@ export default async function mailHandler(
             "This is a test message from the SDC server!",
         )
             .then(() => {
-                const successResponse: ResponseObject = {
-                    message: "The email has successfully been sent!",
-                };
-                res.status(200).json(successResponse);
+                response.returnSuccess(
+                    res,
+                    "The email has successfully been sent!",
+                );
+                return;
             })
             .catch((err) => {
-                const errorResponse: ResponseObject = {
-                    message: "There was an error sending the email",
-                };
-                res.status(400).json(errorResponse);
+                response.returnBadRequest(
+                    res,
+                    "There was an error sending the email",
+                );
+                return;
             });
     } else {
         res.setHeader("Allow", ["POST"]);
-        const methodErrorResponse: ResponseObject = {
-            message: `Method ${req.method} Not Allowed`,
-        };
-        res.status(405).end(methodErrorResponse);
+        response.returnMethodNotAllowed(
+            res,
+            `Method ${req.method} Not Allowed`,
+        );
+        return;
     }
 }
