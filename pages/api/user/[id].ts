@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUser } from "../../../services/database/user";
+import { getUser } from "@database/user";
 // TODO: Type the response data
 /**
  * handle takes the userId parameter and returns
