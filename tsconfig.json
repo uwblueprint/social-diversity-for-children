@@ -26,9 +26,12 @@
             "@components/icons/*": ["src/components/icons/*"],
             "@components/icons": ["src/components/icons"],
             "@i18n": ["./i18n"],
-            "@prisma": ["prisma"],
+            "@aws/*": ["services/aws/*"],
             "@aws": ["services/aws"],
-            "@database": ["services/database"]
+            "@database/*": ["services/database/*"],
+            "@database": ["services/database"],
+            "@utils/*": ["utils/*"],
+            "@utils": ["utils"],
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
