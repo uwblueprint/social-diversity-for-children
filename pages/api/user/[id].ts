@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { ResponseUtil } from "utils/response";
+import { ResponseUtil } from "@utils/responseUtil";
 import { getUser } from "../../../services/database/user";
 // TODO: Type the response data
 /**
@@ -20,7 +20,6 @@ export default async function handle(
         // obtain user with provided userId
         const user = await getUser(id as string);
 
-        // TODO: Improve error handling
         if (!user) {
             responseUtil.returnNotFound(
                 res,
@@ -28,8 +27,6 @@ export default async function handle(
             );
             return;
         }
-        // res.status(404).json({ error: "User with provided id not found." });
-
         responseUtil.returnSuccess(res, undefined, user);
         return;
     } else {

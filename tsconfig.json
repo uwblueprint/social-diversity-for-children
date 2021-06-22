@@ -31,7 +31,7 @@
             "@database/*": ["services/database/*"],
             "@database": ["services/database"],
             "@utils/*": ["utils/*"],
-            "@utils": ["utils"],
+            "@utils": ["utils"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

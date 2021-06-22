@@ -1,8 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { ResponseUtil } from "@utils/response";
+import { ResponseUtil } from "@utils/responseUtil";
 import { getUsers } from "@database/user";
 
-// TODO: Type the response data
+/**
+ * TODO: Write documentation for function
+ * @param req
+ * @param res
+ * @returns
+ */
 export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,

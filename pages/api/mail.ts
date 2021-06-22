@@ -1,6 +1,6 @@
 // Nodemailer with SES transport, more info here: https://nodemailer.com/transports/ses/
 import { transporter } from "@aws";
-import { ResponseUtil } from "utils/response";
+import { ResponseUtil } from "@utils/responseUtil";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
