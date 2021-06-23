@@ -1,4 +1,4 @@
-import { s3 } from "aws/index";
+import { s3 } from "services/aws/index";
 import fs from "fs";
 import path from "path";
 

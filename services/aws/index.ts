@@ -1,5 +1,4 @@
 import aws from "aws-sdk";
-import nodemailer from "nodemailer";
 
 // Update AWS Config
 aws.config.update({
@@ -14,12 +13,7 @@ const ses = new aws.SES({
     apiVersion: "2010-12-01",
 });
 
-// create Nodemailer SES transporter
-const transporter = nodemailer.createTransport({
-    SES: { ses, aws },
-});
-
 // Set up S3
 const s3 = new aws.S3();
 
-export { transporter, s3 };
+export { aws, ses, s3 };
