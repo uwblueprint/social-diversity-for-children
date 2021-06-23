@@ -34,6 +34,7 @@ export class ResponseUtil {
     /**
      * Method for returning a status 405 Method Not Allowed response
      * @param res NextApiResponse
+     * @param allowedHeaders Array of Allowed Headers for Method
      * @param message Optional message
      */
     static returnMethodNotAllowed(
