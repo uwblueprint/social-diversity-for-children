@@ -45,7 +45,7 @@ export class ResponseUtil {
         if (message === undefined) {
             message = "Method not allowed.";
         }
-        res.setHeader("ALLOW", allowedHeaders);
+        res.setHeader("Allow", allowedHeaders);
         res.status(405).json({ error: message });
     }
 }

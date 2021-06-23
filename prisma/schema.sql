@@ -65,7 +65,6 @@ CREATE TABLE parents (
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
-  email TEXT UNIQUE NOT NULL,
   is_low_income BOOLEAN DEFAULT false,
   address_line1 TEXT NOT NULL,
   address_line2 TEXT,
@@ -83,7 +82,6 @@ CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email TEXT UNIQUE,
   phone_number VARCHAR(50),
   is_valid BOOLEAN DEFAULT false,
   background_form_link TEXT,
@@ -172,7 +170,6 @@ CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email TEXT UNIQUE,
   FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
