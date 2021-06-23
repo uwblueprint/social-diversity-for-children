@@ -5,52 +5,46 @@ import { NextApiResponse } from "next";
  */
 export class ResponseUtil {
     /**
-     * Method for returning a status 200 success response
+     * Method for returning a 200 Status OK response
      * @param res NextApiResponse
-     * @param message Optional message
      * @param data Optional data
      */
-    returnSuccess(
-        res: NextApiResponse,
-        message?: string,
-        data?: unknown,
-    ): void {
-        res.status(200).json({ message, data });
+    static returnOK(res: NextApiResponse, data?: unknown): void {
+        res.status(200).json({ data });
     }
 
     /**
-     * Method for returning a status 400 bad request response
+     * Method for returning a status 400 Bad Request response
      * @param res NextApiResponse
      * @param message Optional message
      */
-    returnBadRequest(res: NextApiResponse, message?: string): void {
-        if (message === undefined) {
-            message = "Bad Request.";
-        }
+    static returnBadRequest(res: NextApiResponse, message: string): void {
         res.status(400).json({ error: message });
     }
 
     /**
-     * Method for returning a status 404 not found response
+     * Method for returning a status 404 Not Found Response
      * @param res NextApiResponse
      * @param message Optional message
      */
-    returnNotFound(res: NextApiResponse, message?: string): void {
-        if (message === undefined) {
-            message = "Resource not found.";
-        }
+    static returnNotFound(res: NextApiResponse, message: string): void {
         res.status(404).json({ error: message });
     }
 
     /**
-     * Method for returning a status 405 method not allowed response
+     * Method for returning a status 405 Method Not Allowed response
      * @param res NextApiResponse
      * @param message Optional message
      */
-    returnMethodNotAllowed(res: NextApiResponse, message?: string): void {
+    static returnMethodNotAllowed(
+        res: NextApiResponse,
+        allowedHeaders: string[],
+        message?: string,
+    ): void {
         if (message === undefined) {
             message = "Method not allowed.";
         }
+        res.setHeader("ALLOW", allowedHeaders);
         res.status(405).json({ error: message });
     }
 }

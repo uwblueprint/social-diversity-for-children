@@ -34,32 +34,33 @@ export default async function mailHandler(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    const response = new ResponseUtil();
     if (req.method == "POST") {
-        // TODO: this is hardcoded for now until AWS is not sandboxed (change to sendEmail(req.body.targetEmail))
+        // TODO: this is hardcoded for now until AWS is not sandboxed
+        // (change to sendEmail(req.body.targetEmail))
         await sendEmail(
             process.env.EMAIL_FROM,
             "Test Message",
             "This is a test message from the SDC server!",
         )
             .then(() => {
-                response.returnSuccess(
+                ResponseUtil.returnOK(
                     res,
                     "The email has successfully been sent!",
                 );
                 return;
             })
             .catch((err) => {
-                response.returnBadRequest(
+                ResponseUtil.returnBadRequest(
                     res,
-                    "There was an error sending the email",
+                    `There was an error sending the email: ${err}`,
                 );
                 return;
             });
     } else {
-        res.setHeader("Allow", ["POST"]);
-        response.returnMethodNotAllowed(
+        const allowedHeaders: string[] = ["POST"];
+        ResponseUtil.returnMethodNotAllowed(
             res,
+            allowedHeaders,
             `Method ${req.method} Not Allowed`,
         );
         return;

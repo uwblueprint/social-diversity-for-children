@@ -3,20 +3,18 @@ import { ResponseUtil } from "@utils/responseUtil";
 import { getUsers } from "@database/user";
 
 /**
- * TODO: Write documentation for function
- * @param req
- * @param res
- * @returns
+ * handle controls the request made to the user resource
+ * @param req API request object
+ * @param res API response object
  */
 export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    const responseUtil = new ResponseUtil();
     switch (req.method) {
         case "GET": {
             const users = await getUsers();
-            responseUtil.returnSuccess(res, undefined, users);
+            ResponseUtil.returnOK(res, users);
             res.status(200).json({});
             break;
         }
@@ -32,13 +30,15 @@ export default async function handle(
             // TODO:
             break;
         }
-        default:
-            res.setHeader("ALLOW", ["GET", "POST", "PUT", "DELETE"]);
+        default: {
+            const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
             // TODO: add JSON response for method not allowed
-            responseUtil.returnMethodNotAllowed(
+            ResponseUtil.returnMethodNotAllowed(
                 res,
+                allowedHeaders,
                 `Method ${req.method} Not Allowed`,
             );
+        }
     }
     return;
 }

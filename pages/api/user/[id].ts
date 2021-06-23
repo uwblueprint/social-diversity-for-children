@@ -12,7 +12,6 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    const responseUtil = new ResponseUtil();
     if (req.method == "GET") {
         // Obtain user id
         const { id } = req.query;
@@ -21,20 +20,16 @@ export default async function handle(
         const user = await getUser(id as string);
 
         if (!user) {
-            responseUtil.returnNotFound(
-                res,
-                "User with provided id not found.",
-            );
+            ResponseUtil.returnNotFound(res, `User with id ${id} not found.`);
             return;
         }
-        responseUtil.returnSuccess(res, undefined, user);
+        ResponseUtil.returnOK(res, user);
         return;
     } else {
-        res.setHeader("Allow", ["GET"]);
-        // TODO: add JSON response for method not allowed
-
-        responseUtil.returnMethodNotAllowed(
+        const allowedHeaders: string[] = ["GET"];
+        ResponseUtil.returnMethodNotAllowed(
             res,
+            allowedHeaders,
             `Method ${req.method} Not Allowed`,
         );
         return;
