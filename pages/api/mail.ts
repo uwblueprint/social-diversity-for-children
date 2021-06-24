@@ -1,6 +1,6 @@
 // Nodemailer with SES transport, more info here: https://nodemailer.com/transports/ses/
-import { transporter } from "aws/index";
-import { ResponseObject } from "src/models/response";
+import { transporter } from "@nodemailer";
+import { ResponseUtil } from "@utils/responseUtil";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
@@ -35,29 +35,34 @@ export default async function mailHandler(
     res: NextApiResponse,
 ): Promise<void> {
     if (req.method == "POST") {
-        // TODO: this is hardcoded for now until AWS is not sandboxed (change to sendEmail(req.body.targetEmail))
+        // TODO: this is hardcoded for now until AWS is not sandboxed
+        // (change to sendEmail(req.body.targetEmail))
         await sendEmail(
             process.env.EMAIL_FROM,
             "Test Message",
             "This is a test message from the SDC server!",
         )
             .then(() => {
-                const successResponse: ResponseObject = {
-                    message: "The email has successfully been sent!",
-                };
-                res.status(200).json(successResponse);
+                ResponseUtil.returnOK(
+                    res,
+                    "The email has successfully been sent!",
+                );
+                return;
             })
             .catch((err) => {
-                const errorResponse: ResponseObject = {
-                    message: "There was an error sending the email",
-                };
-                res.status(400).json(errorResponse);
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `There was an error sending the email: ${err}`,
+                );
+                return;
             });
     } else {
-        res.setHeader("Allow", ["POST"]);
-        const methodErrorResponse: ResponseObject = {
-            message: `Method ${req.method} Not Allowed`,
-        };
-        res.status(405).end(methodErrorResponse);
+        const allowedHeaders: string[] = ["POST"];
+        ResponseUtil.returnMethodNotAllowed(
+            res,
+            allowedHeaders,
+            `Method ${req.method} Not Allowed`,
+        );
+        return;
     }
 }
