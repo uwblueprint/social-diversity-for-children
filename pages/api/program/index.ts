@@ -13,8 +13,8 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const program = await getPrograms();
-            ResponseUtil.returnOK(res, program);
+            const programs = await getPrograms();
+            ResponseUtil.returnOK(res, programs);
             res.status(200).json({});
             break;
         }

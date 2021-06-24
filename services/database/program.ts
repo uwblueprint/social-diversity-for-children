@@ -7,10 +7,10 @@ import prisma from "@database";
  */
 
 async function getPrograms() {
-    const user = await prisma.program.findMany({
+    const programs = await prisma.program.findMany({
         include: {},
     });
-    return user;
+    return programs;
 }
 
 export { getPrograms };
