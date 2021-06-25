@@ -35,4 +35,17 @@ async function getUsers() {
     return users;
 }
 
-export { getUser, getUsers };
+/**
+ * Creates a new user corresponding to newUserData and returns the newly created user
+ * @param newUserData - data corresponding to the new user
+ * @returns - the newly created user
+ */
+async function createUser(newUserData) {
+    const user = await prisma.user.create({
+        // TODO: are created_at and updated_at passed in or auto generated?
+        data: newUserData,
+    });
+    return user;
+}
+
+export { getUser, getUsers, createUser };
