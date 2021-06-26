@@ -11,15 +11,16 @@ async function getProgram(id: string) {
         where: {
             id: parseInt(id),
         },
-        //what to include?
-        include: {},
+        //get program() exposes CRUD operations for Program model
+        //potentially include programs : true ?
+        //include: {},
     });
     return program;
 }
 
 async function getPrograms() {
     const programs = await prisma.program.findMany({
-        include: {},
+        //include: {},
     });
     return programs;
 }
