@@ -72,4 +72,34 @@ const uploadFileToS3 = (
     });
 };
 
-export { uploadFileToS3, getFileFromS3 };
+/**
+ * Deletes a file from a S3 Bucket
+ * @param {string} bucketName Name of the bucket to delete the file from
+ * @param {string} fileKey The key of the file in the bucket
+ * @returns {S3.GetObjectOutput} A promise which can be resolved to obtain the deletion information
+ * from S3 and catch any errors in making the get call
+ */
+const deleteFileFromS3 = (
+    bucketName: string,
+    fileKey: string,
+): Promise<S3.DeleteObjectOutput> => {
+    return new Promise<S3.DeleteObjectOutput>((resolve, reject) => {
+        const deleteParams = {
+            Bucket: bucketName,
+            Key: fileKey,
+        };
+
+        s3.deleteObject(
+            deleteParams,
+            function (err: AWSError, data: S3.DeleteObjectOutput) {
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(data);
+            },
+        );
+    });
+};
+
+export { uploadFileToS3, getFileFromS3, deleteFileFromS3 };
