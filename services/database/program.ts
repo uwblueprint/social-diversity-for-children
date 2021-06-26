@@ -6,6 +6,17 @@ import prisma from "@database";
  * @param {string} id - programId
  */
 
+async function getProgram(id: string) {
+    const program = await prisma.program.findUnique({
+        where: {
+            id: parseInt(id),
+        },
+        //what to include?
+        include: {},
+    });
+    return program;
+}
+
 async function getPrograms() {
     const programs = await prisma.program.findMany({
         include: {},
@@ -13,4 +24,4 @@ async function getPrograms() {
     return programs;
 }
 
-export { getPrograms };
+export { getProgram, getPrograms };
