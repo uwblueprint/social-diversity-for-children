@@ -44,8 +44,8 @@ const getFileFromS3 = (
 const uploadFileToS3 = (
     bucketName: string,
     filePath: string,
-): Promise<ManagedUpload.SendData | Error> => {
-    return new Promise((resolve, reject) => {
+): Promise<ManagedUpload.SendData> => {
+    return new Promise<ManagedUpload.SendData>((resolve, reject) => {
         // create file stream from file path
         const fileStream = fs.createReadStream(filePath);
 
