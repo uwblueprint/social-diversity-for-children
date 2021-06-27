@@ -25,14 +25,23 @@ async function getPrograms() {
     return programs;
 }
 
-//create type of newProgramData, similar to id:string
+/**
+ * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
+ * getProgram takes the id parameter and returns the program associated with the programId
+ * @param newProgramData - data corresponding to new program
+ * @returns
+ */
+
 async function createProgram(newProgramData) {
     //TODO: validate the data
-    //TODO: create a new record in the program table
-    const program = await prisma.program.create({
-        data: newProgramData,
-    });
-    return program;
+    try {
+        const program = await prisma.program.create({
+            data: newProgramData,
+        });
+        return program;
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 export { getProgram, getPrograms, createProgram };

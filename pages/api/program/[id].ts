@@ -30,7 +30,7 @@ export default async function handle(
         return;
     } else if (req.method == "POST") {
         const newProgramData = req.query;
-        const newProgram = createProgram(newProgramData);
+        const newProgram = await createProgram(newProgramData);
 
         if (!newProgram) {
             ResponseUtil.returnBadRequest(res, `Program could not be created`);
