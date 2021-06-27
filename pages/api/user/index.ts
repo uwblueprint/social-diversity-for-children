@@ -15,7 +15,6 @@ export default async function handle(
         case "GET": {
             const users = await getUsers();
             ResponseUtil.returnOK(res, users);
-            res.status(200).json({});
             break;
         }
         case "POST": {

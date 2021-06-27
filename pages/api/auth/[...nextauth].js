@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import Adapters from "next-auth/adapters";
 import prisma from "@database";
+import sendVerificationRequest from "@auth";
 
 export default NextAuth({
     // site URL for authentication redirect
@@ -16,6 +17,7 @@ export default NextAuth({
             // maximum life of email magic link - 1 hour
             maxAge: 24 * 60,
             // TODO: add custom email handler
+            sendVerificationRequest,
         }),
     ],
     // map database adapter to prisma client
@@ -37,10 +39,27 @@ export default NextAuth({
         jwt: true,
         // maximum age of an idle session - 30 days
         maxAge: 30 * 24 * 60 * 60,
+        // update JWT on each login
+        updateAge: 0,
     },
     jwt: {
         // JWT secret used for generating a key
         secret: process.env.JWT_SECRET,
     },
-    // TODO: define custom callback functions
+    callbacks: {
+        session: async (session, user) => {
+            // Attach user id to session
+            session.id = user.id;
+
+            // Return altered session
+            return Promise.resolve(session);
+        },
+        jwt: async (token, user) => {
+            // If user exists, collect user id and assign to token
+            user ? (token.id = user.id) : null;
+
+            // Return altered token
+            return Promise.resolve(token);
+        },
+    },
 });

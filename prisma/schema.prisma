@@ -160,7 +160,7 @@ model User {
   id             Int           @id @default(autoincrement())
   name           String?
   email          String?       @unique
-  email_verified DateTime?     @db.Timestamptz(6)
+  emailVerified  DateTime?     @map("email_verified") @db.Timestamptz(6)
   image          String?
   created_at     DateTime      @default(now()) @db.Timestamptz(6)
   updated_at     DateTime      @default(now()) @db.Timestamptz(6)
