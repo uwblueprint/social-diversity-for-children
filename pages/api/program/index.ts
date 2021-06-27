@@ -3,7 +3,7 @@ import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms } from "@database/program";
 
 /**
- * handle controls the request made to the user resource
+ * handle controls the request made to the program resource
  * @param req API request object
  * @param res API response object
  */

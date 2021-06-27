@@ -13,10 +13,10 @@ export default async function handle(
     res: NextApiResponse,
 ): Promise<void> {
     if (req.method == "GET") {
-        // Obtain user id
+        // Obtain program id
         const { id } = req.query;
 
-        // obtain user with provided userId
+        // obtain program with provided programId
         const program = await getProgram(id as string);
 
         if (!program) {
