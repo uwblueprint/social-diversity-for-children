@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms, createProgram } from "@database/program";
+import { Program } from "models/Program";
 
 /**
  * handle controls the request made to the program resource
@@ -20,7 +21,7 @@ export default async function handle(
         }
         case "POST": {
             // TODO:
-            const newProgram = await createProgram(req.body);
+            const newProgram = await createProgram(req.body as Program);
 
             if (!newProgram) {
                 ResponseUtil.returnBadRequest(
