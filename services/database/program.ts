@@ -25,4 +25,14 @@ async function getPrograms() {
     return programs;
 }
 
-export { getProgram, getPrograms };
+//create type of newProgramData, similar to id:string
+async function createProgram(newProgramData) {
+    //TODO: validate the data
+    //TODO: create a new record in the program table
+    const program = await prisma.program.create({
+        data: newProgramData,
+    });
+    return program;
+}
+
+export { getProgram, getPrograms, createProgram };

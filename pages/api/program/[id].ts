@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getProgram } from "@database/program";
+import { getProgram, createProgram } from "@database/program";
 // TODO: Type the response data
 /**
  * handle takes the programId parameter and returns
@@ -28,8 +28,18 @@ export default async function handle(
         }
         ResponseUtil.returnOK(res, program);
         return;
+    } else if (req.method == "POST") {
+        const newProgramData = req.query;
+        const newProgram = createProgram(newProgramData);
+
+        if (!newProgram) {
+            ResponseUtil.returnBadRequest(res, `Program could not be created`);
+            return;
+        }
+        ResponseUtil.returnOK(res, newProgram);
+        return;
     } else {
-        const allowedHeaders: string[] = ["GET"];
+        const allowedHeaders: string[] = ["GET", "POST"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
