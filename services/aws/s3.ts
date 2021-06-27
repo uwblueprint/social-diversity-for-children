@@ -1,8 +1,6 @@
-import { s3 } from "services/aws/index";
+import { s3, S3, AWSError, ManagedUpload } from "services/aws/index";
 import fs from "fs";
 import path from "path";
-import S3, { ManagedUpload } from "aws-sdk/clients/s3";
-import { AWSError } from "aws-sdk";
 
 /**
  * Retrieves a file from a S3 Bucket
