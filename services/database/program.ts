@@ -34,14 +34,11 @@ async function getPrograms() {
 
 async function createProgram(newProgramData) {
     //TODO: validate the data
-    try {
-        const program = await prisma.program.create({
-            data: newProgramData,
-        });
-        return program;
-    } catch (e) {
-        console.log(e);
-    }
+
+    const program = await prisma.program.create({
+        data: newProgramData,
+    });
+    return program;
 }
 
 export { getProgram, getPrograms, createProgram };

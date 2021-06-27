@@ -15,7 +15,6 @@ export default async function handle(
     if (req.method == "GET") {
         // Obtain program id
         const { id } = req.query;
-
         // obtain program with provided programId
         const program = await getProgram(id as string);
 
@@ -27,16 +26,6 @@ export default async function handle(
             return;
         }
         ResponseUtil.returnOK(res, program);
-        return;
-    } else if (req.method == "POST") {
-        const newProgramData = req.query;
-        const newProgram = await createProgram(newProgramData);
-
-        if (!newProgram) {
-            ResponseUtil.returnBadRequest(res, `Program could not be created`);
-            return;
-        }
-        ResponseUtil.returnOK(res, newProgram);
         return;
     } else {
         const allowedHeaders: string[] = ["GET", "POST"];
