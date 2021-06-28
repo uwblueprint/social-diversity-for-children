@@ -2,7 +2,7 @@
 import { transporter } from "@nodemailer";
 
 /**
- * Sends an email to the targetAddress email from the process.env.EMAIL_FROM email
+ * Sends an email using nodemailer with SES transport
  * @param senderAddress the email address we send from (string)
  * @param targetAddress the email address we want to send to (string)
  * @param subject email subject/title (string)
