@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import { SendVerificationRequest } from "next-auth/providers";
 
+/**
+ * Send email to user to verify the login request, used for NextAuth
+ */
 const sendVerificationRequest: SendVerificationRequest = ({
     identifier: email,
     url,

@@ -16,7 +16,7 @@ export default NextAuth({
             from: process.env.EMAIL_FROM,
             // maximum life of email magic link - 1 hour
             maxAge: 24 * 60,
-            // TODO: add custom email handler
+            // custom email verification request handler
             sendVerificationRequest,
         }),
     ],
