@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUser, createUser } from "@database/user";
+import { getUser } from "@database/user";
 // TODO: Type the response data
 /**
  * handle takes the userId parameter and returns
@@ -25,22 +25,8 @@ export default async function handle(
         }
         ResponseUtil.returnOK(res, user);
         return;
-    } else if (req.method == "POST") {
-        // Obtain the data of the user to be created
-        const newUserData = req.query;
-        const newUser = createUser(newUserData);
-
-        if (!newUser) {
-            ResponseUtil.returnBadRequest(
-                res,
-                "User could not be created. Please verify that you have entered the information correctly.",
-            );
-            return;
-        }
-        ResponseUtil.returnOK(res, newUser);
-        return;
     } else {
-        const allowedHeaders: string[] = ["GET", "POST"];
+        const allowedHeaders: string[] = ["GET"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
