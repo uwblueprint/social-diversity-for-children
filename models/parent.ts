@@ -1,6 +1,6 @@
 import type { provinces, locales } from "@prisma/client";
 
-export type ParentCreateInput = {
+export type CreateParentInput = {
     first_name: string;
     last_name: string;
     phone_number: string;
@@ -11,5 +11,4 @@ export type ParentCreateInput = {
     city_name: string;
     province: provinces;
     preferred_language: locales;
-    user_id: number;
 };

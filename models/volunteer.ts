@@ -1,6 +1,6 @@
 import type { provinces, locales } from "@prisma/client";
 
-export type VolunteerCreateInput = {
+export type CreateVolunteerInput = {
     first_name: string;
     last_name: string;
     phone_number?: string | null;
@@ -12,5 +12,4 @@ export type VolunteerCreateInput = {
     city_name?: string | null;
     province?: provinces | null;
     preferred_language?: locales | null;
-    user_id: number;
 };
