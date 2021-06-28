@@ -50,7 +50,7 @@ async function createProgram(newProgramData: Program) {
             duration_minutes: newProgramData.duration_minutes,
             space_total: newProgramData.space_total,
             space_available: newProgramData.space_available,
-            volunteer_space_total: newProgramData.volunteer_space_total,
+            volunteer_space_total: newProgramData.volunteer_space_available,
             volunteer_space_available: newProgramData.volunteer_space_available,
             is_archived: newProgramData.is_archived,
         },

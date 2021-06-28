@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms, createProgram } from "@database/program";
 import { Program } from "models/Program";
+import { validateProgram } from "@utils/validation/program";
 
 /**
  * handle controls the request made to the program resource
@@ -21,17 +22,25 @@ export default async function handle(
         }
         case "POST": {
             // TODO:
-            const newProgram = await createProgram(req.body as Program);
-
-            if (!newProgram) {
+            if (!validateProgram(req.body as Program)) {
                 ResponseUtil.returnBadRequest(
                     res,
-                    `Program could not be created`,
+                    `Required field(s) were not provided correctly.`,
                 );
                 break;
+            } else {
+                const newProgram = await createProgram(req.body as Program);
+
+                if (!newProgram) {
+                    ResponseUtil.returnBadRequest(
+                        res,
+                        `Program could not be created`,
+                    );
+                    break;
+                }
+                ResponseUtil.returnOK(res, newProgram);
+                break;
             }
-            ResponseUtil.returnOK(res, newProgram);
-            break;
         }
         case "PUT": {
             // TODO:
