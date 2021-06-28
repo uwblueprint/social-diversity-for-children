@@ -31,7 +31,7 @@ const sendVerificationRequest: SendVerificationRequest = ({
  * @param {String} email of requesting user
  * @returns email html
  */
-const html = (url: string, email: string) => {
+const html = (url: string, email: string): string => {
     // Collect escaped email (for various email clients that might parse as link)
     const escapedEmail = `${email.replace(/\./g, "&#8203;.")}`;
 
@@ -104,7 +104,7 @@ const html = (url: string, email: string) => {
  * @param {String} email of requesting user
  * @returns email string
  */
-const text = (url: string, email: string) =>
+const text = (url: string, email: string): string =>
     `Sign in to Social Diversity for Children as ${email}:\n${url}\n\n`;
 
 // Export email verification request handler
