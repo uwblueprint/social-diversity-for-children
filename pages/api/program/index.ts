@@ -15,7 +15,6 @@ export default async function handle(
         case "GET": {
             const programs = await getPrograms();
             ResponseUtil.returnOK(res, programs);
-            res.status(200).json({});
             break;
         }
         case "POST": {
@@ -32,7 +31,6 @@ export default async function handle(
         }
         default: {
             const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
-            // TODO: add JSON response for method not allowed
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,

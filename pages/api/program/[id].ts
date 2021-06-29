@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getProgram } from "@database/program";
-// TODO: Type the response data
+
 /**
  * handle takes the programId parameter and returns
  * the program associated with the programId
