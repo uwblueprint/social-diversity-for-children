@@ -8,7 +8,7 @@ export enum weekdays {
     SUN = "SUN",
 }
 
-export type Program = {
+export type createProgramInput = {
     price: number;
     start_date: string;
     end_date: string;

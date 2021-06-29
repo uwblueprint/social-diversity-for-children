@@ -1,13 +1,13 @@
 import prisma from "@database";
-import { Program } from "models/Program";
-
+import { createProgramInput } from "models/Program";
+import { Program } from "@prisma/client";
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
  * getProgram takes the id parameter and returns the program associated with the programId
  * @param {string} id - programId
  */
 
-async function getProgram(id: string) {
+async function getProgram(id: string): Promise<Program> {
     const program = await prisma.program.findUnique({
         where: {
             id: parseInt(id),
@@ -16,7 +16,7 @@ async function getProgram(id: string) {
     return program;
 }
 
-async function getPrograms() {
+async function getPrograms(): Promise<Program[]> {
     const programs = await prisma.program.findMany({});
     return programs;
 }
@@ -28,7 +28,9 @@ async function getPrograms() {
  * @returns
  */
 
-async function createProgram(newProgramData: Program) {
+async function createProgram(
+    newProgramData: createProgramInput,
+): Promise<Program> {
     const program = await prisma.program.create({
         data: {
             price: newProgramData.price,
@@ -47,4 +49,12 @@ async function createProgram(newProgramData: Program) {
     return program;
 }
 
+async function deleteProgram(id: string): Promise<Program> {
+    const program = await prisma.program.delete({
+        where: {
+            id: parseInt(id),
+        },
+    });
+    return program;
+}
 export { getProgram, getPrograms, createProgram };
