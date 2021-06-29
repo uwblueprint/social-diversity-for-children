@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getProgram } from "@database/program";
-// TODO: Type the response data
+
 /**
  * handle takes the programId parameter and returns
  * the program associated with the programId
@@ -28,7 +28,7 @@ export default async function handle(
         ResponseUtil.returnOK(res, program);
         return;
     } else {
-        const allowedHeaders: string[] = ["GET", "POST"];
+        const allowedHeaders: string[] = ["GET"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,

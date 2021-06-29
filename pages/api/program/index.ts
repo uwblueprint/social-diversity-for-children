@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms, createProgram } from "@database/program";
 import { Program } from "models/Program";
-import { validateProgram } from "@utils/validation/program";
+import { validateCreateProgram } from "@utils/validation/program";
 
 /**
  * handle controls the request made to the program resource
@@ -17,12 +17,11 @@ export default async function handle(
         case "GET": {
             const programs = await getPrograms();
             ResponseUtil.returnOK(res, programs);
-            res.status(200).json({});
             break;
         }
         case "POST": {
             // TODO:
-            if (!validateProgram(req.body as Program)) {
+            if (!validateCreateProgram(req.body as Program)) {
                 ResponseUtil.returnBadRequest(
                     res,
                     `Required field(s) were not provided correctly.`,

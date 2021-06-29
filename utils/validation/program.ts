@@ -5,21 +5,23 @@ import { Program } from "models/Program";
  * @param newProgramData - data corresponding to new program
  * @returns true: validated, false: not validated
  */
-export function validateProgram(newProgramData: Program) {
+export function validateCreateProgram(newProgramData: Program) {
     const start_date = new Date(newProgramData.start_date);
     const end_date = new Date(newProgramData.end_date);
     if (newProgramData.price < 0) {
         return false;
-    } else if (start_date > end_date) {
+    }
+    if (start_date > end_date) {
         return false;
-    } else if (newProgramData.space_total != newProgramData.space_available) {
+    }
+    if (newProgramData.space_total != newProgramData.space_available) {
         return false;
-    } else if (
+    }
+    if (
         newProgramData.volunteer_space_total !=
         newProgramData.volunteer_space_available
     ) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
