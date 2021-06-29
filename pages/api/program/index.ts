@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms, createProgram } from "@database/program";
-import { Program } from "models/Program";
+import { createProgramInput } from "models/Program";
 import { validateCreateProgram } from "@utils/validation/program";
 
 /**
@@ -21,14 +21,16 @@ export default async function handle(
         }
         case "POST": {
             // TODO:
-            if (!validateCreateProgram(req.body as Program)) {
+            if (!validateCreateProgram(req.body as createProgramInput)) {
                 ResponseUtil.returnBadRequest(
                     res,
                     `Required field(s) were not provided correctly.`,
                 );
                 break;
             } else {
-                const newProgram = await createProgram(req.body as Program);
+                const newProgram = await createProgram(
+                    req.body as createProgramInput,
+                );
 
                 if (!newProgram) {
                     ResponseUtil.returnBadRequest(

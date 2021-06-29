@@ -1,11 +1,13 @@
-import { Program } from "models/Program";
+import { createProgramInput } from "models/Program";
 
 /**
  * validateProgram takes programData of type Program and validates the data
  * @param newProgramData - data corresponding to new program
  * @returns true: validated, false: not validated
  */
-export function validateCreateProgram(newProgramData: Program) {
+export function validateCreateProgram(
+    newProgramData: createProgramInput,
+): boolean {
     const start_date = new Date(newProgramData.start_date);
     const end_date = new Date(newProgramData.end_date);
     if (newProgramData.price < 0) {
