@@ -51,7 +51,6 @@ succeed? in that case, do we need to return anything or do we just return respon
  * @param newTeacherData - data corresponding to the new teacher user
  * @returns - the newly created teacher user
  */
-
 async function createTeacher(
     newTeacherData: CreateTeacherInput,
     userId: number,
