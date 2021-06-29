@@ -20,18 +20,19 @@ export default async function handle(
             break;
         }
         case "POST": {
-            // TODO:
-            if (!validateCreateProgram(req.body as createProgramInput)) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Required field(s) were not provided correctly.`,
-                );
+            const validationError = validateCreateProgram(
+                req.body as createProgramInput,
+            );
+            if (validationError.length !== 0) {
+                validationError[0] =
+                    validationError[0].charAt(0).toUpperCase() +
+                    validationError[0].slice(1);
+                ResponseUtil.returnBadRequest(res, validationError.join(", "));
                 break;
             } else {
                 const newProgram = await createProgram(
                     req.body as createProgramInput,
                 );
-
                 if (!newProgram) {
                     ResponseUtil.returnBadRequest(
                         res,

@@ -7,23 +7,28 @@ import { createProgramInput } from "models/Program";
  */
 export function validateCreateProgram(
     newProgramData: createProgramInput,
-): boolean {
+): string[] {
+    const validationError = [];
     const start_date = new Date(newProgramData.start_date);
     const end_date = new Date(newProgramData.end_date);
     if (newProgramData.price < 0) {
-        return false;
+        validationError.push("invalid program price was entered");
     }
     if (start_date > end_date) {
-        return false;
+        validationError.push("invalid start and/or end date was entered");
     }
     if (newProgramData.space_total != newProgramData.space_available) {
-        return false;
+        validationError.push(
+            "invalid program space / program space available was entered",
+        );
     }
     if (
         newProgramData.volunteer_space_total !=
         newProgramData.volunteer_space_available
     ) {
-        return false;
+        validationError.push(
+            "invalid volunteer space / volunteer space available was entered",
+        );
     }
-    return true;
+    return validationError;
 }
