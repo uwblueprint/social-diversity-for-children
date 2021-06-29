@@ -1,6 +1,7 @@
 import prisma from "@database";
 import { createProgramInput } from "models/Program";
 import { Program } from "@prisma/client";
+
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
  * getProgram takes the id parameter and returns the program associated with the programId
@@ -49,6 +50,11 @@ async function createProgram(
     return program;
 }
 
+/**
+ * deleteProgram takes the id parameter and deletes the program associated with the programId
+ * @param {string} id - programId
+ */
+
 async function deleteProgram(id: string): Promise<Program> {
     const program = await prisma.program.delete({
         where: {
@@ -57,4 +63,5 @@ async function deleteProgram(id: string): Promise<Program> {
     });
     return program;
 }
-export { getProgram, getPrograms, createProgram };
+
+export { getProgram, getPrograms, createProgram, deleteProgram };
