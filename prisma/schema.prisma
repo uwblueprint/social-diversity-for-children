@@ -33,10 +33,10 @@ model Parent {
   createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt         DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
   user              User              @relation("parentsTousers", fields: [id], references: [id])
-  couponUser        CouponUsers[]     @relation("coupon_usersToparents")
-  parentOfStudent   ParentOfStudent[] @relation("parent_of_studentsToparents")
-  parentReg         ParentReg[]       @relation("parent_regsToparents")
-  waitlist          Waitlist[]        @relation("parentsTowaitlists")
+  couponUsers       CouponUsers[]     @relation("coupon_usersToparents")
+  parentOfStudents  ParentOfStudent[] @relation("parent_of_studentsToparents")
+  parentRegs        ParentReg[]       @relation("parent_regsToparents")
+  waitlists         Waitlist[]        @relation("parentsTowaitlists")
 
   @@map("parents")
 }
@@ -78,8 +78,8 @@ model Program {
   isArchived         Boolean             @default(false) @map("is_archived")
   createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime            @default(now()) @map("updated_at") @db.Timestamptz(6)
-  class              Class[]             @relation("programsToclasses")
-  couponUser         CouponUsers[]       @relation("coupon_usersToprograms")
+  classes              Class[]             @relation("programsToclasses")
+  couponUsers         CouponUsers[]       @relation("coupon_usersToprograms")
   programTranslation ProgramTranslation? @relation("program_translationsToprograms")
 
   @@map("programs")
@@ -105,8 +105,8 @@ model Student {
   additionalInfo  String?           @map("additional_info")
   createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
-  parentOfStudent ParentOfStudent[] @relation("parent_of_studentsTostudents")
-  parentReg       ParentReg[]       @relation("parent_regsTostudents")
+  parentOfStudents ParentOfStudent[] @relation("parent_of_studentsTostudents")
+  parentRegs      ParentReg[]       @relation("parent_regsTostudents")
 
   @@map("students")
 }
@@ -118,7 +118,7 @@ model Teacher {
   createdAt  DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt  DateTime     @default(now()) @map("updated_at") @db.Timestamptz(6)
   user       User         @relation("teachersTousers", fields: [id], references: [id])
-  teacherReg TeacherReg[] @relation("teacher_regsToteachers")
+  teacherRegs TeacherReg[] @relation("teacher_regsToteachers")
 
   @@map("teachers")
 }
@@ -178,7 +178,7 @@ model Volunteer {
   createdAt          DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
   user               User           @relation("usersTovolunteers", fields: [id], references: [id])
-  volunteerReg       VolunteerReg[] @relation("volunteer_regsTovolunteers")
+  volunteerRegs       VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")
 }
@@ -238,10 +238,10 @@ model Class {
   updatedAt               DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
   program                 Program           @relation("programsToclasses", fields: [programId], references: [id])
   classTranslation        ClassTranslation?
-  parentReg               ParentReg[]       @relation("parent_regsToclasses")
-  teacherReg              TeacherReg[]      @relation("classesToteacher_regs")
-  volunteerReg            VolunteerReg[]    @relation("classesTovolunteer_regs")
-  waitlist                Waitlist[]
+  parentRegs               ParentReg[]       @relation("parent_regsToclasses")
+  teacherRegs              TeacherReg[]      @relation("classesToteacher_regs")
+  volunteerRegs            VolunteerReg[]    @relation("classesTovolunteer_regs")
+  waitlists                Waitlist[]
 
   @@map("classes")
 }
