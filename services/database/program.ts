@@ -6,7 +6,6 @@ import { Program } from "@prisma/client";
  * @param {string} id - programId
  *
  */
-
 async function getProgram(id: string): Promise<Program> {
     const program = await prisma.program.findUnique({
         where: {
