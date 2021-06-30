@@ -26,5 +26,5 @@ export type createProgramInput = {
     spaceAvailable: number;
     volunteerSpaceTotal: number;
     volunteerSpaceAvailable: number;
-    isArchived?: boolean;
+    isArchived: boolean;
 };
