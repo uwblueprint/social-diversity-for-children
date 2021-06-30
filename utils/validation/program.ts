@@ -1,7 +1,7 @@
 import { createProgramInput } from "models/Program";
 
 /**
- * validateProgram takes programData of type Program and validates the data
+ * validateCreateProgram takes programData of type Program and validates the data
  * @param newProgramData - data corresponding to new program
  * @returns string[] - array of errors of type string
  */

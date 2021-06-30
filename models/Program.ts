@@ -19,7 +19,7 @@ export enum programFormat {
 }
 
 /**
- * Custom type for creating a program
+ * Request Body Input for POST /program
  */
 export type createProgramInput = {
     price: number;
