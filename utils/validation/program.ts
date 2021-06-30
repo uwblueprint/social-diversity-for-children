@@ -12,14 +12,14 @@ export function validateCreateProgram(
     const start_date = new Date(newProgramData.start_date);
     const end_date = new Date(newProgramData.end_date);
     if (newProgramData.price < 0) {
-        validationError.push("invalid program price was entered");
+        validationError.push("Program price cannot be negative");
     }
     if (start_date > end_date) {
-        validationError.push("invalid start and/or end date was entered");
+        validationError.push("End date cannot be before the start date");
     }
     if (newProgramData.space_total != newProgramData.space_available) {
         validationError.push(
-            "invalid program space / program space available was entered",
+            "The space available does not match the total space",
         );
     }
     if (
@@ -27,7 +27,7 @@ export function validateCreateProgram(
         newProgramData.volunteer_space_available
     ) {
         validationError.push(
-            "invalid volunteer space / volunteer space available was entered",
+            "The volunteer space available does not match the total volunteer space",
         );
     }
     return validationError;

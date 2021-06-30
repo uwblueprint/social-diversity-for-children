@@ -24,9 +24,6 @@ export default async function handle(
                 req.body as createProgramInput,
             );
             if (validationError.length !== 0) {
-                validationError[0] =
-                    validationError[0].charAt(0).toUpperCase() +
-                    validationError[0].slice(1);
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
                 break;
             } else {
