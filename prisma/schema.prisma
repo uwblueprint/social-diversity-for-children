@@ -78,8 +78,8 @@ model Program {
   isArchived         Boolean             @default(false) @map("is_archived")
   createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime            @default(now()) @map("updated_at") @db.Timestamptz(6)
-  classes              Class[]             @relation("programsToclasses")
-  couponUsers         CouponUsers[]       @relation("coupon_usersToprograms")
+  classes            Class[]             @relation("programsToclasses")
+  couponUsers        CouponUsers[]       @relation("coupon_usersToprograms")
   programTranslation ProgramTranslation? @relation("program_translationsToprograms")
 
   @@map("programs")
@@ -98,26 +98,26 @@ model ProgramTranslation {
 }
 
 model Student {
-  id              Int               @id @default(autoincrement())
-  firstName       String            @map("first_name")
-  lastName        String            @map("last_name")
-  allergies       String
-  additionalInfo  String?           @map("additional_info")
-  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt       DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+  id               Int               @id @default(autoincrement())
+  firstName        String            @map("first_name")
+  lastName         String            @map("last_name")
+  allergies        String
+  additionalInfo   String?           @map("additional_info")
+  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
   parentOfStudents ParentOfStudent[] @relation("parent_of_studentsTostudents")
-  parentRegs      ParentReg[]       @relation("parent_regsTostudents")
+  parentRegs       ParentReg[]       @relation("parent_regsTostudents")
 
   @@map("students")
 }
 
 model Teacher {
-  id         Int          @id @default(autoincrement())
-  firstName  String       @map("first_name")
-  lastName   String       @map("last_name")
-  createdAt  DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt  DateTime     @default(now()) @map("updated_at") @db.Timestamptz(6)
-  user       User         @relation("teachersTousers", fields: [id], references: [id])
+  id          Int          @id @default(autoincrement())
+  firstName   String       @map("first_name")
+  lastName    String       @map("last_name")
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime     @default(now()) @map("updated_at") @db.Timestamptz(6)
+  user        User         @relation("teachersTousers", fields: [id], references: [id])
   teacherRegs TeacherReg[] @relation("teacher_regsToteachers")
 
   @@map("teachers")
@@ -178,7 +178,7 @@ model Volunteer {
   createdAt          DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
   user               User           @relation("usersTovolunteers", fields: [id], references: [id])
-  volunteerRegs       VolunteerReg[] @relation("volunteer_regsTovolunteers")
+  volunteerRegs      VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")
 }
@@ -238,10 +238,10 @@ model Class {
   updatedAt               DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
   program                 Program           @relation("programsToclasses", fields: [programId], references: [id])
   classTranslation        ClassTranslation?
-  parentRegs               ParentReg[]       @relation("parent_regsToclasses")
-  teacherRegs              TeacherReg[]      @relation("classesToteacher_regs")
-  volunteerRegs            VolunteerReg[]    @relation("classesTovolunteer_regs")
-  waitlists                Waitlist[]
+  parentRegs              ParentReg[]       @relation("parent_regsToclasses")
+  teacherRegs             TeacherReg[]      @relation("classesToteacher_regs")
+  volunteerRegs           VolunteerReg[]    @relation("classesTovolunteer_regs")
+  waitlists               Waitlist[]
 
   @@map("classes")
 }
