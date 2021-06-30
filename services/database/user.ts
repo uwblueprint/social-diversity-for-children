@@ -47,7 +47,8 @@ succeed? in that case, do we need to return anything or do we just return respon
 */
 
 /**
- * Creates a new user corresponding to newUserData and returns the newly created user
+ * Creates a new teacher corresponding to newTeacherData and
+ * returns the newly created teacher
  * @param newTeacherData - data corresponding to the new teacher user
  * @returns - the newly created teacher user
  */
@@ -67,8 +68,9 @@ async function createTeacher(
 }
 
 /**
- * Creates a new user corresponding to newUserData and returns the newly created user
- * @param newVolunteerData - data corresponding to the new volunteer user
+ * Creates a new volunteer corresponding to newVolunteerData
+ * and returns the newly created volunteer
+ * @param newVolunteerData - data corresponding to the new volunteer volunteer user
  * @returns - the newly created volunteer user
  */
 async function createVolunteer(
@@ -87,9 +89,10 @@ async function createVolunteer(
 }
 
 /**
- * Creates a new user corresponding to newUserData and returns the newly created user
- * @param newParentData - data corresponding to the new user
- * @returns - the newly created user
+ * Creates a new parent corresponding to newUserData and returns
+ * the newly created parent
+ * @param newParentData - data corresponding to the new parent user
+ * @returns - the newly created parent user
  */
 
 async function createParent(
@@ -108,7 +111,8 @@ async function createParent(
 }
 
 /**
- * Creates a new user corresponding to newUserData and returns the newly created user
+ * Creates a new program admin corresponding to newProgramAdminData and
+ * returns the newly created program admin
  * @param newProgramAdminData - data corresponding to the new program admin user
  * @returns - the newly created program admin user
  */
