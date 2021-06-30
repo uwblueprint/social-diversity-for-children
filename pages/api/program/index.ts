@@ -47,13 +47,8 @@ export default async function handle(
             // TODO:
             break;
         }
-        case "DELETE": {
-            // TODO:
-            break;
-        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
-            // TODO: add JSON response for method not allowed
+            const allowedHeaders: string[] = ["GET", "POST", "PUT"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,

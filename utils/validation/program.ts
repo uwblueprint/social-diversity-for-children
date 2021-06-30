@@ -8,20 +8,20 @@ import { createProgramInput } from "models/Program";
 export function validateCreateProgram(
     newProgramData: createProgramInput,
 ): boolean {
-    const start_date = new Date(newProgramData.start_date);
-    const end_date = new Date(newProgramData.end_date);
+    const start_date = new Date(newProgramData.startDate);
+    const end_date = new Date(newProgramData.endDate);
     if (newProgramData.price < 0) {
         return false;
     }
     if (start_date > end_date) {
         return false;
     }
-    if (newProgramData.space_total != newProgramData.space_available) {
+    if (newProgramData.spaceTotal != newProgramData.spaceAvailable) {
         return false;
     }
     if (
-        newProgramData.volunteer_space_total !=
-        newProgramData.volunteer_space_available
+        newProgramData.volunteerSpaceTotal !=
+        newProgramData.volunteerSpaceAvailable
     ) {
         return false;
     }

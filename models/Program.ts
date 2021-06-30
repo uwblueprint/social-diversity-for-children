@@ -1,3 +1,6 @@
+/**
+ * custom type enumerating days of the week for the createProgramInput custom type
+ */
 export enum weekdays {
     MON = "MON",
     TUE = "TUE",
@@ -8,16 +11,20 @@ export enum weekdays {
     SUN = "SUN",
 }
 
+/**
+ * custom type used for the POST endpoint when creating a new program
+ * id is not required and is automatically incremented in the record
+ */
 export type createProgramInput = {
     price: number;
-    start_date: string;
-    end_date: string;
+    startDate: string;
+    endDate: string;
     weekday: weekdays;
-    start_time_minutes: number;
-    duration_minutes: number;
-    space_total: number;
-    space_available: number;
-    volunteer_space_total: number;
-    volunteer_space_available: number;
-    is_archived?: boolean;
+    startTimeMinutes: number;
+    durationMinutes: number;
+    spaceTotal: number;
+    spaceAvailable: number;
+    volunteerSpaceTotal: number;
+    volunteerSpaceAvailable: number;
+    isArchived?: boolean;
 };

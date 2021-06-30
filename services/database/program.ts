@@ -7,7 +7,6 @@ import { Program } from "@prisma/client";
  * getProgram takes the id parameter and returns the program associated with the programId
  * @param {string} id - programId
  */
-
 async function getProgram(id: string): Promise<Program> {
     const program = await prisma.program.findUnique({
         where: {
@@ -17,6 +16,9 @@ async function getProgram(id: string): Promise<Program> {
     return program;
 }
 
+/**
+ * getPrograms returns all the programs
+ */
 async function getPrograms(): Promise<Program[]> {
     const programs = await prisma.program.findMany({});
     return programs;
@@ -28,23 +30,22 @@ async function getPrograms(): Promise<Program[]> {
  * @param newProgramData - data corresponding to new program
  * @returns
  */
-
 async function createProgram(
     newProgramData: createProgramInput,
 ): Promise<Program> {
     const program = await prisma.program.create({
         data: {
             price: newProgramData.price,
-            start_date: newProgramData.start_date,
-            end_date: newProgramData.end_date,
+            start_date: newProgramData.startDate,
+            end_date: newProgramData.endDate,
             weekday: newProgramData.weekday,
-            start_time_minutes: newProgramData.start_time_minutes,
-            duration_minutes: newProgramData.duration_minutes,
-            space_total: newProgramData.space_total,
-            space_available: newProgramData.space_available,
-            volunteer_space_total: newProgramData.volunteer_space_available,
-            volunteer_space_available: newProgramData.volunteer_space_available,
-            is_archived: newProgramData.is_archived,
+            start_time_minutes: newProgramData.startTimeMinutes,
+            duration_minutes: newProgramData.durationMinutes,
+            space_total: newProgramData.spaceTotal,
+            space_available: newProgramData.spaceAvailable,
+            volunteer_space_total: newProgramData.volunteerSpaceAvailable,
+            volunteer_space_available: newProgramData.volunteerSpaceAvailable,
+            is_archived: newProgramData.isArchived,
         },
     });
     return program;
@@ -54,7 +55,6 @@ async function createProgram(
  * deleteProgram takes the id parameter and deletes the program associated with the programId
  * @param {string} id - programId
  */
-
 async function deleteProgram(id: string): Promise<Program> {
     const program = await prisma.program.delete({
         where: {
