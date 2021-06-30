@@ -23,7 +23,8 @@ CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
-  name TEXT,
+  first_name TEXT,
+  last_name TEXT,
   email TEXT UNIQUE,
   email_verified TIMESTAMPTZ,
   image TEXT,
@@ -62,8 +63,6 @@ CREATE TABLE programs (
 -- create parent table
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
   is_low_income BOOLEAN DEFAULT false,
   address_line1 TEXT NOT NULL,
@@ -80,8 +79,6 @@ CREATE TABLE parents (
 -- create volunteer table
 CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
   phone_number VARCHAR(50),
   is_valid BOOLEAN DEFAULT false,
   background_form_link TEXT,
@@ -168,8 +165,6 @@ CREATE TABLE parent_regs (
 -- create program admin users table
 CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -178,8 +173,6 @@ CREATE TABLE program_admins (
 -- create teacber table
 CREATE TABLE teachers (
   id SERIAL PRIMARY KEY NOT NULL,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
   email TEXT UNIQUE,
   FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
