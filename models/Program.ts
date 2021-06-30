@@ -9,12 +9,18 @@
 //     SUN = "SUN",
 // }
 
+/**
+ * Enum for the program format
+ */
 export enum programFormat {
     online = "online",
     inPerson = "in_person",
     blended = "blended",
 }
 
+/**
+ * Custom type for creating a program
+ */
 export type createProgramInput = {
     price: number;
     onlineFormat: programFormat;
