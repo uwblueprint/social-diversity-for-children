@@ -26,6 +26,8 @@
             "@components/icons/*": ["src/components/icons/*"],
             "@components/icons": ["src/components/icons"],
             "@i18n": ["./i18n"],
+            "@auth/*": ["services/auth/*"],
+            "@auth": ["services/auth"],
             "@aws/*": ["services/aws/*"],
             "@aws": ["services/aws"],
             "@database/*": ["services/database/*"],

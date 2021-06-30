@@ -15,6 +15,7 @@ export default async function handle(
     if (req.method == "GET") {
         // Obtain program id
         const { id } = req.query;
+
         // obtain program with provided programId
         const program = await getProgram(id as string);
 

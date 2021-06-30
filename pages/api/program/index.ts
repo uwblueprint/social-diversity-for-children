@@ -51,7 +51,6 @@ export default async function handle(
         }
         default: {
             const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
-            // TODO: add JSON response for method not allowed
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
