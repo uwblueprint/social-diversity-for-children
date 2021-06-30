@@ -23,7 +23,6 @@ model Parent {
   first_name         String
   last_name          String
   phone_number       String            @db.VarChar(50)
-  email              String            @unique
   is_low_income      Boolean?          @default(false)
   address_line1      String
   address_line2      String?
@@ -33,6 +32,7 @@ model Parent {
   preferred_language locales
   created_at         DateTime          @default(now()) @db.Timestamptz(6)
   updated_at         DateTime          @default(now()) @db.Timestamptz(6)
+  users              User              @relation("parentsTousers", fields: [id], references: [id])
   coupon_users       CouponUsers[]     @relation("coupon_usersToparents")
   parent_of_students ParentOfStudent[] @relation("parent_of_studentsToparents")
   parent_regs        ParentReg[]       @relation("parent_regsToparents")
@@ -56,31 +56,31 @@ model ParentOfStudent {
 model ParentReg {
   parent_id  Int
   student_id Int
-  section_id Int
+  class_id   Int
   is_valid   Boolean
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+  classes    Class    @relation("parent_regsToclasses", fields: [class_id], references: [id])
   parents    Parent   @relation("parent_regsToparents", fields: [parent_id], references: [id])
-  sections   Section  @relation("parent_regsTosections", fields: [section_id], references: [id])
   students   Student  @relation("parent_regsTostudents", fields: [student_id], references: [id])
 
-  @@id([student_id, section_id])
+  @@id([student_id, class_id])
   @@map("parent_regs")
 }
 
 model Program {
   id                   Int                 @id @default(autoincrement())
   price                Int
-  online_format        online_formats
+  online_format        program_formats
   tag                  String
   start_date           DateTime            @db.Timestamptz(6)
   end_date             DateTime            @db.Timestamptz(6)
   is_archived          Boolean             @default(false)
   created_at           DateTime            @default(now()) @db.Timestamptz(6)
   updated_at           DateTime            @default(now()) @db.Timestamptz(6)
+  classes              Class[]             @relation("programsToclasses")
   coupon_users         CouponUsers[]       @relation("coupon_usersToprograms")
   program_translations ProgramTranslation? @relation("program_translationsToprograms")
-  sections             Section[]           @relation("programsTosections")
 
   @@map("programs")
 }
@@ -115,9 +115,9 @@ model Teacher {
   id           Int          @id @default(autoincrement())
   first_name   String
   last_name    String
-  email        String?      @unique
   created_at   DateTime     @default(now()) @db.Timestamptz(6)
   updated_at   DateTime     @default(now()) @db.Timestamptz(6)
+  users        User         @relation("teachersTousers", fields: [id], references: [id])
   teacher_regs TeacherReg[] @relation("teacher_regsToteachers")
 
   @@map("teachers")
@@ -125,24 +125,28 @@ model Teacher {
 
 model TeacherReg {
   teacher_id Int
-  section_id Int
+  class_id   Int
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-  sections   Section  @relation("sectionsToteacher_regs", fields: [section_id], references: [id])
+  classes    Class    @relation("classesToteacher_regs", fields: [class_id], references: [id])
   teachers   Teacher  @relation("teacher_regsToteachers", fields: [teacher_id], references: [id])
 
-  @@id([section_id, teacher_id])
+  @@id([class_id, teacher_id])
   @@map("teacher_regs")
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   name           String?
-  email          String?   @unique
-  email_verified DateTime? @db.Timestamptz(6)
+  email          String?       @unique
+  email_verified DateTime?     @db.Timestamptz(6)
   image          String?
-  created_at     DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime  @default(now()) @db.Timestamptz(6)
+  created_at     DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime      @default(now()) @db.Timestamptz(6)
+  parents        Parent?       @relation("parentsTousers")
+  program_admins ProgramAdmin? @relation("program_adminsTousers")
+  teachers       Teacher?      @relation("teachersTousers")
+  volunteers     Volunteer?    @relation("usersTovolunteers")
 
   @@map("users")
 }
@@ -162,7 +166,6 @@ model Volunteer {
   id                   Int            @id @default(autoincrement())
   first_name           String
   last_name            String
-  email                String?        @unique
   phone_number         String?        @db.VarChar(50)
   is_valid             Boolean?       @default(false)
   background_form_link String?
@@ -174,6 +177,7 @@ model Volunteer {
   preferred_language   locales?
   created_at           DateTime       @default(now()) @db.Timestamptz(6)
   updated_at           DateTime       @default(now()) @db.Timestamptz(6)
+  users                User           @relation("usersTovolunteers", fields: [id], references: [id])
   volunteer_regs       VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")
@@ -181,14 +185,14 @@ model Volunteer {
 
 model VolunteerReg {
   volunteer_id Int
-  section_id   Int
+  class_id     Int
   is_valid     Boolean?  @default(false)
   created_at   DateTime  @default(now()) @db.Timestamptz(6)
   updated_at   DateTime  @default(now()) @db.Timestamptz(6)
-  sections     Section   @relation("sectionsTovolunteer_regs", fields: [section_id], references: [id])
+  classes      Class     @relation("classesTovolunteer_regs", fields: [class_id], references: [id])
   volunteers   Volunteer @relation("volunteer_regsTovolunteers", fields: [volunteer_id], references: [id])
 
-  @@id([volunteer_id, section_id])
+  @@id([volunteer_id, class_id])
   @@map("volunteer_regs")
 }
 
@@ -196,27 +200,27 @@ model ProgramAdmin {
   id         Int      @id @default(autoincrement())
   first_name String
   last_name  String
-  email      String?  @unique
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+  users      User     @relation("program_adminsTousers", fields: [id], references: [id])
 
   @@map("program_admins")
 }
 
-model SectionTranslation {
-  section_id  Int      @id
+model ClassTranslation {
+  class_id    Int      @id
   name        String
   description String?
   language    locales
   created_at  DateTime @default(now()) @db.Timestamptz(6)
   updated_at  DateTime @default(now()) @db.Timestamptz(6)
-  sections    Section  @relation(fields: [section_id], references: [id])
+  classes     Class    @relation(fields: [class_id], references: [id])
 
-  @@map("section_translations")
+  @@map("class_translations")
 }
 
-model Section {
-  id                        Int                 @id @default(autoincrement())
+model Class {
+  id                        Int               @id @default(autoincrement())
   name                      String?
   age_group                 String?
   program_id                Int
@@ -224,33 +228,33 @@ model Section {
   space_available           Int
   volunteer_space_total     Int
   volunteer_space_available Int
-  is_archived               Boolean             @default(false)
-  start_date                DateTime            @db.Timestamptz(6)
-  end_date                  DateTime            @db.Timestamptz(6)
+  is_archived               Boolean           @default(false)
+  start_date                DateTime          @db.Timestamptz(6)
+  end_date                  DateTime          @db.Timestamptz(6)
   weekday                   weekdays
   start_time_minutes        Int
   duration_minutes          Int
-  created_at                DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at                DateTime            @default(now()) @db.Timestamptz(6)
-  programs                  Program             @relation("programsTosections", fields: [program_id], references: [id])
-  parent_regs               ParentReg[]         @relation("parent_regsTosections")
-  section_translations      SectionTranslation?
-  teacher_regs              TeacherReg[]        @relation("sectionsToteacher_regs")
-  volunteer_regs            VolunteerReg[]      @relation("sectionsTovolunteer_regs")
+  created_at                DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime          @default(now()) @db.Timestamptz(6)
+  programs                  Program           @relation("programsToclasses", fields: [program_id], references: [id])
+  class_translations        ClassTranslation?
+  parent_regs               ParentReg[]       @relation("parent_regsToclasses")
+  teacher_regs              TeacherReg[]      @relation("classesToteacher_regs")
+  volunteer_regs            VolunteerReg[]    @relation("classesTovolunteer_regs")
   waitlists                 Waitlist[]
 
-  @@map("sections")
+  @@map("classes")
 }
 
 model Waitlist {
-  section_id Int
+  class_id   Int
   parent_id  Int
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+  classes    Class    @relation(fields: [class_id], references: [id])
   parents    Parent   @relation("parentsTowaitlists", fields: [parent_id], references: [id])
-  sections   Section  @relation(fields: [section_id], references: [id])
 
-  @@id([parent_id, section_id])
+  @@id([parent_id, class_id])
   @@map("waitlists")
 }
 
@@ -287,7 +291,7 @@ enum weekdays {
   SUN
 }
 
-enum online_formats {
+enum program_formats {
   online
   in_person @map("in-person")
   blended
