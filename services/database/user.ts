@@ -1,14 +1,15 @@
 import prisma from "@database";
-import { Parent, ProgramAdmin, Teacher, Volunteer } from "@prisma/client";
-import { CreateParentInput } from "models/parent";
-import { CreateProgramAdminInput } from "models/programadmin";
-import { CreateTeacherInput } from "models/teacher";
-import { CreateVolunteerInput } from "models/volunteer";
+import { Parent, ProgramAdmin, Teacher, Volunteer, User } from "@prisma/client";
+import { ParentInput } from "models/parent";
+import { ProgramAdminInput } from "models/programadmin";
+import { TeacherInput } from "models/teacher";
+import { VolunteerInput } from "models/volunteer";
+import { UserInput } from "models/user";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
  * getUser takes the id parameter and returns the user associated with the userId
- * @param {string} id - userId
+ * @param {number} id - userId
  */
 async function getUser(id: string) {
     const user = await prisma.user.findUnique({
@@ -41,10 +42,48 @@ async function getUsers() {
 }
 
 /* 
-TODO (6/27/21): https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#create 
-doc does not specify what happens if the create operation fails - does that mean it should always
-succeed? in that case, do we need to return anything or do we just return response 200 every time?
+TODO (6/30/21): test passing userId in newTeacherData instead of through connect key
 */
+
+async function updateUser(user: UserInput): Promise<User> {
+    /*
+    Flow:
+    - get role and role data from UserInput
+    - create/update the role record
+    - update the user record
+    - return the user, including the role records
+    */
+    const roleData = user.role_data;
+    switch (user.role) {
+        case "PARENT": {
+            upsertParent(roleData, user.id);
+            break;
+        }
+        case "PROGRAM_ADMIN": {
+            upsertProgramAdmin(roleData, user.id);
+            break;
+        }
+        case "VOLUNTEER": {
+            upsertVolunteer(roleData, user.id);
+            break;
+        }
+    }
+
+    const updatedUser = await prisma.user.update({
+        data: {
+            first_name: user.first_name,
+            last_name: user.last_name,
+        },
+        where: { id: parseInt(user.id) },
+        include: {
+            teachers: true,
+            parents: true,
+            program_admins: true,
+            volunteers: true,
+        },
+    });
+    return updatedUser;
+}
 
 /**
  * Creates a new teacher corresponding to newTeacherData and
@@ -52,18 +91,30 @@ succeed? in that case, do we need to return anything or do we just return respon
  * @param newTeacherData - data corresponding to the new teacher user
  * @returns - the newly created teacher user
  */
-async function createTeacher(
-    newTeacherData: CreateTeacherInput,
-    userId: number,
+async function upsertTeacher(
+    teacherData: TeacherInput,
+    userId: string,
 ): Promise<Teacher> {
-    const teacher = await prisma.teacher.create({
-        data: {
-            ...newTeacherData,
-            users: {
-                connect: { id: userId },
-            },
+    const user = await getUser(userId);
+    const data = {
+        ...teacherData,
+        users: {
+            connect: { id: parseInt(userId) },
         },
-    });
+    };
+    let teacher;
+    if (user.teachers) {
+        teacher = prisma.teacher.create({
+            data: data,
+        });
+    } else {
+        teacher = prisma.teacher.update({
+            data: data,
+            where: {
+                id: parseInt(teacherData.id),
+            },
+        });
+    }
     return teacher;
 }
 
@@ -73,18 +124,31 @@ async function createTeacher(
  * @param newVolunteerData - data corresponding to the new volunteer volunteer user
  * @returns - the newly created volunteer user
  */
-async function createVolunteer(
-    newVolunteerData: CreateVolunteerInput,
-    userId: number,
+
+async function upsertVolunteer(
+    volunteerData: VolunteerInput,
+    userId: string,
 ): Promise<Volunteer> {
-    const volunteer = await prisma.volunteer.create({
-        data: {
-            ...newVolunteerData,
-            users: {
-                connect: { id: userId },
-            },
+    const user = await getUser(userId);
+    const data = {
+        ...volunteerData,
+        users: {
+            connect: { id: parseInt(userId) },
         },
-    });
+    };
+    let volunteer;
+    if (user.volunteers) {
+        volunteer = prisma.volunteer.create({
+            data: data,
+        });
+    } else {
+        volunteer = prisma.volunteer.update({
+            data: data,
+            where: {
+                id: parseInt(volunteerData.id),
+            },
+        });
+    }
     return volunteer;
 }
 
@@ -95,21 +159,32 @@ async function createVolunteer(
  * @returns - the newly created parent user
  */
 
-async function createParent(
-    newParentData: CreateParentInput,
-    userId: number,
+async function upsertParent(
+    parentData: ParentInput,
+    userId: string,
 ): Promise<Parent> {
-    const parent = await prisma.parent.create({
-        data: {
-            ...newParentData,
-            users: {
-                connect: { id: userId },
-            },
+    const user = await getUser(userId);
+    const data = {
+        ...parentData,
+        users: {
+            connect: { id: parseInt(userId) },
         },
-    });
+    };
+    let parent;
+    if (user.parents) {
+        parent = prisma.parent.create({
+            data: data,
+        });
+    } else {
+        parent = prisma.parent.update({
+            data: data,
+            where: {
+                id: parseInt(parentData.id),
+            },
+        });
+    }
     return parent;
 }
-
 /**
  * Creates a new program admin corresponding to newProgramAdminData and
  * returns the newly created program admin
@@ -117,26 +192,39 @@ async function createParent(
  * @returns - the newly created program admin user
  */
 
-async function createProgramAdmin(
-    newProgramAdminData: CreateProgramAdminInput,
-    userId: number,
+async function upsertProgramAdmin(
+    programAdminData: ProgramAdminInput,
+    userId: string,
 ): Promise<ProgramAdmin> {
-    const programAdmin = await prisma.programAdmin.create({
-        data: {
-            ...newProgramAdminData,
-            users: {
-                connect: { id: userId },
-            },
+    const user = await getUser(userId);
+    const data = {
+        ...programAdminData,
+        users: {
+            connect: { id: parseInt(userId) },
         },
-    });
+    };
+    let programAdmin;
+    if (user.program_admins) {
+        programAdmin = prisma.programAdmin.create({
+            data: data,
+        });
+    } else {
+        programAdmin = prisma.programAdmin.update({
+            data: data,
+            where: {
+                id: parseInt(programAdminData.id),
+            },
+        });
+    }
     return programAdmin;
 }
 
 export {
     getUser,
     getUsers,
-    createParent,
-    createProgramAdmin,
-    createTeacher,
-    createVolunteer,
+    updateUser,
+    upsertParent,
+    upsertProgramAdmin,
+    upsertTeacher,
+    upsertVolunteer,
 };
