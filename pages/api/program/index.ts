@@ -25,7 +25,6 @@ export default async function handle(
             );
             if (validationError.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
-                break;
             } else {
                 const newProgram = await createProgram(
                     req.body as createProgramInput,
@@ -38,19 +37,15 @@ export default async function handle(
                     break;
                 }
                 ResponseUtil.returnOK(res, newProgram);
-                break;
             }
+            break;
         }
         case "PUT": {
             // TODO:
             break;
         }
-        case "DELETE": {
-            // TODO:
-            break;
-        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
+            const allowedHeaders: string[] = ["GET", "POST", "PUT"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
