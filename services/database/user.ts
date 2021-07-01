@@ -95,26 +95,16 @@ async function upsertTeacher(
     teacherData: TeacherInput,
     userId: string,
 ): Promise<Teacher> {
-    const user = await getUser(userId);
-    const data = {
+    const id: number = parseInt(userId);
+    const upsertTeacherData = {
         ...teacherData,
-        users: {
-            connect: { id: parseInt(userId) },
-        },
+        id: id,
     };
-    let teacher;
-    if (user.teachers) {
-        teacher = prisma.teacher.create({
-            data: data,
-        });
-    } else {
-        teacher = prisma.teacher.update({
-            data: data,
-            where: {
-                id: parseInt(teacherData.id),
-            },
-        });
-    }
+    const teacher = await prisma.teacher.upsert({
+        create: upsertTeacherData,
+        update: upsertTeacherData,
+        where: { id: id },
+    });
     return teacher;
 }
 
@@ -124,33 +114,31 @@ async function upsertTeacher(
  * @param newVolunteerData - data corresponding to the new volunteer volunteer user
  * @returns - the newly created volunteer user
  */
-
 async function upsertVolunteer(
     volunteerData: VolunteerInput,
     userId: string,
 ): Promise<Volunteer> {
-    const user = await getUser(userId);
-    const data = {
+    const id: number = parseInt(userId);
+    const upsertVolunteerData = {
         ...volunteerData,
-        users: {
-            connect: { id: parseInt(userId) },
-        },
+        id: id,
     };
-    let volunteer;
-    if (user.volunteers) {
-        volunteer = prisma.volunteer.create({
-            data: data,
-        });
-    } else {
-        volunteer = prisma.volunteer.update({
-            data: data,
-            where: {
-                id: parseInt(volunteerData.id),
-            },
-        });
-    }
+    const volunteer = await prisma.volunteer.upsert({
+        create: upsertVolunteerData,
+        update: upsertVolunteerData,
+        where: { id: id },
+    });
     return volunteer;
 }
+
+/**
+ * TODO (July 1):
+ *  - update upsertParent and upsertProgramAdmin to match upsertVolunteer
+ *  - update the function documentation
+ *      - update description to have the correct names for the args
+ *      - update the param names
+ *      - update terminology (e.g., "upsert" or "insert/update" instead of "create")
+ */
 
 /**
  * Creates a new parent corresponding to newUserData and returns
@@ -158,7 +146,6 @@ async function upsertVolunteer(
  * @param newParentData - data corresponding to the new parent user
  * @returns - the newly created parent user
  */
-
 async function upsertParent(
     parentData: ParentInput,
     userId: string,
