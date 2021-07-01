@@ -1,12 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import {
-    getUsers,
-    createTeacher,
-    createParent,
-    createProgramAdmin,
-    createVolunteer,
-} from "@database/user";
+import { getUsers } from "@database/user";
 
 /**
  * handle controls the request made to the user resource
@@ -25,30 +19,11 @@ export default async function handle(
             break;
         }
         case "POST": {
-            let newUser;
-            const userRole = req.body.role;
-            // TODO (6/27/21): define these roles as an enum somewhere? but where?
-            if (userRole === "PARENT") {
-                newUser = createParent(req.body, userRole);
-            } else if (userRole === "TEACHER") {
-                newUser = createTeacher(req.body, userRole);
-            } else if (userRole === "PROGRAM_ADMIN") {
-                newUser = createProgramAdmin(req.body, userRole);
-            } else if (userRole === "VOLUNTEER") {
-                newUser = createVolunteer(req.body, userRole);
-            }
-
-            if (!newUser) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    "User could not be created. Please verify that you have entered the information correctly.",
-                );
-            }
-            ResponseUtil.returnOK(res, newUser);
+            // TODO
             break;
         }
         case "PUT": {
-            // TODO:
+            // TODO
             break;
         }
         case "DELETE": {

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUser } from "@database/user";
+import { getUser, updateUser } from "@database/user";
+import { getSession } from "next-auth/client";
 // TODO: Type the response data
 /**
  * handle takes the userId parameter and returns
@@ -14,19 +15,41 @@ export default async function handle(
 ): Promise<void> {
     if (req.method == "GET") {
         // Obtain user id
-        const { id } = req.query;
+        const { userId } = req.query;
 
         // obtain user with provided userId
-        const user = await getUser(id as string);
+        const user = await getUser(userId as string);
 
         if (!user) {
-            ResponseUtil.returnNotFound(res, `User with id ${id} not found.`);
+            ResponseUtil.returnNotFound(
+                res,
+                `User with id ${userId} not found.`,
+            );
             return;
         }
         ResponseUtil.returnOK(res, user);
         return;
+    } else if (req.method == "PUT") {
+        const session = await getSession({ req });
+        // TODO: define custom session callback to contain user ID
+        const userId = session.id;
+        const updatedUserData = {
+            id: userId,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            role: req.body.role,
+            role_data: req.body.role_data,
+        };
+        const newUser = await updateUser(updatedUserData);
+        if (!newUser) {
+            ResponseUtil.returnBadRequest(
+                res,
+                `Error updating user with id ${userId}.`,
+            );
+        }
+        ResponseUtil.returnOK(res, newUser);
     } else {
-        const allowedHeaders: string[] = ["GET"];
+        const allowedHeaders: string[] = ["GET", "PUT"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
