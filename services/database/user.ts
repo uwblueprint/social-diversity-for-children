@@ -5,6 +5,7 @@ import { ProgramAdminInput } from "models/programadmin";
 import { TeacherInput } from "models/teacher";
 import { VolunteerInput } from "models/volunteer";
 import { UserInput } from "models/user";
+import { Role } from "models/role";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
@@ -55,15 +56,15 @@ async function updateUser(user: UserInput): Promise<User> {
     */
     const roleData = user.role_data;
     switch (user.role) {
-        case "PARENT": {
+        case Role.Parent: {
             upsertParent(roleData, user.id);
             break;
         }
-        case "PROGRAM_ADMIN": {
+        case Role.ProgramAdmin: {
             upsertProgramAdmin(roleData, user.id);
             break;
         }
-        case "VOLUNTEER": {
+        case Role.Volunteer: {
             upsertVolunteer(roleData, user.id);
             break;
         }
