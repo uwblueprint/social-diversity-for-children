@@ -1,8 +1,7 @@
 import type { provinces, locales } from "@prisma/client";
 
-export type CreateVolunteerInput = {
-    first_name: string;
-    last_name: string;
+export type VolunteerInput = {
+    id?: string | null;
     phone_number?: string | null;
     is_valid?: boolean | null;
     background_form_link?: string | null;
