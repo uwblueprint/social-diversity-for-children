@@ -131,7 +131,6 @@ model Student {
 
 model Teacher {
   id           Int          @id @default(autoincrement())
-  email        String?      @unique
   created_at   DateTime     @default(now()) @db.Timestamptz(6)
   updated_at   DateTime     @default(now()) @db.Timestamptz(6)
   users        User         @relation("teachersTousers", fields: [id], references: [id])
