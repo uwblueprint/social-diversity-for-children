@@ -145,7 +145,7 @@ async function upsertVolunteer(
  * Creates a new parent corresponding to newUserData and returns
  * the newly created parent
  * @param newParentData - data corresponding to the new parent user
- * @returns - the newly created parent user
+ * @returns - upserted parent user
  */
 async function upsertParent(
     parentData: ParentInput,
