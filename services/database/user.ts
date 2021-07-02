@@ -90,7 +90,7 @@ async function updateUser(user: UserInput): Promise<User> {
  * Creates a new teacher corresponding to newTeacherData and
  * returns the newly created teacher
  * @param newTeacherData - data corresponding to the new teacher user
- * @returns - the newly created teacher user
+ * @returns - upserted teacher user
  */
 async function upsertTeacher(
     teacherData: TeacherInput,
