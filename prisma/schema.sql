@@ -14,6 +14,7 @@ CREATE TYPE provinces AS ENUM(
   'NU'
 );
 CREATE TYPE weekdays AS ENUM ('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN');
+CREATE TYPE roles AS ENUM ('PARENT', 'PROGRAM_ADMIN', 'TEACHER', 'VOLUNTEER');
 -- https://stackoverflow.com/questions/3191664/list-of-all-locales-and-their-short-codes
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
@@ -25,6 +26,7 @@ CREATE TABLE users (
   last_name TEXT,
   email TEXT UNIQUE,
   email_verified TIMESTAMPTZ,
+  role roles,
   image TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -105,6 +107,7 @@ CREATE TABLE volunteers (
   city_name TEXT,
   province provinces,
   preferred_language locales,
+  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
