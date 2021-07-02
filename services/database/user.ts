@@ -1,11 +1,17 @@
 import prisma from "@database";
-import { Parent, ProgramAdmin, Teacher, Volunteer, User } from "@prisma/client";
+import {
+    Parent,
+    ProgramAdmin,
+    Teacher,
+    Volunteer,
+    User,
+    roles,
+} from "@prisma/client";
 import { ParentInput } from "models/parent";
 import { ProgramAdminInput } from "models/programadmin";
 import { TeacherInput } from "models/teacher";
 import { VolunteerInput } from "models/volunteer";
 import { UserInput } from "models/user";
-import { Role } from "models/role";
 import { assert } from "console";
 
 /**
@@ -60,18 +66,18 @@ async function updateUser(userInput: UserInput): Promise<User> {
     const user = await getUser(userInput.id);
 
     switch (userInput.role) {
-        case Role.Parent: {
-            assert(!user.role || user.role === Role.Parent);
+        case roles.PARENT: {
+            assert(!user.role || user.role === roles.PARENT);
             upsertParent(roleData, userInput.id);
             break;
         }
-        case Role.ProgramAdmin: {
-            assert(!user.role || user.role === Role.ProgramAdmin);
+        case roles.PROGRAM_ADMIN: {
+            assert(!user.role || user.role === roles.PROGRAM_ADMIN);
             upsertProgramAdmin(roleData, userInput.id);
             break;
         }
-        case Role.Volunteer: {
-            assert(!user.role || user.role === Role.Volunteer);
+        case roles.VOLUNTEER: {
+            assert(!user.role || user.role === roles.VOLUNTEER);
             upsertVolunteer(roleData, userInput.id);
             break;
         }
