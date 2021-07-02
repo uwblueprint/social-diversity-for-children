@@ -48,7 +48,8 @@ async function getUsers() {
  * @param userInput - data for the updated user
  * @returns prisma User with updated information
  */
-async function updateUser(userInput: UserInput): Promise<User> {
+
+async function updateUser(user: UserInput): Promise<User> {
     /*
     Flow:
     - get role and role data from UserInput
@@ -56,33 +57,28 @@ async function updateUser(userInput: UserInput): Promise<User> {
     - update the user record
     - return the user, including the role records
     */
-    const roleData = userInput.role_data;
-    const user = await getUser(userInput.id);
-
-    switch (userInput.role) {
+    const roleData = user.role_data;
+    switch (user.role) {
         case Role.Parent: {
-            assert(!user.role || user.role === Role.Parent);
-            upsertParent(roleData, userInput.id);
+            upsertParent(roleData, user.id);
             break;
         }
         case Role.ProgramAdmin: {
-            assert(!user.role || user.role === Role.ProgramAdmin);
-            upsertProgramAdmin(roleData, userInput.id);
+            upsertProgramAdmin(roleData, user.id);
             break;
         }
         case Role.Volunteer: {
-            assert(!user.role || user.role === Role.Volunteer);
-            upsertVolunteer(roleData, userInput.id);
+            upsertVolunteer(roleData, user.id);
             break;
         }
     }
 
     const updatedUser = await prisma.user.update({
         data: {
-            first_name: userInput.first_name,
-            last_name: userInput.last_name,
+            first_name: user.first_name,
+            last_name: user.last_name,
         },
-        where: { id: parseInt(userInput.id) },
+        where: { id: parseInt(user.id) },
         include: {
             teachers: true,
             parents: true,
@@ -94,10 +90,10 @@ async function updateUser(userInput: UserInput): Promise<User> {
 }
 
 /**
- * Creates a new teacher corresponding to newTeacherData and
- * returns the newly created teacher
- * @param newTeacherData - data corresponding to the new teacher user
- * @returns - upserted teacher user
+ * Inserts a new teacher or updates information corresponding to teacherData and returns
+ * the newly created or updated teacher
+ * @param TeacherData - data corresponding to the new teacher user
+ * @returns - the newly created or updated teacher user
  */
 async function upsertTeacher(
     teacherData: TeacherInput,
@@ -117,10 +113,10 @@ async function upsertTeacher(
 }
 
 /**
- * Creates a new volunteer corresponding to newVolunteerData
- * and returns the newly created volunteer
- * @param newVolunteerData - data corresponding to the new volunteer volunteer user
- * @returns - upserted volunteer user
+ * Inserts a new volunteer or updates information corresponding to volunteerData and returns
+ * the newly created or updated volunteer
+ * @param VolunteerData - data corresponding to the new parent user
+ * @returns - the newly created or updated volunteer user
  */
 async function upsertVolunteer(
     volunteerData: VolunteerInput,
@@ -139,78 +135,53 @@ async function upsertVolunteer(
     return volunteer;
 }
 
-/**
- * TODO (July 1):
- *  - update upsertParent and upsertProgramAdmin to match upsertVolunteer
- *  - update the function documentation
- *      - update description to have the correct names for the args
- *      - update the param names
- *      - update terminology (e.g., "upsert" or "insert/update" instead of "create")
- */
 
 /**
- * Creates a new parent corresponding to newUserData and returns
- * the newly created parent
- * @param newParentData - data corresponding to the new parent user
- * @returns - upserted parent user
+ * Inserts a new parent or updates information corresponding to parentData and returns
+ * the newly created or updated parent
+ * @param ParentData - data corresponding to the new parent user
+ * @returns - the newly created or updated parent user
  */
+
 async function upsertParent(
     parentData: ParentInput,
     userId: string,
 ): Promise<Parent> {
-    const user = await getUser(userId);
-    const data = {
+    const id: number = parseInt(userId);
+    const upsertParentData = {
         ...parentData,
-        users: {
-            connect: { id: parseInt(userId) },
-        },
+        id: id,
     };
-    let parent;
-    if (user.parents) {
-        parent = prisma.parent.create({
-            data: data,
-        });
-    } else {
-        parent = prisma.parent.update({
-            data: data,
-            where: {
-                id: parseInt(parentData.id),
-            },
-        });
-    }
+    const parent = await prisma.parent.upsert({
+        create: upsertParentData,
+        update: upsertParentData,
+        where: { id: id },
+    });
     return parent;
 }
+
+
 /**
- * Creates a new program admin corresponding to newProgramAdminData and
- * returns the newly created program admin
- * @param newProgramAdminData - data corresponding to the new program admin user
- * @returns - the newly created program admin user
+ * Inserts a new programAdmin or updates information corresponding to programAdminData and returns
+ * the newly created or updated programAdmin
+ * @param ParentData - data corresponding to the new programAdmin user
+ * @returns - the newly created or updated programAdmin user
  */
 
 async function upsertProgramAdmin(
     programAdminData: ProgramAdminInput,
     userId: string,
 ): Promise<ProgramAdmin> {
-    const user = await getUser(userId);
-    const data = {
+    const id: number = parseInt(userId);
+    const upsertProgramAdminData = {
         ...programAdminData,
-        users: {
-            connect: { id: parseInt(userId) },
-        },
+        id: id,
     };
-    let programAdmin;
-    if (user.program_admins) {
-        programAdmin = prisma.programAdmin.create({
-            data: data,
-        });
-    } else {
-        programAdmin = prisma.programAdmin.update({
-            data: data,
-            where: {
-                id: parseInt(programAdminData.id),
-            },
-        });
-    }
+    const programAdmin = await prisma.programAdmin.upsert({
+        create: upsertProgramAdminData,
+        update: upsertProgramAdminData,
+        where: { id: id },
+    });
     return programAdmin;
 }
 
