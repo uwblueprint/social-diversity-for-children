@@ -6,6 +6,7 @@ import { TeacherInput } from "models/teacher";
 import { VolunteerInput } from "models/volunteer";
 import { UserInput } from "models/user";
 import { Role } from "models/role";
+import { assert } from "console";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
@@ -42,11 +43,12 @@ async function getUsers() {
     return users;
 }
 
-/* 
-TODO (6/30/21): test passing userId in newTeacherData instead of through connect key
-*/
-
-async function updateUser(user: UserInput): Promise<User> {
+/**
+ * Updates a user with the data corresponding to userInput
+ * @param userInput - data for the updated user
+ * @returns prisma User with updated information
+ */
+async function updateUser(userInput: UserInput): Promise<User> {
     /*
     Flow:
     - get role and role data from UserInput
@@ -54,28 +56,33 @@ async function updateUser(user: UserInput): Promise<User> {
     - update the user record
     - return the user, including the role records
     */
-    const roleData = user.role_data;
-    switch (user.role) {
+    const roleData = userInput.role_data;
+    const user = await getUser(userInput.id);
+
+    switch (userInput.role) {
         case Role.Parent: {
-            upsertParent(roleData, user.id);
+            assert(!user.role || user.role === Role.Parent);
+            upsertParent(roleData, userInput.id);
             break;
         }
         case Role.ProgramAdmin: {
-            upsertProgramAdmin(roleData, user.id);
+            assert(!user.role || user.role === Role.ProgramAdmin);
+            upsertProgramAdmin(roleData, userInput.id);
             break;
         }
         case Role.Volunteer: {
-            upsertVolunteer(roleData, user.id);
+            assert(!user.role || user.role === Role.Volunteer);
+            upsertVolunteer(roleData, userInput.id);
             break;
         }
     }
 
     const updatedUser = await prisma.user.update({
         data: {
-            first_name: user.first_name,
-            last_name: user.last_name,
+            first_name: userInput.first_name,
+            last_name: userInput.last_name,
         },
-        where: { id: parseInt(user.id) },
+        where: { id: parseInt(userInput.id) },
         include: {
             teachers: true,
             parents: true,

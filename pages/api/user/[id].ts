@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getUser, updateUser } from "@database/user";
 import { getSession } from "next-auth/client";
-// TODO: Type the response data
+
 /**
  * handle takes the userId parameter and returns
  * the user associated with the userId
