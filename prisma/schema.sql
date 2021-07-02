@@ -174,26 +174,14 @@ CREATE TABLE parent_regs (
 -- create program admin users table
 CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
-<<<<<<< HEAD
   FOREIGN KEY(id) REFERENCES users(id),
-=======
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
->>>>>>> 7f5bb4064598c9c332456fce63ef7291e6b3ec0b
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create teacber table
 CREATE TABLE teachers (
   id SERIAL PRIMARY KEY NOT NULL,
-<<<<<<< HEAD
   FOREIGN KEY(id) REFERENCES users(id),
-=======
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
->>>>>>> 7f5bb4064598c9c332456fce63ef7291e6b3ec0b
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
