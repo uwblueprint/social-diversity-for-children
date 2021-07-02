@@ -1,28 +1,6 @@
-// Nodemailer with SES transport, more info here: https://nodemailer.com/transports/ses/
-import { transporter } from "@nodemailer";
+import { sendEmail } from "@nodemailer/mail";
 import { ResponseUtil } from "@utils/responseUtil";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-/**
- * Sends an email to the targetAddress email from the process.env.EMAIL_FROM email
- * @param targetAddress the email address we want to send to (string)
- * @param subject email subject/title (string)
- * @param text email body (string)
- * @returns Promise<void>
- */
-async function sendEmail(
-    targetAddress: string,
-    subject: string,
-    text: string,
-): Promise<void> {
-    await transporter.sendMail({
-        from: process.env.EMAIL_FROM,
-        to: targetAddress,
-        subject: subject,
-        text: text,
-        ses: {},
-    });
-}
 
 /**
  * Handles the request to /api/mail (POST)
@@ -38,6 +16,7 @@ export default async function mailHandler(
         // TODO: this is hardcoded for now until AWS is not sandboxed
         // (change to sendEmail(req.body.targetEmail))
         await sendEmail(
+            process.env.EMAIL_FROM,
             process.env.EMAIL_FROM,
             "Test Message",
             "This is a test message from the SDC server!",

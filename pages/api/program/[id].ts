@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
+<<<<<<< HEAD
 import { getProgram, deleteProgram } from "@database/program";
+=======
+import { getProgram } from "@database/program";
+>>>>>>> staging
 
 /**
  * handle takes the programId parameter and returns
