@@ -113,7 +113,7 @@ async function upsertTeacher(
  * Creates a new volunteer corresponding to newVolunteerData
  * and returns the newly created volunteer
  * @param newVolunteerData - data corresponding to the new volunteer volunteer user
- * @returns - the newly created volunteer user
+ * @returns - upserted volunteer user
  */
 async function upsertVolunteer(
     volunteerData: VolunteerInput,
