@@ -7,6 +7,6 @@ export type UserInput = {
     id: string;
     first_name: string;
     last_name: string;
-    role: roles | string;
+    role: roles;
     role_data: ParentInput | ProgramAdminInput | VolunteerInput;
 };

@@ -87,6 +87,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
         data: {
             first_name: userInput.first_name,
             last_name: userInput.last_name,
+            role: userInput.role,
         },
         where: { id: parseInt(userInput.id) },
         include: {
