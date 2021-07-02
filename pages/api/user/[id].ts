@@ -15,23 +15,19 @@ export default async function handle(
 ): Promise<void> {
     if (req.method == "GET") {
         // Obtain user id
-        const { userId } = req.query;
+        const { id } = req.query;
 
         // obtain user with provided userId
-        const user = await getUser(userId as string);
+        const user = await getUser(id as string);
 
         if (!user) {
-            ResponseUtil.returnNotFound(
-                res,
-                `User with id ${userId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `User with id ${id} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, user);
         return;
     } else if (req.method == "PUT") {
         const session = await getSession({ req });
-        // TODO: define custom session callback to contain user ID
         const userId = session.id;
         const updatedUserData = {
             id: userId,
@@ -40,14 +36,14 @@ export default async function handle(
             role: req.body.role,
             role_data: req.body.role_data,
         };
-        const newUser = await updateUser(updatedUserData);
-        if (!newUser) {
+        const updatedUser = await updateUser(updatedUserData);
+        if (!updatedUser) {
             ResponseUtil.returnBadRequest(
                 res,
                 `Error updating user with id ${userId}.`,
             );
         }
-        ResponseUtil.returnOK(res, newUser);
+        ResponseUtil.returnOK(res, updatedUser);
     } else {
         const allowedHeaders: string[] = ["GET", "PUT"];
         ResponseUtil.returnMethodNotAllowed(
