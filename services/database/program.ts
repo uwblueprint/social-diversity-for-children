@@ -35,11 +35,11 @@ async function createProgram(
     const program = await prisma.program.create({
         data: {
             price: newProgramData.price,
-            online_format: newProgramData.onlineFormat,
+            onlineFormat: newProgramData.onlineFormat,
             tag: newProgramData.tag,
-            start_date: newProgramData.startDate,
-            end_date: newProgramData.endDate,
-            is_archived: newProgramData.isArchived,
+            startDate: newProgramData.startDate,
+            endDate: newProgramData.endDate,
+            isArchived: newProgramData.isArchived,
         },
     });
     return program;

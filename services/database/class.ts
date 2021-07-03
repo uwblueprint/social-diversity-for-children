@@ -33,17 +33,17 @@ async function createClass(input: CreateClassInput): Promise<Class> {
     const newClass = await prisma.class.create({
         data: {
             name: input.name,
-            age_group: input.ageGroup,
-            program_id: input.programId,
-            space_total: input.spaceTotal,
-            space_available: input.spaceTotal,
-            volunteer_space_total: input.volunteerSpaceTotal,
-            volunteer_space_available: input.volunteerSpaceTotal,
-            start_date: input.startDate,
-            end_date: input.endDate,
+            ageGroup: input.ageGroup,
+            programId: input.programId,
+            spaceTotal: input.spaceTotal,
+            spaceAvailable: input.spaceTotal,
+            volunteerSpaceTotal: input.volunteerSpaceTotal,
+            volunteerSpaceAvailable: input.volunteerSpaceTotal,
+            startDate: input.startDate,
+            endDate: input.endDate,
             weekday: input.weekday,
-            start_time_minutes: input.startTimeMinutes,
-            duration_minutes: input.durationMinutes,
+            startTimeMinutes: input.startTimeMinutes,
+            durationMinutes: input.durationMinutes,
         },
     });
     return newClass;

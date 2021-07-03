@@ -1,18 +1,11 @@
-/**
- * Enum for the program format
- */
-export enum ProgramFormat {
-    online = "online",
-    inPerson = "in_person",
-    blended = "blended",
-}
+import type { programFormat } from "@prisma/client";
 
 /**
  * Request Body Input for POST /program
  */
 export type CreateProgramInput = {
     price: number;
-    onlineFormat: ProgramFormat;
+    onlineFormat: programFormat;
     tag: string;
     startDate: string;
     endDate: string;

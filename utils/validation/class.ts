@@ -7,11 +7,11 @@ import { CreateClassInput } from "models/Class";
  */
 export function validateCreateClass(input: CreateClassInput): string[] {
     const validationErrors = [];
-    const start_date = new Date(input.startDate);
-    const end_date = new Date(input.endDate);
+    const startDate = new Date(input.startDate);
+    const endDate = new Date(input.endDate);
 
     // TODO: Add more validation for creating a class if there exists anymore.
-    if (start_date > end_date) {
+    if (startDate > endDate) {
         validationErrors.push("End date cannot be before the start date");
     }
     return validationErrors;
