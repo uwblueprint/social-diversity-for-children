@@ -15,8 +15,8 @@ export enum Weekday {
  * Request Body Input for POST /class
  */
 export type CreateClassInput = {
-    name: string;
-    ageGroup: string;
+    name?: string;
+    ageGroup?: string;
     programId: number;
     spaceTotal: number;
     volunteerSpaceTotal: number;
