@@ -98,6 +98,7 @@ CREATE TABLE parents (
 -- create volunteer table
 CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
+  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   phone_number VARCHAR(50),
   is_valid BOOLEAN DEFAULT false,
   background_form_link TEXT,
@@ -107,7 +108,6 @@ CREATE TABLE volunteers (
   city_name TEXT,
   province provinces,
   preferred_language locales,
-  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -184,7 +184,7 @@ CREATE TABLE program_admins (
 -- create teacber table
 CREATE TABLE teachers (
   id SERIAL PRIMARY KEY NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id),
+  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
