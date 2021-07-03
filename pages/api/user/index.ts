@@ -18,7 +18,6 @@ export default async function handle(
             break;
         }
         case "POST": {
-            // TODO:
             break;
         }
         case "PUT": {

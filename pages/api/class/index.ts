@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getPrograms, createProgram } from "@database/program";
-import { CreateProgramInput } from "models/Program";
-import { validateCreateProgram } from "@utils/validation/program";
+import { getClasses, createClass } from "@database/class";
+import { CreateClassInput } from "models/Class";
+import { validateCreateClass } from "@utils/validation/class";
 
 /**
- * handle controls the request made to the program resource
+ * handle controls the request made to the class resource
  * @param req API request object
  * @param res API response object
  */
@@ -15,28 +15,27 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const programs = await getPrograms();
-            ResponseUtil.returnOK(res, programs);
+            const classes = await getClasses();
+            ResponseUtil.returnOK(res, classes);
             break;
         }
         case "POST": {
-            const validationError = validateCreateProgram(
-                req.body as CreateProgramInput,
-            );
-            if (validationError.length !== 0) {
-                ResponseUtil.returnBadRequest(res, validationError.join(", "));
+            const input = req.body as CreateClassInput;
+            const validationErrors = validateCreateClass(input);
+            if (validationErrors.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             } else {
-                const newProgram = await createProgram(
-                    req.body as CreateProgramInput,
+                const newClass = await createClass(
+                    req.body as CreateClassInput,
                 );
-                if (!newProgram) {
+                if (!newClass) {
                     ResponseUtil.returnBadRequest(
                         res,
-                        `Program could not be created`,
+                        `Class could not be created`,
                     );
                     break;
                 }
-                ResponseUtil.returnOK(res, newProgram);
+                ResponseUtil.returnOK(res, newClass);
             }
             break;
         }

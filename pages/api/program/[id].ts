@@ -29,7 +29,7 @@ export default async function handle(
         ResponseUtil.returnOK(res, program);
         return;
     } else {
-        const allowedHeaders: string[] = ["GET"];
+        const allowedHeaders: string[] = ["GET", "DELETE"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
