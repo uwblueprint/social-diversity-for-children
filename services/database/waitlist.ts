@@ -31,7 +31,7 @@ async function getWaitlistRecordsByClassId(
             classId: classId,
         },
         orderBy: {
-            createdAt: "asc",
+            createdAt: "asc", // ascending order as the oldest createdAt date is the highest priority.
         },
     });
     return waitlistRecords;
