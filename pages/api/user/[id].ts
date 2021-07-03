@@ -28,7 +28,7 @@ export default async function handle(
         return;
     } else if (req.method == "PUT") {
         const session = await getSession({ req });
-        const userId = session.id;
+        const userId = session ? session.id : req.query.id;
         const updatedUserData = {
             id: userId,
             first_name: req.body.first_name,
@@ -42,8 +42,10 @@ export default async function handle(
                 res,
                 `Error updating user with id ${userId}.`,
             );
+            return;
         }
         ResponseUtil.returnOK(res, updatedUser);
+        return;
     } else {
         const allowedHeaders: string[] = ["GET", "PUT"];
         ResponseUtil.returnMethodNotAllowed(

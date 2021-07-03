@@ -12,7 +12,6 @@ import { ProgramAdminInput } from "models/programadmin";
 import { TeacherInput } from "models/teacher";
 import { VolunteerInput } from "models/volunteer";
 import { UserInput } from "models/user";
-import { assert } from "console";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
@@ -67,21 +66,26 @@ async function updateUser(userInput: UserInput): Promise<User> {
     const user = await getUser(userInput.id);
 
     switch (userInput.role) {
-        case roles.PARENT: {
-            assert(!user.role || user.role === roles.PARENT);
+        case roles.PARENT:
+            if (user.role && user.role !== roles.PARENT) {
+                return;
+            }
             upsertParent(roleData, userInput.id);
             break;
-        }
-        case roles.PROGRAM_ADMIN: {
-            assert(!user.role || user.role === roles.PROGRAM_ADMIN);
+        case roles.PROGRAM_ADMIN:
+            if (user.role && user.role !== roles.PROGRAM_ADMIN) {
+                return;
+            }
             upsertProgramAdmin(roleData, userInput.id);
             break;
-        }
-        case roles.VOLUNTEER: {
-            assert(!user.role || user.role === roles.VOLUNTEER);
+        case roles.VOLUNTEER:
+            if (user.role && user.role !== roles.VOLUNTEER) {
+                return;
+            }
             upsertVolunteer(roleData, userInput.id);
             break;
-        }
+        default:
+            return;
     }
 
     const updatedUser = await prisma.user.update({
@@ -147,7 +151,6 @@ async function upsertVolunteer(
     return volunteer;
 }
 
-
 /**
  * Inserts a new parent or updates information corresponding to parentData and returns
  * the newly created or updated parent
@@ -171,7 +174,6 @@ async function upsertParent(
     });
     return parent;
 }
-
 
 /**
  * Inserts a new programAdmin or updates information corresponding to programAdminData and returns
