@@ -1,7 +1,7 @@
 /**
  * Enum for the program format
  */
-export enum programFormat {
+export enum ProgramFormat {
     online = "online",
     inPerson = "in_person",
     blended = "blended",
@@ -10,9 +10,9 @@ export enum programFormat {
 /**
  * Request Body Input for POST /program
  */
-export type createProgramInput = {
+export type CreateProgramInput = {
     price: number;
-    onlineFormat: programFormat;
+    onlineFormat: ProgramFormat;
     tag: string;
     startDate: string;
     endDate: string;

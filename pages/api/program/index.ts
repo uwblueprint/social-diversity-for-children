@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms, createProgram } from "@database/program";
-import { createProgramInput } from "models/Program";
+import { CreateProgramInput } from "models/Program";
 import { validateCreateProgram } from "@utils/validation/program";
 
 /**
@@ -21,13 +21,13 @@ export default async function handle(
         }
         case "POST": {
             const validationError = validateCreateProgram(
-                req.body as createProgramInput,
+                req.body as CreateProgramInput,
             );
             if (validationError.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
             } else {
                 const newProgram = await createProgram(
-                    req.body as createProgramInput,
+                    req.body as CreateProgramInput,
                 );
                 if (!newProgram) {
                     ResponseUtil.returnBadRequest(

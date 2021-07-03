@@ -1,5 +1,5 @@
 import prisma from "@database";
-import { createProgramInput } from "models/Program";
+import { CreateProgramInput } from "models/Program";
 import { Program } from "@prisma/client";
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
@@ -30,7 +30,7 @@ async function getPrograms(): Promise<Program[]> {
  * @returns Promise<Program> - Promise with the newly created program
  */
 async function createProgram(
-    newProgramData: createProgramInput,
+    newProgramData: CreateProgramInput,
 ): Promise<Program> {
     const program = await prisma.program.create({
         data: {

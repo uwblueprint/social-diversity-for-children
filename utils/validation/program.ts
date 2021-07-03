@@ -1,4 +1,4 @@
-import { createProgramInput } from "models/Program";
+import { CreateProgramInput } from "models/Program";
 
 /**
  * validateCreateProgram takes programData of type Program and validates the data
@@ -6,7 +6,7 @@ import { createProgramInput } from "models/Program";
  * @returns string[] - array of errors of type string
  */
 export function validateCreateProgram(
-    newProgramData: createProgramInput,
+    newProgramData: CreateProgramInput,
 ): string[] {
     const validationError = [];
     const start_date = new Date(newProgramData.startDate);
