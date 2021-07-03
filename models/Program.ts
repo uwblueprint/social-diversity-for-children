@@ -10,5 +10,4 @@ export type CreateProgramInput = {
     tag: string;
     startDate: string;
     endDate: string;
-    isArchived: boolean;
 };

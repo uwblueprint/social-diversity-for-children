@@ -40,7 +40,6 @@ async function createProgram(
             tag: newProgramData.tag,
             startDate: newProgramData.startDate,
             endDate: newProgramData.endDate,
-            isArchived: newProgramData.isArchived,
         },
     });
     return program;
