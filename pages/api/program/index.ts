@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getPrograms } from "@database/program";
+import { getPrograms, createProgram } from "@database/program";
+import { CreateProgramInput } from "models/Program";
+import { validateCreateProgram } from "@utils/validation/program";
 
 /**
  * handle controls the request made to the program resource
@@ -18,19 +20,32 @@ export default async function handle(
             break;
         }
         case "POST": {
-            // TODO:
+            const validationError = validateCreateProgram(
+                req.body as CreateProgramInput,
+            );
+            if (validationError.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationError.join(", "));
+            } else {
+                const newProgram = await createProgram(
+                    req.body as CreateProgramInput,
+                );
+                if (!newProgram) {
+                    ResponseUtil.returnBadRequest(
+                        res,
+                        `Program could not be created`,
+                    );
+                    break;
+                }
+                ResponseUtil.returnOK(res, newProgram);
+            }
             break;
         }
         case "PUT": {
             // TODO:
             break;
         }
-        case "DELETE": {
-            // TODO:
-            break;
-        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
+            const allowedHeaders: string[] = ["GET", "POST", "PUT"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
