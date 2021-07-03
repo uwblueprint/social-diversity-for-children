@@ -1,11 +1,17 @@
 import prisma from "@database";
-import { Parent, ProgramAdmin, Teacher, Volunteer, User } from "@prisma/client";
+import {
+    Parent,
+    ProgramAdmin,
+    Teacher,
+    Volunteer,
+    User,
+    roles,
+} from "@prisma/client";
 import { ParentInput } from "models/parent";
 import { ProgramAdminInput } from "models/programadmin";
 import { TeacherInput } from "models/teacher";
 import { VolunteerInput } from "models/volunteer";
 import { UserInput } from "models/user";
-import { Role } from "models/role";
 import { assert } from "console";
 
 /**
@@ -57,26 +63,32 @@ async function updateUser(user: UserInput): Promise<User> {
     - update the user record
     - return the user, including the role records
     */
-    const roleData = user.role_data;
-    switch (user.role) {
-        case Role.Parent: {
-            upsertParent(roleData, user.id);
+    const roleData = userInput.role_data;
+    const user = await getUser(userInput.id);
+
+    switch (userInput.role) {
+        case roles.PARENT: {
+            assert(!user.role || user.role === roles.PARENT);
+            upsertParent(roleData, userInput.id);
             break;
         }
-        case Role.ProgramAdmin: {
-            upsertProgramAdmin(roleData, user.id);
+        case roles.PROGRAM_ADMIN: {
+            assert(!user.role || user.role === roles.PROGRAM_ADMIN);
+            upsertProgramAdmin(roleData, userInput.id);
             break;
         }
-        case Role.Volunteer: {
-            upsertVolunteer(roleData, user.id);
+        case roles.VOLUNTEER: {
+            assert(!user.role || user.role === roles.VOLUNTEER);
+            upsertVolunteer(roleData, userInput.id);
             break;
         }
     }
 
     const updatedUser = await prisma.user.update({
         data: {
-            first_name: user.first_name,
-            last_name: user.last_name,
+            first_name: userInput.first_name,
+            last_name: userInput.last_name,
+            role: userInput.role,
         },
         where: { id: parseInt(user.id) },
         include: {

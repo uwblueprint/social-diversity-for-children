@@ -1,3 +1,3 @@
 export type ProgramAdminInput = {
-    id?: string | null;
+    id?: string;
 };
