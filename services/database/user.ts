@@ -55,7 +55,7 @@ async function getUsers() {
  * @returns prisma User with updated information
  */
 
-async function updateUser(user: UserInput): Promise<User> {
+async function updateUser(userInput: UserInput): Promise<User> {
     /*
     Flow:
     - get role and role data from UserInput
