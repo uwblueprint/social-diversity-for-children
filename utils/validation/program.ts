@@ -9,12 +9,12 @@ export function validateCreateProgram(
     newProgramData: CreateProgramInput,
 ): string[] {
     const validationError = [];
-    const start_date = new Date(newProgramData.startDate);
-    const end_date = new Date(newProgramData.endDate);
+    const startDate = new Date(newProgramData.startDate);
+    const endDate = new Date(newProgramData.endDate);
     if (newProgramData.price < 0) {
         validationError.push("Program price cannot be negative");
     }
-    if (start_date > end_date) {
+    if (startDate > endDate) {
         validationError.push("End date cannot be before the start date");
     }
     return validationError;
