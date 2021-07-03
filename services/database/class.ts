@@ -1,6 +1,6 @@
 import prisma from "@database";
 import { Class } from "@prisma/client";
-import { createClassInput } from "models/Class";
+import { CreateClassInput } from "models/Class";
 /**
  * getClass takes the id parameter and returns the class associated with the classId
  * @param {string} id - classId
@@ -28,7 +28,7 @@ async function getClasses(): Promise<Class[]> {
  * @param input - data of type createClassInput
  * @returns Promise<Class> - Promise with the newly created class
  */
-async function createClass(input: createClassInput): Promise<Class> {
+async function createClass(input: CreateClassInput): Promise<Class> {
     console.log(input);
     const newClass = await prisma.class.create({
         data: {

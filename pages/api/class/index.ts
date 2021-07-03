@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getClasses, createClass } from "@database/class";
-import { createClassInput } from "models/Class";
+import { CreateClassInput } from "models/Class";
 import { validateCreateClass } from "@utils/validation/class";
 
 /**
@@ -20,13 +20,13 @@ export default async function handle(
             break;
         }
         case "POST": {
-            const input = req.body as createClassInput;
+            const input = req.body as CreateClassInput;
             const validationErrors = validateCreateClass(input);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             } else {
                 const newClass = await createClass(
-                    req.body as createClassInput,
+                    req.body as CreateClassInput,
                 );
                 if (!newClass) {
                     ResponseUtil.returnBadRequest(

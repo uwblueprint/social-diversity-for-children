@@ -1,11 +1,11 @@
-import { createClassInput } from "models/Class";
+import { CreateClassInput } from "models/Class";
 
 /**
  * validateCreateClass takes input of type createClassInput and validates the input for creating a class
  * @param input - data corresponding to a new class
  * @returns string[] - array of errors of type string
  */
-export function validateCreateClass(input: createClassInput): string[] {
+export function validateCreateClass(input: CreateClassInput): string[] {
     const validationErrors = [];
     const start_date = new Date(input.startDate);
     const end_date = new Date(input.endDate);

@@ -1,7 +1,7 @@
 /**
  * Enum for the weekday field of class
  */
-export enum weekdays {
+export enum Weekday {
     MON = "MON",
     TUE = "TUE",
     WED = "WED",
@@ -14,7 +14,7 @@ export enum weekdays {
 /**
  * Request Body Input for POST /class
  */
-export type createClassInput = {
+export type CreateClassInput = {
     name: string;
     ageGroup: string;
     programId: number;
@@ -22,7 +22,7 @@ export type createClassInput = {
     volunteerSpaceTotal: number;
     startDate: string;
     endDate: string;
-    weekday: weekdays;
+    weekday: Weekday;
     startTimeMinutes: number;
     durationMinutes: number;
 };
