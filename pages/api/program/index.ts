@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUsers } from "@database/user";
+import { getPrograms } from "@database/program";
 
 /**
- * handle controls the request made to the user resource
+ * handle controls the request made to the program resource
  * @param req API request object
  * @param res API response object
  */
@@ -13,16 +13,16 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const users = await getUsers();
-            ResponseUtil.returnOK(res, users);
+            const programs = await getPrograms();
+            ResponseUtil.returnOK(res, programs);
             break;
         }
         case "POST": {
-            // TODO
+            // TODO:
             break;
         }
         case "PUT": {
-            // TODO
+            // TODO:
             break;
         }
         case "DELETE": {
@@ -31,7 +31,6 @@ export default async function handle(
         }
         default: {
             const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
-            // TODO: add JSON response for method not allowed
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,

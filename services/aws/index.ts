@@ -1,4 +1,6 @@
 import aws from "aws-sdk";
+import { AWSError } from "aws-sdk";
+import S3, { ManagedUpload } from "aws-sdk/clients/s3";
 
 // Update AWS Config
 aws.config.update({
@@ -17,3 +19,4 @@ const ses = new aws.SES({
 const s3 = new aws.S3();
 
 export { aws, ses, s3 };
+export type { S3, AWSError, ManagedUpload };
