@@ -1,17 +1,8 @@
 import prisma from "@database";
-import {
-    Parent,
-    ProgramAdmin,
-    Teacher,
-    Volunteer,
-    User,
-    roles,
-} from "@prisma/client";
-import { ParentInput } from "models/parent";
-import { ProgramAdminInput } from "models/programadmin";
-import { TeacherInput } from "models/teacher";
-import { VolunteerInput } from "models/volunteer";
-import { UserInput } from "models/user";
+import { User, roles } from "@prisma/client";
+import { ParentInput } from "models/Parent";
+import { VolunteerInput } from "models/Volunteer";
+import { UserInput } from "models/User";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
@@ -91,10 +82,29 @@ async function updateUser(userInput: UserInput): Promise<User> {
                 // TODO: add error message
                 return;
             }
+            const parentData = roleData as ParentInput;
             [, updatedUser] = await prisma.$transaction([
                 prisma.parent.upsert({
-                    create: roleData,
-                    update: roleData,
+                    create: {
+                        phoneNumber: parentData.phoneNumber,
+                        isLowIncome: parentData.isLowIncome,
+                        addressLine1: parentData.addressLine1,
+                        addressLine2: parentData.addressLine2,
+                        postalCode: parentData.postalCode,
+                        cityName: parentData.cityName,
+                        province: parentData.province,
+                        preferredLanguage: parentData.preferredLanguage,
+                    },
+                    update: {
+                        phoneNumber: parentData.phoneNumber,
+                        isLowIncome: parentData.isLowIncome,
+                        addressLine1: parentData.addressLine1,
+                        addressLine2: parentData.addressLine2,
+                        postalCode: parentData.postalCode,
+                        cityName: parentData.cityName,
+                        province: parentData.province,
+                        preferredLanguage: parentData.preferredLanguage,
+                    },
                     where: { id: user.id },
                 }),
                 prisma.user.update(updateUserArgs),
@@ -108,8 +118,8 @@ async function updateUser(userInput: UserInput): Promise<User> {
             }
             [, updatedUser] = await prisma.$transaction([
                 prisma.programAdmin.upsert({
-                    create: roleData,
-                    update: roleData,
+                    create: {},
+                    update: {},
                     where: { id: user.id },
                 }),
                 prisma.user.update(updateUserArgs),
@@ -121,10 +131,31 @@ async function updateUser(userInput: UserInput): Promise<User> {
                 // TODO: add error message
                 return;
             }
+            const volunteerData = roleData as VolunteerInput;
             [, updatedUser] = await prisma.$transaction([
                 prisma.volunteer.upsert({
-                    create: roleData,
-                    update: roleData,
+                    create: {
+                        phoneNumber: volunteerData.phoneNumber,
+                        isValid: volunteerData.isValid,
+                        backgroundFormLink: volunteerData.backgroundFormLink,
+                        addressLine1: volunteerData.addressLine1,
+                        addressLine2: volunteerData.addressLine2,
+                        postalCode: volunteerData.postalCode,
+                        cityName: volunteerData.cityName,
+                        province: volunteerData.province,
+                        preferredLanguage: volunteerData.preferredLanguage,
+                    },
+                    update: {
+                        phoneNumber: volunteerData.phoneNumber,
+                        isValid: volunteerData.isValid,
+                        backgroundFormLink: volunteerData.backgroundFormLink,
+                        addressLine1: volunteerData.addressLine1,
+                        addressLine2: volunteerData.addressLine2,
+                        postalCode: volunteerData.postalCode,
+                        cityName: volunteerData.cityName,
+                        province: volunteerData.province,
+                        preferredLanguage: volunteerData.preferredLanguage,
+                    },
                     where: { id: user.id },
                 }),
                 prisma.user.update(updateUserArgs),

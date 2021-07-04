@@ -32,6 +32,8 @@
             "@aws": ["services/aws"],
             "@database/*": ["services/database/*"],
             "@database": ["services/database"],
+            "@models/*": ["models/*"],
+            "@models": ["models"],
             "@nodemailer/*": ["services/nodemailer/*"],
             "@nodemailer": ["services/nodemailer"],
             "@utils/*": ["utils/*"],
