@@ -1,6 +1,6 @@
-import { ParentInput } from "@models/Parent";
-import { ProgramAdminInput } from "@models/ProgramAdmin";
-import { VolunteerInput } from "@models/Volunteer";
+import { ParentInput } from "models/Parent";
+import { ProgramAdminInput } from "models/ProgramAdmin";
+import { VolunteerInput } from "./Volunteer";
 import type { roles } from "@prisma/client";
 
 export type UserInput = {
