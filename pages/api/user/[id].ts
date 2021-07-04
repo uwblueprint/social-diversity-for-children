@@ -31,10 +31,10 @@ export default async function handle(
         const userId = session ? session.id : req.query.id;
         const updatedUserData = {
             id: userId,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             role: req.body.role,
-            role_data: req.body.role_data,
+            roleData: req.body.roleData,
         };
         const updatedUser = await updateUser(updatedUserData);
         if (!updatedUser) {

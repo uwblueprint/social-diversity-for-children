@@ -62,7 +62,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
     - update the user record
     - return the user, including the role records
     */
-    const roleData = userInput.role_data;
+    const roleData = userInput.roleData;
     if (!roleData.id) {
         roleData.id = userInput.id;
     }
@@ -70,16 +70,16 @@ async function updateUser(userInput: UserInput): Promise<User> {
 
     const updateUserArgs = {
         data: {
-            first_name: userInput.first_name,
-            last_name: userInput.last_name,
+            firstName: userInput.firstName,
+            lastName: userInput.lastName,
             role: userInput.role,
         },
         where: { id: parseInt(userInput.id) },
         include: {
-            teachers: true,
-            parents: true,
-            program_admins: true,
-            volunteers: true,
+            teacher: true,
+            parent: true,
+            programAdmin: true,
+            volunteer: true,
         },
     };
 

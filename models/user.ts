@@ -5,8 +5,8 @@ import type { roles } from "@prisma/client";
 
 export type UserInput = {
     id: string;
-    first_name?: string;
-    last_name?: string;
+    firstName?: string;
+    lastName?: string;
     role?: roles;
-    role_data?: ParentInput | ProgramAdminInput | VolunteerInput;
+    roleData?: ParentInput | ProgramAdminInput | VolunteerInput;
 };
