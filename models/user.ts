@@ -1,6 +1,6 @@
 import type { roles, province, locale } from "@prisma/client";
 
-type UserInput = {
+export type UserInput = {
     id: string;
     firstName?: string;
     lastName?: string;
@@ -8,7 +8,7 @@ type UserInput = {
     roleData?: ParentInput | ProgramAdminInput | VolunteerInput;
 };
 
-type ParentInput = {
+export type ParentInput = {
     id: string;
     phoneNumber: string;
     isLowIncome?: boolean;
@@ -20,7 +20,7 @@ type ParentInput = {
     preferredLanguage: locale;
 };
 
-type VolunteerInput = {
+export type VolunteerInput = {
     id: string;
     phoneNumber?: string;
     isValid?: boolean;
@@ -33,19 +33,11 @@ type VolunteerInput = {
     preferredLanguage?: locale;
 };
 
-type ProgramAdminInput = {
+export type ProgramAdminInput = {
     id: string;
 };
 
 // TODO: not for MVP
 type TeacherInput = {
     id: string;
-};
-
-export type {
-    UserInput,
-    ParentInput,
-    VolunteerInput,
-    ProgramAdminInput,
-    TeacherInput,
 };
