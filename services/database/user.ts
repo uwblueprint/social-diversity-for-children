@@ -212,7 +212,6 @@ async function upsertParent(
  * @param ParentData - data corresponding to the new programAdmin user
  * @returns - the newly created or updated programAdmin user
  */
-
 async function upsertProgramAdmin(
     programAdminData: ProgramAdminInput,
     userId: string,
