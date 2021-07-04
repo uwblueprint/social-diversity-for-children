@@ -63,45 +63,76 @@ async function updateUser(userInput: UserInput): Promise<User> {
     - return the user, including the role records
     */
     const roleData = userInput.role_data;
+    if (!roleData.id) {
+        roleData.id = userInput.id;
+    }
     const user = await getUser(userInput.id);
 
-    switch (userInput.role) {
-        case roles.PARENT:
-            if (user.role && user.role !== roles.PARENT) {
-                return;
-            }
-            upsertParent(roleData, userInput.id);
-            break;
-        case roles.PROGRAM_ADMIN:
-            if (user.role && user.role !== roles.PROGRAM_ADMIN) {
-                return;
-            }
-            upsertProgramAdmin(roleData, userInput.id);
-            break;
-        case roles.VOLUNTEER:
-            if (user.role && user.role !== roles.VOLUNTEER) {
-                return;
-            }
-            upsertVolunteer(roleData, userInput.id);
-            break;
-        default:
-            return;
-    }
-
-    const updatedUser = await prisma.user.update({
+    const updateUserArgs = {
         data: {
             first_name: userInput.first_name,
             last_name: userInput.last_name,
             role: userInput.role,
         },
-        where: { id: parseInt(user.id) },
+        where: { id: parseInt(userInput.id) },
         include: {
             teachers: true,
             parents: true,
             program_admins: true,
             volunteers: true,
         },
-    });
+    };
+
+    let updatedUser;
+
+    switch (userInput.role) {
+        case roles.PARENT: {
+            if (user.role && user.role !== roles.PARENT) {
+                return;
+            }
+            [, updatedUser] = await prisma.$transaction([
+                prisma.parent.upsert({
+                    create: roleData,
+                    update: roleData,
+                    where: { id: user.id },
+                }),
+                prisma.user.update(updateUserArgs),
+            ]);
+            break;
+        }
+        case roles.PROGRAM_ADMIN: {
+            if (user.role && user.role !== roles.PROGRAM_ADMIN) {
+                return;
+            }
+            [, updatedUser] = await prisma.$transaction([
+                prisma.programAdmin.upsert({
+                    create: roleData,
+                    update: roleData,
+                    where: { id: user.id },
+                }),
+                prisma.user.update(updateUserArgs),
+            ]);
+            break;
+        }
+        case roles.VOLUNTEER: {
+            if (user.role && user.role !== roles.VOLUNTEER) {
+                return;
+            }
+            [, updatedUser] = await prisma.$transaction([
+                prisma.volunteer.upsert({
+                    create: roleData,
+                    update: roleData,
+                    where: { id: user.id },
+                }),
+                prisma.user.update(updateUserArgs),
+            ]);
+            break;
+        }
+        default: {
+            return;
+        }
+    }
+
     return updatedUser;
 }
 

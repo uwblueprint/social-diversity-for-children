@@ -1,7 +1,7 @@
 import type { provinces, locales } from "@prisma/client";
 
 export type ParentInput = {
-    id?: string;
+    id: string;
     phone_number: string;
     is_low_income?: boolean;
     address_line1: string;
