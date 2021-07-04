@@ -1,13 +1,5 @@
 import type { roles, province, locale } from "@prisma/client";
 
-export type UserInput = {
-    id: string;
-    firstName?: string;
-    lastName?: string;
-    role?: roles;
-    roleData?: ParentInput | ProgramAdminInput | VolunteerInput;
-};
-
 export type ParentInput = {
     id: string;
     phoneNumber: string;
@@ -40,4 +32,12 @@ export type ProgramAdminInput = {
 // TODO: not for MVP
 type TeacherInput = {
     id: string;
+};
+
+export type UserInput = {
+    id: string;
+    firstName?: string;
+    lastName?: string;
+    role?: roles;
+    roleData?: ParentInput | ProgramAdminInput | VolunteerInput;
 };
