@@ -24,10 +24,10 @@ async function getUser(id: string) {
             id: parseInt(id),
         },
         include: {
-            teachers: true,
-            parents: true,
-            program_admins: true,
-            volunteers: true,
+            teacher: true,
+            parent: true,
+            programAdmin: true,
+            volunteer: true,
         },
     });
     return user;
@@ -39,10 +39,10 @@ async function getUser(id: string) {
 async function getUsers() {
     const users = await prisma.user.findMany({
         include: {
-            teachers: true,
-            parents: true,
-            program_admins: true,
-            volunteers: true,
+            teacher: true,
+            parent: true,
+            programAdmin: true,
+            volunteer: true,
         },
     });
     return users;
