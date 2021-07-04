@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getProgram, deleteProgram } from "@database/program";
+import { getProgram, deleteProgram, updateProgram } from "@database/program";
+import { CreateProgramInput } from "models/Program";
+import { validateCreateProgram } from "@utils/validation/program";
 
 /**
  * handle takes the programId parameter and returns
@@ -44,8 +46,34 @@ export default async function handle(
         }
         ResponseUtil.returnOK(res, program);
         return;
+    } else if (req.method == "PUT") {
+        // validate new body
+        const validationError = validateCreateProgram(
+            req.body as CreateProgramInput,
+        );
+        if (validationError.length !== 0) {
+            ResponseUtil.returnBadRequest(res, validationError.join(", "));
+            return;
+        }
+        // Obtain program id
+        const { id } = req.query;
+        // obtain the entire update body
+        const program = await updateProgram(
+            id as string,
+            req.body as CreateProgramInput,
+        );
+
+        if (!program) {
+            ResponseUtil.returnNotFound(
+                res,
+                `Program with id ${id} not found.`,
+            );
+            return;
+        }
+        ResponseUtil.returnOK(res, program);
+        return;
     } else {
-        const allowedHeaders: string[] = ["GET", "DELETE"];
+        const allowedHeaders: string[] = ["GET", "DELETE", "PUT"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,

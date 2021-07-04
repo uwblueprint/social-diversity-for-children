@@ -58,4 +58,18 @@ async function deleteProgram(id: string): Promise<Program> {
     });
     return program;
 }
-export { getProgram, getPrograms, createProgram, deleteProgram };
+
+async function updateProgram(
+    id: string,
+    updatedProgramData: CreateProgramInput,
+): Promise<Program> {
+    const program = await prisma.program.update({
+        where: {
+            id: parseInt(id),
+        },
+        data: updatedProgramData,
+    });
+    return program;
+}
+
+export { getProgram, getPrograms, createProgram, deleteProgram, updateProgram };

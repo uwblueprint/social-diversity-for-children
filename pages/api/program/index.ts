@@ -40,12 +40,8 @@ export default async function handle(
             }
             break;
         }
-        case "PUT": {
-            // TODO:
-            break;
-        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST", "PUT"];
+            const allowedHeaders: string[] = ["GET", "POST"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
