@@ -88,6 +88,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
     switch (userInput.role) {
         case roles.PARENT: {
             if (user.role && user.role !== roles.PARENT) {
+                // TODO: add error message
                 return;
             }
             [, updatedUser] = await prisma.$transaction([
@@ -102,6 +103,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
         }
         case roles.PROGRAM_ADMIN: {
             if (user.role && user.role !== roles.PROGRAM_ADMIN) {
+                // TODO: add error message
                 return;
             }
             [, updatedUser] = await prisma.$transaction([
@@ -116,6 +118,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
         }
         case roles.VOLUNTEER: {
             if (user.role && user.role !== roles.VOLUNTEER) {
+                // TODO: add error message
                 return;
             }
             [, updatedUser] = await prisma.$transaction([
@@ -136,105 +139,4 @@ async function updateUser(userInput: UserInput): Promise<User> {
     return updatedUser;
 }
 
-/**
- * Inserts a new teacher or updates information corresponding to teacherData and returns
- * the newly created or updated teacher
- * @param TeacherData - data corresponding to the new teacher user
- * @returns - the newly created or updated teacher user
- */
-async function upsertTeacher(
-    teacherData: TeacherInput,
-    userId: string,
-): Promise<Teacher> {
-    const id: number = parseInt(userId);
-    const upsertTeacherData = {
-        ...teacherData,
-        id: id,
-    };
-    const teacher = await prisma.teacher.upsert({
-        create: upsertTeacherData,
-        update: upsertTeacherData,
-        where: { id: id },
-    });
-    return teacher;
-}
-
-/**
- * Inserts a new volunteer or updates information corresponding to volunteerData and returns
- * the newly created or updated volunteer
- * @param VolunteerData - data corresponding to the new parent user
- * @returns - the newly created or updated volunteer user
- */
-async function upsertVolunteer(
-    volunteerData: VolunteerInput,
-    userId: string,
-): Promise<Volunteer> {
-    const id: number = parseInt(userId);
-    const upsertVolunteerData = {
-        ...volunteerData,
-        id: id,
-    };
-    const volunteer = await prisma.volunteer.upsert({
-        create: upsertVolunteerData,
-        update: upsertVolunteerData,
-        where: { id: id },
-    });
-    return volunteer;
-}
-
-/**
- * Inserts a new parent or updates information corresponding to parentData and returns
- * the newly created or updated parent
- * @param ParentData - data corresponding to the new parent user
- * @returns - the newly created or updated parent user
- */
-
-async function upsertParent(
-    parentData: ParentInput,
-    userId: string,
-): Promise<Parent> {
-    const id: number = parseInt(userId);
-    const upsertParentData = {
-        ...parentData,
-        id: id,
-    };
-    const parent = await prisma.parent.upsert({
-        create: upsertParentData,
-        update: upsertParentData,
-        where: { id: id },
-    });
-    return parent;
-}
-
-/**
- * Inserts a new programAdmin or updates information corresponding to programAdminData and returns
- * the newly created or updated programAdmin
- * @param ParentData - data corresponding to the new programAdmin user
- * @returns - the newly created or updated programAdmin user
- */
-async function upsertProgramAdmin(
-    programAdminData: ProgramAdminInput,
-    userId: string,
-): Promise<ProgramAdmin> {
-    const id: number = parseInt(userId);
-    const upsertProgramAdminData = {
-        ...programAdminData,
-        id: id,
-    };
-    const programAdmin = await prisma.programAdmin.upsert({
-        create: upsertProgramAdminData,
-        update: upsertProgramAdminData,
-        where: { id: id },
-    });
-    return programAdmin;
-}
-
-export {
-    getUser,
-    getUsers,
-    updateUser,
-    upsertParent,
-    upsertProgramAdmin,
-    upsertTeacher,
-    upsertVolunteer,
-};
+export { getUser, getUsers, updateUser };
