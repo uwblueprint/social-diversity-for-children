@@ -1,8 +1,8 @@
 import prisma from "@database";
+import { UserInput } from "@models/User";
+import { ParentInput } from "@models/Parent";
+import { VolunteerInput } from "@models/Volunteer";
 import { User, roles } from "@prisma/client";
-import { ParentInput } from "models/Parent";
-import { VolunteerInput } from "models/Volunteer";
-import { UserInput } from "models/User";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
