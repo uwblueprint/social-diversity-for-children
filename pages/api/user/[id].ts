@@ -29,6 +29,7 @@ export default async function handle(
     } else if (req.method == "PUT") {
         const session = await getSession({ req });
         const userId = session ? session.id : req.query.id;
+        // TODO: add user role to session
         const updatedUserData = {
             id: userId,
             firstName: req.body.firstName,
