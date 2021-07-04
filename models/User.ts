@@ -1,5 +1,6 @@
 import type { roles, province, locale } from "@prisma/client";
 
+/* Input type for creating & updating Parents */
 export type ParentInput = {
     id: string;
     phoneNumber: string;
@@ -12,6 +13,7 @@ export type ParentInput = {
     preferredLanguage: locale;
 };
 
+/* Input type for creating & updating Volunteers */
 export type VolunteerInput = {
     id: string;
     phoneNumber?: string;
@@ -25,6 +27,7 @@ export type VolunteerInput = {
     preferredLanguage?: locale;
 };
 
+/* Input type for creating & updating Program Admins */
 export type ProgramAdminInput = {
     id: string;
 };
@@ -34,6 +37,7 @@ type TeacherInput = {
     id: string;
 };
 
+/* Input type for updating Users */
 export type UserInput = {
     id: string;
     firstName?: string;
