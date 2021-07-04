@@ -1,7 +1,5 @@
 import prisma from "@database";
-import { UserInput } from "@models/User";
-import { ParentInput } from "@models/Parent";
-import { VolunteerInput } from "@models/Volunteer";
+import { UserInput, ParentInput, VolunteerInput } from "@models/User";
 import { User, roles } from "@prisma/client";
 
 /**
