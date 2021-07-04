@@ -1,4 +1,4 @@
-import { CreateProgramInput } from "models/Program";
+import { CreateProgramInput } from "@models/Program";
 
 /**
  * validateCreateProgram takes programData of type Program and validates the data

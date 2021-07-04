@@ -1,4 +1,4 @@
-import { CreateClassInput } from "models/Class";
+import { CreateClassInput } from "@models/Class";
 
 /**
  * validateCreateClass takes input of type createClassInput and validates the input for creating a class

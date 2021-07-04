@@ -1,5 +1,5 @@
 import prisma from "@database";
-import { CreateProgramInput } from "models/Program";
+import { CreateProgramInput } from "@models/Program";
 import { Program } from "@prisma/client";
 
 /**

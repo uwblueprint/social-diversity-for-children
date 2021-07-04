@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getPrograms, createProgram } from "@database/program";
-import { CreateProgramInput } from "models/Program";
+import { CreateProgramInput } from "@models/Program";
 import { validateCreateProgram } from "@utils/validation/program";
 
 /**

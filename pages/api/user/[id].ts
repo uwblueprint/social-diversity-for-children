@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getUser, updateUser } from "@database/user";
 import { getSession } from "next-auth/client";
-import { UserInput } from "models/User";
+import { UserInput } from "@models/User";
 
 /**
  * handle takes the userId parameter and returns
