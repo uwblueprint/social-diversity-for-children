@@ -1,4 +1,4 @@
-import type { provinces, locales } from "@prisma/client";
+import type { province, locale } from "@prisma/client";
 
 export type VolunteerInput = {
     id: string;
@@ -9,6 +9,6 @@ export type VolunteerInput = {
     addressLine2?: string;
     postalCode?: string;
     cityName?: string;
-    province?: provinces;
-    preferredLanguage?: locales;
+    province?: province;
+    preferredLanguage?: locale;
 };
