@@ -92,6 +92,9 @@ async function updateUser(userInput: UserInput): Promise<User> {
                         cityName: parentData.cityName,
                         province: parentData.province,
                         preferredLanguage: parentData.preferredLanguage,
+                        user: {
+                            connect: { id: user.id },
+                        },
                     },
                     update: {
                         phoneNumber: parentData.phoneNumber,
@@ -116,7 +119,11 @@ async function updateUser(userInput: UserInput): Promise<User> {
             }
             [, updatedUser] = await prisma.$transaction([
                 prisma.programAdmin.upsert({
-                    create: {},
+                    create: {
+                        user: {
+                            connect: { id: user.id },
+                        },
+                    },
                     update: {},
                     where: { id: user.id },
                 }),
@@ -142,6 +149,9 @@ async function updateUser(userInput: UserInput): Promise<User> {
                         cityName: volunteerData.cityName,
                         province: volunteerData.province,
                         preferredLanguage: volunteerData.preferredLanguage,
+                        user: {
+                            connect: { id: user.id },
+                        },
                     },
                     update: {
                         phoneNumber: volunteerData.phoneNumber,
