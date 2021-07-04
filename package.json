@@ -18,6 +18,7 @@
         "@chakra-ui/react": "^1.1.4",
         "@emotion/react": "^11.1.4",
         "@emotion/styled": "^11.0.0",
+        "@fontsource/roboto": "^4.4.5",
         "@prisma/client": "^2.23.0",
         "@stripe/stripe-js": "^1.15.0",
         "aws-sdk": "^2.926.0",
@@ -30,6 +31,7 @@
         "prettier": "^2.2.1",
         "react": "17.0.2",
         "react-dom": "17.0.2",
+        "sass": "^1.35.1",
         "stripe": "^8.154.0",
         "swr": "^0.4.0",
         "unstated-next": "^1.1.0"
