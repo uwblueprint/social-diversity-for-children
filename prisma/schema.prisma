@@ -13,6 +13,7 @@ model CouponUsers {
   couponId  String? @map("coupon_id")
   parent    Parent  @relation("coupon_usersToparents", fields: [parentId], references: [id])
   program   Program @relation("coupon_usersToprograms", fields: [programId], references: [id])
+
   @@id([parentId, programId])
   @@map("coupon_users")
 }
@@ -36,6 +37,7 @@ model Parent {
   parentOfStudents  ParentOfStudent[] @relation("parent_of_studentsToparents")
   parentRegs        ParentReg[]       @relation("parent_regsToparents")
   waitlists         Waitlist[]        @relation("parentsTowaitlists")
+
   @@map("parents")
 }
 
@@ -46,6 +48,7 @@ model ParentOfStudent {
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   parent    Parent   @relation("parent_of_studentsToparents", fields: [parentId], references: [id])
   student   Student  @relation("parent_of_studentsTostudents", fields: [studentId], references: [id])
+
   @@id([studentId, parentId])
   @@map("parent_of_students")
 }
@@ -60,6 +63,7 @@ model ParentReg {
   class     Class    @relation("parent_regsToclasses", fields: [classId], references: [id])
   parent    Parent   @relation("parent_regsToparents", fields: [parentId], references: [id])
   student   Student  @relation("parent_regsTostudents", fields: [studentId], references: [id])
+
   @@id([studentId, classId])
   @@map("parent_regs")
 }
@@ -77,6 +81,7 @@ model Program {
   classes            Class[]             @relation("programsToclasses")
   couponUsers        CouponUsers[]       @relation("coupon_usersToprograms")
   programTranslation ProgramTranslation? @relation("program_translationsToprograms")
+
   @@map("programs")
 }
 
@@ -88,6 +93,7 @@ model ProgramTranslation {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   program     Program  @relation("program_translationsToprograms", fields: [programId], references: [id])
+
   @@map("program_translations")
 }
 
@@ -101,6 +107,7 @@ model Student {
   updatedAt        DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
   parentOfStudents ParentOfStudent[] @relation("parent_of_studentsTostudents")
   parentRegs       ParentReg[]       @relation("parent_regsTostudents")
+
   @@map("students")
 }
 
@@ -112,6 +119,7 @@ model Teacher {
   updatedAt   DateTime     @default(now()) @map("updated_at") @db.Timestamptz(6)
   user        User         @relation("teachersTousers", fields: [id], references: [id])
   teacherRegs TeacherReg[] @relation("teacher_regsToteachers")
+
   @@map("teachers")
 }
 
@@ -122,6 +130,7 @@ model TeacherReg {
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   class     Class    @relation("classesToteacher_regs", fields: [classId], references: [id])
   teacher   Teacher  @relation("teacher_regsToteachers", fields: [teacherId], references: [id])
+
   @@id([classId, teacherId])
   @@map("teacher_regs")
 }
@@ -138,6 +147,7 @@ model User {
   programAdmin  ProgramAdmin? @relation("program_adminsTousers")
   teacher       Teacher?      @relation("teachersTousers")
   volunteer     Volunteer?    @relation("usersTovolunteers")
+
   @@map("users")
 }
 
@@ -148,6 +158,7 @@ model VerificationRequest {
   expires    DateTime @db.Timestamptz(6)
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt  DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
   @@map("verification_requests")
 }
 
@@ -168,6 +179,7 @@ model Volunteer {
   updatedAt          DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
   user               User           @relation("usersTovolunteers", fields: [id], references: [id])
   volunteerRegs      VolunteerReg[] @relation("volunteer_regsTovolunteers")
+
   @@map("volunteers")
 }
 
@@ -190,6 +202,7 @@ model ProgramAdmin {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   user      User     @relation("program_adminsTousers", fields: [id], references: [id])
+
   @@map("program_admins")
 }
 
@@ -201,6 +214,7 @@ model ClassTranslation {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   class       Class    @relation(fields: [classId], references: [id])
+
   @@map("class_translations")
 }
 
@@ -227,6 +241,7 @@ model Class {
   teacherRegs             TeacherReg[]      @relation("classesToteacher_regs")
   volunteerRegs           VolunteerReg[]    @relation("classesTovolunteer_regs")
   waitlists               Waitlist[]
+
   @@map("classes")
 }
 
@@ -237,6 +252,7 @@ model Waitlist {
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   class     Class    @relation(fields: [classId], references: [id])
   parent    Parent   @relation("parentsTowaitlists", fields: [parentId], references: [id])
+
   @@id([parentId, classId])
   @@map("waitlists")
 }
@@ -246,6 +262,7 @@ enum locale {
   en
   ja
   ko
+
    @@map("locales")
 }
 
@@ -263,6 +280,7 @@ enum province {
   YT
   NT
   NU
+
    @@map("provinces")
 }
 
@@ -274,6 +292,7 @@ enum weekday {
   FRI
   SAT
   SUN
+
    @@map("weekdays")
 }
 
@@ -281,5 +300,6 @@ enum programFormat {
   online
   inPerson @map("in-person")
   blended
+
    @@map("program_formats")
 }
