@@ -191,6 +191,7 @@ model VolunteerReg {
   updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamptz(6)
   class       Class     @relation("classesTovolunteer_regs", fields: [classId], references: [id])
   volunteer   Volunteer @relation("volunteer_regsTovolunteers", fields: [volunteerId], references: [id])
+
   @@id([volunteerId, classId])
   @@map("volunteer_regs")
 }
