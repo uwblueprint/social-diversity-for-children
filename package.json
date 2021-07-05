@@ -31,7 +31,6 @@
         "prettier": "^2.2.1",
         "react": "17.0.2",
         "react-dom": "17.0.2",
-        "sass": "^1.35.1",
         "stripe": "^8.154.0",
         "swr": "^0.4.0",
         "unstated-next": "^1.1.0"
