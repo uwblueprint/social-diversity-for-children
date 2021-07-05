@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getProgram, deleteProgram, updateProgram } from "@database/program";
-import { CreateProgramInput } from "models/Program";
-import { validateCreateProgram } from "@utils/validation/program";
+import { ProgramInput } from "models/Program";
+import { validateProgramData } from "@utils/validation/program";
 
 /**
  * handle takes the programId parameter and returns
@@ -48,9 +48,7 @@ export default async function handle(
         return;
     } else if (req.method == "PUT") {
         // validate new body
-        const validationError = validateCreateProgram(
-            req.body as CreateProgramInput,
-        );
+        const validationError = validateProgramData(req.body as ProgramInput);
         if (validationError.length !== 0) {
             ResponseUtil.returnBadRequest(res, validationError.join(", "));
             return;
@@ -60,7 +58,7 @@ export default async function handle(
         // obtain the entire update body
         const program = await updateProgram(
             id as string,
-            req.body as CreateProgramInput,
+            req.body as ProgramInput,
         );
 
         if (!program) {
