@@ -7,6 +7,10 @@ import {
     FormControl,
 } from "@chakra-ui/react";
 
+/**
+ * This is the page that a user will use to either login or register
+ * to the SDC platform
+ */
 export default function Login(): JSX.Element {
     return (
         <Center h="500px">
