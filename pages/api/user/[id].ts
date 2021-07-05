@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUser, updateUser } from "@database/user";
-import { getSession } from "next-auth/client";
-import { UserInput } from "@models/User";
+import { getUser } from "@database/user";
 
 /**
  * handle takes the userId parameter and returns
@@ -27,29 +25,8 @@ export default async function handle(
         }
         ResponseUtil.returnOK(res, user);
         return;
-    } else if (req.method == "PUT") {
-        const session = await getSession({ req });
-        const userId = (session ? session.id : req.query.id) as string;
-        // TODO: add user role to session
-        const updatedUserData = {
-            id: userId,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            role: req.body.role,
-            roleData: req.body.roleData,
-        } as UserInput;
-        const updatedUser = await updateUser(updatedUserData);
-        if (!updatedUser) {
-            ResponseUtil.returnBadRequest(
-                res,
-                `Error updating user with id ${userId}.`,
-            );
-            return;
-        }
-        ResponseUtil.returnOK(res, updatedUser);
-        return;
     } else {
-        const allowedHeaders: string[] = ["GET", "PUT"];
+        const allowedHeaders: string[] = ["GET"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
