@@ -310,3 +310,9 @@ enum program_formats {
   in_person @map("in-person")
   blended
 }
+
+enum program_formats {
+  online
+  in_person @map("in-person")
+  blended
+}
