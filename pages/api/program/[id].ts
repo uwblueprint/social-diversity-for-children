@@ -14,12 +14,12 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
+    //TODO: Replace if statements with switch/case statements
     if (req.method == "GET") {
         // Obtain program id
         const { id } = req.query;
 
         // obtain program with provided programId
-        // TODO: add type for program
         const program = await getProgram(id as string);
 
         if (!program) {
@@ -55,7 +55,7 @@ export default async function handle(
         }
         // Obtain program id
         const { id } = req.query;
-        // obtain the entire update body
+        // Obtain the entire update body
         const program = await updateProgram(
             id as string,
             req.body as ProgramInput,
