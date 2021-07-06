@@ -6,7 +6,7 @@ import { WaitlistInput } from "models/Waitlist";
  * @returns string[] - array of errors of type string
  */
 export function validateWaitlistRecord(input: WaitlistInput): string[] {
-    const validationErrors = [];
+    const validationErrors: string[] = [];
 
     if (!input.classId) {
         validationErrors.push("classId is not provided");

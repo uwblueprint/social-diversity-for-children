@@ -60,7 +60,7 @@ export default async function handle(
                     res,
                     `Waitlist record could not be created`,
                 );
-                break;
+                return;
             }
             ResponseUtil.returnOK(res, newWaitlistRecord);
             break;
@@ -78,7 +78,7 @@ export default async function handle(
                     res,
                     `Waitlist record with parentId:${input.parentId}, classId:${input.classId} not found.`,
                 );
-                break;
+                return;
             }
             ResponseUtil.returnOK(res, deleteWaitlistRecord);
             break;
