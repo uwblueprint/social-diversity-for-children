@@ -1,39 +1,37 @@
-import { locales, provinces, roles } from ".prisma/client";
-import { ParentInput } from "models/parent";
-import { VolunteerInput } from "models/volunteer";
-import { UserInput } from "models/user";
+import { locale, roles } from ".prisma/client";
+import { UserInput, ParentInput, VolunteerInput } from "models/User";
 import validator from "validator";
 
 function validateProvince(province) {
     return [
-        provinces.AB,
-        provinces.BC,
-        provinces.MB,
-        provinces.NB,
-        provinces.NL,
-        provinces.NS,
-        provinces.NT,
-        provinces.NU,
-        provinces.ON,
-        provinces.PE,
-        provinces.QC,
-        provinces.SK,
-        provinces.YT,
+        province.AB,
+        province.BC,
+        province.MB,
+        province.NB,
+        province.NL,
+        province.NS,
+        province.NT,
+        province.NU,
+        province.ON,
+        province.PE,
+        province.QC,
+        province.SK,
+        province.YT,
     ].includes(province);
 }
 
 function validatePreferredLanguage(language) {
-    return [locales.en, locales.ja, locales.ko, locales.zh].includes(language);
+    return [locale.en, locale.ja, locale.ko, locale.zh].includes(language);
 }
 
 function validateUser(user: UserInput): boolean {
     // validate base user fields
     const firstNameIsAlpha = validator.isAlpha({
-        str: user.first_name,
+        str: user.firstName,
         options: " -",
     });
     const lastNameIsAlpha = validator.isAlpha({
-        str: user.last_name,
+        str: user.lastName,
         options: " -",
     });
     const roleIsValid = [
@@ -49,14 +47,14 @@ function validateUser(user: UserInput): boolean {
     // validate role fields
     let roleDataIsValid;
     if (user.role === roles.PARENT) {
-        const roleData: ParentInput = user.role_data;
+        const roleData: ParentInput = user.roleData;
         const phoneNumberIsValid = validator.isMobilePhone(
-            roleData.phone_number,
+            roleData.phoneNumber,
         );
-        const postalCodeIsValid = validator.isPostalCode(roleData.postal_code);
+        const postalCodeIsValid = validator.isPostalCode(roleData.postalCode);
         const provinceIsValid = validateProvince(roleData.province);
         const preferredLanguageIsValid = validatePreferredLanguage(
-            roleData.preferred_language,
+            roleData.preferredLanguage,
         );
         roleDataIsValid =
             phoneNumberIsValid &&
@@ -68,18 +66,17 @@ function validateUser(user: UserInput): boolean {
     } else if (user.role === roles.TEACHER) {
         // pass
     } else if (user.role === roles.VOLUNTEER) {
-        const roleData: VolunteerInput = user.role_data;
+        const roleData: VolunteerInput = user.roleData;
         const phoneNumberIsValid =
-            !roleData.phone_number ||
-            validator.isMobilePhone(roleData.phone_number);
+            !roleData.phoneNumber ||
+            validator.isMobilePhone(roleData.phoneNumber);
         const postalCodeIsValid =
-            !roleData.postal_code ||
-            validator.isPostalCode(roleData.postal_code);
+            !roleData.postalCode || validator.isPostalCode(roleData.postalCode);
         const provinceIsValid =
             roleData.province || validateProvince(roleData.province);
         const preferredLanguageIsValid =
-            roleData.preferred_language ||
-            validatePreferredLanguage(roleData.preferred_language);
+            roleData.preferredLanguage ||
+            validatePreferredLanguage(roleData.preferredLanguage);
         roleDataIsValid =
             phoneNumberIsValid &&
             postalCodeIsValid &&
