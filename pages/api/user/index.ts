@@ -28,13 +28,13 @@ export default async function handle(
             const session = await getSession({ req });
             const userId = session.id as string;
             // TODO: add user role to session
-            const updatedUserData = {
+            const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 role: req.body.role,
                 roleData: req.body.roleData,
-            } as UserInput;
+            };
             const updatedUser = await updateUser(updatedUserData);
             if (!updatedUser) {
                 ResponseUtil.returnBadRequest(
