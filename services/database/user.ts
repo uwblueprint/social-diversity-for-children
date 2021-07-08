@@ -75,7 +75,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
         },
     };
 
-    let updatedUser;
+    let updatedUser: User;
 
     switch (userInput.role) {
         case roles.PARENT: {
