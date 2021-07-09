@@ -2,27 +2,37 @@ import { locale, roles, province } from ".prisma/client";
 import { UserInput, ParentInput, VolunteerInput } from "models/User";
 import validator from "validator";
 
+const VALID_ROLES = new Set([
+    roles.PARENT,
+    roles.PROGRAM_ADMIN,
+    roles.TEACHER,
+    roles.VOLUNTEER,
+    null,
+]);
+const VALID_PROVINCES = new Set([
+    province.AB,
+    province.BC,
+    province.MB,
+    province.NB,
+    province.NL,
+    province.NS,
+    province.NT,
+    province.NU,
+    province.ON,
+    province.PE,
+    province.QC,
+    province.SK,
+    province.YT,
+]);
+const VALID_LANGUAGES = new Set([locale.en, locale.ja, locale.ko, locale.zh]);
+
 /**
  * Valdaites whether a given province has been specified correctly
  * @param userProvince - the province to validate
  * @returns - true if the province is valid, false otherwise
  */
 function validateProvince(userProvince) {
-    return [
-        province.AB,
-        province.BC,
-        province.MB,
-        province.NB,
-        province.NL,
-        province.NS,
-        province.NT,
-        province.NU,
-        province.ON,
-        province.PE,
-        province.QC,
-        province.SK,
-        province.YT,
-    ].includes(userProvince);
+    return VALID_PROVINCES.has(userProvince);
 }
 
 /**
@@ -31,7 +41,7 @@ function validateProvince(userProvince) {
  * @returns - true if the language is valid, false otherwise
  */
 function validatePreferredLanguage(userLanguage) {
-    return [locale.en, locale.ja, locale.ko, locale.zh].includes(userLanguage);
+    return VALID_LANGUAGES.has(userLanguage);
 }
 
 /**
@@ -43,13 +53,7 @@ function userIsValid(user: UserInput): boolean {
     // validate base user fields
     const firstNameIsAlpha = validator.isAlpha(user.firstName, undefined, " -");
     const lastNameIsAlpha = validator.isAlpha(user.lastName, undefined, " -");
-    const roleIsValid = [
-        roles.PARENT,
-        roles.PROGRAM_ADMIN,
-        roles.TEACHER,
-        roles.VOLUNTEER,
-        null,
-    ].includes(user.role);
+    const roleIsValid = VALID_ROLES.has(user.role);
 
     // validate the User fields
     const userDataIsValid = firstNameIsAlpha && lastNameIsAlpha && roleIsValid;
