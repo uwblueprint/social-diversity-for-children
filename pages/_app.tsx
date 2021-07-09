@@ -1,3 +1,5 @@
+import "@fontsource/roboto/400.css";
+
 import React from "react";
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
