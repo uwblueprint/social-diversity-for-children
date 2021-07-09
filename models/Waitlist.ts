@@ -1,5 +1,5 @@
 /**
- * Request Body Input for waitlist APIs
+ * Request Body Input for waitlist endpoint
  */
 export type WaitlistInput = {
     classId?: number;
