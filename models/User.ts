@@ -2,7 +2,6 @@ import type { roles, province, locale } from "@prisma/client";
 
 /* Input type for Parent inputs */
 export type ParentInput = {
-    id: string;
     phoneNumber: string;
     isLowIncome?: boolean;
     addressLine1: string;
@@ -15,7 +14,6 @@ export type ParentInput = {
 
 /* Input type for Volunteer inputs */
 export type VolunteerInput = {
-    id: string;
     phoneNumber?: string;
     isValid?: boolean;
     backgroundFormLink?: string;
@@ -28,14 +26,10 @@ export type VolunteerInput = {
 };
 
 /* Input type for Program Admins inputs */
-export type ProgramAdminInput = {
-    id: string;
-};
+export type ProgramAdminInput = Record<string, never>;
 
-// TODO: not for MVP
-type TeacherInput = {
-    id: string;
-};
+// NOTE: not for MVP
+// type TeacherInput = Record<string, never>;
 
 /* Input type for User endpoints */
 export type UserInput = {

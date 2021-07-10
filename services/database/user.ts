@@ -55,9 +55,6 @@ async function updateUser(userInput: UserInput): Promise<User> {
         return null;
     }
     const roleData = userInput.roleData;
-    if (!roleData.id) {
-        roleData.id = userInput.id;
-    }
     const user = await getUser(userInput.id);
 
     const updateUserArgs = {
