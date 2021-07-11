@@ -50,7 +50,8 @@ export default NextAuth({
         session: async (session, user) => {
             // Attach user id to session
             session.id = user.id;
-
+            // Attach user role to session
+            session.role = user.role;
             // Return altered session
             return Promise.resolve(session);
         },
