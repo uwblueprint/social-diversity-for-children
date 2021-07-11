@@ -1,6 +1,7 @@
 import prisma from "@database";
 import { UserInput, ParentInput, VolunteerInput } from "@models/User";
 import { User, roles } from "@prisma/client";
+import { userIsValid } from "@utils/validation/user";
 
 /**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
@@ -42,7 +43,6 @@ async function getUsers() {
  * @param userInput - data for the updated user
  * @returns prisma User with updated information
  */
-
 async function updateUser(userInput: UserInput): Promise<User> {
     /*
     Flow:
@@ -51,6 +51,9 @@ async function updateUser(userInput: UserInput): Promise<User> {
     - update the user record
     - return the user, including the role records
     */
+    if (!userIsValid(userInput)) {
+        return null;
+    }
     const roleData = userInput.roleData;
     const user = await getUser(userInput.id);
 
