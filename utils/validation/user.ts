@@ -61,7 +61,7 @@ function userIsValid(user: UserInput): boolean {
     // validate role fields
     let roleDataIsValid;
     if (user.role === roles.PARENT) {
-        const roleData: ParentInput = user.roleData;
+        const roleData = user.roleData as ParentInput;
         const phoneNumberIsValid = validator.isMobilePhone(
             roleData.phoneNumber,
         );
