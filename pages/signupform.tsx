@@ -28,7 +28,7 @@ export default function Signupform(): JSX.Element {
                 <Center>
                     <Button
                         backgroundColor="transparent"
-                        borderColor="#8D8D8D"
+                        borderColor="brand.400"
                         width="366px"
                         height="54px"
                         fontSize="16px"
@@ -42,7 +42,7 @@ export default function Signupform(): JSX.Element {
                 <Center>
                     <Button
                         backgroundColor="transparent"
-                        borderColor="#8D8D8D"
+                        borderColor="brand.400"
                         width="366px"
                         height="54px"
                         fontSize="16px"
@@ -55,15 +55,16 @@ export default function Signupform(): JSX.Element {
                 </Center>
                 <Center>
                     <Button
-                        backgroundColor="ECECEC"
-                        color="000000"
+                        backgroundColor="brand.500"
+                        color="brand.100"
                         width="366px"
                         height="44px"
                         fontSize="14px"
                         fontWeight="400"
                         mt="20px"
-                        pos="absolute"
                         bottom="-185"
+                        top="350"
+                        padding="-10"
                     >
                         Next
                     </Button>
