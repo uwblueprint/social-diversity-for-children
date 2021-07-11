@@ -3,6 +3,7 @@ import { readFileSync } from "fs";
 
 /**
  * converts hard coded html into a PDF and downloads the PDF locally
+ * @param {string} downloadPath download path of the generated pdf
  */
 const htmlToPDF = (downloadPath: string): void => {
     // path of the hard coded html or the html as a string
