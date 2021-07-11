@@ -4,6 +4,7 @@ import {
     Heading,
     Wrap,
     WrapItem,
+    Flex,
     Badge,
     Center,
     AspectRatio,
@@ -66,7 +67,7 @@ export const ProgramList: React.FC = () => {
             <Wrap spacing="50px" justify="space-between">
                 {imagesAndDescriptions.map((item, idx) => {
                     return (
-                        <WrapItem flexBasis="300px" flexGrow="1">
+                        <WrapItem flexBasis="300px" flexGrow={1}>
                             <Box
                                 borderWidth="1px"
                                 width="100%"
