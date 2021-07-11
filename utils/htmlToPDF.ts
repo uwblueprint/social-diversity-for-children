@@ -1,5 +1,6 @@
 import { create, CreateOptions } from "html-pdf";
 import { readFileSync } from "fs";
+
 /**
  * converts hard coded html into a PDF and downloads the PDF locally
  */
