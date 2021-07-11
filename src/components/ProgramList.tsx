@@ -60,13 +60,25 @@ export const ProgramList: React.FC = () => {
             type: "online",
             category: "math",
         },
+        {
+            title: "placeholder",
+        },
+        {
+            title: "placeholder",
+        },
     ];
 
     return (
         <Center>
             <Wrap spacing="50px" justify="space-between">
                 {imagesAndDescriptions.map((item, idx) => {
-                    return (
+                    return item.title == "placeholder" ? (
+                        <WrapItem
+                            flexBasis="300px"
+                            flexGrow={1}
+                            display="hidden"
+                        ></WrapItem>
+                    ) : (
                         <WrapItem flexBasis="300px" flexGrow={1}>
                             <Box
                                 borderWidth="1px"
