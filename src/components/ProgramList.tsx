@@ -11,7 +11,7 @@ import {
     Spacer,
     Image,
 } from "@chakra-ui/react";
-import type { ProgramCardInfo } from "@models/Program";
+import type { ProgramCardInfo } from "models/Program";
 export const ProgramList: React.FC = () => {
     // TODO remove this, this is for testing onclick functions
     const handleClick = (event) => {
@@ -24,6 +24,7 @@ export const ProgramList: React.FC = () => {
             }`,
         );
     };
+    // TODO remove test data and get new images
     const imagesAndDescriptions: ProgramCardInfo[] = [
         {
             image: "https://i.imgur.com/UaEscmK.jpeg",
