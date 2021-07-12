@@ -11,60 +11,77 @@ import {
     Spacer,
     Image,
 } from "@chakra-ui/react";
-
+import type { ProgramCardInfo } from "@models/Program";
 export const ProgramList: React.FC = () => {
+    // TODO remove this, this is for testing onclick functions
     const handleClick = (event) => {
         event.preventDefault();
         console.log(event.target);
         alert(
             `clicked: ${
                 imagesAndDescriptions[event.target.getAttribute("data-index")]
-                    .title
+                    .name
             }`,
         );
     };
-    const imagesAndDescriptions = [
+    const imagesAndDescriptions: ProgramCardInfo[] = [
         {
             image: "https://i.imgur.com/UaEscmK.jpeg",
-            title: "Building Bridges with Music",
+            name: "Building Bridges with Music",
             description:
                 "Children with special needs will be able to connect with the music teacher through an online video call to socialize and have fun while learning about music!",
-            time: "July 7 to August 28, 2021",
-            type: "online",
-            category: "art",
+            startDate: "July 7, 2021",
+            endDate: "August 28, 2021",
+            format: "online",
+            tag: "art",
         },
         {
             image: "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg",
-            title: "MPM/JELIC",
+            name: "MPM/JELIC",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            time: "July 7 to August 28, 2021",
-            type: "blended",
-            category: "music",
+            startDate: "July 7, 2021",
+            endDate: "August 28, 2021",
+            format: "blended",
+            tag: "music",
         },
         {
             image: "https://metro.co.uk/wp-content/uploads/2017/07/187144066.jpg?quality=90&strip=all&zoom=1&resize=644%2C428",
-            title: "Education Through Creativity",
+            name: "Education Through Creativity",
             description:
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            time: "July 7 to August 28, 2021",
-            type: "online",
-            category: "math",
+            startDate: "July 7, 2021",
+            endDate: "August 28, 2021",
+            format: "online",
+            tag: "math",
         },
         {
-            image: "https://i.pinimg.com/originals/84/1b/c4/841bc46de636c0b154e5e6e45062a773.jpg",
-            title: "Education Through Creativity",
+            image: "https://metro.co.uk/wp-content/uploads/2017/07/187144066.jpg?quality=90&strip=all&zoom=1&resize=644%2C428",
+            name: "Education Through Creativity",
             description:
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            time: "July 7 to August 28, 2021",
-            type: "online",
-            category: "math",
+            startDate: "July 7, 2021",
+            endDate: "August 28, 2021",
+            format: "online",
+            tag: "math",
         },
         {
-            title: "placeholder",
+            name: "placeholder",
+            image: "",
+            description: "",
+            startDate: "",
+            endDate: "",
+            format: "",
+            tag: "",
         },
         {
-            title: "placeholder",
+            name: "placeholder",
+            image: "",
+            description: "",
+            startDate: "",
+            endDate: "",
+            format: "",
+            tag: "",
         },
     ];
 
@@ -72,7 +89,7 @@ export const ProgramList: React.FC = () => {
         <Center>
             <Wrap spacing="50px" justify="space-between">
                 {imagesAndDescriptions.map((item, idx) => {
-                    return item.title == "placeholder" ? (
+                    return item.name == "placeholder" ? (
                         <WrapItem
                             flexBasis="300px"
                             flexGrow={1}
@@ -94,7 +111,7 @@ export const ProgramList: React.FC = () => {
                                         key={idx}
                                         data-index={idx}
                                         fit="cover"
-                                        alt={item.title}
+                                        alt={item.name}
                                     />
                                 </AspectRatio>
 
@@ -107,7 +124,7 @@ export const ProgramList: React.FC = () => {
                                             lineHeight="tight"
                                             isTruncated
                                         >
-                                            {item.title}
+                                            {item.name}
                                         </Box>
                                         <Spacer />
                                         <Badge
@@ -119,7 +136,7 @@ export const ProgramList: React.FC = () => {
                                             backgroundColor="gray.600"
                                             color="white"
                                         >
-                                            {item.category}
+                                            {item.tag}
                                         </Badge>
                                         <Badge
                                             fontWeight="medium"
@@ -131,7 +148,7 @@ export const ProgramList: React.FC = () => {
                                             padding="1"
                                             textTransform="capitalize"
                                         >
-                                            {item.type}
+                                            {item.format}
                                         </Badge>
                                     </Box>
                                     <Box
@@ -139,7 +156,7 @@ export const ProgramList: React.FC = () => {
                                         color="gray.600"
                                         fontSize="sm"
                                     >
-                                        {item.time}
+                                        {item.startDate} to {item.endDate}
                                     </Box>
                                     <Box mt="2">{item.description}</Box>
                                 </Box>
