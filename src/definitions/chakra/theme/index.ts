@@ -1,16 +1,24 @@
 import { extendTheme } from "@chakra-ui/react";
 
-const theme = extendTheme({
-    fonts: {
-        body: "Roboto",
-    },
-    colors: {
-        brand: {
-            100: "#000000",
-            200: "#FFFFFF",
-            300: "#6C6C6C",
-        },
-    },
-});
+import styles from "./styles";
+
+import colors from "./foundations/colors";
+
+import fontSizes from "./foundations/fontSizes";
+
+/**
+ * This file is generated for providing a custom theme to Chakra UI
+ *
+ * To learn more about custom themes
+ * please visit https://chakra-ui.com/docs/getting-started#add-custom-theme-optional
+ */
+
+const overrides = {
+    ...styles,
+    colors,
+    fontSizes,
+};
+
+const theme = extendTheme(overrides);
 
 export default theme;
