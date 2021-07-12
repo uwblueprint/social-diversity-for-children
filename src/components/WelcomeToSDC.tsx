@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 export const WelcomeToSDC: React.FC = () => {
+    // TODO remove test data and get new images
     const title = "Welcome to SDC";
     const desc1 = "Registration for Summer 2021 classes begins June 31, 2021!";
     const list1 =
