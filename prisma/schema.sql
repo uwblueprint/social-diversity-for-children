@@ -21,6 +21,7 @@ CREATE TYPE program_formats AS ENUM ('online', 'in-person', 'blended');
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
+  name TEXT,
   email TEXT UNIQUE,
   email_verified TIMESTAMPTZ,
   image TEXT,
@@ -96,9 +97,9 @@ CREATE TABLE parents (
 -- create volunteer table
 CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
+  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   phone_number VARCHAR(50),
   is_valid BOOLEAN DEFAULT false,
   background_form_link TEXT,
@@ -179,7 +180,7 @@ CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id),
+  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

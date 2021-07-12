@@ -137,7 +137,7 @@ model TeacherReg {
 
 model User {
   id            Int           @id @default(autoincrement())
-  name          String?  
+  name          String?
   email         String?       @unique
   emailVerified DateTime?     @map("email_verified") @db.Timestamptz(6)
   image         String?

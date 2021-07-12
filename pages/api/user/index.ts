@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getUsers } from "@database/user";
+
 /**
  * handle controls the request made to the user resource
  * @param req API request object
@@ -20,7 +21,7 @@ export default async function handle(
             break;
         }
         case "PUT": {
-            //TODO:
+            // TODO:
             break;
         }
         case "DELETE": {
