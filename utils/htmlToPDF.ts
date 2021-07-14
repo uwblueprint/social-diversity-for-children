@@ -7,7 +7,7 @@ import { readFileSync } from "fs";
  * @param {string} volunteerName volunteer name
  * @param {string} date date that the form will be filled out on, can we just pass in current date?
  * @param {string} coordinatorName program coordinator name
- * parameters to be utilised after form html is provided
+ * TODO: incorporate parameters into pdf after form html is provided
  */
 const htmlToPDF = (
     downloadPath: string,
