@@ -13,7 +13,7 @@ const htmlToPDF = (
     downloadPath: string,
     volunteerName: string,
     date: Date,
-    coordinatorName,
+    coordinatorName: string,
 ): void => {
     // path of the hard coded html or the html as a string
     const htmlPath = "./test.html";
