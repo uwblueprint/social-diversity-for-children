@@ -13,10 +13,10 @@ import {
  */
 export default function Signupform(): JSX.Element {
     return (
-        <Center h="500px" margin="10">
+        <Center h="500px" margin="10px">
             <Box width="700px">
                 <Center>
-                    <Text fontWeight="700" fontSize="36px" margin="13">
+                    <Text fontWeight="700" fontSize="36px" margin="13px">
                         Sign Up
                     </Text>
                 </Center>
@@ -49,7 +49,7 @@ export default function Signupform(): JSX.Element {
                         fontWeight="400"
                         border="1px"
                         mt="20px"
-                        marginBottom="70"
+                        marginBottom="70px"
                     >
                         Volunteer
                     </Button>
@@ -63,8 +63,8 @@ export default function Signupform(): JSX.Element {
                         fontSize="14px"
                         fontWeight="400"
                         mt="20px"
-                        padding="5"
-                        marginTop="100"
+                        padding="5px"
+                        marginTop="100px"
                     >
                         Next
                     </Button>
