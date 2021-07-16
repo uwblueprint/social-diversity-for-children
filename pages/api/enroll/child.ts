@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { useRouter } from "next/router";
 import { ResponseUtil } from "@utils/responseUtil";
 import {
     createParentRegistration,
     getParentRegistration,
 } from "@database/enroll";
 import { validateParentRegistrationRecord } from "@utils/validation/parentRegistration";
-import { ParentRegistrationInput } from "@models/ParentRegistration";
+import { ParentRegistrationInput } from "models/ParentRegistration";
 
 /**
  * handle controls the request made to the enroll/child resource.
