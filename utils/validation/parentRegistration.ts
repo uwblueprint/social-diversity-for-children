@@ -1,4 +1,4 @@
-import { ParentRegistrationInput } from "@models/ParentRegistration";
+import { ParentRegistrationInput } from "models/ParentRegistration";
 
 /**
  * validateParentRegistrationRecord validates the request body which contains the details
