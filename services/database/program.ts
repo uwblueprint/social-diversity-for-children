@@ -1,5 +1,5 @@
 import prisma from "@database";
-import { ProgramInput } from "models/Program";
+import { CreateProgramInput } from "models/Program";
 import { Program } from "@prisma/client";
 
 /**
@@ -30,7 +30,9 @@ async function getPrograms(): Promise<Program[]> {
  * @param newProgramData - data corresponding to new program
  * @returns Promise<Program> - Promise with the newly created program
  */
-async function createProgram(newProgramData: ProgramInput): Promise<Program> {
+async function createProgram(
+    newProgramData: CreateProgramInput,
+): Promise<Program> {
     const program = await prisma.program.create({
         data: {
             price: newProgramData.price,
@@ -56,18 +58,4 @@ async function deleteProgram(id: string): Promise<Program> {
     });
     return program;
 }
-
-async function updateProgram(
-    id: string,
-    updatedProgramData: ProgramInput,
-): Promise<Program> {
-    const program = await prisma.program.update({
-        where: {
-            id: parseInt(id),
-        },
-        data: updatedProgramData,
-    });
-    return program;
-}
-
-export { getProgram, getPrograms, createProgram, deleteProgram, updateProgram };
+export { getProgram, getPrograms, createProgram, deleteProgram };

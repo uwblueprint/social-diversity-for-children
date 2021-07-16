@@ -20,6 +20,8 @@ model CouponUsers {
 
 model Parent {
   id                Int               @id @default(autoincrement())
+  firstName         String            @map("first_name")
+  lastName          String            @map("last_name")
   phoneNumber       String            @map("phone_number") @db.VarChar(50)
   isLowIncome       Boolean?          @default(false) @map("is_low_income")
   addressLine1      String            @map("address_line1")
@@ -111,6 +113,8 @@ model Student {
 
 model Teacher {
   id          Int          @id @default(autoincrement())
+  firstName   String       @map("first_name")
+  lastName    String       @map("last_name")
   createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime     @default(now()) @map("updated_at") @db.Timestamptz(6)
   user        User         @relation("teachersTousers", fields: [id], references: [id])
@@ -133,11 +137,9 @@ model TeacherReg {
 
 model User {
   id            Int           @id @default(autoincrement())
-  firstName     String?       @map("first_name")
-  lastName      String?       @map("last_name")
+  name          String?
   email         String?       @unique
   emailVerified DateTime?     @map("email_verified") @db.Timestamptz(6)
-  role          roles?
   image         String?
   createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime      @default(now()) @map("updated_at") @db.Timestamptz(6)
@@ -162,6 +164,8 @@ model VerificationRequest {
 
 model Volunteer {
   id                 Int            @id @default(autoincrement())
+  firstName          String         @map("first_name")
+  lastName           String         @map("last_name")
   phoneNumber        String?        @map("phone_number") @db.VarChar(50)
   isValid            Boolean?       @default(false) @map("is_valid")
   backgroundFormLink String?        @map("background_form_link")
@@ -194,6 +198,8 @@ model VolunteerReg {
 
 model ProgramAdmin {
   id        Int      @id @default(autoincrement())
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   user      User     @relation("program_adminsTousers", fields: [id], references: [id])
@@ -297,11 +303,4 @@ enum programFormat {
   blended
 
    @@map("program_formats")
-}
-
-enum roles {
-  PARENT
-  PROGRAM_ADMIN
-  TEACHER
-  VOLUNTEER
 }

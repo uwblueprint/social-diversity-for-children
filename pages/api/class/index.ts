@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getClasses, createClass } from "@database/class";
-import { CreateClassInput } from "@models/Class";
+import { CreateClassInput } from "models/Class";
 import { validateCreateClass } from "@utils/validation/class";
 
 /**
