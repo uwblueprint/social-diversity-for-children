@@ -10,7 +10,10 @@ export default async function handle(
     switch (req.method) {
         case "GET": {
             const router = useRouter();
+            // obtain query parameters
             const { studentId, classId } = router.query;
+
+            // verify that query parameters were passed in
             if (!studentId || !classId) {
                 return ResponseUtil.returnBadRequest(
                     res,
@@ -18,8 +21,11 @@ export default async function handle(
                 );
             }
 
+            // parse query parameters from strings to numbers
             const studentIdNumber = parseInt(studentId as string, 10);
             const classIdNumber = parseInt(studentId as string, 10);
+
+            // verify that the query parameters were successfully converted to numbers
             if (!studentId || !classId) {
                 return ResponseUtil.returnBadRequest(
                     res,
@@ -27,11 +33,13 @@ export default async function handle(
                 );
             }
 
+            // obtain the parent registration record
             const parentRegistrationRecord = await getParentRegistration(
                 studentIdNumber,
                 classIdNumber,
             );
 
+            // verify that the parent registration record could be obtained
             if (!parentRegistrationRecord) {
                 return ResponseUtil.returnNotFound(
                     res,
@@ -39,6 +47,7 @@ export default async function handle(
                 );
             }
 
+            // return response
             ResponseUtil.returnOK(res, parentRegistrationRecord);
             break;
         }
