@@ -1,7 +1,14 @@
 import prisma from "@database";
-import { ParentRegistrationInput } from "@models/ParentRegistration";
+import { ParentRegistrationInput } from "models/ParentRegistration";
 import { ParentReg } from "@prisma/client";
 
+/**
+ * getParentRegistration obtains the registration record of a parent enrollment
+ *
+ * @param {number} studentId  unique identifier of the enrolled child
+ * @param {number} classId unique identifier of the class the child was enrolled in
+ * @returns {Promise<ParentReg>} record of the registration
+ */
 async function getParentRegistration(
     studentId: number,
     classId: number,
@@ -18,6 +25,12 @@ async function getParentRegistration(
     return parentRegistrationRecord;
 }
 
+/**
+ * createParentRegistration creates a new registration record of a parent enrollment
+ *
+ * @param {ParentRegistrationInput} parentRegistrationData the data containing the details of the enrollment
+ * @returns {Promise<ParentReg>}
+ */
 async function createParentRegistration(
     parentRegistrationData: ParentRegistrationInput,
 ): Promise<ParentReg> {
