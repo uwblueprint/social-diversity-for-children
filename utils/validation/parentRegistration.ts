@@ -1,5 +1,11 @@
 import { ParentRegistrationInput } from "@models/ParentRegistration";
 
+/**
+ * validateParentRegistrationRecord validates the request body which contains the details
+ * of the parent enrollment
+ * @param {ParentRegistrationInput} input the data containing the details of the enrollment
+ * @returns {string[]} a list of validation errors
+ */
 export function validateParentRegistrationRecord(
     input: ParentRegistrationInput,
 ): string[] {
