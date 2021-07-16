@@ -1,17 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { useRouter } from "next/router";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getParentRegistration } from "@database/enroll";
+import {
+    createParentRegistration,
+    getParentRegistration,
+} from "@database/enroll";
+import { validateParentRegistrationRecord } from "@utils/validation/parentRegistration";
+import { ParentRegistrationInput } from "@models/ParentRegistration";
 
+/**
+ * handle controls the request made to the enroll/child resource.
+ * This endpoint is used when a parent is enrolling their child into a program
+ * @param req API request object
+ * @param res API response object
+ */
 export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const router = useRouter();
             // obtain query parameters
-            const { studentId, classId } = router.query;
+            const { studentId, classId } = req.query;
 
             // verify that query parameters were passed in
             if (!studentId || !classId) {
@@ -26,7 +36,7 @@ export default async function handle(
             const classIdNumber = parseInt(studentId as string, 10);
 
             // verify that the query parameters were successfully converted to numbers
-            if (!studentId || !classId) {
+            if (isNaN(studentIdNumber) || isNaN(classIdNumber)) {
                 return ResponseUtil.returnBadRequest(
                     res,
                     "studentId and classId should be passed in as numbers",
@@ -52,6 +62,28 @@ export default async function handle(
             break;
         }
         case "POST": {
+            // validate the request body and return if not validated
+            const validationErrors = validateParentRegistrationRecord(
+                req.body as ParentRegistrationInput,
+            );
+            if (validationErrors.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
+                return;
+            }
+
+            // create parent registration record and return if it could not be created
+            const newRegistration = createParentRegistration(
+                req.body as ParentRegistrationInput,
+            );
+            if (!newRegistration) {
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Registration could not be created`,
+                );
+                return;
+            }
+
+            ResponseUtil.returnOK(res);
             break;
         }
         default: {
