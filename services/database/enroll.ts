@@ -1,4 +1,5 @@
 import prisma from "@database";
+import { ParentRegistrationInput } from "@models/ParentRegistration";
 import { ParentReg } from "@prisma/client";
 
 async function getParentRegistration(
@@ -17,4 +18,18 @@ async function getParentRegistration(
     return parentRegistrationRecord;
 }
 
-export { getParentRegistration };
+async function createParentRegistration(
+    parentRegistrationData: ParentRegistrationInput,
+): Promise<ParentReg> {
+    const parentRegistration = await prisma.parentReg.create({
+        data: {
+            parentId: parentRegistrationData.parentId,
+            studentId: parentRegistrationData.studentId,
+            classId: parentRegistrationData.classId,
+        },
+    });
+
+    return parentRegistration;
+}
+
+export { getParentRegistration, createParentRegistration };
