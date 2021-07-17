@@ -15,7 +15,7 @@ export default async function handle(
     // Obtain class id
     const { id } = req.query;
     if (req.method == "GET") {
-        // obtain program with provided programId
+        // obtain class with provided classId
         const classSection = await getClass(id as string);
 
         if (!classSection) {
@@ -34,7 +34,7 @@ export default async function handle(
         ResponseUtil.returnOK(res, deletedClass);
         return;
     } else {
-        const allowedHeaders: string[] = ["GET"];
+        const allowedHeaders: string[] = ["GET", "DELETE"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
