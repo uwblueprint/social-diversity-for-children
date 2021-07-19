@@ -48,7 +48,8 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                 bg={"lightgrey"}
                 color={useColorModeValue("black", "white")}
                 px={4}
-                py={4}
+                pt={4}
+                pb={8}
                 w={"100%"}
             >
                 <Image src="public/images/SDC Logo - Original.png" />
