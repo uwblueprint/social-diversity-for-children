@@ -25,9 +25,7 @@ export default async function handle(
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             } else {
-                const newClass = await createClass(
-                    req.body as CreateClassInput,
-                );
+                const newClass = await createClass(input);
                 if (!newClass) {
                     ResponseUtil.returnBadRequest(
                         res,
