@@ -25,6 +25,7 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
         px={8}
         py={1}
         rounded={"md"}
+        // TODO: figure out if hovered links should be highlighted @designers
         // _hover={{
         //     textDecoration: "none",
         // }}
@@ -36,7 +37,6 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
 );
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const accountButton = props.session ? (
         <NavLink text={"My Account"} />
     ) : (
@@ -44,15 +44,9 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
     );
     return (
         <>
+            {/* TODO: change colour to transparent once coloured logo is obtained */}
             <Box bg={"lightgrey"} color={useColorModeValue("black", "white")}>
-                <Box
-                    // bg={"transparent"}
-                    px={48}
-                    pt={4}
-                    pb={8}
-                    mx={"auto"}
-                >
-                    <Image src="public/images/SDC Logo - Original.png" />
+                <Box bg={"transparent"} px={48} pt={4} pb={8} mx={"auto"}>
                     <Flex
                         h={16}
                         alignItems={"center"}
