@@ -16,7 +16,6 @@ export default function Component() {
         <>
             <Navbar />
             Not signed in <br />
-            {/* <button onClick={() => signIn()}>Sign in</button> */}
         </>
     );
 }

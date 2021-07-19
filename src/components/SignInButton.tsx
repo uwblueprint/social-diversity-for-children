@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { signIn } from "next-auth/client";
 
-export const SignInButton: React.FC = (props) => {
+export const SignInButton: React.FC = () => {
     return (
         <>
             <Button

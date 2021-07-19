@@ -4,10 +4,8 @@ import {
     Modal,
     ModalOverlay,
     ModalContent,
-    ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton,
     Radio,
     RadioGroup,
     Stack,
@@ -18,7 +16,6 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 type LanguageModalProps = { currentLanguage: string };
 
-// const Languages = ["EN", "CH", "KO", "JP"];
 const Languages = [
     { locale: "en", label: "English" },
     { locale: "zh", label: "中文" },
@@ -85,37 +82,9 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
                         >
                             Apply
                         </Button>
-                        {/* <Button variant="ghost">Secondary Action</Button> */}
                     </ModalFooter>
                 </ModalContent>
             </Modal>
         </>
     );
 };
-
-/* export function BasicUsage() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    return (
-        <>
-            <Button onClick={onOpen}>Open Modal</Button>
-
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Lorem count={2} />
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button variant="ghost">Secondary Action</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    );
-} */

@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
     Box,
     Flex,
@@ -7,10 +6,13 @@ import {
     Image,
     useDisclosure,
     useColorModeValue,
-    Stack,
 } from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "./LanguageModal";
+
+type NavbarProps = {
+    session?: unknown;
+};
 
 const Links = [
     { name: "Browse Programs", url: "#" },
@@ -24,7 +26,6 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
         rounded={"md"}
         // _hover={{
         //     textDecoration: "none",
-        //     bg: useColorModeValue("gray.200", "gray.700"),
         // }}
         _focus={{}}
         href={href}
@@ -33,7 +34,7 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
     </Link>
 );
 
-export function Navbar(props) {
+export const Navbar: React.FC<NavbarProps> = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const accountButton = props.session ? (
         <NavLink text={"My Account"} />
@@ -84,20 +85,7 @@ export function Navbar(props) {
                         <LanguageModal currentLanguage={"en"} />
                     </Flex>
                 </Flex>
-
-                {isOpen ? (
-                    <Box pb={4} display={{ md: "none" }}>
-                        <Stack as={"nav"} spacing={4}>
-                            {Links.map((linkInfo) => (
-                                <NavLink
-                                    text={linkInfo.name}
-                                    href={linkInfo.url}
-                                />
-                            ))}
-                        </Stack>
-                    </Box>
-                ) : null}
             </Box>
         </>
     );
-}
+};
