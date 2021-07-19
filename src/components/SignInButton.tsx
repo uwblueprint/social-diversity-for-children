@@ -15,6 +15,7 @@ export const SignInButton: React.FC = () => {
                 // TODO: @designers: what to do when hovering over sign in button?
                 _hover={{
                     textDecoration: "none",
+                    bg: "#2C6AAD",
                 }}
                 _active={{}}
             >
