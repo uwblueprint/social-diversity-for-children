@@ -5,7 +5,6 @@ import {
     HStack,
     Link,
     Image,
-    useDisclosure,
     useColorModeValue,
 } from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
@@ -21,17 +20,7 @@ const Links = [
 ];
 
 const NavLink = ({ text, href }: { text?: string; href?: string }) => (
-    <Link
-        px={8}
-        py={1}
-        rounded={"md"}
-        // TODO: figure out if hovered links should be highlighted @designers
-        // _hover={{
-        //     textDecoration: "none",
-        // }}
-        _focus={{}}
-        href={href}
-    >
+    <Link px={8} py={1} rounded={"md"} _focus={{}} href={href}>
         {text}
     </Link>
 );
@@ -44,8 +33,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
     );
     return (
         <>
-            {/* TODO: change colour to transparent once coloured logo is obtained */}
-            <Box bg={"lightgrey"} color={useColorModeValue("black", "white")}>
+            <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
                 <Box bg={"transparent"} px={48} pt={4} pb={8} mx={"auto"}>
                     <Flex
                         h={16}
@@ -58,7 +46,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                     <Image
                                         h={100}
                                         py={4}
-                                        src="https://images.squarespace-cdn.com/content/v1/5e83092341f99d6d384777ef/1592545178617-8IPTVQIWZEID0O9CDZOE/sdc+logo+with+name.png%3Fformat=1500w"
+                                        src="https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592547010897-WF00319AKLJCVGJZC3ZK/sdc+logo+with+name+alt.png?content-type=image%2Fpng"
                                     />
                                 </Link>
                             </Box>
