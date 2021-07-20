@@ -54,6 +54,7 @@ export const Footer: React.FC = () => {
                             target={"_blank"}
                             textDecoration={"underline"}
                             href={linkInfo.href}
+                            _focus={{}}
                         >
                             {linkInfo.name}
                         </Link>

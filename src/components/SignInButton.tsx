@@ -12,7 +12,6 @@ export const SignInButton: React.FC = () => {
                 mx={8}
                 my={1}
                 onClick={() => signIn()}
-                // TODO: @designers: what to do when hovering over sign in button?
                 _hover={{
                     textDecoration: "none",
                     bg: "#2C6AAD",
