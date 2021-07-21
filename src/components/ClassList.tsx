@@ -17,6 +17,15 @@ import type { ClassCardInfo } from "models/Class";
 export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
     classInfo,
 }) => {
+    function convertToAmPm(timeInMinutes: Int) {
+        return (
+            ((timeInMinutes / 60) % 12).toString() +
+            (timeInMinutes >= 720 ? "pm" : "am")
+        );
+    }
+    function toTitleCase(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
     return (
         <Center width="100%">
             <List spacing="5" width="100%">
@@ -52,26 +61,15 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                             fontSize="sm"
                                             textTransform="capitalize"
                                         >
-                                            {item.weekday
-                                                .charAt(0)
-                                                .toUpperCase() +
-                                                item.weekday
-                                                    .substr(1)
-                                                    .toLowerCase()}{" "}
-                                            {(item.startTimeMinutes / 60) % 12}
-                                            {item.startTimeMinutes >= 720
-                                                ? "pm"
-                                                : "am"}{" "}
-                                            -{" "}
-                                            {((item.startTimeMinutes +
-                                                item.durationMinutes) /
-                                                60) %
-                                                12}
-                                            {item.startTimeMinutes +
-                                                item.durationMinutes >=
-                                            720
-                                                ? "pm"
-                                                : "am"}
+                                            {toTitleCase(item.weekday)}{" "}
+                                            {convertToAmPm(
+                                                item.startTimeMinutes,
+                                            )}
+                                            -
+                                            {convertToAmPm(
+                                                item.startTimeMinutes +
+                                                    item.durationMinutes,
+                                            )}
                                         </Box>
                                         <Box
                                             as="span"
