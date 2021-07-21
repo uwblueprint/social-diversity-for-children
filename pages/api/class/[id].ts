@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getClass, deleteClass } from "@database/class";
+import { getClass, deleteClass, updateClass } from "@database/class";
+import { ClassInput } from "models/Class";
+import { validateClassData } from "@utils/validation/class";
 
 /**
  * handle takes the classId parameter and returns
@@ -33,8 +35,29 @@ export default async function handle(
         }
         ResponseUtil.returnOK(res, deletedClass);
         return;
+    } else if (req.method == "PUT") {
+        // validate updated class body
+        const validationError = validateClassData(req.body as ClassInput);
+        if (validationError.length !== 0) {
+            ResponseUtil.returnBadRequest(res, validationError.join(", "));
+            return;
+        }
+        // obtain class id
+        const { id } = req.query;
+        // obtain the updated class body
+        const updatedClass = await updateClass(
+            id as string,
+            req.body as ClassInput,
+        );
+
+        if (!updatedClass) {
+            ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
+            return;
+        }
+        ResponseUtil.returnOK(res, updatedClass);
+        return;
     } else {
-        const allowedHeaders: string[] = ["GET", "DELETE"];
+        const allowedHeaders: string[] = ["GET", "DELETE", "PUT"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
