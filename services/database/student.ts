@@ -8,7 +8,6 @@ import { CreateStudentInput } from "@models/Student";
  * @returns Promise<Student> - Promise with the newly created student
  */
 async function createStudent(input: CreateStudentInput): Promise<Student> {
-    // TODO: Check if this nested create works.
     const newStudent = await prisma.student.create({
         data: {
             firstName: input.firstName,
