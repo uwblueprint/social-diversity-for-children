@@ -11,3 +11,13 @@ export type ProgramInput = {
     startDate: string;
     endDate: string;
 };
+
+export type ProgramCardInfo = {
+    name: string;
+    description: string;
+    image: string;
+    startDate: string;
+    endDate: string;
+    tag: string;
+    format: string;
+};
