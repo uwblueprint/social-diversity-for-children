@@ -1,4 +1,10 @@
-import { useSession, signIn, signOut, getSession } from "next-auth/client";
+import {
+    useSession,
+    signIn,
+    signOut,
+    getSession,
+    GetSessionOptions,
+} from "next-auth/client";
 
 export default function Component() {
     const [session, loading] = useSession();
