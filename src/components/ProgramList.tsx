@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Box,
-    Heading,
     Wrap,
     WrapItem,
-    Flex,
     Badge,
     Center,
     AspectRatio,
@@ -13,17 +11,6 @@ import {
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 export const ProgramList: React.FC = () => {
-    // TODO remove this, this is for testing onclick functions
-    const handleClick = (event) => {
-        event.preventDefault();
-        console.log(event.target);
-        alert(
-            `clicked: ${
-                imagesAndDescriptions[event.target.getAttribute("data-index")]
-                    .name
-            }`,
-        );
-    };
     // TODO remove test data and get new images
     const imagesAndDescriptions: ProgramCardInfo[] = [
         {
@@ -95,16 +82,23 @@ export const ProgramList: React.FC = () => {
                             flexBasis="300px"
                             flexGrow={1}
                             display="hidden"
+                            key={idx}
+                            _hover={{
+                                borderColor: "gray.600",
+                                borderWidth: 1,
+                            }}
                         ></WrapItem>
                     ) : (
-                        <WrapItem flexBasis="300px" flexGrow={1}>
-                            <Box
-                                borderWidth="1px"
-                                width="100%"
-                                key={idx}
-                                data-index={idx}
-                                onClick={handleClick}
-                            >
+                        <WrapItem
+                            flexBasis="300px"
+                            key={idx}
+                            flexGrow={1}
+                            _hover={{
+                                borderColor: "gray.600",
+                                borderWidth: 1,
+                            }}
+                        >
+                            <Box borderWidth="1px" width="100%">
                                 <AspectRatio width="100%" ratio={4 / 2}>
                                     <Image
                                         src={item.image}
