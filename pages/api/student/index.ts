@@ -18,15 +18,15 @@ export default async function handle(
         if (validationErrors.length !== 0) {
             ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
         } else {
-            const newClass = await createStudent(input);
-            if (!newClass) {
+            const student = await createStudent(input);
+            if (!student) {
                 ResponseUtil.returnBadRequest(
                     res,
-                    `Class could not be created`,
+                    `Student could not be created`,
                 );
                 return;
             }
-            ResponseUtil.returnOK(res, newClass);
+            ResponseUtil.returnOK(res, student);
         }
     } else {
         const allowedHeaders: string[] = ["POST"];
