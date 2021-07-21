@@ -25,7 +25,7 @@ export const ProgramDetailsPage: React.FC = () => {
             spaceAvailable: 5,
             volunteerSpaceAvailable: 4,
             weekday: weekday.THU,
-            startTimeMinutes: 1080,
+            startTimeMinutes: 1110,
             durationMinutes: 60,
             teacherName: "Brian",
         },

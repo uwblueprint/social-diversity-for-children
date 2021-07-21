@@ -17,15 +17,21 @@ import type { ClassCardInfo } from "models/Class";
 export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
     classInfo,
 }) => {
-    function convertToAmPm(timeInMinutes: Int) {
+    // time in minutes is minutes from 0:00, convert to something like "1:23 am"
+    function convertToAmPm(timeInMinutes: number) {
         return (
-            ((timeInMinutes / 60) % 12).toString() +
+            (Math.floor(timeInMinutes / 60) % 12).toString() +
+            ":" +
+            ("0" + (timeInMinutes % 60)).slice(-2) +
             (timeInMinutes >= 720 ? "pm" : "am")
         );
     }
+    //  from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+    // to convert the weekday enums (MON, TUE, WED...) to Mon, Tue, Wed etc
     function toTitleCase(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     }
+
     return (
         <Center width="100%">
             <List spacing="5" width="100%">
@@ -111,8 +117,6 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                     </Flex>
                                 </GridItem>
                             </Grid>
-
-                            {/* </Flex> */}
                         </ListItem>
                     );
                 })}
