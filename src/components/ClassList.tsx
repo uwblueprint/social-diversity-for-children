@@ -50,9 +50,15 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                             as="span"
                                             color="gray.600"
                                             fontSize="sm"
+                                            textTransform="capitalize"
                                         >
-                                            {item.weekday}s{" "}
-                                            {(item.startTimeMinutes / 60) % 12}{" "}
+                                            {item.weekday
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                                item.weekday
+                                                    .substr(1)
+                                                    .toLowerCase()}{" "}
+                                            {(item.startTimeMinutes / 60) % 12}
                                             {item.startTimeMinutes >= 720
                                                 ? "pm"
                                                 : "am"}{" "}
@@ -60,7 +66,7 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                             {((item.startTimeMinutes +
                                                 item.durationMinutes) /
                                                 60) %
-                                                12}{" "}
+                                                12}
                                             {item.startTimeMinutes +
                                                 item.durationMinutes >=
                                             720
