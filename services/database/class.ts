@@ -62,4 +62,9 @@ async function deleteClass(id: string): Promise<Class> {
     return deletedClass;
 }
 
+async function updateClass(
+    id: string,
+    updatedClassData: CreateClassInput,
+): Promise<Class> {}
+
 export { getClass, getClasses, createClass, deleteClass };
