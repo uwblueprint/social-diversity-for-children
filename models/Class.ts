@@ -15,3 +15,15 @@ export type CreateClassInput = {
     startTimeMinutes: number;
     durationMinutes: number;
 };
+
+export type ClassCardInfo = {
+    image?: string;
+    name?: string;
+    ageGroup?: string;
+    spaceAvailable: number;
+    volunteerSpaceAvailable: number;
+    weekday: weekday;
+    startTimeMinutes: number;
+    durationMinutes: number;
+    teacherName: string;
+};
