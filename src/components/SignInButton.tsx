@@ -17,6 +17,8 @@ export const SignInButton: React.FC = () => {
                     bg: "#2C6AAD",
                 }}
                 _active={{}}
+                fontWeight={"200"}
+                borderRadius={100}
             >
                 Sign In
             </Button>

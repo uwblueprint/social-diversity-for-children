@@ -42,9 +42,9 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent w={64} h={80}>
+                <ModalContent w={56} minH={80}>
                     <ModalBody>
-                        <Text py={2} textAlign={"center"}>
+                        <Text py={4} textAlign={"center"} fontWeight={"700"}>
                             Select a language
                         </Text>
                         <RadioGroup defaultValue={props.currentLanguage}>
@@ -60,13 +60,16 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
 
                     <ModalFooter>
                         <Button
-                            bg={"black"}
+                            bg={"#0C53A0"}
                             color={"white"}
                             mx={"auto"}
-                            borderRadius={0}
+                            my={2}
+                            borderRadius={100}
                             onClick={onClose}
+                            fontWeight={"200"}
                             _hover={{
-                                bg: "lightgrey",
+                                textDecoration: "none",
+                                bg: "#2C6AAD",
                             }}
                             _active={{
                                 bg: "lightgrey",
@@ -79,6 +82,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
                                 border: "grey",
                                 boxShadow: "lightgrey",
                             }}
+                            w={48}
                         >
                             Apply
                         </Button>
