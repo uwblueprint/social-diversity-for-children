@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Heading, Flex, Badge, Spacer, Text, Button } from "@chakra-ui/react";
 import type { ClassCardInfo } from "models/Class";
 import { ClassList } from "src/components/ClassList";
+import { weekdays } from "@prisma/client";
+
 export const ProgramDetailsPage: React.FC = () => {
     // TODO remove test data and get new images
     const classInfo: ClassCardInfo[] = [
@@ -11,7 +13,7 @@ export const ProgramDetailsPage: React.FC = () => {
             ageGroup: "9 & Under",
             spaceAvailable: 5,
             volunteerSpaceAvailable: 4,
-            weekday: "Wednesday",
+            weekday: weekdays.WED,
             startTimeMinutes: 1080,
             durationMinutes: 60,
             teacherName: "Brian",
@@ -22,7 +24,7 @@ export const ProgramDetailsPage: React.FC = () => {
             ageGroup: "9 & Under",
             spaceAvailable: 5,
             volunteerSpaceAvailable: 4,
-            weekday: "Thursday",
+            weekday: weekdays.THU,
             startTimeMinutes: 1080,
             durationMinutes: 60,
             teacherName: "Brian",
