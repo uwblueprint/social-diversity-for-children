@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from "next-auth/client";
+import { useSession, signIn, signOut, getSession } from "next-auth/client";
 
 export default function Component() {
     const [session, loading] = useSession();
@@ -16,4 +16,28 @@ export default function Component() {
             <button onClick={() => signIn()}>Sign in</button>
         </>
     );
+}
+
+/**
+ * getServerSideProps runs before each page is rendered to check to see if a
+ * user has already been authenticated
+ */
+export async function getServerSideProps(context: GetSessionOptions) {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    // if the user is not authenticated redirect them to the login page
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
+    // if the user is authenticated - continue to the page as normal
+    return {
+        props: {},
+    };
 }
