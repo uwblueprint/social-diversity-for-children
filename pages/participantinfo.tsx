@@ -23,13 +23,18 @@ export default function Participantinfo(): JSX.Element {
         setprogressBar(14);
     }
     return (
-        <Center h="500px">
+        <Center>
             <Box width="1000px">
                 <Text fontWeight="700" fontSize="36px">
                     Participant Information
                 </Text>
                 <Stack spacing={8}>
-                    <Progress value={progressBar} />
+                    <Progress
+                        value={progressBar}
+                        size="sm"
+                        colorScheme="blackAlpha"
+                    />
+
                     <HStack spacing="24px">
                         <FormControl id="first-name">
                             <FormLabel>First name</FormLabel>
