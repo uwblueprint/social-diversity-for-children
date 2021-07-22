@@ -1,19 +1,16 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
-import { signIn } from "next-auth/client";
+import { Button, Link } from "@chakra-ui/react";
 
 export const SignInButton: React.FC = () => {
     return (
-        <>
+        <Link _hover={{ textDecoration: "none" }} href="/login">
             <Button
                 color={"white"}
                 bg={"#0C53A0"}
                 px={10}
                 mx={8}
                 my={1}
-                onClick={() => signIn()}
                 _hover={{
-                    textDecoration: "none",
                     bg: "#2C6AAD",
                 }}
                 _active={{}}
@@ -22,6 +19,6 @@ export const SignInButton: React.FC = () => {
             >
                 Sign In
             </Button>
-        </>
+        </Link>
     );
 };
