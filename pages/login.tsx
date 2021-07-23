@@ -6,12 +6,23 @@ import {
     Input,
     FormControl,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import useLocalStorage from "@utils/useLocalStorage";
+import { signIn } from "next-auth/client";
 
 /**
  * This is the page that a user will use to either login or register
  * to the SDC platform
  */
 export default function Login(): JSX.Element {
+    // hook for storing the email
+    const [email, setEmail] = useState("");
+    // save the email into localstorage for email verification page
+    const [, setLocalStorageEmail] = useLocalStorage(
+        "sdc-email-verification",
+        "",
+    );
+
     return (
         <Center h="500px">
             <Box width="700px">
@@ -32,6 +43,7 @@ export default function Login(): JSX.Element {
                             type="email"
                             placeholder="Email address"
                             mt="40px"
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </Center>
                 </FormControl>
@@ -43,6 +55,10 @@ export default function Login(): JSX.Element {
                         fontSize="10px"
                         fontWeight="400"
                         mt="20px"
+                        onClick={() => {
+                            setLocalStorageEmail(email);
+                            signIn("email", { email: email });
+                        }}
                     >
                         Continue
                     </Button>
