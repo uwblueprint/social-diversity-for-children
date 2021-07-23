@@ -7,7 +7,7 @@ export default function Verify(): JSX.Element {
         <Center h="500px">
             <Box width="700px">
                 <Center>
-                    <Text fontWeight="425" fontSize="18px" mt="15px">
+                    <Text fontWeight="425" fontSize="lg" mt="15px">
                         An email has been sent to{" "}
                         <u>
                             <b>{localStorageEmail}</b>
@@ -16,7 +16,7 @@ export default function Verify(): JSX.Element {
                     </Text>
                 </Center>
                 <Center>
-                    <Text fontWeight="425" fontSize="18px" mt="10px">
+                    <Text fontWeight="425" fontSize="lg" mt="10px">
                         There should be a magic link to log in!
                     </Text>
                 </Center>
