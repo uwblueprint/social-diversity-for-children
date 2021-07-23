@@ -38,7 +38,7 @@ const FormButton = (props) => {
  * This is the page that a user will use to enter the participants personal information
  * onto the SDC platform as a parent of volunteer
  */
-export default function Participantinfo(): JSX.Element {
+export default function ParticipantInfo(): JSX.Element {
     const [progressBar, setprogressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
 
