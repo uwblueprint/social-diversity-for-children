@@ -46,7 +46,7 @@ export default function ParticipantInfo(): JSX.Element {
     const progressBarIncrement = Math.floor(100 / totalPages);
 
     if (progressBar <= 0) {
-        setprogressBar(progressBarIncrement);
+        setProgressBar(progressBarIncrement);
     }
 
     const getProgressBarValue = (pageNum) =>
