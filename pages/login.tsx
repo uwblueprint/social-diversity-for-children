@@ -51,6 +51,8 @@ export default function Login(): JSX.Element {
                                 onChange={(e) => {
                                     if (isEmail(e.target.value)) {
                                         setEmail(e.target.value);
+                                    } else {
+                                        setEmail(null);
                                     }
                                 }}
                             />
