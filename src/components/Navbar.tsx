@@ -19,6 +19,7 @@ const Links = [
     { name: "My Classes", url: "#" },
 ];
 
+// TODO: change to .svg
 const logoSrc = "/images/logo.png";
 
 const NavLink = ({ text, href }: { text?: string; href?: string }) => (
