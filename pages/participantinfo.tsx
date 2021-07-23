@@ -2,6 +2,7 @@ import {
     Button,
     Box,
     Center,
+    Flex,
     Text,
     Input,
     FormControl,
@@ -12,20 +13,21 @@ import {
     HStack,
     VStack,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+
+const BLUE = "#0C53A0";
 
 const FormButton = (props) => {
     return (
         <Button
-            backgroundColor="brand.500"
-            color="brand.100"
-            width="366px"
-            height="44px"
-            fontSize="14px"
+            bg={BLUE}
+            color={"white"}
             fontWeight="400"
-            mt="20px"
             onClick={props.onClick}
+            my={8}
+            px={12}
+            borderRadius={100}
         >
             {props.children}
         </Button>
@@ -39,13 +41,17 @@ const FormButton = (props) => {
 export default function Participantinfo(): JSX.Element {
     const [progressBar, setprogressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
+
     const totalPages = 7;
     const progressBarIncrement = Math.floor(100 / totalPages);
+
     if (progressBar <= 0) {
         setprogressBar(progressBarIncrement);
     }
+
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
+
     const getFormButton = () => {
         if (pageNum === totalPages) {
             return;
@@ -134,16 +140,21 @@ export default function Participantinfo(): JSX.Element {
     return (
         <Center>
             <Box>
-                <Button
-                    onClick={() =>
-                        setPageNum((prevPage) => Math.max(prevPage - 1, 0))
-                    }
-                >
-                    Back
-                </Button>
-                <Link href={"/login"}>
-                    <CloseIcon />
-                </Link>
+                <Flex alignItems={"center"} justifyContent={"space-between"}>
+                    <Button
+                        onClick={() =>
+                            setPageNum((prevPage) => Math.max(prevPage - 1, 0))
+                        }
+                        bg={"transparent"}
+                        pl={0}
+                    >
+                        <ArrowBackIcon mr={4} />
+                        Back
+                    </Button>
+                    <Link href={"/login"}>
+                        <CloseIcon />
+                    </Link>
+                </Flex>
                 <Text fontWeight="700" fontSize="36px">
                     Participant Information
                 </Text>
@@ -151,11 +162,11 @@ export default function Participantinfo(): JSX.Element {
                     <Progress
                         value={getProgressBarValue(pageNum)}
                         size="sm"
-                        colorScheme="blackAlpha"
+                        color={BLUE}
                     />
                     {formPages[pageNum]}
-                    {getFormButton()}
                 </Stack>
+                {getFormButton()}
             </Box>
         </Center>
     );
