@@ -19,8 +19,7 @@ const Links = [
     { name: "My Classes", url: "#" },
 ];
 
-const logoSrc =
-    "https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592547010897-WF00319AKLJCVGJZC3ZK/sdc+logo+with+name+alt.png?content-type=image%2Fpng";
+const logoSrc = "/images/logo.png";
 
 const NavLink = ({ text, href }: { text?: string; href?: string }) => (
     <Link

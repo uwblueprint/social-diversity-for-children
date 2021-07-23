@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
                         </Link>
                     </Stack>
                     <Text fontSize={"sm"} pt={4} pb={8}>
-                        © Social Diversity for Children Foundation 2020
+                        © Social Diversity for Children Foundation 2021
                     </Text>
                 </Stack>
                 <Stack spacing={4}>
