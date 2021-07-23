@@ -20,7 +20,7 @@ const Links = [
 ];
 
 // TODO: change to .svg
-const logoSrc = "/images/logo.png";
+const logoSrc = "/images/sdc-logo-with-text-blue.png";
 
 const NavLink = ({ text, href }: { text?: string; href?: string }) => (
     <Link
