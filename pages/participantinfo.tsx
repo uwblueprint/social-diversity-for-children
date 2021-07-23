@@ -39,7 +39,7 @@ const FormButton = (props) => {
  * onto the SDC platform as a parent of volunteer
  */
 export default function ParticipantInfo(): JSX.Element {
-    const [progressBar, setprogressBar] = useState(Number);
+    const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
 
     const totalPages = 7;
