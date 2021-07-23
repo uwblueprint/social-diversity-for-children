@@ -5,6 +5,7 @@ import { CreateStudentInput } from "@models/Student";
 import { validateCreateStudent } from "@utils/validation/student";
 
 /**
+ * handle controls the request made to the student resource
  * @param req API request object
  * @param res API response object
  */
