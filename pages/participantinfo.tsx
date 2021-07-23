@@ -6,11 +6,13 @@ import {
     Input,
     FormControl,
     FormLabel,
+    Link,
     Progress,
     Stack,
     HStack,
     VStack,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 const FormButton = (props) => {
@@ -139,6 +141,9 @@ export default function Participantinfo(): JSX.Element {
                 >
                     Back
                 </Button>
+                <Link href={"/login"}>
+                    <CloseIcon />
+                </Link>
                 <Text fontWeight="700" fontSize="36px">
                     Participant Information
                 </Text>
