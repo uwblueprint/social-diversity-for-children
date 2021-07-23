@@ -37,7 +37,8 @@ export default async function handle(
         return;
     } else if (req.method == "PUT") {
         // validate updated class body
-        const validationError = validateClassData(req.body as ClassInput);
+        const classInput = req.body as ClassInput;
+        const validationError = validateClassData(classInput);
         if (validationError.length !== 0) {
             ResponseUtil.returnBadRequest(res, validationError.join(", "));
             return;
@@ -45,10 +46,7 @@ export default async function handle(
         // obtain class id
         const { id } = req.query;
         // obtain the updated class body
-        const updatedClass = await updateClass(
-            id as string,
-            req.body as ClassInput,
-        );
+        const updatedClass = await updateClass(id as string, classInput);
 
         if (!updatedClass) {
             ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
