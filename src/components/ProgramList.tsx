@@ -17,7 +17,7 @@ export const ProgramList: React.FC = () => {
     // TODO remove test data and get new images
     const imagesAndDescriptions: ProgramCardInfo[] = [
         {
-            image: "https://i.imgur.com/UaEscmK.jpeg",
+            image: "http://pa1.narvii.com/6749/6b6c5bda7a7722763027f786ddfe383147fcfff2_00.gif",
             name: "Building Bridges with Music",
             description:
                 "Children with special needs will be able to connect with the music teacher through an online video call to socialize and have fun while learning about music!",
@@ -27,8 +27,8 @@ export const ProgramList: React.FC = () => {
             tag: "art",
         },
         {
-            image: "https://i.kym-cdn.com/entries/icons/original/000/026/489/crying.jpg",
-            name: "MPM/JELIC",
+            image: "https://www.pngitem.com/pimgs/m/327-3276544_paint-pusheen-pintura-pincel-pusheen-love-gif-hd.png",
+            name: "Education Through Creativity",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             startDate: "July 7, 2021",
@@ -38,7 +38,7 @@ export const ProgramList: React.FC = () => {
         },
         {
             image: "https://metro.co.uk/wp-content/uploads/2017/07/187144066.jpg?quality=90&strip=all&zoom=1&resize=644%2C428",
-            name: "Education Through Creativity",
+            name: "MPM/JELIC",
             description:
                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             startDate: "July 7, 2021",
@@ -99,9 +99,13 @@ export const ProgramList: React.FC = () => {
                                 onClick={() => {
                                     if (!session)
                                         window.location.href = "/login";
+                                    // for testing (/programdetails is in #46)
+                                    else
+                                        window.location.href =
+                                            "/programdetails" + idx;
                                 }}
                             >
-                                <AspectRatio width="100%" ratio={4 / 2}>
+                                <AspectRatio width="100%" ratio={4 / 3}>
                                     <Image
                                         src={item.image}
                                         boxSize="200"
