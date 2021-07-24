@@ -82,22 +82,17 @@ export const ProgramList: React.FC = () => {
                             flexGrow={1}
                             display="hidden"
                             key={idx}
-                            _hover={{
-                                borderColor: "gray.600",
-                                borderWidth: 1,
-                            }}
                         ></WrapItem>
                     ) : (
-                        <WrapItem
-                            flexBasis="300px"
-                            key={idx}
-                            flexGrow={1}
-                            _hover={{
-                                borderColor: "gray.600",
-                                borderWidth: 1,
-                            }}
-                        >
-                            <Box borderWidth="1px" width="100%">
+                        <WrapItem flexBasis="300px" key={idx} flexGrow={1}>
+                            <Box
+                                borderWidth="1px"
+                                width="100%"
+                                _hover={{
+                                    borderColor: "#0C53A0",
+                                    borderWidth: 1,
+                                }}
+                            >
                                 <AspectRatio width="100%" ratio={4 / 2}>
                                     <Image
                                         src={item.image}
