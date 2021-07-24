@@ -78,8 +78,8 @@ export default function Login(): JSX.Element {
 }
 
 /**
- * getServerSideProps runs before each page is rendered to check to see if a
- * user has already been authenticated
+ * getServerSideProps runs before this page is rendered to check to see if a
+ * user has already been authenticated.
  */
 export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
