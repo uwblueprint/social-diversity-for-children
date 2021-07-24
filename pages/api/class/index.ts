@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getClasses, createClass } from "@database/class";
-import { CreateClassInput } from "@models/Class";
-import { validateCreateClass } from "@utils/validation/class";
+import { ClassInput } from "@models/Class";
+import { validateClassData } from "@utils/validation/class";
 
 /**
  * handle controls the request made to the class resource
@@ -20,14 +20,12 @@ export default async function handle(
             break;
         }
         case "POST": {
-            const input = req.body as CreateClassInput;
-            const validationErrors = validateCreateClass(input);
+            const classInput = req.body as ClassInput;
+            const validationErrors = validateClassData(classInput);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             } else {
-                const newClass = await createClass(
-                    req.body as CreateClassInput,
-                );
+                const newClass = await createClass(classInput);
                 if (!newClass) {
                     ResponseUtil.returnBadRequest(
                         res,
@@ -39,12 +37,8 @@ export default async function handle(
             }
             break;
         }
-        case "PUT": {
-            // TODO:
-            break;
-        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST", "PUT"];
+            const allowedHeaders: string[] = ["GET", "POST"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
