@@ -11,7 +11,7 @@ export const ProgramDetails: React.FC = () => {
     const programName: string = typeof pid === "string" ? pid : "";
     // TODO remove test data and get new images
     const classInfo: { [programId: string]: ClassCardInfo[] } = {
-        "1": [
+        "0": [
             {
                 image: "https://i.pinimg.com/originals/4b/ce/8a/4bce8a95dcd0cab2e2622775835281d4.png",
                 name: "Singing Monkeys",
@@ -35,7 +35,7 @@ export const ProgramDetails: React.FC = () => {
                 teacherName: "Brian",
             },
         ],
-        "2": [
+        "1": [
             {
                 image: "https://i.kym-cdn.com/photos/images/masonry/001/411/203/bd9.png",
                 name: "Class 1",
@@ -62,7 +62,7 @@ export const ProgramDetails: React.FC = () => {
     };
     // TODO this will be a ProgramCardInfo (once the reverted PR gets unreverted)
     const programInfo: { [programId: string]: any } = {
-        "1": {
+        "0": {
             name: "Building Bridges with Music",
             description:
                 "Children with special needs will be able to connect with the music teacher through an online video call to socialize and have fun while learning about music!",
@@ -72,7 +72,7 @@ export const ProgramDetails: React.FC = () => {
             tag: "Music",
             format: "Online",
         },
-        "2": {
+        "1": {
             name: "Education Through Creativity",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
