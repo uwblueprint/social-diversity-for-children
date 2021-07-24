@@ -32,7 +32,7 @@ export default async function handle(
 
             // parse query parameters from strings to numbers
             const studentIdNumber = parseInt(studentId as string, 10);
-            const classIdNumber = parseInt(studentId as string, 10);
+            const classIdNumber = parseInt(classId as string, 10);
 
             // verify that the query parameters were successfully converted to numbers
             if (isNaN(studentIdNumber) || isNaN(classIdNumber)) {
