@@ -16,21 +16,45 @@ export default async function handle(
 ): Promise<void> {
     // Obtain class id
     const { id } = req.query;
+
+    // verify that query parameters were passed in
+    if (!id) {
+        return ResponseUtil.returnBadRequest(
+            res,
+            "classId is required to obtain a class record",
+        );
+    }
+
+    //parse query parameters from string to number and validate that id is a number
+    const classId = parseInt(id as string, 10);
+    if (isNaN(classId)) {
+        return ResponseUtil.returnBadRequest(
+            res,
+            "classId should be passed in as numbers",
+        );
+    }
+
     if (req.method == "GET") {
         // obtain class with provided classId
-        const classSection = await getClass(id as string);
+        const classSection = await getClass(classId as number);
 
         if (!classSection) {
-            ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
+            ResponseUtil.returnNotFound(
+                res,
+                `Class with id ${classId} not found.`,
+            );
             return;
         }
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
-        const deletedClass = await deleteClass(id as string);
+        const deletedClass = await deleteClass(classId as number);
 
         if (!deleteClass) {
-            ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
+            ResponseUtil.returnNotFound(
+                res,
+                `Class with id ${classId} not found.`,
+            );
             return;
         }
         ResponseUtil.returnOK(res, deletedClass);
@@ -43,13 +67,14 @@ export default async function handle(
             ResponseUtil.returnBadRequest(res, validationError.join(", "));
             return;
         }
-        // obtain class id
-        const { id } = req.query;
         // obtain the updated class body
-        const updatedClass = await updateClass(id as string, classInput);
+        const updatedClass = await updateClass(classId as number, classInput);
 
         if (!updatedClass) {
-            ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
+            ResponseUtil.returnNotFound(
+                res,
+                `Class with id ${classId} not found.`,
+            );
             return;
         }
         ResponseUtil.returnOK(res, updatedClass);
