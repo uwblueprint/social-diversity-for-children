@@ -17,14 +17,6 @@ export default async function handle(
     // Obtain class id
     const { id } = req.query;
 
-    // verify that query parameters were passed in
-    if (!id) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "classId is required to obtain a class record",
-        );
-    }
-
     //parse query parameters from string to number and validate that id is a number
     const classId = parseInt(id as string, 10);
     if (isNaN(classId)) {
@@ -36,7 +28,7 @@ export default async function handle(
 
     if (req.method == "GET") {
         // obtain class with provided classId
-        const classSection = await getClass(classId as number);
+        const classSection = await getClass(classId);
 
         if (!classSection) {
             ResponseUtil.returnNotFound(
@@ -48,7 +40,7 @@ export default async function handle(
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
-        const deletedClass = await deleteClass(classId as number);
+        const deletedClass = await deleteClass(classId);
 
         if (!deleteClass) {
             ResponseUtil.returnNotFound(
@@ -68,7 +60,7 @@ export default async function handle(
             return;
         }
         // obtain the updated class body
-        const updatedClass = await updateClass(classId as number, classInput);
+        const updatedClass = await updateClass(classId, classInput);
 
         if (!updatedClass) {
             ResponseUtil.returnNotFound(

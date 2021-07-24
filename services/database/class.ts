@@ -9,7 +9,7 @@ import { ClassInput } from "@models/Class";
 async function getClass(id: number): Promise<Class> {
     const classSection = await prisma.class.findUnique({
         where: {
-            id: id,
+            id,
         },
     });
     return classSection;
@@ -56,7 +56,7 @@ async function createClass(input: ClassInput): Promise<Class> {
 async function deleteClass(id: number): Promise<Class> {
     const deletedClass = await prisma.class.delete({
         where: {
-            id: id,
+            id,
         },
     });
     return deletedClass;
@@ -73,7 +73,7 @@ async function updateClass(
 ): Promise<Class> {
     const updatedClass = await prisma.class.update({
         where: {
-            id: id,
+            id,
         },
         data: updatedClassData,
     });
