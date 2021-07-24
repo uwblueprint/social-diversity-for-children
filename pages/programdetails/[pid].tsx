@@ -37,7 +37,7 @@ export const ProgramDetails: React.FC = () => {
         ],
         "1": [
             {
-                image: "https://i.kym-cdn.com/photos/images/masonry/001/411/203/bd9.png",
+                image: "https://media.giphy.com/media/jEyKIvmt0BgLC/giphy.gif",
                 name: "Class 1",
                 ageGroup: "10 & Under",
                 spaceAvailable: 2,
@@ -48,7 +48,7 @@ export const ProgramDetails: React.FC = () => {
                 teacherName: "Teacher1",
             },
             {
-                image: "https://stickershop.line-scdn.net/stickershop/v1/product/1014241/LINEStorePC/main.png",
+                image: "https://i.pinimg.com/originals/fb/f7/64/fbf76458d74b5236cb7ee9208563bebc.gif",
                 name: "Class 2",
                 ageGroup: "10 & Under",
                 spaceAvailable: 1,
