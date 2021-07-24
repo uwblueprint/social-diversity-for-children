@@ -20,7 +20,10 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
     // time in minutes is minutes from 0:00, convert to something like "1:23 am"
     function convertToAmPm(timeInMinutes: number) {
         return (
-            (Math.floor(timeInMinutes / 60) % 12).toString() +
+            (Math.floor(timeInMinutes / 60) % 12 === 0
+                ? 12
+                : Math.floor(timeInMinutes / 60) % 12
+            ).toString() +
             ":" +
             ("0" + (timeInMinutes % 60)).slice(-2) +
             (timeInMinutes >= 720 ? "pm" : "am")
@@ -39,7 +42,7 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                     return (
                         <ListItem
                             borderColor="gray.200"
-                            _hover={{ borderColor: "gray.600" }}
+                            _hover={{ borderColor: "#0C53A0" }}
                             borderWidth={2}
                         >
                             <Grid templateColumns="repeat(5, 1fr)" gap={6}>
@@ -82,7 +85,7 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                             color="gray.600"
                                             fontSize="sm"
                                         >
-                                            Teacher {item.teacherName}
+                                            Teacher: {item.teacherName}
                                         </Box>
                                     </VStack>
                                 </GridItem>
@@ -96,11 +99,15 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                         <Spacer />
                                         <Badge
                                             borderRadius="full"
-                                            padding="1"
                                             textTransform="capitalize"
-                                            backgroundColor="gray.600"
-                                            color="white"
+                                            fontWeight="medium"
+                                            letterSpacing="wide"
+                                            backgroundColor="#0C53A0"
                                             textAlign="center"
+                                            color="white"
+                                            pb="1"
+                                            pt="1.5"
+                                            px="3"
                                         >
                                             {item.ageGroup}
                                         </Badge>
@@ -110,7 +117,10 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                             color="gray.600"
                                             fontSize="sm"
                                         >
-                                            {item.spaceAvailable} spots
+                                            {item.spaceAvailable} spot
+                                            {item.spaceAvailable > 1
+                                                ? "s"
+                                                : ""}{" "}
                                             available
                                         </Box>
                                         <Spacer />
