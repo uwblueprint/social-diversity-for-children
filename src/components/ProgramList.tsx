@@ -136,24 +136,28 @@ export const ProgramList: React.FC = () => {
                                     <Box mt="2">
                                         <Badge
                                             borderRadius="full"
-                                            padding="1"
                                             textTransform="capitalize"
                                             fontWeight="medium"
                                             letterSpacing="wide"
                                             backgroundColor="#0C53A0"
                                             color="white"
+                                            pb="1"
+                                            pt="1.5"
+                                            px="3"
                                         >
                                             {item.tag}
                                         </Badge>
                                         <Badge
                                             borderRadius="full"
-                                            padding="1"
                                             textTransform="capitalize"
                                             fontWeight="medium"
                                             letterSpacing="wide"
                                             backgroundColor="#0C53A0"
                                             color="white"
-                                            ml="1"
+                                            pb="1"
+                                            pt="1.5"
+                                            px="3"
+                                            ml="2"
                                         >
                                             {item.format}
                                         </Badge>
