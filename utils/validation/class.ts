@@ -1,11 +1,11 @@
-import { CreateClassInput } from "@models/Class";
+import { ClassInput } from "@models/Class";
 
 /**
  * validateCreateClass takes input of type createClassInput and validates the input for creating a class
  * @param input - data corresponding to a new class
  * @returns string[] - array of errors of type string
  */
-export function validateCreateClass(input: CreateClassInput): string[] {
+export function validateClassData(input: ClassInput): string[] {
     const validationErrors = [];
     const startDate = new Date(input.startDate);
     const endDate = new Date(input.endDate);
@@ -14,5 +14,6 @@ export function validateCreateClass(input: CreateClassInput): string[] {
     if (startDate > endDate) {
         validationErrors.push("End date cannot be before the start date");
     }
+
     return validationErrors;
 }
