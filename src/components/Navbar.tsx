@@ -9,9 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
+import { ReactNode } from "react";
 
 type NavbarProps = {
-    session?: unknown;
+    session?: Record<string, unknown>;
+    height?: number | string;
 };
 
 const Links = [
@@ -22,7 +24,13 @@ const Links = [
 // TODO: change to .svg
 const logoSrc = "/images/sdc-logo-with-text-blue.png";
 
-const NavLink = ({ text, href }: { text?: string; href?: string }) => (
+const NavLink = ({
+    href,
+    children,
+}: {
+    href?: string;
+    children: ReactNode;
+}) => (
     <Link
         px={8}
         py={1}
@@ -31,13 +39,15 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
         href={href}
         textUnderlineOffset={"0.5em"}
     >
-        {text}
+        {children}
     </Link>
 );
 
+export const DEFAULT_NAVBAR_HEIGHT = 16;
+
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const accountButton = props.session ? (
-        <NavLink text={"My Account"} />
+        <NavLink>My Account</NavLink>
     ) : (
         <SignInButton />
     );
@@ -46,13 +56,13 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
                 <Box bg={"transparent"} px={48} pt={4} pb={8} mx={"auto"}>
                     <Flex
-                        h={16}
+                        h={props.height || DEFAULT_NAVBAR_HEIGHT}
                         alignItems={"center"}
                         justifyContent={"space-between"}
                     >
                         <HStack spacing={8} alignItems={"center"}>
                             <Box>
-                                <Link href={""}>
+                                <Link href={"/"}>
                                     <Image w={250} py={4} src={logoSrc} />
                                 </Link>
                             </Box>
@@ -63,9 +73,11 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                             >
                                 {Links.map((linkInfo) => (
                                     <NavLink
-                                        text={linkInfo.name}
+                                        key={linkInfo.name}
                                         href={linkInfo.url}
-                                    />
+                                    >
+                                        {linkInfo.name}
+                                    </NavLink>
                                 ))}
                             </HStack>
                         </HStack>

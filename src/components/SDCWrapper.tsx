@@ -1,16 +1,19 @@
 import React from "react";
-import { useSession } from "next-auth/client";
 import { Navbar } from "./Navbar";
-import { Footer } from "./Footer";
+import { Footer, DEFAULT_FOOTER_HEIGHT } from "./Footer";
+import { Box } from "@chakra-ui/react";
 
-const SDCWrapper: React.FC = (props): JSX.Element => {
-    const [session, loading] = useSession();
+type SDCWrapperProps = {
+    session?: Record<string, unknown>;
+};
+
+const SDCWrapper: React.FC<SDCWrapperProps> = (props): JSX.Element => {
     return (
-        <div>
-            <Navbar session={session} />
-            {props.children}
+        <Box minHeight={"100vh"} position={"relative"}>
+            <Navbar session={props.session} />
+            <Box pb={DEFAULT_FOOTER_HEIGHT}>{props.children}</Box>
             <Footer />
-        </div>
+        </Box>
     );
 };
 

@@ -1,18 +1,18 @@
-import { useSession, signIn, signOut } from "next-auth/client";
+import { useSession, signOut } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 
-export default function Component() {
+export default function Component(): JSX.Element {
     const [session, loading] = useSession();
     if (session) {
         return (
-            <Wrapper>
+            <Wrapper session={session}>
                 Signed in as {session.user.email} <br />
                 <button onClick={() => signOut()}>Sign out</button>
             </Wrapper>
         );
     }
     return (
-        <Wrapper>
+        <Wrapper session={session}>
             Not signed in <br />
         </Wrapper>
     );

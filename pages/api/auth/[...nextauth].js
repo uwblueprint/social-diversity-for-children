@@ -29,6 +29,8 @@ export default NextAuth({
         },
     }),
     pages: {
+        // Redirect to the login.tsx page
+        signIn: "/login",
         // On errors, redirect to home
         error: "/",
         // On email verification request, redirect to verify page
