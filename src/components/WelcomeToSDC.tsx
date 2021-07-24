@@ -1,4 +1,5 @@
 import React from "react";
+import { useSession } from "next-auth/client";
 import {
     Box,
     HStack,
@@ -7,14 +8,15 @@ import {
     Text,
     Image,
     Button,
-    Center,
     Flex,
-    Grid,
-    GridItem,
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 export const WelcomeToSDC: React.FC = () => {
+    const goToLogin = () => {
+        window.location.href = "/login";
+    };
+
     // TODO remove test data and get new images
     const title = "Welcome to SDC";
     const desc1 = "Registration for Summer 2021 classes begins June 31, 2021!";
@@ -26,6 +28,7 @@ export const WelcomeToSDC: React.FC = () => {
         "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/active_kids_other/1800x1200_active_kids_other_alt.jpg";
     const img2 =
         "https://www.verywellfamily.com/thmb/dIuXfSzEeILbXa3aSSLuU1xvFR8=/2121x1414/filters:fill(D7DFF5,1)/children-running-in-park-537632931-5c49f59d46e0fb00016e2ad6.jpg";
+    const [session, loading] = useSession();
     return (
         <Tabs>
             <TabList>
@@ -40,14 +43,19 @@ export const WelcomeToSDC: React.FC = () => {
                                 <Heading fontSize="3xl">{title}</Heading>
                                 <Text fontSize="2xl">{desc1}</Text>
                                 <Text>{text1}</Text>
-                                <Button
-                                    color="white"
-                                    backgroundColor="#0C53A0"
-                                    _hover={{ backgroundColor: "#2C6AAD" }}
-                                    width="50%"
-                                >
-                                    Register now
-                                </Button>
+                                {session ? (
+                                    <span />
+                                ) : (
+                                    <Button
+                                        color="white"
+                                        backgroundColor="#0C53A0"
+                                        _hover={{ backgroundColor: "#2C6AAD" }}
+                                        width="50%"
+                                        onClick={goToLogin}
+                                    >
+                                        Register now
+                                    </Button>
+                                )}
                             </VStack>
                         </Box>
                         <Box width="50%">
@@ -66,14 +74,19 @@ export const WelcomeToSDC: React.FC = () => {
                                 <Heading fontSize="3xl">{title}</Heading>
                                 <Text fontSize="2xl">{desc1}</Text>
                                 <Text>{text2}</Text>
-                                <Button
-                                    color="white"
-                                    backgroundColor="#0C53A0"
-                                    _hover={{ backgroundColor: "#2C6AAD" }}
-                                    width="50%"
-                                >
-                                    Register now
-                                </Button>
+                                {session ? (
+                                    <span />
+                                ) : (
+                                    <Button
+                                        color="white"
+                                        backgroundColor="#0C53A0"
+                                        _hover={{ backgroundColor: "#2C6AAD" }}
+                                        width="50%"
+                                        onClick={goToLogin}
+                                    >
+                                        Register now
+                                    </Button>
+                                )}
                             </VStack>
                         </Box>
                         <Box width="50%">

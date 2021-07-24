@@ -9,7 +9,11 @@ import {
     Image,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
+import { useSession } from "next-auth/client";
+
 export const ProgramList: React.FC = () => {
+    const [session, loading] = useSession();
+
     // TODO remove test data and get new images
     const imagesAndDescriptions: ProgramCardInfo[] = [
         {
@@ -91,6 +95,10 @@ export const ProgramList: React.FC = () => {
                                 _hover={{
                                     borderColor: "#0C53A0",
                                     borderWidth: 1,
+                                }}
+                                onClick={() => {
+                                    if (!session)
+                                        window.location.href = "/login";
                                 }}
                             >
                                 <AspectRatio width="100%" ratio={4 / 2}>
