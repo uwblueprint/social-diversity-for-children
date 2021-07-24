@@ -6,6 +6,7 @@ import {
     Input,
     FormControl,
 } from "@chakra-ui/react";
+import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions, signIn } from "next-auth/client";
 import { useState } from "react";
 
@@ -19,7 +20,7 @@ export default function Login(): JSX.Element {
 
     // signInWithEmail sends a login request to the user's email
     const signInWithEmail = () => {
-        signIn("email", { email: email });
+        signIn("email", { email });
     };
 
     return (
@@ -80,7 +81,7 @@ export default function Login(): JSX.Element {
  * getServerSideProps runs before each page is rendered to check to see if a
  * user has already been authenticated
  */
-export async function getServerSideProps(context: GetSessionOptions) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
@@ -98,4 +99,4 @@ export async function getServerSideProps(context: GetSessionOptions) {
     return {
         props: {},
     };
-}
+};
