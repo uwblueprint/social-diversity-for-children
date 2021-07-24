@@ -55,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                     >
                         <HStack spacing={8} alignItems={"center"}>
                             <Box>
-                                <Link href={""}>
+                                <Link href={"/"}>
                                     <Image w={250} py={4} src={logoSrc} />
                                 </Link>
                             </Box>
