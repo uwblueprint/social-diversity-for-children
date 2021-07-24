@@ -8,6 +8,8 @@ import {
     useControllableState,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { GetServerSideProps } from "next"; // Get server side props
+import { getSession, GetSessionOptions, signIn } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { signIn } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
@@ -18,14 +20,21 @@ import isEmail from "validator/lib/isEmail";
  * to the SDC platform
  */
 export default function Login(): JSX.Element {
-    // hook for storing the email
+    // hook to hold the user's email
     const [email, setEmail] = useState("");
+
     // save the email into localstorage for email verification page
     const [, setLocalStorageEmail] = useLocalStorage(
         "sdc-email-verification",
         "",
     );
     const [value, setValue] = useControllableState({ defaultValue: false });
+
+    // signInWithEmail sends a login request to the user's email
+    const signInWithEmail = () => {
+        signIn("email", { email });
+    };
+
     return (
         <Wrapper>
             <Center h="500px">
@@ -118,3 +127,27 @@ export default function Login(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps runs before this page is rendered to check to see if a
+ * user has already been authenticated.
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    // if the user is already authenticated redirect them to the home page
+    if (session) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            },
+        };
+    }
+
+    // if the user is not authenticated - continue to the page as normal
+    return {
+        props: {},
+    };
+};
