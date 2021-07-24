@@ -24,6 +24,8 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import { useSession } from "next-auth/client";
+import Wrapper from "@components/SDCWrapper";
 
 const BLUE = "#0C53A0";
 const RADIO_YES = "yes";
@@ -49,6 +51,7 @@ const FormButton = (props) => {
  * onto the SDC platform as a parent of volunteer
  */
 export default function ParticipantInfo(): JSX.Element {
+    const [session, loading] = useSession();
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
@@ -139,7 +142,7 @@ export default function ParticipantInfo(): JSX.Element {
     const formPages = [
         <Stack spacing={8}>
             <Box maxW="55rem">
-                <Text noOfLines={2} fontSize="16px" fontWeight="400">
+                <Text noOfLines={2} fontSize="16px" fontWeight="200">
                     Please provide information on the participant that is being
                     registered in the program. An opportunity to add information
                     of additional participants you would like to register will
@@ -275,7 +278,7 @@ export default function ParticipantInfo(): JSX.Element {
         </Stack>,
         <Stack spacing={8}>
             <Box maxW="55rem">
-                <Text noOfLines={3} fontSize="16px" fontWeight="400">
+                <Text noOfLines={3} fontSize="16px" fontWeight="200">
                     The information on this form will be used at the discretion
                     of the activity instructor/coordinator to ensure care and
                     attention is given to the safety and health of your child.
@@ -307,7 +310,7 @@ export default function ParticipantInfo(): JSX.Element {
         </Stack>,
         <Stack spacing={8}>
             <Box maxW="55rem">
-                <Text noOfLines={3} fontSize="16px" fontWeight="400">
+                <Text noOfLines={3} fontSize="16px" fontWeight="200">
                     The information on this form will be used at the discretion
                     of the activity instructor/coordinator to ensure care and
                     attention is given to the safety and health of your child.
@@ -352,7 +355,7 @@ export default function ParticipantInfo(): JSX.Element {
                 <Text
                     noOfLines={2}
                     fontSize="16px"
-                    fontWeight="400"
+                    fontWeight="200"
                     align="center"
                 >
                     Add information of additional participants you would like to
@@ -362,7 +365,7 @@ export default function ParticipantInfo(): JSX.Element {
                 <Button
                     fontSize="16px"
                     margin="7px"
-                    fontWeight="400"
+                    fontWeight="200"
                     color={BLUE}
                     variant="outline"
                     border="2px"
@@ -378,7 +381,7 @@ export default function ParticipantInfo(): JSX.Element {
         </Stack>,
         <Stack spacing={8}>
             <Box maxW="55rem">
-                <Text margin="10px" fontSize="16px" fontWeight="400">
+                <Text margin="10px" fontSize="16px" fontWeight="200">
                     Upload a Proof of Income to recieve automated discounts on
                     classes you take!
                 </Text>
@@ -387,7 +390,7 @@ export default function ParticipantInfo(): JSX.Element {
                     <UnorderedList
                         margin="10px"
                         fontSize="16px"
-                        fontWeight="400"
+                        fontWeight="200"
                     >
                         <ListItem>Income tax notice</ListItem>
                         <ListItem>Paystub</ListItem>
@@ -431,36 +434,43 @@ export default function ParticipantInfo(): JSX.Element {
     ];
 
     return (
-        <Center>
-            <Box w={912}>
-                <Flex alignItems={"center"} justifyContent={"space-between"}>
-                    <Button
-                        onClick={() =>
-                            setPageNum((prevPage) => Math.max(prevPage - 1, 0))
-                        }
-                        bg={"transparent"}
-                        pl={0}
+        <Wrapper session={session}>
+            <Center>
+                <Box w={912}>
+                    <Flex
+                        alignItems={"center"}
+                        justifyContent={"space-between"}
                     >
-                        <ArrowBackIcon mr={4} />
-                        Back
-                    </Button>
-                    <Link href={"/login"}>
-                        <CloseIcon />
-                    </Link>
-                </Flex>
-                <Text fontWeight="700" fontSize="36px">
-                    {formPageHeaders[pageNum]}
-                </Text>
-                <Stack spacing={8}>
-                    <Progress
-                        value={getProgressBarValue(pageNum)}
-                        size="sm"
-                        color={BLUE}
-                    />
-                    {formPages[pageNum]}
-                </Stack>
-                {getFormButton()}
-            </Box>
-        </Center>
+                        <Button
+                            onClick={() =>
+                                setPageNum((prevPage) =>
+                                    Math.max(prevPage - 1, 0),
+                                )
+                            }
+                            bg={"transparent"}
+                            pl={0}
+                        >
+                            <ArrowBackIcon mr={4} />
+                            Back
+                        </Button>
+                        <Link href={"/login"}>
+                            <CloseIcon />
+                        </Link>
+                    </Flex>
+                    <Text fontWeight="700" fontSize="36px">
+                        {formPageHeaders[pageNum]}
+                    </Text>
+                    <Stack spacing={8}>
+                        <Progress
+                            value={getProgressBarValue(pageNum)}
+                            size="sm"
+                            color={BLUE}
+                        />
+                        {formPages[pageNum]}
+                    </Stack>
+                    {getFormButton()}
+                </Box>
+            </Center>
+        </Wrapper>
     );
 }
