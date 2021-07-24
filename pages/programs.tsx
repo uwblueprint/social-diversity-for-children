@@ -3,7 +3,7 @@ import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
 import { Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
 
-export const HomePage: React.FC = () => {
+export const Programs: React.FC = () => {
     return (
         <Flex direction="column" margin="10% 15%">
             <Box>
@@ -16,7 +16,7 @@ export const HomePage: React.FC = () => {
                 marginTop="5%"
                 marginBottom="5%"
             />
-            <Heading fontSize="xl" marginBottom="5%">
+            <Heading fontSize="3xl" marginBottom="5%">
                 Browse programs
             </Heading>
 
@@ -26,3 +26,4 @@ export const HomePage: React.FC = () => {
         </Flex>
     );
 };
+export default Programs;

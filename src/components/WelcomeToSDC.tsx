@@ -29,8 +29,8 @@ export const WelcomeToSDC: React.FC = () => {
     return (
         <Tabs>
             <TabList>
-                <Tab>Parents</Tab>
-                <Tab>Volunteers</Tab>
+                <Tab color="#0C53A0">Parents</Tab>
+                <Tab color="#0C53A0">Volunteers</Tab>
             </TabList>
             <TabPanels>
                 <TabPanel>
@@ -42,8 +42,8 @@ export const WelcomeToSDC: React.FC = () => {
                                 <Text>{text1}</Text>
                                 <Button
                                     color="white"
-                                    backgroundColor="gray.700"
-                                    borderRadius="0"
+                                    backgroundColor="#0C53A0"
+                                    _hover={{ backgroundColor: "#2C6AAD" }}
                                     width="50%"
                                 >
                                     Register now
@@ -68,8 +68,8 @@ export const WelcomeToSDC: React.FC = () => {
                                 <Text>{text2}</Text>
                                 <Button
                                     color="white"
-                                    backgroundColor="gray.700"
-                                    borderRadius="0"
+                                    backgroundColor="#0C53A0"
+                                    _hover={{ backgroundColor: "#2C6AAD" }}
                                     width="50%"
                                 >
                                     Register now

@@ -6,7 +6,6 @@ import {
     Badge,
     Center,
     AspectRatio,
-    Spacer,
     Image,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
@@ -111,41 +110,16 @@ export const ProgramList: React.FC = () => {
                                 </AspectRatio>
 
                                 <Box p="6">
-                                    <Box d="flex" alignItems="baseline">
-                                        <Box
-                                            mt="1"
-                                            fontWeight="semibold"
-                                            as="h3"
-                                            lineHeight="tight"
-                                            isTruncated
-                                        >
-                                            {item.name}
-                                        </Box>
-                                        <Spacer />
-                                        <Badge
-                                            borderRadius="full"
-                                            padding="1"
-                                            textTransform="capitalize"
-                                            fontWeight="medium"
-                                            letterSpacing="wide"
-                                            backgroundColor="gray.600"
-                                            color="white"
-                                        >
-                                            {item.tag}
-                                        </Badge>
-                                        <Badge
-                                            fontWeight="medium"
-                                            borderRadius="full"
-                                            backgroundColor="gray.600"
-                                            color="white"
-                                            letterSpacing="wide"
-                                            ml="2"
-                                            padding="1"
-                                            textTransform="capitalize"
-                                        >
-                                            {item.format}
-                                        </Badge>
+                                    <Box
+                                        mt="1"
+                                        fontWeight="bold"
+                                        as="h2"
+                                        isTruncated
+                                        fontSize="lg"
+                                    >
+                                        {item.name}
                                     </Box>
+
                                     <Box
                                         as="span"
                                         color="gray.600"
@@ -153,7 +127,34 @@ export const ProgramList: React.FC = () => {
                                     >
                                         {item.startDate} to {item.endDate}
                                     </Box>
-                                    <Box mt="2">{item.description}</Box>
+                                    <Box mt="2" fontSize="md">
+                                        {item.description}
+                                    </Box>
+                                    <Box mt="2">
+                                        <Badge
+                                            borderRadius="full"
+                                            padding="1"
+                                            textTransform="capitalize"
+                                            fontWeight="medium"
+                                            letterSpacing="wide"
+                                            backgroundColor="#0C53A0"
+                                            color="white"
+                                        >
+                                            {item.tag}
+                                        </Badge>
+                                        <Badge
+                                            borderRadius="full"
+                                            padding="1"
+                                            textTransform="capitalize"
+                                            fontWeight="medium"
+                                            letterSpacing="wide"
+                                            backgroundColor="#0C53A0"
+                                            color="white"
+                                            ml="1"
+                                        >
+                                            {item.format}
+                                        </Badge>
+                                    </Box>
                                 </Box>
                             </Box>
                         </WrapItem>
