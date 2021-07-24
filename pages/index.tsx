@@ -1,19 +1,29 @@
-import { useSession, signOut } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
-
+import { WelcomeToSDC } from "@components/WelcomeToSDC";
+import { ProgramList } from "@components/ProgramList";
+import { Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
 export default function Component(): JSX.Element {
-    const [session, loading] = useSession();
-    if (session) {
-        return (
-            <Wrapper session={session}>
-                Signed in as {session.user.email} <br />
-                <button onClick={() => signOut()}>Sign out</button>
-            </Wrapper>
-        );
-    }
     return (
-        <Wrapper session={session}>
-            Not signed in <br />
+        <Wrapper>
+            <Flex direction="column" px={48} pt={4} pb={8}>
+                <Box>
+                    <WelcomeToSDC />
+                </Box>
+                <Spacer />
+
+                <Divider
+                    orientation="horizontal"
+                    marginTop="5%"
+                    marginBottom="5%"
+                />
+                <Heading fontSize="3xl" marginBottom="5%">
+                    Browse programs
+                </Heading>
+
+                <Box>
+                    <ProgramList />
+                </Box>
+            </Flex>
         </Wrapper>
     );
 }
