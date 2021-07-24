@@ -117,7 +117,6 @@ CREATE TABLE volunteer_regs (
   class_id INTEGER NOT NULL,
   FOREIGN KEY(volunteer_id) REFERENCES volunteers(id) ON DELETE CASCADE,
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
-  is_valid BOOLEAN DEFAULT false,
   PRIMARY KEY (volunteer_id, class_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -166,7 +165,6 @@ CREATE TABLE parent_regs (
   parent_id INTEGER NOT NULL,
   student_id INTEGER NOT NULL,
   class_id INTEGER NOT NULL,
-  is_valid BOOLEAN NOT NULL,
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
   FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,

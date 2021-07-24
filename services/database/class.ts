@@ -1,15 +1,15 @@
 import prisma from "@database";
 import { Class } from "@prisma/client";
-import { CreateClassInput } from "@models/Class";
+import { ClassInput } from "@models/Class";
 /**
  * getClass takes the id parameter and returns the class associated with the classId
  * @param {string} id - classId
  *
  */
-async function getClass(id: string): Promise<Class> {
+async function getClass(id: number): Promise<Class> {
     const classSection = await prisma.class.findUnique({
         where: {
-            id: parseInt(id),
+            id,
         },
     });
     return classSection;
@@ -25,10 +25,10 @@ async function getClasses(): Promise<Class[]> {
 
 /**
  * createClass creates a new class record
- * @param input - data of type createClassInput
+ * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
  */
-async function createClass(input: CreateClassInput): Promise<Class> {
+async function createClass(input: ClassInput): Promise<Class> {
     const newClass = await prisma.class.create({
         data: {
             name: input.name,
@@ -53,13 +53,31 @@ async function createClass(input: CreateClassInput): Promise<Class> {
  * @param id - classId of the class to be deleted
  * @returns Promise<Class> - Promise with the deleted class
  */
-async function deleteClass(id: string): Promise<Class> {
+async function deleteClass(id: number): Promise<Class> {
     const deletedClass = await prisma.class.delete({
         where: {
-            id: parseInt(id),
+            id,
         },
     });
     return deletedClass;
 }
 
-export { getClass, getClasses, createClass, deleteClass };
+/**
+ * updateClass takes in id of the class and updates the class information
+ * @param id - classId of the class to be updated
+ * @returns Promise<Class> - Promise with the updated class
+ */
+async function updateClass(
+    id: number,
+    updatedClassData: ClassInput,
+): Promise<Class> {
+    const updatedClass = await prisma.class.update({
+        where: {
+            id,
+        },
+        data: updatedClassData,
+    });
+    return updatedClass;
+}
+
+export { getClass, getClasses, createClass, deleteClass, updateClass };

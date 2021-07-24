@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getClass, deleteClass } from "@database/class";
+import { getClass, deleteClass, updateClass } from "@database/class";
+import { ClassInput } from "models/Class";
+import { validateClassData } from "@utils/validation/class";
 
 /**
  * handle takes the classId parameter and returns
@@ -14,27 +16,63 @@ export default async function handle(
 ): Promise<void> {
     // Obtain class id
     const { id } = req.query;
+
+    //parse query parameters from string to number and validate that id is a number
+    const classId = parseInt(id as string, 10);
+    if (isNaN(classId)) {
+        return ResponseUtil.returnBadRequest(
+            res,
+            "classId should be passed in as numbers",
+        );
+    }
+
     if (req.method == "GET") {
         // obtain class with provided classId
-        const classSection = await getClass(id as string);
+        const classSection = await getClass(classId);
 
         if (!classSection) {
-            ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
+            ResponseUtil.returnNotFound(
+                res,
+                `Class with id ${classId} not found.`,
+            );
             return;
         }
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
-        const deletedClass = await deleteClass(id as string);
+        const deletedClass = await deleteClass(classId);
 
         if (!deleteClass) {
-            ResponseUtil.returnNotFound(res, `Class with id ${id} not found.`);
+            ResponseUtil.returnNotFound(
+                res,
+                `Class with id ${classId} not found.`,
+            );
             return;
         }
         ResponseUtil.returnOK(res, deletedClass);
         return;
+    } else if (req.method == "PUT") {
+        // validate updated class body
+        const classInput = req.body as ClassInput;
+        const validationError = validateClassData(classInput);
+        if (validationError.length !== 0) {
+            ResponseUtil.returnBadRequest(res, validationError.join(", "));
+            return;
+        }
+        // obtain the updated class body
+        const updatedClass = await updateClass(classId, classInput);
+
+        if (!updatedClass) {
+            ResponseUtil.returnNotFound(
+                res,
+                `Class with id ${classId} not found.`,
+            );
+            return;
+        }
+        ResponseUtil.returnOK(res, updatedClass);
+        return;
     } else {
-        const allowedHeaders: string[] = ["GET", "DELETE"];
+        const allowedHeaders: string[] = ["GET", "DELETE", "PUT"];
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,

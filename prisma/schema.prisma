@@ -55,7 +55,6 @@ model ParentReg {
   parentId  Int      @map("parent_id")
   studentId Int      @map("student_id")
   classId   Int      @map("class_id")
-  isValid   Boolean  @map("is_valid")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   class     Class    @relation("parent_regsToclasses", fields: [classId], references: [id])
@@ -182,7 +181,6 @@ model Volunteer {
 model VolunteerReg {
   volunteerId Int       @map("volunteer_id")
   classId     Int       @map("class_id")
-  isValid     Boolean?  @default(false) @map("is_valid")
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamptz(6)
   class       Class     @relation("classesTovolunteer_regs", fields: [classId], references: [id])
