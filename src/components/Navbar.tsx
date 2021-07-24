@@ -9,9 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
+import { ReactNode } from "react";
 
 type NavbarProps = {
-    session?: unknown;
+    session?: Record<string, unknown>;
     height?: number | string;
 };
 
@@ -23,7 +24,13 @@ const Links = [
 // TODO: change to .svg
 const logoSrc = "/images/sdc-logo-with-text-blue.png";
 
-const NavLink = ({ text, href }: { text?: string; href?: string }) => (
+const NavLink = ({
+    href,
+    children,
+}: {
+    href?: string;
+    children: ReactNode;
+}) => (
     <Link
         px={8}
         py={1}
@@ -32,7 +39,7 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
         href={href}
         textUnderlineOffset={"0.5em"}
     >
-        {text}
+        {children}
     </Link>
 );
 
@@ -40,7 +47,7 @@ export const DEFAULT_NAVBAR_HEIGHT = 16;
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const accountButton = props.session ? (
-        <NavLink text={"My Account"} />
+        <NavLink>My Account</NavLink>
     ) : (
         <SignInButton />
     );
@@ -67,9 +74,10 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                 {Links.map((linkInfo) => (
                                     <NavLink
                                         key={linkInfo.name}
-                                        text={linkInfo.name}
                                         href={linkInfo.url}
-                                    />
+                                    >
+                                        {linkInfo.name}
+                                    </NavLink>
                                 ))}
                             </HStack>
                         </HStack>
