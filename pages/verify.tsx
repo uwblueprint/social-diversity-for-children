@@ -32,12 +32,22 @@ export default function Verify(): JSX.Element {
                         </Text>
                     </Center>
                     <Center>
-                        <Text fontWeight="400" fontSize="16px" mt="40px">
+                        <Text
+                            fontWeight="400"
+                            fontSize="16px"
+                            align="center"
+                            mt="40px"
+                        >
                             To confirm your email address, click on the link in
                             the email we sent to{" "}
-                            <u>
-                                <b>{localStorageEmail}</b>
-                            </u>
+                            <Link
+                                textDecoration={"underline"}
+                                href={`mailto:${localStorageEmail}`}
+                            >
+                                <u>
+                                    <b>{localStorageEmail}</b>
+                                </u>
+                            </Link>
                             .<br></br>
                         </Text>
                     </Center>
@@ -45,7 +55,7 @@ export default function Verify(): JSX.Element {
                         <Text
                             fontWeight="400"
                             fontSize="14px"
-                            mt="100px"
+                            mt="60px"
                             color="brand.300"
                         >
                             Didn’t get an email? Return to the{" "}
