@@ -3,7 +3,7 @@ import { weekday } from "@prisma/client";
 /**
  * Request Body Input for POST /class
  */
-export type CreateClassInput = {
+export type ClassInput = {
     name?: string;
     ageGroup?: string;
     programId: number;
