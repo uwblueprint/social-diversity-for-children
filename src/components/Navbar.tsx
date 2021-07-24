@@ -12,6 +12,7 @@ import { LanguageModal } from "@components/LanguageModal";
 
 type NavbarProps = {
     session?: unknown;
+    height?: number | string;
 };
 
 const Links = [
@@ -35,6 +36,8 @@ const NavLink = ({ text, href }: { text?: string; href?: string }) => (
     </Link>
 );
 
+export const DEFAULT_NAVBAR_HEIGHT = 16;
+
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const accountButton = props.session ? (
         <NavLink text={"My Account"} />
@@ -46,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
                 <Box bg={"transparent"} px={48} pt={4} pb={8} mx={"auto"}>
                     <Flex
-                        h={16}
+                        h={props.height || DEFAULT_NAVBAR_HEIGHT}
                         alignItems={"center"}
                         justifyContent={"space-between"}
                     >

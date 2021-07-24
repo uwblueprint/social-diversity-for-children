@@ -1,6 +1,10 @@
 import React from "react";
 import { Box, Container, Link, Stack, Text } from "@chakra-ui/react";
 
+type FooterProps = {
+    height?: number | string;
+};
+
 const SocialMediaLinks = [
     { name: "Instagram", href: "https://www.instagram.com/sdcfdn/" },
     { name: "Facebook", href: "https://www.facebook.com/SDCFdn/" },
@@ -11,9 +15,18 @@ const SocialMediaLinks = [
     },
 ];
 
-export const Footer: React.FC = () => {
+export const DEFAULT_FOOTER_HEIGHT = 364;
+
+export const Footer: React.FC<FooterProps> = (props) => {
     return (
-        <Box bg={"#0C53A0"} color={"white"} px={48}>
+        <Box
+            bg={"#0C53A0"}
+            color={"white"}
+            px={48}
+            position={"absolute"}
+            bottom={0}
+            width={"100%"}
+        >
             <Container
                 as={Stack}
                 maxW={"100%"}
@@ -22,6 +35,7 @@ export const Footer: React.FC = () => {
                 spacing={4}
                 justify={{ base: "center", md: "space-between" }}
                 align={{ base: "center", md: "center" }}
+                height={props.height || DEFAULT_FOOTER_HEIGHT}
             >
                 <Stack>
                     <Text fontWeight={700} py={8}>
