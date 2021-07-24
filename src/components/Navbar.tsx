@@ -63,6 +63,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                             >
                                 {Links.map((linkInfo) => (
                                     <NavLink
+                                        key={linkInfo.name}
                                         text={linkInfo.name}
                                         href={linkInfo.url}
                                     />

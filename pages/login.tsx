@@ -11,7 +11,6 @@ import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions, signIn } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
-import { signIn } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import isEmail from "validator/lib/isEmail";
 
@@ -132,7 +131,9 @@ export default function Login(): JSX.Element {
  * getServerSideProps runs before this page is rendered to check to see if a
  * user has already been authenticated.
  */
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
     // obtain the next auth session
     const session = await getSession(context);
 
