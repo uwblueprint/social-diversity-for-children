@@ -19,11 +19,15 @@ import {
     UnorderedList,
     ListItem,
     OrderedList,
+    Radio,
+    RadioGroup,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 const BLUE = "#0C53A0";
+const RADIO_YES = "yes";
+const RADIO_NO = "no";
 
 const FormButton = (props) => {
     return (
@@ -47,6 +51,8 @@ const FormButton = (props) => {
 export default function ParticipantInfo(): JSX.Element {
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
+    const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
+    const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
 
     const totalPages = 8;
     const progressBarIncrement = Math.floor(100 / totalPages);
@@ -70,12 +76,65 @@ export default function ParticipantInfo(): JSX.Element {
                 </FormButton>
             );
         }
+        if (pageNum === totalPages - 2) {
+            return (
+                <Box>
+                    <HStack spacing="24px">
+                        <FormButton>Upload Proof of Income</FormButton>
+                        <Button
+                            variant="ghost"
+                            as="u"
+                            onClick={() =>
+                                setPageNum((prevPage) => prevPage + 1)
+                            }
+                        >
+                            Skip for Now
+                        </Button>
+                    </HStack>
+                </Box>
+            );
+        }
         return (
             <FormButton onClick={() => setPageNum((prevPage) => prevPage + 1)}>
                 Next
             </FormButton>
         );
     };
+
+    const medicationDetails =
+        isOnMedication === RADIO_YES ? (
+            <Box>
+                <FormControl id="details">
+                    <FormLabel>
+                        Please provide any details if necessary{" "}
+                    </FormLabel>
+                    <Input placeholder="Details" />
+                </FormControl>
+            </Box>
+        ) : null;
+
+    const allergyDetails =
+        hasAllergies === RADIO_YES ? (
+            <Box>
+                <FormControl id="details">
+                    <FormLabel>
+                        Please provide any details if necessary{" "}
+                    </FormLabel>
+                    <Input placeholder="Details" />
+                </FormControl>
+            </Box>
+        ) : null;
+
+    const formPageHeaders = [
+        "Participant Information ",
+        "Participant Information",
+        "Parent Guardian Information",
+        "Participant Emergency Form",
+        "Participant Health Form",
+        "Confirm Participants",
+        "Proof of Income",
+        "How did you hear about us?",
+    ];
 
     const formPages = [
         <Stack spacing={8}>
@@ -164,8 +223,14 @@ export default function ParticipantInfo(): JSX.Element {
                     program at their school?
                 </FormLabel>
                 <Stack direction="row">
-                    <Checkbox>Yes</Checkbox>
-                    <Checkbox>No </Checkbox>
+                    <RadioGroup>
+                        <Radio value="1" pr={4}>
+                            Yes
+                        </Radio>
+                        <Radio value="2" pr={4}>
+                            No{" "}
+                        </Radio>
+                    </RadioGroup>
                 </Stack>
             </FormControl>
             <FormControl id="therapy">
@@ -181,8 +246,6 @@ export default function ParticipantInfo(): JSX.Element {
                     <Checkbox>Other</Checkbox>
                 </Stack>
             </FormControl>
-
-            {/* TODO: change title to "Parent/Guardian Information"  */}
             <FormControl id="parent/guardian-expectations">
                 <FormLabel>Parent/Guardian Expectations</FormLabel>
                 <Textarea placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas." />
@@ -210,8 +273,6 @@ export default function ParticipantInfo(): JSX.Element {
                 <Input placeholder="Mother" />
             </FormControl>
         </Stack>,
-
-        // TODO: Change title to "Participant Emergency Form"
         <Stack spacing={8}>
             <Box maxW="55rem">
                 <Text noOfLines={3} fontSize="16px" fontWeight="400">
@@ -244,8 +305,6 @@ export default function ParticipantInfo(): JSX.Element {
                 <Input placeholder="Mother" />
             </FormControl>
         </Stack>,
-
-        // TODO: Change title to "Participant Health Form"
         <Stack spacing={8}>
             <Box maxW="55rem">
                 <Text noOfLines={3} fontSize="16px" fontWeight="400">
@@ -258,26 +317,36 @@ export default function ParticipantInfo(): JSX.Element {
                 </Text>
             </Box>
             <FormControl id="medication">
-                <FormLabel>Is your child on medication?</FormLabel>
-                <Stack direction="row">
-                    <Checkbox>Yes</Checkbox>
-                    <Checkbox>No </Checkbox>
-                </Stack>
+                <RadioGroup onChange={(val) => setIsOnMedication(val)}>
+                    <FormLabel>Is your child on medication?</FormLabel>
+                    <Stack direction="row">
+                        <Radio value={RADIO_YES} pr={4}>
+                            Yes
+                        </Radio>
+                        <Radio value={RADIO_NO} pr={4}>
+                            No
+                        </Radio>
+                    </Stack>
+                </RadioGroup>
+                {medicationDetails}
             </FormControl>
-            {/* TODO: Make pop up if yes is selected */}
-            <FormControl id="details">
-                <FormLabel>Please provide any details if necessary </FormLabel>
-                <Input placeholder="Details" />
-            </FormControl>
-            <FormControl id="medication">
-                <FormLabel>Does your child have any allergies?</FormLabel>
-                <Stack direction="row">
-                    <Checkbox>Yes</Checkbox>
-                    <Checkbox>No </Checkbox>
-                </Stack>
+            <FormControl id="allergies">
+                <RadioGroup onChange={(val) => setHasAllergies(val)}>
+                    <FormLabel>
+                        Does your child have any food allergies?
+                    </FormLabel>
+                    <Stack direction="row">
+                        <Radio value={RADIO_YES} pr={4}>
+                            Yes
+                        </Radio>
+                        <Radio value={RADIO_NO} pr={4}>
+                            No
+                        </Radio>
+                    </Stack>
+                </RadioGroup>
+                {allergyDetails}
             </FormControl>
         </Stack>,
-        // TODO: change title to "Confirm Participant(s) and add the participant names? "
         <Stack spacing={8}>
             <Box maxW="55rem">
                 <Text
@@ -290,9 +359,23 @@ export default function ParticipantInfo(): JSX.Element {
                     register in programs. You can always edit or add additional
                     participants later within ‘My Account’.
                 </Text>
+                <Button
+                    fontSize="16px"
+                    margin="7px"
+                    fontWeight="400"
+                    color={BLUE}
+                    variant="outline"
+                    border="2px"
+                    borderStyle="dotted"
+                    borderColor={BLUE}
+                    width="40%"
+                    marginLeft="30%"
+                    marginRight="30%"
+                >
+                    + Add new participant
+                </Button>
             </Box>
         </Stack>,
-        // TODO: change title to "Proof of Income"
         <Stack spacing={8}>
             <Box maxW="55rem">
                 <Text margin="10px" fontSize="16px" fontWeight="400">
@@ -331,11 +414,8 @@ export default function ParticipantInfo(): JSX.Element {
                         </ListItem>
                     </OrderedList>
                 </Heading>
-                <FormButton>Upload Proof of Income</FormButton>
-                {/* add skip for now button instead of next */}
             </Box>
         </Stack>,
-        // TODO: change title to "How did you hear about us?"
         <Stack spacing={8}>
             <FormControl id="hear-about-us">
                 <FormLabel>How did you hear about our programs?</FormLabel>
@@ -352,7 +432,7 @@ export default function ParticipantInfo(): JSX.Element {
 
     return (
         <Center>
-            <Box>
+            <Box w={912}>
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
                     <Button
                         onClick={() =>
@@ -369,7 +449,7 @@ export default function ParticipantInfo(): JSX.Element {
                     </Link>
                 </Flex>
                 <Text fontWeight="700" fontSize="36px">
-                    Participant Information
+                    {formPageHeaders[pageNum]}
                 </Text>
                 <Stack spacing={8}>
                     <Progress
