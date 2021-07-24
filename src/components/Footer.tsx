@@ -45,12 +45,14 @@ export const Footer: React.FC<FooterProps> = (props) => {
                         <Text>Suite 203 - 815 Hornby St.</Text>
                         <Text>Vancouver, BC V6Z 2E6, Canada</Text>
                         <Link
+                            key={"sdc-phone"}
                             textDecoration={"underline"}
                             href={"tel:+1888-247-5071"}
                         >
                             +1 (888)-247-5071
                         </Link>
                         <Link
+                            key={"sdc-email"}
                             textDecoration={"underline"}
                             href={"mailto:info@socialdiversity.org"}
                         >
@@ -65,6 +67,7 @@ export const Footer: React.FC<FooterProps> = (props) => {
                     <Text fontWeight={700}>Follow</Text>
                     {SocialMediaLinks.map((linkInfo) => (
                         <Link
+                            key={linkInfo.name}
                             target={"_blank"}
                             textDecoration={"underline"}
                             href={linkInfo.href}
