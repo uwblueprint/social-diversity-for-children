@@ -132,8 +132,8 @@ model TeacherReg {
 
 model User {
   id            Int           @id @default(autoincrement())
-  first_name    String?       
-  last_name     String?       
+  firstName     String?       @map("first_name")
+  lastName      String?       @map("last_name")     
   email         String?       @unique
   emailVerified DateTime?     @map("email_verified") @db.Timestamptz(6)
   role          roles?
