@@ -2,9 +2,12 @@ import Wrapper from "@components/SDCWrapper";
 import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
 import { Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
+import { useSession, signOut } from "next-auth/client";
 export default function Component(): JSX.Element {
+    const [session, loading] = useSession();
+
     return (
-        <Wrapper>
+        <Wrapper session={session}>
             <Flex direction="column" px={48} pt={4} pb={8}>
                 <Box>
                     <WelcomeToSDC />
