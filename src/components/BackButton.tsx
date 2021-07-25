@@ -19,6 +19,7 @@ export const BackButton: React.FC<BackButtonProps> = (props) => {
             variant="link"
             iconSpacing="20px"
             onClick={onClick}
+            _focus={{}}
         >
             Back
         </Button>

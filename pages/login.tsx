@@ -118,6 +118,7 @@ export default function Login(): JSX.Element {
                                 fontSize="12px"
                                 fontWeight="400"
                                 mt="20px"
+                                borderRadius={100}
                             />
                         )}
                     </Center>
