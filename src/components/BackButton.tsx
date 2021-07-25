@@ -3,12 +3,18 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { HStack, Button, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-export const BackButton: React.FC = () => {
+type BackButtonProps = {
+    stypeProps: Record<string, unknown>;
+    onClick?: React.MouseEventHandler;
+};
+
+export const BackButton: React.FC<BackButtonProps> = (props) => {
     const router = useRouter();
+    const onClick = props.onClick ? props.onClick : () => router.back();
 
     return (
         <HStack spacing={6}>
-            <Link onClick={() => router.back()}>
+            <Link onClick={onClick}>
                 <Button
                     leftIcon={<ArrowBackIcon />}
                     colorScheme="black"
