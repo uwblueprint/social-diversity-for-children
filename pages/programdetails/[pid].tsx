@@ -89,7 +89,7 @@ export const ProgramDetails: React.FC = () => {
 
     return programName in programInfo ? (
         <Wrapper session={session}>
-            <Flex direction="column" px={48} pt={4} pb={8}>
+            <Flex direction="column" pt={4} pb={8}>
                 <Flex align="center">
                     <Heading>{programInfo[programName].name}</Heading>
                     <Spacer />
