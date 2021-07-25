@@ -14,6 +14,7 @@ import {
     GridItem,
 } from "@chakra-ui/react";
 import type { ClassCardInfo } from "models/Class";
+import weekdayToString from "@utils/weekdayToString";
 export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
     classInfo,
 }) => {
@@ -29,11 +30,6 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
             (timeInMinutes >= 720 ? "pm" : "am")
         );
     }
-    //  from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
-    // to convert the weekday enums (MON, TUE, WED...) to Mon, Tue, Wed etc
-    function toTitleCase(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    }
 
     return (
         <Center width="100%">
@@ -44,6 +40,7 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                             borderColor="gray.200"
                             _hover={{ borderColor: "#0C53A0" }}
                             borderWidth={2}
+                            key={idx}
                         >
                             <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                                 <GridItem>
@@ -88,11 +85,12 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                                 fontSize="sm"
                                                 textTransform="capitalize"
                                             >
-                                                {toTitleCase(item.weekday)}{" "}
+                                                {weekdayToString(item.weekday)}
+                                                {"s "}
                                                 {convertToAmPm(
                                                     item.startTimeMinutes,
-                                                )}
-                                                -
+                                                )}{" "}
+                                                -{" "}
                                                 {convertToAmPm(
                                                     item.startTimeMinutes +
                                                         item.durationMinutes,
