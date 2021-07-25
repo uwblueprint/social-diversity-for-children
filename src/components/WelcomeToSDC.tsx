@@ -32,8 +32,12 @@ export const WelcomeToSDC: React.FC = () => {
     return (
         <Tabs>
             <TabList>
-                <Tab color="#0C53A0">Parents</Tab>
-                <Tab color="#0C53A0">Volunteers</Tab>
+                <Tab _focus={{}} _active={{}} color="#0C53A0">
+                    Parents
+                </Tab>
+                <Tab _focus={{}} _active={{}} color="#0C53A0">
+                    Volunteers
+                </Tab>
             </TabList>
             <TabPanels>
                 <TabPanel>
