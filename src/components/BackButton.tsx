@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Button, Link } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 type BackButtonProps = {
@@ -13,15 +13,14 @@ export const BackButton: React.FC<BackButtonProps> = (props) => {
     const onClick = props.onClick ? props.onClick : () => router.back();
 
     return (
-        <Link onClick={onClick}>
-            <Button
-                leftIcon={<ArrowBackIcon />}
-                colorScheme="black"
-                variant="link"
-                iconSpacing="20px"
-            >
-                Back
-            </Button>
-        </Link>
+        <Button
+            leftIcon={<ArrowBackIcon />}
+            colorScheme="black"
+            variant="link"
+            iconSpacing="20px"
+            onClick={onClick}
+        >
+            Back
+        </Button>
     );
 };
