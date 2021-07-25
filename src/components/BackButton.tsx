@@ -4,7 +4,7 @@ import { HStack, Button, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 type BackButtonProps = {
-    stypeProps: Record<string, unknown>;
+    stypeProps?: Record<string, unknown>;
     onClick?: React.MouseEventHandler;
 };
 
