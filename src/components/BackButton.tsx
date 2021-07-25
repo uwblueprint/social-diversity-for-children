@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { HStack, Button, Link } from "@chakra-ui/react";
+import { Button, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 type BackButtonProps = {
