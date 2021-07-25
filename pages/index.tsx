@@ -36,8 +36,7 @@ export default function Component(props: ComponentProps): JSX.Element {
 }
 
 /**
- * getServerSideProps runs before this page is rendered to get the session
- * before the component is rendered
+ * getServerSideProps gets the session before this page is rendered
  */
 export const getServerSideProps: GetServerSideProps = async (
     context: GetSessionOptions,
