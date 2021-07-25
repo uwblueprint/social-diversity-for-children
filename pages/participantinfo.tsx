@@ -11,7 +11,6 @@ import {
     Progress,
     Stack,
     HStack,
-    VStack,
     Select,
     Checkbox,
     Textarea,
@@ -44,6 +43,10 @@ const FormButton = (props) => {
             {props.children}
         </Button>
     );
+};
+
+const FormPage = (props) => {
+    return <Stack spacing={8}>{props.children}</Stack>;
 };
 
 /**
@@ -98,7 +101,12 @@ export default function ParticipantInfo(): JSX.Element {
             );
         }
         return (
-            <FormButton onClick={() => setPageNum((prevPage) => prevPage + 1)}>
+            <FormButton
+                onClick={() => {
+                    setPageNum((prevPage) => prevPage + 1);
+                    window.scrollTo({ top: 0 });
+                }}
+            >
                 Next
             </FormButton>
         );
@@ -140,7 +148,7 @@ export default function ParticipantInfo(): JSX.Element {
     ];
 
     const formPages = [
-        <Stack spacing={8}>
+        <FormPage>
             <Box maxW="55rem">
                 <Text noOfLines={2} fontSize="16px" fontWeight="200">
                     Please provide information on the participant that is being
@@ -209,8 +217,8 @@ export default function ParticipantInfo(): JSX.Element {
                 <FormLabel>Grade (if applicable)</FormLabel>
                 <Input placeholder="5" />
             </FormControl>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <FormControl id="participant-have">
                 <FormLabel>Does the participant have:</FormLabel>
                 <Stack direction="column">
@@ -253,8 +261,8 @@ export default function ParticipantInfo(): JSX.Element {
                 <FormLabel>Parent/Guardian Expectations</FormLabel>
                 <Textarea placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas." />
             </FormControl>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <FormLabel>
                 {" "}
                 Parent/Guardian Name
@@ -275,8 +283,8 @@ export default function ParticipantInfo(): JSX.Element {
                 <FormLabel>Relationship to Participant</FormLabel>
                 <Input placeholder="Mother" />
             </FormControl>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <Box maxW="55rem">
                 <Text noOfLines={3} fontSize="16px" fontWeight="200">
                     The information on this form will be used at the discretion
@@ -307,8 +315,8 @@ export default function ParticipantInfo(): JSX.Element {
                 <FormLabel>Relationship to Participant</FormLabel>
                 <Input placeholder="Mother" />
             </FormControl>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <Box maxW="55rem">
                 <Text noOfLines={3} fontSize="16px" fontWeight="200">
                     The information on this form will be used at the discretion
@@ -349,8 +357,8 @@ export default function ParticipantInfo(): JSX.Element {
                 </RadioGroup>
                 {allergyDetails}
             </FormControl>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <Box maxW="55rem">
                 <Text
                     noOfLines={2}
@@ -378,8 +386,8 @@ export default function ParticipantInfo(): JSX.Element {
                     + Add new participant
                 </Button>
             </Box>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <Box maxW="55rem">
                 <Text margin="10px" fontSize="16px" fontWeight="200">
                     Upload a Proof of Income to recieve automated discounts on
@@ -418,8 +426,8 @@ export default function ParticipantInfo(): JSX.Element {
                     </OrderedList>
                 </Heading>
             </Box>
-        </Stack>,
-        <Stack spacing={8}>
+        </FormPage>,
+        <FormPage>
             <FormControl id="hear-about-us">
                 <FormLabel>How did you hear about our programs?</FormLabel>
                 <Stack direction="column">
@@ -430,7 +438,7 @@ export default function ParticipantInfo(): JSX.Element {
                     <Checkbox>Other</Checkbox>
                 </Stack>
             </FormControl>
-        </Stack>,
+        </FormPage>,
     ];
 
     return (
