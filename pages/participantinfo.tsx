@@ -22,7 +22,8 @@ import {
     Radio,
     RadioGroup,
 } from "@chakra-ui/react";
-import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
+import { CloseButton } from "@components/CloseButton";
+import { BackButton } from "@components/BackButton";
 import { useState } from "react";
 import { useSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
@@ -40,6 +41,7 @@ const FormButton = (props) => {
             onClick={props.onClick}
             my={8}
             px={12}
+            borderRadius={100}
         >
             {props.children}
         </Button>
@@ -420,6 +422,7 @@ export default function ParticipantInfo(): JSX.Element {
                             onClick={() =>
                                 setPageNum((prevPage) => prevPage + 1)
                             }
+                            borderRadius={100}
                         >
                             Skip for Now
                         </Button>
@@ -448,21 +451,17 @@ export default function ParticipantInfo(): JSX.Element {
                             alignItems={"center"}
                             justifyContent={"space-between"}
                         >
-                            <Button
-                                onClick={() =>
-                                    setPageNum((prevPage) =>
-                                        Math.max(prevPage - 1, 0),
-                                    )
+                            <BackButton
+                                onClick={
+                                    pageNum > 0
+                                        ? () =>
+                                              setPageNum((prevPage) =>
+                                                  Math.max(prevPage - 1, 0),
+                                              )
+                                        : null
                                 }
-                                bg={"transparent"}
-                                pl={0}
-                            >
-                                <ArrowBackIcon mr={4} />
-                                Back
-                            </Button>
-                            <Link href={"/login"}>
-                                <CloseIcon />
-                            </Link>
+                            />
+                            <CloseButton />
                         </Flex>
                         <Text fontWeight="700" fontSize="36px">
                             {formPageHeaders[pageNum]}

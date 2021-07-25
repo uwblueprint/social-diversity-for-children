@@ -12,7 +12,7 @@ type ComponentProps = {
 export default function Component(props: ComponentProps): JSX.Element {
     return (
         <Wrapper session={props.session}>
-            <Flex direction="column" px={48} pt={4} pb={8}>
+            <Flex direction="column" pt={4} pb={8}>
                 <Box>
                     <WelcomeToSDC session={props.session} />
                 </Box>

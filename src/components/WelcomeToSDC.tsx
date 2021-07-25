@@ -60,6 +60,8 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                         _hover={{ backgroundColor: "#2C6AAD" }}
                                         width="50%"
                                         onClick={goToLogin}
+                                        borderRadius={100}
+                                        fontWeight={"200"}
                                     >
                                         Register now
                                     </Button>
@@ -91,6 +93,8 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                         _hover={{ backgroundColor: "#2C6AAD" }}
                                         width="50%"
                                         onClick={goToLogin}
+                                        borderRadius={100}
+                                        fontWeight={"200"}
                                     >
                                         Register now
                                     </Button>

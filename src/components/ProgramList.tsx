@@ -101,8 +101,7 @@ export const ProgramList: React.FC = () => {
                                         window.location.href = "/login";
                                     // for testing (/programdetails is in #46)
                                     else
-                                        window.location.href =
-                                            "/programdetails" + idx; // using the index is for testing, it should be some kind of program id
+                                        window.location.href = `/programdetails/${idx}`; // using the index is for testing, it should be some kind of program id
                                 }}
                             >
                                 <AspectRatio width="100%" ratio={4 / 3}>
