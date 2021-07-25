@@ -45,7 +45,7 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                             _hover={{ borderColor: "#0C53A0" }}
                             borderWidth={2}
                         >
-                            <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+                            <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                                 <GridItem>
                                     <AspectRatio width="100%" ratio={1}>
                                         <Image
@@ -61,70 +61,68 @@ export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
                                         justify="center"
                                         height="100%"
                                     >
-                                        <Box fontWeight="bold" as="h2">
-                                            {item.name}
-                                        </Box>
-                                        <Box
-                                            as="span"
-                                            color="gray.600"
-                                            fontSize="sm"
-                                            textTransform="capitalize"
-                                        >
-                                            {toTitleCase(item.weekday)}{" "}
-                                            {convertToAmPm(
-                                                item.startTimeMinutes,
-                                            )}
-                                            -
-                                            {convertToAmPm(
-                                                item.startTimeMinutes +
-                                                    item.durationMinutes,
-                                            )}
-                                        </Box>
-                                        <Box
-                                            as="span"
-                                            color="gray.600"
-                                            fontSize="sm"
-                                        >
-                                            Teacher: {item.teacherName}
-                                        </Box>
+                                        <Flex mr="3">
+                                            <Box fontWeight="bold" as="h2">
+                                                {item.name}
+                                            </Box>
+                                            <Spacer />
+                                            <Badge
+                                                borderRadius="full"
+                                                textTransform="capitalize"
+                                                fontWeight="medium"
+                                                letterSpacing="wide"
+                                                backgroundColor="#0C53A0"
+                                                textAlign="center"
+                                                color="white"
+                                                pb="1"
+                                                pt="1.5"
+                                                px="3"
+                                            >
+                                                {item.ageGroup}
+                                            </Badge>
+                                        </Flex>
+                                        <Flex>
+                                            <Box
+                                                as="span"
+                                                color="gray.600"
+                                                fontSize="sm"
+                                                textTransform="capitalize"
+                                            >
+                                                {toTitleCase(item.weekday)}{" "}
+                                                {convertToAmPm(
+                                                    item.startTimeMinutes,
+                                                )}
+                                                -
+                                                {convertToAmPm(
+                                                    item.startTimeMinutes +
+                                                        item.durationMinutes,
+                                                )}
+                                            </Box>
+                                            <Box
+                                                as="span"
+                                                color="gray.600"
+                                                fontSize="sm"
+                                                ml="1"
+                                            >
+                                                {" with Teacher " +
+                                                    item.teacherName}
+                                            </Box>
+                                            <Spacer />
+                                            <Box
+                                                mr="3"
+                                                as="span"
+                                                color="gray.600"
+                                                fontSize="sm"
+                                            >
+                                                {item.spaceAvailable}{" "}
+                                                participant spot
+                                                {item.spaceAvailable > 1
+                                                    ? "s"
+                                                    : ""}{" "}
+                                                available
+                                            </Box>
+                                        </Flex>
                                     </VStack>
-                                </GridItem>
-                                <GridItem>
-                                    <Flex
-                                        p="6"
-                                        direction="column"
-                                        justify="center"
-                                        height="100%"
-                                    >
-                                        <Spacer />
-                                        <Badge
-                                            borderRadius="full"
-                                            textTransform="capitalize"
-                                            fontWeight="medium"
-                                            letterSpacing="wide"
-                                            backgroundColor="#0C53A0"
-                                            textAlign="center"
-                                            color="white"
-                                            pb="1"
-                                            pt="1.5"
-                                            px="3"
-                                        >
-                                            {item.ageGroup}
-                                        </Badge>
-                                        <Spacer />
-                                        <Box
-                                            as="span"
-                                            color="gray.600"
-                                            fontSize="sm"
-                                        >
-                                            {item.spaceAvailable} spot
-                                            {item.spaceAvailable > 1
-                                                ? "s"
-                                                : ""}{" "}
-                                            available
-                                        </Box>
-                                        <Spacer />
-                                    </Flex>
                                 </GridItem>
                             </Grid>
                         </ListItem>
