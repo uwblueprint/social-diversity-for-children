@@ -66,7 +66,7 @@ export default function ParticipantInfo(): JSX.Element {
             <Box>
                 <FormControl id="details">
                     <FormLabel>
-                        Please provide any details if necessary{" "}
+                        Please provide any details if necessary
                     </FormLabel>
                     <Input placeholder="Details" />
                 </FormControl>
@@ -78,7 +78,7 @@ export default function ParticipantInfo(): JSX.Element {
             <Box>
                 <FormControl id="details">
                     <FormLabel>
-                        Please provide any details if necessary{" "}
+                        Please provide any details if necessary
                     </FormLabel>
                     <Input placeholder="Details" />
                 </FormControl>
@@ -107,7 +107,6 @@ export default function ParticipantInfo(): JSX.Element {
                 </Text>
             </Box>
             <FormLabel>
-                {" "}
                 Emergency Contact Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
@@ -188,7 +187,7 @@ export default function ParticipantInfo(): JSX.Element {
                             Yes
                         </Radio>
                         <Radio value="2" pr={4}>
-                            No{" "}
+                            No
                         </Radio>
                     </RadioGroup>
                 </Stack>
@@ -213,7 +212,6 @@ export default function ParticipantInfo(): JSX.Element {
         </FormPage>,
         <FormPage>
             <FormLabel>
-                {" "}
                 Parent/Guardian Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
@@ -245,7 +243,6 @@ export default function ParticipantInfo(): JSX.Element {
                 </Text>
             </Box>
             <FormLabel>
-                {" "}
                 Emergency Contact Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
@@ -506,7 +503,13 @@ export default function ParticipantInfo(): JSX.Element {
                             mt={8}
                             mb={6}
                         />
-                        {formPages[pageNum]}
+                        {formPages.map((formPage, idx) => {
+                            return (
+                                <Box display={pageNum === idx ? null : "none"}>
+                                    {formPage}
+                                </Box>
+                            );
+                        })}
                     </Stack>
                     {getFormButton()}
                 </Box>
