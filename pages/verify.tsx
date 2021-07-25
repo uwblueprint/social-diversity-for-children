@@ -1,12 +1,14 @@
 import { Box, Center, Text, Image, Link } from "@chakra-ui/react";
 import useLocalStorage from "@utils/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
+import { BackButton } from "@components/BackButton";
 
 export default function Verify(): JSX.Element {
     const [localStorageEmail] = useLocalStorage("sdc-email-verification", "");
     const logoSrc = "/images/sdc-logo-blue.png";
     return (
         <Wrapper>
+            <BackButton />
             <Center h="500px" mt={12} mb={16}>
                 <Box width="700px">
                     <Center>
