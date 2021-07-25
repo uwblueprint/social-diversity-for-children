@@ -24,7 +24,8 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useSession } from "next-auth/client";
+import { GetServerSideProps } from "next"; // Get server side props
+import { getSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
@@ -54,8 +55,11 @@ const FormPage = (props) => {
  * This is the page that a user will use to enter the participants personal information
  * onto the SDC platform as a parent of volunteer
  */
-export default function ParticipantInfo(): JSX.Element {
-    const [session, loading] = useSession();
+export default function ParticipantInfo({
+    session,
+}: {
+    session: Record<string, unknown>;
+}): JSX.Element {
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
@@ -526,3 +530,16 @@ export default function ParticipantInfo(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps runs before each page is rendered to check to see if a
+ * user has already been authenticated
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    return {
+        props: { session },
+    };
+};
