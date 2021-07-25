@@ -3,7 +3,7 @@ import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
 import { Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession } from "next-auth/client";
+import { getSession, GetSessionOptions } from "next-auth/client";
 
 type ComponentProps = {
     session: Record<string, unknown>;
@@ -36,10 +36,12 @@ export default function Component(props: ComponentProps): JSX.Element {
 }
 
 /**
- * getServerSideProps runs before each page is rendered to check to see if a
- * user has already been authenticated
+ * getServerSideProps runs before this page is rendered to get the session
+ * before the component is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
     // obtain the next auth session
     const session = await getSession(context);
 

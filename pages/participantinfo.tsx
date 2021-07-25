@@ -25,7 +25,7 @@ import {
 import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession } from "next-auth/client";
+import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
@@ -532,10 +532,12 @@ export default function ParticipantInfo({
 }
 
 /**
- * getServerSideProps runs before each page is rendered to check to see if a
- * user has already been authenticated
+ * getServerSideProps runs before this page is rendered to get the session
+ * before the component is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
     // obtain the next auth session
     const session = await getSession(context);
 
