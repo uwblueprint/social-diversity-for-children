@@ -11,6 +11,7 @@ import {
     Progress,
     Stack,
     HStack,
+    VStack,
     Select,
     Checkbox,
     Textarea,
@@ -59,58 +60,6 @@ export default function ParticipantInfo(): JSX.Element {
     const [pageNum, setPageNum] = useState(0);
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
     const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
-
-    const totalPages = 8;
-    const progressBarIncrement = Math.floor(100 / totalPages);
-
-    if (progressBar <= 0) {
-        setProgressBar(progressBarIncrement);
-    }
-
-    const getProgressBarValue = (pageNum) =>
-        progressBarIncrement * (pageNum + 1);
-
-    const getFormButton = () => {
-        if (pageNum === totalPages) {
-            return;
-        } else if (pageNum === totalPages - 1) {
-            return (
-                <FormButton
-                    onClick={() => setPageNum((prevPage) => prevPage + 1)}
-                >
-                    Finish
-                </FormButton>
-            );
-        }
-        if (pageNum === totalPages - 2) {
-            return (
-                <Box>
-                    <HStack spacing="24px">
-                        <FormButton>Upload Proof of Income</FormButton>
-                        <Button
-                            variant="ghost"
-                            as="u"
-                            onClick={() =>
-                                setPageNum((prevPage) => prevPage + 1)
-                            }
-                        >
-                            Skip for Now
-                        </Button>
-                    </HStack>
-                </Box>
-            );
-        }
-        return (
-            <FormButton
-                onClick={() => {
-                    setPageNum((prevPage) => prevPage + 1);
-                    window.scrollTo({ top: 0 });
-                }}
-            >
-                Next
-            </FormButton>
-        );
-    };
 
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
@@ -439,7 +388,88 @@ export default function ParticipantInfo(): JSX.Element {
                 </Stack>
             </FormControl>
         </FormPage>,
+        <Center>
+            <VStack spacing={50}>
+                <Text fontWeight="700" fontSize="24px" align="center">
+                    Account created successfully
+                </Text>
+                <Text maxW={512}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                </Text>
+                <Link _hover={{ textDecoration: "none" }} href="/login">
+                    <Button
+                        color={"white"}
+                        bg={"#0C53A0"}
+                        px={10}
+                        mb={100}
+                        _hover={{
+                            bg: "#2C6AAD",
+                        }}
+                        _active={{}}
+                        fontWeight={"200"}
+                        borderRadius={100}
+                    >
+                        Browse Classes
+                    </Button>
+                </Link>
+            </VStack>
+        </Center>,
     ];
+
+    const totalPages = formPages.length;
+    const proofOfIncomePage = 6;
+    const progressBarIncrement = Math.ceil(100 / totalPages);
+
+    if (progressBar <= 0) {
+        setProgressBar(progressBarIncrement);
+    }
+
+    const getProgressBarValue = (pageNum) =>
+        progressBarIncrement * (pageNum + 1);
+
+    const getFormButton = () => {
+        if (pageNum === totalPages - 1) {
+            return;
+        } else if (pageNum === totalPages - 2) {
+            return (
+                <FormButton
+                    onClick={() => setPageNum((prevPage) => prevPage + 1)}
+                >
+                    Finish
+                </FormButton>
+            );
+        }
+        if (pageNum === proofOfIncomePage) {
+            return (
+                <Box>
+                    <HStack spacing="24px">
+                        <FormButton>Upload Proof of Income</FormButton>
+                        <Button
+                            variant="ghost"
+                            as="u"
+                            onClick={() =>
+                                setPageNum((prevPage) => prevPage + 1)
+                            }
+                        >
+                            Skip for Now
+                        </Button>
+                    </HStack>
+                </Box>
+            );
+        }
+        return (
+            <FormButton
+                onClick={() => {
+                    setPageNum((prevPage) => prevPage + 1);
+                    window.scrollTo({ top: 0 });
+                }}
+            >
+                Next
+            </FormButton>
+        );
+    };
 
     return (
         <Wrapper session={session}>
@@ -473,6 +503,8 @@ export default function ParticipantInfo(): JSX.Element {
                             value={getProgressBarValue(pageNum)}
                             size="sm"
                             color={BLUE}
+                            mt={8}
+                            mb={6}
                         />
                         {formPages[pageNum]}
                     </Stack>
