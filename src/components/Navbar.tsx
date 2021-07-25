@@ -17,7 +17,7 @@ type NavbarProps = {
 };
 
 const Links = [
-    { name: "Browse Programs", url: "#" },
+    { name: "Browse Programs", url: "/" },
     { name: "My Classes", url: "#" },
 ];
 

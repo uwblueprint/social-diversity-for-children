@@ -11,3 +11,14 @@ export type ProgramInput = {
     startDate: string;
     endDate: string;
 };
+
+// Info for the program card on the home page
+export type ProgramCardInfo = {
+    name: string;
+    description: string;
+    image: string;
+    startDate: string;
+    endDate: string;
+    tag: string;
+    format: string;
+};
