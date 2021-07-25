@@ -13,17 +13,15 @@ export const BackButton: React.FC<BackButtonProps> = (props) => {
     const onClick = props.onClick ? props.onClick : () => router.back();
 
     return (
-        <HStack spacing={6}>
-            <Link onClick={onClick}>
-                <Button
-                    leftIcon={<ArrowBackIcon />}
-                    colorScheme="black"
-                    variant="link"
-                    iconSpacing="20px"
-                >
-                    Back
-                </Button>
-            </Link>
-        </HStack>
+        <Link onClick={onClick}>
+            <Button
+                leftIcon={<ArrowBackIcon />}
+                colorScheme="black"
+                variant="link"
+                iconSpacing="20px"
+            >
+                Back
+            </Button>
+        </Link>
     );
 };
