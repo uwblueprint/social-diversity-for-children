@@ -63,7 +63,7 @@ export default function ParticipantInfo(): JSX.Element {
 
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
-            <Box>
+            <Box mt={4}>
                 <FormControl id="details">
                     <FormLabel>
                         Please provide any details if necessary
@@ -75,7 +75,7 @@ export default function ParticipantInfo(): JSX.Element {
 
     const allergyDetails =
         hasAllergies === RADIO_YES ? (
-            <Box>
+            <Box mt={4}>
                 <FormControl id="details">
                     <FormLabel>
                         Please provide any details if necessary
@@ -107,7 +107,7 @@ export default function ParticipantInfo(): JSX.Element {
                 </Text>
             </Box>
             <FormLabel>
-                Emergency Contact Name
+                Participant Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
                         <Input placeholder="First name" />
@@ -318,12 +318,12 @@ export default function ParticipantInfo(): JSX.Element {
                 </Text>
                 <Button
                     fontSize="16px"
-                    margin="7px"
+                    my="48px"
                     fontWeight="200"
                     color={BLUE}
                     variant="outline"
                     border="2px"
-                    borderStyle="dotted"
+                    borderStyle="dashed"
                     borderColor={BLUE}
                     width="40%"
                     marginLeft="30%"
