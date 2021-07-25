@@ -398,7 +398,7 @@ export default function ParticipantInfo(): JSX.Element {
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua.
                 </Text>
-                <Link _hover={{ textDecoration: "none" }} href="/login">
+                <Link _hover={{ textDecoration: "none" }} _focus={{}} href="/">
                     <Button
                         color={"white"}
                         bg={"#0C53A0"}
