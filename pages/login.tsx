@@ -82,24 +82,29 @@ export default function Login(): JSX.Element {
                                 fontSize="12px"
                                 fontWeight="400"
                                 mt="30px"
-                                _hover={{ bg: "#0C53A0" }}
+                                _hover={{}}
+                                borderRadius={100}
                             >
                                 Please enter a valid email to continue.
                             </Button>
                         ) : !value ? (
                             <Button
-                                backgroundColor="brand.100"
+                                bg="#0C53A0"
                                 color="brand.200"
                                 width="366px"
                                 fontSize="12px"
                                 fontWeight="400"
                                 mt="20px"
-                                _hover={{ bg: "#0C53A0" }}
+                                _hover={{
+                                    bg: "#2C6AAD",
+                                }}
+                                borderRadius={100}
                                 onClick={() => {
                                     setValue(!value);
                                     setLocalStorageEmail(email);
                                     signIn("email", { email: email });
                                 }}
+                                _active={{}}
                             >
                                 Continue
                             </Button>
@@ -107,13 +112,13 @@ export default function Login(): JSX.Element {
                             <Button
                                 isLoading
                                 loadingText="Loading"
-                                backgroundColor="brand.100"
+                                bg="#2C6AAD"
                                 color="brand.200"
                                 width="366px"
                                 fontSize="12px"
                                 fontWeight="400"
                                 mt="20px"
-                            ></Button>
+                            />
                         )}
                     </Center>
                     <Center>
