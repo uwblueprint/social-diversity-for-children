@@ -385,34 +385,6 @@ export default function ParticipantInfo(): JSX.Element {
                 </Stack>
             </FormControl>
         </FormPage>,
-        <Center>
-            <VStack spacing={50}>
-                <Text fontWeight="700" fontSize="24px" align="center">
-                    Account created successfully
-                </Text>
-                <Text maxW={512}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                </Text>
-                <Link _hover={{ textDecoration: "none" }} _focus={{}} href="/">
-                    <Button
-                        color={"white"}
-                        bg={"#0C53A0"}
-                        px={10}
-                        mb={100}
-                        _hover={{
-                            bg: "#2C6AAD",
-                        }}
-                        _active={{}}
-                        fontWeight={"200"}
-                        borderRadius={100}
-                    >
-                        Browse Classes
-                    </Button>
-                </Link>
-            </VStack>
-        </Center>,
     ];
 
     const totalPages = formPages.length;
@@ -427,9 +399,9 @@ export default function ParticipantInfo(): JSX.Element {
         progressBarIncrement * (pageNum + 1);
 
     const getFormButton = () => {
-        if (pageNum === totalPages - 1) {
+        if (pageNum === totalPages) {
             return;
-        } else if (pageNum === totalPages - 2) {
+        } else if (pageNum === totalPages - 1) {
             return (
                 <FormButton
                     onClick={() => setPageNum((prevPage) => prevPage + 1)}
@@ -437,8 +409,7 @@ export default function ParticipantInfo(): JSX.Element {
                     Finish
                 </FormButton>
             );
-        }
-        if (pageNum === proofOfIncomePage) {
+        } else if (pageNum === proofOfIncomePage) {
             return (
                 <Box>
                     <HStack spacing="24px">
@@ -470,50 +441,88 @@ export default function ParticipantInfo(): JSX.Element {
 
     return (
         <Wrapper session={session}>
-            <Center>
-                <Box w={912}>
-                    <Flex
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                    >
-                        <Button
-                            onClick={() =>
-                                setPageNum((prevPage) =>
-                                    Math.max(prevPage - 1, 0),
-                                )
-                            }
-                            bg={"transparent"}
-                            pl={0}
+            {pageNum < totalPages ? (
+                <Center>
+                    <Box w={912}>
+                        <Flex
+                            alignItems={"center"}
+                            justifyContent={"space-between"}
                         >
-                            <ArrowBackIcon mr={4} />
-                            Back
-                        </Button>
-                        <Link href={"/login"}>
-                            <CloseIcon />
+                            <Button
+                                onClick={() =>
+                                    setPageNum((prevPage) =>
+                                        Math.max(prevPage - 1, 0),
+                                    )
+                                }
+                                bg={"transparent"}
+                                pl={0}
+                            >
+                                <ArrowBackIcon mr={4} />
+                                Back
+                            </Button>
+                            <Link href={"/login"}>
+                                <CloseIcon />
+                            </Link>
+                        </Flex>
+                        <Text fontWeight="700" fontSize="36px">
+                            {formPageHeaders[pageNum]}
+                        </Text>
+                        <Stack spacing={8}>
+                            <Progress
+                                value={getProgressBarValue(pageNum)}
+                                size="sm"
+                                color={BLUE}
+                                mt={8}
+                                mb={6}
+                            />
+                            {formPages.map((formPage, idx) => {
+                                return (
+                                    <Box
+                                        display={
+                                            pageNum === idx ? null : "none"
+                                        }
+                                    >
+                                        {formPage}
+                                    </Box>
+                                );
+                            })}
+                        </Stack>
+                        {getFormButton()}
+                    </Box>
+                </Center>
+            ) : (
+                <Center>
+                    <VStack mt={120} mb={180} spacing={50}>
+                        <Text fontWeight="700" fontSize="24px" align="center">
+                            Account created successfully
+                        </Text>
+                        <Text maxW={512}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua.
+                        </Text>
+                        <Link
+                            _hover={{ textDecoration: "none" }}
+                            _focus={{}}
+                            href="/"
+                        >
+                            <Button
+                                color={"white"}
+                                bg={"#0C53A0"}
+                                px={10}
+                                _hover={{
+                                    bg: "#2C6AAD",
+                                }}
+                                _active={{}}
+                                fontWeight={"200"}
+                                borderRadius={100}
+                            >
+                                Browse Classes
+                            </Button>
                         </Link>
-                    </Flex>
-                    <Text fontWeight="700" fontSize="36px">
-                        {formPageHeaders[pageNum]}
-                    </Text>
-                    <Stack spacing={8}>
-                        <Progress
-                            value={getProgressBarValue(pageNum)}
-                            size="sm"
-                            color={BLUE}
-                            mt={8}
-                            mb={6}
-                        />
-                        {formPages.map((formPage, idx) => {
-                            return (
-                                <Box display={pageNum === idx ? null : "none"}>
-                                    {formPage}
-                                </Box>
-                            );
-                        })}
-                    </Stack>
-                    {getFormButton()}
-                </Box>
-            </Center>
+                    </VStack>
+                </Center>
+            )}
         </Wrapper>
     );
 }
