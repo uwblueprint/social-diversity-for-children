@@ -27,7 +27,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 
-const BLUE = "#0C53A0";
+const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
 
