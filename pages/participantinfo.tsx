@@ -86,7 +86,7 @@ export default function ParticipantInfo(): JSX.Element {
         ) : null;
 
     const formPageHeaders = [
-        "Participant Information ",
+        "Participant Information",
         "Participant Information",
         "Parent Guardian Information",
         "Participant Emergency Form",
@@ -128,7 +128,7 @@ export default function ParticipantInfo(): JSX.Element {
             </FormControl>
             <FormControl id="street-address-2">
                 <FormLabel>Street Address 2</FormLabel>
-                <Input placeholder="284 Phillip Street" />
+                <Input placeholder="APT 20" />
             </FormControl>
             <HStack spacing="24px">
                 <FormControl id="city">
