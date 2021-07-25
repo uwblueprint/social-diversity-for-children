@@ -12,7 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
-export const WelcomeToSDC: React.FC = () => {
+type WelcomeToSDCProps = {
+    session: Record<string, unknown>;
+};
+
+export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const goToLogin = () => {
         window.location.href = "/login";
     };
@@ -28,7 +32,7 @@ export const WelcomeToSDC: React.FC = () => {
         "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/active_kids_other/1800x1200_active_kids_other_alt.jpg";
     const img2 =
         "https://www.verywellfamily.com/thmb/dIuXfSzEeILbXa3aSSLuU1xvFR8=/2121x1414/filters:fill(D7DFF5,1)/children-running-in-park-537632931-5c49f59d46e0fb00016e2ad6.jpg";
-    const [session, loading] = useSession();
+
     return (
         <Tabs>
             <TabList>
