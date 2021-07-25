@@ -11,7 +11,9 @@ const SDCWrapper: React.FC<SDCWrapperProps> = (props): JSX.Element => {
     return (
         <Box minHeight={"100vh"} position={"relative"}>
             <Navbar session={props.session} />
-            <Box pb={DEFAULT_FOOTER_HEIGHT}>{props.children}</Box>
+            <Box pb={DEFAULT_FOOTER_HEIGHT} px="48">
+                {props.children}
+            </Box>
             <Footer />
         </Box>
     );

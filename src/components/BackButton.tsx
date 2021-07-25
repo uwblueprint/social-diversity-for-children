@@ -7,7 +7,7 @@ export const BackButton: React.FC = () => {
     const router = useRouter();
 
     return (
-        <HStack spacing={6} px="48">
+        <HStack spacing={6}>
             <Link onClick={() => router.back()}>
                 <Button
                     leftIcon={<ArrowBackIcon />}
