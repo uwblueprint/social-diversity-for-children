@@ -25,7 +25,8 @@ import {
 import { CloseButton } from "@components/CloseButton";
 import { BackButton } from "@components/BackButton";
 import { useState } from "react";
-import { useSession } from "next-auth/client";
+import { GetServerSideProps } from "next"; // Get server side props
+import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
@@ -56,8 +57,11 @@ const FormPage = (props) => {
  * This is the page that a user will use to enter the participants personal information
  * onto the SDC platform as a parent of volunteer
  */
-export default function ParticipantInfo(): JSX.Element {
-    const [session, loading] = useSession();
+export default function ParticipantInfo({
+    session,
+}: {
+    session: Record<string, unknown>;
+}): JSX.Element {
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
@@ -525,3 +529,17 @@ export default function ParticipantInfo(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    return {
+        props: { session },
+    };
+};
