@@ -344,7 +344,7 @@ export default function ParticipantInfo(): JSX.Element {
                     <UnorderedList
                         margin="10px"
                         fontSize="16px"
-                        fontWeight="200"
+                        fontWeight="400"
                     >
                         <ListItem>Income tax notice</ListItem>
                         <ListItem>Paystub</ListItem>
