@@ -8,11 +8,19 @@ const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
 );
 
+type CheckoutButtonProps = {
+    priceId: string;
+    couponId?: string;
+    quantity: number;
+};
+
 /**
  * CheckoutButton is a button component that redirects to the
  * stripe checkout page
  */
-export const CheckoutButton: React.FC = () => {
+export const CheckoutButton: React.FC<CheckoutButtonProps> = (
+    props: CheckoutButtonProps,
+) => {
     // TODO: use helper function to make HTTP call
     const handleClick = async () => {
         const { sessionId } = await fetch("/api/checkout/session", {
@@ -20,7 +28,10 @@ export const CheckoutButton: React.FC = () => {
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify({ quantity: 1 }),
+            body: JSON.stringify({
+                priceId: "price_1J1GuzL97YpjuvTOePyVbsRh",
+                quantity: 1,
+            }),
         }).then((res) => res.json());
 
         const stripe = await stripePromise;

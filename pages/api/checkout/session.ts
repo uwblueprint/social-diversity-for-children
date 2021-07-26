@@ -1,3 +1,4 @@
+import { StripeCheckoutRequest } from "@models/StripeCheckout";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
@@ -18,14 +19,14 @@ export default async function sessionHandler(
     res: NextApiResponse,
 ): Promise<void> {
     if (req.method == "POST") {
-        const { quantity } = req.body;
+        const stripeRequest = req.body as StripeCheckoutRequest;
         // TODO: obtain price id as part of body
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: [
                 {
-                    price: process.env.PRICE_ID,
-                    quantity: quantity,
+                    price: stripeRequest.priceId,
+                    quantity: stripeRequest.quantity,
                 },
             ],
             mode: "payment",
