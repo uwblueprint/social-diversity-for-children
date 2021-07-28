@@ -1,3 +1,4 @@
+import { ResponseUtil } from "@utils/responseUtil";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
@@ -17,23 +18,30 @@ export default async function sessionIdHandler(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    if (req.method == "GET") {
-        // obtain the sessionId
-        const { sessionId } = req.query;
+    switch (req.method) {
+        case "GET": {
+            // obtain the sessionId
+            const { sessionId } = req.query;
 
-        // obtain the session information from sessionId
-        const session = await stripe.checkout.sessions.retrieve(
-            sessionId as string,
-            {
-                expand: ["payment_intent"],
-            },
-        );
+            // obtain the session information from sessionId
+            const session = await stripe.checkout.sessions.retrieve(
+                sessionId as string,
+                {
+                    expand: ["payment_intent"],
+                },
+            );
 
-        // return session information
-        res.status(200).json({ session });
-    } else {
-        res.setHeader("Allow", ["GET"]);
-        // TODO: add JSON response for method not allowed
-        res.status(405);
+            // return session information
+            res.status(200).json({ session });
+            break;
+        }
+        default: {
+            const allowedHeaders: string[] = ["GET"];
+            ResponseUtil.returnMethodNotAllowed(
+                res,
+                allowedHeaders,
+                `Method ${req.method} Not Allowed`,
+            );
+        }
     }
 }
