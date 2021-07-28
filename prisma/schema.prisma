@@ -19,22 +19,24 @@ model CouponUsers {
 }
 
 model Parent {
-  id                Int               @id @default(autoincrement())
-  phoneNumber       String            @map("phone_number") @db.VarChar(50)
-  isLowIncome       Boolean?          @default(false) @map("is_low_income")
-  addressLine1      String            @map("address_line1")
-  addressLine2      String?           @map("address_line2")
-  postalCode        String            @map("postal_code") @db.VarChar(10)
-  cityName          String            @map("city_name") @db.VarChar(50)
-  province          province
-  preferredLanguage locale            @map("preferred_language")
-  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt         DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
-  user              User              @relation("parentsTousers", fields: [id], references: [id])
-  couponUsers       CouponUsers[]     @relation("coupon_usersToparents")
-  parentOfStudents  ParentOfStudent[] @relation("parent_of_studentsToparents")
-  parentRegs        ParentReg[]       @relation("parent_regsToparents")
-  waitlists         Waitlist[]        @relation("parentsTowaitlists")
+  id                   Int               @id @default(autoincrement())
+  phoneNumber          String            @map("phone_number") @db.VarChar(50)
+  isLowIncome          Boolean?          @default(false) @map("is_low_income")
+  addressLine1         String            @map("address_line1")
+  addressLine2         String?           @map("address_line2")
+  postalCode           String            @map("postal_code") @db.VarChar(10)
+  cityName             String            @map("city_name") @db.VarChar(50)
+  province             province
+  preferredLanguage    locale            @map("preferred_language")
+  createdAt            DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+  proof_of_income_link String?
+  heard_from           heard_from?
+  user                 User              @relation("parentsTousers", fields: [id], references: [id])
+  couponUsers          CouponUsers[]     @relation("coupon_usersToparents")
+  parentOfStudents     ParentOfStudent[] @relation("parent_of_studentsToparents")
+  parentRegs           ParentReg[]       @relation("parent_regsToparents")
+  waitlists            Waitlist[]        @relation("parentsTowaitlists")
 
   @@map("parents")
 }
@@ -95,15 +97,31 @@ model ProgramTranslation {
 }
 
 model Student {
-  id               Int               @id @default(autoincrement())
-  firstName        String            @map("first_name")
-  lastName         String            @map("last_name")
-  allergies        String
-  additionalInfo   String?           @map("additional_info")
-  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
-  parentOfStudents ParentOfStudent[] @relation("parent_of_studentsTostudents")
-  parentRegs       ParentReg[]       @relation("parent_regsTostudents")
+  id                    Int               @id @default(autoincrement())
+  firstName             String            @map("first_name")
+  lastName              String            @map("last_name")
+  date_of_birth         DateTime          @db.Timestamptz(6)
+  address_line1         String
+  address_line2         String?
+  postal_code           String?           @db.VarChar(10)
+  city_name             String?
+  province              province?
+  school                String?
+  grade                 Int?
+  difficulties          difficulties?
+  therapy               therapy?
+  special_education     Boolean?          @default(false)
+  guardian_expectations String?
+  medication            String?
+  allergies             String?
+  additionalInfo        String?           @map("additional_info")
+  createdAt             DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+  emerg_name            String
+  emerg_number          String            @db.VarChar(50)
+  relationship_parent   String
+  parentOfStudents      ParentOfStudent[] @relation("parent_of_studentsTostudents")
+  parentRegs            ParentReg[]       @relation("parent_regsTostudents")
 
   @@map("students")
 }
@@ -302,4 +320,28 @@ enum roles {
   PROGRAM_ADMIN
   TEACHER
   VOLUNTEER
+}
+
+enum difficulties {
+  Learning_difficulties @map("Learning difficulties")
+  Physical_difficulties @map("Physical difficulties")
+  Sensory_difficulties @map("Sensory difficulties")
+  Other
+}
+
+enum heard_from {
+  Friends_and_Family @map("Friends and Family")
+  Flyers
+  Email
+  Social_Media @map("Social Media")
+  Other
+}
+
+enum therapy {
+  Physiotherapy
+  Speech___Language_Therapy @map("Speech & Language Therapy")
+  Occupational_Therapy @map("Occupational Therapy")
+  Psychotherapy_Counseling @map("Psychotherapy/Counseling")
+  Music_or_Art_Therapy @map("Music or Art Therapy")
+  Other
 }

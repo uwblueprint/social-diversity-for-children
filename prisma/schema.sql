@@ -19,6 +19,22 @@ CREATE TYPE roles AS ENUM ('PARENT', 'PROGRAM_ADMIN', 'TEACHER', 'VOLUNTEER');
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
 CREATE TYPE program_formats AS ENUM ('online', 'in-person', 'blended');
+CREATE TYPE difficulties AS ENUM (
+  'Learning difficulties',
+  'Physical difficulties',
+  'Sensory difficulties',
+  'Other'
+);
+CREATE TYPE therapy AS ENUM(
+  'Physiotherapy',
+  'Speech & Language Therapy',
+  'Occupational Therapy',
+  'Psychotherapy/Counseling',
+  'Music or Art Therapy',
+  'Other'
+);
+CREATE TYPE heard_from AS ENUM ('Friends and Family', 'Flyers', 'Email', 'Social Media', 'Other');
+
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -93,7 +109,9 @@ CREATE TABLE parents (
   preferred_language locales NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  proof_of_income_link TEXT,
+  heard_from heard_from
 );
 -- create volunteer table
 CREATE TABLE volunteers (
@@ -145,10 +163,27 @@ CREATE TABLE students(
   id SERIAL PRIMARY KEY NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  allergies TEXT NOT NULL,
+  date_of_birth TIMESTAMPTZ NOT NULL,
+  address_line1 TEXT NOT NULL,
+  address_line2 TEXT,
+  postal_code VARCHAR(10),
+  city_name TEXT,
+  province provinces,
+  school TEXT,
+  grade INTEGER,
+  difficulties difficulties,
+  therapy therapy,
+  special_education BOOLEAN DEFAULT false,
+  guardian_expectations TEXT,
+  medication TEXT,
+  allergies TEXT,
   additional_info TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  emerg_name TEXT NOT NULL,
+  emerg_number VARCHAR(50) NOT NULL,
+  relationship_parent TEXT NOT NULL
+
 );
 -- create table for relationship between parent and student
 CREATE TABLE parent_of_students(
