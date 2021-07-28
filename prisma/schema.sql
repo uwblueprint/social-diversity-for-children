@@ -214,7 +214,7 @@ CREATE TABLE program_translations (
   description TEXT NOT NULL,
   language locales NOT NULL,
   FOREIGN KEY (program_id) REFERENCES programs(id) ON DELETE CASCADE,
-  PRIMARY KEY (program_id),
+  PRIMARY KEY (program_id, language),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
