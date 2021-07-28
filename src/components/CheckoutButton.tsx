@@ -10,7 +10,6 @@ const stripePromise = loadStripe(
 
 type CheckoutButtonProps = {
     priceId: string;
-    couponId?: string;
     quantity: number;
 };
 
@@ -21,7 +20,6 @@ type CheckoutButtonProps = {
 export const CheckoutButton: React.FC<CheckoutButtonProps> = (
     props: CheckoutButtonProps,
 ) => {
-    // TODO: use helper function to make HTTP call
     const handleClick = async () => {
         const { sessionId } = await fetch("/api/checkout/session", {
             method: "POST",
@@ -29,8 +27,8 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = (
                 "content-type": "application/json",
             },
             body: JSON.stringify({
-                priceId: "price_1J1GuzL97YpjuvTOePyVbsRh",
-                quantity: 1,
+                priceId: props.priceId,
+                quantity: props.quantity,
             }),
         }).then((res) => res.json());
 
