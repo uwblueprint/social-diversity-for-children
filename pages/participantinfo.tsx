@@ -28,6 +28,7 @@ import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
+import useLocalStorage from "@utils/useLocalStorage";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -67,6 +68,25 @@ export default function ParticipantInfo({
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
     const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
 
+    // store form fields in local storage
+    const [participantFirstName, setParticipantFirstName] = useLocalStorage(
+        "participantFirstName",
+        "",
+    );
+    const [participantLastName, setParticipantLastName] = useLocalStorage(
+        "participantLastName",
+        "",
+    );
+    const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
+    const [address1, setAddress1] = useLocalStorage("address1", "");
+    const [address2, setAddress2] = useLocalStorage("address2", "");
+    const [city, setCity] = useLocalStorage("city", "");
+    const [province, setProvince] = useLocalStorage("province", "");
+    console.log("PROVINCE:", province);
+    const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
+    const [school, setSchool] = useLocalStorage("school", "");
+    const [grade, setGrade] = useLocalStorage("grade", "");
+
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
             <Box mt={4}>
@@ -94,10 +114,10 @@ export default function ParticipantInfo({
     const formPageHeaders = [
         "Participant Information",
         "Participant Information",
-        "Parent Guardian Information",
         "Participant Emergency Form",
         "Participant Health Form",
         "Confirm Participants",
+        "Parent Guardian Information",
         "Proof of Income",
         "How did you hear about us?",
     ];
@@ -116,33 +136,66 @@ export default function ParticipantInfo({
                 Participant Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
-                        <Input placeholder="First name" />
+                        <Input
+                            placeholder="First name"
+                            onChange={(e) =>
+                                setParticipantFirstName(e.target.value)
+                            }
+                            value={participantFirstName}
+                        />
                     </FormControl>
                     <FormControl id="last-name">
-                        <Input placeholder="Last name" />
+                        <Input
+                            placeholder="Last name"
+                            onChange={(e) =>
+                                setParticipantLastName(e.target.value)
+                            }
+                            value={participantLastName}
+                        />
                     </FormControl>
                 </HStack>
             </FormLabel>
             <FormControl id="date-of-birth">
                 <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                <Input placeholder="Date Of Birth" />
+                <Input
+                    placeholder="Date Of Birth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                    value={dateOfBirth}
+                />
             </FormControl>
             <FormControl id="street-address-1">
                 <FormLabel>Street Address 1</FormLabel>
-                <Input placeholder="249 Phillip Street" />
+                <Input
+                    placeholder="249 Phillip Street"
+                    onChange={(e) => setAddress1(e.target.value)}
+                    value={address1}
+                />
             </FormControl>
             <FormControl id="street-address-2">
                 <FormLabel>Street Address 2</FormLabel>
-                <Input placeholder="APT 20" />
+                <Input
+                    placeholder="APT 20"
+                    onChange={(e) => setAddress2(e.target.value)}
+                    value={address2}
+                />
             </FormControl>
             <HStack spacing="24px">
                 <FormControl id="city">
                     <FormLabel>City</FormLabel>
-                    <Input placeholder="Waterloo" />
+                    <Input
+                        placeholder="Waterloo"
+                        onChange={(e) => setCity(e.target.value)}
+                        value={city}
+                    />
                 </FormControl>
                 <FormControl id="province">
                     <FormLabel>Province</FormLabel>
-                    <Select placeholder="Select option">
+                    <Select
+                        placeholder={"Select option"}
+                        onChange={(e) => setProvince(e.target.value)}
+                        value={province} // TODO: bug with displayed value after refresh
+                    >
+                        {/* TODO: use a mapping with a const? */}
                         <option value="NL">NL</option>
                         <option value="PE">PE</option>
                         <option value="NS">NS</option>
@@ -160,16 +213,28 @@ export default function ParticipantInfo({
                 </FormControl>
                 <FormControl id="postal-code">
                     <FormLabel>Postal Code</FormLabel>
-                    <Input placeholder="K9S 8C3" />
+                    <Input
+                        placeholder="K9S 8C3"
+                        onChange={(e) => setPostalCode(e.target.value)}
+                        value={postalCode}
+                    />
                 </FormControl>
             </HStack>
             <FormControl id="school">
                 <FormLabel>School (if applicable)</FormLabel>
-                <Input placeholder="Westmount Secondary School" />
+                <Input
+                    placeholder="Westmount Secondary School"
+                    onChange={(e) => setSchool(e.target.value)}
+                    value={school}
+                />
             </FormControl>
             <FormControl id="grade">
                 <FormLabel>Grade (if applicable)</FormLabel>
-                <Input placeholder="5" />
+                <Input
+                    placeholder="5"
+                    onChange={(e) => setGrade(e.target.value)}
+                    value={grade}
+                />
             </FormControl>
         </FormPage>,
         <FormPage>
@@ -214,27 +279,6 @@ export default function ParticipantInfo({
             <FormControl id="parent/guardian-expectations">
                 <FormLabel>Parent/Guardian Expectations</FormLabel>
                 <Textarea placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas." />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <FormLabel>
-                Parent/Guardian Name
-                <HStack spacing="24px">
-                    <FormControl id="first-name">
-                        <Input placeholder="First name" />
-                    </FormControl>
-                    <FormControl id="last-name">
-                        <Input placeholder="Last name" />
-                    </FormControl>
-                </HStack>
-            </FormLabel>
-            <FormControl id="phone-number">
-                <FormLabel>Phone Number </FormLabel>
-                <Input placeholder="289 349 1048" />
-            </FormControl>
-            <FormControl id="relationship-to-participant">
-                <FormLabel>Relationship to Participant</FormLabel>
-                <Input placeholder="Mother" />
             </FormControl>
         </FormPage>,
         <FormPage>
@@ -338,6 +382,27 @@ export default function ParticipantInfo({
                     + Add new participant
                 </Button>
             </Box>
+        </FormPage>,
+        <FormPage>
+            <FormLabel>
+                Parent/Guardian Name
+                <HStack spacing="24px">
+                    <FormControl id="first-name">
+                        <Input placeholder="First name" />
+                    </FormControl>
+                    <FormControl id="last-name">
+                        <Input placeholder="Last name" />
+                    </FormControl>
+                </HStack>
+            </FormLabel>
+            <FormControl id="phone-number">
+                <FormLabel>Phone Number </FormLabel>
+                <Input placeholder="289 349 1048" />
+            </FormControl>
+            <FormControl id="relationship-to-participant">
+                <FormLabel>Relationship to Participant</FormLabel>
+                <Input placeholder="Mother" />
+            </FormControl>
         </FormPage>,
         <FormPage>
             <Box maxW="55rem">
