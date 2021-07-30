@@ -29,6 +29,7 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
+import useSWR, { mutate } from "swr";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -82,10 +83,23 @@ export default function ParticipantInfo({
     const [address2, setAddress2] = useLocalStorage("address2", "");
     const [city, setCity] = useLocalStorage("city", "");
     const [province, setProvince] = useLocalStorage("province", "");
-    console.log("PROVINCE:", province);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
+    //const [difficulties, setDifficulties] = useLocalStorage("participant-have", "");
+    //TODO: Add constants for multi-select fields
+    const [emergFirstName, setEmergFirstName] = useLocalStorage(
+        "emergFirstName",
+        "",
+    );
+    const [emergLastName, setEmergLastName] = useLocalStorage(
+        "emergLastName",
+        "",
+    );
+    const [emergNumber, setEmergNumber] = useLocalStorage("emergNumber", "");
+    const [relationship, setRelationship] = useLocalStorage("relationship", "");
+    const [medication, setMedication] = useLocalStorage("medication", "");
+    const [allergies, setAllergies] = useLocalStorage("allergies", "");
 
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
@@ -94,7 +108,11 @@ export default function ParticipantInfo({
                     <FormLabel>
                         Please provide any details if necessary
                     </FormLabel>
-                    <Input placeholder="Details" />
+                    <Input
+                        placeholder="Details"
+                        onChange={(e) => setMedication(e.target.value)}
+                        value={medication}
+                    />
                 </FormControl>
             </Box>
         ) : null;
@@ -106,7 +124,11 @@ export default function ParticipantInfo({
                     <FormLabel>
                         Please provide any details if necessary
                     </FormLabel>
-                    <Input placeholder="Details" />
+                    <Input
+                        placeholder="Details"
+                        onChange={(e) => setAllergies(e.target.value)}
+                        value={allergies}
+                    />
                 </FormControl>
             </Box>
         ) : null;
@@ -254,7 +276,7 @@ export default function ParticipantInfo({
                 </FormLabel>
                 <Stack direction="row">
                     <RadioGroup>
-                        <Radio value="1" pr={4}>
+                        <Radio check value="1" pr={4}>
                             Yes
                         </Radio>
                         <Radio value="2" pr={4}>
@@ -296,20 +318,36 @@ export default function ParticipantInfo({
                 Emergency Contact Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
-                        <Input placeholder="First name" />
+                        <Input
+                            placeholder="First Name"
+                            onChange={(e) => setEmergFirstName(e.target.value)}
+                            value={emergFirstName}
+                        />
                     </FormControl>
                     <FormControl id="last-name">
-                        <Input placeholder="Last name" />
+                        <Input
+                            placeholder="Last name"
+                            onChange={(e) => setEmergLastName(e.target.value)}
+                            value={emergLastName}
+                        />
                     </FormControl>
                 </HStack>
             </FormLabel>
             <FormControl id="emergency-contact-cell-number">
                 <FormLabel>Emergency Contact Cell Number </FormLabel>
-                <Input placeholder="289 349 1048" />
+                <Input
+                    placeholder="289 349 1048"
+                    onChange={(e) => setEmergNumber(e.target.value)}
+                    value={emergNumber}
+                />
             </FormControl>
             <FormControl id="relationship-to-participant">
                 <FormLabel>Relationship to Participant</FormLabel>
-                <Input placeholder="Mother" />
+                <Input
+                    placeholder="Mother"
+                    onChange={(e) => setRelationship(e.target.value)}
+                    value={relationship}
+                />
             </FormControl>
         </FormPage>,
         <FormPage>
