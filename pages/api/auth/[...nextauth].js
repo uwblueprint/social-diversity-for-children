@@ -29,6 +29,8 @@ export default NextAuth({
         },
     }),
     pages: {
+        // Redirect to the login.tsx page
+        signIn: "/login",
         // On errors, redirect to home
         error: "/",
         // On email verification request, redirect to verify page
@@ -50,13 +52,15 @@ export default NextAuth({
         session: async (session, user) => {
             // Attach user id to session
             session.id = user.id;
-
+            // Attach user role to session
+            session.role = user.role;
             // Return altered session
             return Promise.resolve(session);
         },
         jwt: async (token, user) => {
             // If user exists, collect user id and assign to token
-            user ? (token.id = user.id) : null;
+            user ? ((token.id = user.id), (token.role = user.role)) : null,
+                null;
 
             // Return altered token
             return Promise.resolve(token);

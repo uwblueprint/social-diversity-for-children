@@ -15,10 +15,11 @@
         "fix:eslint": "eslint '*.{js,jsx,ts,tsx}' --format stylish --fix"
     },
     "dependencies": {
+        "@chakra-ui/icons": "^1.0.14",
         "@chakra-ui/react": "^1.1.4",
         "@emotion/react": "^11.1.4",
         "@emotion/styled": "^11.0.0",
-        "@fontsource/roboto": "^4.4.5",
+        "@fontsource/poppins": "^4.5.0",
         "@prisma/client": "^2.23.0",
         "@stripe/stripe-js": "^1.15.0",
         "aws-sdk": "^2.926.0",

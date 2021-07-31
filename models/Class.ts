@@ -3,7 +3,7 @@ import { weekday } from "@prisma/client";
 /**
  * Request Body Input for POST /class
  */
-export type CreateClassInput = {
+export type ClassInput = {
     name?: string;
     ageGroup?: string;
     programId: number;
@@ -14,4 +14,16 @@ export type CreateClassInput = {
     weekday: weekday;
     startTimeMinutes: number;
     durationMinutes: number;
+};
+
+export type ClassCardInfo = {
+    image?: string;
+    name?: string;
+    ageGroup?: string;
+    spaceAvailable: number;
+    volunteerSpaceAvailable: number;
+    weekday: weekday;
+    startTimeMinutes: number;
+    durationMinutes: number;
+    teacherName: string;
 };
