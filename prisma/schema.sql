@@ -168,7 +168,7 @@ CREATE TABLE parent_regs (
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
   FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
-  PRIMARY KEY (student_id, class_id),
+  PRIMARY KEY (parent_id, student_id, class_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

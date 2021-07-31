@@ -61,7 +61,7 @@ model ParentReg {
   parent    Parent   @relation("parent_regsToparents", fields: [parentId], references: [id])
   student   Student  @relation("parent_regsTostudents", fields: [studentId], references: [id])
 
-  @@id([studentId, classId])
+  @@id([parentId, studentId, classId])
   @@map("parent_regs")
 }
 

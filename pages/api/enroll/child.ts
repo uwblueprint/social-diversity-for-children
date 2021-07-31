@@ -1,11 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client"; // Session handling
 import { ResponseUtil } from "@utils/responseUtil";
 import {
     createParentRegistration,
     getParentRegistration,
 } from "@database/enroll";
-import { validateParentRegistrationRecord } from "@utils/validation/parentRegistration";
-import { ParentRegistrationInput } from "models/ParentRegistration";
+import { validateParentRegistrationRecord } from "@utils/validation/registration";
+import { ParentRegistrationInput } from "models/Enroll";
+import { roles } from "@prisma/client";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -17,6 +19,22 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
+    const session = await getSession({ req });
+
+    // If there is no session or the user is not a parent
+    if (!session || session.role !== roles.PARENT) {
+        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+    }
+
+    const parentId = session.id as number;
+    if (!parentId) {
+        // TODO: What should the error message be here?
+        return ResponseUtil.returnBadRequest(
+            res,
+            "No user id stored in session",
+        );
+    }
+
     switch (req.method) {
         case "GET": {
             // obtain query parameters
@@ -44,6 +62,7 @@ export default async function handle(
 
             // obtain the parent registration record
             const parentRegistrationRecord = await getParentRegistration(
+                parentId,
                 studentIdNumber,
                 classIdNumber,
             );
@@ -61,9 +80,14 @@ export default async function handle(
             break;
         }
         case "POST": {
+            const parentRegistrationInput: ParentRegistrationInput = {
+                parentId,
+                studentId: req.body.studentId,
+                classId: req.body.classId,
+            };
             // validate the request body and return if not validated
             const validationErrors = validateParentRegistrationRecord(
-                req.body as ParentRegistrationInput,
+                parentRegistrationInput,
             );
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
@@ -72,7 +96,7 @@ export default async function handle(
 
             // create parent registration record and return if it could not be created
             const newRegistration = createParentRegistration(
-                req.body as ParentRegistrationInput,
+                parentRegistrationInput,
             );
             if (!newRegistration) {
                 ResponseUtil.returnBadRequest(

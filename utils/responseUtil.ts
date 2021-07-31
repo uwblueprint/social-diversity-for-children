@@ -27,6 +27,15 @@ export class ResponseUtil {
     }
 
     /**
+     * Method for returning a status 401 Bad Request response
+     * @param res NextApiResponse
+     * @param message Optional message
+     */
+    static returnUnauthorized(res: NextApiResponse, message: string): void {
+        res.status(401).json({ error: message });
+    }
+
+    /**
      * Method for returning a status 404 Not Found Response
      * @param res NextApiResponse
      * @param message Optional message
