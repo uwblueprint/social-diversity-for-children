@@ -68,24 +68,24 @@ model ParentReg {
 }
 
 model Program {
-  id                 Int                 @id @default(autoincrement())
+  id                 Int                  @id @default(autoincrement())
   price              Int
-  onlineFormat       programFormat       @map("online_format")
+  onlineFormat       programFormat        @map("online_format")
   tag                String
-  startDate          DateTime            @map("start_date") @db.Timestamptz(6)
-  endDate            DateTime            @map("end_date") @db.Timestamptz(6)
-  isArchived         Boolean             @default(false) @map("is_archived")
-  createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt          DateTime            @default(now()) @map("updated_at") @db.Timestamptz(6)
-  classes            Class[]             @relation("programsToclasses")
-  couponUsers        CouponUsers[]       @relation("coupon_usersToprograms")
-  programTranslation ProgramTranslation? @relation("program_translationsToprograms")
+  startDate          DateTime             @map("start_date") @db.Timestamptz(6)
+  endDate            DateTime             @map("end_date") @db.Timestamptz(6)
+  isArchived         Boolean              @default(false) @map("is_archived")
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime             @default(now()) @map("updated_at") @db.Timestamptz(6)
+  classes            Class[]              @relation("programsToclasses")
+  couponUsers        CouponUsers[]        @relation("coupon_usersToprograms")
+  programTranslation ProgramTranslation[] @relation("program_translationsToprograms")
 
   @@map("programs")
 }
 
 model ProgramTranslation {
-  programId   Int      @id @map("program_id")
+  programId   Int      @map("program_id")
   name        String
   description String
   language    locale
@@ -93,6 +93,7 @@ model ProgramTranslation {
   updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
   program     Program  @relation("program_translationsToprograms", fields: [programId], references: [id])
 
+  @@id([programId, language])
   @@map("program_translations")
 }
 
