@@ -101,6 +101,8 @@ export default function ParticipantInfo({
     const [medication, setMedication] = useLocalStorage("medication", "");
     const [allergies, setAllergies] = useLocalStorage("allergies", "");
 
+    // const [isChecked, setIsChecked] = useLocalStorage("checked", "");
+
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
             <Box mt={4}>
@@ -132,6 +134,14 @@ export default function ParticipantInfo({
                 </FormControl>
             </Box>
         ) : null;
+
+    /*    toggleCheckboxChange = (e) => {
+            e.preventDefault()
+            if (e.target.type === RADIO_YES ) {
+              localStorage.setItem({ [e.target.id]: e.target.checked })
+            }
+         }
+ */
 
     const formPageHeaders = [
         "Participant Information",
@@ -365,9 +375,14 @@ export default function ParticipantInfo({
                 <RadioGroup onChange={(val) => setIsOnMedication(val)}>
                     <FormLabel>Is your child on medication?</FormLabel>
                     <Stack direction="row">
-                        <Radio value={RADIO_YES} pr={4}>
-                            Yes
-                        </Radio>
+                        <input>
+                            {/*   onChange = {(e) => toggleCheckboxChange}
+                            value={} */}
+
+                            <Radio value={RADIO_YES} pr={4}>
+                                Yes
+                            </Radio>
+                        </input>
                         <Radio value={RADIO_NO} pr={4}>
                             No
                         </Radio>
