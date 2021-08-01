@@ -171,6 +171,7 @@ CREATE TABLE students(
   province provinces,
   school TEXT,
   grade INTEGER,
+  -- TODO: update the multi select fields in the db
   difficulties difficulties,
   therapy therapy,
   special_education BOOLEAN DEFAULT false,

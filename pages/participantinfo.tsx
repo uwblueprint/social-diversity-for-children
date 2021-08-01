@@ -69,7 +69,8 @@ export default function ParticipantInfo({
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
     const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
 
-    // store form fields in local storage
+    /* Store form fields in local storage */
+    // page 1
     const [participantFirstName, setParticipantFirstName] = useLocalStorage(
         "participantFirstName",
         "",
@@ -86,8 +87,56 @@ export default function ParticipantInfo({
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
-    //const [difficulties, setDifficulties] = useLocalStorage("participant-have", "");
-    //TODO: Add constants for multi-select fields
+
+    // page 2
+    const [hasLearningDifficulties, setHasLearningDifficulties] =
+        useLocalStorage("hasLearningDifficulties", false);
+    const [hasPhysicalDifficulties, setHasPhysicalDifficulties] =
+        useLocalStorage("hasPhysicalDifficulties", false);
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
+        "hasSensoryDifficulties",
+        false,
+    );
+    const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
+        "hasOtherDifficulties",
+        "",
+    );
+    console.log(
+        "DIFFICULTIES:",
+        hasLearningDifficulties,
+        hasPhysicalDifficulties,
+        hasSensoryDifficulties,
+    );
+    const [involvedInSpecialEd, setInvolvedInSpecialEd] = useLocalStorage(
+        "involvedInSpecialEd",
+        "",
+    );
+    const [receivingPhysiotherapy, setReceivingPhysiotherapy] = useLocalStorage(
+        "receivingPhysiotherapy",
+        "",
+    );
+    const [receivingSpeechLangTherapy, setReceivingSpeechLangTherapy] =
+        useLocalStorage("receivingSpeechLangTherapy", false);
+    const [receivingOccupationalTherapy, setReceivingOccupationalTherapy] =
+        useLocalStorage("receivingOccupationalTherapy", false);
+    const [receivingCounseling, setReceivingCounseling] = useLocalStorage(
+        "receivingCounseling",
+        false,
+    );
+    const [receivingArtTherapy, setReceivingArtTherapy] = useLocalStorage(
+        "receivingArtTherapy",
+        false,
+    );
+    const [receivingOtherTherapy, setReceivingOtherTherapy] = useLocalStorage(
+        "receivingOtherTherapy",
+        false,
+    );
+    const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
+        "guardianExpectations",
+        "",
+    );
+
+    // page 3
     const [emergFirstName, setEmergFirstName] = useLocalStorage(
         "emergFirstName",
         "",
@@ -100,8 +149,6 @@ export default function ParticipantInfo({
     const [relationship, setRelationship] = useLocalStorage("relationship", "");
     const [medication, setMedication] = useLocalStorage("medication", "");
     const [allergies, setAllergies] = useLocalStorage("allergies", "");
-
-    // const [isChecked, setIsChecked] = useLocalStorage("checked", "");
 
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
@@ -273,10 +320,43 @@ export default function ParticipantInfo({
             <FormControl id="participant-have">
                 <FormLabel>Does the participant have:</FormLabel>
                 <Stack direction="column">
-                    <Checkbox>Learning difficulties</Checkbox>
-                    <Checkbox>Physical difficulties</Checkbox>
-                    <Checkbox>Sensory difficulties</Checkbox>
-                    <Checkbox>Other</Checkbox>
+                    <Checkbox
+                        key="learningDifficulties"
+                        defaultChecked={hasLearningDifficulties}
+                        isChecked={hasLearningDifficulties}
+                        onChange={(e) =>
+                            setHasLearningDifficulties(e.target.checked)
+                        }
+                    >
+                        Learning difficulties
+                    </Checkbox>
+                    <Checkbox
+                        key="physicalDifficulties"
+                        isChecked={hasPhysicalDifficulties}
+                        onChange={() =>
+                            setHasPhysicalDifficulties(!hasPhysicalDifficulties)
+                        }
+                    >
+                        Physical difficulties
+                    </Checkbox>
+                    <Checkbox
+                        key="sensoryDifficulties"
+                        isChecked={hasSensoryDifficulties}
+                        onChange={() =>
+                            setHasSensoryDifficulties(!hasSensoryDifficulties)
+                        }
+                    >
+                        Sensory difficulties
+                    </Checkbox>
+                    <Checkbox
+                        key="otherDifficulties"
+                        isChecked={hasOtherDifficulties}
+                        onChange={() =>
+                            setHasOtherDifficulties(!hasOtherDifficulties)
+                        }
+                    >
+                        Other
+                    </Checkbox>
                 </Stack>
             </FormControl>
             <FormControl id="special-education">
@@ -286,10 +366,28 @@ export default function ParticipantInfo({
                 </FormLabel>
                 <Stack direction="row">
                     <RadioGroup>
-                        <Radio check value="1" pr={4}>
+                        <Radio
+                            value={"1"}
+                            onChange={() => {
+                                setInvolvedInSpecialEd(true);
+                                console.log(
+                                    "onCHange yes, ",
+                                    involvedInSpecialEd,
+                                );
+                            }}
+                            isChecked={involvedInSpecialEd}
+                            pr={4}
+                        >
                             Yes
                         </Radio>
-                        <Radio value="2" pr={4}>
+                        <Radio
+                            onChange={() => {
+                                setInvolvedInSpecialEd(false);
+                                console.log("onChange no", involvedInSpecialEd);
+                            }}
+                            isChecked={!involvedInSpecialEd}
+                            pr={4}
+                        >
                             No
                         </Radio>
                     </RadioGroup>
@@ -375,14 +473,9 @@ export default function ParticipantInfo({
                 <RadioGroup onChange={(val) => setIsOnMedication(val)}>
                     <FormLabel>Is your child on medication?</FormLabel>
                     <Stack direction="row">
-                        <input>
-                            {/*   onChange = {(e) => toggleCheckboxChange}
-                            value={} */}
-
-                            <Radio value={RADIO_YES} pr={4}>
-                                Yes
-                            </Radio>
-                        </input>
+                        <Radio value={RADIO_YES} pr={4}>
+                            Yes
+                        </Radio>
                         <Radio value={RADIO_NO} pr={4}>
                             No
                         </Radio>
