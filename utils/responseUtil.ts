@@ -27,7 +27,7 @@ export class ResponseUtil {
     }
 
     /**
-     * Method for returning a status 401 Bad Request response
+     * Method for returning a status 401 Unauthorized response
      * @param res NextApiResponse
      * @param message Optional message
      */

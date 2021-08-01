@@ -23,12 +23,14 @@ export default async function handle(
 
     // If there is no session or the user is not a parent
     if (!session || session.role !== roles.PARENT) {
-        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+        return ResponseUtil.returnUnauthorized(
+            res,
+            "Only users with PARENT role can access this resource",
+        );
     }
 
     const parentId = session.id as number;
     if (!parentId) {
-        // TODO: What should the error message be here?
         return ResponseUtil.returnBadRequest(
             res,
             "No user id stored in session",

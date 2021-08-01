@@ -23,12 +23,14 @@ export default async function handle(
 
     // If there is no session or the user is not a volunteer
     if (!session || session.role !== roles.VOLUNTEER) {
-        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+        return ResponseUtil.returnUnauthorized(
+            res,
+            "Only users with VOLUNTEER role can access this resource",
+        );
     }
 
     const volunteerId = session.id as number;
     if (!volunteerId) {
-        // TODO: What should the error message be here?
         return ResponseUtil.returnBadRequest(
             res,
             "No user id stored in session",
