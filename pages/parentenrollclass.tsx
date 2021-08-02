@@ -9,32 +9,34 @@ import {
     useRadio,
     useRadioGroup,
 } from "@chakra-ui/react";
-import { CloseButton } from "@components/CloseButton";
-import React from "react";
-export default function ParentEnrollClass(): JSX.Element {
-    // TODO: Update to retrieve children related to parentID
-    const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
-    const registerChildren = [];
+import React, { useState } from "react";
+import { CloseIcon } from "@chakra-ui/icons";
 
-    for (const child of children) {
-        registerChildren.push(
-            <Center>
-                <Button
-                    mb="25px"
-                    height="50px"
-                    width="340px"
-                    borderRadius="6px"
-                    textColor="#0C53A0"
-                    fontSize="16px"
-                    fontWeight="normal"
-                    backgroundColor="white"
-                    border="2px solid #E1E1E1"
-                >
-                    {child}
-                </Button>
-            </Center>,
-        );
-    }
+export default function ParentEnrollClass(): JSX.Element {
+    // Started creating buttons, found a thread that used radio buttons instead
+    // const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
+    // const registerChildren = [];
+
+    // for (const child of children) {
+    //     registerChildren.push(
+    //         <Center>
+    //             <Button
+    //                 mb="25px"
+    //                 height="50px"
+    //                 width="340px"
+    //                 borderRadius="6px"
+    //                 textColor="#0C53A0"
+    //                 fontSize="16px"
+    //                 fontWeight="normal"
+    //                 backgroundColor="white"
+    //                 border="2px solid #E1E1E1"
+    //             >
+    //                 {child}
+    //             </Button>
+    //         </Center>,
+    //     );
+    // }
+    const [isDisabled, setIsDisabled] = useState<boolean>(true);
     function RadioCard(props) {
         const { getInputProps, getCheckboxProps } = useRadio(props);
 
@@ -70,11 +72,13 @@ export default function ParentEnrollClass(): JSX.Element {
         );
     }
     function ChildrenButtons() {
+        // children to be retrieved from parent enroll endpoint
         const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
 
         const { getRootProps, getRadioProps } = useRadioGroup({
             name: "framework",
             defaultValue: "react",
+            onChange: () => setIsDisabled(false),
         });
 
         const group = getRootProps();
@@ -92,9 +96,12 @@ export default function ParentEnrollClass(): JSX.Element {
             </Stack>
         );
     }
+
     return (
         <Wrapper>
-            <CloseButton ml={"100%"} />
+            <Link href="/" ml="100%">
+                <CloseIcon />
+            </Link>
 
             <Center>
                 <Text mt={"15px"} fontWeight={"700"} fontSize={"36px"}>
@@ -112,7 +119,6 @@ export default function ParentEnrollClass(): JSX.Element {
                 </Text>
             </Center>
 
-            {/* {registerChildren} */}
             <Center>
                 <ChildrenButtons />
             </Center>
@@ -125,9 +131,10 @@ export default function ParentEnrollClass(): JSX.Element {
                     fontWeight="normal"
                     textColor="#FFFFFF"
                     fontSize="16px"
+                    isDisabled={isDisabled}
                 >
                     {/* Link to the next page in the flow (does not exist yet) */}
-                    <Link href="/">Next</Link>
+                    Next
                 </Button>
             </Center>
         </Wrapper>
