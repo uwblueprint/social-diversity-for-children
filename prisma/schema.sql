@@ -101,11 +101,6 @@ CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
   is_low_income BOOLEAN DEFAULT false,
-  address_line1 TEXT NOT NULL,
-  address_line2 TEXT,
-  postal_code VARCHAR(10) NOT NULL,
-  city_name VARCHAR(50) NOT NULL,
-  province provinces NOT NULL,
   preferred_language locales NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -139,15 +134,6 @@ CREATE TABLE volunteer_regs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
--- create coupon users table
-CREATE TABLE coupon_users (
-  program_id INTEGER NOT NULL,
-  parent_id INTEGER NOT NULL,
-  FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
-  FOREIGN KEY (program_id) REFERENCES programs(id) ON DELETE CASCADE,
-  coupon_id TEXT,
-  PRIMARY KEY (parent_id, program_id)
-);
 -- create program waitlist table
 CREATE TABLE waitlists(
   class_id INTEGER NOT NULL,
@@ -159,8 +145,9 @@ CREATE TABLE waitlists(
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- create student table
-CREATE TABLE students(
+CREATE TABLE students (
   id SERIAL PRIMARY KEY NOT NULL,
+  parent_id INTEGER NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   date_of_birth TIMESTAMPTZ NOT NULL,
@@ -172,6 +159,7 @@ CREATE TABLE students(
   school TEXT,
   grade INTEGER,
   -- TODO: update the multi select fields in the db
+  -- Eric (Aug 2, 2021): Jason, when you make this change, please also update models/User.ts and in updateUsers
   difficulties difficulties,
   therapy therapy,
   special_education BOOLEAN DEFAULT false,
@@ -179,20 +167,11 @@ CREATE TABLE students(
   medication TEXT,
   allergies TEXT,
   additional_info TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  emerg_name TEXT NOT NULL,
+  emerg_first_name TEXT NOT NULL,
+  emerg_last_name TEXT NOT NULL,
   emerg_number VARCHAR(50) NOT NULL,
-  relationship_parent TEXT NOT NULL
-
-);
--- create table for relationship between parent and student
-CREATE TABLE parent_of_students(
-  parent_id INTEGER NOT NULL,
-  student_id INTEGER NOT NULL,
+  emerg_relation_to_student TEXT NOT NULL,
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
-  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-  PRIMARY KEY (student_id, parent_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

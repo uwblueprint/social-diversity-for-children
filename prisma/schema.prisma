@@ -7,64 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model CouponUsers {
-  programId Int     @map("program_id")
-  parentId  Int     @map("parent_id")
-  couponId  String? @map("coupon_id")
-  parent    Parent  @relation("coupon_usersToparents", fields: [parentId], references: [id])
-  program   Program @relation("coupon_usersToprograms", fields: [programId], references: [id])
-
-  @@id([parentId, programId])
-  @@map("coupon_users")
-}
-
 model Parent {
-  id                   Int               @id @default(autoincrement())
-  phoneNumber          String            @map("phone_number") @db.VarChar(50)
-  isLowIncome          Boolean?          @default(false) @map("is_low_income")
-  addressLine1         String            @map("address_line1")
-  addressLine2         String?           @map("address_line2")
-  postalCode           String            @map("postal_code") @db.VarChar(10)
-  cityName             String            @map("city_name") @db.VarChar(50)
-  province             province
-  preferredLanguage    locale            @map("preferred_language")
-  createdAt            DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt            DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
-  proof_of_income_link String?
-  heard_from           heard_from?
-  user                 User              @relation("parentsTousers", fields: [id], references: [id])
-  couponUsers          CouponUsers[]     @relation("coupon_usersToparents")
-  parentOfStudents     ParentOfStudent[] @relation("parent_of_studentsToparents")
-  parentRegs           ParentReg[]       @relation("parent_regsToparents")
-  waitlists            Waitlist[]        @relation("parentsTowaitlists")
+  id                Int         @id @default(autoincrement())
+  phoneNumber       String      @map("phone_number") @db.VarChar(50)
+  isLowIncome       Boolean?    @default(false) @map("is_low_income")
+  preferredLanguage locale      @map("preferred_language")
+  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime    @default(now()) @map("updated_at") @db.Timestamptz(6)
+  proofOfIncomeLink String?     @map("proof_of_income_link")
+  heardFrom         heardFrom?  @map("heard_from")
+  user              User        @relation("parentsTousers", fields: [id], references: [id])
+  parentRegs        ParentReg[] @relation("parent_regsToparents")
+  students          Student[]   @relation("parentsTostudents")
+  waitlists         Waitlist[]  @relation("parentsTowaitlists")
 
   @@map("parents")
-}
-
-model ParentOfStudent {
-  parentId  Int      @map("parent_id")
-  studentId Int      @map("student_id")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
-  parent    Parent   @relation("parent_of_studentsToparents", fields: [parentId], references: [id])
-  student   Student  @relation("parent_of_studentsTostudents", fields: [studentId], references: [id])
-
-  @@id([studentId, parentId])
-  @@map("parent_of_students")
-}
-
-model ParentReg {
-  parentId  Int      @map("parent_id")
-  studentId Int      @map("student_id")
-  classId   Int      @map("class_id")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
-  class     Class    @relation("parent_regsToclasses", fields: [classId], references: [id])
-  parent    Parent   @relation("parent_regsToparents", fields: [parentId], references: [id])
-  student   Student  @relation("parent_regsTostudents", fields: [studentId], references: [id])
-
-  @@id([studentId, classId])
-  @@map("parent_regs")
 }
 
 model Program {
@@ -78,7 +35,6 @@ model Program {
   createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime            @default(now()) @map("updated_at") @db.Timestamptz(6)
   classes            Class[]             @relation("programsToclasses")
-  couponUsers        CouponUsers[]       @relation("coupon_usersToprograms")
   programTranslation ProgramTranslation? @relation("program_translationsToprograms")
 
   @@map("programs")
@@ -94,36 +50,6 @@ model ProgramTranslation {
   program     Program  @relation("program_translationsToprograms", fields: [programId], references: [id])
 
   @@map("program_translations")
-}
-
-model Student {
-  id                    Int               @id @default(autoincrement())
-  firstName             String            @map("first_name")
-  lastName              String            @map("last_name")
-  date_of_birth         DateTime          @db.Timestamptz(6)
-  address_line1         String
-  address_line2         String?
-  postal_code           String?           @db.VarChar(10)
-  city_name             String?
-  province              province?
-  school                String?
-  grade                 Int?
-  difficulties          difficulties?
-  therapy               therapy?
-  special_education     Boolean?          @default(false)
-  guardian_expectations String?
-  medication            String?
-  allergies             String?
-  additionalInfo        String?           @map("additional_info")
-  createdAt             DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt             DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
-  emerg_name            String
-  emerg_number          String            @db.VarChar(50)
-  relationship_parent   String
-  parentOfStudents      ParentOfStudent[] @relation("parent_of_studentsTostudents")
-  parentRegs            ParentReg[]       @relation("parent_regsTostudents")
-
-  @@map("students")
 }
 
 model Teacher {
@@ -248,7 +174,7 @@ model Class {
   updatedAt               DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
   program                 Program           @relation("programsToclasses", fields: [programId], references: [id])
   classTranslation        ClassTranslation?
-  parentRegs              ParentReg[]       @relation("parent_regsToclasses")
+  parentRegs              ParentReg[]       @relation("classesToparent_regs")
   teacherRegs             TeacherReg[]      @relation("classesToteacher_regs")
   volunteerRegs           VolunteerReg[]    @relation("classesTovolunteer_regs")
   waitlists               Waitlist[]
@@ -266,6 +192,52 @@ model Waitlist {
 
   @@id([parentId, classId])
   @@map("waitlists")
+}
+
+model ParentReg {
+  parentId  Int      @map("parent_id")
+  studentId Int      @map("student_id")
+  classId   Int      @map("class_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+  classes   Class    @relation("classesToparent_regs", fields: [classId], references: [id])
+  parents   Parent   @relation("parent_regsToparents", fields: [parentId], references: [id])
+  students  Student  @relation(fields: [studentId], references: [id])
+
+  @@id([studentId, classId])
+  @@map("parent_regs")
+}
+
+model Student {
+  id                     Int           @id @default(autoincrement())
+  parentId               Int           @map("parent_id")
+  firstName              String        @map("first_name")
+  lastName               String        @map("last_name")
+  dateOfBirth            DateTime      @map("date_of_birth") @db.Timestamptz(6)
+  addressLine1           String        @map("address_line1")
+  addressLine2           String?       @map("address_line2")
+  postalCode             String?       @map("postal_code") @db.VarChar(10)
+  cityName               String?       @map("city_name")
+  province               province?
+  school                 String?
+  grade                  Int?
+  difficulties           difficulties?
+  therapy                therapy?
+  specialEducation       Boolean?      @default(false) @map("special_education")
+  guardianExpectations   String?       @map("guardian_expectations")
+  medication             String?
+  allergies              String?
+  additionalInfo         String?       @map("additional_info")
+  emergFirstName         String        @map("emerg_first_name")
+  emergLastName          String        @map("emerg_last_name")
+  emergNumber            String        @map("emerg_number") @db.VarChar(50)
+  emergRelationToStudent String        @map("emerg_relation_to_student")
+  createdAt              DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime      @default(now()) @map("updated_at") @db.Timestamptz(6)
+  parent                 Parent        @relation("parentsTostudents", fields: [parentId], references: [id])
+  parentRegs             ParentReg[]
+
+  @@map("students")
 }
 
 enum locale {
@@ -329,12 +301,14 @@ enum difficulties {
   Other
 }
 
-enum heard_from {
+enum heardFrom {
   Friends_and_Family @map("Friends and Family")
   Flyers
   Email
   Social_Media @map("Social Media")
   Other
+
+   @@map("heard_from")
 }
 
 enum therapy {
