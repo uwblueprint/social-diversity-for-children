@@ -8,83 +8,27 @@ datasource db {
 }
 
 model Parent {
-<<<<<<< HEAD
   id                Int         @id @default(autoincrement())
   phoneNumber       String      @map("phone_number") @db.VarChar(50)
   isLowIncome       Boolean?    @default(false) @map("is_low_income")
   preferredLanguage locale      @map("preferred_language")
-  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt         DateTime    @default(now()) @map("updated_at") @db.Timestamptz(6)
   proofOfIncomeLink String?     @map("proof_of_income_link")
   heardFrom         heardFrom?  @map("heard_from")
+  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime?   @map("updated_at") @db.Timestamptz(6)
   user              User        @relation("parentsTousers", fields: [id], references: [id])
   parentRegs        ParentReg[] @relation("parent_regsToparents")
   students          Student[]   @relation("parentsTostudents")
   waitlists         Waitlist[]  @relation("parentsTowaitlists")
-=======
-  id                Int               @id @default(autoincrement())
-  phoneNumber       String            @map("phone_number") @db.VarChar(50)
-  isLowIncome       Boolean?          @default(false) @map("is_low_income")
-  addressLine1      String            @map("address_line1")
-  addressLine2      String?           @map("address_line2")
-  postalCode        String            @map("postal_code") @db.VarChar(10)
-  cityName          String            @map("city_name") @db.VarChar(50)
-  province          province
-  preferredLanguage locale            @map("preferred_language")
-  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt         DateTime?         @map("updated_at") @db.Timestamptz(6)
-  user              User              @relation("parentsTousers", fields: [id], references: [id])
-  parentOfStudents  ParentOfStudent[] @relation("parent_of_studentsToparents")
-  parentRegs        ParentReg[]       @relation("parent_regsToparents")
-  waitlists         Waitlist[]        @relation("parentsTowaitlists")
->>>>>>> staging
 
   @@map("parents")
 }
 
-<<<<<<< HEAD
-=======
-model ParentOfStudent {
-  parentId  Int       @map("parent_id")
-  studentId Int       @map("student_id")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
-  parent    Parent    @relation("parent_of_studentsToparents", fields: [parentId], references: [id])
-  student   Student   @relation("parent_of_studentsTostudents", fields: [studentId], references: [id])
-
-  @@id([studentId, parentId])
-  @@map("parent_of_students")
-}
-
-model ParentReg {
-  parentId  Int       @map("parent_id")
-  studentId Int       @map("student_id")
-  classId   Int       @map("class_id")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
-  class     Class     @relation("parent_regsToclasses", fields: [classId], references: [id])
-  parent    Parent    @relation("parent_regsToparents", fields: [parentId], references: [id])
-  student   Student   @relation("parent_regsTostudents", fields: [studentId], references: [id])
-
-  @@id([parentId, studentId, classId])
-  @@map("parent_regs")
-}
-
->>>>>>> staging
 model Program {
   id                 Int                  @id @default(autoincrement())
   price              Int
   onlineFormat       programFormat        @map("online_format")
   tag                String
-<<<<<<< HEAD
-  startDate          DateTime            @map("start_date") @db.Timestamptz(6)
-  endDate            DateTime            @map("end_date") @db.Timestamptz(6)
-  isArchived         Boolean             @default(false) @map("is_archived")
-  createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt          DateTime            @default(now()) @map("updated_at") @db.Timestamptz(6)
-  classes            Class[]             @relation("programsToclasses")
-  programTranslation ProgramTranslation? @relation("program_translationsToprograms")
-=======
   startDate          DateTime             @map("start_date") @db.Timestamptz(6)
   endDate            DateTime             @map("end_date") @db.Timestamptz(6)
   isArchived         Boolean              @default(false) @map("is_archived")
@@ -92,7 +36,6 @@ model Program {
   updatedAt          DateTime?            @map("updated_at") @db.Timestamptz(6)
   classes            Class[]              @relation("programsToclasses")
   programTranslation ProgramTranslation[] @relation("program_translationsToprograms")
->>>>>>> staging
 
   @@map("programs")
 }
@@ -110,23 +53,6 @@ model ProgramTranslation {
   @@map("program_translations")
 }
 
-<<<<<<< HEAD
-=======
-model Student {
-  id               Int               @id @default(autoincrement())
-  firstName        String            @map("first_name")
-  lastName         String            @map("last_name")
-  allergies        String
-  additionalInfo   String?           @map("additional_info")
-  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime?         @map("updated_at") @db.Timestamptz(6)
-  parentOfStudents ParentOfStudent[] @relation("parent_of_studentsTostudents")
-  parentRegs       ParentReg[]       @relation("parent_regsTostudents")
-
-  @@map("students")
-}
-
->>>>>>> staging
 model Teacher {
   id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
@@ -270,16 +196,16 @@ model Waitlist {
 }
 
 model ParentReg {
-  parentId  Int      @map("parent_id")
-  studentId Int      @map("student_id")
-  classId   Int      @map("class_id")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
-  classes   Class    @relation("classesToparent_regs", fields: [classId], references: [id])
-  parents   Parent   @relation("parent_regsToparents", fields: [parentId], references: [id])
-  students  Student  @relation(fields: [studentId], references: [id])
+  parentId  Int       @map("parent_id")
+  studentId Int       @map("student_id")
+  classId   Int       @map("class_id")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  class     Class     @relation("classesToparent_regs", fields: [classId], references: [id])
+  parent    Parent    @relation("parent_regsToparents", fields: [parentId], references: [id])
+  student   Student   @relation(fields: [studentId], references: [id])
 
-  @@id([studentId, classId])
+  @@id([parentId, studentId, classId])
   @@map("parent_regs")
 }
 
@@ -308,7 +234,7 @@ model Student {
   emergNumber            String        @map("emerg_number") @db.VarChar(50)
   emergRelationToStudent String        @map("emerg_relation_to_student")
   createdAt              DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt              DateTime      @default(now()) @map("updated_at") @db.Timestamptz(6)
+  updatedAt              DateTime?     @map("updated_at") @db.Timestamptz(6)
   parent                 Parent        @relation("parentsTostudents", fields: [parentId], references: [id])
   parentRegs             ParentReg[]
 

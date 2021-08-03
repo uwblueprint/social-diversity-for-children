@@ -102,10 +102,10 @@ CREATE TABLE parents (
   is_low_income BOOLEAN DEFAULT false,
   preferred_language locales NOT NULL,
   proof_of_income_link TEXT,
-  heard_from heard_from
+  heard_from heard_from,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ
 );
 -- create volunteer table
 CREATE TABLE volunteers (
