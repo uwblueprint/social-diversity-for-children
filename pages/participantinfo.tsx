@@ -371,7 +371,7 @@ export default function ParticipantInfo({
                             onChange={() => {
                                 setInvolvedInSpecialEd(true);
                                 console.log(
-                                    "onCHange yes, ",
+                                    "onChange yes, ",
                                     involvedInSpecialEd,
                                 );
                             }}
@@ -381,6 +381,7 @@ export default function ParticipantInfo({
                             Yes
                         </Radio>
                         <Radio
+                            value={"0"}
                             onChange={() => {
                                 setInvolvedInSpecialEd(false);
                                 console.log("onChange no", involvedInSpecialEd);
