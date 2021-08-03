@@ -38,7 +38,7 @@ export default async function sessionHandler(
 
                 res.status(200).json({ sessionId: session.id });
             }
-            // otherwise apply a default discount
+            // otherwise apply the discount from the coupon ID passed in
             else {
                 delete stripeSession["allow_promotion_codes"];
                 stripeSession["discounts"] = [
