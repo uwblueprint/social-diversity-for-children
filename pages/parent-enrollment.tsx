@@ -1,6 +1,6 @@
 import Wrapper from "@components/SDCWrapper";
 import {
-    Link,
+    Flex,
     Box,
     Button,
     Stack,
@@ -10,7 +10,7 @@ import {
     useRadioGroup,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseButton } from "@components/CloseButton";
 
 function RadioCard(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -83,10 +83,10 @@ export default function ParentEnrollClass(): JSX.Element {
 
     return (
         <Wrapper>
-            <Link href="/" ml={"100%"}>
-                <CloseIcon />
-            </Link>
-
+            <Flex justifyContent="flex-end">
+                {/* navigate to browse programs page instead of going back */}
+                <CloseButton href="/"></CloseButton>
+            </Flex>
             <Center>
                 <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
                     Program Registration
