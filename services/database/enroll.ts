@@ -1,6 +1,9 @@
 import prisma from "@database";
-import { ParentRegistrationInput } from "models/ParentRegistration";
-import { ParentReg } from "@prisma/client";
+import {
+    ParentRegistrationInput,
+    VolunteerRegistrationInput,
+} from "@models/Enroll";
+import { ParentReg, VolunteerReg } from "@prisma/client";
 
 /**
  * getParentRegistration obtains the registration record of a parent enrollment
@@ -10,14 +13,16 @@ import { ParentReg } from "@prisma/client";
  * @returns {Promise<ParentReg>} record of the registration
  */
 async function getParentRegistration(
+    parentId: number,
     studentId: number,
     classId: number,
 ): Promise<ParentReg> {
     const parentRegistrationRecord = await prisma.parentReg.findUnique({
         where: {
-            studentId_classId: {
-                studentId: studentId,
-                classId: classId,
+            parentId_studentId_classId: {
+                parentId,
+                studentId,
+                classId,
             },
         },
     });
@@ -45,4 +50,51 @@ async function createParentRegistration(
     return parentRegistration;
 }
 
-export { getParentRegistration, createParentRegistration };
+/**
+ * getVolunteerRegistration obtains the registration record of a volunteer enrollment
+ *
+ * @param {number} volunteerId  unique identifier of the enrolled volunteer
+ * @param {number} classId unique identifier of the class the volunteer was enrolled in
+ * @returns {Promise<VolunteerReg>} record of the registration
+ */
+async function getVolunteerRegistration(
+    volunteerId: number,
+    classId: number,
+): Promise<VolunteerReg> {
+    const volunteerRegistration = await prisma.volunteerReg.findUnique({
+        where: {
+            volunteerId_classId: {
+                volunteerId,
+                classId,
+            },
+        },
+    });
+
+    return volunteerRegistration;
+}
+
+/**
+ * createVolunteerRegistration creates a new registration record of a volunteer enrollment
+ *
+ * @param {VolunteerRegistrationInput} volunteerRegistrationData the data containing the details of the enrollment
+ * @returns {Promise<VolunteerReg>}
+ */
+async function createVolunteerRegistration(
+    volunteerRegistrationData: VolunteerRegistrationInput,
+): Promise<VolunteerReg> {
+    const volunteerRegistration = await prisma.volunteerReg.create({
+        data: {
+            volunteerId: volunteerRegistrationData.volunteerId,
+            classId: volunteerRegistrationData.classId,
+        },
+    });
+
+    return volunteerRegistration;
+}
+
+export {
+    getParentRegistration,
+    createParentRegistration,
+    getVolunteerRegistration,
+    createVolunteerRegistration,
+};

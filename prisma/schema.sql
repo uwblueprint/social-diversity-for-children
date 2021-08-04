@@ -45,7 +45,7 @@ CREATE TABLE users (
   role roles,
   image TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- Create email verification requests table
 CREATE TABLE verification_requests (
@@ -54,7 +54,7 @@ CREATE TABLE verification_requests (
   token TEXT NOT NULL UNIQUE,
   expires TIMESTAMPTZ NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create program table
 CREATE TABLE programs (
@@ -68,7 +68,7 @@ CREATE TABLE programs (
 
   is_archived BOOLEAN DEFAULT false NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 
 CREATE TABLE classes (
@@ -93,25 +93,19 @@ CREATE TABLE classes (
   duration_minutes INTEGER NOT NULL,
 
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
-
 -- create parent table
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
   is_low_income BOOLEAN DEFAULT false,
-  address_line1 TEXT NOT NULL,
-  address_line2 TEXT,
-  postal_code VARCHAR(10) NOT NULL,
-  city_name VARCHAR(50) NOT NULL,
-  province provinces NOT NULL,
   preferred_language locales NOT NULL,
+  proof_of_income_link TEXT,
+  heard_from heard_from,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  proof_of_income_link TEXT,
-  heard_from heard_from
+  updated_at TIMESTAMPTZ
 );
 -- create volunteer table
 CREATE TABLE volunteers (
@@ -127,7 +121,7 @@ CREATE TABLE volunteers (
   province provinces,
   preferred_language locales,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create volunteer registration table
 CREATE TABLE volunteer_regs (
@@ -137,16 +131,7 @@ CREATE TABLE volunteer_regs (
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
   PRIMARY KEY (volunteer_id, class_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
--- create coupon users table
-CREATE TABLE coupon_users (
-  program_id INTEGER NOT NULL,
-  parent_id INTEGER NOT NULL,
-  FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
-  FOREIGN KEY (program_id) REFERENCES programs(id) ON DELETE CASCADE,
-  coupon_id TEXT,
-  PRIMARY KEY (parent_id, program_id)
+  updated_at TIMESTAMPTZ
 );
 -- create program waitlist table
 CREATE TABLE waitlists(
@@ -156,11 +141,12 @@ CREATE TABLE waitlists(
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
   PRIMARY KEY (parent_id, class_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create student table
-CREATE TABLE students(
+CREATE TABLE students (
   id SERIAL PRIMARY KEY NOT NULL,
+  parent_id INTEGER NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   date_of_birth TIMESTAMPTZ NOT NULL,
@@ -172,6 +158,7 @@ CREATE TABLE students(
   school TEXT,
   grade INTEGER,
   -- TODO: update the multi select fields in the db
+  -- Eric (Aug 2, 2021): Jason, when you make this change, please also update models/User.ts and in updateUsers
   difficulties difficulties,
   therapy therapy,
   special_education BOOLEAN DEFAULT false,
@@ -179,22 +166,13 @@ CREATE TABLE students(
   medication TEXT,
   allergies TEXT,
   additional_info TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  emerg_name TEXT NOT NULL,
+  emerg_first_name TEXT NOT NULL,
+  emerg_last_name TEXT NOT NULL,
   emerg_number VARCHAR(50) NOT NULL,
-  relationship_parent TEXT NOT NULL
-
-);
--- create table for relationship between parent and student
-CREATE TABLE parent_of_students(
-  parent_id INTEGER NOT NULL,
-  student_id INTEGER NOT NULL,
+  emerg_relation_to_student TEXT NOT NULL,
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
-  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-  PRIMARY KEY (student_id, parent_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create table for registration with parents and students
 CREATE TABLE parent_regs (
@@ -204,23 +182,23 @@ CREATE TABLE parent_regs (
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
   FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
-  PRIMARY KEY (student_id, class_id),
+  PRIMARY KEY (parent_id, student_id, class_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create program admin users table
 CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create teacber table
 CREATE TABLE teachers (
   id SERIAL PRIMARY KEY NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create teacher registration table
 CREATE TABLE teacher_regs (
@@ -230,7 +208,7 @@ CREATE TABLE teacher_regs (
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
   PRIMARY KEY (class_id, teacher_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create program class translation table
 CREATE TABLE class_translations (
@@ -241,7 +219,7 @@ CREATE TABLE class_translations (
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
   PRIMARY KEY (class_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );
 -- create program  translation table
 CREATE TABLE program_translations (
@@ -252,5 +230,5 @@ CREATE TABLE program_translations (
   FOREIGN KEY (program_id) REFERENCES programs(id) ON DELETE CASCADE,
   PRIMARY KEY (program_id, language),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMPTZ
 );

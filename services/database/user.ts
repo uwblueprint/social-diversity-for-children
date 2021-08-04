@@ -15,7 +15,11 @@ async function getUser(id: string) {
         },
         include: {
             teacher: true,
-            parent: true,
+            parent: {
+                include: {
+                    students: true,
+                },
+            },
             programAdmin: true,
             volunteer: true,
         },
@@ -30,7 +34,11 @@ async function getUsers() {
     const users = await prisma.user.findMany({
         include: {
             teacher: true,
-            parent: true,
+            parent: {
+                include: {
+                    students: true,
+                },
+            },
             programAdmin: true,
             volunteer: true,
         },
@@ -86,25 +94,73 @@ async function updateUser(userInput: UserInput): Promise<User> {
                     create: {
                         phoneNumber: parentData.phoneNumber,
                         isLowIncome: parentData.isLowIncome,
-                        addressLine1: parentData.addressLine1,
-                        addressLine2: parentData.addressLine2,
-                        postalCode: parentData.postalCode,
-                        cityName: parentData.cityName,
-                        province: parentData.province,
                         preferredLanguage: parentData.preferredLanguage,
+                        proofOfIncomeLink: parentData.proofOfIncomeLink,
+                        heardFrom: parentData.heardFrom,
                         user: {
                             connect: { id: user.id },
+                        },
+                        students: {
+                            create: {
+                                firstName: parentData.childFirstName,
+                                lastName: parentData.childLastName,
+                                dateOfBirth: parentData.childDateOfBirth,
+                                addressLine1: parentData.addressLine1,
+                                addressLine2: parentData.addressLine2,
+                                postalCode: parentData.postalCode,
+                                cityName: parentData.cityName,
+                                province: parentData.province,
+                                school: parentData.school,
+                                grade: parentData.grade,
+                                specialEducation: parentData.specialEducation,
+                                guardianExpectations:
+                                    parentData.guardianExpectations,
+                                medication: parentData.medication,
+                                allergies: parentData.allergies,
+                                additionalInfo: parentData.additionalInfo,
+                                emergFirstName:
+                                    parentData.emergencyContactFirstName,
+                                emergLastName:
+                                    parentData.emergencyContactLastName,
+                                emergNumber:
+                                    parentData.emergencyContactPhoneNumber,
+                                emergRelationToStudent:
+                                    parentData.emergencyContactRelationToStudent,
+                            },
                         },
                     },
                     update: {
                         phoneNumber: parentData.phoneNumber,
                         isLowIncome: parentData.isLowIncome,
-                        addressLine1: parentData.addressLine1,
-                        addressLine2: parentData.addressLine2,
-                        postalCode: parentData.postalCode,
-                        cityName: parentData.cityName,
-                        province: parentData.province,
                         preferredLanguage: parentData.preferredLanguage,
+                        students: {
+                            create: {
+                                firstName: parentData.childFirstName,
+                                lastName: parentData.childLastName,
+                                dateOfBirth: parentData.childDateOfBirth,
+                                addressLine1: parentData.addressLine1,
+                                addressLine2: parentData.addressLine2,
+                                postalCode: parentData.postalCode,
+                                cityName: parentData.cityName,
+                                province: parentData.province,
+                                school: parentData.school,
+                                grade: parentData.grade,
+                                specialEducation: parentData.specialEducation,
+                                guardianExpectations:
+                                    parentData.guardianExpectations,
+                                medication: parentData.medication,
+                                allergies: parentData.allergies,
+                                additionalInfo: parentData.additionalInfo,
+                                emergFirstName:
+                                    parentData.emergencyContactFirstName,
+                                emergLastName:
+                                    parentData.emergencyContactLastName,
+                                emergNumber:
+                                    parentData.emergencyContactPhoneNumber,
+                                emergRelationToStudent:
+                                    parentData.emergencyContactRelationToStudent,
+                            },
+                        },
                     },
                     where: { id: user.id },
                 }),

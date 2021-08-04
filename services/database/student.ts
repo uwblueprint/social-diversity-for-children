@@ -12,11 +12,26 @@ async function createStudent(input: CreateStudentInput): Promise<Student> {
         data: {
             firstName: input.firstName,
             lastName: input.lastName,
+            dateOfBirth: input.dateOfBirth,
+            addressLine1: input.addressLine1,
+            addressLine2: input.addressLine2,
+            postalCode: input.postalCode,
+            cityName: input.cityName,
+            province: input.province,
+            school: input.school,
+            grade: input.grade,
+            specialEducation: input.specialEducation,
+            guardianExpectations: input.guardianExpectations,
+            medication: input.medication,
             allergies: input.allergies,
             additionalInfo: input.additionalInfo,
-            parentOfStudents: {
-                create: {
-                    parentId: input.parentId,
+            emergFirstName: input.emergFirstName,
+            emergLastName: input.emergLastName,
+            emergNumber: input.emergNumber,
+            emergRelationToStudent: input.emergRelationToStudent,
+            parent: {
+                connect: {
+                    id: input.parentId,
                 },
             },
         },

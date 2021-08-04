@@ -73,11 +73,18 @@ function userIsValid(user: UserInput): boolean {
         const preferredLanguageIsValid = validatePreferredLanguage(
             roleData.preferredLanguage,
         );
+        const emergencyNumberIsValid = validator.isMobilePhone(
+            roleData.emergencyContactPhoneNumber,
+        );
+        // Eric: Not sure if this is needed to be validated.
+        const isValidDOB = validator.isDate(roleData.childDateOfBirth);
         roleDataIsValid =
             phoneNumberIsValid &&
             postalCodeIsValid &&
             provinceIsValid &&
-            preferredLanguageIsValid;
+            preferredLanguageIsValid &&
+            emergencyNumberIsValid &&
+            isValidDOB;
     } else if (user.role === roles.PROGRAM_ADMIN) {
         // pass - since program admin has no unique fields
     } else if (user.role === roles.TEACHER) {
