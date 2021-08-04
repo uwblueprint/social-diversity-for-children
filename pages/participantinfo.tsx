@@ -30,6 +30,7 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import useSWR, { mutate } from "swr";
+import { ParentInput } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -107,28 +108,26 @@ export default function ParticipantInfo({
         hasPhysicalDifficulties,
         hasSensoryDifficulties,
     );
-    const [involvedInSpecialEd, setInvolvedInSpecialEd] = useLocalStorage(
+    const [specialEd, setSpecialEd] = useLocalStorage(
         "involvedInSpecialEd",
         "",
     );
-    const [receivingPhysiotherapy, setReceivingPhysiotherapy] = useLocalStorage(
-        "receivingPhysiotherapy",
+    const [physiotherapy, setPhysiotherapy] = useLocalStorage(
+        "physiotherapy",
         "",
     );
-    const [receivingSpeechLangTherapy, setReceivingSpeechLangTherapy] =
-        useLocalStorage("receivingSpeechLangTherapy", false);
-    const [receivingOccupationalTherapy, setReceivingOccupationalTherapy] =
-        useLocalStorage("receivingOccupationalTherapy", false);
-    const [receivingCounseling, setReceivingCounseling] = useLocalStorage(
-        "receivingCounseling",
+    const [speechTherapy, setSpeechTherapy] = useLocalStorage(
+        "speechTherapy",
         false,
     );
-    const [receivingArtTherapy, setReceivingArtTherapy] = useLocalStorage(
-        "receivingArtTherapy",
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
+        "occupationalTherapy",
         false,
     );
-    const [receivingOtherTherapy, setReceivingOtherTherapy] = useLocalStorage(
-        "receivingOtherTherapy",
+    const [counseling, setCounseling] = useLocalStorage("counseling", false);
+    const [artTherapy, setArtTherapy] = useLocalStorage("artTherapy", false);
+    const [otherTherapy, setOtherTherapy] = useLocalStorage(
+        "otherTherapy",
         false,
     );
     const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
@@ -369,13 +368,9 @@ export default function ParticipantInfo({
                         <Radio
                             value={"1"}
                             onChange={() => {
-                                setInvolvedInSpecialEd(true);
-                                console.log(
-                                    "onChange yes, ",
-                                    involvedInSpecialEd,
-                                );
+                                setSpecialEd(true);
                             }}
-                            isChecked={involvedInSpecialEd}
+                            isChecked={specialEd}
                             pr={4}
                         >
                             Yes
@@ -383,10 +378,9 @@ export default function ParticipantInfo({
                         <Radio
                             value={"0"}
                             onChange={() => {
-                                setInvolvedInSpecialEd(false);
-                                console.log("onChange no", involvedInSpecialEd);
+                                setSpecialEd(false);
                             }}
-                            isChecked={!involvedInSpecialEd}
+                            isChecked={!specialEd}
                             pr={4}
                         >
                             No
@@ -622,7 +616,10 @@ export default function ParticipantInfo({
         } else if (pageNum === totalPages - 1) {
             return (
                 <FormButton
-                    onClick={() => setPageNum((prevPage) => prevPage + 1)}
+                    onClick={() => {
+                        setPageNum((prevPage) => prevPage + 1);
+                        updateUserRequest();
+                    }}
                 >
                     Finish
                 </FormButton>
@@ -656,6 +653,38 @@ export default function ParticipantInfo({
                 Next
             </FormButton>
         );
+    };
+
+    const updateUserRequest = () => {
+        const updatedUserData: ParentInput = {
+            phoneNumber,
+            isLowIncome,
+            preferredLanguage,
+            proofOfIncomeLink,
+            heardFrom,
+
+            childFirstName,
+            childLastName,
+            childDateOfBirth,
+            addressLine1,
+            addressLine2,
+            postalCode,
+            cityName,
+            province,
+
+            school,
+            grade,
+            specialEducation,
+            guardianExpectations,
+            additionalInfo,
+            emergencyContactFirstName,
+            emergencyContactLastName,
+            emergencyContactPhoneNumber,
+            emergencyContactRelationToStudent,
+            medication,
+            allergies,
+        };
+        mutate("/api/user", updatedUserData, false);
     };
 
     return (

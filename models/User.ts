@@ -18,10 +18,20 @@ export type ParentInput = {
     postalCode: string;
     cityName: string;
     province: province;
-    // Currently missing information about difficulties and therapy
     school?: string;
     grade?: number;
+    // Currently missing information about difficulties and therapy
+    learningDifficulties?: boolean;
+    physicalDifficulties?: boolean;
+    sensoryDifficulties?: boolean;
+    otherDifficulties?: boolean;
     specialEducation?: boolean;
+    physiotherapy?: boolean;
+    speechTherapy?: boolean;
+    occupationalTherapy?: boolean;
+    counseling?: boolean;
+    artTherapy?: boolean;
+    otherTherapy?: boolean;
     guardianExpectations?: string;
     additionalInfo?: string;
     emergencyContactFirstName: string;
