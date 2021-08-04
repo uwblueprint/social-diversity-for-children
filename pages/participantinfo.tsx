@@ -102,12 +102,7 @@ export default function ParticipantInfo({
         "hasOtherDifficulties",
         "",
     );
-    console.log(
-        "DIFFICULTIES:",
-        hasLearningDifficulties,
-        hasPhysicalDifficulties,
-        hasSensoryDifficulties,
-    );
+
     const [specialEd, setSpecialEd] = useLocalStorage(
         "involvedInSpecialEd",
         "",
@@ -655,8 +650,8 @@ export default function ParticipantInfo({
         );
     };
 
-    const updateUserRequest = () => {
-        const updatedUserData: ParentInput = {
+    async function updateUserRequest() {
+        const updateUserInput: ParentInput = {
             phoneNumber,
             isLowIncome,
             preferredLanguage,
@@ -671,10 +666,15 @@ export default function ParticipantInfo({
             postalCode,
             cityName,
             province,
-
             school,
             grade,
+
+            difficulties,
+            otherDifficulties,
             specialEducation,
+            therapy,
+            otherTherapy,
+
             guardianExpectations,
             additionalInfo,
             emergencyContactFirstName,
@@ -684,8 +684,15 @@ export default function ParticipantInfo({
             medication,
             allergies,
         };
-        mutate("/api/user", updatedUserData, false);
-    };
+        const request = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateUserInput),
+        };
+        const response = await fetch("api/user", request);
+        const updatedUserData = await response.json();
+        return updatedUserData;
+    }
 
     return (
         <Wrapper session={session}>

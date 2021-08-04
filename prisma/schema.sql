@@ -102,7 +102,7 @@ CREATE TABLE parents (
   is_low_income BOOLEAN DEFAULT false,
   preferred_language locales NOT NULL,
   proof_of_income_link TEXT,
-  heard_from heard_from,
+  heard_from heard_from[],
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
@@ -159,8 +159,8 @@ CREATE TABLE students (
   grade INTEGER,
   -- TODO: update the multi select fields in the db
   -- Eric (Aug 2, 2021): Jason, when you make this change, please also update models/User.ts and in updateUsers
-  difficulties difficulties,
-  therapy therapy,
+  difficulties difficulties[],
+  therapy therapy[],
   special_education BOOLEAN DEFAULT false,
   guardian_expectations TEXT,
   medication TEXT,
