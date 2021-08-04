@@ -17,7 +17,6 @@ function RadioCard(props) {
 
     const input = getInputProps();
     const checkbox = getCheckboxProps();
-    console.log(checkbox);
     // Returns one radio card with the child's name. Button changes style when selected
     return (
         <Box as="label">
@@ -60,7 +59,6 @@ export default function ParentEnrollClass(): JSX.Element {
         const { getRootProps, getRadioProps } = useRadioGroup({
             onChange: () => {
                 setIsDisabled(false);
-                console.log("stuff changed");
             },
         });
 
