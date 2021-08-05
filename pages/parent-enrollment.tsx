@@ -49,7 +49,6 @@ function RadioCard(props) {
 
 export default function ParentEnrollClass(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
-
     const [selectedChild, setSelectedChild] = useState<string>("");
 
     function ChildrenButtons() {
