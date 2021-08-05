@@ -30,29 +30,21 @@ export default async function sessionHandler(
                 allow_promotion_codes: true,
             };
 
-            // if a coupon ID is not passed in then allow promotion codes to be entered
-            if (!stripeRequest.couponId) {
-                const session = await stripe.checkout.sessions.create(
-                    stripeSession,
-                );
-
-                res.status(200).json({ sessionId: session.id });
-            }
-            // otherwise apply the discount from the coupon ID passed in
-            else {
+            // if a coupon ID is passed in then allow use it to apply a discount
+            if (stripeRequest.couponId) {
                 delete stripeSession["allow_promotion_codes"];
                 stripeSession["discounts"] = [
                     {
                         coupon: stripeRequest.couponId,
                     },
                 ];
-
-                const session = await stripe.checkout.sessions.create(
-                    stripeSession,
-                );
-
-                res.status(200).json({ sessionId: session.id });
             }
+
+            const session = await stripe.checkout.sessions.create(
+                stripeSession,
+            );
+
+            res.status(200).json({ sessionId: session.id });
             break;
         }
         default: {
