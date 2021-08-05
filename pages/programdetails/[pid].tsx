@@ -1,6 +1,15 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { Heading, Flex, Badge, Spacer, Text, Button } from "@chakra-ui/react";
+import {
+    Heading,
+    Flex,
+    Badge,
+    Spacer,
+    Text,
+    Button,
+    Spinner,
+    Center,
+} from "@chakra-ui/react";
 import { ClassList } from "src/components/ClassList";
 import Wrapper from "@components/SDCWrapper";
 import { useSession } from "next-auth/client";
@@ -15,20 +24,23 @@ export const ProgramDetails: React.FC = () => {
     const fetchWithId = (url, id) =>
         fetch(`${url}?id=${id}`).then((r) => r.json());
     const { data: classListResponse, error: classListError } = useSWR(
-        ["/api/cardinfo/class", pid],
+        ["/api/class", pid],
         fetchWithId,
     );
     const { data: programInfoResponse, error: programInfoError } = useSWR(
-        ["/api/cardinfo/program", pid],
+        ["/api/program/" + pid, pid],
         fetchWithId,
     );
-    if (classListError || programInfoError)
+    if (classListError || programInfoError) {
         return (
             <Text>
                 An error has occurred.{" "}
-                {classListError ? classListError : programInfoError}
+                {classListError
+                    ? classListError.toString()
+                    : programInfoError.toString()}
             </Text>
         );
+    }
 
     return (
         <Wrapper session={session}>
@@ -98,11 +110,15 @@ export const ProgramDetails: React.FC = () => {
                     {classListResponse ? (
                         <ClassList classInfo={classListResponse.data} />
                     ) : (
-                        <Text>Loading classes</Text>
+                        <Center>
+                            <Spinner size="xl" />
+                        </Center>
                     )}
                 </Flex>
             ) : (
-                <Text>Loading</Text>
+                <Center>
+                    <Spinner size="xl" />
+                </Center>
             )}
         </Wrapper>
     );

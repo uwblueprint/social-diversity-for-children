@@ -1,8 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getPrograms, createProgram } from "@database/program";
+import { createProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
+import {
+    getProgramCardInfos,
+    getProgramCardInfo,
+} from "@database/programcardinfo";
 
 /**
  * handle controls the request made to the program resource
@@ -15,8 +19,12 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const programs = await getPrograms();
-            ResponseUtil.returnOK(res, programs);
+            const result = await getProgramCardInfos();
+            if (!result) {
+                ResponseUtil.returnNotFound(res, `Program info not found.`);
+                return;
+            }
+            ResponseUtil.returnOK(res, result);
             break;
         }
         case "POST": {
