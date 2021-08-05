@@ -49,17 +49,16 @@ function RadioCard(props) {
 
 export default function ParentEnrollClass(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+    const [selectedChild, setSelectedChild] = useState<string>("");
 
     function ChildrenButtons() {
         // children to be retrieved from parent enroll endpoint
         const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
 
-        //when a radio button in the group is selected, Next button is activated
+        // when a radio button in the group is selected, Next button is activated
         const { getRootProps, getRadioProps } = useRadioGroup({
-            onChange: () => {
-                setIsDisabled(false);
-            },
+            onChange: setSelectedChild,
         });
 
         const group = getRootProps();
@@ -109,11 +108,11 @@ export default function ParentEnrollClass(): JSX.Element {
                     height="50px"
                     width="340px"
                     borderRadius="6px"
-                    background={isDisabled ? "#737373" : "#0C53A0"}
+                    background={selectedChild === "" ? "#737373" : "#0C53A0"}
                     fontWeight="normal"
                     textColor="#FFFFFF"
                     fontSize="16px"
-                    isDisabled={isDisabled}
+                    isDisabled={selectedChild === ""}
                 >
                     Next
                 </Button>
