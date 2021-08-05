@@ -1,7 +1,7 @@
 import { StripeCheckoutRequest } from "@models/StripeCheckout";
 import { ResponseUtil } from "@utils/responseUtil";
 import { NextApiRequest, NextApiResponse } from "next";
-import { stripe } from "services/stripe";
+import { stripe, Stripe } from "services/stripe";
 
 /**
  * sessionHandler creates a new stripe session and returns the
@@ -16,7 +16,7 @@ export default async function sessionHandler(
     switch (req.method) {
         case "POST": {
             const stripeRequest = req.body as StripeCheckoutRequest;
-            const session = await stripe.checkout.sessions.create({
+            const stripeSession: Stripe.Checkout.SessionCreateParams = {
                 payment_method_types: ["card"],
                 line_items: [
                     {
@@ -28,7 +28,21 @@ export default async function sessionHandler(
                 success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${req.headers.origin}/checkout`,
                 allow_promotion_codes: true,
-            });
+            };
+
+            // if a coupon ID is passed in then allow use it to apply a discount
+            if (stripeRequest.couponId) {
+                delete stripeSession["allow_promotion_codes"];
+                stripeSession["discounts"] = [
+                    {
+                        coupon: stripeRequest.couponId,
+                    },
+                ];
+            }
+
+            const session = await stripe.checkout.sessions.create(
+                stripeSession,
+            );
 
             res.status(200).json({ sessionId: session.id });
             break;

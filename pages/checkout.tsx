@@ -6,6 +6,9 @@ const testPriceId = "price_1J1GuzL97YpjuvTOePyVbsRh";
 // test quantity to specify number of products
 const testQuantity = 1;
 
+// uncomment to test automatic coupon discounts
+// const testCouponId = "3R69NQNw";
+
 /**
  * This is a test page to test the Checkout Button Component
  * TODO: delete this page once the checkout button is consumed in
@@ -14,7 +17,11 @@ const testQuantity = 1;
 export default function Checkout(): JSX.Element {
     return (
         <div>
-            <CheckoutButton priceId={testPriceId} quantity={testQuantity} />
+            <CheckoutButton
+                priceId={testPriceId}
+                quantity={testQuantity}
+                // couponId={testCouponId}
+            />
         </div>
     );
 }
