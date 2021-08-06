@@ -30,6 +30,7 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import useSWR, { mutate } from "swr";
+import { ParentInput } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -105,38 +106,30 @@ export default function ParticipantInfo({
     );
 
     const [difficultyDetails, setDifficultyDetails] = useLocalStorage(
-        "otherTextbox",
+        "difficultyDetails",
         "",
     );
 
-    console.log(
-        "DIFFICULTIES:",
-        hasLearningDifficulties,
-        hasPhysicalDifficulties,
-        hasSensoryDifficulties,
-    );
-    const [involvedInSpecialEd, setInvolvedInSpecialEd] = useLocalStorage(
+    const [specialEd, setSpecialEd] = useLocalStorage(
         "involvedInSpecialEd",
         "",
     );
-    const [receivingPhysiotherapy, setReceivingPhysiotherapy] = useLocalStorage(
-        "receivingPhysiotherapy",
+    const [physiotherapy, setPhysiotherapy] = useLocalStorage(
+        "physiotherapy",
         "",
     );
-    const [receivingSpeechLangTherapy, setReceivingSpeechLangTherapy] =
-        useLocalStorage("receivingSpeechLangTherapy", false);
-    const [receivingOccupationalTherapy, setReceivingOccupationalTherapy] =
-        useLocalStorage("receivingOccupationalTherapy", false);
-    const [receivingCounseling, setReceivingCounseling] = useLocalStorage(
-        "receivingCounseling",
+    const [speechTherapy, setSpeechTherapy] = useLocalStorage(
+        "speechTherapy",
         false,
     );
-    const [receivingArtTherapy, setReceivingArtTherapy] = useLocalStorage(
-        "receivingArtTherapy",
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
+        "occupationalTherapy",
         false,
     );
-    const [receivingOtherTherapy, setReceivingOtherTherapy] = useLocalStorage(
-        "receivingOtherTherapy",
+    const [counseling, setCounseling] = useLocalStorage("counseling", false);
+    const [artTherapy, setArtTherapy] = useLocalStorage("artTherapy", false);
+    const [otherTherapy, setOtherTherapy] = useLocalStorage(
+        "otherTherapy",
         false,
     );
 
@@ -209,7 +202,7 @@ export default function ParticipantInfo({
         </Box>
     ) : null;
 
-    const otherTherapyDetails = receivingOtherTherapy ? (
+    const otherTherapyDetails = otherTherapy ? (
         <Box mt={4}>
             <FormControl id="therapy details">
                 <FormLabel>Please provide any details if necessary</FormLabel>
@@ -411,13 +404,9 @@ export default function ParticipantInfo({
                         <Radio
                             value={"1"}
                             onChange={() => {
-                                setInvolvedInSpecialEd(true);
-                                console.log(
-                                    "onChange yes, ",
-                                    involvedInSpecialEd,
-                                );
+                                setSpecialEd(true);
                             }}
-                            isChecked={involvedInSpecialEd}
+                            isChecked={specialEd}
                             pr={4}
                         >
                             Yes
@@ -425,10 +414,9 @@ export default function ParticipantInfo({
                         <Radio
                             value={"0"}
                             onChange={() => {
-                                setInvolvedInSpecialEd(false);
-                                console.log("onChange no", involvedInSpecialEd);
+                                setSpecialEd(false);
                             }}
-                            isChecked={!involvedInSpecialEd}
+                            isChecked={!specialEd}
                             pr={4}
                         >
                             No
@@ -449,10 +437,8 @@ export default function ParticipantInfo({
                     <Checkbox
                         key="otherTherapies"
                         value={other}
-                        isChecked={receivingOtherTherapy}
-                        onChange={() =>
-                            setReceivingOtherTherapy(!receivingOtherTherapy)
-                        }
+                        isChecked={otherTherapy}
+                        onChange={() => setOtherTherapy(!otherTherapy)}
                     >
                         Other
                     </Checkbox>
@@ -674,7 +660,10 @@ export default function ParticipantInfo({
         } else if (pageNum === totalPages - 1) {
             return (
                 <FormButton
-                    onClick={() => setPageNum((prevPage) => prevPage + 1)}
+                    onClick={() => {
+                        setPageNum((prevPage) => prevPage + 1);
+                        updateUserRequest();
+                    }}
                 >
                     Finish
                 </FormButton>
@@ -709,6 +698,50 @@ export default function ParticipantInfo({
             </FormButton>
         );
     };
+
+    async function updateUserRequest() {
+        const updateUserInput: ParentInput = {
+            phoneNumber,
+            isLowIncome,
+            preferredLanguage,
+            proofOfIncomeLink,
+            heardFrom,
+
+            childFirstName,
+            childLastName,
+            childDateOfBirth,
+            addressLine1,
+            addressLine2,
+            postalCode,
+            cityName,
+            province,
+            school,
+            grade,
+
+            difficulties,
+            otherDifficulties,
+            specialEducation,
+            therapy,
+            otherTherapy,
+
+            guardianExpectations,
+            additionalInfo,
+            emergencyContactFirstName,
+            emergencyContactLastName,
+            emergencyContactPhoneNumber,
+            emergencyContactRelationToStudent,
+            medication,
+            allergies,
+        };
+        const request = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateUserInput),
+        };
+        const response = await fetch("api/user", request);
+        const updatedUserData = await response.json();
+        return updatedUserData;
+    }
 
     return (
         <Wrapper session={session}>

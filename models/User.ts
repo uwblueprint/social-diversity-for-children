@@ -1,4 +1,11 @@
-import type { roles, province, locale, heardFrom } from "@prisma/client";
+import type {
+    roles,
+    province,
+    locale,
+    difficulties,
+    therapy,
+    heardFrom,
+} from "@prisma/client";
 
 /* Input type for Parent inputs */
 export type ParentInput = {
@@ -8,6 +15,7 @@ export type ParentInput = {
     preferredLanguage: locale;
     proofOfIncomeLink?: string;
     heardFrom?: heardFrom;
+    heardFromOther?: string;
 
     // Child Information
     childFirstName: string;
@@ -18,10 +26,14 @@ export type ParentInput = {
     postalCode: string;
     cityName: string;
     province: province;
-    // Currently missing information about difficulties and therapy
     school?: string;
     grade?: number;
+    // Currently missing information about difficulties and therapy
+    difficulties?: difficulties[];
+    otherDifficulties?: string;
     specialEducation?: boolean;
+    therapy?: therapy[];
+    otherTherapy?: string;
     guardianExpectations?: string;
     additionalInfo?: string;
     emergencyContactFirstName: string;
