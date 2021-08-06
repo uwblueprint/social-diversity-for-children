@@ -34,6 +34,8 @@ import useSWR, { mutate } from "swr";
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
+const other = "Other";
+// Checkboxes have bugs in them; sometimes render sometimes don't
 
 const FormButton = (props) => {
     return (
@@ -99,8 +101,14 @@ export default function ParticipantInfo({
     );
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
         "hasOtherDifficulties",
+        false,
+    );
+
+    const [difficultyDetails, setDifficultyDetails] = useLocalStorage(
+        "otherTextbox",
         "",
     );
+
     console.log(
         "DIFFICULTIES:",
         hasLearningDifficulties,
@@ -131,6 +139,12 @@ export default function ParticipantInfo({
         "receivingOtherTherapy",
         false,
     );
+
+    const [therapyDetails, setTherapyDetails] = useLocalStorage(
+        "receivingOtherTherapy",
+        "",
+    );
+
     const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
         "guardianExpectations",
         "",
@@ -181,6 +195,32 @@ export default function ParticipantInfo({
                 </FormControl>
             </Box>
         ) : null;
+
+    const otherDifficultyDetails = hasOtherDifficulties ? (
+        <Box mt={4}>
+            <FormControl id="difficulty details">
+                <FormLabel>Please provide any details if necessary</FormLabel>
+                <Input
+                    placeholder="Details"
+                    onChange={(e) => setDifficultyDetails(e.target.value)}
+                    value={difficultyDetails}
+                />
+            </FormControl>
+        </Box>
+    ) : null;
+
+    const otherTherapyDetails = receivingOtherTherapy ? (
+        <Box mt={4}>
+            <FormControl id="therapy details">
+                <FormLabel>Please provide any details if necessary</FormLabel>
+                <Input
+                    placeholder="Details"
+                    onChange={(e) => setTherapyDetails(e.target.value)}
+                    value={therapyDetails}
+                />
+            </FormControl>
+        </Box>
+    ) : null;
 
     /*    toggleCheckboxChange = (e) => {
             e.preventDefault()
@@ -350,6 +390,7 @@ export default function ParticipantInfo({
                     </Checkbox>
                     <Checkbox
                         key="otherDifficulties"
+                        value={other}
                         isChecked={hasOtherDifficulties}
                         onChange={() =>
                             setHasOtherDifficulties(!hasOtherDifficulties)
@@ -357,6 +398,7 @@ export default function ParticipantInfo({
                     >
                         Other
                     </Checkbox>
+                    {otherDifficultyDetails}
                 </Stack>
             </FormControl>
             <FormControl id="special-education">
@@ -404,7 +446,17 @@ export default function ParticipantInfo({
                     <Checkbox>Occupational Therapy</Checkbox>
                     <Checkbox>Psychotherapy/Counseling</Checkbox>
                     <Checkbox>Music or Art Therapy</Checkbox>
-                    <Checkbox>Other</Checkbox>
+                    <Checkbox
+                        key="otherTherapies"
+                        value={other}
+                        isChecked={receivingOtherTherapy}
+                        onChange={() =>
+                            setReceivingOtherTherapy(!receivingOtherTherapy)
+                        }
+                    >
+                        Other
+                    </Checkbox>
+                    {otherTherapyDetails}
                 </Stack>
             </FormControl>
             <FormControl id="parent/guardian-expectations">
