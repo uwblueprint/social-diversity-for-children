@@ -49,33 +49,42 @@ function RadioCard(props) {
 
 export default function ParentEnrollClass(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
+    // const [selectedChild, setSelectedChild] = useState<string>("");
+    // const [parentChild, setParentChild] = useState("");
+
+    const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
+
+    // function ChildrenButtons({ updateParentState }) {
+    //     // children to be retrieved from parent enroll endpoint
+    //     const [selectedChild, setSelectedChild] = useState<string>("");
+
+    //     // when a radio button in the group is selected, Next button is activated
+    //     const { getRootProps, getRadioProps } = useRadioGroup({
+    //         onChange: (c) => {
+    //             setSelectedChild(c);
+    //             console.log(c, selectedChild);
+    //             updateParentState(c);
+    //         },
+    //     });
+
+    //     const group = getRootProps();
+
+    //     // creates a group of radio buttons using the RadioCard component
+    //     return (
+    //         <Stack {...group}>
+    //             {children.map((value) => {
+    //                 const radio = getRadioProps({ value });
+    //                 return (
+    //                     <RadioCard key={value} {...radio}>
+    //                         {value}
+    //                     </RadioCard>
+    //                 );
+    //             })}
+    //         </Stack>
+    //     );
+    // }
+
     const [selectedChild, setSelectedChild] = useState<string>("");
-
-    function ChildrenButtons() {
-        // children to be retrieved from parent enroll endpoint
-        const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
-
-        // when a radio button in the group is selected, Next button is activated
-        const { getRootProps, getRadioProps } = useRadioGroup({
-            onChange: setSelectedChild,
-        });
-
-        const group = getRootProps();
-
-        // creates a group of radio buttons using the RadioCard component
-        return (
-            <Stack {...group}>
-                {children.map((value) => {
-                    const radio = getRadioProps({ value });
-                    return (
-                        <RadioCard key={value} {...radio}>
-                            {value}
-                        </RadioCard>
-                    );
-                })}
-            </Stack>
-        );
-    }
 
     return (
         <Wrapper>
@@ -100,7 +109,32 @@ export default function ParentEnrollClass(): JSX.Element {
             </Center>
 
             <Center>
-                <ChildrenButtons />
+                {/* <ChildrenButtons updateParentState={setParentChild} /> */}
+                {children.map((childName) => {
+                    return (
+                        <Button
+                            key={childName}
+                            onClick={() => setSelectedChild(childName)}
+                            border={
+                                selectedChild === childName
+                                    ? "2px solid #0C53A0"
+                                    : null
+                            }
+                        >
+                            {childName}
+                        </Button>
+                    );
+                })}
+                {/* <Button
+                    onClick={() => setSelectedChild("Christina")}
+                    bg={"white"}
+                >
+                    Christina
+                </Button>
+                <Button onClick={() => setSelectedChild("Sam")}>Sam</Button>
+                <Button onClick={() => setSelectedChild("Brandon")}>
+                    Brandon
+                </Button> */}
             </Center>
             <Center mt="45px" mb="200px">
                 <Button
