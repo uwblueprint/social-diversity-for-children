@@ -116,7 +116,7 @@ export default function ParticipantInfo({
     );
     const [physiotherapy, setPhysiotherapy] = useLocalStorage(
         "physiotherapy",
-        "",
+        false,
     );
     const [speechTherapy, setSpeechTherapy] = useLocalStorage(
         "speechTherapy",
@@ -429,11 +429,43 @@ export default function ParticipantInfo({
                     Is the participant revieving any other form of therapy?
                 </FormLabel>
                 <Stack direction="column">
-                    <Checkbox>Physiotherapy</Checkbox>
-                    <Checkbox>Speech and Language Therapy</Checkbox>
-                    <Checkbox>Occupational Therapy</Checkbox>
-                    <Checkbox>Psychotherapy/Counseling</Checkbox>
-                    <Checkbox>Music or Art Therapy</Checkbox>
+                    <Checkbox
+                        key="physiotherapy"
+                        isChecked={physiotherapy}
+                        onChange={() => setPhysiotherapy(!physiotherapy)}
+                    >
+                        Physiotherapy
+                    </Checkbox>
+                    <Checkbox
+                        key="speech language"
+                        isChecked={speechTherapy}
+                        onChange={() => setSpeechTherapy(!speechTherapy)}
+                    >
+                        Speech and Language Therapy
+                    </Checkbox>
+                    <Checkbox
+                        key="occupational therapy"
+                        isChecked={occupationalTherapy}
+                        onChange={() =>
+                            setOccupationalTherapy(!occupationalTherapy)
+                        }
+                    >
+                        Occupational Therapy
+                    </Checkbox>
+                    <Checkbox
+                        key="counselling"
+                        isChecked={counseling}
+                        onChange={() => setCounseling(!counseling)}
+                    >
+                        Psychotherapy/Counseling
+                    </Checkbox>
+                    <Checkbox
+                        key="art"
+                        isChecked={artTherapy}
+                        onChange={() => setArtTherapy(!artTherapy)}
+                    >
+                        Music or Art Therapy
+                    </Checkbox>
                     <Checkbox
                         key="otherTherapies"
                         value={other}
