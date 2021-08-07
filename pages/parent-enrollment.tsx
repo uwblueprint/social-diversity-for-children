@@ -51,7 +51,7 @@ export default function ParentEnrollClass(): JSX.Element {
                             width="340px"
                             key={childName}
                             onClick={() => setSelectedChild(childName)}
-                            border="2px solid #E1E1E1"
+                            border="2px solid #E2E8F0"
                         >
                             {childName}
                         </Button>
