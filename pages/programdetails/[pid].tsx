@@ -1,12 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { Heading, Flex, Badge, Spacer, Text, Button } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import type { ClassCardInfo } from "models/Class";
-import { ClassList } from "src/components/ClassList";
 import { weekday } from "@prisma/client";
-import Wrapper from "@components/SDCWrapper";
 import { useSession } from "next-auth/client";
-import { BackButton } from "@components/BackButton";
 import { ProgramInfo } from "@components/ProgramInfo";
 
 export const ProgramDetails: React.FC = () => {
@@ -88,66 +85,13 @@ export const ProgramDetails: React.FC = () => {
             format: "Online",
         },
     };
-    // if program name in program info, pass in programInfo[programName]
+
     return programName in programInfo ? (
-        <Wrapper session={session}>
-            <BackButton />
-            <Flex direction="column" pt={4} pb={8}>
-                <Flex align="center">
-                    <Heading>{programInfo[programName].name}</Heading>
-                    <Spacer />
-                    <Badge
-                        borderRadius="full"
-                        textTransform="capitalize"
-                        fontWeight="medium"
-                        letterSpacing="wide"
-                        backgroundColor="#0C53A0"
-                        color="white"
-                        pb="1"
-                        pt="1.5"
-                        px="3"
-                    >
-                        {programInfo[programName].format}
-                    </Badge>
-                    <Badge
-                        borderRadius="full"
-                        textTransform="capitalize"
-                        fontWeight="medium"
-                        letterSpacing="wide"
-                        backgroundColor="#0C53A0"
-                        color="white"
-                        pb="1"
-                        pt="1.5"
-                        px="3"
-                        ml="2"
-                    >
-                        {programInfo[programName].tag}
-                    </Badge>
-                </Flex>
-                <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                    {programInfo[programName].startDate} to{" "}
-                    {programInfo[programName].endDate}
-                </Text>
-                <Text mt="5">{programInfo[programName].description}</Text>
-                <Flex mt="5" align="center">
-                    <Text fontSize="sm" fontWeight="semibold">
-                        Select a class
-                    </Text>
-                    <Spacer />
-                    {/* TODO what is the filter button supposed to do? */}
-                    <Button
-                        fontSize="sm"
-                        backgroundColor="transparent"
-                        borderColor="gray.600"
-                        borderWidth="1"
-                    >
-                        Filter
-                    </Button>
-                </Flex>
-                <ClassList classInfo={classInfo[programName]} />
-            </Flex>
-            <ProgramInfo programInfo={programInfo[programName]} />
-        </Wrapper>
+        <ProgramInfo
+            programInfo={programInfo[programName]}
+            session={session}
+            classInfo={classInfo[programName]}
+        />
     ) : (
         <Text>Index {programName} doesn't have test data yet</Text>
     );
