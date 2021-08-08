@@ -10,6 +10,7 @@ import type {
 /* Input type for Parent inputs */
 export type ParentInput = {
     // Parent Information
+    // Note: first/last name are specified in UserInput
     phoneNumber: string;
     isLowIncome?: boolean;
     preferredLanguage: locale;
@@ -34,7 +35,7 @@ export type ParentInput = {
     specialEducation?: boolean;
     therapy?: therapy[];
     otherTherapy?: string;
-    guardianExpectations?: string;
+    parentExpectations?: string;
     additionalInfo?: string;
     emergencyContactFirstName: string;
     emergencyContactLastName: string;

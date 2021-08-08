@@ -29,13 +29,12 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
-import useSWR, { mutate } from "swr";
 import { ParentInput } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
-const other = "Other";
+const OTHER = "Other";
 // Checkboxes have bugs in them; sometimes render sometimes don't
 
 const FormButton = (props) => {
@@ -100,13 +99,14 @@ export default function ParticipantInfo({
         "hasSensoryDifficulties",
         false,
     );
+    // TODO: configure list for difficulties to send to backend
+    const [difficulties, setDifficulties] = useLocalStorage("difficulties", []);
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
         "hasOtherDifficulties",
         false,
     );
-
-    const [difficultyDetails, setDifficultyDetails] = useLocalStorage(
-        "difficultyDetails",
+    const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
+        "otherDifficulties",
         "",
     );
 
@@ -128,6 +128,7 @@ export default function ParticipantInfo({
     );
     const [counseling, setCounseling] = useLocalStorage("counseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("artTherapy", false);
+    const [therapy, setTherapy] = useLocalStorage("therapy", []);
     const [otherTherapy, setOtherTherapy] = useLocalStorage(
         "otherTherapy",
         false,
@@ -138,8 +139,8 @@ export default function ParticipantInfo({
         "",
     );
 
-    const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
-        "guardianExpectations",
+    const [parentExpectations, setParentExpectations] = useLocalStorage(
+        "parentExpectations",
         "",
     );
 
@@ -153,9 +154,31 @@ export default function ParticipantInfo({
         "",
     );
     const [emergNumber, setEmergNumber] = useLocalStorage("emergNumber", "");
-    const [relationship, setRelationship] = useLocalStorage("relationship", "");
+    const [emergRelationship, setEmergRelationship] = useLocalStorage(
+        "emergRelationship",
+        "",
+    );
     const [medication, setMedication] = useLocalStorage("medication", "");
     const [allergies, setAllergies] = useLocalStorage("allergies", "");
+
+    const [parentFirstName, setParentFirstName] = useLocalStorage(
+        "parentFirstName",
+        "",
+    );
+    const [parentLastName, setParentLastName] = useLocalStorage(
+        "parentLastName",
+        "",
+    );
+    const [parentPhoneNumber, setParentPhoneNumber] = useLocalStorage(
+        "parentPhoneNumber",
+        "",
+    );
+    const [parentRelationship, setParentRelationship] = useLocalStorage(
+        "parentRelationship",
+        "",
+    );
+
+    // TODO: heardFrom
 
     const medicationDetails =
         isOnMedication === RADIO_YES ? (
@@ -195,8 +218,8 @@ export default function ParticipantInfo({
                 <FormLabel>Please provide any details if necessary</FormLabel>
                 <Input
                     placeholder="Details"
-                    onChange={(e) => setDifficultyDetails(e.target.value)}
-                    value={difficultyDetails}
+                    onChange={(e) => setOtherDifficulties(e.target.value)}
+                    value={otherDifficulties}
                 />
             </FormControl>
         </Box>
@@ -383,7 +406,7 @@ export default function ParticipantInfo({
                     </Checkbox>
                     <Checkbox
                         key="otherDifficulties"
-                        value={other}
+                        value={OTHER}
                         isChecked={hasOtherDifficulties}
                         onChange={() =>
                             setHasOtherDifficulties(!hasOtherDifficulties)
@@ -468,7 +491,7 @@ export default function ParticipantInfo({
                     </Checkbox>
                     <Checkbox
                         key="otherTherapies"
-                        value={other}
+                        value={OTHER}
                         isChecked={otherTherapy}
                         onChange={() => setOtherTherapy(!otherTherapy)}
                     >
@@ -477,9 +500,13 @@ export default function ParticipantInfo({
                     {otherTherapyDetails}
                 </Stack>
             </FormControl>
-            <FormControl id="parent/guardian-expectations">
+            <FormControl id="parent-guardian-expectations">
                 <FormLabel>Parent/Guardian Expectations</FormLabel>
-                <Textarea placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas." />
+                <Textarea
+                    placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas."
+                    onChange={(e) => setParentExpectations(e.target.value)}
+                    value={parentExpectations}
+                />
             </FormControl>
         </FormPage>,
         <FormPage>
@@ -524,8 +551,8 @@ export default function ParticipantInfo({
                 <FormLabel>Relationship to Participant</FormLabel>
                 <Input
                     placeholder="Mother"
-                    onChange={(e) => setRelationship(e.target.value)}
-                    value={relationship}
+                    onChange={(e) => setEmergRelationship(e.target.value)}
+                    value={emergRelationship}
                 />
             </FormControl>
         </FormPage>,
@@ -605,20 +632,36 @@ export default function ParticipantInfo({
                 Parent/Guardian Name
                 <HStack spacing="24px">
                     <FormControl id="first-name">
-                        <Input placeholder="First name" />
+                        <Input
+                            placeholder="First name"
+                            onChange={(e) => setParentFirstName(e.target.value)}
+                            value={parentFirstName}
+                        />
                     </FormControl>
                     <FormControl id="last-name">
-                        <Input placeholder="Last name" />
+                        <Input
+                            placeholder="Last name"
+                            onChange={(e) => setParentLastName(e.target.value)}
+                            value={parentLastName}
+                        />
                     </FormControl>
                 </HStack>
             </FormLabel>
             <FormControl id="phone-number">
                 <FormLabel>Phone Number </FormLabel>
-                <Input placeholder="289 349 1048" />
+                <Input
+                    placeholder="289 349 1048"
+                    onChange={(e) => setParentPhoneNumber(e.target.value)}
+                    value={parentPhoneNumber}
+                />
             </FormControl>
             <FormControl id="relationship-to-participant">
                 <FormLabel>Relationship to Participant</FormLabel>
-                <Input placeholder="Mother" />
+                <Input
+                    placeholder="Mother"
+                    onChange={(e) => setParentRelationship(e.target.value)}
+                    value={parentRelationship}
+                />
             </FormControl>
         </FormPage>,
         <FormPage>
@@ -733,35 +776,35 @@ export default function ParticipantInfo({
 
     async function updateUserRequest() {
         const updateUserInput: ParentInput = {
-            phoneNumber,
-            isLowIncome,
-            preferredLanguage,
-            proofOfIncomeLink,
-            heardFrom,
+            phoneNumber: parentPhoneNumber,
+            isLowIncome: undefined,
+            preferredLanguage: undefined,
+            proofOfIncomeLink: undefined,
+            heardFrom: undefined,
 
-            childFirstName,
-            childLastName,
-            childDateOfBirth,
-            addressLine1,
-            addressLine2,
-            postalCode,
-            cityName,
-            province,
-            school,
-            grade,
+            childFirstName: participantFirstName,
+            childLastName: participantLastName,
+            childDateOfBirth: dateOfBirth,
+            addressLine1: address1,
+            addressLine2: address2,
+            postalCode: postalCode,
+            cityName: city,
+            province: province,
+            school: school,
+            grade: grade,
 
             difficulties,
             otherDifficulties,
-            specialEducation,
+            specialEducation: specialEd,
             therapy,
             otherTherapy,
 
-            guardianExpectations,
-            additionalInfo,
-            emergencyContactFirstName,
-            emergencyContactLastName,
-            emergencyContactPhoneNumber,
-            emergencyContactRelationToStudent,
+            parentExpectations,
+            // additionalInfo,
+            emergencyContactFirstName: emergFirstName,
+            emergencyContactLastName: emergLastName,
+            emergencyContactPhoneNumber: emergNumber,
+            emergencyContactRelationToStudent: emergRelationship,
             medication,
             allergies,
         };
