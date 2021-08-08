@@ -75,6 +75,14 @@ async function getClassInfoWithProgramId(id: string): Promise<ClassCardInfo[]> {
                       " " +
                       result.teacherRegs[0].teacher.user.lastName
                     : "",
+            teacherEmail:
+                result.teacherRegs.length > 0
+                    ? result.teacherRegs[0].teacher.user.email
+                    : "",
+            teacherImage:
+                result.teacherRegs.length > 0
+                    ? result.teacherRegs[0].teacher.user.image
+                    : "",
         };
     });
 }
@@ -84,6 +92,9 @@ async function getClassInfoWithProgramId(id: string): Promise<ClassCardInfo[]> {
  */
 async function getProgramCardInfos(): Promise<ProgramCardInfo[]> {
     const findResult = await prisma.program.findMany({
+        where: {
+            isArchived: false,
+        },
         select: {
             id: true,
             startDate: true,
