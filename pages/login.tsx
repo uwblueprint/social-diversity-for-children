@@ -153,7 +153,7 @@ export const getServerSideProps: GetServerSideProps = async (
     const session = await getSession(context);
 
     // if the user is already authenticated redirect them to the home page
-    if (session) {
+    if (session && session.role) {
         return {
             redirect: {
                 destination: "/",
