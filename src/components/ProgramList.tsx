@@ -67,7 +67,7 @@ export const ProgramList: React.FC<{ cardInfo: ProgramCardInfo[] }> = ({
                                     if (!session)
                                         window.location.href = "/login";
                                     else
-                                        window.location.href = `/programdetails/${item.id}`;
+                                        window.location.href = `/program-details/${item.id}`;
                                 }}
                             >
                                 <AspectRatio width="100%" ratio={4 / 3}>

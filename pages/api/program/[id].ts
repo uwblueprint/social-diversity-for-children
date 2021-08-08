@@ -3,10 +3,7 @@ import { ResponseUtil } from "@utils/responseUtil";
 import { deleteProgram, updateProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
-import {
-    getProgramCardInfos,
-    getProgramCardInfo,
-} from "@database/programcardinfo";
+import { getProgramCardInfo } from "@database/program-card-info";
 /**
  * handle takes the programId parameter and returns
  * the program associated with the programId
@@ -19,8 +16,23 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id } = req.query;
-            const result = await getProgramCardInfo(id as string);
+            const { id: programId } = req.query;
+            if (!programId) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId required to obtain program info",
+                );
+            }
+
+            const programIdNumber = parseInt(programId as string, 10);
+            if (isNaN(programIdNumber)) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId should be passed in as numbers",
+                );
+            }
+
+            const result = await getProgramCardInfo(programId as string);
             if (!result) {
                 ResponseUtil.returnNotFound(res, `Program info not found.`);
                 break;
@@ -30,14 +42,28 @@ export default async function handle(
         }
         case "DELETE": {
             // Obtain program id
-            const { id } = req.query;
+            const { id: programId } = req.query;
+            if (!programId) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId required to obtain program info",
+                );
+            }
+
+            const programIdNumber = parseInt(programId as string, 10);
+            if (isNaN(programIdNumber)) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId should be passed in as numbers",
+                );
+            }
             // Delete program with provided programId
-            const program = await deleteProgram(id as string);
+            const program = await deleteProgram(programId as string);
 
             if (!program) {
                 ResponseUtil.returnNotFound(
                     res,
-                    `Program with id ${id} not found.`,
+                    `Program with id ${programId} not found.`,
                 );
                 break;
             }

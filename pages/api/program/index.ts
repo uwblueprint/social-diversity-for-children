@@ -6,7 +6,7 @@ import { validateProgramData } from "@utils/validation/program";
 import {
     getProgramCardInfos,
     getProgramCardInfo,
-} from "@database/programcardinfo";
+} from "@database/program-card-info";
 
 /**
  * handle controls the request made to the program resource
