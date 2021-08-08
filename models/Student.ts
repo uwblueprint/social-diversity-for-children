@@ -1,4 +1,4 @@
-import type { province } from "@prisma/client";
+import type { difficulties, province, therapy } from "@prisma/client";
 /**
  * Request Body Input for Student
  */
@@ -15,7 +15,11 @@ export type CreateStudentInput = {
     school?: string;
     grade?: number;
     // Eric: TODO for Jason to add difficulties and therapy
+    difficulties?: difficulties[];
+    otherDifficulties?: string;
     specialEducation?: boolean;
+    therapy?: therapy[];
+    otherTherapy?: string;
     guardianExpectations?: string;
     medication?: string;
     allergies?: string;

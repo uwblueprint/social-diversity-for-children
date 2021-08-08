@@ -19,21 +19,9 @@ CREATE TYPE roles AS ENUM ('PARENT', 'PROGRAM_ADMIN', 'TEACHER', 'VOLUNTEER');
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
 CREATE TYPE program_formats AS ENUM ('online', 'in-person', 'blended');
-CREATE TYPE difficulties AS ENUM (
-  'Learning difficulties',
-  'Physical difficulties',
-  'Sensory difficulties',
-  'Other'
-);
-CREATE TYPE therapy AS ENUM(
-  'Physiotherapy',
-  'Speech & Language Therapy',
-  'Occupational Therapy',
-  'Psychotherapy/Counseling',
-  'Music or Art Therapy',
-  'Other'
-);
-CREATE TYPE heard_from AS ENUM ('Friends and Family', 'Flyers', 'Email', 'Social Media', 'Other');
+CREATE TYPE difficulties AS ENUM ('LEARNING', 'PHYSICAL', 'SENSORY');
+CREATE TYPE therapy AS ENUM('PHYSIO', 'SPEECH_LANG', 'OCCUPATIONAL', 'COUNSELING', 'ART');
+CREATE TYPE heard_from AS ENUM ('FRIENDS_FAMILY', 'FLYERS', 'EMAIL', 'SOCIAL_MEDIA', 'OTHER');
 
 -- Create users table
 CREATE TABLE users (
@@ -160,7 +148,9 @@ CREATE TABLE students (
   -- TODO: update the multi select fields in the db
   -- Eric (Aug 2, 2021): Jason, when you make this change, please also update models/User.ts and in updateUsers
   difficulties difficulties[],
+  otherDifficulties TEXT,
   therapy therapy[],
+  otherTherapy TEXT,
   special_education BOOLEAN DEFAULT false,
   guardian_expectations TEXT,
   medication TEXT,

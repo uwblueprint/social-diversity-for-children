@@ -29,7 +29,13 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
-import { ParentInput, roles, locale, UserInput } from "@models/User";
+import {
+    difficulties,
+    ParentInput,
+    roles,
+    locale,
+    therapy,
+} from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -104,7 +110,10 @@ export default function ParticipantInfo({
         false,
     );
     // TODO: configure list for difficulties to send to backend
-    const [difficulties, setDifficulties] = useLocalStorage("difficulties", []);
+    let [participantDifficulties, setParticipantDifficulties] = useLocalStorage(
+        "participantDifficulties",
+        [],
+    );
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
         "hasOtherDifficulties",
         false,
@@ -132,16 +141,16 @@ export default function ParticipantInfo({
     );
     const [counseling, setCounseling] = useLocalStorage("counseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("artTherapy", false);
-    const [therapy, setTherapy] = useLocalStorage("therapy", []);
-    const [otherTherapy, setOtherTherapy] = useLocalStorage(
-        "otherTherapy",
+    let [participantTherapy, setParticipantTherapy] = useLocalStorage(
+        "participantTherapy",
+        [],
+    );
+    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
+        "hasOtherTherapy",
         false,
     );
 
-    const [therapyDetails, setTherapyDetails] = useLocalStorage(
-        "receivingOtherTherapy",
-        "",
-    );
+    const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
         "guardianExpectations",
@@ -229,14 +238,14 @@ export default function ParticipantInfo({
         </Box>
     ) : null;
 
-    const otherTherapyDetails = otherTherapy ? (
+    const otherTherapyDetails = hasOtherTherapy ? (
         <Box mt={4}>
             <FormControl id="therapy details">
                 <FormLabel>Please provide any details if necessary</FormLabel>
                 <Input
                     placeholder="Details"
-                    onChange={(e) => setTherapyDetails(e.target.value)}
-                    value={therapyDetails}
+                    onChange={(e) => setOtherTherapy(e.target.value)}
+                    value={otherTherapy}
                 />
             </FormControl>
         </Box>
@@ -380,31 +389,78 @@ export default function ParticipantInfo({
                             key="learningDifficulties"
                             defaultChecked={hasLearningDifficulties}
                             isChecked={hasLearningDifficulties}
-                            onChange={(e) =>
-                                setHasLearningDifficulties(e.target.checked)
-                            }
+                            onChange={(e) => {
+                                setHasLearningDifficulties(e.target.checked);
+                                if (e.target.checked) {
+                                    participantDifficulties.push(
+                                        difficulties.LEARNING,
+                                    );
+                                    setParticipantDifficulties(
+                                        participantDifficulties,
+                                    );
+                                } else {
+                                    participantDifficulties =
+                                        participantDifficulties.filter(
+                                            (diff) =>
+                                                diff != difficulties.LEARNING,
+                                        );
+                                    setParticipantDifficulties(
+                                        participantDifficulties,
+                                    );
+                                }
+                            }}
                         >
                             Learning difficulties
                         </Checkbox>
                         <Checkbox
                             key="physicalDifficulties"
                             isChecked={hasPhysicalDifficulties}
-                            onChange={() =>
-                                setHasPhysicalDifficulties(
-                                    !hasPhysicalDifficulties,
-                                )
-                            }
+                            onChange={(e) => {
+                                setHasPhysicalDifficulties(e.target.checked);
+                                if (e.target.checked) {
+                                    participantDifficulties.push(
+                                        difficulties.PHYSICAL,
+                                    );
+                                    setParticipantDifficulties(
+                                        participantDifficulties,
+                                    );
+                                } else {
+                                    participantDifficulties =
+                                        participantDifficulties.filter(
+                                            (diff) =>
+                                                diff != difficulties.PHYSICAL,
+                                        );
+                                    setParticipantDifficulties(
+                                        participantDifficulties,
+                                    );
+                                }
+                            }}
                         >
                             Physical difficulties
                         </Checkbox>
                         <Checkbox
                             key="sensoryDifficulties"
                             isChecked={hasSensoryDifficulties}
-                            onChange={() =>
-                                setHasSensoryDifficulties(
-                                    !hasSensoryDifficulties,
-                                )
-                            }
+                            onChange={(e) => {
+                                setHasSensoryDifficulties(e.target.checked);
+                                if (e.target.checked) {
+                                    participantDifficulties.push(
+                                        difficulties.SENSORY,
+                                    );
+                                    setParticipantDifficulties(
+                                        participantDifficulties,
+                                    );
+                                } else {
+                                    participantDifficulties =
+                                        participantDifficulties.filter(
+                                            (diff) =>
+                                                diff != difficulties.SENSORY,
+                                        );
+                                    setParticipantDifficulties(
+                                        participantDifficulties,
+                                    );
+                                }
+                            }}
                         >
                             Sensory difficulties
                         </Checkbox>
@@ -412,8 +468,8 @@ export default function ParticipantInfo({
                             key="otherDifficulties"
                             value={OTHER}
                             isChecked={hasOtherDifficulties}
-                            onChange={() =>
-                                setHasOtherDifficulties(!hasOtherDifficulties)
+                            onChange={(e) =>
+                                setHasOtherDifficulties(e.target.checked)
                             }
                         >
                             Other
@@ -459,45 +515,109 @@ export default function ParticipantInfo({
                         <Checkbox
                             key="physiotherapy"
                             isChecked={physiotherapy}
-                            onChange={() => setPhysiotherapy(!physiotherapy)}
+                            onChange={(e) => {
+                                setPhysiotherapy(e.target.checked);
+                                if (e.target.checked) {
+                                    participantTherapy.push(therapy.PHYSIO);
+                                    setParticipantTherapy(participantTherapy);
+                                } else {
+                                    participantTherapy =
+                                        participantTherapy.filter(
+                                            (th) => th != therapy.PHYSIO,
+                                        );
+                                    setParticipantTherapy(participantTherapy);
+                                }
+                            }}
                         >
                             Physiotherapy
                         </Checkbox>
                         <Checkbox
                             key="speech language"
                             isChecked={speechTherapy}
-                            onChange={() => setSpeechTherapy(!speechTherapy)}
+                            onChange={(e) => {
+                                setSpeechTherapy(e.target.checked);
+                                if (e.target.checked) {
+                                    participantTherapy.push(
+                                        therapy.SPEECH_LANG,
+                                    );
+                                    setParticipantTherapy(participantTherapy);
+                                } else {
+                                    participantTherapy =
+                                        participantTherapy.filter(
+                                            (th) => th != therapy.SPEECH_LANG,
+                                        );
+                                    setParticipantTherapy(participantTherapy);
+                                }
+                            }}
                         >
                             Speech and Language Therapy
                         </Checkbox>
                         <Checkbox
                             key="occupational therapy"
                             isChecked={occupationalTherapy}
-                            onChange={() =>
-                                setOccupationalTherapy(!occupationalTherapy)
-                            }
+                            onChange={(e) => {
+                                setOccupationalTherapy(e.target.checked);
+                                if (e.target.checked) {
+                                    participantTherapy.push(
+                                        therapy.OCCUPATIONAL,
+                                    );
+                                    setParticipantTherapy(participantTherapy);
+                                } else {
+                                    participantTherapy =
+                                        participantTherapy.filter(
+                                            (th) => th != therapy.OCCUPATIONAL,
+                                        );
+                                    setParticipantTherapy(participantTherapy);
+                                }
+                            }}
                         >
                             Occupational Therapy
                         </Checkbox>
                         <Checkbox
                             key="counselling"
                             isChecked={counseling}
-                            onChange={() => setCounseling(!counseling)}
+                            onChange={(e) => {
+                                setCounseling(e.target.checked);
+                                if (e.target.checked) {
+                                    participantTherapy.push(therapy.COUNSELING);
+                                    setParticipantTherapy(participantTherapy);
+                                } else {
+                                    participantTherapy =
+                                        participantTherapy.filter(
+                                            (th) => th != therapy.COUNSELING,
+                                        );
+                                    setParticipantTherapy(participantTherapy);
+                                }
+                            }}
                         >
                             Psychotherapy/Counseling
                         </Checkbox>
                         <Checkbox
                             key="art"
                             isChecked={artTherapy}
-                            onChange={() => setArtTherapy(!artTherapy)}
+                            onChange={(e) => {
+                                setArtTherapy(e.target.checked);
+                                if (e.target.checked) {
+                                    participantTherapy.push(therapy.ART);
+                                    setParticipantTherapy(participantTherapy);
+                                } else {
+                                    participantTherapy =
+                                        participantTherapy.filter(
+                                            (th) => th != therapy.ART,
+                                        );
+                                    setParticipantTherapy(participantTherapy);
+                                }
+                            }}
                         >
                             Music or Art Therapy
                         </Checkbox>
                         <Checkbox
                             key="otherTherapies"
                             value={OTHER}
-                            isChecked={otherTherapy}
-                            onChange={() => setOtherTherapy(!otherTherapy)}
+                            isChecked={hasOtherTherapy}
+                            onChange={(e) =>
+                                setHasOtherTherapy(e.target.checked)
+                            }
                         >
                             Other
                         </Checkbox>
@@ -738,7 +858,6 @@ export default function ParticipantInfo({
             <FormButton
                 onClick={() => {
                     setPageNum((prevPage) => prevPage + 1);
-                    // updateUserRequest();
                     updateUserAndClearForm();
                 }}
             >
@@ -776,10 +895,10 @@ export default function ParticipantInfo({
             school: school,
             grade: parseInt(grade, 10),
 
-            difficulties,
+            difficulties: participantDifficulties.sort(),
             otherDifficulties,
             specialEducation: specialEd,
-            therapy,
+            therapy: participantTherapy.sort(),
             otherTherapy,
 
             guardianExpectations,
@@ -798,6 +917,7 @@ export default function ParticipantInfo({
             role: roles.PARENT,
             roleData: parentData,
         };
+        console.log("userData:", userData);
         const request = {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -822,25 +942,32 @@ export default function ParticipantInfo({
         setHasLearningDifficulties(false);
         setHasPhysicalDifficulties(false);
         setHasSensoryDifficulties(false);
-        setOtherDifficulties(false);
-        setDifficulties([]);
+        setHasOtherDifficulties(false);
+        setOtherDifficulties("");
+        setParticipantDifficulties([]);
         setSpecialEd(false);
         setPhysiotherapy(false);
         setSpeechTherapy(false);
         setOccupationalTherapy(false);
         setCounseling(false);
         setArtTherapy(false);
-        setOtherTherapy(false);
-        setTherapy([]);
+        setHasOtherTherapy(false);
+        setOtherTherapy("");
+        setParticipantTherapy([]);
         setGuardianExpectations("");
+        setEmergFirstName("");
+        setEmergLastName("");
+        setEmergNumber("");
+        setEmergRelationship("");
     };
 
     async function updateUserAndClearForm() {
         const updatedUser = await updateUser();
         if (updatedUser) {
             clearLocalStorage();
+            return updatedUser;
         } else {
-            // TODO: error banner
+            return null;
         }
     }
 

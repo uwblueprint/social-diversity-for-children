@@ -223,7 +223,9 @@ model Student {
   school                 String?
   grade                  Int?
   difficulties           difficulties[]
+  otherdifficulties      String?
   therapy                therapy[]
+  othertherapy           String?
   specialEducation       Boolean?       @default(false) @map("special_education")
   guardianExpectations   String?        @map("guardian_expectations")
   medication             String?
@@ -296,27 +298,25 @@ enum roles {
 }
 
 enum difficulties {
-  Learning_difficulties @map("Learning difficulties")
-  Physical_difficulties @map("Physical difficulties")
-  Sensory_difficulties @map("Sensory difficulties")
-  Other
+  LEARNING
+  PHYSICAL
+  SENSORY
 }
 
 enum heardFrom {
-  Friends_and_Family @map("Friends and Family")
-  Flyers
-  Email
-  Social_Media @map("Social Media")
-  Other
+  FRIENDS_FAMILY
+  FLYERS
+  EMAIL
+  SOCIAL_MEDIA
+  OTHER
 
    @@map("heard_from")
 }
 
 enum therapy {
-  Physiotherapy
-  Speech___Language_Therapy @map("Speech & Language Therapy")
-  Occupational_Therapy @map("Occupational Therapy")
-  Psychotherapy_Counseling @map("Psychotherapy/Counseling")
-  Music_or_Art_Therapy @map("Music or Art Therapy")
-  Other
+  PHYSIO
+  SPEECH_LANG
+  OCCUPATIONAL
+  COUNSELING
+  ART
 }

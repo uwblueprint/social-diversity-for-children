@@ -40,6 +40,15 @@ export default async function handle(
             if (validationErrors) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             }
+            // console.log("updating user with data:", updatedUserData);
+            // updateUser(updatedUserData)
+            //     .then((result) => {
+            //         console.log("API SUCCECSS:", result);
+            //         ResponseUtil.returnOK(res, result);
+            //     })
+            //     .catch((err) => {
+            //         console.log("API ERROR:", err);
+            //     });
             const updatedUser = await updateUser(updatedUserData);
             if (!updatedUser) {
                 ResponseUtil.returnBadRequest(

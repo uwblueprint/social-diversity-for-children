@@ -108,7 +108,11 @@ async function updateUser(userInput: UserInput): Promise<User> {
                                 province: parentData.province,
                                 school: parentData.school,
                                 grade: parentData.grade,
+                                difficulties: parentData.difficulties,
+                                otherdifficulties: parentData.otherDifficulties,
                                 specialEducation: parentData.specialEducation,
+                                therapy: parentData.therapy,
+                                othertherapy: parentData.otherTherapy,
                                 guardianExpectations:
                                     parentData.guardianExpectations,
                                 medication: parentData.medication,
@@ -141,7 +145,11 @@ async function updateUser(userInput: UserInput): Promise<User> {
                                 province: parentData.province,
                                 school: parentData.school,
                                 grade: parentData.grade,
+                                difficulties: parentData.difficulties,
+                                otherdifficulties: parentData.otherDifficulties,
                                 specialEducation: parentData.specialEducation,
+                                therapy: parentData.therapy,
+                                othertherapy: parentData.otherTherapy,
                                 guardianExpectations:
                                     parentData.guardianExpectations,
                                 medication: parentData.medication,
