@@ -49,71 +49,91 @@ function validatePreferredLanguage(userLanguage) {
  * @param user - the user data to validate
  * @returns - true if the user data is valid, false otherwise
  */
-function userIsValid(user: UserInput): boolean {
+function getUserValidationErrors(user: UserInput): Array<string> {
     // validate base user fields
-    const firstNameIsAlpha = validator.isAlpha(user.firstName, undefined, " -");
-    const lastNameIsAlpha = validator.isAlpha(user.lastName, undefined, " -");
-    const roleIsValid = VALID_ROLES.has(user.role);
-
-    // validate the User fields
-    const userDataIsValid = firstNameIsAlpha && lastNameIsAlpha && roleIsValid;
+    const validationErrors = [];
+    if (!validator.isAlpha(user.firstName, undefined, " -")) {
+        validationErrors.push("User first name is tto alphanumeric");
+    }
+    if (!validator.isAlpha(user.lastName, undefined, " -")) {
+        validationErrors.push("User last name is not alphanumeric");
+    }
+    if (!VALID_ROLES.has(user.role)) {
+        validationErrors.push(`${user.role} is not a valid role`);
+    }
 
     // validate role fields
-    let roleDataIsValid;
     if (user.role === roles.PARENT) {
         const roleData = user.roleData as ParentInput;
-        const phoneNumberIsValid = validator.isMobilePhone(
-            roleData.phoneNumber,
-        );
-        const postalCodeIsValid = validator.isPostalCode(
-            roleData.postalCode,
-            "CA",
-        );
-        const provinceIsValid = validateProvince(roleData.province);
-        const preferredLanguageIsValid = validatePreferredLanguage(
-            roleData.preferredLanguage,
-        );
-        const emergencyNumberIsValid = validator.isMobilePhone(
-            roleData.emergencyContactPhoneNumber,
-        );
+        if (!validator.isMobilePhone(roleData.phoneNumber)) {
+            validationErrors.push(
+                `Invalid phone number provided: ${roleData.phoneNumber}`,
+            );
+        }
+        if (!validator.isPostalCode(roleData.postalCode, "CA")) {
+            validationErrors.push(
+                `Invalid postal code provided: ${roleData.postalCode}`,
+            );
+        }
+        if (!validateProvince(roleData.province)) {
+            validationErrors.push(
+                `Invalid province provided: ${roleData.province}`,
+            );
+        }
+        if (!validatePreferredLanguage(roleData.preferredLanguage)) {
+            validationErrors.push(
+                `Invalid preferred language: ${roleData.preferredLanguage}`,
+            );
+        }
+        if (!validator.isMobilePhone(roleData.emergencyContactPhoneNumber)) {
+            validationErrors.push(
+                `Invalid emergency contact number provided: ${roleData.emergencyContactPhoneNumber}`,
+            );
+        }
         // Eric: Not sure if this is needed to be validated.
-        const isValidDOB = validator.isDate(roleData.childDateOfBirth);
-        roleDataIsValid =
-            phoneNumberIsValid &&
-            postalCodeIsValid &&
-            provinceIsValid &&
-            preferredLanguageIsValid &&
-            emergencyNumberIsValid &&
-            isValidDOB;
+        if (!validator.isDate(roleData.childDateOfBirth)) {
+            validationErrors.push(
+                `Invalid date of birth provided: ${roleData.childDateOfBirth}`,
+            );
+        }
     } else if (user.role === roles.PROGRAM_ADMIN) {
         // pass - since program admin has no unique fields
     } else if (user.role === roles.TEACHER) {
         // pass - since teacher role is not currently supported
     } else if (user.role === roles.VOLUNTEER) {
         const roleData: VolunteerInput = user.roleData;
-        const phoneNumberIsValid =
-            !roleData.phoneNumber ||
-            validator.isMobilePhone(roleData.phoneNumber);
-        const postalCodeIsValid =
-            !roleData.postalCode ||
-            validator.isPostalCode(roleData.postalCode, "CA");
-        const provinceIsValid =
-            !roleData.province || validateProvince(roleData.province);
-        const preferredLanguageIsValid =
-            !roleData.preferredLanguage ||
-            validatePreferredLanguage(roleData.preferredLanguage);
-        roleDataIsValid =
-            phoneNumberIsValid &&
-            postalCodeIsValid &&
-            provinceIsValid &&
-            preferredLanguageIsValid;
-    } else {
-        // if the user role does not satisfy one of the above conditions,
-        //  it must be null/undefined - otherwise it's invalid
-        roleDataIsValid = !user.role ? true : false;
+        if (
+            roleData.phoneNumber &&
+            !validator.isMobilePhone(roleData.phoneNumber)
+        ) {
+            validationErrors.push(
+                `Invalid phone number provided: ${roleData.phoneNumber}`,
+            );
+        }
+        if (
+            roleData.postalCode &&
+            !validator.isPostalCode(roleData.postalCode, "CA")
+        ) {
+            validationErrors.push(
+                `Invalid postal code provided: ${roleData.postalCode}`,
+            );
+        }
+        if (roleData.province && !validateProvince(roleData.province)) {
+            validationErrors.push(
+                `Invalid province provided: ${roleData.province}`,
+            );
+        }
+        if (
+            roleData.preferredLanguage &&
+            !validatePreferredLanguage(roleData.preferredLanguage)
+        ) {
+            validationErrors.push(
+                `Invalid preferred language provided: ${roleData.preferredLanguage}`,
+            );
+        }
     }
 
-    return userDataIsValid && roleDataIsValid;
+    return validationErrors;
 }
 
-export { userIsValid };
+export { getUserValidationErrors };

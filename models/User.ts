@@ -1,4 +1,4 @@
-import type {
+import {
     roles,
     province,
     locale,
@@ -6,6 +6,8 @@ import type {
     therapy,
     heardFrom,
 } from "@prisma/client";
+
+export { roles, province, locale, difficulties, therapy, heardFrom };
 
 /* Input type for Parent inputs */
 export type ParentInput = {
@@ -35,7 +37,7 @@ export type ParentInput = {
     specialEducation?: boolean;
     therapy?: therapy[];
     otherTherapy?: string;
-    parentExpectations?: string;
+    guardianExpectations?: string;
     additionalInfo?: string;
     emergencyContactFirstName: string;
     emergencyContactLastName: string;

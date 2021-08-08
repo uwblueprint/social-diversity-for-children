@@ -738,7 +738,8 @@ export default function ParticipantInfo({
             <FormButton
                 onClick={() => {
                     setPageNum((prevPage) => prevPage + 1);
-                    updateUserRequest();
+                    // updateUserRequest();
+                    updateUserAndClearForm();
                 }}
             >
                 Finish
@@ -756,7 +757,7 @@ export default function ParticipantInfo({
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
 
-    async function updateUserRequest() {
+    async function updateUser() {
         const parentData: ParentInput = {
             phoneNumber: parentPhoneNumber,
             isLowIncome: undefined,
@@ -805,6 +806,42 @@ export default function ParticipantInfo({
         const response = await fetch("api/user", request);
         const updatedUserData = await response.json();
         return updatedUserData;
+    }
+
+    const clearLocalStorage = () => {
+        setParticipantFirstName("");
+        setParticipantLastName("");
+        setDateOfBirth("");
+        setAddress1("");
+        setAddress2("");
+        setCity("");
+        setProvince("");
+        setPostalCode("");
+        setSchool("");
+        setGrade("");
+        setHasLearningDifficulties(false);
+        setHasPhysicalDifficulties(false);
+        setHasSensoryDifficulties(false);
+        setOtherDifficulties(false);
+        setDifficulties([]);
+        setSpecialEd(false);
+        setPhysiotherapy(false);
+        setSpeechTherapy(false);
+        setOccupationalTherapy(false);
+        setCounseling(false);
+        setArtTherapy(false);
+        setOtherTherapy(false);
+        setTherapy([]);
+        setGuardianExpectations("");
+    };
+
+    async function updateUserAndClearForm() {
+        const updatedUser = await updateUser();
+        if (updatedUser) {
+            clearLocalStorage();
+        } else {
+            // TODO: error banner
+        }
     }
 
     return (
