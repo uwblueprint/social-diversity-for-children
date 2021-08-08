@@ -29,7 +29,7 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
-import { ParentInput } from "@models/User";
+import { ParentInput, roles, locale, UserInput } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -68,6 +68,10 @@ export default function ParticipantInfo({
 }): JSX.Element {
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
+    const formButtonOnClick = () => {
+        setPageNum((prevPage) => prevPage + 1);
+        window.scrollTo({ top: 0 });
+    };
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
     const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
 
@@ -139,8 +143,8 @@ export default function ParticipantInfo({
         "",
     );
 
-    const [parentExpectations, setParentExpectations] = useLocalStorage(
-        "parentExpectations",
+    const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
+        "guardianExpectations",
         "",
     );
 
@@ -238,488 +242,511 @@ export default function ParticipantInfo({
         </Box>
     ) : null;
 
-    /*    toggleCheckboxChange = (e) => {
-            e.preventDefault()
-            if (e.target.type === RADIO_YES ) {
-              localStorage.setItem({ [e.target.id]: e.target.checked })
-            }
-         }
- */
-
     const formPageHeaders = [
         "Participant Information",
         "Participant Information",
         "Participant Emergency Form",
         "Participant Health Form",
-        "Confirm Participants",
         "Parent Guardian Information",
+        "Confirm Participants",
         "Proof of Income",
         "How did you hear about us?",
     ];
 
     const formPages = [
-        <FormPage>
-            <Box maxW="55rem">
-                <Text noOfLines={2} fontSize="16px" fontWeight="200">
-                    Please provide information on the participant that is being
-                    registered in the program. An opportunity to add information
-                    of additional participants you would like to register will
-                    be provided afterwards.
-                </Text>
-            </Box>
-            <FormLabel>
-                Participant Name
+        <Box>
+            <FormPage>
+                <Box maxW="55rem">
+                    <Text noOfLines={2} fontSize="16px" fontWeight="200">
+                        Please provide information on the participant that is
+                        being registered in the program. An opportunity to add
+                        information of additional participants you would like to
+                        register will be provided afterwards.
+                    </Text>
+                </Box>
+                <FormLabel>
+                    Participant Name
+                    <HStack spacing="24px">
+                        <FormControl id="first-name">
+                            <Input
+                                placeholder="First name"
+                                onChange={(e) =>
+                                    setParticipantFirstName(e.target.value)
+                                }
+                                value={participantFirstName}
+                            />
+                        </FormControl>
+                        <FormControl id="last-name">
+                            <Input
+                                placeholder="Last name"
+                                onChange={(e) =>
+                                    setParticipantLastName(e.target.value)
+                                }
+                                value={participantLastName}
+                            />
+                        </FormControl>
+                    </HStack>
+                </FormLabel>
+                <FormControl id="date-of-birth">
+                    <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
+                    <Input
+                        placeholder="Date Of Birth"
+                        onChange={(e) => setDateOfBirth(e.target.value)}
+                        value={dateOfBirth}
+                    />
+                </FormControl>
+                <FormControl id="street-address-1">
+                    <FormLabel>Street Address 1</FormLabel>
+                    <Input
+                        placeholder="249 Phillip Street"
+                        onChange={(e) => setAddress1(e.target.value)}
+                        value={address1}
+                    />
+                </FormControl>
+                <FormControl id="street-address-2">
+                    <FormLabel>Street Address 2</FormLabel>
+                    <Input
+                        placeholder="APT 20"
+                        onChange={(e) => setAddress2(e.target.value)}
+                        value={address2}
+                    />
+                </FormControl>
                 <HStack spacing="24px">
-                    <FormControl id="first-name">
+                    <FormControl id="city">
+                        <FormLabel>City</FormLabel>
                         <Input
-                            placeholder="First name"
-                            onChange={(e) =>
-                                setParticipantFirstName(e.target.value)
-                            }
-                            value={participantFirstName}
+                            placeholder="Waterloo"
+                            onChange={(e) => setCity(e.target.value)}
+                            value={city}
                         />
                     </FormControl>
-                    <FormControl id="last-name">
+                    <FormControl id="province">
+                        <FormLabel>Province</FormLabel>
+                        <Select
+                            placeholder={"Select option"}
+                            onChange={(e) => setProvince(e.target.value)}
+                            value={province} // TODO: bug with displayed value after refresh
+                        >
+                            {/* TODO: use a mapping with a const? */}
+                            <option value="NL">NL</option>
+                            <option value="PE">PE</option>
+                            <option value="NS">NS</option>
+                            <option value="NB">NB</option>
+                            <option value="QC">QC</option>
+                            <option value="ON">ON</option>
+                            <option value="MB">MB</option>
+                            <option value="SK">SK</option>
+                            <option value="AB">AB</option>
+                            <option value="BC">BC</option>
+                            <option value="YT">YT</option>
+                            <option value="NT">NT</option>
+                            <option value="NU">NU</option>
+                        </Select>
+                    </FormControl>
+                    <FormControl id="postal-code">
+                        <FormLabel>Postal Code</FormLabel>
                         <Input
-                            placeholder="Last name"
-                            onChange={(e) =>
-                                setParticipantLastName(e.target.value)
-                            }
-                            value={participantLastName}
+                            placeholder="K9S 8C3"
+                            onChange={(e) => setPostalCode(e.target.value)}
+                            value={postalCode}
                         />
                     </FormControl>
                 </HStack>
-            </FormLabel>
-            <FormControl id="date-of-birth">
-                <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                <Input
-                    placeholder="Date Of Birth"
-                    onChange={(e) => setDateOfBirth(e.target.value)}
-                    value={dateOfBirth}
-                />
-            </FormControl>
-            <FormControl id="street-address-1">
-                <FormLabel>Street Address 1</FormLabel>
-                <Input
-                    placeholder="249 Phillip Street"
-                    onChange={(e) => setAddress1(e.target.value)}
-                    value={address1}
-                />
-            </FormControl>
-            <FormControl id="street-address-2">
-                <FormLabel>Street Address 2</FormLabel>
-                <Input
-                    placeholder="APT 20"
-                    onChange={(e) => setAddress2(e.target.value)}
-                    value={address2}
-                />
-            </FormControl>
-            <HStack spacing="24px">
-                <FormControl id="city">
-                    <FormLabel>City</FormLabel>
+                <FormControl id="school">
+                    <FormLabel>School (if applicable)</FormLabel>
                     <Input
-                        placeholder="Waterloo"
-                        onChange={(e) => setCity(e.target.value)}
-                        value={city}
+                        placeholder="Westmount Secondary School"
+                        onChange={(e) => setSchool(e.target.value)}
+                        value={school}
                     />
                 </FormControl>
-                <FormControl id="province">
-                    <FormLabel>Province</FormLabel>
-                    <Select
-                        placeholder={"Select option"}
-                        onChange={(e) => setProvince(e.target.value)}
-                        value={province} // TODO: bug with displayed value after refresh
-                    >
-                        {/* TODO: use a mapping with a const? */}
-                        <option value="NL">NL</option>
-                        <option value="PE">PE</option>
-                        <option value="NS">NS</option>
-                        <option value="NB">NB</option>
-                        <option value="QC">QC</option>
-                        <option value="ON">ON</option>
-                        <option value="MB">MB</option>
-                        <option value="SK">SK</option>
-                        <option value="AB">AB</option>
-                        <option value="BC">BC</option>
-                        <option value="YT">YT</option>
-                        <option value="NT">NT</option>
-                        <option value="NU">NU</option>
-                    </Select>
-                </FormControl>
-                <FormControl id="postal-code">
-                    <FormLabel>Postal Code</FormLabel>
+                <FormControl id="grade">
+                    <FormLabel>Grade (if applicable)</FormLabel>
                     <Input
-                        placeholder="K9S 8C3"
-                        onChange={(e) => setPostalCode(e.target.value)}
-                        value={postalCode}
+                        placeholder="5"
+                        onChange={(e) => setGrade(e.target.value)}
+                        value={grade}
                     />
                 </FormControl>
-            </HStack>
-            <FormControl id="school">
-                <FormLabel>School (if applicable)</FormLabel>
-                <Input
-                    placeholder="Westmount Secondary School"
-                    onChange={(e) => setSchool(e.target.value)}
-                    value={school}
-                />
-            </FormControl>
-            <FormControl id="grade">
-                <FormLabel>Grade (if applicable)</FormLabel>
-                <Input
-                    placeholder="5"
-                    onChange={(e) => setGrade(e.target.value)}
-                    value={grade}
-                />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <FormControl id="participant-have">
-                <FormLabel>Does the participant have:</FormLabel>
-                <Stack direction="column">
-                    <Checkbox
-                        key="learningDifficulties"
-                        defaultChecked={hasLearningDifficulties}
-                        isChecked={hasLearningDifficulties}
-                        onChange={(e) =>
-                            setHasLearningDifficulties(e.target.checked)
-                        }
-                    >
-                        Learning difficulties
-                    </Checkbox>
-                    <Checkbox
-                        key="physicalDifficulties"
-                        isChecked={hasPhysicalDifficulties}
-                        onChange={() =>
-                            setHasPhysicalDifficulties(!hasPhysicalDifficulties)
-                        }
-                    >
-                        Physical difficulties
-                    </Checkbox>
-                    <Checkbox
-                        key="sensoryDifficulties"
-                        isChecked={hasSensoryDifficulties}
-                        onChange={() =>
-                            setHasSensoryDifficulties(!hasSensoryDifficulties)
-                        }
-                    >
-                        Sensory difficulties
-                    </Checkbox>
-                    <Checkbox
-                        key="otherDifficulties"
-                        value={OTHER}
-                        isChecked={hasOtherDifficulties}
-                        onChange={() =>
-                            setHasOtherDifficulties(!hasOtherDifficulties)
-                        }
-                    >
-                        Other
-                    </Checkbox>
-                    {otherDifficultyDetails}
-                </Stack>
-            </FormControl>
-            <FormControl id="special-education">
-                <FormLabel>
-                    Is the participant currently involved in a special education
-                    program at their school?
-                </FormLabel>
-                <Stack direction="row">
-                    <RadioGroup>
-                        <Radio
-                            value={"1"}
-                            onChange={() => {
-                                setSpecialEd(true);
-                            }}
-                            isChecked={specialEd}
-                            pr={4}
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <FormControl id="participant-have">
+                    <FormLabel>Does the participant have:</FormLabel>
+                    <Stack direction="column">
+                        <Checkbox
+                            key="learningDifficulties"
+                            defaultChecked={hasLearningDifficulties}
+                            isChecked={hasLearningDifficulties}
+                            onChange={(e) =>
+                                setHasLearningDifficulties(e.target.checked)
+                            }
                         >
-                            Yes
-                        </Radio>
-                        <Radio
-                            value={"0"}
-                            onChange={() => {
-                                setSpecialEd(false);
-                            }}
-                            isChecked={!specialEd}
-                            pr={4}
+                            Learning difficulties
+                        </Checkbox>
+                        <Checkbox
+                            key="physicalDifficulties"
+                            isChecked={hasPhysicalDifficulties}
+                            onChange={() =>
+                                setHasPhysicalDifficulties(
+                                    !hasPhysicalDifficulties,
+                                )
+                            }
                         >
-                            No
-                        </Radio>
-                    </RadioGroup>
-                </Stack>
-            </FormControl>
-            <FormControl id="therapy">
-                <FormLabel>
-                    Is the participant revieving any other form of therapy?
-                </FormLabel>
-                <Stack direction="column">
-                    <Checkbox
-                        key="physiotherapy"
-                        isChecked={physiotherapy}
-                        onChange={() => setPhysiotherapy(!physiotherapy)}
-                    >
-                        Physiotherapy
-                    </Checkbox>
-                    <Checkbox
-                        key="speech language"
-                        isChecked={speechTherapy}
-                        onChange={() => setSpeechTherapy(!speechTherapy)}
-                    >
-                        Speech and Language Therapy
-                    </Checkbox>
-                    <Checkbox
-                        key="occupational therapy"
-                        isChecked={occupationalTherapy}
-                        onChange={() =>
-                            setOccupationalTherapy(!occupationalTherapy)
-                        }
-                    >
-                        Occupational Therapy
-                    </Checkbox>
-                    <Checkbox
-                        key="counselling"
-                        isChecked={counseling}
-                        onChange={() => setCounseling(!counseling)}
-                    >
-                        Psychotherapy/Counseling
-                    </Checkbox>
-                    <Checkbox
-                        key="art"
-                        isChecked={artTherapy}
-                        onChange={() => setArtTherapy(!artTherapy)}
-                    >
-                        Music or Art Therapy
-                    </Checkbox>
-                    <Checkbox
-                        key="otherTherapies"
-                        value={OTHER}
-                        isChecked={otherTherapy}
-                        onChange={() => setOtherTherapy(!otherTherapy)}
-                    >
-                        Other
-                    </Checkbox>
-                    {otherTherapyDetails}
-                </Stack>
-            </FormControl>
-            <FormControl id="parent-guardian-expectations">
-                <FormLabel>Parent/Guardian Expectations</FormLabel>
-                <Textarea
-                    placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas."
-                    onChange={(e) => setParentExpectations(e.target.value)}
-                    value={parentExpectations}
-                />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <Box maxW="55rem">
-                <Text noOfLines={3} fontSize="16px" fontWeight="200">
-                    The information on this form will be used at the discretion
-                    of the activity instructor/coordinator to ensure care and
-                    attention is given to the safety and health of your child.
-                    All information on this form is considered Personal and
-                    Confidential. The contact listed on the emergency form
-                    cannot be the same contact listed as the parent above.
-                </Text>
-            </Box>
-            <FormLabel>
-                Emergency Contact Name
-                <HStack spacing="24px">
-                    <FormControl id="first-name">
-                        <Input
-                            placeholder="First Name"
-                            onChange={(e) => setEmergFirstName(e.target.value)}
-                            value={emergFirstName}
-                        />
-                    </FormControl>
-                    <FormControl id="last-name">
-                        <Input
-                            placeholder="Last name"
-                            onChange={(e) => setEmergLastName(e.target.value)}
-                            value={emergLastName}
-                        />
-                    </FormControl>
-                </HStack>
-            </FormLabel>
-            <FormControl id="emergency-contact-cell-number">
-                <FormLabel>Emergency Contact Cell Number </FormLabel>
-                <Input
-                    placeholder="289 349 1048"
-                    onChange={(e) => setEmergNumber(e.target.value)}
-                    value={emergNumber}
-                />
-            </FormControl>
-            <FormControl id="relationship-to-participant">
-                <FormLabel>Relationship to Participant</FormLabel>
-                <Input
-                    placeholder="Mother"
-                    onChange={(e) => setEmergRelationship(e.target.value)}
-                    value={emergRelationship}
-                />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <Box maxW="55rem">
-                <Text noOfLines={3} fontSize="16px" fontWeight="200">
-                    The information on this form will be used at the discretion
-                    of the activity instructor/coordinator to ensure care and
-                    attention is given to the safety and health of your child.
-                    All information on this form is considered Personal and
-                    Confidential. The contact listed on the emergency form
-                    cannot be the same contact listed as the parent above.
-                </Text>
-            </Box>
-            <FormControl id="medication">
-                <RadioGroup onChange={(val) => setIsOnMedication(val)}>
-                    <FormLabel>Is your child on medication?</FormLabel>
-                    <Stack direction="row">
-                        <Radio value={RADIO_YES} pr={4}>
-                            Yes
-                        </Radio>
-                        <Radio value={RADIO_NO} pr={4}>
-                            No
-                        </Radio>
+                            Physical difficulties
+                        </Checkbox>
+                        <Checkbox
+                            key="sensoryDifficulties"
+                            isChecked={hasSensoryDifficulties}
+                            onChange={() =>
+                                setHasSensoryDifficulties(
+                                    !hasSensoryDifficulties,
+                                )
+                            }
+                        >
+                            Sensory difficulties
+                        </Checkbox>
+                        <Checkbox
+                            key="otherDifficulties"
+                            value={OTHER}
+                            isChecked={hasOtherDifficulties}
+                            onChange={() =>
+                                setHasOtherDifficulties(!hasOtherDifficulties)
+                            }
+                        >
+                            Other
+                        </Checkbox>
+                        {otherDifficultyDetails}
                     </Stack>
-                </RadioGroup>
-                {medicationDetails}
-            </FormControl>
-            <FormControl id="allergies">
-                <RadioGroup onChange={(val) => setHasAllergies(val)}>
+                </FormControl>
+                <FormControl id="special-education">
                     <FormLabel>
-                        Does your child have any food allergies?
+                        Is the participant currently involved in a special
+                        education program at their school?
                     </FormLabel>
                     <Stack direction="row">
-                        <Radio value={RADIO_YES} pr={4}>
-                            Yes
-                        </Radio>
-                        <Radio value={RADIO_NO} pr={4}>
-                            No
-                        </Radio>
+                        <RadioGroup>
+                            <Radio
+                                value={"1"}
+                                onChange={() => {
+                                    setSpecialEd(true);
+                                }}
+                                isChecked={specialEd}
+                                pr={4}
+                            >
+                                Yes
+                            </Radio>
+                            <Radio
+                                value={"0"}
+                                onChange={() => {
+                                    setSpecialEd(false);
+                                }}
+                                isChecked={!specialEd}
+                                pr={4}
+                            >
+                                No
+                            </Radio>
+                        </RadioGroup>
                     </Stack>
-                </RadioGroup>
-                {allergyDetails}
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <Box maxW="55rem">
-                <Text
-                    noOfLines={2}
-                    fontSize="16px"
-                    fontWeight="200"
-                    align="center"
-                >
-                    Add information of additional participants you would like to
-                    register in programs. You can always edit or add additional
-                    participants later within ‘My Account’.
-                </Text>
-                <Button
-                    fontSize="16px"
-                    my="48px"
-                    fontWeight="200"
-                    color={BLUE}
-                    variant="outline"
-                    border="2px"
-                    borderStyle="dashed"
-                    borderColor={BLUE}
-                    width="40%"
-                    marginLeft="30%"
-                    marginRight="30%"
-                >
-                    + Add new participant
-                </Button>
-            </Box>
-        </FormPage>,
-        <FormPage>
-            <FormLabel>
-                Parent/Guardian Name
+                </FormControl>
+                <FormControl id="therapy">
+                    <FormLabel>
+                        Is the participant revieving any other form of therapy?
+                    </FormLabel>
+                    <Stack direction="column">
+                        <Checkbox
+                            key="physiotherapy"
+                            isChecked={physiotherapy}
+                            onChange={() => setPhysiotherapy(!physiotherapy)}
+                        >
+                            Physiotherapy
+                        </Checkbox>
+                        <Checkbox
+                            key="speech language"
+                            isChecked={speechTherapy}
+                            onChange={() => setSpeechTherapy(!speechTherapy)}
+                        >
+                            Speech and Language Therapy
+                        </Checkbox>
+                        <Checkbox
+                            key="occupational therapy"
+                            isChecked={occupationalTherapy}
+                            onChange={() =>
+                                setOccupationalTherapy(!occupationalTherapy)
+                            }
+                        >
+                            Occupational Therapy
+                        </Checkbox>
+                        <Checkbox
+                            key="counselling"
+                            isChecked={counseling}
+                            onChange={() => setCounseling(!counseling)}
+                        >
+                            Psychotherapy/Counseling
+                        </Checkbox>
+                        <Checkbox
+                            key="art"
+                            isChecked={artTherapy}
+                            onChange={() => setArtTherapy(!artTherapy)}
+                        >
+                            Music or Art Therapy
+                        </Checkbox>
+                        <Checkbox
+                            key="otherTherapies"
+                            value={OTHER}
+                            isChecked={otherTherapy}
+                            onChange={() => setOtherTherapy(!otherTherapy)}
+                        >
+                            Other
+                        </Checkbox>
+                        {otherTherapyDetails}
+                    </Stack>
+                </FormControl>
+                <FormControl id="parent-guardian-expectations">
+                    <FormLabel>Parent/Guardian Expectations</FormLabel>
+                    <Textarea
+                        placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas."
+                        onChange={(e) =>
+                            setGuardianExpectations(e.target.value)
+                        }
+                        value={guardianExpectations}
+                    />
+                </FormControl>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <Box maxW="55rem">
+                    <Text noOfLines={3} fontSize="16px" fontWeight="200">
+                        The information on this form will be used at the
+                        discretion of the activity instructor/coordinator to
+                        ensure care and attention is given to the safety and
+                        health of your child. All information on this form is
+                        considered Personal and Confidential. The contact listed
+                        on the emergency form cannot be the same contact listed
+                        as the parent above.
+                    </Text>
+                </Box>
+                <FormLabel>
+                    Emergency Contact Name
+                    <HStack spacing="24px">
+                        <FormControl id="first-name">
+                            <Input
+                                placeholder="First Name"
+                                onChange={(e) =>
+                                    setEmergFirstName(e.target.value)
+                                }
+                                value={emergFirstName}
+                            />
+                        </FormControl>
+                        <FormControl id="last-name">
+                            <Input
+                                placeholder="Last name"
+                                onChange={(e) =>
+                                    setEmergLastName(e.target.value)
+                                }
+                                value={emergLastName}
+                            />
+                        </FormControl>
+                    </HStack>
+                </FormLabel>
+                <FormControl id="emergency-contact-cell-number">
+                    <FormLabel>Emergency Contact Cell Number </FormLabel>
+                    <Input
+                        placeholder="289 349 1048"
+                        onChange={(e) => setEmergNumber(e.target.value)}
+                        value={emergNumber}
+                    />
+                </FormControl>
+                <FormControl id="relationship-to-participant">
+                    <FormLabel>Relationship to Participant</FormLabel>
+                    <Input
+                        placeholder="Mother"
+                        onChange={(e) => setEmergRelationship(e.target.value)}
+                        value={emergRelationship}
+                    />
+                </FormControl>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <Box maxW="55rem">
+                    <Text noOfLines={3} fontSize="16px" fontWeight="200">
+                        The information on this form will be used at the
+                        discretion of the activity instructor/coordinator to
+                        ensure care and attention is given to the safety and
+                        health of your child. All information on this form is
+                        considered Personal and Confidential. The contact listed
+                        on the emergency form cannot be the same contact listed
+                        as the parent above.
+                    </Text>
+                </Box>
+                <FormControl id="medication">
+                    <RadioGroup onChange={(val) => setIsOnMedication(val)}>
+                        <FormLabel>Is your child on medication?</FormLabel>
+                        <Stack direction="row">
+                            <Radio value={RADIO_YES} pr={4}>
+                                Yes
+                            </Radio>
+                            <Radio value={RADIO_NO} pr={4}>
+                                No
+                            </Radio>
+                        </Stack>
+                    </RadioGroup>
+                    {medicationDetails}
+                </FormControl>
+                <FormControl id="allergies">
+                    <RadioGroup onChange={(val) => setHasAllergies(val)}>
+                        <FormLabel>
+                            Does your child have any food allergies?
+                        </FormLabel>
+                        <Stack direction="row">
+                            <Radio value={RADIO_YES} pr={4}>
+                                Yes
+                            </Radio>
+                            <Radio value={RADIO_NO} pr={4}>
+                                No
+                            </Radio>
+                        </Stack>
+                    </RadioGroup>
+                    {allergyDetails}
+                </FormControl>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <FormLabel>
+                    Parent/Guardian Name
+                    <HStack spacing="24px">
+                        <FormControl id="first-name">
+                            <Input
+                                placeholder="First name"
+                                onChange={(e) =>
+                                    setParentFirstName(e.target.value)
+                                }
+                                value={parentFirstName}
+                            />
+                        </FormControl>
+                        <FormControl id="last-name">
+                            <Input
+                                placeholder="Last name"
+                                onChange={(e) =>
+                                    setParentLastName(e.target.value)
+                                }
+                                value={parentLastName}
+                            />
+                        </FormControl>
+                    </HStack>
+                </FormLabel>
+                <FormControl id="phone-number">
+                    <FormLabel>Phone Number </FormLabel>
+                    <Input
+                        placeholder="289 349 1048"
+                        onChange={(e) => setParentPhoneNumber(e.target.value)}
+                        value={parentPhoneNumber}
+                    />
+                </FormControl>
+                <FormControl id="relationship-to-participant">
+                    <FormLabel>Relationship to Participant</FormLabel>
+                    <Input
+                        placeholder="Mother"
+                        onChange={(e) => setParentRelationship(e.target.value)}
+                        value={parentRelationship}
+                    />
+                </FormControl>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <Box maxW="55rem">
+                    <Text margin="10px" fontSize="16px" fontWeight="200">
+                        Upload a Proof of Income to recieve automated discounts
+                        on classes you take!
+                    </Text>
+                    <Heading fontSize="22px">
+                        Example of Proof of income include
+                        <UnorderedList
+                            margin="10px"
+                            fontSize="16px"
+                            fontWeight="400"
+                        >
+                            <ListItem>Income tax notice</ListItem>
+                            <ListItem>Paystub</ListItem>
+                            <ListItem>etc</ListItem>
+                        </UnorderedList>
+                    </Heading>
+                    <Heading fontSize="22px">
+                        Uploading your Proof of Income
+                        <OrderedList
+                            margin="10px"
+                            fontSize="16px"
+                            fontWeight="400"
+                        >
+                            <ListItem>
+                                Navigate to My Account, Proof of Income
+                            </ListItem>
+                            <ListItem>
+                                Upload a copy of the result to your SDC account
+                            </ListItem>
+                            <ListItem>
+                                Once you’ve submitted your proof of income, keep
+                                an eye out for approval status from SDC!
+                            </ListItem>
+                            <ListItem>
+                                Upon approval, discounts will automatically
+                                applied to your account! Check your account for
+                                details on the amount of discount you have been
+                                approved for
+                            </ListItem>
+                        </OrderedList>
+                    </Heading>
+                </Box>
+            </FormPage>
+            <Box>
                 <HStack spacing="24px">
-                    <FormControl id="first-name">
-                        <Input
-                            placeholder="First name"
-                            onChange={(e) => setParentFirstName(e.target.value)}
-                            value={parentFirstName}
-                        />
-                    </FormControl>
-                    <FormControl id="last-name">
-                        <Input
-                            placeholder="Last name"
-                            onChange={(e) => setParentLastName(e.target.value)}
-                            value={parentLastName}
-                        />
-                    </FormControl>
-                </HStack>
-            </FormLabel>
-            <FormControl id="phone-number">
-                <FormLabel>Phone Number </FormLabel>
-                <Input
-                    placeholder="289 349 1048"
-                    onChange={(e) => setParentPhoneNumber(e.target.value)}
-                    value={parentPhoneNumber}
-                />
-            </FormControl>
-            <FormControl id="relationship-to-participant">
-                <FormLabel>Relationship to Participant</FormLabel>
-                <Input
-                    placeholder="Mother"
-                    onChange={(e) => setParentRelationship(e.target.value)}
-                    value={parentRelationship}
-                />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <Box maxW="55rem">
-                <Text margin="10px" fontSize="16px" fontWeight="200">
-                    Upload a Proof of Income to recieve automated discounts on
-                    classes you take!
-                </Text>
-                <Heading fontSize="22px">
-                    Example of Proof of income include
-                    <UnorderedList
-                        margin="10px"
-                        fontSize="16px"
-                        fontWeight="400"
+                    <FormButton>Upload Proof of Income</FormButton>
+                    <Button
+                        variant="ghost"
+                        as="u"
+                        onClick={() => setPageNum((prevPage) => prevPage + 1)}
+                        borderRadius={100}
                     >
-                        <ListItem>Income tax notice</ListItem>
-                        <ListItem>Paystub</ListItem>
-                        <ListItem>etc</ListItem>
-                    </UnorderedList>
-                </Heading>
-                <Heading fontSize="22px">
-                    Uploading your Proof of Income
-                    <OrderedList margin="10px" fontSize="16px" fontWeight="400">
-                        <ListItem>
-                            Navigate to My Account, Proof of Income
-                        </ListItem>
-                        <ListItem>
-                            Upload a copy of the result to your SDC account
-                        </ListItem>
-                        <ListItem>
-                            Once you’ve submitted your proof of income, keep an
-                            eye out for approval status from SDC!
-                        </ListItem>
-                        <ListItem>
-                            Upon approval, discounts will automatically applied
-                            to your account! Check your account for details on
-                            the amount of discount you have been approved for
-                        </ListItem>
-                    </OrderedList>
-                </Heading>
+                        Skip for Now
+                    </Button>
+                </HStack>
             </Box>
-        </FormPage>,
-        <FormPage>
-            <FormControl id="hear-about-us">
-                <FormLabel>How did you hear about our programs?</FormLabel>
-                <Stack direction="column">
-                    <Checkbox>Friends and Family </Checkbox>
-                    <Checkbox>Flyers</Checkbox>
-                    <Checkbox>Email</Checkbox>
-                    <Checkbox>Social Media</Checkbox>
-                    <Checkbox>Other</Checkbox>
-                </Stack>
-            </FormControl>
-        </FormPage>,
+        </Box>,
+        <Box>
+            <FormPage>
+                <FormControl id="hear-about-us">
+                    <FormLabel>How did you hear about our programs?</FormLabel>
+                    <Stack direction="column">
+                        <Checkbox>Friends and Family </Checkbox>
+                        <Checkbox>Flyers</Checkbox>
+                        <Checkbox>Email</Checkbox>
+                        <Checkbox>Social Media</Checkbox>
+                        <Checkbox>Other</Checkbox>
+                    </Stack>
+                </FormControl>
+            </FormPage>
+            <FormButton
+                onClick={() => {
+                    setPageNum((prevPage) => prevPage + 1);
+                    updateUserRequest();
+                }}
+            >
+                Finish
+            </FormButton>
+        </Box>,
     ];
 
     const totalPages = formPages.length;
-    const proofOfIncomePage = 6;
     const progressBarIncrement = Math.ceil(100 / totalPages);
 
     if (progressBar <= 0) {
@@ -729,69 +756,24 @@ export default function ParticipantInfo({
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
 
-    const getFormButton = () => {
-        if (pageNum === totalPages) {
-            return;
-        } else if (pageNum === totalPages - 1) {
-            return (
-                <FormButton
-                    onClick={() => {
-                        setPageNum((prevPage) => prevPage + 1);
-                        updateUserRequest();
-                    }}
-                >
-                    Finish
-                </FormButton>
-            );
-        } else if (pageNum === proofOfIncomePage) {
-            return (
-                <Box>
-                    <HStack spacing="24px">
-                        <FormButton>Upload Proof of Income</FormButton>
-                        <Button
-                            variant="ghost"
-                            as="u"
-                            onClick={() =>
-                                setPageNum((prevPage) => prevPage + 1)
-                            }
-                            borderRadius={100}
-                        >
-                            Skip for Now
-                        </Button>
-                    </HStack>
-                </Box>
-            );
-        }
-        return (
-            <FormButton
-                onClick={() => {
-                    setPageNum((prevPage) => prevPage + 1);
-                    window.scrollTo({ top: 0 });
-                }}
-            >
-                Next
-            </FormButton>
-        );
-    };
-
     async function updateUserRequest() {
-        const updateUserInput: ParentInput = {
+        const parentData: ParentInput = {
             phoneNumber: parentPhoneNumber,
             isLowIncome: undefined,
-            preferredLanguage: undefined,
-            proofOfIncomeLink: undefined,
+            preferredLanguage: locale.en,
+            proofOfIncomeLink: undefined, // TODO
             heardFrom: undefined,
 
             childFirstName: participantFirstName,
             childLastName: participantLastName,
-            childDateOfBirth: dateOfBirth,
+            childDateOfBirth: new Date(dateOfBirth),
             addressLine1: address1,
             addressLine2: address2,
             postalCode: postalCode,
             cityName: city,
             province: province,
             school: school,
-            grade: grade,
+            grade: parseInt(grade, 10),
 
             difficulties,
             otherDifficulties,
@@ -799,7 +781,7 @@ export default function ParticipantInfo({
             therapy,
             otherTherapy,
 
-            parentExpectations,
+            guardianExpectations,
             // additionalInfo,
             emergencyContactFirstName: emergFirstName,
             emergencyContactLastName: emergLastName,
@@ -808,10 +790,17 @@ export default function ParticipantInfo({
             medication,
             allergies,
         };
+        const userData = {
+            // id: session.id as string,
+            firstName: parentFirstName,
+            lastName: parentLastName,
+            role: roles.PARENT,
+            roleData: parentData,
+        };
         const request = {
-            method: "POST",
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updateUserInput),
+            body: JSON.stringify(userData),
         };
         const response = await fetch("api/user", request);
         const updatedUserData = await response.json();
@@ -862,7 +851,6 @@ export default function ParticipantInfo({
                                 );
                             })}
                         </Stack>
-                        {getFormButton()}
                     </Box>
                 </Center>
             ) : (
