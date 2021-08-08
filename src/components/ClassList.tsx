@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import type { ClassCardInfo } from "models/Class";
 import weekdayToString from "@utils/weekdayToString";
+
 export const ClassList: React.FC<{ classInfo: ClassCardInfo[] }> = ({
     classInfo,
 }) => {

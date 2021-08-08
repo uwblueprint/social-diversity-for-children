@@ -7,6 +7,7 @@ import { weekday } from "@prisma/client";
 import Wrapper from "@components/SDCWrapper";
 import { useSession } from "next-auth/client";
 import { BackButton } from "@components/BackButton";
+import { ProgramInfo } from "@components/ProgramInfo";
 
 export const ProgramDetails: React.FC = () => {
     const [session, loading] = useSession();
@@ -87,7 +88,7 @@ export const ProgramDetails: React.FC = () => {
             format: "Online",
         },
     };
-
+    // if program name in program info, pass in programInfo[programName]
     return programName in programInfo ? (
         <Wrapper session={session}>
             <BackButton />
@@ -145,6 +146,7 @@ export const ProgramDetails: React.FC = () => {
                 </Flex>
                 <ClassList classInfo={classInfo[programName]} />
             </Flex>
+            <ProgramInfo programInfo={programInfo[programName]} />
         </Wrapper>
     ) : (
         <Text>Index {programName} doesn't have test data yet</Text>
