@@ -4,6 +4,8 @@ import { deleteProgram, updateProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
 import { getProgramCardInfo } from "@database/program-card-info";
+import { locale } from ".prisma/client";
+
 /**
  * handle takes the programId parameter and returns
  * the program associated with the programId
@@ -32,7 +34,10 @@ export default async function handle(
                 );
             }
 
-            const result = await getProgramCardInfo(programId as string);
+            const result = await getProgramCardInfo(
+                programId as string,
+                locale.en,
+            ); // TODO don't hardcode locale
             if (!result) {
                 ResponseUtil.returnNotFound(res, `Program info not found.`);
                 break;

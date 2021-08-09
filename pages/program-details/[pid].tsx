@@ -15,6 +15,7 @@ import Wrapper from "@components/SDCWrapper";
 import { useSession } from "next-auth/client";
 import { BackButton } from "@components/BackButton";
 import useSWR from "swr";
+import CardInfoUtil from "utils/cardInfoUtil";
 
 export const ProgramDetails: React.FC = () => {
     const [session, loading] = useSession();
@@ -41,14 +42,20 @@ export const ProgramDetails: React.FC = () => {
             </Text>
         );
     }
+    const mappedProgramInfoResponse = programInfoResponse
+        ? CardInfoUtil.getProgramCardInfo(programInfoResponse.data)
+        : null;
+    const mappedClassInfoResponse = classListResponse
+        ? CardInfoUtil.getClassCardInfo(classListResponse.data)
+        : [];
 
     return (
         <Wrapper session={session}>
             <BackButton />
-            {programInfoResponse ? (
+            {mappedProgramInfoResponse ? (
                 <Flex direction="column" pt={4} pb={8}>
                     <Flex align="center">
-                        <Heading>{programInfoResponse.data.name}</Heading>
+                        <Heading>{mappedProgramInfoResponse.name}</Heading>
                         <Spacer />
                         <Badge
                             borderRadius="full"
@@ -61,7 +68,7 @@ export const ProgramDetails: React.FC = () => {
                             pt="1.5"
                             px="3"
                         >
-                            {programInfoResponse.data.onlineFormat}
+                            {mappedProgramInfoResponse.onlineFormat}
                         </Badge>
                         <Badge
                             borderRadius="full"
@@ -75,23 +82,23 @@ export const ProgramDetails: React.FC = () => {
                             px="3"
                             ml="2"
                         >
-                            {programInfoResponse.data.tag}
+                            {mappedProgramInfoResponse.tag}
                         </Badge>
                     </Flex>
                     <Text as="span" color="gray.600" fontSize="sm" mt="5">
                         {
-                            new Date(programInfoResponse.data.startDate)
+                            new Date(mappedProgramInfoResponse.startDate)
                                 .toISOString()
                                 .split("T")[0]
                         }{" "}
                         to{" "}
                         {
-                            new Date(programInfoResponse.data.endDate)
+                            new Date(mappedProgramInfoResponse.endDate)
                                 .toISOString()
                                 .split("T")[0]
                         }
                     </Text>
-                    <Text mt="5">{programInfoResponse.data.description}</Text>
+                    <Text mt="5">{mappedProgramInfoResponse.description}</Text>
                     <Flex mt="5" align="center">
                         <Text fontSize="sm" fontWeight="semibold">
                             Select a class
@@ -107,8 +114,8 @@ export const ProgramDetails: React.FC = () => {
                             Filter
                         </Button>
                     </Flex>
-                    {classListResponse ? (
-                        <ClassList classInfo={classListResponse.data} />
+                    {mappedClassInfoResponse ? (
+                        <ClassList classInfo={mappedClassInfoResponse} />
                     ) : (
                         <Center>
                             <Spinner size="xl" />
