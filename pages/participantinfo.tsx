@@ -269,7 +269,7 @@ export default function ParticipantInfo({
                 <FormLabel>
                     Participant Name
                     <HStack spacing="24px">
-                        <FormControl id="first-name">
+                        <FormControl id="participant-first-name">
                             <Input
                                 placeholder="First name"
                                 onChange={(e) =>
@@ -278,7 +278,7 @@ export default function ParticipantInfo({
                                 value={participantFirstName}
                             />
                         </FormControl>
-                        <FormControl id="last-name">
+                        <FormControl id="participant-last-name">
                             <Input
                                 placeholder="Last name"
                                 onChange={(e) =>
@@ -656,7 +656,7 @@ export default function ParticipantInfo({
                 <FormLabel>
                     Emergency Contact Name
                     <HStack spacing="24px">
-                        <FormControl id="first-name">
+                        <FormControl id="emergency-first-name">
                             <Input
                                 placeholder="First Name"
                                 onChange={(e) =>
@@ -665,7 +665,7 @@ export default function ParticipantInfo({
                                 value={emergFirstName}
                             />
                         </FormControl>
-                        <FormControl id="last-name">
+                        <FormControl id="emergency-last-name">
                             <Input
                                 placeholder="Last name"
                                 onChange={(e) =>
@@ -684,7 +684,7 @@ export default function ParticipantInfo({
                         value={emergNumber}
                     />
                 </FormControl>
-                <FormControl id="relationship-to-participant">
+                <FormControl id="emergency-relationship-to-participant">
                     <FormLabel>Relationship to Participant</FormLabel>
                     <Input
                         placeholder="Mother"
@@ -750,7 +750,7 @@ export default function ParticipantInfo({
                 <FormLabel>
                     Parent/Guardian Name
                     <HStack spacing="24px">
-                        <FormControl id="first-name">
+                        <FormControl id="parent-first-name">
                             <Input
                                 placeholder="First name"
                                 onChange={(e) =>
@@ -759,7 +759,7 @@ export default function ParticipantInfo({
                                 value={parentFirstName}
                             />
                         </FormControl>
-                        <FormControl id="last-name">
+                        <FormControl id="parent-last-name">
                             <Input
                                 placeholder="Last name"
                                 onChange={(e) =>
@@ -778,7 +778,7 @@ export default function ParticipantInfo({
                         value={parentPhoneNumber}
                     />
                 </FormControl>
-                <FormControl id="relationship-to-participant">
+                <FormControl id="parent-relationship-to-participant">
                     <FormLabel>Relationship to Participant</FormLabel>
                     <Input
                         placeholder="Mother"
@@ -1013,6 +1013,7 @@ export default function ParticipantInfo({
                             {formPages.map((formPage, idx) => {
                                 return (
                                     <Box
+                                        key={idx}
                                         display={
                                             pageNum === idx ? null : "none"
                                         }
