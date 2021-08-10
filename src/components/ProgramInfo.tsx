@@ -7,7 +7,8 @@ import type { ClassCardInfo } from "models/Class";
 import { ProgramCardInfo } from "models/Program";
 
 /**
- * program/class Info follows the Program/Class CardInfo type
+ * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
+ * classInfo stores class info, where classes are associated with a program, following the ClassCardInfo type
  * session is passed in as a prop to be utilized in the Wrapper component
  */
 type ProgramDetailsProps = {
@@ -18,7 +19,7 @@ type ProgramDetailsProps = {
 };
 
 /**
- * Displays the classes associated with the program id
+ * Displays the information of all classes associated with the program id
  */
 export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     session,

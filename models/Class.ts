@@ -16,6 +16,7 @@ export type ClassInput = {
     durationMinutes: number;
 };
 
+// information about each class in a program
 export type ClassCardInfo = {
     image?: string;
     name?: string;
