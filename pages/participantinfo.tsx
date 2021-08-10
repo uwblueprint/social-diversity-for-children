@@ -36,12 +36,12 @@ import {
     locale,
     therapy,
     province,
+    heardFrom,
 } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
-const OTHER = "Other";
 // Checkboxes have bugs in them; sometimes render sometimes don't
 
 const FormButton = (props) => {
@@ -80,11 +80,8 @@ export default function ParticipantInfo({
         window.scrollTo({ top: 0 });
     };
 
-    const [isOnMedication, setIsOnMedication] = useState(false);
-    const [hasAllergies, setHasAllergies] = useState(false);
-
     /* Store form fields in local storage */
-    // page 1
+    // Participant info
     const [participantFirstName, setParticipantFirstName] = useLocalStorage(
         "participantFirstName",
         "",
@@ -104,8 +101,12 @@ export default function ParticipantInfo({
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
+    const [isOnMedication, setIsOnMedication] = useState(false);
+    const [hasAllergies, setHasAllergies] = useState(false);
+    const [medication, setMedication] = useLocalStorage("medication", "");
+    const [allergies, setAllergies] = useLocalStorage("allergies", "");
 
-    // page 2
+    // Participant difficulties & therapy
     const [hasLearningDifficulties, setHasLearningDifficulties] =
         useLocalStorage("hasLearningDifficulties", false);
     const [hasPhysicalDifficulties, setHasPhysicalDifficulties] =
@@ -114,7 +115,6 @@ export default function ParticipantInfo({
         "hasSensoryDifficulties",
         false,
     );
-    // TODO: configure list for difficulties to send to backend
     const [participantDifficulties, setParticipantDifficulties] =
         useLocalStorage("participantDifficulties", []);
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
@@ -125,7 +125,6 @@ export default function ParticipantInfo({
         "otherDifficulties",
         "",
     );
-
     const [specialEd, setSpecialEd] = useLocalStorage(
         "involvedInSpecialEd",
         "",
@@ -152,15 +151,15 @@ export default function ParticipantInfo({
         "hasOtherTherapy",
         false,
     );
-
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
+    // Parent/guardian expectations
     const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
         "guardianExpectations",
         "",
     );
 
-    // page 3
+    // Emergency contact info
     const [emergFirstName, setEmergFirstName] = useLocalStorage(
         "emergFirstName",
         "",
@@ -174,9 +173,8 @@ export default function ParticipantInfo({
         "emergRelationship",
         "",
     );
-    const [medication, setMedication] = useLocalStorage("medication", "");
-    const [allergies, setAllergies] = useLocalStorage("allergies", "");
 
+    // Parent info
     const [parentFirstName, setParentFirstName] = useLocalStorage(
         "parentFirstName",
         "",
@@ -194,7 +192,31 @@ export default function ParticipantInfo({
         "",
     );
 
-    // TODO: heardFrom
+    // Heard from
+    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useLocalStorage(
+        "heardFromFriendsAndFam",
+        false,
+    );
+    const [heardFromFlyers, setHeardFromFlyers] = useLocalStorage(
+        "heardFromFlyers",
+        false,
+    );
+    const [heardFromEmail, setHeardFromEmail] = useLocalStorage(
+        "heardFromEmail",
+        false,
+    );
+    const [heardFromSocialMedia, setHeardFromSocialMedia] = useLocalStorage(
+        "heardFromSocialMedia",
+        false,
+    );
+    const [heardFromOther, setHeardFromOther] = useLocalStorage(
+        "heardFromOther",
+        false,
+    );
+    const [heardFromOptions, setHeardFromOptions] = useLocalStorage(
+        "heardFromOptions",
+        [],
+    );
 
     const medicationDetails = isOnMedication ? (
         <Box mt={4}>
@@ -461,7 +483,6 @@ export default function ParticipantInfo({
                         </Checkbox>
                         <Checkbox
                             key="otherDifficulties"
-                            value={OTHER}
                             isChecked={hasOtherDifficulties}
                             onChange={(e) =>
                                 setHasOtherDifficulties(e.target.checked)
@@ -618,7 +639,6 @@ export default function ParticipantInfo({
                         </Checkbox>
                         <Checkbox
                             key="otherTherapies"
-                            value={OTHER}
                             isChecked={hasOtherTherapy}
                             onChange={(e) =>
                                 setHasOtherTherapy(e.target.checked)
@@ -856,11 +876,102 @@ export default function ParticipantInfo({
                 <FormControl id="hear-about-us">
                     <FormLabel>How did you hear about our programs?</FormLabel>
                     <Stack direction="column">
-                        <Checkbox>Friends and Family </Checkbox>
-                        <Checkbox>Flyers</Checkbox>
-                        <Checkbox>Email</Checkbox>
-                        <Checkbox>Social Media</Checkbox>
-                        <Checkbox>Other</Checkbox>
+                        <Checkbox
+                            isChecked={heardFromFriendsAndFam}
+                            onChange={(e) => {
+                                setHeardFromFriendsAndFam(e.target.checked);
+                                if (e.target.checked) {
+                                    heardFromOptions.push(
+                                        heardFrom.FRIENDS_FAMILY,
+                                    );
+                                    setHeardFromOptions(heardFromOptions);
+                                } else {
+                                    const newHeardFromOptions =
+                                        heardFromOptions.filter(
+                                            (hf) =>
+                                                hf != heardFrom.FRIENDS_FAMILY,
+                                        );
+                                    setHeardFromOptions(newHeardFromOptions);
+                                }
+                            }}
+                        >
+                            Friends and Family
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={heardFromFlyers}
+                            onChange={(e) => {
+                                setHeardFromFlyers(e.target.checked);
+                                if (e.target.checked) {
+                                    heardFromOptions.push(heardFrom.FLYERS);
+                                    setHeardFromOptions(heardFromOptions);
+                                } else {
+                                    const newHeardFromOptions =
+                                        heardFromOptions.filter(
+                                            (hf) => hf != heardFrom.FLYERS,
+                                        );
+                                    setHeardFromOptions(newHeardFromOptions);
+                                }
+                            }}
+                        >
+                            Flyers
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={heardFromEmail}
+                            onChange={(e) => {
+                                setHeardFromEmail(e.target.checked);
+                                if (e.target.checked) {
+                                    heardFromOptions.push(heardFrom.EMAIL);
+                                    setHeardFromOptions(heardFromOptions);
+                                } else {
+                                    const newHeardFromOptions =
+                                        heardFromOptions.filter(
+                                            (hf) => hf != heardFrom.EMAIL,
+                                        );
+                                    setHeardFromOptions(newHeardFromOptions);
+                                }
+                            }}
+                        >
+                            Email
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={heardFromSocialMedia}
+                            onChange={(e) => {
+                                setHeardFromSocialMedia(e.target.checked);
+                                if (e.target.checked) {
+                                    heardFromOptions.push(
+                                        heardFrom.SOCIAL_MEDIA,
+                                    );
+                                    setHeardFromOptions(heardFromOptions);
+                                } else {
+                                    const newHeardFromOptions =
+                                        heardFromOptions.filter(
+                                            (hf) =>
+                                                hf != heardFrom.SOCIAL_MEDIA,
+                                        );
+                                    setHeardFromOptions(newHeardFromOptions);
+                                }
+                            }}
+                        >
+                            Social Media
+                        </Checkbox>
+                        <Checkbox
+                            isChecked={heardFromOther}
+                            onChange={(e) => {
+                                setHeardFromOther(e.target.checked);
+                                if (e.target.checked) {
+                                    heardFromOptions.push(heardFrom.OTHER);
+                                    setHeardFromOptions(heardFromOptions);
+                                } else {
+                                    const newHeardFromOptions =
+                                        heardFromOptions.filter(
+                                            (hf) => hf != heardFrom.OTHER,
+                                        );
+                                    setHeardFromOptions(newHeardFromOptions);
+                                }
+                            }}
+                        >
+                            Other
+                        </Checkbox>
                     </Stack>
                 </FormControl>
             </FormPage>
@@ -888,10 +999,10 @@ export default function ParticipantInfo({
     async function updateUser() {
         const parentData: ParentInput = {
             phoneNumber: parentPhoneNumber,
-            isLowIncome: undefined,
+            isLowIncome: undefined, // TODO
             preferredLanguage: locale.en,
             proofOfIncomeLink: undefined, // TODO
-            heardFrom: undefined,
+            heardFrom: heardFromOptions.sort(),
 
             childFirstName: participantFirstName,
             childLastName: participantLastName,
@@ -911,7 +1022,6 @@ export default function ParticipantInfo({
             otherTherapy: hasOtherTherapy ? otherTherapy : null,
 
             guardianExpectations,
-            // additionalInfo,
             emergencyContactFirstName: emergFirstName,
             emergencyContactLastName: emergLastName,
             emergencyContactPhoneNumber: emergNumber,
@@ -920,13 +1030,11 @@ export default function ParticipantInfo({
             allergies: hasAllergies ? allergies : null,
         };
         const userData = {
-            // id: session.id as string,
             firstName: parentFirstName,
             lastName: parentLastName,
             role: roles.PARENT,
             roleData: parentData,
         };
-        console.log("userData:", userData);
         const request = {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -944,7 +1052,7 @@ export default function ParticipantInfo({
         setAddress1("");
         setAddress2("");
         setCity("");
-        setProvince("");
+        setParticipantProvince("");
         setPostalCode("");
         setSchool("");
         setGrade("");
@@ -964,10 +1072,18 @@ export default function ParticipantInfo({
         setOtherTherapy("");
         setParticipantTherapy([]);
         setGuardianExpectations("");
+        setMedication("");
+        setAllergies("");
         setEmergFirstName("");
         setEmergLastName("");
         setEmergNumber("");
         setEmergRelationship("");
+        setHeardFromFriendsAndFam(false);
+        setHeardFromFlyers(false);
+        setHeardFromEmail(false);
+        setHeardFromSocialMedia(false);
+        setHeardFromOther(false);
+        setHeardFromOptions([]);
     };
 
     async function updateUserAndClearForm() {

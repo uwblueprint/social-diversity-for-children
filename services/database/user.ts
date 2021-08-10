@@ -132,7 +132,9 @@ async function updateUser(userInput: UserInput): Promise<User> {
                     update: {
                         phoneNumber: parentData.phoneNumber,
                         isLowIncome: parentData.isLowIncome,
+                        proofOfIncomeLink: parentData.proofOfIncomeLink,
                         preferredLanguage: parentData.preferredLanguage,
+                        heardFrom: parentData.heardFrom,
                         students: {
                             create: {
                                 firstName: parentData.childFirstName,
