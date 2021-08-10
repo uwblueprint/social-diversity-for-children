@@ -35,6 +35,7 @@ import {
     roles,
     locale,
     therapy,
+    province,
 } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
@@ -96,7 +97,10 @@ export default function ParticipantInfo({
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [province, setProvince] = useLocalStorage("province", "");
+    const [participantProvince, setParticipantProvince] = useLocalStorage(
+        "participantProvince",
+        "",
+    );
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
@@ -326,23 +330,21 @@ export default function ParticipantInfo({
                         <FormLabel>Province</FormLabel>
                         <Select
                             placeholder={"Select option"}
-                            onChange={(e) => setProvince(e.target.value)}
-                            value={province} // TODO: bug with displayed value after refresh
+                            onChange={(e) =>
+                                setParticipantProvince(e.target.value)
+                            }
+                            value={participantProvince} // TODO: bug with displayed value after refresh
                         >
-                            {/* TODO: use a mapping with a const? */}
-                            <option value="NL">NL</option>
-                            <option value="PE">PE</option>
-                            <option value="NS">NS</option>
-                            <option value="NB">NB</option>
-                            <option value="QC">QC</option>
-                            <option value="ON">ON</option>
-                            <option value="MB">MB</option>
-                            <option value="SK">SK</option>
-                            <option value="AB">AB</option>
-                            <option value="BC">BC</option>
-                            <option value="YT">YT</option>
-                            <option value="NT">NT</option>
-                            <option value="NU">NU</option>
+                            {Object.entries(province)
+                                .sort()
+                                .map((prov) => {
+                                    const [key, val] = prov;
+                                    return (
+                                        <option key={key} value={val}>
+                                            {val}
+                                        </option>
+                                    );
+                                })}
                         </Select>
                     </FormControl>
                     <FormControl id="postal-code">
@@ -898,7 +900,7 @@ export default function ParticipantInfo({
             addressLine2: address2,
             postalCode: postalCode,
             cityName: city,
-            province: province,
+            province: participantProvince,
             school: school,
             grade: parseInt(grade, 10),
 
