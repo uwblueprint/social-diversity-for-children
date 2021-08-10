@@ -326,7 +326,7 @@ export default function ParticipantInfo({
                 <FormControl id="street-address-1">
                     <FormLabel>Street Address 1</FormLabel>
                     <Input
-                        placeholder="249 Phillip Street"
+                        placeholder="815 Hornby St."
                         onChange={(e) => setAddress1(e.target.value)}
                         value={address1}
                     />
@@ -334,7 +334,7 @@ export default function ParticipantInfo({
                 <FormControl id="street-address-2">
                     <FormLabel>Street Address 2</FormLabel>
                     <Input
-                        placeholder="APT 20"
+                        placeholder="Suite 203"
                         onChange={(e) => setAddress2(e.target.value)}
                         value={address2}
                     />
@@ -372,7 +372,7 @@ export default function ParticipantInfo({
                     <FormControl id="postal-code">
                         <FormLabel>Postal Code</FormLabel>
                         <Input
-                            placeholder="K9S 8C3"
+                            placeholder="V6Z 2E6"
                             onChange={(e) => setPostalCode(e.target.value)}
                             value={postalCode}
                         />
