@@ -78,10 +78,9 @@ export default function ParticipantInfo({
         setPageNum((prevPage) => prevPage + 1);
         window.scrollTo({ top: 0 });
     };
-    // TODO: there is a bug with the radio when using bools, so the RADIO consts are workaround
-    //  in the future, change these to be bools
-    const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
-    const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
+
+    const [isOnMedication, setIsOnMedication] = useState(false);
+    const [hasAllergies, setHasAllergies] = useState(false);
 
     /* Store form fields in local storage */
     // page 1
@@ -193,37 +192,31 @@ export default function ParticipantInfo({
 
     // TODO: heardFrom
 
-    const medicationDetails =
-        isOnMedication === RADIO_YES ? (
-            <Box mt={4}>
-                <FormControl id="details">
-                    <FormLabel>
-                        Please provide any details if necessary
-                    </FormLabel>
-                    <Input
-                        placeholder="Details"
-                        onChange={(e) => setMedication(e.target.value)}
-                        value={medication}
-                    />
-                </FormControl>
-            </Box>
-        ) : null;
+    const medicationDetails = isOnMedication ? (
+        <Box mt={4}>
+            <FormControl id="details">
+                <FormLabel>Please provide any details if necessary</FormLabel>
+                <Input
+                    placeholder="Details"
+                    onChange={(e) => setMedication(e.target.value)}
+                    value={medication}
+                />
+            </FormControl>
+        </Box>
+    ) : null;
 
-    const allergyDetails =
-        hasAllergies === RADIO_YES ? (
-            <Box mt={4}>
-                <FormControl id="details">
-                    <FormLabel>
-                        Please provide any details if necessary
-                    </FormLabel>
-                    <Input
-                        placeholder="Details"
-                        onChange={(e) => setAllergies(e.target.value)}
-                        value={allergies}
-                    />
-                </FormControl>
-            </Box>
-        ) : null;
+    const allergyDetails = hasAllergies ? (
+        <Box mt={4}>
+            <FormControl id="details">
+                <FormLabel>Please provide any details if necessary</FormLabel>
+                <Input
+                    placeholder="Details"
+                    onChange={(e) => setAllergies(e.target.value)}
+                    value={allergies}
+                />
+            </FormControl>
+        </Box>
+    ) : null;
 
     const otherDifficultyDetails = hasOtherDifficulties ? (
         <Box mt={4}>
@@ -716,7 +709,9 @@ export default function ParticipantInfo({
                     </Text>
                 </Box>
                 <FormControl id="medication">
-                    <RadioGroup onChange={(val) => setIsOnMedication(val)}>
+                    <RadioGroup
+                        onChange={(val) => setIsOnMedication(val === RADIO_YES)}
+                    >
                         <FormLabel>Is your child on medication?</FormLabel>
                         <Stack direction="row">
                             <Radio value={RADIO_YES} pr={4}>
@@ -730,7 +725,9 @@ export default function ParticipantInfo({
                     {medicationDetails}
                 </FormControl>
                 <FormControl id="allergies">
-                    <RadioGroup onChange={(val) => setHasAllergies(val)}>
+                    <RadioGroup
+                        onChange={(val) => setHasAllergies(val === RADIO_YES)}
+                    >
                         <FormLabel>
                             Does your child have any food allergies?
                         </FormLabel>
@@ -917,8 +914,8 @@ export default function ParticipantInfo({
             emergencyContactLastName: emergLastName,
             emergencyContactPhoneNumber: emergNumber,
             emergencyContactRelationToStudent: emergRelationship,
-            medication: isOnMedication === RADIO_YES ? medication : null,
-            allergies: hasAllergies === RADIO_YES ? allergies : null,
+            medication: isOnMedication ? medication : null,
+            allergies: hasAllergies ? allergies : null,
         };
         const userData = {
             // id: session.id as string,
