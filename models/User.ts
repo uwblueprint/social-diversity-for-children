@@ -17,7 +17,7 @@ export type ParentInput = {
     isLowIncome?: boolean;
     preferredLanguage: locale;
     proofOfIncomeLink?: string;
-    heardFrom?: heardFrom;
+    heardFrom?: heardFrom[];
     heardFromOther?: string;
 
     // Child Information

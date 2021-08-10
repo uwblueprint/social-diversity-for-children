@@ -14,7 +14,6 @@ export type CreateStudentInput = {
     province?: province;
     school?: string;
     grade?: number;
-    // Eric: TODO for Jason to add difficulties and therapy
     difficulties?: difficulties[];
     otherDifficulties?: string;
     specialEducation?: boolean;
