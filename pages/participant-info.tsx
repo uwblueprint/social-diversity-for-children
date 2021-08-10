@@ -652,7 +652,7 @@ export default function ParticipantInfo({
                 <FormControl id="parent-guardian-expectations">
                     <FormLabel>Parent/Guardian Expectations</FormLabel>
                     <Textarea
-                        placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi mauris enim, egestas."
+                        placeholder="Details"
                         onChange={(e) =>
                             setGuardianExpectations(e.target.value)
                         }
