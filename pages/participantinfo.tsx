@@ -78,6 +78,8 @@ export default function ParticipantInfo({
         setPageNum((prevPage) => prevPage + 1);
         window.scrollTo({ top: 0 });
     };
+    // TODO: there is a bug with the radio when using bools, so the RADIO consts are workaround
+    //  in the future, change these to be bools
     const [isOnMedication, setIsOnMedication] = useState(RADIO_NO);
     const [hasAllergies, setHasAllergies] = useState(RADIO_NO);
 
@@ -110,10 +112,8 @@ export default function ParticipantInfo({
         false,
     );
     // TODO: configure list for difficulties to send to backend
-    let [participantDifficulties, setParticipantDifficulties] = useLocalStorage(
-        "participantDifficulties",
-        [],
-    );
+    const [participantDifficulties, setParticipantDifficulties] =
+        useLocalStorage("participantDifficulties", []);
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
         "hasOtherDifficulties",
         false,
@@ -141,7 +141,7 @@ export default function ParticipantInfo({
     );
     const [counseling, setCounseling] = useLocalStorage("counseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("artTherapy", false);
-    let [participantTherapy, setParticipantTherapy] = useLocalStorage(
+    const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         [],
     );
@@ -399,13 +399,13 @@ export default function ParticipantInfo({
                                         participantDifficulties,
                                     );
                                 } else {
-                                    participantDifficulties =
+                                    const newParticipantDifficulties =
                                         participantDifficulties.filter(
                                             (diff) =>
                                                 diff != difficulties.LEARNING,
                                         );
                                     setParticipantDifficulties(
-                                        participantDifficulties,
+                                        newParticipantDifficulties,
                                     );
                                 }
                             }}
@@ -425,13 +425,13 @@ export default function ParticipantInfo({
                                         participantDifficulties,
                                     );
                                 } else {
-                                    participantDifficulties =
+                                    const newParticipantDifficulties =
                                         participantDifficulties.filter(
                                             (diff) =>
                                                 diff != difficulties.PHYSICAL,
                                         );
                                     setParticipantDifficulties(
-                                        participantDifficulties,
+                                        newParticipantDifficulties,
                                     );
                                 }
                             }}
@@ -451,13 +451,13 @@ export default function ParticipantInfo({
                                         participantDifficulties,
                                     );
                                 } else {
-                                    participantDifficulties =
+                                    const newParticipantDifficulties =
                                         participantDifficulties.filter(
                                             (diff) =>
                                                 diff != difficulties.SENSORY,
                                         );
                                     setParticipantDifficulties(
-                                        participantDifficulties,
+                                        newParticipantDifficulties,
                                     );
                                 }
                             }}
@@ -521,11 +521,13 @@ export default function ParticipantInfo({
                                     participantTherapy.push(therapy.PHYSIO);
                                     setParticipantTherapy(participantTherapy);
                                 } else {
-                                    participantTherapy =
+                                    const newParticipantTherapy =
                                         participantTherapy.filter(
                                             (th) => th != therapy.PHYSIO,
                                         );
-                                    setParticipantTherapy(participantTherapy);
+                                    setParticipantTherapy(
+                                        newParticipantTherapy,
+                                    );
                                 }
                             }}
                         >
@@ -542,11 +544,13 @@ export default function ParticipantInfo({
                                     );
                                     setParticipantTherapy(participantTherapy);
                                 } else {
-                                    participantTherapy =
+                                    const newParticipantTherapy =
                                         participantTherapy.filter(
                                             (th) => th != therapy.SPEECH_LANG,
                                         );
-                                    setParticipantTherapy(participantTherapy);
+                                    setParticipantTherapy(
+                                        newParticipantTherapy,
+                                    );
                                 }
                             }}
                         >
@@ -563,11 +567,13 @@ export default function ParticipantInfo({
                                     );
                                     setParticipantTherapy(participantTherapy);
                                 } else {
-                                    participantTherapy =
+                                    const newParticipantTherapy =
                                         participantTherapy.filter(
                                             (th) => th != therapy.OCCUPATIONAL,
                                         );
-                                    setParticipantTherapy(participantTherapy);
+                                    setParticipantTherapy(
+                                        newParticipantTherapy,
+                                    );
                                 }
                             }}
                         >
@@ -582,11 +588,13 @@ export default function ParticipantInfo({
                                     participantTherapy.push(therapy.COUNSELING);
                                     setParticipantTherapy(participantTherapy);
                                 } else {
-                                    participantTherapy =
+                                    const newParticipantTherapy =
                                         participantTherapy.filter(
                                             (th) => th != therapy.COUNSELING,
                                         );
-                                    setParticipantTherapy(participantTherapy);
+                                    setParticipantTherapy(
+                                        newParticipantTherapy,
+                                    );
                                 }
                             }}
                         >
@@ -601,11 +609,13 @@ export default function ParticipantInfo({
                                     participantTherapy.push(therapy.ART);
                                     setParticipantTherapy(participantTherapy);
                                 } else {
-                                    participantTherapy =
+                                    const newParticipantTherapy =
                                         participantTherapy.filter(
                                             (th) => th != therapy.ART,
                                         );
-                                    setParticipantTherapy(participantTherapy);
+                                    setParticipantTherapy(
+                                        newParticipantTherapy,
+                                    );
                                 }
                             }}
                         >
@@ -896,10 +906,10 @@ export default function ParticipantInfo({
             grade: parseInt(grade, 10),
 
             difficulties: participantDifficulties.sort(),
-            otherDifficulties,
+            otherDifficulties: hasOtherDifficulties ? otherDifficulties : null,
             specialEducation: specialEd,
             therapy: participantTherapy.sort(),
-            otherTherapy,
+            otherTherapy: hasOtherTherapy ? otherTherapy : null,
 
             guardianExpectations,
             // additionalInfo,
@@ -907,8 +917,8 @@ export default function ParticipantInfo({
             emergencyContactLastName: emergLastName,
             emergencyContactPhoneNumber: emergNumber,
             emergencyContactRelationToStudent: emergRelationship,
-            medication,
-            allergies,
+            medication: isOnMedication === RADIO_YES ? medication : null,
+            allergies: hasAllergies === RADIO_YES ? allergies : null,
         };
         const userData = {
             // id: session.id as string,

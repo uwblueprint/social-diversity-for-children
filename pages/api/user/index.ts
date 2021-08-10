@@ -28,7 +28,6 @@ export default async function handle(
         case "PUT": {
             const session = await getSession({ req });
             const userId = session.id as string;
-            // TODO: add user role to session
             const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
@@ -37,18 +36,10 @@ export default async function handle(
                 roleData: req.body.roleData,
             };
             const validationErrors = getUserValidationErrors(updatedUserData);
-            if (validationErrors) {
+            if (validationErrors.length > 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
+                return;
             }
-            // console.log("updating user with data:", updatedUserData);
-            // updateUser(updatedUserData)
-            //     .then((result) => {
-            //         console.log("API SUCCECSS:", result);
-            //         ResponseUtil.returnOK(res, result);
-            //     })
-            //     .catch((err) => {
-            //         console.log("API ERROR:", err);
-            //     });
             const updatedUser = await updateUser(updatedUserData);
             if (!updatedUser) {
                 ResponseUtil.returnBadRequest(

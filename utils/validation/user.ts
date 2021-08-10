@@ -90,12 +90,6 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                 `Invalid emergency contact number provided: ${roleData.emergencyContactPhoneNumber}`,
             );
         }
-        // Eric: Not sure if this is needed to be validated.
-        if (!validator.isDate(roleData.childDateOfBirth)) {
-            validationErrors.push(
-                `Invalid date of birth provided: ${roleData.childDateOfBirth}`,
-            );
-        }
     } else if (user.role === roles.PROGRAM_ADMIN) {
         // pass - since program admin has no unique fields
     } else if (user.role === roles.TEACHER) {
