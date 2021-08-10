@@ -85,7 +85,7 @@ export const ProgramDetails: React.FC = () => {
             format: "Online",
         },
     };
-
+    // if program name in program info, pass in programInfo[programName]
     return programName in programInfo ? (
         <ProgramInfo
             programInfo={programInfo[programName]}

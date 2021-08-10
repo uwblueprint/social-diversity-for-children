@@ -4,22 +4,17 @@ import { BackButton } from "@components/BackButton";
 import { Button } from "@chakra-ui/react";
 import { ClassList } from "src/components/ClassList";
 import type { ClassCardInfo } from "models/Class";
+import { ProgramCardInfo } from "models/Program";
 
-interface ProgramDetailsProps {
+/**
+ * program/class Info follows the Program/Class CardInfo type
+ * session is passed in as a prop to be utilized in the Wrapper component
+ */
+type ProgramDetailsProps = {
     styleProps?: Record<string, unknown>;
-    programInfo: ProgramInfoType;
-    session: Record<string, unknown>;
+    programInfo: ProgramCardInfo;
     classInfo: ClassCardInfo[];
-}
-
-type ProgramInfoType = {
-    name: string;
-    description: string;
-    image: string;
-    startDate: string;
-    endDate: string;
-    tag: string;
-    format: string;
+    session: Record<string, unknown>;
 };
 
 export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
