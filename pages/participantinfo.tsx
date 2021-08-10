@@ -42,7 +42,7 @@ import {
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
-// Checkboxes have bugs in them; sometimes render sometimes don't
+// TODO: Checkboxes have bugs in them; sometimes render sometimes don't
 
 const FormButton = (props) => {
     return (
