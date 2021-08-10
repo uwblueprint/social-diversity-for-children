@@ -343,7 +343,7 @@ export default function ParticipantInfo({
                     <FormControl id="city">
                         <FormLabel>City</FormLabel>
                         <Input
-                            placeholder="Waterloo"
+                            placeholder="Vancouver"
                             onChange={(e) => setCity(e.target.value)}
                             value={city}
                         />
