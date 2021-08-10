@@ -31,7 +31,6 @@ export type ParentInput = {
     province: province;
     school?: string;
     grade?: number;
-    // Currently missing information about difficulties and therapy
     difficulties?: difficulties[];
     otherDifficulties?: string;
     specialEducation?: boolean;

@@ -145,8 +145,6 @@ CREATE TABLE students (
   province provinces,
   school TEXT,
   grade INTEGER,
-  -- TODO: update the multi select fields in the db
-  -- Eric (Aug 2, 2021): Jason, when you make this change, please also update models/User.ts and in updateUsers
   difficulties difficulties[],
   otherDifficulties TEXT,
   therapy therapy[],
