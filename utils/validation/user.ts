@@ -52,10 +52,10 @@ function validatePreferredLanguage(userLanguage) {
 function getUserValidationErrors(user: UserInput): Array<string> {
     // validate base user fields
     const validationErrors = [];
-    if (!validator.isAlpha(user.firstName, undefined, " -")) {
-        validationErrors.push("User first name is tto alphanumeric");
+    if (!validator.isAlpha(user.firstName, undefined, { ignore: " -" })) {
+        validationErrors.push("User first name is not alphanumeric");
     }
-    if (!validator.isAlpha(user.lastName, undefined, " -")) {
+    if (!validator.isAlpha(user.lastName, undefined, { ignore: " -" })) {
         validationErrors.push("User last name is not alphanumeric");
     }
     if (!VALID_ROLES.has(user.role)) {
@@ -65,6 +65,20 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     // validate role fields
     if (user.role === roles.PARENT) {
         const roleData = user.roleData as ParentInput;
+        if (
+            !validator.isAlpha(roleData.childFirstName, undefined, {
+                ignore: " -",
+            })
+        ) {
+            validationErrors.push("Child first name is not alphanumeric");
+        }
+        if (
+            !validator.isAlpha(roleData.childLastName, undefined, {
+                ignore: " -",
+            })
+        ) {
+            validationErrors.push("Child last name is not alphanumeric");
+        }
         if (!validator.isMobilePhone(roleData.phoneNumber)) {
             validationErrors.push(
                 `Invalid phone number provided: ${roleData.phoneNumber}`,
@@ -88,6 +102,24 @@ function getUserValidationErrors(user: UserInput): Array<string> {
         if (!validator.isMobilePhone(roleData.emergencyContactPhoneNumber)) {
             validationErrors.push(
                 `Invalid emergency contact number provided: ${roleData.emergencyContactPhoneNumber}`,
+            );
+        }
+        if (
+            !validator.isAlpha(roleData.emergencyContactFirstName, undefined, {
+                ignore: " -",
+            })
+        ) {
+            validationErrors.push(
+                "Emergency contact first name is not alphanumeric",
+            );
+        }
+        if (
+            !validator.isAlpha(roleData.emergencyContactLastName, undefined, {
+                ignore: " -",
+            })
+        ) {
+            validationErrors.push(
+                "Emergency contact last name is not alphanumeric",
             );
         }
     } else if (user.role === roles.PROGRAM_ADMIN) {
