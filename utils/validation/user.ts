@@ -53,7 +53,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     // validate base user fields
     const validationErrors = [];
     if (!validator.isAlpha(user.firstName, undefined, " -")) {
-        validationErrors.push("User first name is tto alphanumeric");
+        validationErrors.push("User first name is not alphanumeric");
     }
     if (!validator.isAlpha(user.lastName, undefined, " -")) {
         validationErrors.push("User last name is not alphanumeric");
