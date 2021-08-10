@@ -17,6 +17,9 @@ type ProgramDetailsProps = {
     session: Record<string, unknown>;
 };
 
+/**
+ * Displays the classes associated with the program id
+ */
 export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     session,
     programInfo,
