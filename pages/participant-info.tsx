@@ -94,10 +94,7 @@ export default function ParticipantInfo({
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [participantProvince, setParticipantProvince] = useLocalStorage(
-        "participantProvince",
-        "",
-    );
+    const [participantProvince, setParticipantProvince] = useState("");
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
@@ -108,19 +105,13 @@ export default function ParticipantInfo({
 
     // Participant difficulties & therapy
     const [hasLearningDifficulties, setHasLearningDifficulties] =
-        useLocalStorage("hasLearningDifficulties", false);
+        useState(false);
     const [hasPhysicalDifficulties, setHasPhysicalDifficulties] =
-        useLocalStorage("hasPhysicalDifficulties", false);
-    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
-        "hasSensoryDifficulties",
-        false,
-    );
+        useState(false);
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useState(false);
     const [participantDifficulties, setParticipantDifficulties] =
         useLocalStorage("participantDifficulties", []);
-    const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
-        "hasOtherDifficulties",
-        false,
-    );
+    const [hasOtherDifficulties, setHasOtherDifficulties] = useState(false);
     const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
         "otherDifficulties",
         "",
@@ -137,20 +128,14 @@ export default function ParticipantInfo({
         "speechTherapy",
         false,
     );
-    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
-        "occupationalTherapy",
-        false,
-    );
-    const [counseling, setCounseling] = useLocalStorage("counseling", false);
-    const [artTherapy, setArtTherapy] = useLocalStorage("artTherapy", false);
+    const [occupationalTherapy, setOccupationalTherapy] = useState(false);
+    const [counseling, setCounseling] = useState(false);
+    const [artTherapy, setArtTherapy] = useState(false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         [],
     );
-    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
-        "hasOtherTherapy",
-        false,
-    );
+    const [hasOtherTherapy, setHasOtherTherapy] = useState(false);
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     // Parent/guardian expectations
@@ -193,26 +178,11 @@ export default function ParticipantInfo({
     );
 
     // Heard from
-    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useLocalStorage(
-        "heardFromFriendsAndFam",
-        false,
-    );
-    const [heardFromFlyers, setHeardFromFlyers] = useLocalStorage(
-        "heardFromFlyers",
-        false,
-    );
-    const [heardFromEmail, setHeardFromEmail] = useLocalStorage(
-        "heardFromEmail",
-        false,
-    );
-    const [heardFromSocialMedia, setHeardFromSocialMedia] = useLocalStorage(
-        "heardFromSocialMedia",
-        false,
-    );
-    const [heardFromOther, setHeardFromOther] = useLocalStorage(
-        "heardFromOther",
-        false,
-    );
+    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useState(false);
+    const [heardFromFlyers, setHeardFromFlyers] = useState(false);
+    const [heardFromEmail, setHeardFromEmail] = useState(false);
+    const [heardFromSocialMedia, setHeardFromSocialMedia] = useState(false);
+    const [heardFromOther, setHeardFromOther] = useState(false);
     const [heardFromOptions, setHeardFromOptions] = useLocalStorage(
         "heardFromOptions",
         [],
