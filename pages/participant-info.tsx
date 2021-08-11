@@ -94,7 +94,7 @@ export default function ParticipantInfo({
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [participantProvince, setParticipantProvince] = useState("");
+    const [participantProvince, setParticipantProvince] = useState(province.BC);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
