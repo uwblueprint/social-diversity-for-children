@@ -58,6 +58,7 @@ model Program {
   price              Int
   onlineFormat       programFormat        @map("online_format")
   tag                String
+  imageLink          String?              @map("image_link")
   startDate          DateTime             @map("start_date") @db.Timestamptz(6)
   endDate            DateTime             @map("end_date") @db.Timestamptz(6)
   isArchived         Boolean              @default(false) @map("is_archived")
@@ -188,7 +189,7 @@ model ProgramAdmin {
 }
 
 model ClassTranslation {
-  classId     Int       @id @map("class_id")
+  classId     Int       @map("class_id")
   name        String
   description String?
   language    locale
@@ -196,31 +197,33 @@ model ClassTranslation {
   updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
   class       Class     @relation(fields: [classId], references: [id])
 
+  @@id([classId, language])
   @@map("class_translations")
 }
 
 model Class {
-  id                      Int               @id @default(autoincrement())
+  id                      Int                @id @default(autoincrement())
   name                    String?
-  ageGroup                String?           @map("age_group")
-  programId               Int               @map("program_id")
-  spaceTotal              Int               @map("space_total")
-  spaceAvailable          Int               @map("space_available")
-  volunteerSpaceTotal     Int               @map("volunteer_space_total")
-  volunteerSpaceAvailable Int               @map("volunteer_space_available")
-  isArchived              Boolean           @default(false) @map("is_archived")
-  startDate               DateTime          @map("start_date") @db.Timestamptz(6)
-  endDate                 DateTime          @map("end_date") @db.Timestamptz(6)
+  ageGroup                String?            @map("age_group")
+  imageLink               String?            @map("image_link")
+  programId               Int                @map("program_id")
+  spaceTotal              Int                @map("space_total")
+  spaceAvailable          Int                @map("space_available")
+  volunteerSpaceTotal     Int                @map("volunteer_space_total")
+  volunteerSpaceAvailable Int                @map("volunteer_space_available")
+  isArchived              Boolean            @default(false) @map("is_archived")
+  startDate               DateTime           @map("start_date") @db.Timestamptz(6)
+  endDate                 DateTime           @map("end_date") @db.Timestamptz(6)
   weekday                 weekday
-  startTimeMinutes        Int               @map("start_time_minutes")
-  durationMinutes         Int               @map("duration_minutes")
-  createdAt               DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt               DateTime?         @map("updated_at") @db.Timestamptz(6)
-  program                 Program           @relation("programsToclasses", fields: [programId], references: [id])
-  classTranslation        ClassTranslation?
-  parentRegs              ParentReg[]       @relation("parent_regsToclasses")
-  teacherRegs             TeacherReg[]      @relation("classesToteacher_regs")
-  volunteerRegs           VolunteerReg[]    @relation("classesTovolunteer_regs")
+  startTimeMinutes        Int                @map("start_time_minutes")
+  durationMinutes         Int                @map("duration_minutes")
+  createdAt               DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime?          @map("updated_at") @db.Timestamptz(6)
+  program                 Program            @relation("programsToclasses", fields: [programId], references: [id])
+  classTranslation        ClassTranslation[]
+  parentRegs              ParentReg[]        @relation("parent_regsToclasses")
+  teacherRegs             TeacherReg[]       @relation("classesToteacher_regs")
+  volunteerRegs           VolunteerReg[]     @relation("classesTovolunteer_regs")
   waitlists               Waitlist[]
 
   @@map("classes")
