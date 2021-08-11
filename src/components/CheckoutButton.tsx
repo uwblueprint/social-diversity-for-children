@@ -10,6 +10,7 @@ const stripePromise = loadStripe(
 
 type CheckoutButtonProps = {
     priceId: string;
+    couponId?: string;
     quantity: number;
 };
 
@@ -28,6 +29,7 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = (
             },
             body: JSON.stringify({
                 priceId: props.priceId,
+                couponId: props.couponId,
                 quantity: props.quantity,
             }),
         }).then((res) => res.json());
