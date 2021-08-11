@@ -4,7 +4,7 @@ import { createProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
 import { getProgramCardInfos } from "@database/program-card-info";
-import { locale } from ".prisma/client";
+import { locale } from "@prisma/client";
 
 /**
  * handle controls the request made to the program resource

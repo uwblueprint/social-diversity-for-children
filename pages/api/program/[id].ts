@@ -4,7 +4,7 @@ import { deleteProgram, updateProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
 import { getProgramCardInfo } from "@database/program-card-info";
-import { locale } from ".prisma/client";
+import { locale } from "@prisma/client";
 
 /**
  * handle takes the programId parameter and returns

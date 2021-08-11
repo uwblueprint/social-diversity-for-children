@@ -4,7 +4,7 @@ import { getClasses, createClass } from "@database/class";
 import { ClassInput } from "@models/Class";
 import { validateClassData } from "@utils/validation/class";
 import { getClassInfoWithProgramId } from "@database/program-card-info";
-import { locale } from ".prisma/client";
+import { locale } from "@prisma/client";
 
 /**
  * handle controls the request made to the class resource
