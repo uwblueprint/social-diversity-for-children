@@ -42,6 +42,7 @@ import {
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
+const DEFAULT_PROVINCE = province.BC;
 // TODO: Checkboxes have bugs in them; sometimes render sometimes don't
 
 const FormButton = (props) => {
@@ -94,7 +95,8 @@ export default function ParticipantInfo({
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [participantProvince, setParticipantProvince] = useState(province.BC);
+    const [participantProvince, setParticipantProvince] =
+        useState(DEFAULT_PROVINCE);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
@@ -323,7 +325,7 @@ export default function ParticipantInfo({
                         <Select
                             placeholder={"Select option"}
                             onChange={(e) =>
-                                setParticipantProvince(e.target.value)
+                                setParticipantProvince(province[e.target.value])
                             }
                             value={participantProvince} // TODO: bug with displayed value after refresh
                         >
@@ -1022,7 +1024,7 @@ export default function ParticipantInfo({
         setAddress1("");
         setAddress2("");
         setCity("");
-        setParticipantProvince("");
+        setParticipantProvince(DEFAULT_PROVINCE);
         setPostalCode("");
         setSchool("");
         setGrade("");
