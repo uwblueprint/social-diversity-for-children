@@ -1,8 +1,11 @@
 import { ProgramCardInfo } from "models/Program";
 import { ClassCardInfo } from "models/Class";
 
+// Converting Program and Class information from services/database/program-card-info.ts
+// into Program/Class CardInfo objects for frontend
 export class CardInfoUtil {
-    static getClassCardInfo(findResults: any[]): ClassCardInfo[] {
+    // Converts result of GET /api/class (all classes with program id) into ClassCardInfo
+    static getClassCardInfos(findResults: any[]): ClassCardInfo[] {
         if (!findResults) return [];
         return findResults.map((result) => {
             return {
@@ -43,6 +46,7 @@ export class CardInfoUtil {
             };
         });
     }
+    // Converts result of GET /api/program (get all programs) to ProgramCardInfo[]
     static getProgramCardInfos(findResult: any[]): ProgramCardInfo[] {
         if (!findResult) return [];
         return findResult.map((p) => {
@@ -65,6 +69,7 @@ export class CardInfoUtil {
             };
         });
     }
+    // Converts result of GET /api/program/<pid> (get program with pid) to ProgramCardInfo
     static getProgramCardInfo(findResult): ProgramCardInfo {
         if (!findResult) return null;
         return {

@@ -42,20 +42,20 @@ export const ProgramDetails: React.FC = () => {
             </Text>
         );
     }
-    const mappedProgramInfoResponse = programInfoResponse
+    const programCardInfo = programInfoResponse
         ? CardInfoUtil.getProgramCardInfo(programInfoResponse.data)
         : null;
-    const mappedClassInfoResponse = classListResponse
-        ? CardInfoUtil.getClassCardInfo(classListResponse.data)
+    const classCardInfos = classListResponse
+        ? CardInfoUtil.getClassCardInfos(classListResponse.data)
         : [];
 
     return (
         <Wrapper session={session}>
             <BackButton />
-            {mappedProgramInfoResponse ? (
+            {programCardInfo ? (
                 <Flex direction="column" pt={4} pb={8}>
                     <Flex align="center">
-                        <Heading>{mappedProgramInfoResponse.name}</Heading>
+                        <Heading>{programCardInfo.name}</Heading>
                         <Spacer />
                         <Badge
                             borderRadius="full"
@@ -68,7 +68,7 @@ export const ProgramDetails: React.FC = () => {
                             pt="1.5"
                             px="3"
                         >
-                            {mappedProgramInfoResponse.onlineFormat}
+                            {programCardInfo.onlineFormat}
                         </Badge>
                         <Badge
                             borderRadius="full"
@@ -82,23 +82,23 @@ export const ProgramDetails: React.FC = () => {
                             px="3"
                             ml="2"
                         >
-                            {mappedProgramInfoResponse.tag}
+                            {programCardInfo.tag}
                         </Badge>
                     </Flex>
                     <Text as="span" color="gray.600" fontSize="sm" mt="5">
                         {
-                            new Date(mappedProgramInfoResponse.startDate)
+                            new Date(programCardInfo.startDate)
                                 .toISOString()
                                 .split("T")[0]
                         }{" "}
                         to{" "}
                         {
-                            new Date(mappedProgramInfoResponse.endDate)
+                            new Date(programCardInfo.endDate)
                                 .toISOString()
                                 .split("T")[0]
                         }
                     </Text>
-                    <Text mt="5">{mappedProgramInfoResponse.description}</Text>
+                    <Text mt="5">{programCardInfo.description}</Text>
                     <Flex mt="5" align="center">
                         <Text fontSize="sm" fontWeight="semibold">
                             Select a class
@@ -114,8 +114,8 @@ export const ProgramDetails: React.FC = () => {
                             Filter
                         </Button>
                     </Flex>
-                    {mappedClassInfoResponse ? (
-                        <ClassList classInfo={mappedClassInfoResponse} />
+                    {classCardInfos ? (
+                        <ClassList classInfo={classCardInfos} />
                     ) : (
                         <Center>
                             <Spinner size="xl" />
