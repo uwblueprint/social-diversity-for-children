@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getProgram, deleteProgram, updateProgram } from "@database/program";
+import { deleteProgram, updateProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
+import { getProgramCardInfo } from "@database/program-card-info";
+import { locale } from "@prisma/client";
 
 /**
  * handle takes the programId parameter and returns
@@ -14,69 +16,100 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    //TODO: Replace if statements with switch/case statements
-    if (req.method == "GET") {
-        // Obtain program id
-        const { id } = req.query;
+    switch (req.method) {
+        case "GET": {
+            const { id: programId } = req.query;
+            if (!programId) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId required to obtain program info",
+                );
+            }
 
-        // obtain program with provided programId
-        const program = await getProgram(id as string);
+            const programIdNumber = parseInt(programId as string, 10);
+            if (isNaN(programIdNumber)) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId should be passed in as numbers",
+                );
+            }
 
-        if (!program) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Program with id ${id} not found.`,
+            const result = await getProgramCardInfo(
+                programId as string,
+                locale.en,
+            ); // TODO don't hardcode locale
+            if (!result) {
+                ResponseUtil.returnNotFound(res, `Program info not found.`);
+                break;
+            }
+            ResponseUtil.returnOK(res, result);
+            break;
+        }
+        case "DELETE": {
+            // Obtain program id
+            const { id: programId } = req.query;
+            if (!programId) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId required to obtain program info",
+                );
+            }
+
+            const programIdNumber = parseInt(programId as string, 10);
+            if (isNaN(programIdNumber)) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "programId should be passed in as numbers",
+                );
+            }
+            // Delete program with provided programId
+            const program = await deleteProgram(programId as string);
+
+            if (!program) {
+                ResponseUtil.returnNotFound(
+                    res,
+                    `Program with id ${programId} not found.`,
+                );
+                break;
+            }
+            ResponseUtil.returnOK(res, program);
+            break;
+        }
+        case "PUT": {
+            // validate new body
+            const validationError = validateProgramData(
+                req.body as ProgramInput,
             );
-            return;
-        }
-        ResponseUtil.returnOK(res, program);
-        return;
-    } else if (req.method == "DELETE") {
-        // Obtain program id
-        const { id } = req.query;
-        // Delete program with provided programId
-        const program = await deleteProgram(id as string);
-
-        if (!program) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Program with id ${id} not found.`,
+            if (validationError.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationError.join(", "));
+                break;
+            }
+            // Obtain program id
+            const { id } = req.query;
+            // Obtain the entire update body
+            const program = await updateProgram(
+                id as string,
+                req.body as ProgramInput,
             );
-            return;
-        }
-        ResponseUtil.returnOK(res, program);
-        return;
-    } else if (req.method == "PUT") {
-        // validate new body
-        const validationError = validateProgramData(req.body as ProgramInput);
-        if (validationError.length !== 0) {
-            ResponseUtil.returnBadRequest(res, validationError.join(", "));
-            return;
-        }
-        // Obtain program id
-        const { id } = req.query;
-        // Obtain the entire update body
-        const program = await updateProgram(
-            id as string,
-            req.body as ProgramInput,
-        );
 
-        if (!program) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Program with id ${id} not found.`,
-            );
-            return;
+            if (!program) {
+                ResponseUtil.returnNotFound(
+                    res,
+                    `Program with id ${id} not found.`,
+                );
+                break;
+            }
+            ResponseUtil.returnOK(res, program);
+            break;
         }
-        ResponseUtil.returnOK(res, program);
-        return;
-    } else {
-        const allowedHeaders: string[] = ["GET", "DELETE", "PUT"];
-        ResponseUtil.returnMethodNotAllowed(
-            res,
-            allowedHeaders,
-            `Method ${req.method} Not Allowed`,
-        );
-        return;
+        default: {
+            const allowedHeaders: string[] = ["GET", "DELETE", "PUT"];
+            ResponseUtil.returnMethodNotAllowed(
+                res,
+                allowedHeaders,
+                `Method ${req.method} Not Allowed`,
+            );
+            break;
+        }
     }
 }

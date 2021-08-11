@@ -14,11 +14,13 @@ export type ProgramInput = {
 
 // Info for the program card on the home page
 export type ProgramCardInfo = {
+    id: number;
     name: string;
     description: string;
-    image: string;
-    startDate: string;
-    endDate: string;
+    image?: string;
+    startDate: Date;
+    endDate: Date;
     tag: string;
-    format: string;
+    onlineFormat: string;
+    price: number;
 };

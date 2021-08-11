@@ -50,6 +50,7 @@ CREATE TABLE programs (
   price INTEGER NOT NULL, -- price in cents, to make it integer
   online_format program_formats NOT NULL,
   tag TEXT NOT NULL, -- art, music, math etc (TODO we might need a tag table later)
+  image_link TEXT,
 
   start_date TIMESTAMPTZ NOT NULL, -- earliest start date of all classes
   end_date TIMESTAMPTZ NOT NULL, -- latest end date of all classes
@@ -63,6 +64,7 @@ CREATE TABLE classes (
   id SERIAL PRIMARY KEY NOT NULL,
   name TEXT, 
   age_group TEXT, -- classes are always categorized by age group
+  image_link TEXT,
 
   program_id INTEGER NOT NULL,
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
@@ -205,7 +207,7 @@ CREATE TABLE class_translations (
   description TEXT, -- might be null, in the figma the classes only had a name (ex. singing monkeys)
   language locales NOT NULL,
   FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
-  PRIMARY KEY (class_id),
+  PRIMARY KEY (class_id, language),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );
