@@ -62,7 +62,13 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                     </Badge>
                 </Flex>
                 <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                    {programInfo.startDate} to {programInfo.endDate}
+                    {
+                        new Date(programInfo.startDate)
+                            .toISOString()
+                            .split("T")[0]
+                    }{" "}
+                    to{" "}
+                    {new Date(programInfo.endDate).toISOString().split("T")[0]}
                 </Text>
                 <Text mt="5">{programInfo.description}</Text>
                 <Flex mt="5" align="center">
