@@ -44,7 +44,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         pt="1.5"
                         px="3"
                     >
-                        {programInfo.format}
+                        {programInfo.onlineFormat}
                     </Badge>
                     <Badge
                         borderRadius="full"
