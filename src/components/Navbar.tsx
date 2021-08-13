@@ -1,15 +1,9 @@
 import React from "react";
-import {
-    Box,
-    Flex,
-    HStack,
-    Link,
-    Image,
-    useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Link, useColorModeValue } from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
 import { ReactNode } from "react";
+import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 
 type NavbarProps = {
     session?: Record<string, unknown>;
@@ -20,9 +14,6 @@ const Links = [
     { name: "Browse Programs", url: "/" },
     { name: "My Classes", url: "#" },
 ];
-
-// TODO: change to .svg
-const logoSrc = "/images/sdc-logo-with-text-blue.png";
 
 const NavLink = ({
     href,
@@ -63,7 +54,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                         <HStack spacing={8} alignItems={"center"}>
                             <Box>
                                 <Link href={"/"} _focus={{}}>
-                                    <Image w={250} py={4} src={logoSrc} />
+                                    <SdcLogoBlue />
                                 </Link>
                             </Box>
                             <HStack

@@ -1,11 +1,12 @@
 import * as React from "react";
 
 function SvgSdcLogoBlue(props: React.SVGProps<SVGSVGElement>) {
+    // refer to figma for logo sizing
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="1em"
-            height="1em"
+            width="198px"
+            height="52px"
             viewBox="0 0 400 118.519"
             {...props}
         >
