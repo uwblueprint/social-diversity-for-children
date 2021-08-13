@@ -27,4 +27,6 @@ export type ClassCardInfo = {
     startTimeMinutes: number;
     durationMinutes: number;
     teacherName: string;
+    teacherEmail?: string;
+    teacherImage?: string;
 };

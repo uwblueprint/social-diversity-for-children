@@ -1,4 +1,4 @@
-import { locale, roles, province } from ".prisma/client";
+import { locale, roles, province } from "@prisma/client";
 import { UserInput, ParentInput, VolunteerInput } from "models/User";
 import validator from "validator";
 

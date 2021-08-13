@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getPrograms, createProgram } from "@database/program";
+import { createProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
+import { getProgramCardInfos } from "@database/program-card-info";
+import { locale } from "@prisma/client";
 
 /**
  * handle controls the request made to the program resource
@@ -15,8 +17,12 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const programs = await getPrograms();
-            ResponseUtil.returnOK(res, programs);
+            const result = await getProgramCardInfos(locale.en); // TODO don't hardcode locale
+            if (!result) {
+                ResponseUtil.returnNotFound(res, `Program info not found.`);
+                return;
+            }
+            ResponseUtil.returnOK(res, result);
             break;
         }
         case "POST": {
