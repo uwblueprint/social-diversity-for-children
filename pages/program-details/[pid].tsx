@@ -38,7 +38,6 @@ export const ProgramDetails: React.FC = () => {
         ? CardInfoUtil.getClassCardInfos(classListResponse.data)
         : [];
 
-    // if program name in program info, pass in programInfo[programName]
     return programCardInfo && classCardInfos ? (
         <ProgramInfo
             programInfo={programCardInfo}
