@@ -17,6 +17,11 @@ type ProgramCardProps = {
     session: Record<string, unknown>;
 };
 
+/**
+ *
+ * @param cardInfo info for the program cards on the home page
+ * @returns a component with all the cards for each of the programs in the database
+ */
 export const ProgramCard: React.FC<ProgramCardProps> = ({
     cardInfo,
     session,
