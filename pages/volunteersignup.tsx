@@ -55,8 +55,8 @@ const FormPage = (props) => {
 };
 
 /**
- * This is the page that a user will use to enter the participants personal information
- * onto the SDC platform as a parent of volunteer
+ * This is the page that a volunteer will use to enter the volunteers personal information
+ * onto the SDC platform as a volunteer
  */
 export default function VolunteerInfo({
     session,
