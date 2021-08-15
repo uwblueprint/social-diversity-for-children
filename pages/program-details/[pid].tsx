@@ -1,19 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
-import {
-    Heading,
-    Flex,
-    Badge,
-    Spacer,
-    Text,
-    Button,
-    Spinner,
-    Center,
-} from "@chakra-ui/react";
-import { ClassList } from "src/components/ClassList";
-import Wrapper from "@components/SDCWrapper";
+import { Text, Spinner, Center } from "@chakra-ui/react";
 import { useSession } from "next-auth/client";
-import { BackButton } from "@components/BackButton";
+import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
 
@@ -49,85 +38,16 @@ export const ProgramDetails: React.FC = () => {
         ? CardInfoUtil.getClassCardInfos(classListResponse.data)
         : [];
 
-    return (
-        <Wrapper session={session}>
-            <BackButton />
-            {programCardInfo ? (
-                <Flex direction="column" pt={4} pb={8}>
-                    <Flex align="center">
-                        <Heading>{programCardInfo.name}</Heading>
-                        <Spacer />
-                        <Badge
-                            borderRadius="full"
-                            textTransform="capitalize"
-                            fontWeight="medium"
-                            letterSpacing="wide"
-                            backgroundColor="#0C53A0"
-                            color="white"
-                            pb="1"
-                            pt="1.5"
-                            px="3"
-                        >
-                            {programCardInfo.onlineFormat}
-                        </Badge>
-                        <Badge
-                            borderRadius="full"
-                            textTransform="capitalize"
-                            fontWeight="medium"
-                            letterSpacing="wide"
-                            backgroundColor="#0C53A0"
-                            color="white"
-                            pb="1"
-                            pt="1.5"
-                            px="3"
-                            ml="2"
-                        >
-                            {programCardInfo.tag}
-                        </Badge>
-                    </Flex>
-                    <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                        {
-                            new Date(programCardInfo.startDate)
-                                .toISOString()
-                                .split("T")[0]
-                        }{" "}
-                        to{" "}
-                        {
-                            new Date(programCardInfo.endDate)
-                                .toISOString()
-                                .split("T")[0]
-                        }
-                    </Text>
-                    <Text mt="5">{programCardInfo.description}</Text>
-                    <Flex mt="5" align="center">
-                        <Text fontSize="sm" fontWeight="semibold">
-                            Select a class
-                        </Text>
-                        <Spacer />
-                        {/* TODO what is the filter button supposed to do? */}
-                        <Button
-                            fontSize="sm"
-                            backgroundColor="transparent"
-                            borderColor="gray.600"
-                            borderWidth="1"
-                        >
-                            Filter
-                        </Button>
-                    </Flex>
-                    {classCardInfos ? (
-                        <ClassList classInfo={classCardInfos} />
-                    ) : (
-                        <Center>
-                            <Spinner size="xl" />
-                        </Center>
-                    )}
-                </Flex>
-            ) : (
-                <Center>
-                    <Spinner size="xl" />
-                </Center>
-            )}
-        </Wrapper>
+    return programCardInfo && classCardInfos ? (
+        <ProgramInfo
+            programInfo={programCardInfo}
+            session={session}
+            classInfo={classCardInfos}
+        />
+    ) : (
+        <Center>
+            <Spinner size="xl" />
+        </Center>
     );
 };
 
