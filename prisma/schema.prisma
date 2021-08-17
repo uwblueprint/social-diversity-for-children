@@ -226,9 +226,9 @@ model Student {
   school                 String?
   grade                  Int?
   difficulties           difficulties[]
-  otherdifficulties      String?
+  otherDifficulties      String?
   therapy                therapy[]
-  othertherapy           String?
+  otherTherapy           String?
   specialEducation       Boolean?       @default(false) @map("special_education")
   guardianExpectations   String?        @map("guardian_expectations")
   medication             String?
