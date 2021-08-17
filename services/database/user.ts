@@ -98,34 +98,55 @@ async function updateUser(userInput: UserInput): Promise<User> {
                         },
                         students: {
                             create: {
-                                firstName: parentData.childFirstName,
-                                lastName: parentData.childLastName,
-                                dateOfBirth: parentData.childDateOfBirth,
-                                addressLine1: parentData.addressLine1,
-                                addressLine2: parentData.addressLine2,
-                                postalCode: parentData.postalCode,
-                                cityName: parentData.cityName,
-                                province: parentData.province,
-                                school: parentData.school,
-                                grade: parentData.grade,
-                                difficulties: parentData.difficulties,
-                                otherDifficulties: parentData.otherDifficulties,
-                                specialEducation: parentData.specialEducation,
-                                therapy: parentData.therapy,
-                                otherTherapy: parentData.otherTherapy,
+                                firstName:
+                                    parentData.createStudentInput.firstName,
+                                lastName:
+                                    parentData.createStudentInput.lastName,
+                                dateOfBirth:
+                                    parentData.createStudentInput.dateOfBirth,
+                                addressLine1:
+                                    parentData.createStudentInput.addressLine1,
+                                addressLine2:
+                                    parentData.createStudentInput.addressLine2,
+                                postalCode:
+                                    parentData.createStudentInput.postalCode,
+                                cityName:
+                                    parentData.createStudentInput.cityName,
+                                province:
+                                    parentData.createStudentInput.province,
+                                school: parentData.createStudentInput.school,
+                                grade: parentData.createStudentInput.grade,
+                                difficulties:
+                                    parentData.createStudentInput.difficulties,
+                                otherDifficulties:
+                                    parentData.createStudentInput
+                                        .otherDifficulties,
+                                specialEducation:
+                                    parentData.createStudentInput
+                                        .specialEducation,
+                                therapy: parentData.createStudentInput.therapy,
+                                otherTherapy:
+                                    parentData.createStudentInput.otherTherapy,
                                 guardianExpectations:
-                                    parentData.guardianExpectations,
-                                medication: parentData.medication,
-                                allergies: parentData.allergies,
-                                additionalInfo: parentData.additionalInfo,
+                                    parentData.createStudentInput
+                                        .guardianExpectations,
+                                medication:
+                                    parentData.createStudentInput.medication,
+                                allergies:
+                                    parentData.createStudentInput.allergies,
+                                additionalInfo:
+                                    parentData.createStudentInput
+                                        .additionalInfo,
                                 emergFirstName:
-                                    parentData.emergencyContactFirstName,
+                                    parentData.createStudentInput
+                                        .emergFirstName,
                                 emergLastName:
-                                    parentData.emergencyContactLastName,
+                                    parentData.createStudentInput.emergLastName,
                                 emergNumber:
-                                    parentData.emergencyContactPhoneNumber,
+                                    parentData.createStudentInput.emergNumber,
                                 emergRelationToStudent:
-                                    parentData.emergencyContactRelationToStudent,
+                                    parentData.createStudentInput
+                                        .emergRelationToStudent,
                             },
                         },
                     },
@@ -137,34 +158,55 @@ async function updateUser(userInput: UserInput): Promise<User> {
                         heardFrom: parentData.heardFrom,
                         students: {
                             create: {
-                                firstName: parentData.childFirstName,
-                                lastName: parentData.childLastName,
-                                dateOfBirth: parentData.childDateOfBirth,
-                                addressLine1: parentData.addressLine1,
-                                addressLine2: parentData.addressLine2,
-                                postalCode: parentData.postalCode,
-                                cityName: parentData.cityName,
-                                province: parentData.province,
-                                school: parentData.school,
-                                grade: parentData.grade,
-                                difficulties: parentData.difficulties,
-                                otherDifficulties: parentData.otherDifficulties,
-                                specialEducation: parentData.specialEducation,
-                                therapy: parentData.therapy,
-                                otherTherapy: parentData.otherTherapy,
+                                firstName:
+                                    parentData.createStudentInput.firstName,
+                                lastName:
+                                    parentData.createStudentInput.lastName,
+                                dateOfBirth:
+                                    parentData.createStudentInput.dateOfBirth,
+                                addressLine1:
+                                    parentData.createStudentInput.addressLine1,
+                                addressLine2:
+                                    parentData.createStudentInput.addressLine2,
+                                postalCode:
+                                    parentData.createStudentInput.postalCode,
+                                cityName:
+                                    parentData.createStudentInput.cityName,
+                                province:
+                                    parentData.createStudentInput.province,
+                                school: parentData.createStudentInput.school,
+                                grade: parentData.createStudentInput.grade,
+                                difficulties:
+                                    parentData.createStudentInput.difficulties,
+                                otherDifficulties:
+                                    parentData.createStudentInput
+                                        .otherDifficulties,
+                                specialEducation:
+                                    parentData.createStudentInput
+                                        .specialEducation,
+                                therapy: parentData.createStudentInput.therapy,
+                                otherTherapy:
+                                    parentData.createStudentInput.otherTherapy,
                                 guardianExpectations:
-                                    parentData.guardianExpectations,
-                                medication: parentData.medication,
-                                allergies: parentData.allergies,
-                                additionalInfo: parentData.additionalInfo,
+                                    parentData.createStudentInput
+                                        .guardianExpectations,
+                                medication:
+                                    parentData.createStudentInput.medication,
+                                allergies:
+                                    parentData.createStudentInput.allergies,
+                                additionalInfo:
+                                    parentData.createStudentInput
+                                        .additionalInfo,
                                 emergFirstName:
-                                    parentData.emergencyContactFirstName,
+                                    parentData.createStudentInput
+                                        .emergFirstName,
                                 emergLastName:
-                                    parentData.emergencyContactLastName,
+                                    parentData.createStudentInput.emergLastName,
                                 emergNumber:
-                                    parentData.emergencyContactPhoneNumber,
+                                    parentData.createStudentInput.emergNumber,
                                 emergRelationToStudent:
-                                    parentData.emergencyContactRelationToStudent,
+                                    parentData.createStudentInput
+                                        .emergRelationToStudent,
                             },
                         },
                     },

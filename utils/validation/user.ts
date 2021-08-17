@@ -66,16 +66,24 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     if (user.role === roles.PARENT) {
         const roleData = user.roleData as ParentInput;
         if (
-            !validator.isAlpha(roleData.childFirstName, undefined, {
-                ignore: " -",
-            })
+            !validator.isAlpha(
+                roleData.createStudentInput.firstName,
+                undefined,
+                {
+                    ignore: " -",
+                },
+            )
         ) {
             validationErrors.push("Child first name is not alphanumeric");
         }
         if (
-            !validator.isAlpha(roleData.childLastName, undefined, {
-                ignore: " -",
-            })
+            !validator.isAlpha(
+                roleData.createStudentInput.lastName,
+                undefined,
+                {
+                    ignore: " -",
+                },
+            )
         ) {
             validationErrors.push("Child last name is not alphanumeric");
         }
@@ -84,14 +92,19 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                 `Invalid phone number provided: ${roleData.phoneNumber}`,
             );
         }
-        if (!validator.isPostalCode(roleData.postalCode, "CA")) {
+        if (
+            !validator.isPostalCode(
+                roleData.createStudentInput.postalCode,
+                "CA",
+            )
+        ) {
             validationErrors.push(
-                `Invalid postal code provided: ${roleData.postalCode}`,
+                `Invalid postal code provided: ${roleData.createStudentInput.postalCode}`,
             );
         }
-        if (!validateProvince(roleData.province)) {
+        if (!validateProvince(roleData.createStudentInput.province)) {
             validationErrors.push(
-                `Invalid province provided: ${roleData.province}`,
+                `Invalid province provided: ${roleData.createStudentInput.province}`,
             );
         }
         if (!validatePreferredLanguage(roleData.preferredLanguage)) {
@@ -99,24 +112,32 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                 `Invalid preferred language: ${roleData.preferredLanguage}`,
             );
         }
-        if (!validator.isMobilePhone(roleData.emergencyContactPhoneNumber)) {
+        if (!validator.isMobilePhone(roleData.createStudentInput.emergNumber)) {
             validationErrors.push(
-                `Invalid emergency contact number provided: ${roleData.emergencyContactPhoneNumber}`,
+                `Invalid emergency contact number provided: ${roleData.createStudentInput.emergNumber}`,
             );
         }
         if (
-            !validator.isAlpha(roleData.emergencyContactFirstName, undefined, {
-                ignore: " -",
-            })
+            !validator.isAlpha(
+                roleData.createStudentInput.emergFirstName,
+                undefined,
+                {
+                    ignore: " -",
+                },
+            )
         ) {
             validationErrors.push(
                 "Emergency contact first name is not alphanumeric",
             );
         }
         if (
-            !validator.isAlpha(roleData.emergencyContactLastName, undefined, {
-                ignore: " -",
-            })
+            !validator.isAlpha(
+                roleData.createStudentInput.emergLastName,
+                undefined,
+                {
+                    ignore: " -",
+                },
+            )
         ) {
             validationErrors.push(
                 "Emergency contact last name is not alphanumeric",

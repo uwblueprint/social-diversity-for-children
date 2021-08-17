@@ -6,6 +6,7 @@ import {
     therapy,
     heardFrom,
 } from "@prisma/client";
+import { CreateStudentInput } from "@models/Student";
 
 export { roles, province, locale, difficulties, therapy, heardFrom };
 
@@ -19,31 +20,7 @@ export type ParentInput = {
     proofOfIncomeLink?: string;
     heardFrom?: heardFrom[];
     heardFromOther?: string;
-
-    // Child Information
-    childFirstName: string;
-    childLastName: string;
-    childDateOfBirth: Date;
-    addressLine1: string;
-    addressLine2?: string;
-    postalCode: string;
-    cityName: string;
-    province: province;
-    school?: string;
-    grade?: number;
-    difficulties?: difficulties[];
-    otherDifficulties?: string;
-    specialEducation?: boolean;
-    therapy?: therapy[];
-    otherTherapy?: string;
-    guardianExpectations?: string;
-    additionalInfo?: string;
-    emergencyContactFirstName: string;
-    emergencyContactLastName: string;
-    emergencyContactPhoneNumber: string;
-    emergencyContactRelationToStudent: string;
-    medication?: string;
-    allergies?: string;
+    createStudentInput: CreateStudentInput;
 };
 
 /* Input type for Volunteer inputs */

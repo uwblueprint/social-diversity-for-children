@@ -5,7 +5,7 @@ import type { difficulties, province, therapy } from "@prisma/client";
 export type CreateStudentInput = {
     firstName: string;
     lastName: string;
-    parentId: number;
+    parentId?: number;
     dateOfBirth: Date;
     addressLine1: string;
     addressLine2?: string;
