@@ -970,7 +970,7 @@ export default function ParticipantInfo({
             proofOfIncomeLink: undefined, // TODO
             heardFrom: heardFromOptions.sort(),
             createStudentInput: {
-                firstName: parentFirstName,
+                firstName: participantFirstName,
                 lastName: participantLastName,
                 dateOfBirth: new Date(dateOfBirth),
                 addressLine1: address1,
