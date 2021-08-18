@@ -122,14 +122,8 @@ export default function ParticipantInfo({
         "involvedInSpecialEd",
         "",
     );
-    const [physiotherapy, setPhysiotherapy] = useLocalStorage(
-        "physiotherapy",
-        false,
-    );
-    const [speechTherapy, setSpeechTherapy] = useLocalStorage(
-        "speechTherapy",
-        false,
-    );
+    const [physiotherapy, setPhysiotherapy] = useState(false);
+    const [speechTherapy, setSpeechTherapy] = useState(false);
     const [occupationalTherapy, setOccupationalTherapy] = useState(false);
     const [counseling, setCounseling] = useState(false);
     const [artTherapy, setArtTherapy] = useState(false);
