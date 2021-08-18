@@ -100,15 +100,19 @@ CREATE TABLE parents (
 CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
   phone_number VARCHAR(50),
-  is_valid BOOLEAN DEFAULT false,
-  background_form_link TEXT,
+  date_of_birth TIMESTAMPTZ NOT NULL,
   address_line1 TEXT,
-  address_line2 TEXT,
+  criminal_record_check_link TEXT,
   postal_code VARCHAR(10),
   city_name TEXT,
   province provinces,
+  school TEXT,
   preferred_language locales,
+  skills TEXT,
+  hear_about_us TEXT, 
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );
