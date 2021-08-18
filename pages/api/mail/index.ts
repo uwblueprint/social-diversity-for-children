@@ -19,7 +19,11 @@ export default async function mailHandler(
         const result48h = await findEmails(48);
         for (let i = 0; i < result3h.length; ++i) {
             for (let j = 0; j < result3h[i].parentRegs.length; ++j) {
-                await send(result3h[i].parentRegs[j].parent.user.email, "", "");
+                await send(
+                    result3h[i].parentRegs[j].parent.user.email,
+                    "Reminder: Social Diversity for Children Class In 3 Hours",
+                    `Hi ${result3h[i].parentRegs[j].parent.user.firstName}, the class ${result3h[i].name} you signed up for is starting in 3 hours! Regards, Social Diversity for Children`,
+                );
             }
             for (let j = 0; j < result3h[i].volunteerRegs.length; ++j) {
                 await send(
