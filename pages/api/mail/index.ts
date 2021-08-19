@@ -1,6 +1,6 @@
 import { ResponseUtil } from "@utils/responseUtil";
 import type { NextApiRequest, NextApiResponse } from "next";
-import send from "@utils/sendMail";
+import send from "services/nodemailer/mail";
 import findEmails from "@database/mail";
 
 /**
@@ -15,40 +15,88 @@ export default async function mailHandler(
 ): Promise<void> {
     if (req.method == "POST" && req.body.key == process.env.AWS_LAMBDA_KEY) {
         // AWS_LAMBDA_SECRET
-        const result3h = await findEmails(3);
-        const result48h = await findEmails(48);
-        for (let i = 0; i < result3h.length; ++i) {
-            for (let j = 0; j < result3h[i].parentRegs.length; ++j) {
-                await send(
-                    result3h[i].parentRegs[j].parent.user.email,
-                    "Reminder: Social Diversity for Children Class In 3 Hours",
-                    `Hi ${result3h[i].parentRegs[j].parent.user.firstName}, the class ${result3h[i].name} you signed up for is starting in 3 hours! Regards, Social Diversity for Children`,
+        const threeHours = 3;
+        const fortyEightHours = 48;
+        // finds all classes starting in 2-4 and 47-49 hours from now
+        // as well as their associated parents/volunteers information
+        const classesInThreeHours = await findEmails(threeHours);
+        const classesInFortyEightHours = await findEmails(fortyEightHours);
+        // stores all promises for the nodemailer transport
+        const mailerPromises = [];
+        // looping through all the classes starting in three hours
+        for (let i = 0; i < classesInThreeHours.length; ++i) {
+            // looping through parents that are registered to EACH class
+            for (let j = 0; j < classesInThreeHours[i].parentRegs.length; ++j) {
+                mailerPromises.push(
+                    send(
+                        process.env.EMAIL_FROM,
+                        classesInThreeHours[i].parentRegs[j].parent.user.email,
+                        "Reminder: Social Diversity for Children Class In 3 Hours",
+                        `<p>Hi ${classesInThreeHours[i].parentRegs[j].parent.user.firstName},</p>
+                        <p>The class <b>${classesInThreeHours[i].name}</b> you signed up for is starting in 3 hours!</p>
+                        <p>Regards, Social Diversity for Children</p>`,
+                    ),
                 );
             }
-            for (let j = 0; j < result3h[i].volunteerRegs.length; ++j) {
-                await send(
-                    result3h[i].volunteerRegs[j].volunteer.user.email,
-                    "",
-                    "",
+            // looping through volunteers that are registered to EACH class
+            for (
+                let j = 0;
+                j < classesInThreeHours[i].volunteerRegs.length;
+                ++j
+            ) {
+                mailerPromises.push(
+                    send(
+                        process.env.EMAIL_FROM,
+                        classesInThreeHours[i].volunteerRegs[j].volunteer.user
+                            .email,
+                        "Reminder: Social Diversity for Children Class In 3 Hours",
+                        `<p>Hi ${classesInThreeHours[i].volunteerRegs[j].volunteer.user.firstName},</p>
+                        <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 3 hours!</p><br />
+                        <p>Regards, Social Diversity for Children</p>`,
+                    ),
                 );
             }
         }
-        for (let i = 0; i < result48h.length; ++i) {
-            for (let j = 0; j < result48h[i].parentRegs.length; ++j) {
-                await send(
-                    result48h[i].parentRegs[j].parent.user.email,
-                    "",
-                    "",
+        // looping through all the classes starting in forty-eight hours
+        for (let i = 0; i < classesInFortyEightHours.length; ++i) {
+            // looping through parents that are registered to EACH class
+            for (
+                let j = 0;
+                j < classesInFortyEightHours[i].parentRegs.length;
+                ++j
+            ) {
+                mailerPromises.push(
+                    send(
+                        process.env.EMAIL_FROM,
+                        classesInThreeHours[i].parentRegs[j].parent.user.email,
+                        "Reminder: Social Diversity for Children Class In 48 Hours",
+                        `<p>Hi ${classesInThreeHours[i].parentRegs[j].parent.user.firstName},</p>
+                        <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 48 hours!</p><br />
+                        <p>Regards, Social Diversity for Children</p>`,
+                    ),
                 );
             }
-            for (let j = 0; j < result48h[i].volunteerRegs.length; ++j) {
-                await send(
-                    result48h[i].volunteerRegs[j].volunteer.user.email,
-                    "",
-                    "",
+            // looping through volunteers that are registered to EACH class
+            for (
+                let j = 0;
+                j < classesInFortyEightHours[i].volunteerRegs.length;
+                ++j
+            ) {
+                mailerPromises.push(
+                    send(
+                        process.env.EMAIL_FROM,
+                        classesInThreeHours[i].volunteerRegs[j].volunteer.user
+                            .email,
+                        "Reminder: Social Diversity for Children Class In 48 Hours",
+                        `<p>Hi ${classesInThreeHours[i].volunteerRegs[j].volunteer.user.firstName},</p>
+                        <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 48 hours!</p><br />
+                        <p>Regards, Social Diversity for Children</p>`,
+                    ),
                 );
             }
         }
+        // send all the reminder emails to the respective users
+        await Promise.all(mailerPromises);
         ResponseUtil.returnOK(res, "The emails have been successfully sent!");
         return;
     } else {
