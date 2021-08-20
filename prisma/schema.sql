@@ -100,8 +100,6 @@ CREATE TABLE parents (
 CREATE TABLE volunteers (
   id SERIAL PRIMARY KEY NOT NULL,
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
   phone_number VARCHAR(50),
   date_of_birth TIMESTAMPTZ NOT NULL,
   address_line1 TEXT,

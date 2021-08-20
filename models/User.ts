@@ -14,15 +14,17 @@ export type ParentInput = {
 
 /* Input type for Volunteer inputs */
 export type VolunteerInput = {
-    phoneNumber?: string;
-    isValid?: boolean;
-    backgroundFormLink?: string;
-    addressLine1?: string;
-    addressLine2?: string;
-    postalCode?: string;
-    cityName?: string;
-    province?: province;
-    preferredLanguage?: locale;
+    dateOfBirth: string;
+    phoneNumber: string;
+    criminalRecordCheckLink?: string;
+    addressLine1: string;
+    postalCode: string;
+    cityName: string;
+    province: province;
+    preferredLanguage: locale;
+    school?: string;
+    skills?: string;
+    hearAboutUs?: string;
 };
 
 /* Input type for Program Admins inputs */
