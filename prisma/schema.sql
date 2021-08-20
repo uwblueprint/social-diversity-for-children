@@ -19,6 +19,10 @@ CREATE TYPE roles AS ENUM ('PARENT', 'PROGRAM_ADMIN', 'TEACHER', 'VOLUNTEER');
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
 CREATE TYPE program_formats AS ENUM ('online', 'in-person', 'blended');
+CREATE TYPE difficulties AS ENUM ('LEARNING', 'PHYSICAL', 'SENSORY');
+CREATE TYPE therapy AS ENUM('PHYSIO', 'SPEECH_LANG', 'OCCUPATIONAL', 'COUNSELING', 'ART');
+CREATE TYPE heard_from AS ENUM ('FRIENDS_FAMILY', 'FLYERS', 'EMAIL', 'SOCIAL_MEDIA', 'OTHER');
+
 -- Create users table
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -86,12 +90,9 @@ CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
   is_low_income BOOLEAN DEFAULT false,
-  address_line1 TEXT NOT NULL,
-  address_line2 TEXT,
-  postal_code VARCHAR(10) NOT NULL,
-  city_name VARCHAR(50) NOT NULL,
-  province provinces NOT NULL,
   preferred_language locales NOT NULL,
+  proof_of_income_link TEXT,
+  heard_from heard_from[],
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
@@ -133,22 +134,33 @@ CREATE TABLE waitlists(
   updated_at TIMESTAMPTZ
 );
 -- create student table
-CREATE TABLE students(
+CREATE TABLE students (
   id SERIAL PRIMARY KEY NOT NULL,
+  parent_id INTEGER NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  allergies TEXT NOT NULL,
+  date_of_birth TIMESTAMPTZ NOT NULL,
+  address_line1 TEXT NOT NULL,
+  address_line2 TEXT,
+  postal_code VARCHAR(10),
+  city_name TEXT,
+  province provinces,
+  school TEXT,
+  grade INTEGER,
+  difficulties difficulties[],
+  other_difficulties TEXT,
+  therapy therapy[],
+  other_therapy TEXT,
+  special_education BOOLEAN DEFAULT false,
+  guardian_expectations TEXT,
+  medication TEXT,
+  allergies TEXT,
   additional_info TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ
-);
--- create table for relationship between parent and student
-CREATE TABLE parent_of_students(
-  parent_id INTEGER NOT NULL,
-  student_id INTEGER NOT NULL,
+  emerg_first_name TEXT NOT NULL,
+  emerg_last_name TEXT NOT NULL,
+  emerg_number VARCHAR(50) NOT NULL,
+  emerg_relation_to_student TEXT NOT NULL,
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
-  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-  PRIMARY KEY (student_id, parent_id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );

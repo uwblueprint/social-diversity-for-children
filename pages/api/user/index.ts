@@ -4,6 +4,7 @@ import { getUsers } from "@database/user";
 import { getSession } from "next-auth/client";
 import { UserInput } from "@models/User";
 import { updateUser } from "@database/user";
+import { getUserValidationErrors } from "@utils/validation/user";
 
 /**
  * handle controls the request made to the user resource
@@ -27,7 +28,6 @@ export default async function handle(
         case "PUT": {
             const session = await getSession({ req });
             const userId = session.id as string;
-            // TODO: add user role to session
             const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
@@ -35,6 +35,11 @@ export default async function handle(
                 role: req.body.role,
                 roleData: req.body.roleData,
             };
+            const validationErrors = getUserValidationErrors(updatedUserData);
+            if (validationErrors.length > 0) {
+                ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
+                return;
+            }
             const updatedUser = await updateUser(updatedUserData);
             if (!updatedUser) {
                 ResponseUtil.returnBadRequest(
