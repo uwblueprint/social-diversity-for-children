@@ -1,16 +1,26 @@
-import type { province, locale } from "@prisma/client";
-export { province, locale };
+import {
+    roles,
+    province,
+    locale,
+    difficulties,
+    therapy,
+    heardFrom,
+} from "@prisma/client";
+import { CreateStudentInput } from "@models/Student";
+
+export { roles, province, locale, difficulties, therapy, heardFrom };
 
 /* Input type for Parent inputs */
 export type ParentInput = {
+    // Parent Information
+    // Note: first/last name are specified in UserInput
     phoneNumber: string;
     isLowIncome?: boolean;
-    addressLine1: string;
-    addressLine2?: string;
-    postalCode: string;
-    cityName: string;
-    province: province;
     preferredLanguage: locale;
+    proofOfIncomeLink?: string;
+    heardFrom?: heardFrom[];
+    heardFromOther?: string;
+    createStudentInput: CreateStudentInput;
 };
 
 /* Input type for Volunteer inputs */
