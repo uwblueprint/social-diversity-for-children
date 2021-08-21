@@ -78,7 +78,7 @@ export default async function mailHandler(
                         volunteerRegs[j].volunteer.user.email,
                         "Reminder: Social Diversity for Children Class In 48 Hours",
                         `<p>Hi ${volunteerRegs[j].volunteer.user.firstName},</p>
-                        <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 48 hours!</p><br />
+                        <p>The class ${classesInFortyEightHours[i].name} you signed up for is starting in 48 hours!</p><br />
                         <p>Regards, Social Diversity for Children</p>`,
                     ),
                 );
