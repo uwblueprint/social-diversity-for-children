@@ -29,10 +29,12 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
+import { roles, locale, province, VolunteerInput } from "@models/User";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
+// const DEFAULT_PROVINCE = province.BC;
 
 const FormButton = (props) => {
     return (
@@ -89,8 +91,8 @@ export default function VolunteerInfo({
     const [fifteen, setFifteen] = useState(false);
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [city, setCity] = useLocalStorage("city", "");
-    /*  const [participantProvince, setParticipantProvince] =
-         useState(DEFAULT_PROVINCE); */
+    /*   const [participantProvince, setParticipantProvince] =
+          useState(DEFAULT_PROVINCE); */
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
 
@@ -108,179 +110,214 @@ export default function VolunteerInfo({
     ];
 
     const formPages = [
-        <FormPage>
-            <FormLabel>
-                Volunteer Name
-                <HStack spacing="24px">
-                    <FormControl id="first-name">
-                        <Input
-                            placeholder="First name"
-                            onChange={(e) =>
-                                setVolunteerFirstName(e.target.value)
-                            }
-                            value={volunteerFirstName}
-                        />
-                    </FormControl>
-                    <FormControl id="last-name">
-                        <Input
-                            placeholder="Last name"
-                            onChange={(e) =>
-                                setVolunteerLastName(e.target.value)
-                            }
-                            value={volunteerLastName}
-                        />
-                    </FormControl>
-                </HStack>
-            </FormLabel>
-            <FormControl id="Phone Number">
-                <FormLabel>Phone Number </FormLabel>
-                <Input
-                    placeholder="289 349 1048"
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    value={phoneNumber}
-                />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <FormControl id="date-of-birth">
-                <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                <Input
-                    placeholder="Date Of Birth"
-                    onChange={(e) => setDateOfBirth(e.target.value)}
-                    value={dateOfBirth}
-                />
-            </FormControl>
-            <FormControl id="fifteen">
-                <Stack direction="column">
-                    <Checkbox>
-                        I certify that I am over the age of 15 in order to
-                        volunteer with SDC
-                    </Checkbox>
-                </Stack>
-            </FormControl>
-            <FormControl id="street-address">
-                <FormLabel>Street Address </FormLabel>
-                <Input
-                    placeholder="815 Hornby St."
-                    onChange={(e) => setAddress1(e.target.value)}
-                    value={address1}
-                />
-            </FormControl>
-            <HStack spacing="24px">
-                <FormControl id="city">
-                    <FormLabel>City</FormLabel>
+        <Box>
+            <FormPage>
+                <FormLabel>
+                    Volunteer Name
+                    <HStack spacing="24px">
+                        <FormControl id="first-name">
+                            <Input
+                                placeholder="First name"
+                                onChange={(e) =>
+                                    setVolunteerFirstName(e.target.value)
+                                }
+                                value={volunteerFirstName}
+                            />
+                        </FormControl>
+                        <FormControl id="last-name">
+                            <Input
+                                placeholder="Last name"
+                                onChange={(e) =>
+                                    setVolunteerLastName(e.target.value)
+                                }
+                                value={volunteerLastName}
+                            />
+                        </FormControl>
+                    </HStack>
+                </FormLabel>
+                <FormControl id="Phone Number">
+                    <FormLabel>Phone Number </FormLabel>
                     <Input
-                        placeholder="Vancouver"
-                        onChange={(e) => setCity(e.target.value)}
-                        value={city}
+                        placeholder="289 349 1048"
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        value={phoneNumber}
                     />
                 </FormControl>
-                <FormControl id="province">
-                    <FormLabel>Province</FormLabel>
-                    <Select placeholder="Select option">
-                        <option value="NL">NL</option>
-                        <option value="PE">PE</option>
-                        <option value="NS">NS</option>
-                        <option value="NB">NB</option>
-                        <option value="QC">QC</option>
-                        <option value="ON">ON</option>
-                        <option value="MB">MB</option>
-                        <option value="SK">SK</option>
-                        <option value="AB">AB</option>
-                        <option value="BC">BC</option>
-                        <option value="YT">YT</option>
-                        <option value="NT">NT</option>
-                        <option value="NU">NU</option>
-                    </Select>
-                </FormControl>
-                <FormControl id="postal-code">
-                    <FormLabel>Postal Code</FormLabel>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <FormControl id="date-of-birth">
+                    <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
                     <Input
-                        placeholder="V6Z 2E6"
-                        onChange={(e) => setPostalCode(e.target.value)}
-                        value={postalCode}
+                        placeholder="Date Of Birth"
+                        onChange={(e) => setDateOfBirth(e.target.value)}
+                        value={dateOfBirth}
                     />
                 </FormControl>
-            </HStack>
-            <FormControl id="school">
-                <FormLabel>School (if applicable)</FormLabel>
-                <Input
-                    placeholder="Westmount Secondary School"
-                    onChange={(e) => setSchool(e.target.value)}
-                    value={school}
-                />
-            </FormControl>
-        </FormPage>,
-        <FormPage>
-            <VStack>
-                <FormControl id="skills">
-                    <FormLabel>
-                        {" "}
-                        Skills/Experience (ex. Arts and Crafts, Music, First-Aid
-                        Certificates, Teaching or Volunteering Experience,
-                        Experience with Children with Special Needs)
-                    </FormLabel>
-                    <Textarea placeholder="Type here" size="sm"></Textarea>
-                </FormControl>
-                <FormControl id="hear-about-us">
-                    <FormLabel>
-                        {" "}
-                        How Did You Hear About this Volunteer Opportunity?
-                    </FormLabel>
-                    <Textarea placeholder="Type here" size="sm"></Textarea>
-                </FormControl>
-                <FormControl id="commit">
+                <FormControl id="fifteen">
                     <Stack direction="column">
                         <Checkbox>
-                            I certify that I will commit to attending all
-                            volunteer sessions I sign up for
+                            I certify that I am over the age of 15 in order to
+                            volunteer with SDC
                         </Checkbox>
                     </Stack>
                 </FormControl>
-            </VStack>
-        </FormPage>,
-        <FormPage>
-            <Box maxW="55rem">
-                <Text margin="10px" fontSize="16px" fontWeight="200">
-                    As volunteering in our programs involves working closely
-                    with children and vulnerable persons, we ask that all our
-                    volunteers get a Criminal Record Check completed at their
-                    local police station or the RCMP office. The price of the
-                    CRC will be waived with a letter provided from SDC.
-                </Text>
-                <Text margin="10px" fontSize="16px" fontWeight="200">
-                    Also, please note that the MPM/JELIC is an IN-PERSON math
-                    program. If you apply to volunteer for this program, please
-                    ensure that you are aware that it is an in-person program
-                    and are able to attend the classes at Richmond Quantum
-                    Academy (6650-8181 Cambie Rd, Richmond, BC V6X 3X9).
-                </Text>
-                <Heading fontSize="22px">
-                    Uploading your Criminal Record Check
-                    <OrderedList margin="10px" fontSize="16px" fontWeight="400">
-                        <ListItem>
-                            Under My Account, then Criminal Record Check
-                            generates a volunteer letter from SDC
-                        </ListItem>
-                        <ListItem>
-                            Use the provided letter to obtain a criminal record
-                            check at the local police station or RCMP office
-                        </ListItem>
-                        <ListItem>
-                            Upload a copy of the document to your SDC account
-                        </ListItem>
-                        <ListItem>
-                            Once you’ve submitted your document(s), keep an eye
-                            out for the approval status from SDC!
-                        </ListItem>
-                    </OrderedList>
-                </Heading>
+                <FormControl id="street-address">
+                    <FormLabel>Street Address </FormLabel>
+                    <Input
+                        placeholder="815 Hornby St."
+                        onChange={(e) => setAddress1(e.target.value)}
+                        value={address1}
+                    />
+                </FormControl>
+                <HStack spacing="24px">
+                    <FormControl id="city">
+                        <FormLabel>City</FormLabel>
+                        <Input
+                            placeholder="Vancouver"
+                            onChange={(e) => setCity(e.target.value)}
+                            value={city}
+                        />
+                    </FormControl>
+                    <FormControl id="province">
+                        <FormLabel>Province</FormLabel>
+                        <Select placeholder="Select option">
+                            <option value="NL">NL</option>
+                            <option value="PE">PE</option>
+                            <option value="NS">NS</option>
+                            <option value="NB">NB</option>
+                            <option value="QC">QC</option>
+                            <option value="ON">ON</option>
+                            <option value="MB">MB</option>
+                            <option value="SK">SK</option>
+                            <option value="AB">AB</option>
+                            <option value="BC">BC</option>
+                            <option value="YT">YT</option>
+                            <option value="NT">NT</option>
+                            <option value="NU">NU</option>
+                        </Select>
+                    </FormControl>
+                    <FormControl id="postal-code">
+                        <FormLabel>Postal Code</FormLabel>
+                        <Input
+                            placeholder="V6Z 2E6"
+                            onChange={(e) => setPostalCode(e.target.value)}
+                            value={postalCode}
+                        />
+                    </FormControl>
+                </HStack>
+                <FormControl id="school">
+                    <FormLabel>School (if applicable)</FormLabel>
+                    <Input
+                        placeholder="Westmount Secondary School"
+                        onChange={(e) => setSchool(e.target.value)}
+                        value={school}
+                    />
+                </FormControl>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <VStack>
+                    <FormControl id="skills">
+                        <FormLabel>
+                            {" "}
+                            Skills/Experience (ex. Arts and Crafts, Music,
+                            First-Aid Certificates, Teaching or Volunteering
+                            Experience, Experience with Children with Special
+                            Needs)
+                        </FormLabel>
+                        <Textarea placeholder="Type here" size="sm"></Textarea>
+                    </FormControl>
+                    <FormControl id="hear-about-us">
+                        <FormLabel>
+                            {" "}
+                            How Did You Hear About this Volunteer Opportunity?
+                        </FormLabel>
+                        <Textarea placeholder="Type here" size="sm"></Textarea>
+                    </FormControl>
+                    <FormControl id="commit">
+                        <Stack direction="column">
+                            <Checkbox>
+                                I certify that I will commit to attending all
+                                volunteer sessions I sign up for
+                            </Checkbox>
+                        </Stack>
+                    </FormControl>
+                </VStack>
+            </FormPage>
+            <FormButton onClick={formButtonOnClick}>Next</FormButton>
+        </Box>,
+        <Box>
+            <FormPage>
+                <Box maxW="55rem">
+                    <Text margin="10px" fontSize="16px" fontWeight="200">
+                        As volunteering in our programs involves working closely
+                        with children and vulnerable persons, we ask that all
+                        our volunteers get a Criminal Record Check completed at
+                        their local police station or the RCMP office. The price
+                        of the CRC will be waived with a letter provided from
+                        SDC.
+                    </Text>
+                    <Text margin="10px" fontSize="16px" fontWeight="200">
+                        Also, please note that the MPM/JELIC is an IN-PERSON
+                        math program. If you apply to volunteer for this
+                        program, please ensure that you are aware that it is an
+                        in-person program and are able to attend the classes at
+                        Richmond Quantum Academy (6650-8181 Cambie Rd, Richmond,
+                        BC V6X 3X9).
+                    </Text>
+                    <Heading fontSize="22px">
+                        Uploading your Criminal Record Check
+                        <OrderedList
+                            margin="10px"
+                            fontSize="16px"
+                            fontWeight="400"
+                        >
+                            <ListItem>
+                                Under My Account, then Criminal Record Check
+                                generates a volunteer letter from SDC
+                            </ListItem>
+                            <ListItem>
+                                Use the provided letter to obtain a criminal
+                                record check at the local police station or RCMP
+                                office
+                            </ListItem>
+                            <ListItem>
+                                Upload a copy of the document to your SDC
+                                account
+                            </ListItem>
+                            <ListItem>
+                                Once you’ve submitted your document(s), keep an
+                                eye out for the approval status from SDC!
+                            </ListItem>
+                        </OrderedList>
+                    </Heading>
+                </Box>
+            </FormPage>
+            <Box>
+                <HStack spacing="24px">
+                    <FormButton>Upload Criminal Record Check</FormButton>
+                    <Button
+                        variant="ghost"
+                        as="u"
+                        onClick={() => {
+                            setPageNum((prevPage) => prevPage + 1);
+                            updateUserAndClearForm();
+                        }}
+                        borderRadius={100}
+                    >
+                        Skip for Now
+                    </Button>
+                </HStack>
             </Box>
-        </FormPage>,
+        </Box>,
     ];
 
     const totalPages = formPages.length;
-    const criminalRecordCheck = 3;
     const progressBarIncrement = Math.ceil(100 / totalPages);
 
     if (progressBar <= 0) {
@@ -290,39 +327,60 @@ export default function VolunteerInfo({
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
 
-    const getFormButton = () => {
-        if (pageNum === totalPages) {
-            return;
-        } else if (pageNum === criminalRecordCheck) {
-            return (
-                <Box>
-                    <HStack spacing="24px">
-                        <FormButton>Upload Criminal Record Check</FormButton>
-                        <Button
-                            variant="ghost"
-                            as="u"
-                            onClick={() =>
-                                setPageNum((prevPage) => prevPage + 1)
-                            }
-                            borderRadius={100}
-                        >
-                            Skip for Now
-                        </Button>
-                    </HStack>
-                </Box>
-            );
-        }
-        return (
-            <FormButton
-                onClick={() => {
-                    setPageNum((prevPage) => prevPage + 1);
-                    window.scrollTo({ top: 0 });
-                }}
-            >
-                Next
-            </FormButton>
-        );
+    async function updateUser() {
+        const volunteerData: VolunteerInput = {
+            dateOfBirth: dateOfBirth,
+            phoneNumber: phoneNumber,
+            criminalRecordCheckLink: undefined,
+            addressLine1: address1,
+            postalCode: postalCode,
+            cityName: city,
+            province: undefined, //TODO
+            preferredLanguage: undefined, //TODO
+            school: school,
+            skills: skills,
+            hearAboutUs: hear,
+        };
+
+        const userData = {
+            firstName: volunteerFirstName,
+            lastName: volunteerLastName,
+            // role: roles.VOLUNTEER,
+            roleData: volunteerData,
+        };
+        const request = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        };
+        const response = await fetch("api/user", request);
+        const updatedUserData = await response.json();
+        return updatedUserData;
+    }
+
+    const clearLocalStorage = () => {
+        setVolunteerFirstName("");
+        setVolunteerLastName("");
+        setPhoneNumber("");
+        setDateOfBirth("");
+        setFifteen(false);
+        setAddress1("");
+        setCity("");
+        setPostalCode("");
+        setSchool("");
+        setSkills("");
+        setHear("");
+        setAttending(false);
     };
+    async function updateUserAndClearForm() {
+        const updatedUser = await updateUser();
+        if (updatedUser) {
+            clearLocalStorage();
+            return updatedUser;
+        } else {
+            return null;
+        }
+    }
 
     return (
         <Wrapper session={session}>
@@ -359,6 +417,7 @@ export default function VolunteerInfo({
                             {formPages.map((formPage, idx) => {
                                 return (
                                     <Box
+                                        key={idx}
                                         display={
                                             pageNum === idx ? null : "none"
                                         }
@@ -368,7 +427,6 @@ export default function VolunteerInfo({
                                 );
                             })}
                         </Stack>
-                        {getFormButton()}
                     </Box>
                 </Center>
             ) : (
@@ -377,12 +435,11 @@ export default function VolunteerInfo({
                         <Text fontWeight="700" fontSize="24px" align="center">
                             Account created successfully
                         </Text>
-                        <Center maxW={481}>
-                            Your account has been successfully created. Click
-                            the button below to start browsing classes to
-                            volunteer for!
-                        </Center>
-
+                        <Text maxW={512}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua.
+                        </Text>
                         <Link
                             _hover={{ textDecoration: "none" }}
                             _focus={{}}

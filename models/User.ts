@@ -1,4 +1,5 @@
-import type { roles, province, locale } from "@prisma/client";
+import type { province, locale } from "@prisma/client";
+export { province, locale };
 
 /* Input type for Parent inputs */
 export type ParentInput = {
