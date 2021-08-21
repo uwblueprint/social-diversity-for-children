@@ -7,9 +7,9 @@ import prisma from "@database";
  */
 export default async function findEmails(hoursWithin: number) {
     const oneHourAfter = new Date();
-    const oneHourBefore = new Date();
+    const hoursWithinAfter = new Date();
     oneHourAfter.setHours(oneHourAfter.getHours() + (hoursWithin + 1));
-    oneHourBefore.setHours(oneHourBefore.getHours() + (hoursWithin - 1));
+    hoursWithinAfter.setHours(hoursWithinAfter.getHours() + hoursWithin);
     const result = await prisma.class.findMany({
         include: {
             parentRegs: {
@@ -35,7 +35,7 @@ export default async function findEmails(hoursWithin: number) {
             startDate: {
                 // restricting the startDate to be within hoursWithin +/- 1 hour from now
                 lte: oneHourAfter,
-                gte: oneHourBefore,
+                gte: hoursWithinAfter,
             },
         },
     });

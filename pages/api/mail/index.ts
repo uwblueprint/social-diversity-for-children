@@ -14,43 +14,39 @@ export default async function mailHandler(
     res: NextApiResponse,
 ): Promise<void> {
     if (req.method == "POST" && req.body.key == process.env.AWS_LAMBDA_KEY) {
-        // AWS_LAMBDA_SECRET
-        const threeHours = 3;
-        const fortyEightHours = 48;
+        const firstIntervalHours = 3;
+        const secondIntervalHours = 48;
         // finds all classes starting in 2-4 and 47-49 hours from now
         // as well as their associated parents/volunteers information
-        const classesInThreeHours = await findEmails(threeHours);
-        const classesInFortyEightHours = await findEmails(fortyEightHours);
+        const classesInThreeHours = await findEmails(firstIntervalHours);
+        const classesInFortyEightHours = await findEmails(secondIntervalHours);
         // stores all promises for the nodemailer transport
         const mailerPromises = [];
         // looping through all the classes starting in three hours
         for (let i = 0; i < classesInThreeHours.length; ++i) {
             // looping through parents that are registered to EACH class
-            for (let j = 0; j < classesInThreeHours[i].parentRegs.length; ++j) {
+            const parentRegs = classesInThreeHours[i].parentRegs;
+            const volunteerRegs = classesInThreeHours[i].volunteerRegs;
+            for (let j = 0; j < parentRegs.length; ++j) {
                 mailerPromises.push(
                     send(
                         process.env.EMAIL_FROM,
-                        classesInThreeHours[i].parentRegs[j].parent.user.email,
+                        parentRegs[j].parent.user.email,
                         "Reminder: Social Diversity for Children Class In 3 Hours",
-                        `<p>Hi ${classesInThreeHours[i].parentRegs[j].parent.user.firstName},</p>
+                        `<p>Hi ${parentRegs[j].parent.user.firstName},</p>
                         <p>The class <b>${classesInThreeHours[i].name}</b> you signed up for is starting in 3 hours!</p>
                         <p>Regards, Social Diversity for Children</p>`,
                     ),
                 );
             }
             // looping through volunteers that are registered to EACH class
-            for (
-                let j = 0;
-                j < classesInThreeHours[i].volunteerRegs.length;
-                ++j
-            ) {
+            for (let j = 0; j < volunteerRegs.length; ++j) {
                 mailerPromises.push(
                     send(
                         process.env.EMAIL_FROM,
-                        classesInThreeHours[i].volunteerRegs[j].volunteer.user
-                            .email,
+                        volunteerRegs[j].volunteer.user.email,
                         "Reminder: Social Diversity for Children Class In 3 Hours",
-                        `<p>Hi ${classesInThreeHours[i].volunteerRegs[j].volunteer.user.firstName},</p>
+                        `<p>Hi ${volunteerRegs[j].volunteer.user.firstName},</p>
                         <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 3 hours!</p><br />
                         <p>Regards, Social Diversity for Children</p>`,
                     ),
@@ -60,35 +56,28 @@ export default async function mailHandler(
         // looping through all the classes starting in forty-eight hours
         for (let i = 0; i < classesInFortyEightHours.length; ++i) {
             // looping through parents that are registered to EACH class
-            for (
-                let j = 0;
-                j < classesInFortyEightHours[i].parentRegs.length;
-                ++j
-            ) {
+            const parentRegs = classesInFortyEightHours[i].parentRegs;
+            const volunteerRegs = classesInFortyEightHours[i].volunteerRegs;
+            for (let j = 0; j < parentRegs.length; ++j) {
                 mailerPromises.push(
                     send(
                         process.env.EMAIL_FROM,
-                        classesInThreeHours[i].parentRegs[j].parent.user.email,
+                        parentRegs[j].parent.user.email,
                         "Reminder: Social Diversity for Children Class In 48 Hours",
-                        `<p>Hi ${classesInThreeHours[i].parentRegs[j].parent.user.firstName},</p>
-                        <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 48 hours!</p><br />
+                        `<p>Hi ${parentRegs[j].parent.user.firstName},</p>
+                        <p>The class ${classesInFortyEightHours[i].name} you signed up for is starting in 48 hours!</p><br />
                         <p>Regards, Social Diversity for Children</p>`,
                     ),
                 );
             }
             // looping through volunteers that are registered to EACH class
-            for (
-                let j = 0;
-                j < classesInFortyEightHours[i].volunteerRegs.length;
-                ++j
-            ) {
+            for (let j = 0; j < volunteerRegs.length; ++j) {
                 mailerPromises.push(
                     send(
                         process.env.EMAIL_FROM,
-                        classesInThreeHours[i].volunteerRegs[j].volunteer.user
-                            .email,
+                        volunteerRegs[j].volunteer.user.email,
                         "Reminder: Social Diversity for Children Class In 48 Hours",
-                        `<p>Hi ${classesInThreeHours[i].volunteerRegs[j].volunteer.user.firstName},</p>
+                        `<p>Hi ${volunteerRegs[j].volunteer.user.firstName},</p>
                         <p>The class ${classesInThreeHours[i].name} you signed up for is starting in 48 hours!</p><br />
                         <p>Regards, Social Diversity for Children</p>`,
                     ),
