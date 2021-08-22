@@ -34,7 +34,7 @@ import { roles, locale, province, VolunteerInput } from "@models/User";
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
-// const DEFAULT_PROVINCE = province.BC;
+const DEFAULT_PROVINCE = province.BC;
 
 const FormButton = (props) => {
     return (
@@ -91,8 +91,8 @@ export default function VolunteerInfo({
     const [fifteen, setFifteen] = useState(false);
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [city, setCity] = useLocalStorage("city", "");
-    /*   const [participantProvince, setParticipantProvince] =
-          useState(DEFAULT_PROVINCE); */
+    const [participantProvince, setParticipantProvince] =
+        useState(DEFAULT_PROVINCE);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
 
@@ -183,7 +183,13 @@ export default function VolunteerInfo({
                     </FormControl>
                     <FormControl id="province">
                         <FormLabel>Province</FormLabel>
-                        <Select placeholder="Select option">
+                        <Select
+                            placeholder="Select option"
+                            onChange={(e) =>
+                                setParticipantProvince(province[e.target.value])
+                            }
+                            value={participantProvince} // TODO: bug with displayed value after refresh
+                        >
                             <option value="NL">NL</option>
                             <option value="PE">PE</option>
                             <option value="NS">NS</option>
@@ -329,14 +335,14 @@ export default function VolunteerInfo({
 
     async function updateUser() {
         const volunteerData: VolunteerInput = {
-            dateOfBirth: dateOfBirth,
+            dateOfBirth: new Date(dateOfBirth),
             phoneNumber: phoneNumber,
             criminalRecordCheckLink: undefined,
             addressLine1: address1,
             postalCode: postalCode,
             cityName: city,
-            province: undefined, //TODO
-            preferredLanguage: undefined, //TODO
+            province: participantProvince, //TODO
+            preferredLanguage: locale.en, //TODO
             school: school,
             skills: skills,
             hearAboutUs: hear,
@@ -345,7 +351,7 @@ export default function VolunteerInfo({
         const userData = {
             firstName: volunteerFirstName,
             lastName: volunteerLastName,
-            // role: roles.VOLUNTEER,
+            role: roles.VOLUNTEER,
             roleData: volunteerData,
         };
         const request = {
@@ -366,6 +372,7 @@ export default function VolunteerInfo({
         setFifteen(false);
         setAddress1("");
         setCity("");
+        setParticipantProvince(DEFAULT_PROVINCE);
         setPostalCode("");
         setSchool("");
         setSkills("");

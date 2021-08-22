@@ -25,7 +25,7 @@ export type ParentInput = {
 
 /* Input type for Volunteer inputs */
 export type VolunteerInput = {
-    dateOfBirth: string;
+    dateOfBirth: Date;
     phoneNumber: string;
     criminalRecordCheckLink?: string;
     addressLine1: string;
