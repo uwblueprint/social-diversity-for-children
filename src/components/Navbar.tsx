@@ -46,12 +46,11 @@ const NavLink = ({
 export const DEFAULT_NAVBAR_HEIGHT = 16;
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
-    const accountButton =
-        props.session && props.session.role ? (
-            <NavLink>My Account</NavLink>
-        ) : (
-            <SignInButton />
-        );
+    const accountButton = props.session ? (
+        <NavLink>My Account</NavLink>
+    ) : (
+        <SignInButton />
+    );
     return (
         <>
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>

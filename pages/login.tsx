@@ -102,10 +102,7 @@ export default function Login(): JSX.Element {
                                 onClick={() => {
                                     setValue(!value);
                                     setLocalStorageEmail(email);
-                                    signIn("email", {
-                                        email,
-                                        callbackUrl: `${window.location.origin}/landing`,
-                                    });
+                                    signIn("email", { email });
                                 }}
                                 _active={{}}
                             >
@@ -153,7 +150,7 @@ export const getServerSideProps: GetServerSideProps = async (
     const session = await getSession(context);
 
     // if the user is already authenticated redirect them to the home page
-    if (session && session.role) {
+    if (session) {
         return {
             redirect: {
                 destination: "/",
