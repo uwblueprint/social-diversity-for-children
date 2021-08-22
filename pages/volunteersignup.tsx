@@ -236,14 +236,24 @@ export default function VolunteerInfo({
                             Experience, Experience with Children with Special
                             Needs)
                         </FormLabel>
-                        <Textarea placeholder="Type here" size="sm"></Textarea>
+                        <Textarea
+                            placeholder="Type here"
+                            size="sm"
+                            onChange={(e) => setSkills(e.target.value)}
+                            value={skills}
+                        ></Textarea>
                     </FormControl>
                     <FormControl id="hear-about-us">
                         <FormLabel>
                             {" "}
                             How Did You Hear About this Volunteer Opportunity?
                         </FormLabel>
-                        <Textarea placeholder="Type here" size="sm"></Textarea>
+                        <Textarea
+                            placeholder="Type here"
+                            size="sm"
+                            onChange={(e) => setHear(e.target.value)}
+                            value={hear}
+                        ></Textarea>
                     </FormControl>
                     <FormControl id="commit">
                         <Stack direction="column">
