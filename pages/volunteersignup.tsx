@@ -88,7 +88,6 @@ export default function VolunteerInfo({
     //volunteer Personal Details
 
     const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
-    const [fifteen, setFifteen] = useState(false);
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [city, setCity] = useLocalStorage("city", "");
     const [participantProvince, setParticipantProvince] =
@@ -99,7 +98,7 @@ export default function VolunteerInfo({
     //volunteer personal details
 
     const [skills, setSkills] = useLocalStorage("skills", "");
-    const [hear, setHear] = useLocalStorage("hear", "");
+    const [heardFrom, setHeardFrom] = useLocalStorage("heardFrom", "");
     const [attending, setAttending] = useState(false);
 
     const formPageHeaders = [
@@ -230,7 +229,6 @@ export default function VolunteerInfo({
                 <VStack>
                     <FormControl id="skills">
                         <FormLabel>
-                            {" "}
                             Skills/Experience (ex. Arts and Crafts, Music,
                             First-Aid Certificates, Teaching or Volunteering
                             Experience, Experience with Children with Special
@@ -245,14 +243,13 @@ export default function VolunteerInfo({
                     </FormControl>
                     <FormControl id="hear-about-us">
                         <FormLabel>
-                            {" "}
                             How Did You Hear About this Volunteer Opportunity?
                         </FormLabel>
                         <Textarea
                             placeholder="Type here"
                             size="sm"
-                            onChange={(e) => setHear(e.target.value)}
-                            value={hear}
+                            onChange={(e) => setHeardFrom(e.target.value)}
+                            value={heardFrom}
                         ></Textarea>
                     </FormControl>
                     <FormControl id="commit">
@@ -351,11 +348,11 @@ export default function VolunteerInfo({
             addressLine1: address1,
             postalCode: postalCode,
             cityName: city,
-            province: participantProvince, //TODO
-            preferredLanguage: locale.en, //TODO
+            province: participantProvince,
+            preferredLanguage: locale.en,
             school: school,
             skills: skills,
-            hearAboutUs: hear,
+            hearAboutUs: heardFrom,
         };
 
         const userData = {
@@ -379,14 +376,13 @@ export default function VolunteerInfo({
         setVolunteerLastName("");
         setPhoneNumber("");
         setDateOfBirth("");
-        setFifteen(false);
         setAddress1("");
         setCity("");
         setParticipantProvince(DEFAULT_PROVINCE);
         setPostalCode("");
         setSchool("");
         setSkills("");
-        setHear("");
+        setHeardFrom("");
         setAttending(false);
     };
     async function updateUserAndClearForm() {
