@@ -33,7 +33,7 @@ export default async function findEmails(hoursWithin: number) {
         },
         where: {
             startDate: {
-                // restricting the startDate to be within hoursWithin +/- 1 hour from now
+                // restricting the query to be approximately within the hoursWithin param
                 lt: oneHourAfter,
                 gte: hoursWithinAfter,
             },

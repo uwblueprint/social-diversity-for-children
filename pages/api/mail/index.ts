@@ -4,54 +4,6 @@ import send from "services/nodemailer/mail";
 import findEmails from "@database/mail";
 
 /**
- * Helper function to loop through classes and push them to an array
- * @param classes class object joined with parentRegs, volunteerRegs obtained from DB
- * @param intervalHours number of hours we are searching within to find the classes and parentRegs/volunteerRegs
- * @param mailerPromises array that stores promises of emails that need to be sent
- * @returns void, doesn't return anything
- */
-function pushMailPromises(
-    classes,
-    intervalHours: number,
-    mailerPromises: Promise<void>[],
-): void {
-    const emailSubject = `Reminder: Social Diversity for Children Class In ${intervalHours} Hours`;
-    for (let i = 0; i < classes.length; ++i) {
-        // looping through parents that are registered to EACH class
-        const parentRegs = classes[i].parentRegs;
-        const volunteerRegs = classes[i].volunteerRegs;
-        for (let j = 0; j < parentRegs.length; ++j) {
-            const emailBody = `<p>Hi ${parentRegs[j].parent.user.firstName},</p>
-            <p>The class <b>${classes[i].name}</b> you signed up for is starting in 3 hours!</p>
-            <p>Regards, Social Diversity for Children</p>`;
-            mailerPromises.push(
-                send(
-                    process.env.EMAIL_FROM,
-                    parentRegs[j].parent.user.email,
-                    emailSubject,
-                    emailBody,
-                ),
-            );
-        }
-        // looping through volunteers that are registered to EACH class
-        for (let j = 0; j < volunteerRegs.length; ++j) {
-            const emailBody = `<p>Hi ${volunteerRegs[j].volunteer.user.firstName},</p>
-            <p>The class ${classes[i].name} you signed up for is starting in 3 hours!</p><br />
-            <p>Regards, Social Diversity for Children</p>`;
-            mailerPromises.push(
-                send(
-                    process.env.EMAIL_FROM,
-                    volunteerRegs[j].volunteer.user.email,
-                    emailSubject,
-                    emailBody,
-                ),
-            );
-        }
-    }
-    return;
-}
-
-/**
  * Handles the request to /api/mail (POST)
  * @param req request object
  * @param res response object
@@ -96,4 +48,52 @@ export default async function mailHandler(
         );
         return;
     }
+}
+
+/**
+ * Helper function to loop through classes and push them to an array
+ * @param classes class object joined with parentRegs, volunteerRegs obtained from DB
+ * @param intervalHours number of hours we are searching within to find the classes and parentRegs/volunteerRegs
+ * @param mailerPromises array that stores promises of emails that need to be sent
+ * @returns void, doesn't return anything
+ */
+function pushMailPromises(
+    classes,
+    intervalHours: number,
+    mailerPromises: Promise<void>[],
+): void {
+    const emailSubject = `Reminder: Social Diversity for Children Class In ${intervalHours} Hours`;
+    for (let i = 0; i < classes.length; ++i) {
+        // looping through parents that are registered to EACH class
+        const parentRegs = classes[i].parentRegs;
+        const volunteerRegs = classes[i].volunteerRegs;
+        for (let j = 0; j < parentRegs.length; ++j) {
+            const emailBody = `<p>Hi ${parentRegs[j].parent.user.firstName},</p>
+            <p>The class <b>${classes[i].name}</b> you signed up for is starting in ${intervalHours} hours!</p>
+            <p>Regards, Social Diversity for Children</p>`;
+            mailerPromises.push(
+                send(
+                    process.env.EMAIL_FROM,
+                    parentRegs[j].parent.user.email,
+                    emailSubject,
+                    emailBody,
+                ),
+            );
+        }
+        // looping through volunteers that are registered to EACH class
+        for (let j = 0; j < volunteerRegs.length; ++j) {
+            const emailBody = `<p>Hi ${volunteerRegs[j].volunteer.user.firstName},</p>
+            <p>The class ${classes[i].name} you signed up for is starting in ${intervalHours} hours!</p><br />
+            <p>Regards, Social Diversity for Children</p>`;
+            mailerPromises.push(
+                send(
+                    process.env.EMAIL_FROM,
+                    volunteerRegs[j].volunteer.user.email,
+                    emailSubject,
+                    emailBody,
+                ),
+            );
+        }
+    }
+    return;
 }
