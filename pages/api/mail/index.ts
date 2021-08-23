@@ -13,6 +13,8 @@ export default async function mailHandler(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
+    // AWS_LAMBDA_KEY is needed as an environment variable
+    // to restrict this endpoint to only the AWS Lambda requests
     if (req.method == "POST" && req.body.key == process.env.AWS_LAMBDA_KEY) {
         const firstIntervalHours = 3;
         const secondIntervalHours = 48;
