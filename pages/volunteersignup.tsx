@@ -152,7 +152,8 @@ export default function VolunteerInfo({
                         value={dateOfBirth}
                     />
                 </FormControl>
-                <FormControl id="fifteen">
+                <FormControl id="fifteen" isRequired>
+                    {/* TODO: make mandatory before proceeding with rest of form */}
                     <Stack direction="column">
                         <Checkbox>
                             I certify that I am over the age of 15 in order to
@@ -250,6 +251,7 @@ export default function VolunteerInfo({
                         ></Textarea>
                     </FormControl>
                     <FormControl id="commit">
+                        {/* TODO: make mandatory before proceeding with rest of form */}
                         <Stack direction="column">
                             <Checkbox>
                                 I certify that I will commit to attending all
