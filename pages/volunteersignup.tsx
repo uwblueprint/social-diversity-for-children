@@ -30,16 +30,14 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
+import colourTheme from "src/style/colours";
 
-const BLUE = "#0C53A0"; // TODO: move to src/styles
-const RADIO_YES = "yes";
-const RADIO_NO = "no";
 const DEFAULT_PROVINCE = province.BC;
 
 const FormButton = (props) => {
     return (
         <Button
-            bg={BLUE}
+            bg={colourTheme.colors.Blue}
             color={"white"}
             fontWeight="400"
             onClick={props.onClick}
@@ -99,7 +97,6 @@ export default function VolunteerInfo({
 
     const [skills, setSkills] = useLocalStorage("skills", "");
     const [heardFrom, setHeardFrom] = useLocalStorage("heardFrom", "");
-    const [attending, setAttending] = useState(false);
 
     const formPageHeaders = [
         "Volunteer Information",
@@ -383,7 +380,6 @@ export default function VolunteerInfo({
         setSchool("");
         setSkills("");
         setHeardFrom("");
-        setAttending(false);
     };
     async function updateUserAndClearForm() {
         const updatedUser = await updateUser();
@@ -423,7 +419,7 @@ export default function VolunteerInfo({
                             <Progress
                                 value={getProgressBarValue(pageNum)}
                                 size="sm"
-                                color={BLUE}
+                                color={colourTheme.colors.Blue}
                                 mt={8}
                                 mb={6}
                             />
@@ -460,10 +456,10 @@ export default function VolunteerInfo({
                         >
                             <Button
                                 color={"white"}
-                                bg={"#0C53A0"}
+                                bg={colourTheme.colors.Blue}
                                 px={10}
                                 _hover={{
-                                    bg: "#2C6AAD",
+                                    bg: colourTheme.colors.LightBlue,
                                 }}
                                 _active={{}}
                                 fontWeight={"200"}
