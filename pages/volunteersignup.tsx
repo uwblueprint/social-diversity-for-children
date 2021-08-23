@@ -30,7 +30,7 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
-import colourTheme from "src/style/colours";
+import colourTheme from "@styles/colours";
 
 const DEFAULT_PROVINCE = province.BC;
 
