@@ -52,7 +52,7 @@ export default function Signupform(): JSX.Element {
                             mt="20px"
                             marginBottom="70px"
                             // TODO: Set URL to "/volunteer-info" after it is completed
-                            onClick={() => setUrl("/")}
+                            onClick={() => setUrl("/volunteersignup")}
                         >
                             Volunteer
                         </Button>
