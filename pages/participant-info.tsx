@@ -802,8 +802,10 @@ export default function ParticipantInfo({
                         fontSize="16px"
                         fontWeight="400"
                     >
-                        {PROOF_OF_INCOME_EXAMPLES.map((poi) => (
-                            <ListItem mx="20px">{poi}</ListItem>
+                        {PROOF_OF_INCOME_EXAMPLES.map((poi, idx) => (
+                            <ListItem key={idx} mx="20px">
+                                {poi}
+                            </ListItem>
                         ))}
                     </UnorderedList>
                     <br />
@@ -812,8 +814,10 @@ export default function ParticipantInfo({
                     </Heading>
                     <br />
                     <OrderedList margin="10px" fontSize="16px" fontWeight="400">
-                        {UPLOADING_PROOF_OF_INCOME.map((poi) => (
-                            <ListItem mx="20px">{poi}</ListItem>
+                        {UPLOADING_PROOF_OF_INCOME.map((poi, idx) => (
+                            <ListItem key={idx} mx="20px">
+                                {poi}
+                            </ListItem>
                         ))}
                     </OrderedList>
                 </Box>
