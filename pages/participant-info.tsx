@@ -45,6 +45,16 @@ const RADIO_NO = "no";
 const DEFAULT_PROVINCE = province.BC;
 // TODO: Checkboxes have bugs in them; sometimes render sometimes don't
 
+const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];
+
+const UPLOADING_PROOF_OF_INCOME = [
+    `Navigate to My Account > Proof of Income`,
+    `Upload a copy of the result to your SDC account`,
+    `Once you’ve submitted your proof of income, keep an eye out for approval status from SDC!`,
+    `Upon approval, discounts will automatically applied to your account!
+    Check your account for details on the amount of discount you have been approved for`,
+];
+
 const FormButton = (props) => {
     return (
         <Button
@@ -242,7 +252,6 @@ export default function ParticipantInfo({
         "Participant Emergency Form",
         "Participant Health Form",
         "Parent Guardian Information",
-        "Confirm Participants",
         "Proof of Income",
         "How did you hear about us?",
     ];
@@ -780,47 +789,37 @@ export default function ParticipantInfo({
         <Box>
             <FormPage>
                 <Box maxW="55rem">
-                    <Text margin="10px" fontSize="16px" fontWeight="200">
+                    <Text fontSize="16px" fontWeight="200" mb="60px">
                         Upload a Proof of Income to recieve automated discounts
                         on classes you take!
                     </Text>
-                    <Heading fontSize="22px">
-                        Example of Proof of income include
-                        <UnorderedList
-                            margin="10px"
-                            fontSize="16px"
-                            fontWeight="400"
-                        >
-                            <ListItem>Income tax notice</ListItem>
-                            <ListItem>Paystub</ListItem>
-                            <ListItem>etc</ListItem>
-                        </UnorderedList>
+                    <Heading fontSize="22px" fontWeight="900">
+                        Examples of Proof of Income Include
                     </Heading>
-                    <Heading fontSize="22px">
+                    <br />
+                    <UnorderedList
+                        margin="10px"
+                        fontSize="16px"
+                        fontWeight="400"
+                    >
+                        {PROOF_OF_INCOME_EXAMPLES.map((poi, idx) => (
+                            <ListItem key={idx} mx="20px">
+                                {poi}
+                            </ListItem>
+                        ))}
+                    </UnorderedList>
+                    <br />
+                    <Heading fontSize="22px" fontWeight="900">
                         Uploading your Proof of Income
-                        <OrderedList
-                            margin="10px"
-                            fontSize="16px"
-                            fontWeight="400"
-                        >
-                            <ListItem>
-                                Navigate to My Account, Proof of Income
-                            </ListItem>
-                            <ListItem>
-                                Upload a copy of the result to your SDC account
-                            </ListItem>
-                            <ListItem>
-                                Once you’ve submitted your proof of income, keep
-                                an eye out for approval status from SDC!
-                            </ListItem>
-                            <ListItem>
-                                Upon approval, discounts will automatically
-                                applied to your account! Check your account for
-                                details on the amount of discount you have been
-                                approved for
-                            </ListItem>
-                        </OrderedList>
                     </Heading>
+                    <br />
+                    <OrderedList margin="10px" fontSize="16px" fontWeight="400">
+                        {UPLOADING_PROOF_OF_INCOME.map((poi, idx) => (
+                            <ListItem key={idx} mx="20px">
+                                {poi}
+                            </ListItem>
+                        ))}
+                    </OrderedList>
                 </Box>
             </FormPage>
             <Box>
