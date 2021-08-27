@@ -1,82 +1,88 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link
-            href="https://fonts.googleapis.com/css?family=Poppins"
-            rel="stylesheet"
-        />
-        <style>
-            body {
-                font-family: "Poppins";
-            }
-        </style>
-    </head>
-    <body style="background-color: #f5f6f7; padding: 30px; text-align: center">
-        <img
-            src="https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592545178617-8IPTVQIWZEID0O9CDZOE/sdc+logo+with+name.png?content-type=image%2Fpng"
-            style="width: 200px; padding-bottom: 10px"
-            alt="SDC logo"
-        />
-        <div
+<head>
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins"
+        rel="stylesheet"
+    />
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet"
+    />
+
+    <style>
+        body {
+            font-family: "Poppins";
+        }
+    </style>
+</head>
+<body style="background-color: #fff; padding: 30px; text-align: center">
+    <span
+        class="material-icons-outlined"
+        style="font-size: 95px; color: #0c53a0"
+    >
+        check_circle
+    </span>
+    <div
+        style="background-color: #fff; border-radius: 10px; padding: 20px 20px"
+    >
+        <h5
             style="
-                background-color: #fff;
-                border-radius: 10px;
-                padding: 20px 20px;
+                color: #000000;
+                font-size: 36px;
+                line-height: 54px;
+                margin-top: 0px;
+                margin-bottom: 37px;
             "
         >
-            <h5
-                style="
-                    color: #000000;
-                    font-size: 36px;
-                    line-height: 54px;
-                    margin-top: 0px;
-                    margin-bottom: 37px;
-                "
-            >
-                Thank you for registering!
-            </h5>
-
-            <p
-                style="
-                    color: #000000;
-                    max-width: 581px;
-                    font-size: 16px;
-                    line-height: 24px;
-                    margin: 0px auto;
-                    padding-bottom: 100px;
-                "
-            >
-                We look forward to seeing you at our program. Look out for an
-                email from us shortly with more information!
-            </p>
-            <div style="padding: 0px 0px">
-                <a
-                    href="${url}"
+            Thank you for registering!
+        </h5>
+        <p
+            style="
+                color: #000000;
+                max-width: 581px;
+                font-size: 16px;
+                line-height: 24px;
+                margin: 0px auto;
+                padding-bottom: 100px;
+            "
+        >
+            We look forward to seeing you at our program. Look out for an email
+            from us shortly with more information!
+        </p>
+        <div style="padding-bottom: 15px">
+            <a href="http://localhost:3000/">
+                <button
                     style="
-                        background-color: #42526e;
-                        color: #fff;
-                        padding: 15px 40px;
-                        border-radius: 4px;
-                        font-size: 18px;
-                        text-decoration: none;
+                        width: 365px;
+                        height: 50px;
+                        border-radius: 6px;
+                        border: 2px solid #0c53a0;
+                        background-color: #fff;
+                        font-family: Poppins;
+                        font-size: 16px;
+                        color: #0c53a0;
                     "
-                    >View upcoming classes</a
                 >
-            </div>
-            <div style="padding: 50px 0px">
-                <a
-                    href="${url}"
-                    style="
-                        background-color: #42526e;
-                        color: #fff;
-                        padding: 15px 40px;
-                        border-radius: 4px;
-                        font-size: 18px;
-                        text-decoration: none;
-                    "
-                    >Browse programs</a
-                >
-            </div>
+                    View upcoming classes
+                </button>
+            </a>
         </div>
-    </body>
-</html>
+        <div>
+            <a href="http://localhost:3000/">
+                <button
+                    style="
+                        width: 365px;
+                        height: 50px;
+                        border-radius: 6px;
+                        border: 2px solid #0c53a0;
+                        background-color: #0c53a0;
+                        font-family: Poppins;
+                        font-size: 16px;
+                        color: #fff;
+                    "
+                >
+                    Browse programs
+                </button>
+            </a>
+        </div>
+    </div>
+</body>
