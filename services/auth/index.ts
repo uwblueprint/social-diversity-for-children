@@ -42,11 +42,6 @@ const html = (url: string, email: string): string => {
         href="https://fonts.googleapis.com/css?family=Poppins"
         rel="stylesheet"
     />
-    <link
-        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-        rel="stylesheet"
-    />
-
     <style>
         body {
             font-family: "Poppins";
@@ -54,62 +49,41 @@ const html = (url: string, email: string): string => {
     </style>
 </head>
 <body style="background-color: #fff; padding: 30px; text-align: center">
-    <span
-        class="material-icons-outlined"
-        style="font-size: 95px; color: #0c53a0"
-    >
-        check_circle
-    </span>
-    <div
-        style="background-color: #fff; border-radius: 10px; padding: 20px 20px"
-    >
+    <img
+        src="https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592547010897-WF00319AKLJCVGJZC3ZK/sdc+logo+with+name+alt.png?content-type=image%2Fpng"
+        style="width: 250px; padding-bottom: 10px; color: #0c53a0"
+        alt="SDC logo"
+    />
+    <div style="border-radius: 10px; padding: 20px 20px">
         <h5
             style="
                 color: #000000;
-                font-size: 36px;
+                font-size: 40px;
                 line-height: 54px;
                 margin-top: 0px;
                 margin-bottom: 37px;
             "
         >
-            Thank you for registering!
+            Welcome to SDC!
         </h5>
         <p
             style="
                 color: #000000;
-                max-width: 581px;
+                max-width: 400px;
                 font-size: 16px;
                 line-height: 24px;
                 margin: 0px auto;
-                padding-bottom: 100px;
+                padding-bottom: 45px;
             "
         >
-            We look forward to seeing you at our program. Look out for an email
-            from us shortly with more information!
+            Press the button below to authenticate as ${escapedEmail} and sign
+            in to SDC.
         </p>
-        <div style="padding-bottom: 15px">
-            <a href="http://localhost:3000/">
+        <div style="padding-bottom: 45px">
+            <a href="${url}">
                 <button
                     style="
-                        width: 365px;
-                        height: 50px;
-                        border-radius: 6px;
-                        border: 2px solid #0c53a0;
-                        background-color: #fff;
-                        font-family: Poppins;
-                        font-size: 16px;
-                        color: #0c53a0;
-                    "
-                >
-                    View upcoming classes
-                </button>
-            </a>
-        </div>
-        <div>
-            <a href="http://localhost:3000/">
-                <button
-                    style="
-                        width: 365px;
+                        width: 307px;
                         height: 50px;
                         border-radius: 6px;
                         border: 2px solid #0c53a0;
@@ -119,10 +93,13 @@ const html = (url: string, email: string): string => {
                         color: #fff;
                     "
                 >
-                    Browse programs
+                    Open SDC Registration Platform
                 </button>
             </a>
         </div>
+        <span style="color: #000000; font-size: 16px"
+            >If you did not request this email, you can safely ignore it.</span
+        >
     </div>
 </body>
     `;
