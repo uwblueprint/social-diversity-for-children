@@ -92,7 +92,7 @@ const html = (url: string, email: string): string => {
                         color: #fff;
                     "
                 >
-                    Open SDC Registration Platfor
+                    Open SDC Registration Platform
                 </button>
             </a>
         </div>
