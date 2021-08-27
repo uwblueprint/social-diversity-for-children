@@ -37,64 +37,70 @@ const html = (url: string, email: string): string => {
 
     // Generate html email template
     return `
-      <body
-        style="
-          background-color: #f5f6f7;
-          padding: 30px;
-          text-align: center;
-          font-family: 'Arial';
-        "
-      >
-        <img
-          src="https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592545178617-8IPTVQIWZEID0O9CDZOE/sdc+logo+with+name.png?content-type=image%2Fpng"
-          style="width: 200px; padding-bottom: 10px"
-          alt="SDC logo"
-        />
-        <div
-          style="background-color: #fff; border-radius: 10px; padding: 20px 20px"
-        >
-          <h1
-            style="
-              color: #a72a1d;
-              font-size: 32px;
-              line-height: 38px;
-              margin-top: 0px;
-              margin-bottom: 5px;
-            "
-          >
-            Welcome to SDC!
-          </h1>
-          <p
-            style="
-              color: #42526e;
-              max-width: 500px;
-              font-size: 18px;
-              line-height: 150%;
-              margin: 0px auto;
-            "
-          >
-            Press the button below to authenticate as ${escapedEmail} and sign in to
-            SDC.
-          </p>
-          <div style="padding: 50px 0px">
-            <a
-              href=${url}
-              style="
-                background-color: #42526e;
-                color: #fff;
-                padding: 15px 40px;
-                border-radius: 4px;
-                font-size: 18px;
-                text-decoration: none;
-              "
-              >Open SDC</a
-            >
-          </div>
-          <span style="color: #42526e; font-size: 14px"
-            >If you did not request this email, you can safely ignore it.</span
-          >
-        </div>
-      </body>
+        <head>
+            <link
+                href="https://fonts.googleapis.com/css?family=Poppins"
+                rel="stylesheet"
+            />
+            <style>
+                body {
+                    font-family: "Poppins";
+                }
+            </style>
+        </head>
+        <body style="background-color: #fff; padding: 30px; text-align: center">
+            <img
+                src="https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592547010897-WF00319AKLJCVGJZC3ZK/sdc+logo+with+name+alt.png?content-type=image%2Fpng"
+                style="width: 250px; padding-bottom: 10px; color: #0c53a0"
+                alt="SDC logo"
+            />
+            <div style="border-radius: 10px; padding: 20px 20px">
+                <h5
+                    style="
+                        color: #000000;
+                        font-size: 40px;
+                        line-height: 54px;
+                        margin-top: 0px;
+                        margin-bottom: 37px;
+                    "
+                >
+                    Welcome to SDC!
+                </h5>
+                <p
+                    style="
+                        color: #000000;
+                        max-width: 400px;
+                        font-size: 16px;
+                        line-height: 24px;
+                        margin: 0px auto;
+                        padding-bottom: 45px;
+                    "
+                >
+                    Press the button below to authenticate as ${escapedEmail} and sign
+                    in to SDC.
+                </p>
+                <div style="padding-bottom: 45px">
+                    <a href="${url}">
+                        <button
+                            style="
+                                width: 307px;
+                                height: 50px;
+                                border-radius: 6px;
+                                border: 2px solid #0c53a0;
+                                background-color: #0c53a0;
+                                font-size: 16px;
+                                color: #fff;
+                            "
+                        >
+                            Open SDC Registration Platform
+                        </button>
+                    </a>
+                </div>
+                <span style="color: #000000; font-size: 16px"
+                    >If you did not request this email, you can safely ignore it.</span
+                >
+            </div>
+        </body>
     `;
 };
 
