@@ -88,12 +88,11 @@ const html = (url: string, email: string): string => {
                         border-radius: 6px;
                         border: 2px solid #0c53a0;
                         background-color: #0c53a0;
-                        font-family: Poppins;
                         font-size: 16px;
                         color: #fff;
                     "
                 >
-                    Open SDC Registration Platform
+                    Open SDC Registration Platfor
                 </button>
             </a>
         </div>
