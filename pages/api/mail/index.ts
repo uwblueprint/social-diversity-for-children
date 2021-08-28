@@ -64,15 +64,41 @@ function pushMailPromises(
     intervalHours: number,
     mailerPromises: Promise<void>[],
 ): void {
-    const emailSubject = `Reminder: Social Diversity for Children Class In ${intervalHours} Hours`;
     for (let i = 0; i < classes.length; ++i) {
         // looping through parents that are registered to EACH class
         const parentRegs = classes[i].parentRegs;
         const volunteerRegs = classes[i].volunteerRegs;
         for (let j = 0; j < parentRegs.length; ++j) {
-            const emailBody = `<p>Hi ${parentRegs[j].parent.user.firstName},</p>
-            <p>The class <b>${classes[i].name}</b> you signed up for is starting in ${intervalHours} hours!</p>
-            <p>Regards, Social Diversity for Children</p>`;
+            const classStartDate = classes[i].startDate;
+            const emailSubject = `Class Reminder: ${
+                classes[i].name
+            } ${getWeekday(classes[i].weekday)}s ${getHours(
+                classStartDate,
+            ).slice(0, -2)}-${getHours(
+                classStartDate.setHours(classStartDate.getHours() + 1),
+            )}`;
+            // TODO: Zoom link + contact/unregister included in the body
+            const emailBody = `
+            <head>
+            <link
+                href="https://fonts.googleapis.com/css?family=Poppins"
+                rel="stylesheet"
+            />
+            <style>
+                body {
+                    font-family: "Poppins";
+                }
+            </style>
+            </head>
+            <body style="background-color: #fff; padding: 30px;">
+            <p style="font-size: 30px"><img src=https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592547010897-WF00319AKLJCVGJZC3ZK/sdc+logo+with+name+alt.png?content-type=image%2Fpng
+            style="width: 250px; padding-bottom: 10px; color: #0c53a0" alt="SDC Logo"/></p>
+            <h2><b>Your class is starting in ${intervalHours} hours!</b></h2>
+            <h4>This is an automatic reminder for the following class:</h4>
+            <img src=${classes[i].imageLink} style="width: 68px; height: 77px;"/>
+            <p>Regards, Social Diversity for Children</p>
+            </body>
+            `;
             mailerPromises.push(
                 send(
                     process.env.EMAIL_FROM,
@@ -84,9 +110,35 @@ function pushMailPromises(
         }
         // looping through volunteers that are registered to EACH class
         for (let j = 0; j < volunteerRegs.length; ++j) {
-            const emailBody = `<p>Hi ${volunteerRegs[j].volunteer.user.firstName},</p>
-            <p>The class ${classes[i].name} you signed up for is starting in ${intervalHours} hours!</p><br />
-            <p>Regards, Social Diversity for Children</p>`;
+            const classStartDate = classes[i].startDate;
+            const emailSubject = `Class Reminder: ${
+                classes[i].name
+            } ${getWeekday(classes[i].weekday)}s ${getHours(
+                classStartDate,
+            ).slice(0, -2)}-${getHours(
+                classStartDate.setHours(classStartDate.getHours() + 1),
+            )}`;
+            const emailBody = `
+            <head>
+            <link
+                href="https://fonts.googleapis.com/css?family=Poppins"
+                rel="stylesheet"
+            />
+            <style>
+                body {
+                    font-family: "Poppins";
+                }
+            </style>
+            </head>
+            <body style="background-color: #fff; padding: 30px;">
+            <p style="font-size: 30px"><img src=https://images.squarespace-cdn.com/content/5e83092341f99d6d384777ef/1592547010897-WF00319AKLJCVGJZC3ZK/sdc+logo+with+name+alt.png?content-type=image%2Fpng
+            style="width: 250px; padding-bottom: 10px; color: #0c53a0" alt="SDC Logo"/></p>
+            <h2><b>Your class is starting in ${intervalHours} hours!</b></h2>
+            <h4>This is an automatic reminder for the following class:</h4>
+            <img src=${classes[i].imageLink} style="width: 68px; height: 77px;"/>
+            <p>Regards, Social Diversity for Children</p>
+            </body>
+            `;
             mailerPromises.push(
                 send(
                     process.env.EMAIL_FROM,
@@ -98,4 +150,39 @@ function pushMailPromises(
         }
     }
     return;
+}
+
+/**
+ * Helper function to get the hour of a date in 12 hour format
+ * @param d date object from DB
+ * @returns the start time of a class (hour)
+ */
+function getHours(d: Date): string {
+    return new Date(d)
+        .toLocaleDateString("en-US", { hour: "numeric", hour12: true })
+        .split(",")[1];
+}
+
+/**
+ * Helper function to convert ENUM (MON, TUE, WED, etc) to Monday, Tuesday, etc.
+ * @param d date object from DB
+ * @returns the start time of a class (hour)
+ */
+function getWeekday(w: string): string {
+    switch (w) {
+        case "MON":
+            return "Monday";
+        case "TUE":
+            return "Tuesday";
+        case "WED":
+            return "Wednesday";
+        case "THU":
+            return "Thursday";
+        case "FRI":
+            return "Friday";
+        case "SAT":
+            return "Saturday";
+        case "SUN":
+            return "Sunday";
+    }
 }
