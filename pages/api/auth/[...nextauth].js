@@ -35,6 +35,7 @@ export default NextAuth({
         error: "/",
         // On email verification request, redirect to verify page
         verifyRequest: "/verify",
+        newUser: "/signup",
     },
     session: {
         // use JSON web tokens for session handling
