@@ -106,20 +106,22 @@ model VerificationRequest {
 }
 
 model Volunteer {
-  id                 Int            @id @default(autoincrement())
-  phoneNumber        String?        @map("phone_number") @db.VarChar(50)
-  isValid            Boolean?       @default(false) @map("is_valid")
-  backgroundFormLink String?        @map("background_form_link")
-  addressLine1       String?        @map("address_line1")
-  addressLine2       String?        @map("address_line2")
-  postalCode         String?        @map("postal_code") @db.VarChar(10)
-  cityName           String?        @map("city_name")
-  province           province?
-  preferredLanguage  locale?        @map("preferred_language")
-  createdAt          DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt          DateTime?      @map("updated_at") @db.Timestamptz(6)
-  user               User           @relation("usersTovolunteers", fields: [id], references: [id])
-  volunteerRegs      VolunteerReg[] @relation("volunteer_regsTovolunteers")
+  id                      Int            @id @default(autoincrement())
+  phoneNumber             String?        @map("phone_number") @db.VarChar(50)
+  dateOfBirth             DateTime       @map("date_of_birth") @db.Timestamptz(6)
+  addressLine1            String?        @map("address_line1")
+  criminalRecordCheckLink String?        @map("criminal_record_check_link")
+  postalCode              String?        @map("postal_code") @db.VarChar(10)
+  cityName                String?        @map("city_name")
+  province                province?
+  school                  String?
+  preferredLanguage       locale?        @map("preferred_language")
+  skills                  String?
+  hearAboutUs             String?        @map("hear_about_us")
+  createdAt               DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime?      @map("updated_at") @db.Timestamptz(6)
+  user                    User           @relation("usersTovolunteers", fields: [id], references: [id])
+  volunteerRegs           VolunteerReg[] @relation("volunteer_regsTovolunteers")
 
   @@map("volunteers")
 }

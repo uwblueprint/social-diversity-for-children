@@ -35,7 +35,7 @@ export default function Signupform(): JSX.Element {
                             fontWeight="400"
                             border="1px"
                             mt="20px"
-                            onClick={() => setUrl("/participant-info")}
+                            onClick={() => setUrl("/parent-signup")}
                         >
                             Parent
                         </Button>
@@ -51,8 +51,7 @@ export default function Signupform(): JSX.Element {
                             border="1px"
                             mt="20px"
                             marginBottom="70px"
-                            // TODO: Set URL to "/volunteer-info" after it is completed
-                            onClick={() => setUrl("/")}
+                            onClick={() => setUrl("/volunteer-signup")}
                         >
                             Volunteer
                         </Button>

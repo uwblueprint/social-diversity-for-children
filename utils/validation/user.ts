@@ -148,7 +148,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     } else if (user.role === roles.TEACHER) {
         // pass - since teacher role is not currently supported
     } else if (user.role === roles.VOLUNTEER) {
-        const roleData: VolunteerInput = user.roleData;
+        const roleData = user.roleData as VolunteerInput;
         if (
             roleData.phoneNumber &&
             !validator.isMobilePhone(roleData.phoneNumber)
