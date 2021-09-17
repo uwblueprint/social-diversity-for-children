@@ -34,18 +34,36 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ├── .github
 │   ├── workflows/ci.yml # Github workflow
 │   └── pull_request_template.md # PR template
+│
 ├── pages # Pages
 │   ├── _app.tsx
 │   ├── api # API routes
 │   └── index.tsx
+│
 ├── prisma # Prisma ORM
 │   └── schema.prisma # Prisma Schema
+│
 ├── public
 │   ├── icons # Icons
 │   └── locales # Translations
+│
+├── models # Typescript types
+│
 ├── src # Frontend tools
 │   ├── components # Components
 │   └── definitions # Chakra
+│   └── styles # CSS and Colours
+│
+├── utils # Utility functions
+│   └── validation # Data/Input Validators
+│
+├── services # Third party services
+│   ├── auth
+│   ├── aws
+│   ├── database
+│   ├── nodemailer
+│   └── stripe
+│
 # Misc individual files
 ├── .babelrc
 ├── .eslintignore
@@ -62,6 +80,12 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ├── tsconfig.json
 └── yarn.lock
 ```
+
+## Local Dependencies
+
+1. [Heroku Client](https://devcenter.heroku.com/articles/heroku-cli)
+2. [NPM](https://nodejs.org/en/download/)
+3. [Yarn](https://classic.yarnpkg.com/en/docs/install)
 
 ## Run Locally
 
