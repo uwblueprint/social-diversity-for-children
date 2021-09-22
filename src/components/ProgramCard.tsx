@@ -3,13 +3,14 @@ import {
     Box,
     Wrap,
     WrapItem,
-    Badge,
     Center,
     AspectRatio,
     Image,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 import { programFormat } from "@prisma/client";
+import { SDCBadge } from "./SDCBadge";
+import dateToShortDateString from "@utils/dateToShortDateString";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -86,6 +87,7 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                                         key={idx}
                                         data-index={idx}
                                         fit="cover"
+                                        width={20}
                                         alt={item.name}
                                     />
                                 </AspectRatio>
@@ -106,49 +108,18 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                                         color="gray.600"
                                         fontSize="sm"
                                     >
-                                        {
-                                            new Date(item.startDate)
-                                                .toISOString()
-                                                .split("T")[0]
-                                        }{" "}
-                                        to{" "}
-                                        {
-                                            new Date(item.endDate)
-                                                .toISOString()
-                                                .split("T")[0]
-                                        }
+                                        {dateToShortDateString(item.startDate)}{" "}
+                                        to {dateToShortDateString(item.endDate)}
                                     </Box>
                                     <Box mt="2" fontSize="md">
                                         {item.description}
                                     </Box>
                                     <Box mt="2">
-                                        <Badge
-                                            borderRadius="full"
-                                            textTransform="capitalize"
-                                            fontWeight="medium"
-                                            letterSpacing="wide"
-                                            backgroundColor="#0C53A0"
-                                            color="white"
-                                            pb="1"
-                                            pt="1.5"
-                                            px="3"
-                                        >
-                                            {item.tag}
-                                        </Badge>
-                                        <Badge
-                                            borderRadius="full"
-                                            textTransform="capitalize"
-                                            fontWeight="medium"
-                                            letterSpacing="wide"
-                                            backgroundColor="#0C53A0"
-                                            color="white"
-                                            pb="1"
-                                            pt="1.5"
-                                            px="3"
+                                        <SDCBadge children={item.tag} />
+                                        <SDCBadge
                                             ml="2"
-                                        >
-                                            {item.onlineFormat}
-                                        </Badge>
+                                            children={item.onlineFormat}
+                                        />
                                     </Box>
                                 </Box>
                             </Box>

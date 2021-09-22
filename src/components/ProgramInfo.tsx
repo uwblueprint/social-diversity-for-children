@@ -1,10 +1,13 @@
-import { Flex, Heading, Spacer, Badge, Text } from "@chakra-ui/react";
+import { Flex, Heading, Spacer, Text } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { Button } from "@chakra-ui/react";
 import { ClassList } from "src/components/ClassList";
 import type { ClassCardInfo } from "models/Class";
 import { ProgramCardInfo } from "models/Program";
+import React from "react";
+import { SDCBadge } from "./SDCBadge";
+import dateToShortDateString from "@utils/dateToShortDateString";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -33,42 +36,12 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                 <Flex align="center">
                     <Heading>{programInfo.name}</Heading>
                     <Spacer />
-                    <Badge
-                        borderRadius="full"
-                        textTransform="capitalize"
-                        fontWeight="medium"
-                        letterSpacing="wide"
-                        backgroundColor="#0C53A0"
-                        color="white"
-                        pb="1"
-                        pt="1.5"
-                        px="3"
-                    >
-                        {programInfo.onlineFormat}
-                    </Badge>
-                    <Badge
-                        borderRadius="full"
-                        textTransform="capitalize"
-                        fontWeight="medium"
-                        letterSpacing="wide"
-                        backgroundColor="#0C53A0"
-                        color="white"
-                        pb="1"
-                        pt="1.5"
-                        px="3"
-                        ml="2"
-                    >
-                        {programInfo.tag}
-                    </Badge>
+                    <SDCBadge children={programInfo.onlineFormat} />
+                    <SDCBadge ml="2" children={programInfo.tag} />
                 </Flex>
                 <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                    {
-                        new Date(programInfo.startDate)
-                            .toISOString()
-                            .split("T")[0]
-                    }{" "}
-                    to{" "}
-                    {new Date(programInfo.endDate).toISOString().split("T")[0]}
+                    {dateToShortDateString(programInfo.startDate)} to{" "}
+                    {dateToShortDateString(programInfo.endDate)}
                 </Text>
                 <Text mt="5">{programInfo.description}</Text>
                 <Flex mt="5" align="center">
@@ -86,7 +59,11 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         Filter
                     </Button>
                 </Flex>
-                <ClassList classInfo={classInfo} />
+                <ClassList
+                    classInfo={classInfo}
+                    onlineFormat={programInfo.onlineFormat}
+                    tag={programInfo.tag}
+                />
             </Flex>
         </Wrapper>
     );
