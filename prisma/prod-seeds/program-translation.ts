@@ -33,19 +33,20 @@ export default async function programTranslationsUpsert(
     for (const translation of data || programTranslations) {
         const { programId, language, createdAt, updatedAt, ...rest } =
             translation;
-        const translationUpsert = await prisma.programTranslation.upsert({
-            where: {
-                programId_language: { programId, language },
-            },
-            update: rest,
-            create: {
-                programId,
-                language,
-                createdAt,
-                updatedAt,
-                ...rest,
-            },
-        });
-        console.log({ translationUpsert });
+        await prisma.programTranslation
+            .upsert({
+                where: {
+                    programId_language: { programId, language },
+                },
+                update: rest,
+                create: {
+                    programId,
+                    language,
+                    createdAt,
+                    updatedAt,
+                    ...rest,
+                },
+            })
+            .catch((err) => console.log(err));
     }
 }

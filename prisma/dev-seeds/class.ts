@@ -51,17 +51,18 @@ const classes: Class[] = [
 export default async function classUpsert(data?: Class[]): Promise<void> {
     for (const classRecord of data || classes) {
         const { id, updatedAt, ...rest } = classRecord;
-        const classUpsert = await prisma.class.upsert({
-            where: {
-                id,
-            },
-            update: rest,
-            create: {
-                id,
-                updatedAt,
-                ...rest,
-            },
-        });
-        console.log({ classUpsert });
+        await prisma.class
+            .upsert({
+                where: {
+                    id,
+                },
+                update: rest,
+                create: {
+                    id,
+                    updatedAt,
+                    ...rest,
+                },
+            })
+            .catch((err) => console.log(err));
     }
 }

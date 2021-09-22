@@ -18,7 +18,7 @@ const programs: Program[] = [
     },
     {
         id: 2,
-        price: 0,
+        price: 4,
         onlineFormat: programFormat.online,
         tag: "Art",
         imageLink:
@@ -38,17 +38,18 @@ const programs: Program[] = [
 export default async function programUpsert(data?: Program[]): Promise<void> {
     for (const program of data || programs) {
         const { id, updatedAt, ...rest } = program;
-        const programUpsert = await prisma.program.upsert({
-            where: {
-                id,
-            },
-            update: rest,
-            create: {
-                id,
-                updatedAt,
-                ...rest,
-            },
-        });
-        console.log({ programUpsert });
+        await prisma.program
+            .upsert({
+                where: {
+                    id,
+                },
+                update: rest,
+                create: {
+                    id,
+                    updatedAt,
+                    ...rest,
+                },
+            })
+            .catch((err) => console.log(err));
     }
 }
