@@ -10,9 +10,9 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
-import convertToAmPm from "@utils/convertToAmPm";
 import weekdayToString from "@utils/weekdayToString";
 import { ClassCardInfo } from "@models/Class";
+import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 
 type ClassCardProps = {
     cardInfo: ClassCardInfo;
@@ -59,10 +59,9 @@ export const ClassCard: React.FC<ClassCardProps> = ({ cardInfo, onClick }) => {
                         >
                             {weekdayToString(cardInfo.weekday)}
                             {"s "}
-                            {convertToAmPm(cardInfo.startTimeMinutes)} -{" "}
-                            {convertToAmPm(
-                                cardInfo.startTimeMinutes +
-                                    cardInfo.durationMinutes,
+                            {convertToShortTimeRange(
+                                cardInfo.startTimeMinutes,
+                                cardInfo.durationMinutes,
                             )}
                         </Box>
                         <Box as="span" color="gray.600" fontSize="sm" ml="1">

@@ -7,7 +7,7 @@ import type { ClassCardInfo } from "models/Class";
 import { ProgramCardInfo } from "models/Program";
 import React from "react";
 import { SDCBadge } from "./SDCBadge";
-import dateToShortDateString from "@utils/dateToShortDateString";
+import convertToShortDateRange from "@utils/convertToShortDateRange";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -40,8 +40,10 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                     <SDCBadge ml="2" children={programInfo.tag} />
                 </Flex>
                 <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                    {dateToShortDateString(programInfo.startDate)} to{" "}
-                    {dateToShortDateString(programInfo.endDate)}
+                    {convertToShortDateRange(
+                        programInfo.startDate,
+                        programInfo.endDate,
+                    )}
                 </Text>
                 <Text mt="5">{programInfo.description}</Text>
                 <Flex mt="5" align="center">
@@ -63,6 +65,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                     classInfo={classInfo}
                     onlineFormat={programInfo.onlineFormat}
                     tag={programInfo.tag}
+                    session={session}
                 />
             </Flex>
         </Wrapper>
