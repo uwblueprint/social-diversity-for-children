@@ -22,7 +22,8 @@ type ClassCardProps = {
 /**
  *
  * @param cardInfo info for the program cards on the home page
- * @returns a component with all the cards for each of the programs in the database
+ * @param onClick method that is called when card is clicked
+ * @returns a component that displays the class card info
  */
 export const ClassCard: React.FC<ClassCardProps> = ({ cardInfo, onClick }) => {
     return (

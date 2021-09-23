@@ -3,7 +3,7 @@ import { Center, List, ListItem, useDisclosure } from "@chakra-ui/react";
 import type { ClassCardInfo } from "models/Class";
 import { ClassModal } from "./ClassModal";
 import { ClassCard } from "./ClassCard";
-import { InlegibleClassModal } from "./InlegibleClassModal";
+import { IneligibleClassModal } from "./IneligibleClassModal";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
@@ -28,16 +28,13 @@ export const ClassList: React.FC<ClassListProps> = ({
                     const legible = true;
 
                     return (
-                        <>
-                            <ListItem
-                                borderColor="gray.200"
-                                _hover={{ borderColor: "#0C53A0" }}
-                                borderWidth={2}
-                                key={idx}
-                            >
-                                <ClassCard cardInfo={item} onClick={onOpen} />
-                            </ListItem>
-
+                        <ListItem
+                            borderColor="gray.200"
+                            _hover={{ borderColor: "#0C53A0" }}
+                            borderWidth={2}
+                            key={idx}
+                        >
+                            <ClassCard cardInfo={item} onClick={onOpen} />
                             {legible ? (
                                 <ClassModal
                                     isOpen={isOpen}
@@ -48,12 +45,12 @@ export const ClassList: React.FC<ClassListProps> = ({
                                     session={session}
                                 />
                             ) : (
-                                <InlegibleClassModal
+                                <IneligibleClassModal
                                     isOpen={isOpen}
                                     onClose={onClose}
                                 />
                             )}
-                        </>
+                        </ListItem>
                     );
                 })}
             </List>
