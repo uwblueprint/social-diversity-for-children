@@ -5,7 +5,7 @@
  */
 export default function convertToShortDateString(date: Date): string {
     // TODO: We want to pass in the locale here as well
-    return new Date(date).toLocaleDateString("en-US", {
+    return new Date(date).toLocaleDateString("en", {
         month: "long",
         day: "2-digit",
         year: "numeric",

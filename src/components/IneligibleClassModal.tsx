@@ -9,21 +9,18 @@ import {
     Text,
 } from "@chakra-ui/react";
 
-type InlegibleClassModalProps = {
+type IneligibleClassModalProps = {
     isOpen: boolean;
     onClose: () => void;
 };
 
 /**
- * Modal for class registration
+ * Modal for ineligible class registration
  * @param isOpen a boolean from the useDisclosure hook
  * @param onClose a method from the useDisclosure hook
- * @param classInfo info about the class
- * @param onlineFormat whether program is online
- * @param tag category of program
- * @returns a modal component allowing user to register in class
+ * @returns a modal component informing user they cannot register in class
  */
-export const InlegibleClassModal: React.FC<InlegibleClassModalProps> = ({
+export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
     isOpen,
     onClose,
 }) => {
