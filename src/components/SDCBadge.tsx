@@ -1,6 +1,9 @@
 import React from "react";
 import { Badge, BadgeProps } from "@chakra-ui/react";
 
+/**
+ * Displays a tag in a pres-styled badge - use the children prop for text
+ */
 export const SDCBadge: React.FC<BadgeProps> = (props) => {
     return (
         <Badge

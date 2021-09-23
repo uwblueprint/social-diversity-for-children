@@ -37,6 +37,7 @@ type ClassModalProps = {
  * @param classInfo info about the class
  * @param onlineFormat whether program is online
  * @param tag category of program
+ * @param session current user session
  * @returns a modal component allowing user to register in class
  */
 export const ClassModal: React.FC<ClassModalProps> = ({
