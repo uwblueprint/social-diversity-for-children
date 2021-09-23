@@ -65,7 +65,12 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                             key={idx}
                         ></WrapItem>
                     ) : (
-                        <WrapItem flexBasis="300px" key={idx} flexGrow={1}>
+                        <WrapItem
+                            flexBasis="300px"
+                            key={idx}
+                            flexGrow={1}
+                            cursor={"pointer"}
+                        >
                             <Box
                                 borderWidth="1px"
                                 width="100%"
