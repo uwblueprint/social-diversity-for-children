@@ -38,6 +38,7 @@ import {
     province,
     heardFrom,
 } from "@models/User";
+import { ParticipantInfoPage } from "@components/ParticipantInfoPage";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -257,9 +258,11 @@ export default function ParticipantInfo({
     ];
 
     const formPages = [
+        // general participant info starts here
         <Box>
             <FormPage>
-                <Box maxW="55rem">
+                <ParticipantInfoPage />
+                {/* <Box maxW="55rem">
                     <Text noOfLines={2} fontSize="16px" fontWeight="200">
                         Please provide information on the participant that is
                         being registered in the program. An opportunity to add
@@ -368,10 +371,13 @@ export default function ParticipantInfo({
                         onChange={(e) => setGrade(e.target.value)}
                         value={grade}
                     />
-                </FormControl>
+                </FormControl> */}
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
+
+        // general participant info page ends here
+
         <Box>
             <FormPage>
                 <FormControl id="participant-have">
