@@ -15,10 +15,11 @@ import {
     ModalHeader,
     Image,
 } from "@chakra-ui/react";
-import weekdayToString from "@utils/weekdayToString";
 import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
-import convertToAmPm from "@utils/convertToAmPm";
+import weekdayToString from "@utils/weekdayToString";
+import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { useRouter } from "next/router";
 
 type ClassModalProps = {
     isOpen: boolean;
@@ -26,6 +27,7 @@ type ClassModalProps = {
     classInfo: ClassCardInfo;
     onlineFormat: string;
     tag: string;
+    session?: Record<string, unknown>;
 };
 
 /**
@@ -43,7 +45,17 @@ export const ClassModal: React.FC<ClassModalProps> = ({
     classInfo,
     onlineFormat,
     tag,
+    session,
 }) => {
+    const router = useRouter();
+    const onRegister = () => {
+        if (session) {
+            router.push("/parent-enrollment");
+        } else {
+            router.push("/login");
+        }
+    };
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
@@ -71,8 +83,13 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                         <SDCBadge children={tag} ml={2} />
                     </Box>
                     <Text>{classInfo.description}</Text>
-                    <Grid templateColumns="repeat(2, 1fr)" gap={6} pt={30}>
-                        <GridItem>
+                    <Grid
+                        templateColumns="repeat(5, 1fr)"
+                        gap={6}
+                        pt={30}
+                        pb={5}
+                    >
+                        <GridItem colSpan={2}>
                             <AspectRatio width="100%" ratio={1}>
                                 <Image
                                     src={classInfo.image}
@@ -81,22 +98,21 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                                 />
                             </AspectRatio>
                         </GridItem>
-                        <GridItem>
-                            <Text fontWeight={"bold"}>Class details</Text>
-                            <Text>{classInfo.name}</Text>
-                            <Text>
+                        <GridItem colSpan={3}>
+                            <Text pb={3} fontWeight={"bold"}>
+                                Class details
+                            </Text>
+                            <Text pb={1}>{classInfo.name}</Text>
+                            <Text pb={1}>
                                 {weekdayToString(classInfo.weekday)}
                                 {"s "}
-                                {convertToAmPm(
+                                {convertToShortTimeRange(
                                     classInfo.startTimeMinutes,
-                                )} -{" "}
-                                {convertToAmPm(
-                                    classInfo.startTimeMinutes +
-                                        classInfo.durationMinutes,
+                                    classInfo.durationMinutes,
                                 )}
                             </Text>
-                            <Text>Ages {classInfo.ageGroup}</Text>
-                            <Text>Teacher {classInfo.teacherName}</Text>
+                            <Text pb={1}>Ages {classInfo.ageGroup}</Text>
+                            <Text pb={1}>Teacher {classInfo.teacherName}</Text>
                         </GridItem>
                     </Grid>
                 </ModalBody>
@@ -107,7 +123,7 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                         color={"white"}
                         mx={"auto"}
                         my={2}
-                        onClick={onClose}
+                        onClick={onRegister}
                         fontWeight={"200"}
                         _hover={{
                             textDecoration: "none",
@@ -126,7 +142,7 @@ export const ClassModal: React.FC<ClassModalProps> = ({
                         }}
                         minW={"100%"}
                     >
-                        Sign in to register/volunteer
+                        {session ? "Register" : "Sign in to register/volunteer"}
                     </Button>
                 </ModalFooter>
             </ModalContent>

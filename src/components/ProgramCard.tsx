@@ -10,7 +10,7 @@ import {
 import type { ProgramCardInfo } from "models/Program";
 import { programFormat } from "@prisma/client";
 import { SDCBadge } from "./SDCBadge";
-import dateToShortDateString from "@utils/dateToShortDateString";
+import convertToShortDateRange from "@utils/convertToShortDateRange";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -108,8 +108,10 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                                         color="gray.600"
                                         fontSize="sm"
                                     >
-                                        {dateToShortDateString(item.startDate)}{" "}
-                                        to {dateToShortDateString(item.endDate)}
+                                        {convertToShortDateRange(
+                                            item.startDate,
+                                            item.endDate,
+                                        )}
                                     </Box>
                                     <Box mt="2" fontSize="md">
                                         {item.description}
