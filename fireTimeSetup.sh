@@ -6,5 +6,4 @@ sudo apt-get install nodejs yarnpkg npm
 #heroku
 curl https://cli-assets.heroku.com/install.sh | sh
 
-npm install
-npm update
+yarn
