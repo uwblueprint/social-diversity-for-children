@@ -51,9 +51,9 @@ export const ClassModal: React.FC<ClassModalProps> = ({
     const router = useRouter();
     const onRegister = () => {
         if (session) {
-            router.push("/parent-enrollment");
+            router.push("/parent-enrollment").then(() => window.scrollTo(0, 0));
         } else {
-            router.push("/login");
+            router.push("/login").then(() => window.scrollTo(0, 0));
         }
     };
 
