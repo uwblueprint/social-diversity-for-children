@@ -1,8 +1,8 @@
 import React from "react";
 import { Center, List, ListItem, useDisclosure } from "@chakra-ui/react";
 import type { ClassCardInfo } from "models/Class";
-import { ClassModal } from "./ClassModal";
-import { ClassCard } from "./ClassCard";
+import { ClassInfoModal } from "./ClassInfoModal";
+import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
 
 type ClassListProps = {
@@ -34,9 +34,9 @@ export const ClassList: React.FC<ClassListProps> = ({
                             borderWidth={2}
                             key={idx}
                         >
-                            <ClassCard cardInfo={item} onClick={onOpen} />
+                            <ClassInfoCard cardInfo={item} onClick={onOpen} />
                             {legible ? (
-                                <ClassModal
+                                <ClassInfoModal
                                     isOpen={isOpen}
                                     onClose={onClose}
                                     classInfo={item}
