@@ -12,7 +12,7 @@ type NavbarProps = {
 
 const Links = [
     { name: "Browse Programs", url: "/" },
-    { name: "My Classes", url: "#" },
+    { name: "My Classes", url: "/class" },
 ];
 
 const NavLink = ({
