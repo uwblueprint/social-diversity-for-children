@@ -14,7 +14,7 @@ import weekdayToString from "@utils/weekdayToString";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 
-type ClassCardProps = {
+type ClassInfoProps = {
     cardInfo: ClassCardInfo;
     onClick: () => void;
 };
@@ -25,7 +25,10 @@ type ClassCardProps = {
  * @param onClick method that is called when card is clicked
  * @returns a component that displays the class card info
  */
-export const ClassCard: React.FC<ClassCardProps> = ({ cardInfo, onClick }) => {
+export const ClassInfoCard: React.FC<ClassInfoProps> = ({
+    cardInfo,
+    onClick,
+}) => {
     return (
         <Grid
             templateColumns="repeat(4, 1fr)"

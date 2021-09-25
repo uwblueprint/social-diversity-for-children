@@ -21,7 +21,7 @@ import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { useRouter } from "next/router";
 
-type ClassModalProps = {
+type ClassInfoModalProps = {
     isOpen: boolean;
     onClose: () => void;
     classInfo: ClassCardInfo;
@@ -40,7 +40,7 @@ type ClassModalProps = {
  * @param session current user session
  * @returns a modal component allowing user to register in class
  */
-export const ClassModal: React.FC<ClassModalProps> = ({
+export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     isOpen,
     onClose,
     classInfo,
