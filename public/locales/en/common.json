@@ -1,10 +1,4 @@
 {
-    "hello": "Hello",
-    "greet": "Hello, {{name}}!",
-    "world": "World",
-    "documentation": "Go To Documentation",
-    "language": {
-        "tr": "🇹🇷 Türkçe",
-        "en": "🇺🇸 English"
-    }
+    "parents": "Parents",
+    "volunteers": "Volunteers"
 }

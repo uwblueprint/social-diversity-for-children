@@ -30,7 +30,7 @@
         "next": "10.0.0",
         "next-auth": "^3.24.0",
         "next-compose-plugins": "^2.2.1",
-        "next-i18next": "^7.0.1",
+        "next-i18next": "^8.8.0",
         "nodemailer": "^6.6.1",
         "prettier": "^2.2.1",
         "react": "17.0.2",
