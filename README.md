@@ -6,12 +6,19 @@ Currently in development!
 
 This project was generated with [superplate](https://github.com/pankod/superplate).
 
-## Team
+## S21 Team
 
 Project Lead: Eric Feng\
 Product Manager: Raewyn Tsai\
 Designers: Stacy Kwok, Christina Ru\
 Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad Zaryab
+
+## F21 Team
+
+Project Lead: Rickson Yang\
+Product Manager: Emily Nairn\
+Designers: Rebecca Ma, Vedant Patel\
+Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Zhang
 
 ## Project Architecture
 
