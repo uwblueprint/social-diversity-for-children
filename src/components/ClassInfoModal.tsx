@@ -20,7 +20,6 @@ import { ClassCardInfo } from "@models/Class";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { useRouter } from "next/router";
-import colourTheme from "@styles/colours";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -121,7 +120,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
 
                 <ModalFooter>
                     <Button
-                        bg={colourTheme.colors.Blue}
+                        bg={"#0C53A0"}
                         color={"white"}
                         mx={"auto"}
                         my={2}
@@ -129,7 +128,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         fontWeight={"200"}
                         _hover={{
                             textDecoration: "none",
-                            bg: colourTheme.colors.LightBlue,
+                            bg: "#2C6AAD",
                         }}
                         _active={{
                             bg: "lightgrey",
