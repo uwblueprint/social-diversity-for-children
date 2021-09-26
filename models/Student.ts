@@ -34,6 +34,7 @@ export type CreateStudentInput = {
  */
 export type StudentCardInfo = {
     id: number;
+    parentId: number;
     firstName: string;
     lastName: string;
     dateOfBirth: Date;

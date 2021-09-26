@@ -94,6 +94,7 @@ export class CardInfoUtil {
     static getStudentCardInfo(result: any): StudentCardInfo {
         return {
             id: result.id,
+            parentId: result.parentId,
             firstName: result.firstName,
             lastName: result.lastName,
             dateOfBirth: result.dateofBirth,

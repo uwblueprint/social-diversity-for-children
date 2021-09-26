@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
@@ -14,10 +14,10 @@ type ClassProps = {
 
 function Class({ session }: ClassProps): JSX.Element {
     // TODO: make a generic helper method for SWR fetch
-    const fetchWithId = (url, id) => fetch(url).then((r) => r.json());
+    const fetcher = (url) => fetch(url).then((r) => r.json());
     const { data: enrollmentListResponse, error: enrollmentListError } = useSWR(
-        ["/api/enroll/child"],
-        fetchWithId,
+        "/api/enroll/child",
+        fetcher,
     );
     if (enrollmentListError) {
         return (
@@ -38,7 +38,7 @@ function Class({ session }: ClassProps): JSX.Element {
                     <Heading>My Classes</Heading>
                 </Flex>
                 <Heading mt={10} mb={5} size="sm">
-                    Upcoming Classes
+                    Upcoming classes
                 </Heading>
                 <EnrollmentList enrollmentInfo={enrollmentCardInfos} />
             </Flex>

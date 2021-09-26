@@ -95,6 +95,28 @@ async function createParentRegistration(
 }
 
 /**
+ * deleteParentRegistration deletes an existing registration record of a parent enrollment
+ *
+ * @param {ParentRegistrationInput} parentRegistrationData the data containing the details of the enrollment
+ * @returns {Promise<ParentReg>} the deleted parent registration
+ */
+async function deleteParentRegistration(
+    parentRegistrationData: ParentRegistrationInput,
+): Promise<ParentReg> {
+    const parentRegistration = await prisma.parentReg.delete({
+        where: {
+            parentId_studentId_classId: {
+                parentId: parentRegistrationData.parentId,
+                studentId: parentRegistrationData.studentId,
+                classId: parentRegistrationData.classId,
+            },
+        },
+    });
+
+    return parentRegistration;
+}
+
+/**
  * getVolunteerRegistration obtains the registration record of a volunteer enrollment
  *
  * @param {number} volunteerId  unique identifier of the enrolled volunteer
@@ -140,6 +162,7 @@ export {
     getParentRegistration,
     getParentRegistrations,
     createParentRegistration,
+    deleteParentRegistration,
     getVolunteerRegistration,
     createVolunteerRegistration,
 };

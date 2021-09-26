@@ -3,6 +3,7 @@ import { getSession } from "next-auth/client"; // Session handling
 import { ResponseUtil } from "@utils/responseUtil";
 import {
     createParentRegistration,
+    deleteParentRegistration,
     getParentRegistration,
     getParentRegistrations,
 } from "@database/enroll";
@@ -130,8 +131,38 @@ export default async function handle(
             ResponseUtil.returnOK(res);
             break;
         }
+        case "DELETE": {
+            const parentRegistrationInput: ParentRegistrationInput = {
+                parentId,
+                studentId: req.body.studentId,
+                classId: req.body.classId,
+            };
+
+            // validate the request body and return if not validated
+            const validationErrors = validateParentRegistrationRecord(
+                parentRegistrationInput,
+            );
+            if (validationErrors.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
+                return;
+            }
+
+            const deletedRegistration = await deleteParentRegistration(
+                parentRegistrationInput,
+            );
+            if (!deletedRegistration) {
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Registration could not be created`,
+                );
+                return;
+            }
+
+            ResponseUtil.returnOK(res, deletedRegistration);
+            return;
+        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST"];
+            const allowedHeaders: string[] = ["GET", "POST", "DELETE"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
