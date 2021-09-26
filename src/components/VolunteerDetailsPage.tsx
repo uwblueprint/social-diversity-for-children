@@ -1,5 +1,13 @@
 import React from "react";
-import { HStack, FormLabel, FormControl, Input, Stack, Checkbox, Select } from "@chakra-ui/react";
+import {
+    HStack,
+    FormLabel,
+    FormControl,
+    Input,
+    Stack,
+    Checkbox,
+    Select,
+} from "@chakra-ui/react";
 import { province } from "@models/User";
 type VolunteerDetailsPageProps = {
     styleProps?: Record<string, unknown>;
@@ -65,7 +73,9 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                     <Select
                         placeholder="Select option"
                         onChange={(e) =>
-                            props.setParticipantProvince(province[e.target.value])
+                            props.setParticipantProvince(
+                                province[e.target.value],
+                            )
                         }
                         value={props.participantProvince} // TODO: bug with displayed value after refresh
                     >

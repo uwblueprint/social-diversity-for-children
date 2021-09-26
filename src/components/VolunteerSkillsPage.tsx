@@ -1,5 +1,12 @@
 import React from "react";
-import { VStack, FormLabel, FormControl, Stack, Checkbox, Textarea } from "@chakra-ui/react";
+import {
+    VStack,
+    FormLabel,
+    FormControl,
+    Stack,
+    Checkbox,
+    Textarea,
+} from "@chakra-ui/react";
 
 type VolunteerSkillsPageProps = {
     styleProps?: Record<string, unknown>;
@@ -21,10 +28,9 @@ export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({
             <VStack>
                 <FormControl id="skills">
                     <FormLabel>
-                        Skills/Experience (ex. Arts and Crafts, Music,
-                        First-Aid Certificates, Teaching or Volunteering
-                        Experience, Experience with Children with Special
-                        Needs)
+                        Skills/Experience (ex. Arts and Crafts, Music, First-Aid
+                        Certificates, Teaching or Volunteering Experience,
+                        Experience with Children with Special Needs)
                     </FormLabel>
                     <Textarea
                         placeholder="Type here"
