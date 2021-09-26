@@ -39,6 +39,8 @@ import {
     heardFrom,
 } from "@models/User";
 import { ParticipantInfoPage } from "@components/ParticipantInfoPage";
+import { LearningInfoPage } from "@components/LearningInfoPage";
+import { EmergInfoPage } from "@components/EmergInfoPage";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -258,537 +260,88 @@ export default function ParticipantInfo({
     ];
 
     const formPages = [
-        // general participant info starts here
+        // Page for general participant info
         <Box>
             <FormPage>
-                <ParticipantInfoPage />
-                {/* <Box maxW="55rem">
-                    <Text noOfLines={2} fontSize="16px" fontWeight="200">
-                        Please provide information on the participant that is
-                        being registered in the program. An opportunity to add
-                        information of additional participants you would like to
-                        register will be provided afterwards.
-                    </Text>
-                </Box>
-                <FormLabel>
-                    Participant Name
-                    <HStack spacing="24px">
-                        <FormControl id="participant-first-name">
-                            <Input
-                                placeholder="First name"
-                                onChange={(e) =>
-                                    setParticipantFirstName(e.target.value)
-                                }
-                                value={participantFirstName}
-                            />
-                        </FormControl>
-                        <FormControl id="participant-last-name">
-                            <Input
-                                placeholder="Last name"
-                                onChange={(e) =>
-                                    setParticipantLastName(e.target.value)
-                                }
-                                value={participantLastName}
-                            />
-                        </FormControl>
-                    </HStack>
-                </FormLabel>
-                <FormControl id="date-of-birth">
-                    <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                    <Input
-                        placeholder="Date Of Birth"
-                        onChange={(e) => setDateOfBirth(e.target.value)}
-                        value={dateOfBirth}
-                    />
-                </FormControl>
-                <FormControl id="street-address-1">
-                    <FormLabel>Street Address 1</FormLabel>
-                    <Input
-                        placeholder="815 Hornby St."
-                        onChange={(e) => setAddress1(e.target.value)}
-                        value={address1}
-                    />
-                </FormControl>
-                <FormControl id="street-address-2">
-                    <FormLabel>Street Address 2</FormLabel>
-                    <Input
-                        placeholder="Suite 203"
-                        onChange={(e) => setAddress2(e.target.value)}
-                        value={address2}
-                    />
-                </FormControl>
-                <HStack spacing="24px">
-                    <FormControl id="city">
-                        <FormLabel>City</FormLabel>
-                        <Input
-                            placeholder="Vancouver"
-                            onChange={(e) => setCity(e.target.value)}
-                            value={city}
-                        />
-                    </FormControl>
-                    <FormControl id="province">
-                        <FormLabel>Province</FormLabel>
-                        <Select
-                            placeholder={"Select option"}
-                            onChange={(e) =>
-                                setParticipantProvince(province[e.target.value])
-                            }
-                            value={participantProvince} // TODO: bug with displayed value after refresh
-                        >
-                            {Object.entries(province)
-                                .sort()
-                                .map((prov) => {
-                                    const [key, val] = prov;
-                                    return (
-                                        <option key={key} value={val}>
-                                            {val}
-                                        </option>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
-                    <FormControl id="postal-code">
-                        <FormLabel>Postal Code</FormLabel>
-                        <Input
-                            placeholder="V6Z 2E6"
-                            onChange={(e) => setPostalCode(e.target.value)}
-                            value={postalCode}
-                        />
-                    </FormControl>
-                </HStack>
-                <FormControl id="school">
-                    <FormLabel>School (if applicable)</FormLabel>
-                    <Input
-                        placeholder="Westmount Secondary School"
-                        onChange={(e) => setSchool(e.target.value)}
-                        value={school}
-                    />
-                </FormControl>
-                <FormControl id="grade">
-                    <FormLabel>Grade (if applicable)</FormLabel>
-                    <Input
-                        placeholder="5"
-                        onChange={(e) => setGrade(e.target.value)}
-                        value={grade}
-                    />
-                </FormControl> */}
+                <ParticipantInfoPage
+                    participantFirstName={participantFirstName}
+                    setParticipantFirstName={setParticipantFirstName}
+                    participantLastName={participantLastName}
+                    setParticipantLastName={setParticipantLastName}
+                    dateOfBirth={dateOfBirth}
+                    setDateOfBirth={setDateOfBirth}
+                    address1={address1}
+                    setAddress1={setAddress1}
+                    address2={address2}
+                    setAddress2={setAddress2}
+                    city={city}
+                    setCity={setCity}
+                    participantProvince={participantProvince}
+                    setParticipantProvince={setParticipantProvince}
+                    postalCode={postalCode}
+                    setPostalCode={setPostalCode}
+                    school={school}
+                    setSchool={setSchool}
+                    grade={grade}
+                    setGrade={setGrade}
+                />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
-
-        // general participant info page ends here
-
+        // Page for
         <Box>
             <FormPage>
-                <FormControl id="participant-have">
-                    <FormLabel>Does the participant have:</FormLabel>
-                    <Stack direction="column">
-                        <Checkbox
-                            key="learningDifficulties"
-                            defaultChecked={hasLearningDifficulties}
-                            isChecked={hasLearningDifficulties}
-                            onChange={(e) => {
-                                setHasLearningDifficulties(e.target.checked);
-                                if (e.target.checked) {
-                                    participantDifficulties.push(
-                                        difficulties.LEARNING,
-                                    );
-                                    setParticipantDifficulties(
-                                        participantDifficulties,
-                                    );
-                                } else {
-                                    const newParticipantDifficulties =
-                                        participantDifficulties.filter(
-                                            (diff) =>
-                                                diff != difficulties.LEARNING,
-                                        );
-                                    setParticipantDifficulties(
-                                        newParticipantDifficulties,
-                                    );
-                                }
-                            }}
-                        >
-                            Learning difficulties
-                        </Checkbox>
-                        <Checkbox
-                            key="physicalDifficulties"
-                            isChecked={hasPhysicalDifficulties}
-                            onChange={(e) => {
-                                setHasPhysicalDifficulties(e.target.checked);
-                                if (e.target.checked) {
-                                    participantDifficulties.push(
-                                        difficulties.PHYSICAL,
-                                    );
-                                    setParticipantDifficulties(
-                                        participantDifficulties,
-                                    );
-                                } else {
-                                    const newParticipantDifficulties =
-                                        participantDifficulties.filter(
-                                            (diff) =>
-                                                diff != difficulties.PHYSICAL,
-                                        );
-                                    setParticipantDifficulties(
-                                        newParticipantDifficulties,
-                                    );
-                                }
-                            }}
-                        >
-                            Physical difficulties
-                        </Checkbox>
-                        <Checkbox
-                            key="sensoryDifficulties"
-                            isChecked={hasSensoryDifficulties}
-                            onChange={(e) => {
-                                setHasSensoryDifficulties(e.target.checked);
-                                if (e.target.checked) {
-                                    participantDifficulties.push(
-                                        difficulties.SENSORY,
-                                    );
-                                    setParticipantDifficulties(
-                                        participantDifficulties,
-                                    );
-                                } else {
-                                    const newParticipantDifficulties =
-                                        participantDifficulties.filter(
-                                            (diff) =>
-                                                diff != difficulties.SENSORY,
-                                        );
-                                    setParticipantDifficulties(
-                                        newParticipantDifficulties,
-                                    );
-                                }
-                            }}
-                        >
-                            Sensory difficulties
-                        </Checkbox>
-                        <Checkbox
-                            key="otherDifficulties"
-                            isChecked={hasOtherDifficulties}
-                            onChange={(e) =>
-                                setHasOtherDifficulties(e.target.checked)
-                            }
-                        >
-                            Other
-                        </Checkbox>
-                        {otherDifficultyDetails}
-                    </Stack>
-                </FormControl>
-                <FormControl id="special-education">
-                    <FormLabel>
-                        Is the participant currently involved in a special
-                        education program at their school?
-                    </FormLabel>
-                    <Stack direction="row">
-                        <RadioGroup>
-                            <Radio
-                                value={"1"}
-                                onChange={() => {
-                                    setSpecialEd(true);
-                                }}
-                                isChecked={specialEd}
-                                pr={4}
-                            >
-                                Yes
-                            </Radio>
-                            <Radio
-                                value={"0"}
-                                onChange={() => {
-                                    setSpecialEd(false);
-                                }}
-                                isChecked={!specialEd}
-                                pr={4}
-                            >
-                                No
-                            </Radio>
-                        </RadioGroup>
-                    </Stack>
-                </FormControl>
-                <FormControl id="therapy">
-                    <FormLabel>
-                        Is the participant revieving any other form of therapy?
-                    </FormLabel>
-                    <Stack direction="column">
-                        <Checkbox
-                            key="physiotherapy"
-                            isChecked={physiotherapy}
-                            onChange={(e) => {
-                                setPhysiotherapy(e.target.checked);
-                                if (e.target.checked) {
-                                    participantTherapy.push(therapy.PHYSIO);
-                                    setParticipantTherapy(participantTherapy);
-                                } else {
-                                    const newParticipantTherapy =
-                                        participantTherapy.filter(
-                                            (th) => th != therapy.PHYSIO,
-                                        );
-                                    setParticipantTherapy(
-                                        newParticipantTherapy,
-                                    );
-                                }
-                            }}
-                        >
-                            Physiotherapy
-                        </Checkbox>
-                        <Checkbox
-                            key="speech language"
-                            isChecked={speechTherapy}
-                            onChange={(e) => {
-                                setSpeechTherapy(e.target.checked);
-                                if (e.target.checked) {
-                                    participantTherapy.push(
-                                        therapy.SPEECH_LANG,
-                                    );
-                                    setParticipantTherapy(participantTherapy);
-                                } else {
-                                    const newParticipantTherapy =
-                                        participantTherapy.filter(
-                                            (th) => th != therapy.SPEECH_LANG,
-                                        );
-                                    setParticipantTherapy(
-                                        newParticipantTherapy,
-                                    );
-                                }
-                            }}
-                        >
-                            Speech and Language Therapy
-                        </Checkbox>
-                        <Checkbox
-                            key="occupational therapy"
-                            isChecked={occupationalTherapy}
-                            onChange={(e) => {
-                                setOccupationalTherapy(e.target.checked);
-                                if (e.target.checked) {
-                                    participantTherapy.push(
-                                        therapy.OCCUPATIONAL,
-                                    );
-                                    setParticipantTherapy(participantTherapy);
-                                } else {
-                                    const newParticipantTherapy =
-                                        participantTherapy.filter(
-                                            (th) => th != therapy.OCCUPATIONAL,
-                                        );
-                                    setParticipantTherapy(
-                                        newParticipantTherapy,
-                                    );
-                                }
-                            }}
-                        >
-                            Occupational Therapy
-                        </Checkbox>
-                        <Checkbox
-                            key="counselling"
-                            isChecked={counseling}
-                            onChange={(e) => {
-                                setCounseling(e.target.checked);
-                                if (e.target.checked) {
-                                    participantTherapy.push(therapy.COUNSELING);
-                                    setParticipantTherapy(participantTherapy);
-                                } else {
-                                    const newParticipantTherapy =
-                                        participantTherapy.filter(
-                                            (th) => th != therapy.COUNSELING,
-                                        );
-                                    setParticipantTherapy(
-                                        newParticipantTherapy,
-                                    );
-                                }
-                            }}
-                        >
-                            Psychotherapy/Counseling
-                        </Checkbox>
-                        <Checkbox
-                            key="art"
-                            isChecked={artTherapy}
-                            onChange={(e) => {
-                                setArtTherapy(e.target.checked);
-                                if (e.target.checked) {
-                                    participantTherapy.push(therapy.ART);
-                                    setParticipantTherapy(participantTherapy);
-                                } else {
-                                    const newParticipantTherapy =
-                                        participantTherapy.filter(
-                                            (th) => th != therapy.ART,
-                                        );
-                                    setParticipantTherapy(
-                                        newParticipantTherapy,
-                                    );
-                                }
-                            }}
-                        >
-                            Music or Art Therapy
-                        </Checkbox>
-                        <Checkbox
-                            key="otherTherapies"
-                            isChecked={hasOtherTherapy}
-                            onChange={(e) =>
-                                setHasOtherTherapy(e.target.checked)
-                            }
-                        >
-                            Other
-                        </Checkbox>
-                        {otherTherapyDetails}
-                    </Stack>
-                </FormControl>
-                <FormControl id="parent-guardian-expectations">
-                    <FormLabel>Parent/Guardian Expectations</FormLabel>
-                    <Textarea
-                        placeholder="Details"
-                        onChange={(e) =>
-                            setGuardianExpectations(e.target.value)
-                        }
-                        value={guardianExpectations}
-                    />
-                </FormControl>
+                <LearningInfoPage
+                    hasLearningDifficulties={hasLearningDifficulties}
+                    setHasLearningDifficulties={setHasLearningDifficulties}
+                    hasPhysicalDifficulties={hasPhysicalDifficulties}
+                    setHasPhysicalDifficulties={setHasPhysicalDifficulties}
+                    hasSensoryDifficulties={hasSensoryDifficulties}
+                    setHasSensoryDifficulties={setHasSensoryDifficulties}
+                    participantDifficulties={participantDifficulties}
+                    setParticipantDifficulties={setParticipantDifficulties}
+                    hasOtherDifficulties={hasOtherDifficulties}
+                    setHasOtherDifficulties={setHasOtherDifficulties}
+                    otherDifficulties={otherDifficulties}
+                    setOtherDifficulties={setOtherDifficulties}
+                    specialEd={specialEd}
+                    setSpecialEd={setSpecialEd}
+                    physiotherapy={physiotherapy}
+                    setPhysiotherapy={setPhysiotherapy}
+                    speechTherapy={speechTherapy}
+                    setSpeechTherapy={setSpeechTherapy}
+                    occupationalTherapy={occupationalTherapy}
+                    setOccupationalTherapy={setOccupationalTherapy}
+                    counseling={counseling}
+                    setCounseling={setCounseling}
+                    artTherapy={artTherapy}
+                    setArtTherapy={setArtTherapy}
+                    participantTherapy={participantTherapy}
+                    setParticipantTherapy={setParticipantTherapy}
+                    hasOtherTherapy={hasOtherTherapy}
+                    setHasOtherTherapy={setHasOtherTherapy}
+                    otherTherapy={otherTherapy}
+                    setOtherTherapy={setOtherTherapy}
+                    guardianExpectations={guardianExpectations}
+                    setGuardianExpectations={setGuardianExpectations}
+                    otherDifficultyDetails={otherDifficultyDetails}
+                    otherTherapyDetails={otherTherapyDetails}
+                />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         <Box>
             <FormPage>
-                <Box maxW="55rem">
-                    <Text noOfLines={3} fontSize="16px" fontWeight="200">
-                        The information on this form will be used at the
-                        discretion of the activity instructor/coordinator to
-                        ensure care and attention is given to the safety and
-                        health of your child. All information on this form is
-                        considered Personal and Confidential. The contact listed
-                        on the emergency form cannot be the same contact listed
-                        as the parent above.
-                    </Text>
-                </Box>
-                <FormLabel>
-                    Emergency Contact Name
-                    <HStack spacing="24px">
-                        <FormControl id="emergency-first-name">
-                            <Input
-                                placeholder="First Name"
-                                onChange={(e) =>
-                                    setEmergFirstName(e.target.value)
-                                }
-                                value={emergFirstName}
-                            />
-                        </FormControl>
-                        <FormControl id="emergency-last-name">
-                            <Input
-                                placeholder="Last name"
-                                onChange={(e) =>
-                                    setEmergLastName(e.target.value)
-                                }
-                                value={emergLastName}
-                            />
-                        </FormControl>
-                    </HStack>
-                </FormLabel>
-                <FormControl id="emergency-contact-cell-number">
-                    <FormLabel>Emergency Contact Cell Number </FormLabel>
-                    <Input
-                        placeholder="289 349 1048"
-                        onChange={(e) => setEmergNumber(e.target.value)}
-                        value={emergNumber}
-                    />
-                </FormControl>
-                <FormControl id="emergency-relationship-to-participant">
-                    <FormLabel>Relationship to Participant</FormLabel>
-                    <Input
-                        placeholder="Mother"
-                        onChange={(e) => setEmergRelationship(e.target.value)}
-                        value={emergRelationship}
-                    />
-                </FormControl>
-            </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
-        </Box>,
-        <Box>
-            <FormPage>
-                <Box maxW="55rem">
-                    <Text noOfLines={3} fontSize="16px" fontWeight="200">
-                        The information on this form will be used at the
-                        discretion of the activity instructor/coordinator to
-                        ensure care and attention is given to the safety and
-                        health of your child. All information on this form is
-                        considered Personal and Confidential. The contact listed
-                        on the emergency form cannot be the same contact listed
-                        as the parent above.
-                    </Text>
-                </Box>
-                <FormControl id="medication">
-                    <RadioGroup
-                        onChange={(val) => setIsOnMedication(val === RADIO_YES)}
-                    >
-                        <FormLabel>Is your child on medication?</FormLabel>
-                        <Stack direction="row">
-                            <Radio value={RADIO_YES} pr={4}>
-                                Yes
-                            </Radio>
-                            <Radio value={RADIO_NO} pr={4}>
-                                No
-                            </Radio>
-                        </Stack>
-                    </RadioGroup>
-                    {medicationDetails}
-                </FormControl>
-                <FormControl id="allergies">
-                    <RadioGroup
-                        onChange={(val) => setHasAllergies(val === RADIO_YES)}
-                    >
-                        <FormLabel>
-                            Does your child have any food allergies?
-                        </FormLabel>
-                        <Stack direction="row">
-                            <Radio value={RADIO_YES} pr={4}>
-                                Yes
-                            </Radio>
-                            <Radio value={RADIO_NO} pr={4}>
-                                No
-                            </Radio>
-                        </Stack>
-                    </RadioGroup>
-                    {allergyDetails}
-                </FormControl>
-            </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
-        </Box>,
-        <Box>
-            <FormPage>
-                <FormLabel>
-                    Parent/Guardian Name
-                    <HStack spacing="24px">
-                        <FormControl id="parent-first-name">
-                            <Input
-                                placeholder="First name"
-                                onChange={(e) =>
-                                    setParentFirstName(e.target.value)
-                                }
-                                value={parentFirstName}
-                            />
-                        </FormControl>
-                        <FormControl id="parent-last-name">
-                            <Input
-                                placeholder="Last name"
-                                onChange={(e) =>
-                                    setParentLastName(e.target.value)
-                                }
-                                value={parentLastName}
-                            />
-                        </FormControl>
-                    </HStack>
-                </FormLabel>
-                <FormControl id="phone-number">
-                    <FormLabel>Phone Number </FormLabel>
-                    <Input
-                        placeholder="289 349 1048"
-                        onChange={(e) => setParentPhoneNumber(e.target.value)}
-                        value={parentPhoneNumber}
-                    />
-                </FormControl>
-                <FormControl id="parent-relationship-to-participant">
-                    <FormLabel>Relationship to Participant</FormLabel>
-                    <Input
-                        placeholder="Mother"
-                        onChange={(e) => setParentRelationship(e.target.value)}
-                        value={parentRelationship}
-                    />
-                </FormControl>
+                <EmergInfoPage
+                    parentFirstName={parentFirstName}
+                    setParentFirstName={setParentFirstName}
+                    parentLastName={parentLastName}
+                    setParentLastName={setParentLastName}
+                    parentPhoneNumber={parentPhoneNumber}
+                    setParentPhoneNumber={setParentPhoneNumber}
+                    parentRelationship={parentRelationship}
+                    setParentRelationship={setParentRelationship}
+                />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
