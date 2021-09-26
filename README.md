@@ -99,6 +99,9 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 Reset your database on Heroku and then deploy your database schema run (one-time):
 
 ```bash
+# Drop all tables from current Heroku postgres database
+heroku pg:reset -a YOUR_APP_NAME
+
 # Deploy schema.sql to Heroku postgres
 heroku pg:psql -a YOUR_APP_NAME -f prisma/schema.sql
 
