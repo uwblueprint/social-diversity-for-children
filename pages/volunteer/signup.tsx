@@ -19,7 +19,7 @@ import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
-import { VolunteerInfoPage } from "@components/VolunteerInfoPage"
+import { VolunteerInfoPage } from "@components/VolunteerInfoPage";
 import { VolunteerDetailsPage } from "@components/VolunteerDetailsPage";
 import { VolunteerSkillsPage } from "@components/VolunteerSkillsPage";
 import { CriminalPage } from "@components/CriminalPage";
@@ -90,6 +90,7 @@ export default function VolunteerInfo({
     const [heardFrom, setHeardFrom] = useLocalStorage("heardFrom", "");
 
     // JSON object with volunteer registration info
+
     const volunteerRegistrationInfo = {
         volunteerFirstName: volunteerFirstName,
         setVolunteerFirstName: setVolunteerFirstName,
@@ -113,7 +114,7 @@ export default function VolunteerInfo({
         setSkills: setSkills,
         heardFrom: heardFrom,
         setHeardFrom: setHeardFrom,
-    }
+    };
     const formPageHeaders = [
         "Volunteer Information",
         "Volunteer Personal Details",
@@ -125,8 +126,7 @@ export default function VolunteerInfo({
         // Page for general volunteer info
         <Box>
             <FormPage>
-                <VolunteerInfoPage
-                    props={volunteerRegistrationInfo} />
+                <VolunteerInfoPage props={volunteerRegistrationInfo} />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
@@ -144,7 +144,7 @@ export default function VolunteerInfo({
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
-        // Page for uploading criminal record check
+        // Page to upload criminal record check
         <Box>
             <FormPage>
                 <CriminalPage />
@@ -245,9 +245,9 @@ export default function VolunteerInfo({
                                 onClick={
                                     pageNum > 0
                                         ? () =>
-                                            setPageNum((prevPage) =>
-                                                Math.max(prevPage - 1, 0),
-                                            )
+                                              setPageNum((prevPage) =>
+                                                  Math.max(prevPage - 1, 0),
+                                              )
                                         : null
                                 }
                             />
