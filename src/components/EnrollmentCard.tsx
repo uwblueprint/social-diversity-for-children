@@ -20,48 +20,15 @@ import {
 } from "@chakra-ui/react";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import {
-    CombinedEnrollmentCardInfo,
-    ParentRegistrationInput,
-} from "@models/Enroll";
+import { CombinedEnrollmentCardInfo } from "@models/Enroll";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import convertToListDisplay from "@utils/convertToListDisplay";
-import { StudentCardInfo } from "@models/Student";
-import { mutate } from "swr";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
-    isOnlyStudent?: boolean;
 };
-
-async function deleteClassRegistrations(
-    students: StudentCardInfo[],
-    classId: number,
-) {
-    return students.map((student) => deleteRegistration(student, classId));
-}
-
-async function deleteRegistration(student: StudentCardInfo, classId: number) {
-    const registrationData: ParentRegistrationInput = {
-        classId,
-        studentId: student.id,
-        parentId: student.parentId,
-    };
-    const request = {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registrationData),
-    };
-
-    const response = await fetch("api/enroll/child", request);
-    const deletedRegistration = await response.json();
-
-    mutate("/api/enroll/child");
-
-    return deletedRegistration;
-}
 
 /**
  *
@@ -71,7 +38,6 @@ async function deleteRegistration(student: StudentCardInfo, classId: number) {
  */
 export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     enrollmentInfo,
-    isOnlyStudent,
 }) => {
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
@@ -88,7 +54,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box>
-                            <Heading size="md" pb={4} pr={2}>
+                            <Heading size="md" pb={4}>
                                 {enrollmentInfo.program.name} (
                                 {enrollmentInfo.class.name})
                             </Heading>
@@ -112,19 +78,17 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                     )}
                                 </Text>
                             </Box>
-                            {isOnlyStudent ? null : (
-                                <Text pt={4}>
-                                    Participants:{" "}
-                                    {convertToListDisplay(
-                                        enrollmentInfo.students.map(
-                                            (student) => student.firstName,
-                                        ),
-                                    )}
-                                </Text>
-                            )}
+                            <Text pt={4}>
+                                Participants:{" "}
+                                {convertToListDisplay(
+                                    enrollmentInfo.students.map(
+                                        (student) => student.firstName,
+                                    ),
+                                )}
+                            </Text>
                         </Box>
                         <Spacer />
-                        <Flex alignItems={"baseline"}>
+                        <Box>
                             <Button
                                 bg={colourTheme.colors.Blue}
                                 color={"white"}
@@ -162,45 +126,19 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 />
                                 <MenuList>
                                     {enrollmentInfo.students.map((student) => (
-                                        <>
-                                            <MenuItem
-                                                key={student.id}
-                                                onClick={() =>
-                                                    deleteRegistration(
-                                                        student,
-                                                        enrollmentInfo.classId,
-                                                    )
-                                                }
-                                            >
-                                                Unregister for{" "}
-                                                {student.firstName}
-                                            </MenuItem>
-                                            {enrollmentInfo.students.length <
-                                            2 ? null : (
-                                                <MenuDivider />
-                                            )}
-                                        </>
+                                        <MenuItem key={student.id}>
+                                            Unregister for {student.firstName}
+                                        </MenuItem>
                                     ))}
-                                    {enrollmentInfo.students.length <
-                                    2 ? null : (
-                                        <>
-                                            <MenuItem
-                                                onClick={() =>
-                                                    deleteClassRegistrations(
-                                                        enrollmentInfo.students,
-                                                        enrollmentInfo.classId,
-                                                    )
-                                                }
-                                            >
-                                                <Text fontWeight="bold">
-                                                    Unregister for all
-                                                </Text>
-                                            </MenuItem>
-                                        </>
-                                    )}
+                                    <MenuDivider />
+                                    <MenuItem>
+                                        <Text fontWeight="bold">
+                                            Unregister for all
+                                        </Text>
+                                    </MenuItem>
                                 </MenuList>
                             </Menu>
-                        </Flex>
+                        </Box>
                     </Flex>
                 </VStack>
             </GridItem>

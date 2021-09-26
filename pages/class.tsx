@@ -1,27 +1,48 @@
 import React from "react";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession, GetSessionOptions } from "next-auth/client";
-import SDCWrapper from "@components/SDCWrapper";
+import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
+import { EnrollmentList } from "@components/EnrollmentList";
+import useSWR from "swr";
+import CardInfoUtil from "@utils/cardInfoUtil";
 
 type ClassProps = {
     session: Record<string, unknown>;
 };
 
 function Class({ session }: ClassProps): JSX.Element {
+    // TODO: make a generic helper method for SWR fetch
+    const fetchWithId = (url, id) => fetch(url).then((r) => r.json());
+    const { data: enrollmentListResponse, error: enrollmentListError } = useSWR(
+        ["/api/enroll/child"],
+        fetchWithId,
+    );
+    if (enrollmentListError) {
+        return (
+            // This should really route to some error page instead
+            <Text>An error has occurred. {enrollmentListError.toString()}</Text>
+        );
+    }
+
+    const enrollmentCardInfos = enrollmentListResponse
+        ? CardInfoUtil.getEnrollmentCardInfos(enrollmentListResponse.data)
+        : [];
+
     return (
-        <SDCWrapper session={session}>
+        <Wrapper session={session}>
             <BackButton />
             <Flex direction="column" pt={4} pb={8}>
                 <Flex align="center">
                     <Heading>My Classes</Heading>
                 </Flex>
-                <Heading mt="10" size="sm">
+                <Heading mt={10} mb={5} size="sm">
                     Upcoming Classes
                 </Heading>
+                <EnrollmentList enrollmentInfo={enrollmentCardInfos} />
             </Flex>
-        </SDCWrapper>
+        </Wrapper>
     );
 }
 

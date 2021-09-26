@@ -44,9 +44,6 @@ async function getParentRegistrations(
                 },
             },
         },
-        orderBy: {
-            studentId: "asc",
-        },
     });
 
     return parentRegistrationRecords;
