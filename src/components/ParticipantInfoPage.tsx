@@ -10,9 +10,13 @@ import {
 } from "@chakra-ui/react";
 
 import { province } from "@models/User";
-
-type ParticipantInfoPageProps = {
+// pass in props then do props.participant Name, etc...
+type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
+    props: ParticipantInfo;
+};
+
+type ParticipantInfo = {
     participantFirstName: any;
     setParticipantFirstName: any;
     participantLastName: any;
@@ -34,28 +38,8 @@ type ParticipantInfoPageProps = {
     grade: any;
     setGrade: any;
 };
-
-export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
-    participantFirstName,
-    setParticipantFirstName,
-    participantLastName,
-    setParticipantLastName,
-    dateOfBirth,
-    setDateOfBirth,
-    address1,
-    setAddress1,
-    address2,
-    setAddress2,
-    city,
-    setCity,
-    participantProvince,
-    setParticipantProvince,
-    postalCode,
-    setPostalCode,
-    school,
-    setSchool,
-    grade,
-    setGrade,
+export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
+    props,
 }): JSX.Element => {
     return (
         <>
@@ -74,18 +58,18 @@ export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
                         <Input
                             placeholder="First name"
                             onChange={(e) =>
-                                setParticipantFirstName(e.target.value)
+                                props.setParticipantFirstName(e.target.value)
                             }
-                            value={participantFirstName}
+                            value={props.participantFirstName}
                         />
                     </FormControl>
                     <FormControl id="participant-last-name">
                         <Input
                             placeholder="Last name"
                             onChange={(e) =>
-                                setParticipantLastName(e.target.value)
+                                props.setParticipantLastName(e.target.value)
                             }
-                            value={participantLastName}
+                            value={props.participantLastName}
                         />
                     </FormControl>
                 </HStack>
@@ -94,24 +78,24 @@ export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
                 <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
                 <Input
                     placeholder="Date Of Birth"
-                    onChange={(e) => setDateOfBirth(e.target.value)}
-                    value={dateOfBirth}
+                    onChange={(e) => props.setDateOfBirth(e.target.value)}
+                    value={props.dateOfBirth}
                 />
             </FormControl>
             <FormControl id="street-address-1">
                 <FormLabel>Street Address 1</FormLabel>
                 <Input
                     placeholder="815 Hornby St."
-                    onChange={(e) => setAddress1(e.target.value)}
-                    value={address1}
+                    onChange={(e) => props.setAddress1(e.target.value)}
+                    value={props.address1}
                 />
             </FormControl>
             <FormControl id="street-address-2">
                 <FormLabel>Street Address 2</FormLabel>
                 <Input
                     placeholder="Suite 203"
-                    onChange={(e) => setAddress2(e.target.value)}
-                    value={address2}
+                    onChange={(e) => props.setAddress2(e.target.value)}
+                    value={props.address2}
                 />
             </FormControl>
             <HStack spacing="24px">
@@ -119,8 +103,8 @@ export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
                     <FormLabel>City</FormLabel>
                     <Input
                         placeholder="Vancouver"
-                        onChange={(e) => setCity(e.target.value)}
-                        value={city}
+                        onChange={(e) => props.setCity(e.target.value)}
+                        value={props.city}
                     />
                 </FormControl>
                 <FormControl id="province">
@@ -128,9 +112,11 @@ export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
                     <Select
                         placeholder={"Select option"}
                         onChange={(e) =>
-                            setParticipantProvince(province[e.target.value])
+                            props.setParticipantProvince(
+                                province[e.target.value],
+                            )
                         }
-                        value={participantProvince} // TODO: bug with displayed value after refresh
+                        value={props.participantProvince} // TODO: bug with displayed value after refresh
                     >
                         {Object.entries(province)
                             .sort()
@@ -148,8 +134,8 @@ export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
                     <FormLabel>Postal Code</FormLabel>
                     <Input
                         placeholder="V6Z 2E6"
-                        onChange={(e) => setPostalCode(e.target.value)}
-                        value={postalCode}
+                        onChange={(e) => props.setPostalCode(e.target.value)}
+                        value={props.postalCode}
                     />
                 </FormControl>
             </HStack>
@@ -157,16 +143,16 @@ export const ParticipantInfoPage: React.FC<ParticipantInfoPageProps> = ({
                 <FormLabel>School (if applicable)</FormLabel>
                 <Input
                     placeholder="Westmount Secondary School"
-                    onChange={(e) => setSchool(e.target.value)}
-                    value={school}
+                    onChange={(e) => props.setSchool(e.target.value)}
+                    value={props.school}
                 />
             </FormControl>
             <FormControl id="grade">
                 <FormLabel>Grade (if applicable)</FormLabel>
                 <Input
                     placeholder="5"
-                    onChange={(e) => setGrade(e.target.value)}
-                    value={grade}
+                    onChange={(e) => props.setGrade(e.target.value)}
+                    value={props.grade}
                 />
             </FormControl>
         </>

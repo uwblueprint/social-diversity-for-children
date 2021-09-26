@@ -11,8 +11,12 @@ import {
 
 import { difficulties, therapy } from "@models/User";
 
-type LearningInfoPageProps = {
+type LearningPageProps = {
     styleProps?: Record<string, unknown>;
+    props: LearningInfo;
+};
+
+type LearningInfo = {
     hasLearningDifficulties: any;
     setHasLearningDifficulties: any;
     hasPhysicalDifficulties: any;
@@ -48,42 +52,8 @@ type LearningInfoPageProps = {
     otherDifficultyDetails: JSX.Element | null;
     otherTherapyDetails: JSX.Element | null;
 };
-
-export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
-    hasLearningDifficulties,
-    setHasLearningDifficulties,
-    hasPhysicalDifficulties,
-    setHasPhysicalDifficulties,
-    hasSensoryDifficulties,
-    setHasSensoryDifficulties,
-    participantDifficulties,
-    setParticipantDifficulties,
-    hasOtherDifficulties,
-    setHasOtherDifficulties,
-    otherDifficulties,
-    setOtherDifficulties,
-    specialEd,
-    setSpecialEd,
-    physiotherapy,
-    setPhysiotherapy,
-    speechTherapy,
-    setSpeechTherapy,
-    occupationalTherapy,
-    setOccupationalTherapy,
-    counseling,
-    setCounseling,
-    artTherapy,
-    setArtTherapy,
-    participantTherapy,
-    setParticipantTherapy,
-    hasOtherTherapy,
-    setHasOtherTherapy,
-    otherTherapy,
-    setOtherTherapy,
-    guardianExpectations,
-    setGuardianExpectations,
-    otherDifficultyDetails,
-    otherTherapyDetails,
+export const LearningInfoPage: React.FC<LearningPageProps> = ({
+    props,
 }): JSX.Element => {
     return (
         <>
@@ -92,23 +62,23 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                 <Stack direction="column">
                     <Checkbox
                         key="learningDifficulties"
-                        defaultChecked={hasLearningDifficulties}
-                        isChecked={hasLearningDifficulties}
+                        defaultChecked={props.hasLearningDifficulties}
+                        isChecked={props.hasLearningDifficulties}
                         onChange={(e) => {
-                            setHasLearningDifficulties(e.target.checked);
+                            props.setHasLearningDifficulties(e.target.checked);
                             if (e.target.checked) {
-                                participantDifficulties.push(
+                                props.participantDifficulties.push(
                                     difficulties.LEARNING,
                                 );
-                                setParticipantDifficulties(
-                                    participantDifficulties,
+                                props.setParticipantDifficulties(
+                                    props.participantDifficulties,
                                 );
                             } else {
                                 const newParticipantDifficulties =
-                                    participantDifficulties.filter(
+                                    props.participantDifficulties.filter(
                                         (diff) => diff != difficulties.LEARNING,
                                     );
-                                setParticipantDifficulties(
+                                props.setParticipantDifficulties(
                                     newParticipantDifficulties,
                                 );
                             }
@@ -118,22 +88,22 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="physicalDifficulties"
-                        isChecked={hasPhysicalDifficulties}
+                        isChecked={props.hasPhysicalDifficulties}
                         onChange={(e) => {
-                            setHasPhysicalDifficulties(e.target.checked);
+                            props.setHasPhysicalDifficulties(e.target.checked);
                             if (e.target.checked) {
-                                participantDifficulties.push(
+                                props.participantDifficulties.push(
                                     difficulties.PHYSICAL,
                                 );
-                                setParticipantDifficulties(
-                                    participantDifficulties,
+                                props.setParticipantDifficulties(
+                                    props.participantDifficulties,
                                 );
                             } else {
                                 const newParticipantDifficulties =
-                                    participantDifficulties.filter(
+                                    props.participantDifficulties.filter(
                                         (diff) => diff != difficulties.PHYSICAL,
                                     );
-                                setParticipantDifficulties(
+                                props.setParticipantDifficulties(
                                     newParticipantDifficulties,
                                 );
                             }
@@ -143,22 +113,22 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="sensoryDifficulties"
-                        isChecked={hasSensoryDifficulties}
+                        isChecked={props.hasSensoryDifficulties}
                         onChange={(e) => {
-                            setHasSensoryDifficulties(e.target.checked);
+                            props.setHasSensoryDifficulties(e.target.checked);
                             if (e.target.checked) {
-                                participantDifficulties.push(
+                                props.participantDifficulties.push(
                                     difficulties.SENSORY,
                                 );
-                                setParticipantDifficulties(
-                                    participantDifficulties,
+                                props.setParticipantDifficulties(
+                                    props.participantDifficulties,
                                 );
                             } else {
                                 const newParticipantDifficulties =
-                                    participantDifficulties.filter(
+                                    props.participantDifficulties.filter(
                                         (diff) => diff != difficulties.SENSORY,
                                     );
-                                setParticipantDifficulties(
+                                props.setParticipantDifficulties(
                                     newParticipantDifficulties,
                                 );
                             }
@@ -168,14 +138,14 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="otherDifficulties"
-                        isChecked={hasOtherDifficulties}
+                        isChecked={props.hasOtherDifficulties}
                         onChange={(e) =>
-                            setHasOtherDifficulties(e.target.checked)
+                            props.setHasOtherDifficulties(e.target.checked)
                         }
                     >
                         Other
                     </Checkbox>
-                    {otherDifficultyDetails}
+                    {props.otherDifficultyDetails}
                 </Stack>
             </FormControl>
             <FormControl id="special-education">
@@ -188,9 +158,9 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                         <Radio
                             value={"1"}
                             onChange={() => {
-                                setSpecialEd(true);
+                                props.setSpecialEd(true);
                             }}
-                            isChecked={specialEd}
+                            isChecked={props.specialEd}
                             pr={4}
                         >
                             Yes
@@ -198,9 +168,9 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                         <Radio
                             value={"0"}
                             onChange={() => {
-                                setSpecialEd(false);
+                                props.setSpecialEd(false);
                             }}
-                            isChecked={!specialEd}
+                            isChecked={!props.specialEd}
                             pr={4}
                         >
                             No
@@ -215,18 +185,22 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                 <Stack direction="column">
                     <Checkbox
                         key="physiotherapy"
-                        isChecked={physiotherapy}
+                        isChecked={props.physiotherapy}
                         onChange={(e) => {
-                            setPhysiotherapy(e.target.checked);
+                            props.setPhysiotherapy(e.target.checked);
                             if (e.target.checked) {
-                                participantTherapy.push(therapy.PHYSIO);
-                                setParticipantTherapy(participantTherapy);
+                                props.participantTherapy.push(therapy.PHYSIO);
+                                props.setParticipantTherapy(
+                                    props.participantTherapy,
+                                );
                             } else {
                                 const newParticipantTherapy =
-                                    participantTherapy.filter(
+                                    props.participantTherapy.filter(
                                         (th) => th != therapy.PHYSIO,
                                     );
-                                setParticipantTherapy(newParticipantTherapy);
+                                props.setParticipantTherapy(
+                                    newParticipantTherapy,
+                                );
                             }
                         }}
                     >
@@ -234,18 +208,24 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="speech language"
-                        isChecked={speechTherapy}
+                        isChecked={props.speechTherapy}
                         onChange={(e) => {
-                            setSpeechTherapy(e.target.checked);
+                            props.setSpeechTherapy(e.target.checked);
                             if (e.target.checked) {
-                                participantTherapy.push(therapy.SPEECH_LANG);
-                                setParticipantTherapy(participantTherapy);
+                                props.participantTherapy.push(
+                                    therapy.SPEECH_LANG,
+                                );
+                                props.setParticipantTherapy(
+                                    props.participantTherapy,
+                                );
                             } else {
                                 const newParticipantTherapy =
-                                    participantTherapy.filter(
+                                    props.participantTherapy.filter(
                                         (th) => th != therapy.SPEECH_LANG,
                                     );
-                                setParticipantTherapy(newParticipantTherapy);
+                                props.setParticipantTherapy(
+                                    newParticipantTherapy,
+                                );
                             }
                         }}
                     >
@@ -253,18 +233,24 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="occupational therapy"
-                        isChecked={occupationalTherapy}
+                        isChecked={props.occupationalTherapy}
                         onChange={(e) => {
-                            setOccupationalTherapy(e.target.checked);
+                            props.setOccupationalTherapy(e.target.checked);
                             if (e.target.checked) {
-                                participantTherapy.push(therapy.OCCUPATIONAL);
-                                setParticipantTherapy(participantTherapy);
+                                props.participantTherapy.push(
+                                    therapy.OCCUPATIONAL,
+                                );
+                                props.setParticipantTherapy(
+                                    props.participantTherapy,
+                                );
                             } else {
                                 const newParticipantTherapy =
-                                    participantTherapy.filter(
+                                    props.participantTherapy.filter(
                                         (th) => th != therapy.OCCUPATIONAL,
                                     );
-                                setParticipantTherapy(newParticipantTherapy);
+                                props.setParticipantTherapy(
+                                    newParticipantTherapy,
+                                );
                             }
                         }}
                     >
@@ -272,18 +258,24 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="counselling"
-                        isChecked={counseling}
+                        isChecked={props.counseling}
                         onChange={(e) => {
-                            setCounseling(e.target.checked);
+                            props.setCounseling(e.target.checked);
                             if (e.target.checked) {
-                                participantTherapy.push(therapy.COUNSELING);
-                                setParticipantTherapy(participantTherapy);
+                                props.participantTherapy.push(
+                                    therapy.COUNSELING,
+                                );
+                                props.setParticipantTherapy(
+                                    props.participantTherapy,
+                                );
                             } else {
                                 const newParticipantTherapy =
-                                    participantTherapy.filter(
+                                    props.participantTherapy.filter(
                                         (th) => th != therapy.COUNSELING,
                                     );
-                                setParticipantTherapy(newParticipantTherapy);
+                                props.setParticipantTherapy(
+                                    newParticipantTherapy,
+                                );
                             }
                         }}
                     >
@@ -291,18 +283,22 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="art"
-                        isChecked={artTherapy}
+                        isChecked={props.artTherapy}
                         onChange={(e) => {
-                            setArtTherapy(e.target.checked);
+                            props.setArtTherapy(e.target.checked);
                             if (e.target.checked) {
-                                participantTherapy.push(therapy.ART);
-                                setParticipantTherapy(participantTherapy);
+                                props.participantTherapy.push(therapy.ART);
+                                props.setParticipantTherapy(
+                                    props.participantTherapy,
+                                );
                             } else {
                                 const newParticipantTherapy =
-                                    participantTherapy.filter(
+                                    props.participantTherapy.filter(
                                         (th) => th != therapy.ART,
                                     );
-                                setParticipantTherapy(newParticipantTherapy);
+                                props.setParticipantTherapy(
+                                    newParticipantTherapy,
+                                );
                             }
                         }}
                     >
@@ -310,20 +306,24 @@ export const LearningInfoPage: React.FC<LearningInfoPageProps> = ({
                     </Checkbox>
                     <Checkbox
                         key="otherTherapies"
-                        isChecked={hasOtherTherapy}
-                        onChange={(e) => setHasOtherTherapy(e.target.checked)}
+                        isChecked={props.hasOtherTherapy}
+                        onChange={(e) =>
+                            props.setHasOtherTherapy(e.target.checked)
+                        }
                     >
                         Other
                     </Checkbox>
-                    {otherTherapyDetails}
+                    {props.otherTherapyDetails}
                 </Stack>
             </FormControl>
             <FormControl id="parent-guardian-expectations">
                 <FormLabel>Parent/Guardian Expectations</FormLabel>
                 <Textarea
                     placeholder="Details"
-                    onChange={(e) => setGuardianExpectations(e.target.value)}
-                    value={guardianExpectations}
+                    onChange={(e) =>
+                        props.setGuardianExpectations(e.target.value)
+                    }
+                    value={props.guardianExpectations}
                 />
             </FormControl>
         </>

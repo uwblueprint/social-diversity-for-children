@@ -1,8 +1,12 @@
 import React from "react";
 import { HStack, FormLabel, FormControl, Input } from "@chakra-ui/react";
 
-type EmergInfoPageProps = {
+type EmergPageProps = {
     styleProps?: Record<string, unknown>;
+    props: EmergInfo;
+};
+
+type EmergInfo = {
     parentFirstName: any;
     setParentFirstName: any;
     parentLastName: any;
@@ -12,16 +16,8 @@ type EmergInfoPageProps = {
     parentRelationship: any;
     setParentRelationship: any;
 };
-
-export const EmergInfoPage: React.FC<EmergInfoPageProps> = ({
-    parentFirstName,
-    setParentFirstName,
-    parentLastName,
-    setParentLastName,
-    parentPhoneNumber,
-    setParentPhoneNumber,
-    parentRelationship,
-    setParentRelationship,
+export const EmergInfoPage: React.FC<EmergPageProps> = ({
+    props,
 }): JSX.Element => {
     return (
         <>
@@ -31,15 +27,19 @@ export const EmergInfoPage: React.FC<EmergInfoPageProps> = ({
                     <FormControl id="parent-first-name">
                         <Input
                             placeholder="First name"
-                            onChange={(e) => setParentFirstName(e.target.value)}
-                            value={parentFirstName}
+                            onChange={(e) =>
+                                props.setParentFirstName(e.target.value)
+                            }
+                            value={props.parentFirstName}
                         />
                     </FormControl>
                     <FormControl id="parent-last-name">
                         <Input
                             placeholder="Last name"
-                            onChange={(e) => setParentLastName(e.target.value)}
-                            value={parentLastName}
+                            onChange={(e) =>
+                                props.setParentLastName(e.target.value)
+                            }
+                            value={props.parentLastName}
                         />
                     </FormControl>
                 </HStack>
@@ -48,16 +48,18 @@ export const EmergInfoPage: React.FC<EmergInfoPageProps> = ({
                 <FormLabel>Phone Number </FormLabel>
                 <Input
                     placeholder="289 349 1048"
-                    onChange={(e) => setParentPhoneNumber(e.target.value)}
-                    value={parentPhoneNumber}
+                    onChange={(e) => props.setParentPhoneNumber(e.target.value)}
+                    value={props.parentPhoneNumber}
                 />
             </FormControl>
             <FormControl id="parent-relationship-to-participant">
                 <FormLabel>Relationship to Participant</FormLabel>
                 <Input
                     placeholder="Mother"
-                    onChange={(e) => setParentRelationship(e.target.value)}
-                    value={parentRelationship}
+                    onChange={(e) =>
+                        props.setParentRelationship(e.target.value)
+                    }
+                    value={props.parentRelationship}
                 />
             </FormControl>
         </>

@@ -12,15 +12,6 @@ import {
     Stack,
     HStack,
     VStack,
-    Select,
-    Checkbox,
-    Textarea,
-    Heading,
-    UnorderedList,
-    ListItem,
-    OrderedList,
-    Radio,
-    RadioGroup,
 } from "@chakra-ui/react";
 import { CloseButton } from "@components/CloseButton";
 import { BackButton } from "@components/BackButton";
@@ -29,18 +20,12 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
-import {
-    difficulties,
-    ParentInput,
-    roles,
-    locale,
-    therapy,
-    province,
-    heardFrom,
-} from "@models/User";
+import { ParentInput, roles, locale, province } from "@models/User";
 import { ParticipantInfoPage } from "@components/ParticipantInfoPage";
 import { LearningInfoPage } from "@components/LearningInfoPage";
 import { EmergInfoPage } from "@components/EmergInfoPage";
+import { IncomePage } from "@components/IncomePage";
+import { HeardFromPage } from "@components/HeardFromPage";
 
 const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
@@ -249,6 +234,88 @@ export default function ParticipantInfo({
         </Box>
     ) : null;
 
+    // JSON object containing local storage values, pass to page components
+    const parentRegistrationInfo = {
+        //start of general info
+        participantFirstName: participantFirstName,
+        setParticipantFirstName: setParticipantFirstName,
+        participantLastName: participantLastName,
+        setParticipantLastName: setParticipantLastName,
+        dateOfBirth: dateOfBirth,
+        setDateOfBirth: setDateOfBirth,
+        address1: address1,
+        setAddress1: setAddress1,
+        address2: address2,
+        setAddress2: setAddress2,
+        city: city,
+        setCity: setCity,
+        participantProvince: participantProvince,
+        setParticipantProvince: setParticipantProvince,
+        postalCode: postalCode,
+        setPostalCode: setPostalCode,
+        school: school,
+        setSchool: setSchool,
+        grade: grade,
+        setGrade: setGrade,
+        // start of learning info
+        hasLearningDifficulties: hasLearningDifficulties,
+        setHasLearningDifficulties: setHasLearningDifficulties,
+        hasPhysicalDifficulties: hasPhysicalDifficulties,
+        setHasPhysicalDifficulties: setHasPhysicalDifficulties,
+        hasSensoryDifficulties: hasSensoryDifficulties,
+        setHasSensoryDifficulties: setHasSensoryDifficulties,
+        participantDifficulties: participantDifficulties,
+        setParticipantDifficulties: setParticipantDifficulties,
+        hasOtherDifficulties: hasOtherDifficulties,
+        setHasOtherDifficulties: setHasOtherDifficulties,
+        otherDifficulties: otherDifficulties,
+        setOtherDifficulties: setOtherDifficulties,
+        specialEd: specialEd,
+        setSpecialEd: setSpecialEd,
+        physiotherapy: physiotherapy,
+        setPhysiotherapy: setPhysiotherapy,
+        speechTherapy: speechTherapy,
+        setSpeechTherapy: setSpeechTherapy,
+        occupationalTherapy: occupationalTherapy,
+        setOccupationalTherapy: setOccupationalTherapy,
+        counseling: counseling,
+        setCounseling: setCounseling,
+        artTherapy: artTherapy,
+        setArtTherapy: setArtTherapy,
+        participantTherapy: participantTherapy,
+        setParticipantTherapy: setParticipantTherapy,
+        hasOtherTherapy: hasOtherTherapy,
+        setHasOtherTherapy: setHasOtherTherapy,
+        otherTherapy: otherTherapy,
+        setOtherTherapy: setOtherTherapy,
+        guardianExpectations: guardianExpectations,
+        setGuardianExpectations: setGuardianExpectations,
+        otherDifficultyDetails: otherDifficultyDetails,
+        otherTherapyDetails: otherTherapyDetails,
+        // start of emergency info
+        parentFirstName: parentFirstName,
+        setParentFirstName: setParentFirstName,
+        parentLastName: parentLastName,
+        setParentLastName: setParentLastName,
+        parentPhoneNumber: parentPhoneNumber,
+        setParentPhoneNumber: setParentPhoneNumber,
+        parentRelationship: parentRelationship,
+        setParentRelationship: setParentRelationship,
+        // start of heard about information
+        heardFromFriendsAndFam: heardFromFriendsAndFam,
+        setHeardFromFriendsAndFam: setHeardFromFriendsAndFam,
+        heardFromFlyers: heardFromFlyers,
+        setHeardFromFlyers: setHeardFromFlyers,
+        heardFromEmail: heardFromEmail,
+        setHeardFromEmail: setHeardFromEmail,
+        heardFromSocialMedia: heardFromSocialMedia,
+        setHeardFromSocialMedia: setHeardFromSocialMedia,
+        heardFromOther: heardFromOther,
+        setHeardFromOther: setHeardFromOther,
+        heardFromOptions: heardFromOptions,
+        setHeardFromOptions: setHeardFromOptions,
+    };
+
     const formPageHeaders = [
         "Participant Information",
         "Participant Information",
@@ -263,123 +330,31 @@ export default function ParticipantInfo({
         // Page for general participant info
         <Box>
             <FormPage>
-                <ParticipantInfoPage
-                    participantFirstName={participantFirstName}
-                    setParticipantFirstName={setParticipantFirstName}
-                    participantLastName={participantLastName}
-                    setParticipantLastName={setParticipantLastName}
-                    dateOfBirth={dateOfBirth}
-                    setDateOfBirth={setDateOfBirth}
-                    address1={address1}
-                    setAddress1={setAddress1}
-                    address2={address2}
-                    setAddress2={setAddress2}
-                    city={city}
-                    setCity={setCity}
-                    participantProvince={participantProvince}
-                    setParticipantProvince={setParticipantProvince}
-                    postalCode={postalCode}
-                    setPostalCode={setPostalCode}
-                    school={school}
-                    setSchool={setSchool}
-                    grade={grade}
-                    setGrade={setGrade}
-                />
+                <ParticipantInfoPage props={parentRegistrationInfo} />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
-        // Page for
+        // Page for learning info
         <Box>
             <FormPage>
-                <LearningInfoPage
-                    hasLearningDifficulties={hasLearningDifficulties}
-                    setHasLearningDifficulties={setHasLearningDifficulties}
-                    hasPhysicalDifficulties={hasPhysicalDifficulties}
-                    setHasPhysicalDifficulties={setHasPhysicalDifficulties}
-                    hasSensoryDifficulties={hasSensoryDifficulties}
-                    setHasSensoryDifficulties={setHasSensoryDifficulties}
-                    participantDifficulties={participantDifficulties}
-                    setParticipantDifficulties={setParticipantDifficulties}
-                    hasOtherDifficulties={hasOtherDifficulties}
-                    setHasOtherDifficulties={setHasOtherDifficulties}
-                    otherDifficulties={otherDifficulties}
-                    setOtherDifficulties={setOtherDifficulties}
-                    specialEd={specialEd}
-                    setSpecialEd={setSpecialEd}
-                    physiotherapy={physiotherapy}
-                    setPhysiotherapy={setPhysiotherapy}
-                    speechTherapy={speechTherapy}
-                    setSpeechTherapy={setSpeechTherapy}
-                    occupationalTherapy={occupationalTherapy}
-                    setOccupationalTherapy={setOccupationalTherapy}
-                    counseling={counseling}
-                    setCounseling={setCounseling}
-                    artTherapy={artTherapy}
-                    setArtTherapy={setArtTherapy}
-                    participantTherapy={participantTherapy}
-                    setParticipantTherapy={setParticipantTherapy}
-                    hasOtherTherapy={hasOtherTherapy}
-                    setHasOtherTherapy={setHasOtherTherapy}
-                    otherTherapy={otherTherapy}
-                    setOtherTherapy={setOtherTherapy}
-                    guardianExpectations={guardianExpectations}
-                    setGuardianExpectations={setGuardianExpectations}
-                    otherDifficultyDetails={otherDifficultyDetails}
-                    otherTherapyDetails={otherTherapyDetails}
-                />
+                <LearningInfoPage props={parentRegistrationInfo} />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
+        // Page for emergency info
         <Box>
             <FormPage>
-                <EmergInfoPage
-                    parentFirstName={parentFirstName}
-                    setParentFirstName={setParentFirstName}
-                    parentLastName={parentLastName}
-                    setParentLastName={setParentLastName}
-                    parentPhoneNumber={parentPhoneNumber}
-                    setParentPhoneNumber={setParentPhoneNumber}
-                    parentRelationship={parentRelationship}
-                    setParentRelationship={setParentRelationship}
-                />
+                <EmergInfoPage props={parentRegistrationInfo} />
             </FormPage>
             <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
+        // Page for proof of income
         <Box>
             <FormPage>
-                <Box maxW="55rem">
-                    <Text fontSize="16px" fontWeight="200" mb="60px">
-                        Upload a Proof of Income to recieve automated discounts
-                        on classes you take!
-                    </Text>
-                    <Heading fontSize="22px" fontWeight="900">
-                        Examples of Proof of Income Include
-                    </Heading>
-                    <br />
-                    <UnorderedList
-                        margin="10px"
-                        fontSize="16px"
-                        fontWeight="400"
-                    >
-                        {PROOF_OF_INCOME_EXAMPLES.map((poi, idx) => (
-                            <ListItem key={idx} mx="20px">
-                                {poi}
-                            </ListItem>
-                        ))}
-                    </UnorderedList>
-                    <br />
-                    <Heading fontSize="22px" fontWeight="900">
-                        Uploading your Proof of Income
-                    </Heading>
-                    <br />
-                    <OrderedList margin="10px" fontSize="16px" fontWeight="400">
-                        {UPLOADING_PROOF_OF_INCOME.map((poi, idx) => (
-                            <ListItem key={idx} mx="20px">
-                                {poi}
-                            </ListItem>
-                        ))}
-                    </OrderedList>
-                </Box>
+                <IncomePage
+                    UPLOADING_PROOF_OF_INCOME={UPLOADING_PROOF_OF_INCOME}
+                    PROOF_OF_INCOME_EXAMPLES={PROOF_OF_INCOME_EXAMPLES}
+                />
             </FormPage>
             <Box>
                 <HStack spacing="24px">
@@ -395,109 +370,10 @@ export default function ParticipantInfo({
                 </HStack>
             </Box>
         </Box>,
+        // page for heard from info
         <Box>
             <FormPage>
-                <FormControl id="hear-about-us">
-                    <FormLabel>How did you hear about our programs?</FormLabel>
-                    <Stack direction="column">
-                        <Checkbox
-                            isChecked={heardFromFriendsAndFam}
-                            onChange={(e) => {
-                                setHeardFromFriendsAndFam(e.target.checked);
-                                if (e.target.checked) {
-                                    heardFromOptions.push(
-                                        heardFrom.FRIENDS_FAMILY,
-                                    );
-                                    setHeardFromOptions(heardFromOptions);
-                                } else {
-                                    const newHeardFromOptions =
-                                        heardFromOptions.filter(
-                                            (hf) =>
-                                                hf != heardFrom.FRIENDS_FAMILY,
-                                        );
-                                    setHeardFromOptions(newHeardFromOptions);
-                                }
-                            }}
-                        >
-                            Friends and Family
-                        </Checkbox>
-                        <Checkbox
-                            isChecked={heardFromFlyers}
-                            onChange={(e) => {
-                                setHeardFromFlyers(e.target.checked);
-                                if (e.target.checked) {
-                                    heardFromOptions.push(heardFrom.FLYERS);
-                                    setHeardFromOptions(heardFromOptions);
-                                } else {
-                                    const newHeardFromOptions =
-                                        heardFromOptions.filter(
-                                            (hf) => hf != heardFrom.FLYERS,
-                                        );
-                                    setHeardFromOptions(newHeardFromOptions);
-                                }
-                            }}
-                        >
-                            Flyers
-                        </Checkbox>
-                        <Checkbox
-                            isChecked={heardFromEmail}
-                            onChange={(e) => {
-                                setHeardFromEmail(e.target.checked);
-                                if (e.target.checked) {
-                                    heardFromOptions.push(heardFrom.EMAIL);
-                                    setHeardFromOptions(heardFromOptions);
-                                } else {
-                                    const newHeardFromOptions =
-                                        heardFromOptions.filter(
-                                            (hf) => hf != heardFrom.EMAIL,
-                                        );
-                                    setHeardFromOptions(newHeardFromOptions);
-                                }
-                            }}
-                        >
-                            Email
-                        </Checkbox>
-                        <Checkbox
-                            isChecked={heardFromSocialMedia}
-                            onChange={(e) => {
-                                setHeardFromSocialMedia(e.target.checked);
-                                if (e.target.checked) {
-                                    heardFromOptions.push(
-                                        heardFrom.SOCIAL_MEDIA,
-                                    );
-                                    setHeardFromOptions(heardFromOptions);
-                                } else {
-                                    const newHeardFromOptions =
-                                        heardFromOptions.filter(
-                                            (hf) =>
-                                                hf != heardFrom.SOCIAL_MEDIA,
-                                        );
-                                    setHeardFromOptions(newHeardFromOptions);
-                                }
-                            }}
-                        >
-                            Social Media
-                        </Checkbox>
-                        <Checkbox
-                            isChecked={heardFromOther}
-                            onChange={(e) => {
-                                setHeardFromOther(e.target.checked);
-                                if (e.target.checked) {
-                                    heardFromOptions.push(heardFrom.OTHER);
-                                    setHeardFromOptions(heardFromOptions);
-                                } else {
-                                    const newHeardFromOptions =
-                                        heardFromOptions.filter(
-                                            (hf) => hf != heardFrom.OTHER,
-                                        );
-                                    setHeardFromOptions(newHeardFromOptions);
-                                }
-                            }}
-                        >
-                            Other
-                        </Checkbox>
-                    </Stack>
-                </FormControl>
+                <HeardFromPage props={parentRegistrationInfo} />
             </FormPage>
             <FormButton
                 onClick={() => {
