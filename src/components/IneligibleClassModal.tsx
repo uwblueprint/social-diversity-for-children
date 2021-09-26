@@ -8,6 +8,7 @@ import {
     ModalBody,
     Text,
 } from "@chakra-ui/react";
+import colourTheme from "@styles/colours";
 
 type IneligibleClassModalProps = {
     isOpen: boolean;
@@ -37,7 +38,7 @@ export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
 
                 <ModalFooter>
                     <Button
-                        bg={"#0C53A0"}
+                        bg={colourTheme.colors.Blue}
                         color={"white"}
                         mx={"auto"}
                         my={2}
@@ -45,7 +46,7 @@ export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
                         fontWeight={"200"}
                         _hover={{
                             textDecoration: "none",
-                            bg: "#2C6AAD",
+                            bg: colourTheme.colors.LightBlue,
                         }}
                         _active={{
                             bg: "lightgrey",

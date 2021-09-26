@@ -11,6 +11,7 @@ import type { ProgramCardInfo } from "models/Program";
 import { programFormat } from "@prisma/client";
 import { SDCBadge } from "./SDCBadge";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
+import colourTheme from "@styles/colours";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -75,7 +76,7 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                                 borderWidth="1px"
                                 width="100%"
                                 _hover={{
-                                    borderColor: "#0C53A0",
+                                    borderColor: colourTheme.colors.Blue,
                                     borderWidth: 1,
                                 }}
                                 onClick={() => {

@@ -4,6 +4,7 @@ import type { ClassCardInfo } from "models/Class";
 import { ClassInfoModal } from "./ClassInfoModal";
 import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
+import colourTheme from "@styles/colours";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
@@ -30,7 +31,7 @@ export const ClassList: React.FC<ClassListProps> = ({
                     return (
                         <ListItem
                             borderColor="gray.200"
-                            _hover={{ borderColor: "#0C53A0" }}
+                            _hover={{ borderColor: colourTheme.colors.Blue }}
                             borderWidth={2}
                             key={idx}
                         >
