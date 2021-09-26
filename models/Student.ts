@@ -28,3 +28,19 @@ export type CreateStudentInput = {
     emergNumber: string;
     emergRelationToStudent: string;
 };
+
+/**
+ * Information used for the card component of a student
+ */
+export type StudentCardInfo = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: Date;
+    grade?: number;
+    difficulties?: difficulties[];
+    otherDifficulties?: string;
+    specialEducation?: boolean;
+    therapy?: therapy[];
+    otherTherapy?: string;
+};

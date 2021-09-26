@@ -1,3 +1,7 @@
+import { ClassCardInfo } from "./Class";
+import { ProgramCardInfo } from "./Program";
+import { StudentCardInfo } from "./Student";
+
 /**
  * Request Body Input For Parent Enrollment
  */
@@ -18,4 +22,26 @@ export type VolunteerRegistrationInput = {
     volunteerId: number;
     /** Unique identifier of the class the volunteer is being enrolled in */
     classId: number;
+};
+
+/**
+ * Information used for the card component of a program registration
+ */
+export type EnrollmentCardInfo = {
+    classId: number;
+    createdAt: Date;
+    class: ClassCardInfo;
+    student: StudentCardInfo;
+    program: ProgramCardInfo;
+};
+
+/**
+ * Information used for combined card component of a program registration
+ */
+export type CombinedEnrollmentCardInfo = {
+    classId: number;
+    createdAt: Date;
+    class: ClassCardInfo;
+    students: StudentCardInfo[];
+    program: ProgramCardInfo;
 };

@@ -3,7 +3,51 @@ import {
     ParentRegistrationInput,
     VolunteerRegistrationInput,
 } from "@models/Enroll";
-import { ParentReg, VolunteerReg } from "@prisma/client";
+import { locale, ParentReg, VolunteerReg } from "@prisma/client";
+
+/**
+ * getParentRegistrations obtains the registration records of a parent
+ *
+ * @returns {Promise<ParentReg[]>} record of the registration
+ */
+async function getParentRegistrations(
+    parentId: number,
+    language: locale,
+): Promise<ParentReg[]> {
+    const parentRegistrationRecords = await prisma.parentReg.findMany({
+        where: {
+            parentId,
+        },
+        include: {
+            student: true,
+            class: {
+                include: {
+                    classTranslation: {
+                        where: {
+                            language: language,
+                        },
+                    },
+                    teacherRegs: {
+                        include: {
+                            teacher: {
+                                include: {
+                                    user: true,
+                                },
+                            },
+                        },
+                    },
+                    program: {
+                        include: {
+                            programTranslation: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return parentRegistrationRecords;
+}
 
 /**
  * getParentRegistration obtains the registration record of a parent enrollment
@@ -94,6 +138,7 @@ async function createVolunteerRegistration(
 
 export {
     getParentRegistration,
+    getParentRegistrations,
     createParentRegistration,
     getVolunteerRegistration,
     createVolunteerRegistration,
