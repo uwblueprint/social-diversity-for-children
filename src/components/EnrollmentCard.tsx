@@ -20,15 +20,47 @@ import {
 } from "@chakra-ui/react";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import { CombinedEnrollmentCardInfo } from "@models/Enroll";
+import {
+    CombinedEnrollmentCardInfo,
+    ParentRegistrationInput,
+} from "@models/Enroll";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import convertToListDisplay from "@utils/convertToListDisplay";
+import { StudentCardInfo } from "@models/Student";
+import { mutate } from "swr";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
 };
+
+async function deleteClassRegistrations(
+    students: StudentCardInfo[],
+    classId: number,
+) {
+    return students.map((student) => deleteRegistration(student, classId));
+}
+
+async function deleteRegistration(student: StudentCardInfo, classId: number) {
+    const registrationData: ParentRegistrationInput = {
+        classId,
+        studentId: student.id,
+        parentId: student.parentId,
+    };
+    const request = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registrationData),
+    };
+
+    const response = await fetch("api/enroll/child", request);
+    const deletedRegistration = await response.json();
+
+    mutate("/api/enroll/child");
+
+    return deletedRegistration;
+}
 
 /**
  *
@@ -54,7 +86,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box>
-                            <Heading size="md" pb={4}>
+                            <Heading size="md" pb={4} pr={2}>
                                 {enrollmentInfo.program.name} (
                                 {enrollmentInfo.class.name})
                             </Heading>
@@ -126,16 +158,35 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 />
                                 <MenuList>
                                     {enrollmentInfo.students.map((student) => (
-                                        <MenuItem key={student.id}>
+                                        <MenuItem
+                                            key={student.id}
+                                            onClick={() =>
+                                                deleteRegistration(
+                                                    student,
+                                                    enrollmentInfo.classId,
+                                                )
+                                            }
+                                        >
                                             Unregister for {student.firstName}
                                         </MenuItem>
                                     ))}
-                                    <MenuDivider />
-                                    <MenuItem>
-                                        <Text fontWeight="bold">
-                                            Unregister for all
-                                        </Text>
-                                    </MenuItem>
+                                    {enrollmentInfo.students.length > 1 ? (
+                                        <>
+                                            <MenuDivider />
+                                            <MenuItem
+                                                onClick={() =>
+                                                    deleteClassRegistrations(
+                                                        enrollmentInfo.students,
+                                                        enrollmentInfo.classId,
+                                                    )
+                                                }
+                                            >
+                                                <Text fontWeight="bold">
+                                                    Unregister for all
+                                                </Text>
+                                            </MenuItem>
+                                        </>
+                                    ) : null}
                                 </MenuList>
                             </Menu>
                         </Box>
