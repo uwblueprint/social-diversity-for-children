@@ -31,11 +31,8 @@ function Class({ session }: ClassProps): JSX.Element {
             <BackButton />
             <Flex direction="column" pt={4} pb={8}>
                 <Flex align="center">
-                    <Heading>My Classes</Heading>
+                    <Heading mb={8}>My Classes</Heading>
                 </Flex>
-                <Heading mt={10} mb={5} size="sm">
-                    Upcoming classes
-                </Heading>
                 <EnrollmentList enrollmentInfo={enrollmentCardInfos} />
             </Flex>
         </Wrapper>
