@@ -1,6 +1,7 @@
 import React from "react";
 import {
     Center,
+    Heading,
     List,
     ListItem,
     Tab,
@@ -69,12 +70,15 @@ export const EnrollmentList: React.FC<EnrollmentListProps> = ({
     if (students.length > 1) {
         return (
             <Tabs>
-                <TabList>
+                <TabList mb={9}>
                     <Tab>All</Tab>
                     {students.map((student) => {
                         return <Tab key={student.id}>{student.firstName}</Tab>;
                     })}
                 </TabList>
+                <Heading mb={2} size="sm">
+                    Upcoming classes
+                </Heading>
 
                 <TabPanels>
                     <TabPanel>
@@ -96,7 +100,15 @@ export const EnrollmentList: React.FC<EnrollmentListProps> = ({
         );
     } else {
         return (
-            <EnrollmentCards isOnlyStudent enrollmentInfo={enrollmentInfo} />
+            <>
+                <Heading mb={2} size="sm">
+                    Upcoming classes
+                </Heading>
+                <EnrollmentCards
+                    isOnlyStudent
+                    enrollmentInfo={enrollmentInfo}
+                />
+            </>
         );
     }
 };
