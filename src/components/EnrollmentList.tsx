@@ -19,7 +19,15 @@ type EnrollmentListProps = {
     enrollmentInfo: EnrollmentCardInfo[];
 };
 
-const ListComp: React.FC<EnrollmentListProps> = ({ enrollmentInfo }) => {
+type EnrollmentCardsProps = {
+    enrollmentInfo: EnrollmentCardInfo[];
+    isOnlyStudent?: boolean;
+};
+
+const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
+    enrollmentInfo,
+    isOnlyStudent,
+}) => {
     return (
         <Center width="100%">
             <List spacing="5" width="100%">
@@ -33,7 +41,10 @@ const ListComp: React.FC<EnrollmentListProps> = ({ enrollmentInfo }) => {
                             borderWidth={2}
                             key={item.classId}
                         >
-                            <EnrollmentCard enrollmentInfo={item} />
+                            <EnrollmentCard
+                                isOnlyStudent={isOnlyStudent}
+                                enrollmentInfo={item}
+                            />
                         </ListItem>
                     );
                 })}
@@ -55,31 +66,37 @@ export const EnrollmentList: React.FC<EnrollmentListProps> = ({
         }
     });
 
-    return (
-        <Tabs>
-            <TabList>
-                <Tab>All</Tab>
-                {students.map((student) => {
-                    return <Tab key={student.id}>{student.firstName}</Tab>;
-                })}
-            </TabList>
+    if (students.length > 1) {
+        return (
+            <Tabs>
+                <TabList>
+                    <Tab>All</Tab>
+                    {students.map((student) => {
+                        return <Tab key={student.id}>{student.firstName}</Tab>;
+                    })}
+                </TabList>
 
-            <TabPanels>
-                <TabPanel>
-                    <ListComp enrollmentInfo={enrollmentInfo} />
-                </TabPanel>
-                {students.map((student) => {
-                    return (
-                        <TabPanel key={student.id}>
-                            <ListComp
-                                enrollmentInfo={enrollmentInfo.filter(
-                                    (info) => info.student.id == student.id,
-                                )}
-                            />
-                        </TabPanel>
-                    );
-                })}
-            </TabPanels>
-        </Tabs>
-    );
+                <TabPanels>
+                    <TabPanel>
+                        <EnrollmentCards enrollmentInfo={enrollmentInfo} />
+                    </TabPanel>
+                    {students.map((student) => {
+                        return (
+                            <TabPanel key={student.id}>
+                                <EnrollmentCards
+                                    enrollmentInfo={enrollmentInfo.filter(
+                                        (info) => info.student.id == student.id,
+                                    )}
+                                />
+                            </TabPanel>
+                        );
+                    })}
+                </TabPanels>
+            </Tabs>
+        );
+    } else {
+        return (
+            <EnrollmentCards isOnlyStudent enrollmentInfo={enrollmentInfo} />
+        );
+    }
 };

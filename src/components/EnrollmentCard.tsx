@@ -33,6 +33,7 @@ import { mutate } from "swr";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
+    isOnlyStudent?: boolean;
 };
 
 async function deleteClassRegistrations(
@@ -70,6 +71,7 @@ async function deleteRegistration(student: StudentCardInfo, classId: number) {
  */
 export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     enrollmentInfo,
+    isOnlyStudent,
 }) => {
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
@@ -110,17 +112,19 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                     )}
                                 </Text>
                             </Box>
-                            <Text pt={4}>
-                                Participants:{" "}
-                                {convertToListDisplay(
-                                    enrollmentInfo.students.map(
-                                        (student) => student.firstName,
-                                    ),
-                                )}
-                            </Text>
+                            {isOnlyStudent ? null : (
+                                <Text pt={4}>
+                                    Participants:{" "}
+                                    {convertToListDisplay(
+                                        enrollmentInfo.students.map(
+                                            (student) => student.firstName,
+                                        ),
+                                    )}
+                                </Text>
+                            )}
                         </Box>
                         <Spacer />
-                        <Box>
+                        <Flex alignItems={"baseline"}>
                             <Button
                                 bg={colourTheme.colors.Blue}
                                 color={"white"}
@@ -170,7 +174,8 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             Unregister for {student.firstName}
                                         </MenuItem>
                                     ))}
-                                    {enrollmentInfo.students.length > 1 ? (
+                                    {enrollmentInfo.students.length <
+                                    2 ? null : (
                                         <>
                                             <MenuDivider />
                                             <MenuItem
@@ -186,10 +191,10 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                                 </Text>
                                             </MenuItem>
                                         </>
-                                    ) : null}
+                                    )}
                                 </MenuList>
                             </Menu>
-                        </Box>
+                        </Flex>
                     </Flex>
                 </VStack>
             </GridItem>

@@ -1,33 +1,29 @@
 import React from "react";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { EnrollmentList } from "@components/EnrollmentList";
-import useSWR from "swr";
 import CardInfoUtil from "@utils/cardInfoUtil";
+import useParentRegistrations from "@utils/useParentRegistration";
 
 type ClassProps = {
     session: Record<string, unknown>;
 };
 
 function Class({ session }: ClassProps): JSX.Element {
-    // TODO: make a generic helper method for SWR fetch
-    const fetcher = (url) => fetch(url).then((r) => r.json());
-    const { data: enrollmentListResponse, error: enrollmentListError } = useSWR(
-        "/api/enroll/child",
-        fetcher,
-    );
-    if (enrollmentListError) {
+    const { enrollments, error } = useParentRegistrations();
+
+    if (error) {
         return (
             // This should really route to some error page instead
-            <Text>An error has occurred. {enrollmentListError.toString()}</Text>
+            <Text>An error has occurred. {error.toString()}</Text>
         );
     }
 
-    const enrollmentCardInfos = enrollmentListResponse
-        ? CardInfoUtil.getEnrollmentCardInfos(enrollmentListResponse.data)
+    const enrollmentCardInfos = enrollments
+        ? CardInfoUtil.getEnrollmentCardInfos(enrollments.data)
         : [];
 
     return (
