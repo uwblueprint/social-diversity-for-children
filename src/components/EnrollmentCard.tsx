@@ -162,22 +162,28 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 />
                                 <MenuList>
                                     {enrollmentInfo.students.map((student) => (
-                                        <MenuItem
-                                            key={student.id}
-                                            onClick={() =>
-                                                deleteRegistration(
-                                                    student,
-                                                    enrollmentInfo.classId,
-                                                )
-                                            }
-                                        >
-                                            Unregister for {student.firstName}
-                                        </MenuItem>
+                                        <>
+                                            <MenuItem
+                                                key={student.id}
+                                                onClick={() =>
+                                                    deleteRegistration(
+                                                        student,
+                                                        enrollmentInfo.classId,
+                                                    )
+                                                }
+                                            >
+                                                Unregister for{" "}
+                                                {student.firstName}
+                                            </MenuItem>
+                                            {enrollmentInfo.students.length <
+                                            2 ? null : (
+                                                <MenuDivider />
+                                            )}
+                                        </>
                                     ))}
                                     {enrollmentInfo.students.length <
                                     2 ? null : (
                                         <>
-                                            <MenuDivider />
                                             <MenuItem
                                                 onClick={() =>
                                                     deleteClassRegistrations(

@@ -50,6 +50,15 @@ export const getServerSideProps: GetServerSideProps = async (
     // obtain the next auth session
     const session = await getSession(context);
 
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
     return {
         props: { session },
     };
