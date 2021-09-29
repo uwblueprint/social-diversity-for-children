@@ -21,6 +21,7 @@ import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
+import convertToShortDateRange from "@utils/convertToShortDateRange";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -68,17 +69,10 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                     </ModalHeader>
                     <ModalCloseButton />
                     <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                        {new Date(classInfo.startDate)
-                            .toDateString()
-                            .split(" ")
-                            .slice(1)
-                            .join(" ")}{" "}
-                        to{" "}
-                        {new Date(classInfo.endDate)
-                            .toDateString()
-                            .split(" ")
-                            .slice(1)
-                            .join(" ")}
+                        {convertToShortDateRange(
+                            classInfo.startDate,
+                            classInfo.endDate,
+                        )}
                     </Text>
                     <Box my={25}>
                         <SDCBadge children={onlineFormat} />
