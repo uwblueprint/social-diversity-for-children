@@ -20,10 +20,13 @@ export type ClassInput = {
 export type ClassCardInfo = {
     image?: string;
     name?: string;
+    description: string;
     ageGroup?: string;
     spaceAvailable: number;
     volunteerSpaceAvailable: number;
     weekday: weekday;
+    startDate: Date;
+    endDate: Date;
     startTimeMinutes: number;
     durationMinutes: number;
     teacherName: string;
