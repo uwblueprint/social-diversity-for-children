@@ -13,13 +13,13 @@ export default function Custom404(props: ComponentProps): JSX.Element {
 
     return (
         <Wrapper session={props.session}>
-            <Center h="80vh" align="center">
-                <Box align="center" width="60%">
+            <Center minHeight="85vh" align="center">
+                <Box align="center" width="70%">
                     <SvgErrorIcon />
-                    <Heading size="xl" margin="3% 0% 3% 0%">
+                    <Heading size="md" margin="3% 0% 3% 0%">
                         Oh no! Page not found.
                     </Heading>
-                    <Text size="2xl" marginBottom="3%">
+                    <Text size="md" marginBottom="3%">
                         Sorry, but the page you are looking for does not exist.
                         Try refreshing the page or hit the button below.
                     </Text>
@@ -27,8 +27,8 @@ export default function Custom404(props: ComponentProps): JSX.Element {
                         color="white"
                         backgroundColor="#0C53A0"
                         _hover={{ backgroundColor: "#2C6AAD" }}
-                        width="50%"
-                        padding="10px 12px 10px 12px"
+                        size="sm"
+                        padding="10px 40px 10px 40px"
                         onClick={goToHome}
                         borderRadius={100}
                         fontWeight={"200"}
