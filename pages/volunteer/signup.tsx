@@ -163,9 +163,6 @@ export default function VolunteerInfo({
         setProgressBar(progressBarIncrement);
     }
 
-    const getProgressBarValue = (pageNum) =>
-        progressBarIncrement * (pageNum + 1);
-
     async function updateUser() {
         const volunteerData: VolunteerInput = {
             dateOfBirth: new Date(dateOfBirth),
