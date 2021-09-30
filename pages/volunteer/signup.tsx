@@ -1,21 +1,7 @@
-import {
-    Button,
-    Box,
-    Center,
-    Flex,
-    Text,
-    Link,
-    Progress,
-    Stack,
-    HStack,
-    VStack,
-} from "@chakra-ui/react";
-import { CloseButton } from "@components/CloseButton";
-import { BackButton } from "@components/BackButton";
+import { Button, Box, Stack, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
-import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
@@ -23,6 +9,8 @@ import { VolunteerInfoPage } from "@components/VolunteerInfoPage";
 import { VolunteerDetailsPage } from "@components/VolunteerDetailsPage";
 import { VolunteerSkillsPage } from "@components/VolunteerSkillsPage";
 import { CriminalPage } from "@components/CriminalPage";
+import { VolunteerCreatedPage } from "@components/VolunteerCreatedPage";
+
 const DEFAULT_PROVINCE = province.BC;
 
 const FormButton = (props) => {
@@ -233,86 +221,13 @@ export default function VolunteerInfo({
     }
 
     return (
-        <Wrapper session={session}>
-            {pageNum < totalPages ? (
-                <Center>
-                    <Box w={912}>
-                        <Flex
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
-                            <BackButton
-                                onClick={
-                                    pageNum > 0
-                                        ? () =>
-                                              setPageNum((prevPage) =>
-                                                  Math.max(prevPage - 1, 0),
-                                              )
-                                        : null
-                                }
-                            />
-                            <CloseButton />
-                        </Flex>
-                        <Text fontWeight="700" fontSize="36px">
-                            {formPageHeaders[pageNum]}
-                        </Text>
-                        <Stack spacing={8}>
-                            <Progress
-                                value={getProgressBarValue(pageNum)}
-                                size="sm"
-                                color={colourTheme.colors.Blue}
-                                mt={8}
-                                mb={6}
-                            />
-                            {formPages.map((formPage, idx) => {
-                                return (
-                                    <Box
-                                        key={idx}
-                                        display={
-                                            pageNum === idx ? null : "none"
-                                        }
-                                    >
-                                        {formPage}
-                                    </Box>
-                                );
-                            })}
-                        </Stack>
-                    </Box>
-                </Center>
-            ) : (
-                <Center>
-                    <VStack mt={120} mb={180} spacing={50}>
-                        <Text fontWeight="700" fontSize="24px" align="center">
-                            Account created successfully
-                        </Text>
-                        <Text maxW={512}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
-                        </Text>
-                        <Link
-                            _hover={{ textDecoration: "none" }}
-                            _focus={{}}
-                            href="/"
-                        >
-                            <Button
-                                color={"white"}
-                                bg={colourTheme.colors.Blue}
-                                px={10}
-                                _hover={{
-                                    bg: colourTheme.colors.LightBlue,
-                                }}
-                                _active={{}}
-                                fontWeight={"200"}
-                                borderRadius={100}
-                            >
-                                Browse Classes
-                            </Button>
-                        </Link>
-                    </VStack>
-                </Center>
-            )}
-        </Wrapper>
+        <VolunteerCreatedPage
+            session={session}
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+            totalPages={totalPages}
+            formPages={formPages}
+        />
     );
 }
 

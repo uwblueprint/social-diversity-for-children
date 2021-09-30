@@ -1,24 +1,15 @@
 import {
     Button,
     Box,
-    Center,
-    Flex,
-    Text,
     Input,
     FormControl,
     FormLabel,
-    Link,
-    Progress,
     Stack,
     HStack,
-    VStack,
 } from "@chakra-ui/react";
-import { CloseButton } from "@components/CloseButton";
-import { BackButton } from "@components/BackButton";
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
-import Wrapper from "@components/SDCWrapper";
 import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
 import { ParticipantInfoPage } from "@components/ParticipantInfoPage";
@@ -26,8 +17,9 @@ import { LearningInfoPage } from "@components/LearningInfoPage";
 import { EmergInfoPage } from "@components/EmergInfoPage";
 import { IncomePage } from "@components/IncomePage";
 import { HeardFromPage } from "@components/HeardFromPage";
+import { ParentCreatedPage } from "@components/ParentCreatedPage";
+import colourTheme from "@styles/colours";
 
-const BLUE = "#0C53A0"; // TODO: move to src/styles
 const RADIO_YES = "yes";
 const RADIO_NO = "no";
 const DEFAULT_PROVINCE = province.BC;
@@ -46,7 +38,7 @@ const UPLOADING_PROOF_OF_INCOME = [
 const FormButton = (props) => {
     return (
         <Button
-            bg={BLUE}
+            bg={colourTheme.colors.Blue}
             color={"white"}
             fontWeight="400"
             onClick={props.onClick}
@@ -498,86 +490,14 @@ export default function ParticipantInfo({
     }
 
     return (
-        <Wrapper session={session}>
-            {pageNum < totalPages ? (
-                <Center>
-                    <Box w={912}>
-                        <Flex
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
-                            <BackButton
-                                onClick={
-                                    pageNum > 0
-                                        ? () =>
-                                              setPageNum((prevPage) =>
-                                                  Math.max(prevPage - 1, 0),
-                                              )
-                                        : null
-                                }
-                            />
-                            <CloseButton />
-                        </Flex>
-                        <Text fontWeight="700" fontSize="36px">
-                            {formPageHeaders[pageNum]}
-                        </Text>
-                        <Stack spacing={8}>
-                            <Progress
-                                value={getProgressBarValue(pageNum)}
-                                size="sm"
-                                color={BLUE}
-                                mt={8}
-                                mb={6}
-                            />
-                            {formPages.map((formPage, idx) => {
-                                return (
-                                    <Box
-                                        key={idx}
-                                        display={
-                                            pageNum === idx ? null : "none"
-                                        }
-                                    >
-                                        {formPage}
-                                    </Box>
-                                );
-                            })}
-                        </Stack>
-                    </Box>
-                </Center>
-            ) : (
-                <Center>
-                    <VStack mt={120} mb={180} spacing={50}>
-                        <Text fontWeight="700" fontSize="24px" align="center">
-                            Account created successfully
-                        </Text>
-                        <Text maxW={512}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
-                        </Text>
-                        <Link
-                            _hover={{ textDecoration: "none" }}
-                            _focus={{}}
-                            href="/"
-                        >
-                            <Button
-                                color={"white"}
-                                bg={"#0C53A0"}
-                                px={10}
-                                _hover={{
-                                    bg: "#2C6AAD",
-                                }}
-                                _active={{}}
-                                fontWeight={"200"}
-                                borderRadius={100}
-                            >
-                                Browse Classes
-                            </Button>
-                        </Link>
-                    </VStack>
-                </Center>
-            )}
-        </Wrapper>
+        // Parent account created successfully
+        <ParentCreatedPage
+            session={session}
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+            totalPages={totalPages}
+            formPages={formPages}
+        />
     );
 }
 
