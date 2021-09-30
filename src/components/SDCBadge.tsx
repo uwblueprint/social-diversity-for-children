@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge, BadgeProps } from "@chakra-ui/react";
+import colourTheme from "@styles/colours";
 
 /**
  * Displays a tag in a pres-styled badge - use the children prop for text
@@ -11,7 +12,7 @@ export const SDCBadge: React.FC<BadgeProps> = (props) => {
             textTransform="capitalize"
             fontWeight="medium"
             letterSpacing="wide"
-            backgroundColor="#0C53A0"
+            backgroundColor={colourTheme.colors.Blue}
             textAlign="center"
             color="white"
             pb="1"

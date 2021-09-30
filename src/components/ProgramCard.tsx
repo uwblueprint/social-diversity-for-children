@@ -11,6 +11,7 @@ import type { ProgramCardInfo } from "models/Program";
 import { programFormat } from "@prisma/client";
 import { SDCBadge } from "./SDCBadge";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
+import colourTheme from "@styles/colours";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
