@@ -11,6 +11,7 @@ import {
     Flex,
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 type WelcomeToSDCProps = {
     session: Record<string, unknown>;
@@ -20,6 +21,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const goToLogin = () => {
         window.location.href = "/login";
     };
+    const { t } = useTranslation("common");
 
     // TODO remove test data and get new images
     const title = "Welcome to SDC";
@@ -37,10 +39,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
         <Tabs>
             <TabList>
                 <Tab _focus={{}} _active={{}} color="#0C53A0">
-                    Parents
+                    {t("parents")}
                 </Tab>
                 <Tab _focus={{}} _active={{}} color="#0C53A0">
-                    Volunteers
+                    {t("volunteers")}
                 </Tab>
             </TabList>
             <TabPanels>

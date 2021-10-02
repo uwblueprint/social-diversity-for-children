@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Button,
     Modal,
@@ -13,6 +13,7 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 type LanguageModalProps = { currentLanguage: string };
 
@@ -23,10 +24,12 @@ const Languages = [
     { locale: "ja", label: "日本語" },
 ];
 
-export const LanguageModal: React.FC<LanguageModalProps> = (
-    props: LanguageModalProps,
-) => {
+export const LanguageModal: React.FC<LanguageModalProps> = ({
+    currentLanguage,
+}) => {
+    const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [language, setLanguage] = useState(currentLanguage);
     return (
         <>
             <Button
@@ -36,7 +39,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
                 color={"black"}
                 _focus={{}}
             >
-                EN
+                {currentLanguage.toUpperCase()}
                 <ChevronDownIcon />
             </Button>
 
@@ -47,7 +50,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
                         <Text py={4} textAlign={"center"} fontWeight={"700"}>
                             Select a language
                         </Text>
-                        <RadioGroup defaultValue={props.currentLanguage}>
+                        <RadioGroup value={language} onChange={setLanguage}>
                             <Stack>
                                 {Languages.map((language) => (
                                     <Radio
@@ -69,7 +72,11 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
                             mx={"auto"}
                             my={2}
                             borderRadius={100}
-                            onClick={onClose}
+                            onClick={() =>
+                                router.push(router.asPath, undefined, {
+                                    locale: language,
+                                })
+                            }
                             fontWeight={"200"}
                             _hover={{
                                 textDecoration: "none",
@@ -86,7 +93,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = (
                                 border: "grey",
                                 boxShadow: "lightgrey",
                             }}
-                            w={48}
+                            w="100%"
                         >
                             Apply
                         </Button>

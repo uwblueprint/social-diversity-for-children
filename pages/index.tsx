@@ -11,9 +11,10 @@ import {
     Center,
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ComponentProps = {
     session: Record<string, unknown>;
@@ -62,13 +63,14 @@ export default function Component(props: ComponentProps): JSX.Element {
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

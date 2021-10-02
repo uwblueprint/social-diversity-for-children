@@ -4,6 +4,7 @@ import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
 import { ReactNode } from "react";
 import SdcLogoBlue from "@components/icons/SdcLogoBlue";
+import { useRouter } from "next/router";
 
 type NavbarProps = {
     session?: Record<string, unknown>;
@@ -37,6 +38,7 @@ const NavLink = ({
 export const DEFAULT_NAVBAR_HEIGHT = 16;
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
+    const router = useRouter();
     const accountButton = props.session ? (
         <NavLink>My Account</NavLink>
     ) : (
@@ -74,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                         </HStack>
                         <Flex alignItems={"center"}>
                             {accountButton}
-                            <LanguageModal currentLanguage={"en"} />
+                            <LanguageModal currentLanguage={router.locale} />
                         </Flex>
                     </Flex>
                 </Box>
