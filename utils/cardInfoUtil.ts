@@ -1,7 +1,6 @@
 import { ProgramCardInfo } from "models/Program";
 import { ClassCardInfo } from "models/Class";
-import { EnrollmentCardInfo } from "@models/Enroll";
-import { StudentCardInfo } from "@models/Student";
+import { EnrollmentCardInfo, VolunteeringCardInfo } from "@models/Enroll";
 
 // Converting Program and Class information from services/database/program-card-info.ts
 // into Program/Class CardInfo objects for frontend
@@ -83,30 +82,6 @@ export class CardInfoUtil {
         };
     }
 
-    // Converts result of GET /api/student into StudentCardInfo
-    static getStudentCardInfos(findResults: any[]): StudentCardInfo[] {
-        if (!findResults) return [];
-        return findResults.map((result) => {
-            return this.getStudentCardInfo(result);
-        });
-    }
-
-    static getStudentCardInfo(result: any): StudentCardInfo {
-        return {
-            id: result.id,
-            parentId: result.parentId,
-            firstName: result.firstName,
-            lastName: result.lastName,
-            dateOfBirth: result.dateofBirth,
-            grade: result.grade,
-            difficulties: result.difficulties,
-            otherDifficulties: result.otherDifficulties,
-            specialEducation: result.specialEducation,
-            therapy: result.therapy,
-            otherTherapy: result.otherTherapy,
-        };
-    }
-
     // Converts result of GET /api/enroll/child into EnrollmentCardInfo
     static getEnrollmentCardInfos(findResults: any[]): EnrollmentCardInfo[] {
         if (!findResults) return [];
@@ -122,6 +97,27 @@ export class CardInfoUtil {
             createdAt: result.createdAt,
             class: this.getClassCardInfo(result.class),
             student: result.student,
+            program: this.getProgramCardInfo(result.class.program),
+        };
+    }
+
+    // Converts results of GET /api/enroll/volunteer into VolunteeringCardInfo
+    static getVolunteeringCardInfos(
+        findResults: any[],
+    ): VolunteeringCardInfo[] {
+        if (!findResults) return [];
+        return findResults.map((result) => {
+            return this.getVolunteeringCardInfo(result);
+        });
+    }
+
+    // Converts a result of GET /api/enroll/volunteer into VolunteeringCardInfo
+    static getVolunteeringCardInfo(result: any): VolunteeringCardInfo {
+        return {
+            classId: result.classId,
+            createdAt: result.createdAt,
+            class: this.getClassCardInfo(result.class),
+            volunteer: result.volunteer,
             program: this.getProgramCardInfo(result.class.program),
         };
     }

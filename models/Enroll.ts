@@ -1,6 +1,6 @@
+import { Student, User } from "@prisma/client";
 import { ClassCardInfo } from "./Class";
 import { ProgramCardInfo } from "./Program";
-import { StudentCardInfo } from "./Student";
 
 /**
  * Request Body Input For Parent Enrollment
@@ -31,7 +31,18 @@ export type EnrollmentCardInfo = {
     classId: number;
     createdAt: Date;
     class: ClassCardInfo;
-    student: StudentCardInfo;
+    student: Student;
+    program: ProgramCardInfo;
+};
+
+/**
+ * Information used for the volunteer card component of my classes page
+ */
+export type VolunteeringCardInfo = {
+    classId: number;
+    createdAt: Date;
+    class: ClassCardInfo;
+    volunteer: User;
     program: ProgramCardInfo;
 };
 
@@ -42,6 +53,6 @@ export type CombinedEnrollmentCardInfo = {
     classId: number;
     createdAt: Date;
     class: ClassCardInfo;
-    students: StudentCardInfo[];
+    students: Student[];
     program: ProgramCardInfo;
 };

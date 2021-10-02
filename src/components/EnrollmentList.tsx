@@ -9,16 +9,15 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    Text,
 } from "@chakra-ui/react";
 import { EnrollmentCardInfo } from "@models/Enroll";
 import { EnrollmentCard } from "./EnrollmentCard";
 import colourTheme from "@styles/colours";
 import combineStudentEnrollment from "@utils/combineStudentEnrollment";
-import { StudentCardInfo } from "@models/Student";
-
-type EnrollmentListProps = {
-    enrollmentInfo: EnrollmentCardInfo[];
-};
+import useParentRegistrations from "@utils/useParentRegistration";
+import { Student } from "@prisma/client";
+import { Loading } from "./Loading";
 
 type EnrollmentCardsProps = {
     enrollmentInfo: EnrollmentCardInfo[];
@@ -54,11 +53,28 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
     );
 };
 
-export const EnrollmentList: React.FC<EnrollmentListProps> = ({
-    enrollmentInfo,
-}) => {
-    const students: Array<StudentCardInfo> = [];
-    enrollmentInfo.forEach((info) => {
+/**
+ * EnrollmentList is a list containing enrollment cards
+ * @param enrollmentInfo info of enrollment card
+ * @param isOnlyStudent if this card has multiple different children in it
+ * @returns a component that displays a list of enrollment card info with tabs
+ */
+export const EnrollmentList: React.FC = () => {
+    const { enrollments, error, isLoading } = useParentRegistrations();
+
+    if (error) {
+        return (
+            // This should really route to some error page instead
+            <Text>An error has occurred. {error.toString()}</Text>
+        );
+    }
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    const students: Array<Student> = [];
+    enrollments.forEach((info) => {
         if (
             students.findIndex((student) => student.id === info.student.id) ===
             -1
@@ -82,13 +98,13 @@ export const EnrollmentList: React.FC<EnrollmentListProps> = ({
 
                 <TabPanels>
                     <TabPanel>
-                        <EnrollmentCards enrollmentInfo={enrollmentInfo} />
+                        <EnrollmentCards enrollmentInfo={enrollments} />
                     </TabPanel>
                     {students.map((student) => {
                         return (
                             <TabPanel key={student.id}>
                                 <EnrollmentCards
-                                    enrollmentInfo={enrollmentInfo.filter(
+                                    enrollmentInfo={enrollments.filter(
                                         (info) => info.student.id == student.id,
                                     )}
                                 />
@@ -104,10 +120,7 @@ export const EnrollmentList: React.FC<EnrollmentListProps> = ({
                 <Heading mb={2} size="sm">
                     Upcoming classes
                 </Heading>
-                <EnrollmentCards
-                    isOnlyStudent
-                    enrollmentInfo={enrollmentInfo}
-                />
+                <EnrollmentCards isOnlyStudent enrollmentInfo={enrollments} />
             </>
         );
     }

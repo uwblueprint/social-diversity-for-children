@@ -16,43 +16,35 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
-    MenuDivider,
 } from "@chakra-ui/react";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import { CombinedEnrollmentCardInfo } from "@models/Enroll";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import convertToListDisplay from "@utils/convertToListDisplay";
-import {
-    deleteClassRegistration,
-    deleteClassRegistrations,
-} from "@utils/deleteClassRegistration";
+import { VolunteeringCardInfo } from "@models/Enroll";
+import { deleteVolunteerRegistration } from "@utils/deleteVolunteerRegistration";
 
-type EnrollmentCardProps = {
-    enrollmentInfo: CombinedEnrollmentCardInfo;
-    isOnlyStudent?: boolean;
+type VolunteeringCardProps = {
+    volunteeringInfo: VolunteeringCardInfo;
 };
 
 /**
- * EnrollmentCard is a single card representing an parent enrollment in a class
- * @param enrollmentInfo info of enrollment card
- * @param isOnlyStudent if this card has multiple different children in it
- * @returns a component that displays the enrollment card info
+ * VolunteeringCard is a single card representing an volunteer enrollment in a class
+ * @param volunteeringInfo info of volunteering card
+ * @returns a component that displays the volunteering card info
  */
-export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
-    enrollmentInfo,
-    isOnlyStudent,
+export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
+    volunteeringInfo,
 }) => {
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
                     <Image
-                        src={enrollmentInfo.class.image}
+                        src={volunteeringInfo.class.image}
                         fit="cover"
-                        alt={enrollmentInfo.class.name}
+                        alt={volunteeringInfo.class.name}
                     />
                 </AspectRatio>
             </GridItem>
@@ -61,39 +53,29 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <Flex mr="3">
                         <Box>
                             <Heading size="md" pb={4} pr={2}>
-                                {enrollmentInfo.program.name} (
-                                {enrollmentInfo.class.name})
+                                {volunteeringInfo.program.name} (
+                                {volunteeringInfo.class.name})
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
                                     {weekdayToString(
-                                        enrollmentInfo.class.weekday,
+                                        volunteeringInfo.class.weekday,
                                     )}
                                     {"s "}
                                     {convertToShortTimeRange(
-                                        enrollmentInfo.class.startTimeMinutes,
-                                        enrollmentInfo.class.durationMinutes,
+                                        volunteeringInfo.class.startTimeMinutes,
+                                        volunteeringInfo.class.durationMinutes,
                                     )}
                                     {" with Teacher " +
-                                        enrollmentInfo.class.teacherName}
+                                        volunteeringInfo.class.teacherName}
                                 </Text>
                                 <Text>
                                     {convertToShortDateRange(
-                                        enrollmentInfo.class.startDate,
-                                        enrollmentInfo.class.endDate,
+                                        volunteeringInfo.class.startDate,
+                                        volunteeringInfo.class.endDate,
                                     )}
                                 </Text>
                             </Box>
-                            {isOnlyStudent ? null : (
-                                <Text pt={4}>
-                                    Participants:{" "}
-                                    {convertToListDisplay(
-                                        enrollmentInfo.students.map(
-                                            (student) => student.firstName,
-                                        ),
-                                    )}
-                                </Text>
-                            )}
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
@@ -133,43 +115,21 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                     bg="white"
                                 />
                                 <MenuList>
-                                    {enrollmentInfo.students.map((student) => (
+                                    {
                                         <>
                                             <MenuItem
-                                                key={student.id}
+                                                key={volunteeringInfo.classId}
                                                 onClick={() =>
-                                                    deleteClassRegistration(
-                                                        student,
-                                                        enrollmentInfo.classId,
+                                                    deleteVolunteerRegistration(
+                                                        volunteeringInfo.volunteer,
+                                                        volunteeringInfo.classId,
                                                     )
                                                 }
                                             >
-                                                Unregister for{" "}
-                                                {student.firstName}
-                                            </MenuItem>
-                                            {enrollmentInfo.students.length <
-                                            2 ? null : (
-                                                <MenuDivider />
-                                            )}
-                                        </>
-                                    ))}
-                                    {enrollmentInfo.students.length <
-                                    2 ? null : (
-                                        <>
-                                            <MenuItem
-                                                onClick={() =>
-                                                    deleteClassRegistrations(
-                                                        enrollmentInfo.students,
-                                                        enrollmentInfo.classId,
-                                                    )
-                                                }
-                                            >
-                                                <Text fontWeight="bold">
-                                                    Unregister for all
-                                                </Text>
+                                                Unregister
                                             </MenuItem>
                                         </>
-                                    )}
+                                    }
                                 </MenuList>
                             </Menu>
                         </Flex>

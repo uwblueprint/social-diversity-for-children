@@ -44,7 +44,7 @@ export default async function handle(
             // obtain query parameters
             const { studentId, classId } = req.query;
 
-            // verify that query parameters were passed in
+            // if no student or class query, we get all enrollments
             if (!studentId && !classId) {
                 const parentRegistrationRecords = await getParentRegistrations(
                     parentId,

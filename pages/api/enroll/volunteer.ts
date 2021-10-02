@@ -3,11 +3,13 @@ import { getSession } from "next-auth/client"; // Session handling
 import { ResponseUtil } from "@utils/responseUtil";
 import {
     createVolunteerRegistration,
+    deleteVolunteerRegistration,
     getVolunteerRegistration,
+    getVolunteerRegistrations,
 } from "@database/enroll";
 import { validateVolunteerRegistrationRecord } from "@utils/validation/registration";
 import { VolunteerRegistrationInput } from "@models/Enroll";
-import { roles } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 
 /**
  * handle controls the request made to the enroll/volunteer resource.
@@ -41,12 +43,25 @@ export default async function handle(
             // obtain query parameters
             const { classId } = req.query;
 
-            // verify that query parameters were passed in
+            // Get all enrollment if no class query
             if (!classId) {
-                return ResponseUtil.returnBadRequest(
-                    res,
-                    "classId is required to obtain a program registration record",
-                );
+                const volunteerRegistrationRecords =
+                    await getVolunteerRegistrations(
+                        volunteerId,
+                        locale.en, // TODO: dynamic locale
+                    );
+
+                // verify that the volunteer registration record could be obtained
+                if (!volunteerRegistrationRecords) {
+                    return ResponseUtil.returnNotFound(
+                        res,
+                        "a registration entries was not found for the volunteer Id",
+                    );
+                }
+
+                // return response
+                ResponseUtil.returnOK(res, volunteerRegistrationRecords);
+                return;
             }
 
             // parse query parameters from strings to numbers
@@ -107,8 +122,37 @@ export default async function handle(
             ResponseUtil.returnOK(res);
             break;
         }
+        case "DELETE": {
+            const volunteerRegistrationInput: VolunteerRegistrationInput = {
+                volunteerId,
+                classId: req.body.classId,
+            };
+
+            // validate the request body and return if not validated
+            const validationErrors = validateVolunteerRegistrationRecord(
+                volunteerRegistrationInput,
+            );
+            if (validationErrors.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
+                return;
+            }
+
+            const deletedRegistration = await deleteVolunteerRegistration(
+                volunteerRegistrationInput,
+            );
+            if (!deletedRegistration) {
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Registration could not be created`,
+                );
+                return;
+            }
+
+            ResponseUtil.returnOK(res, deletedRegistration);
+            return;
+        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST"];
+            const allowedHeaders: string[] = ["GET", "POST", "DELETE"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
