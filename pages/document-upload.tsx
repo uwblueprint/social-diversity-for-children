@@ -4,6 +4,27 @@ import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
 export default function documentUpload(): JSX.Element {
     const [files, setFiles] = useState<File[]>([]);
+    const upload = async () => {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            // formData.append("files", files[i], files[i].name);
+            formData.append("files", files[i]);
+        }
+        const response = await fetch("/api/upload", {
+            method: "POST",
+            headers: {
+                "content-type":
+                    "multipart/form-data; boundary=----WebKitFormBoundaryybBKGWwAdgoNoBO0",
+            },
+            body: formData,
+        })
+            .then((res) => res.json())
+            .catch((err) => {
+                console.error(err);
+                throw err;
+            });
+        console.log(response);
+    };
 
     return (
         <Wrapper>
@@ -41,6 +62,7 @@ export default function documentUpload(): JSX.Element {
                             color="white"
                             border="1px"
                             mt="20px"
+                            onClick={upload}
                         >
                             Submit
                         </Button>

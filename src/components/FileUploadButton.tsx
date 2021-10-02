@@ -16,7 +16,6 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
     };
 
     const onFileInput = (e: React.FormEvent<HTMLInputElement>) => {
-        console.log("on input");
         const target = e.target as HTMLInputElement;
         const files: File[] = [...Array.from(target.files as FileList)];
         setFiles(files);
