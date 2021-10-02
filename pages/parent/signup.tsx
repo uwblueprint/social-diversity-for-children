@@ -202,7 +202,7 @@ export default function ParticipantInfo({
 
     const otherDifficultyDetails = hasOtherDifficulties ? (
         <Box mt={4}>
-            <FormControl id="difficulty details">
+            <FormControl id="difficulty-details">
                 <FormLabel>Please provide any details if necessary</FormLabel>
                 <Input
                     placeholder="Details"
@@ -215,7 +215,7 @@ export default function ParticipantInfo({
 
     const otherTherapyDetails = hasOtherTherapy ? (
         <Box mt={4}>
-            <FormControl id="therapy details">
+            <FormControl id="therapy-details">
                 <FormLabel>Please provide any details if necessary</FormLabel>
                 <Input
                     placeholder="Details"
@@ -308,16 +308,6 @@ export default function ParticipantInfo({
         setHeardFromOptions: setHeardFromOptions,
     };
 
-    const formPageHeaders = [
-        "Participant Information",
-        "Participant Information",
-        "Participant Emergency Form",
-        "Participant Health Form",
-        "Parent Guardian Information",
-        "Proof of Income",
-        "How did you hear about us?",
-    ];
-
     const formPages = [
         // Page for general participant info
         <Box>
@@ -384,9 +374,6 @@ export default function ParticipantInfo({
     if (progressBar <= 0) {
         setProgressBar(progressBarIncrement);
     }
-
-    const getProgressBarValue = (pageNum) =>
-        progressBarIncrement * (pageNum + 1);
 
     async function updateUser() {
         const parentData: ParentInput = {
