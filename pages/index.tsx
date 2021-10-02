@@ -15,6 +15,7 @@ import { getSession } from "next-auth/client";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { EmptyState } from "@components/EmptyState";
 
 type ComponentProps = {
     session: Record<string, unknown>;
@@ -45,8 +46,9 @@ export default function Component(props: ComponentProps): JSX.Element {
                 <Heading fontSize="3xl" marginBottom="5%">
                     Browse programs
                 </Heading>
+                <EmptyState unavailable="programs" />
 
-                <Box>
+                {/* <Box>
                     {programCardInfos ? (
                         <ProgramList cardInfo={programCardInfos} />
                     ) : (
@@ -54,7 +56,7 @@ export default function Component(props: ComponentProps): JSX.Element {
                             <Spinner size="xl" />
                         </Center>
                     )}
-                </Box>
+                </Box> */}
             </Flex>
         </Wrapper>
     );
