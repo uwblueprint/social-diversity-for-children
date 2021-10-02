@@ -103,12 +103,6 @@ export default function VolunteerInfo({
         heardFrom: heardFrom,
         setHeardFrom: setHeardFrom,
     };
-    const formPageHeaders = [
-        "Volunteer Information",
-        "Volunteer Personal Details",
-        "Volunteer Personal Details",
-        "Criminal Record Check",
-    ];
 
     const formPages = [
         // Page for general volunteer info
