@@ -5,25 +5,27 @@ import DragAndDrop from "@components/DragAndDrop";
 export default function documentUpload(): JSX.Element {
     const [files, setFiles] = useState<File[]>([]);
     const upload = async () => {
+        const file = files[0];
+        const res = await fetch(`/api/upload/url?file=${file.name}`);
+        const data = await res.json();
+        const { url, fields } = data.data;
+
         const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-            // formData.append("files", files[i], files[i].name);
-            formData.append("files", files[i]);
-        }
-        const response = await fetch("/api/upload", {
+
+        Object.entries({ ...fields, file }).forEach(([key, value]) => {
+            formData.append(key, value as string);
+        });
+
+        const upload = await fetch(url, {
             method: "POST",
-            headers: {
-                "content-type":
-                    "multipart/form-data; boundary=----WebKitFormBoundaryybBKGWwAdgoNoBO0",
-            },
             body: formData,
-        })
-            .then((res) => res.json())
-            .catch((err) => {
-                console.error(err);
-                throw err;
-            });
-        console.log(response);
+        });
+
+        if (upload.ok) {
+            console.log("Uploaded successfully!");
+        } else {
+            console.error("Upload failed.");
+        }
     };
 
     return (
