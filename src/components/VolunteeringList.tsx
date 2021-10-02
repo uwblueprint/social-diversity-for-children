@@ -23,8 +23,6 @@ export const VolunteeringList: React.FC = () => {
         return <Loading />;
     }
 
-    console.log("vol", volunteering);
-
     return (
         <>
             <Heading mb={2} size="sm">

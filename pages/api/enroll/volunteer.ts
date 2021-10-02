@@ -43,7 +43,7 @@ export default async function handle(
             // obtain query parameters
             const { classId } = req.query;
 
-            // Get all enrollment if no class query
+            // Get all volunteer registrations if no class query
             if (!classId) {
                 const volunteerRegistrationRecords =
                     await getVolunteerRegistrations(

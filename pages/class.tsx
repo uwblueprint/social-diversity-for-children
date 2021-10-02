@@ -5,11 +5,9 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { EnrollmentList } from "@components/EnrollmentList";
-import useMe from "@utils/useMe";
 import { useRouter } from "next/router";
 import { VolunteeringList } from "@components/VolunteeringList";
 import { roles } from ".prisma/client";
-import { Loading } from "@components/Loading";
 
 type ClassProps = {
     session: Record<string, unknown>;
@@ -21,15 +19,9 @@ type ClassProps = {
 function Class({ session }: ClassProps): JSX.Element {
     const router = useRouter();
 
-    const { me, error, isLoading } = useMe();
-
     // Redirect to home if use not logged in
-    if (error) {
+    if (!session.role) {
         router.push("/login").then(() => window.scrollTo(0, 0));
-    }
-
-    if (isLoading) {
-        return <Loading />;
     }
 
     return (
@@ -39,8 +31,8 @@ function Class({ session }: ClassProps): JSX.Element {
                 <Flex align="center">
                     <Heading mb={8}>My Classes</Heading>
                 </Flex>
-                {me.role === roles.PARENT ? <EnrollmentList /> : null}
-                {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
+                {session.role === roles.PARENT ? <EnrollmentList /> : null}
+                {session.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
             </Flex>
         </Wrapper>
     );
