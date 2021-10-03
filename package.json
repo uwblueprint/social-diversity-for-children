@@ -23,7 +23,7 @@
         "@emotion/react": "^11.1.4",
         "@emotion/styled": "^11.0.0",
         "@fontsource/poppins": "^4.5.0",
-        "@prisma/client": "3.0.2",
+        "@prisma/client": "^2.23.0",
         "@stripe/stripe-js": "^1.15.0",
         "aws-sdk": "^2.926.0",
         "framer-motion": "^3.2.1",
@@ -57,7 +57,7 @@
         "identity-obj-proxy": "^3.0.0",
         "isomorphic-unfetch": "^3.1.0",
         "lint-staged": "^10.5.3",
-        "prisma": "3.0.2",
+        "prisma": "^2.25.0",
         "style-loader": "^2.0.0",
         "ts-node": "^10.2.1",
         "typescript": "^4.1.3"
