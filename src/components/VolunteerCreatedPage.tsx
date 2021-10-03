@@ -94,10 +94,10 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                         <Text fontWeight="700" fontSize="24px" align="center">
                             Account created successfully
                         </Text>
-                        <Text maxW={512}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
+                        <Text maxW={512} textAlign="center">
+                            Your account has been successfully created. Click
+                            the button below to start browsing classes to
+                            volunteer for!
                         </Text>
                         <Link
                             _hover={{ textDecoration: "none" }}
