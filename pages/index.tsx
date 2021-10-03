@@ -1,7 +1,7 @@
 import Wrapper from "@components/SDCWrapper";
 import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
-import { Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
+import { Text, Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import useSWR from "swr";
@@ -20,10 +20,10 @@ export default function Component(props: ComponentProps): JSX.Element {
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
     // if no programs are available, return value is []
-    const programCardInfos = apiResponse
-        ? CardInfoUtil.getProgramCardInfos(apiResponse.data)
-        : [];
-
+    // const programCardInfos = apiResponse
+    //     ? CardInfoUtil.getProgramCardInfos(apiResponse.data)
+    //     : [];
+    const programCardInfos = [];
     return (
         <Wrapper session={props.session}>
             <Flex direction="column" pt={4} pb={8}>
@@ -43,7 +43,11 @@ export default function Component(props: ComponentProps): JSX.Element {
 
                 <Box>
                     {programCardInfos.length === 0 ? (
-                        <EmptyState unavailable="programs" />
+                        <EmptyState>
+                            {
+                                "There are currently no programs available to register for.\nCome back shortly to see the programs we have to offer for the next term!"
+                            }
+                        </EmptyState>
                     ) : (
                         <ProgramList cardInfo={programCardInfos} />
                     )}

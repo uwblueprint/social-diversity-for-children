@@ -3,33 +3,18 @@ import { Box, Center } from "@chakra-ui/react";
 
 type EmptyStateProps = {
     styleProps?: Record<string, unknown>;
-    unavailable: string;
-    program?: string;
 };
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
-    unavailable,
+    children,
 }): JSX.Element => {
-    // empty states for browse programs, programs (class/waitlist), my classes (class/waitlist)
-    if (unavailable === "programs") {
-        return (
-            <Box
-                bg={"#F8F8F8"}
-                w="100%"
-                py={"40px"}
-                px={"64px"}
-                color={"#737373"}
-            >
-                <Box>
-                    <Center>
-                        There are currently no {unavailable} to register for.
-                    </Center>
-                    <Center>
-                        Come back shortly to see the programs we have to offer
-                        for the next term!
-                    </Center>
-                </Box>
+    return (
+        <Box bg={"#F8F8F8"} w="100%" py={"40px"} px={"64px"} color={"#737373"}>
+            <Box>
+                <Center whiteSpace="pre-line" textAlign="center">
+                    {children}
+                </Center>
             </Box>
-        );
-    }
+        </Box>
+    );
 };
