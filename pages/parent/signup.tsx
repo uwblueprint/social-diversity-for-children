@@ -20,8 +20,6 @@ import { HeardFromPage } from "@components/parent-form/HeardFromPage";
 import { ParentCreatedPage } from "@components/parent-form/ParentCreatedPage";
 import colourTheme from "@styles/colours";
 
-const RADIO_YES = "yes";
-const RADIO_NO = "no";
 const DEFAULT_PROVINCE = province.BC;
 // TODO: Checkboxes have bugs in them; sometimes render sometimes don't
 
@@ -66,6 +64,7 @@ export default function ParticipantInfo({
 }): JSX.Element {
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState(0);
+
     const formButtonOnClick = () => {
         setPageNum((prevPage) => prevPage + 1);
         window.scrollTo({ top: 0 });
@@ -81,6 +80,11 @@ export default function ParticipantInfo({
         "participantLastName",
         "",
     );
+
+    //States to store the answers to the questions
+
+    //Page 1
+
     const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
@@ -139,7 +143,10 @@ export default function ParticipantInfo({
         "emergLastName",
         "",
     );
-    const [emergNumber, setEmergNumber] = useLocalStorage("emergNumber", "");
+    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage(
+        "emergNumber",
+        "",
+    );
     const [emergRelationship, setEmergRelationship] = useLocalStorage(
         "emergRelationship",
         "",
@@ -173,32 +180,6 @@ export default function ParticipantInfo({
         "heardFromOptions",
         [],
     );
-
-    const medicationDetails = isOnMedication ? (
-        <Box mt={4}>
-            <FormControl id="details">
-                <FormLabel>Please provide any details if necessary</FormLabel>
-                <Input
-                    placeholder="Details"
-                    onChange={(e) => setMedication(e.target.value)}
-                    value={medication}
-                />
-            </FormControl>
-        </Box>
-    ) : null;
-
-    const allergyDetails = hasAllergies ? (
-        <Box mt={4}>
-            <FormControl id="details">
-                <FormLabel>Please provide any details if necessary</FormLabel>
-                <Input
-                    placeholder="Details"
-                    onChange={(e) => setAllergies(e.target.value)}
-                    value={allergies}
-                />
-            </FormControl>
-        </Box>
-    ) : null;
 
     const otherDifficultyDetails = hasOtherDifficulties ? (
         <Box mt={4}>
@@ -285,14 +266,14 @@ export default function ParticipantInfo({
         otherDifficultyDetails: otherDifficultyDetails,
         otherTherapyDetails: otherTherapyDetails,
         // start of emergency info
-        parentFirstName: parentFirstName,
-        setParentFirstName: setParentFirstName,
-        parentLastName: parentLastName,
-        setParentLastName: setParentLastName,
-        parentPhoneNumber: parentPhoneNumber,
-        setParentPhoneNumber: setParentPhoneNumber,
-        parentRelationship: parentRelationship,
-        setParentRelationship: setParentRelationship,
+        parentFirstName: emergFirstName,
+        setParentFirstName: setEmergFirstName,
+        parentLastName: emergLastName,
+        setParentLastName: setEmergLastName,
+        parentPhoneNumber: emergPhoneNumber,
+        setParentPhoneNumber: setEmergPhoneNumber,
+        parentRelationship: emergRelationship,
+        setParentRelationship: setEmergRelationship,
         // start of heard about information
         heardFromFriendsAndFam: heardFromFriendsAndFam,
         setHeardFromFriendsAndFam: setHeardFromFriendsAndFam,
@@ -306,6 +287,7 @@ export default function ParticipantInfo({
         setHeardFromOther: setHeardFromOther,
         heardFromOptions: heardFromOptions,
         setHeardFromOptions: setHeardFromOptions,
+        formButtonOnClick: formButtonOnClick,
     };
 
     const formPages = [
@@ -314,7 +296,6 @@ export default function ParticipantInfo({
             <FormPage>
                 <ParticipantInfoPage props={parentRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page for learning info
         <Box>
@@ -403,7 +384,7 @@ export default function ParticipantInfo({
                 guardianExpectations,
                 emergFirstName: emergFirstName,
                 emergLastName: emergLastName,
-                emergNumber: emergNumber,
+                emergNumber: emergPhoneNumber,
                 emergRelationToStudent: emergRelationship,
                 medication: isOnMedication ? medication : null,
                 allergies: hasAllergies ? allergies : null,
@@ -421,55 +402,17 @@ export default function ParticipantInfo({
             body: JSON.stringify(userData),
         };
         const response = await fetch("api/user", request);
+        console.log(response);
         const updatedUserData = await response.json();
         return updatedUserData;
     }
 
-    const clearLocalStorage = () => {
-        setParticipantFirstName("");
-        setParticipantLastName("");
-        setDateOfBirth("");
-        setAddress1("");
-        setAddress2("");
-        setCity("");
-        setParticipantProvince(DEFAULT_PROVINCE);
-        setPostalCode("");
-        setSchool("");
-        setGrade("");
-        setHasLearningDifficulties(false);
-        setHasPhysicalDifficulties(false);
-        setHasSensoryDifficulties(false);
-        setHasOtherDifficulties(false);
-        setOtherDifficulties("");
-        setParticipantDifficulties([]);
-        setSpecialEd(false);
-        setPhysiotherapy(false);
-        setSpeechTherapy(false);
-        setOccupationalTherapy(false);
-        setCounseling(false);
-        setArtTherapy(false);
-        setHasOtherTherapy(false);
-        setOtherTherapy("");
-        setParticipantTherapy([]);
-        setGuardianExpectations("");
-        setMedication("");
-        setAllergies("");
-        setEmergFirstName("");
-        setEmergLastName("");
-        setEmergNumber("");
-        setEmergRelationship("");
-        setHeardFromFriendsAndFam(false);
-        setHeardFromFlyers(false);
-        setHeardFromEmail(false);
-        setHeardFromSocialMedia(false);
-        setHeardFromOther(false);
-        setHeardFromOptions([]);
-    };
-
+    //Form is finished
     async function updateUserAndClearForm() {
+        //Save the user
         const updatedUser = await updateUser();
         if (updatedUser) {
-            clearLocalStorage();
+            localStorage.clear();
             return updatedUser;
         } else {
             return null;

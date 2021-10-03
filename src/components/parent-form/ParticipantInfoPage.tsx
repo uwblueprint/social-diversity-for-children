@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Box,
     Text,
@@ -7,13 +7,43 @@ import {
     Input,
     HStack,
     Select,
+    Button,
 } from "@chakra-ui/react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
+import colourTheme from "@styles/colours";
 
 import { province } from "@models/User";
 // pass in props then do props.participant Name, etc...
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
     props: ParticipantInfo;
+};
+
+const FormButton = (props) => {
+    console.log(props);
+    return (
+        <>
+            {props.isDisabled ? (
+                <p style={{ color: colourTheme.colors.Red }}>
+                    Please fix errors in the form
+                </p>
+            ) : null}
+            <Button
+                bg={colourTheme.colors.Blue}
+                color={"white"}
+                fontWeight="400"
+                onClick={props.onClick}
+                my={8}
+                px={12}
+                borderRadius={100}
+                isDisabled={props.isDisabled}
+            >
+                {props.children}
+            </Button>
+        </>
+    );
 };
 
 type ParticipantInfo = {
@@ -37,6 +67,7 @@ type ParticipantInfo = {
     setSchool: any;
     grade: any;
     setGrade: any;
+    formButtonOnClick: any;
 };
 export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
     props,
@@ -54,7 +85,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
             <FormLabel>
                 Participant Name
                 <HStack spacing="24px">
-                    <FormControl id="participant-first-name">
+                    <FormControl id="participant-first-name" isRequired>
                         <Input
                             placeholder="First name"
                             onChange={(e) =>
@@ -63,7 +94,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                             value={props.participantFirstName}
                         />
                     </FormControl>
-                    <FormControl id="participant-last-name">
+                    <FormControl id="participant-last-name" isRequired>
                         <Input
                             placeholder="Last name"
                             onChange={(e) =>
@@ -74,15 +105,25 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     </FormControl>
                 </HStack>
             </FormLabel>
-            <FormControl id="date-of-birth">
-                <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                <Input
-                    placeholder="Date Of Birth"
-                    onChange={(e) => props.setDateOfBirth(e.target.value)}
-                    value={props.dateOfBirth}
-                />
+
+            <FormControl id="date-of-birth" isRequired>
+                <FormLabel>Date Of Birth</FormLabel>
+                <div
+                    style={{
+                        border: "1px #E2E8F0 solid",
+                        padding: "10px",
+                        borderRadius: 7,
+                    }}
+                >
+                    <DatePicker
+                        selected={
+                            Date.parse(props.dateOfBirth) || moment().toDate()
+                        }
+                        onChange={(date) => props.setDateOfBirth(date)}
+                    />
+                </div>
             </FormControl>
-            <FormControl id="street-address-1">
+            <FormControl id="street-address-1" isRequired>
                 <FormLabel>Street Address 1</FormLabel>
                 <Input
                     placeholder="815 Hornby St."
@@ -99,7 +140,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                 />
             </FormControl>
             <HStack spacing="24px">
-                <FormControl id="city">
+                <FormControl id="city" isRequired>
                     <FormLabel>City</FormLabel>
                     <Input
                         placeholder="Vancouver"
@@ -107,7 +148,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                         value={props.city}
                     />
                 </FormControl>
-                <FormControl id="province">
+                <FormControl id="province" isRequired>
                     <FormLabel>Province</FormLabel>
                     <Select
                         placeholder={"Select option"}
@@ -130,7 +171,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                             })}
                     </Select>
                 </FormControl>
-                <FormControl id="postal-code">
+                <FormControl id="postal-code" isRequired>
                     <FormLabel>Postal Code</FormLabel>
                     <Input
                         placeholder="V6Z 2E6"
@@ -155,6 +196,11 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     value={props.grade}
                 />
             </FormControl>
+            <div>
+                <FormButton isDisabled={true} onClick={props.formButtonOnClick}>
+                    Next
+                </FormButton>
+            </div>
         </>
     );
 };

@@ -4,6 +4,7 @@ const colourTheme = extendTheme({
     colors: {
         Blue: "#0C53A0",
         LightBlue: "#2C6AAD",
+        Red: "#D8000C",
     },
 });
 
