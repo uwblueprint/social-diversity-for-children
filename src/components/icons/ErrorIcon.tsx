@@ -29,8 +29,8 @@ function SvgErrorIcon(props: React.SVGProps<SVGSVGElement>) {
             <path
                 d="M55.3574 124C55.3574 124 65.6908 117.357 78.6074 117.357C91.5241 117.357 101.857 124 101.857 124"
                 stroke="white"
-                stroke-width="7"
-                stroke-linecap="round"
+                strokeWidth="7"
+                strokeLinecap="round"
             />
         </svg>
     );
