@@ -5,6 +5,11 @@ import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
 import { useRouter } from "next/router";
 
+/**
+ * Media release page within the class registration process
+ * @returns a page component explaining SDC's media release policy and offering an option to accept it
+ */
+
 export default function MediaReleaseForm(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration

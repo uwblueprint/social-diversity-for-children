@@ -5,6 +5,11 @@ import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
 import { useRouter } from "next/router";
 
+/**
+ * Participant waiver page within the class registration process
+ * @returns a page component providing SDC's participant waiver and offering an option to accept it
+ */
+
 export default function MediaReleaseForm(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration

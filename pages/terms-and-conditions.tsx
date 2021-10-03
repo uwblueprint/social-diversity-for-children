@@ -4,6 +4,11 @@ import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
 
+/**
+ * Terms and conditions page within the class registration process
+ * @returns a page component detailing SDC's terms and conditions and offering an option to accept it
+ */
+
 export default function MediaReleaseForm(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration
