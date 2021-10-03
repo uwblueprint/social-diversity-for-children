@@ -28,6 +28,7 @@ import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
+import ApprovedIcon from "@components/icons/ApprovedIcon";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
@@ -443,6 +444,7 @@ export default function VolunteerInfo({
             ) : (
                 <Center>
                     <VStack mt={120} mb={180} spacing={50}>
+                        <ApprovedIcon />
                         <Text fontWeight="700" fontSize="24px" align="center">
                             Account created successfully
                         </Text>
