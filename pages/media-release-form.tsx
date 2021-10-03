@@ -55,11 +55,11 @@ export default function MediaReleaseForm(): JSX.Element {
                 <Text pb="5px" align="left" mt="30px">
                     I hereby authorize any images or video footage taken of my
                     youth (under 18 years of age), in whole or in part,
-                    individually or in conjunction with other iamge and video
+                    individually or in conjunction with other image and video
                     footage, to be displayed on the Social Diversity for
                     Children Foundation and other official channels by Social
                     Diversity for Children Foundation or its partners, sponsors,
-                    or affiliated entities, and to be used form edia purposes
+                    or affiliated entities, and to be used for media purposes
                     including promotional presentations, marketing campaigns,
                     paper media, broadcast media, brochures, pamphlets,
                     materials, books, and all other avenues. I also authorize
@@ -68,7 +68,7 @@ export default function MediaReleaseForm(): JSX.Element {
                 </Text>
                 <Text pb="60px" align="left" mt="30px">
                     I waive rights to privacy and compensation, which I may have
-                    in connection with such use of my youth's name and likenss,
+                    in connection with such use of my youth's name and likeness,
                     including rights to be written copy that may be created in
                     connection with video production, editing, and promotion
                     therewith. I am over 19 years-of-age and the parent or legal
