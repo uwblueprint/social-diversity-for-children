@@ -1,3 +1,4 @@
+export { default as ErrorIcon } from "./ErrorIcon";
 export { default as GithubIcon } from "./GithubIcon";
 export { default as LinkedinIcon } from "./LinkedinIcon";
 export { default as Logo } from "./Logo";
