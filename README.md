@@ -6,12 +6,19 @@ Currently in development!
 
 This project was generated with [superplate](https://github.com/pankod/superplate).
 
-## Team
+## S21 Team
 
 Project Lead: Eric Feng\
 Product Manager: Raewyn Tsai\
 Designers: Stacy Kwok, Christina Ru\
 Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad Zaryab
+
+## F21 Team
+
+Project Lead: Rickson Yang\
+Product Manager: Emily Nairn\
+Designers: Rebecca Ma, Vedant Patel\
+Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Zhang
 
 ## Project Architecture
 
@@ -92,11 +99,17 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 Reset your database on Heroku and then deploy your database schema run (one-time):
 
 ```bash
+# Drop all tables from current Heroku postgres database
+heroku pg:reset -a YOUR_APP_NAME
+
 # Deploy schema.sql to Heroku postgres
 heroku pg:psql -a YOUR_APP_NAME -f prisma/schema.sql
 
 # Regenerate Prisma schema and client
 npx prisma introspect && npx prisma generate
+
+# Seed your database with sample data
+npx ts-node -O {\"module\":\"CommonJS\"} prisma/seed.ts
 ```
 
 To run the application:
