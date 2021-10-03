@@ -12,12 +12,12 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
-import { ParticipantInfoPage } from "@components/ParticipantInfoPage";
-import { LearningInfoPage } from "@components/LearningInfoPage";
-import { EmergInfoPage } from "@components/EmergInfoPage";
-import { IncomePage } from "@components/IncomePage";
-import { HeardFromPage } from "@components/HeardFromPage";
-import { ParentCreatedPage } from "@components/ParentCreatedPage";
+import { ParticipantInfoPage } from "@components/parent-form/ParticipantInfoPage";
+import { LearningInfoPage } from "@components/parent-form/LearningInfoPage";
+import { EmergInfoPage } from "@components/parent-form/EmergInfoPage";
+import { IncomePage } from "@components/parent-form/IncomePage";
+import { HeardFromPage } from "@components/parent-form/HeardFromPage";
+import { ParentCreatedPage } from "@components/parent-form/ParentCreatedPage";
 import colourTheme from "@styles/colours";
 
 const RADIO_YES = "yes";

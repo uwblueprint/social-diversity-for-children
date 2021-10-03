@@ -5,11 +5,11 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
-import { VolunteerInfoPage } from "@components/VolunteerInfoPage";
-import { VolunteerDetailsPage } from "@components/VolunteerDetailsPage";
-import { VolunteerSkillsPage } from "@components/VolunteerSkillsPage";
-import { CriminalPage } from "@components/CriminalPage";
-import { VolunteerCreatedPage } from "@components/VolunteerCreatedPage";
+import { VolunteerInfoPage } from "@components/volunteer-form/VolunteerInfoPage";
+import { VolunteerDetailsPage } from "@components/volunteer-form/VolunteerDetailsPage";
+import { VolunteerSkillsPage } from "@components/volunteer-form/VolunteerSkillsPage";
+import { CriminalPage } from "@components/volunteer-form/CriminalPage";
+import { VolunteerCreatedPage } from "@components/volunteer-form/VolunteerCreatedPage";
 
 const DEFAULT_PROVINCE = province.BC;
 
