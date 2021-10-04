@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { testPhoneNumber } from "@utils/validation/fields";
 import colourTheme from "@styles/colours";
+import { MdPersonOutline } from "react-icons/md";
 
 type VolunteerInfoPageProps = {
     styleProps?: Record<string, unknown>;
