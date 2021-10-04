@@ -102,6 +102,7 @@ export default function VolunteerInfo({
         setSkills: setSkills,
         heardFrom: heardFrom,
         setHeardFrom: setHeardFrom,
+        formButtonOnClick: formButtonOnClick,
     };
 
     const formPages = [
@@ -110,14 +111,12 @@ export default function VolunteerInfo({
             <FormPage>
                 <VolunteerInfoPage props={volunteerRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page for volunteer details
         <Box>
             <FormPage>
                 <VolunteerDetailsPage props={volunteerRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page for volunteer skills
         <Box>

@@ -8,6 +8,7 @@ import {
     Button,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
+import { testPhoneNumber } from "@utils/validation/fields";
 
 type EmergPageProps = {
     styleProps?: Record<string, unknown>;
@@ -28,12 +29,6 @@ type EmergInfo = {
 export const EmergInfoPage: React.FC<EmergPageProps> = ({
     props,
 }): JSX.Element => {
-    function testPhoneNumber(phonenumber) {
-        const phoneNumberRegex = new RegExp(
-            /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
-        );
-        return phoneNumberRegex.test(phonenumber);
-    }
     return (
         <>
             <FormLabel>

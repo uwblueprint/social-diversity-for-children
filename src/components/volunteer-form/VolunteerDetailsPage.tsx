@@ -7,12 +7,19 @@ import {
     Stack,
     Checkbox,
     Select,
+    FormErrorMessage,
+    Button,
 } from "@chakra-ui/react";
 import { province } from "@models/User";
+import DatePicker from "react-datepicker";
+import colourTheme from "@styles/colours";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 type VolunteerDetailsPageProps = {
     styleProps?: Record<string, unknown>;
     props: VolunteerDetailsInfo;
 };
+import { testCanadianPostalCode } from "@utils/validation/fields";
 
 type VolunteerDetailsInfo = {
     dateOfBirth: any;
@@ -27,6 +34,7 @@ type VolunteerDetailsInfo = {
     setPostalCode: any;
     school: any;
     setSchool: any;
+    formButtonOnClick: any;
 };
 
 export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
@@ -34,13 +42,23 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
 }): JSX.Element => {
     return (
         <>
-            <FormControl id="date-of-birth">
-                <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                <Input
-                    placeholder="Date Of Birth"
-                    onChange={(e) => props.setDateOfBirth(e.target.value)}
-                    value={props.dateOfBirth}
-                />
+            <FormControl id="date-of-birth" isRequired>
+                <FormLabel>Date Of Birth</FormLabel>
+                <div
+                    style={{
+                        border: "1px #E2E8F0 solid",
+                        padding: "10px",
+                        borderRadius: 7,
+                    }}
+                >
+                    <DatePicker
+                        dateFormat="yyyy-MM-dd"
+                        selected={
+                            Date.parse(props.dateOfBirth) || moment().toDate()
+                        }
+                        onChange={(date) => props.setDateOfBirth(date)}
+                    />
+                </div>
             </FormControl>
             <FormControl id="fifteen" isRequired>
                 {/* TODO: make mandatory before proceeding with rest of form */}
@@ -51,7 +69,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                     </Checkbox>
                 </Stack>
             </FormControl>
-            <FormControl id="street-address">
+            <FormControl id="street-address" isRequired>
                 <FormLabel>Street Address </FormLabel>
                 <Input
                     placeholder="815 Hornby St."
@@ -60,7 +78,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                 />
             </FormControl>
             <HStack spacing="24px">
-                <FormControl id="city">
+                <FormControl id="city" isRequired>
                     <FormLabel>City</FormLabel>
                     <Input
                         placeholder="Vancouver"
@@ -68,7 +86,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                         value={props.city}
                     />
                 </FormControl>
-                <FormControl id="province">
+                <FormControl id="province" isRequired>
                     <FormLabel>Province</FormLabel>
                     <Select
                         placeholder="Select option"
@@ -94,13 +112,20 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                         <option value="NU">NU</option>
                     </Select>
                 </FormControl>
-                <FormControl id="postal-code">
+                <FormControl
+                    id="postal-code"
+                    isRequired
+                    isInvalid={!testCanadianPostalCode(props.postalCode)}
+                >
                     <FormLabel>Postal Code</FormLabel>
                     <Input
                         placeholder="V6Z 2E6"
                         onChange={(e) => props.setPostalCode(e.target.value)}
                         value={props.postalCode}
                     />
+                    <FormErrorMessage>
+                        {props.postalCode ? "Invalid Postal Code" : "Required"}
+                    </FormErrorMessage>
                 </FormControl>
             </HStack>
             <FormControl id="school">
@@ -111,6 +136,22 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                     value={props.school}
                 />
             </FormControl>
+            <div>
+                <Button
+                    id="Submit"
+                    bg={colourTheme.colors.Blue}
+                    color={"white"}
+                    fontWeight="400"
+                    my={8}
+                    px={12}
+                    borderRadius={100}
+                    mt={4}
+                    disabled={!testCanadianPostalCode(props.postalCode)}
+                    onClick={props.formButtonOnClick}
+                >
+                    Next
+                </Button>
+            </div>
         </>
     );
 };

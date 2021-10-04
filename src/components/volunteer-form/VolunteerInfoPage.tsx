@@ -1,5 +1,14 @@
 import React from "react";
-import { HStack, FormLabel, FormControl, Input } from "@chakra-ui/react";
+import {
+    HStack,
+    FormLabel,
+    FormControl,
+    Input,
+    FormErrorMessage,
+    Button,
+} from "@chakra-ui/react";
+import { testPhoneNumber } from "@utils/validation/fields";
+import colourTheme from "@styles/colours";
 
 type VolunteerInfoPageProps = {
     styleProps?: Record<string, unknown>;
@@ -13,6 +22,7 @@ type VolunteerInfo = {
     setVolunteerLastName: any;
     phoneNumber: any;
     setPhoneNumber: any;
+    formButtonOnClick: any;
 };
 export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
     props,
@@ -22,7 +32,7 @@ export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
             <FormLabel>
                 Volunteer Name
                 <HStack spacing="24px">
-                    <FormControl id="first-name">
+                    <FormControl id="first-name" isRequired>
                         <Input
                             placeholder="First name"
                             onChange={(e) =>
@@ -31,7 +41,7 @@ export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
                             value={props.volunteerFirstName}
                         />
                     </FormControl>
-                    <FormControl id="last-name">
+                    <FormControl id="last-name" isRequired>
                         <Input
                             placeholder="Last name"
                             onChange={(e) =>
@@ -42,14 +52,37 @@ export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
                     </FormControl>
                 </HStack>
             </FormLabel>
-            <FormControl id="Phone Number">
+            <FormControl
+                id="phone-number"
+                isRequired
+                isInvalid={!testPhoneNumber(props.phoneNumber)}
+            >
                 <FormLabel>Phone Number </FormLabel>
                 <Input
                     placeholder="289 349 1048"
                     onChange={(e) => props.setPhoneNumber(e.target.value)}
                     value={props.phoneNumber}
                 />
+                <FormErrorMessage>
+                    {props.phoneNumber ? "Invalid Phone Number" : "Required"}
+                </FormErrorMessage>
             </FormControl>
+            <div>
+                <Button
+                    id="Submit"
+                    bg={colourTheme.colors.Blue}
+                    color={"white"}
+                    fontWeight="400"
+                    my={8}
+                    px={12}
+                    borderRadius={100}
+                    mt={4}
+                    disabled={!testPhoneNumber(props.phoneNumber)}
+                    onClick={props.formButtonOnClick}
+                >
+                    Next
+                </Button>
+            </div>
         </>
     );
 };

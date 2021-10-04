@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import colourTheme from "@styles/colours";
+import { testCanadianPostalCode } from "@utils/validation/fields";
 
 import { province } from "@models/User";
 // pass in props then do props.participant Name, etc...
@@ -48,14 +49,6 @@ type ParticipantInfo = {
 export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
     props,
 }): JSX.Element => {
-    function testCanadianPostalCode(postalCode) {
-        console.log(postalCode);
-        const postalCodeRegex = new RegExp(
-            /^(?!.*[DFIOQU])[A-VXY][0-9][A-Z][ ]?[0-9][A-Z][0-9]$/,
-        );
-        return postalCodeRegex.test(postalCode);
-    }
-
     return (
         <>
             <Box maxW="55rem">
