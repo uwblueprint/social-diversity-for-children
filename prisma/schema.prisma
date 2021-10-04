@@ -1,0 +1,307 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Parent {
+  id                Int         @id @default(autoincrement())
+  phoneNumber       String      @map("phone_number") @db.VarChar(50)
+  isLowIncome       Boolean?    @default(false) @map("is_low_income")
+  preferredLanguage locale      @map("preferred_language")
+  proofOfIncomeLink String?     @map("proof_of_income_link")
+  heardFrom         heardFrom[] @map("heard_from")
+  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime?   @map("updated_at") @db.Timestamptz(6)
+  user              User        @relation("parentsTousers", fields: [id], references: [id])
+  parentRegs        ParentReg[] @relation("parent_regsToparents")
+  students          Student[]   @relation("parentsTostudents")
+  waitlists         Waitlist[]  @relation("parentsTowaitlists")
+  @@map("parents")
+}
+
+model Program {
+  id                 Int                  @id @default(autoincrement())
+  price              Int
+  onlineFormat       programFormat        @map("online_format")
+  tag                String
+  imageLink          String?              @map("image_link")
+  startDate          DateTime             @map("start_date") @db.Timestamptz(6)
+  endDate            DateTime             @map("end_date") @db.Timestamptz(6)
+  isArchived         Boolean              @default(false) @map("is_archived")
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime?            @map("updated_at") @db.Timestamptz(6)
+  classes            Class[]              @relation("programsToclasses")
+  programTranslation ProgramTranslation[] @relation("program_translationsToprograms")
+  @@map("programs")
+}
+
+model ProgramTranslation {
+  programId   Int       @map("program_id")
+  name        String
+  description String
+  language    locale
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
+  program     Program   @relation("program_translationsToprograms", fields: [programId], references: [id])
+  @@id([programId, language])
+  @@map("program_translations")
+}
+
+model Teacher {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime?    @map("updated_at") @db.Timestamptz(6)
+  user        User         @relation("teachersTousers", fields: [id], references: [id])
+  teacherRegs TeacherReg[] @relation("teacher_regsToteachers")
+  @@map("teachers")
+}
+
+model TeacherReg {
+  teacherId Int       @map("teacher_id")
+  classId   Int       @map("class_id")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  class     Class     @relation("classesToteacher_regs", fields: [classId], references: [id])
+  teacher   Teacher   @relation("teacher_regsToteachers", fields: [teacherId], references: [id])
+  @@id([classId, teacherId])
+  @@map("teacher_regs")
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  firstName     String?       @map("first_name")
+  lastName      String?       @map("last_name")
+  email         String?       @unique
+  emailVerified DateTime?     @map("email_verified") @db.Timestamptz(6)
+  role          roles?
+  image         String?
+  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime?     @map("updated_at") @db.Timestamptz(6)
+  parent        Parent?       @relation("parentsTousers")
+  programAdmin  ProgramAdmin? @relation("program_adminsTousers")
+  teacher       Teacher?      @relation("teachersTousers")
+  volunteer     Volunteer?    @relation("usersTovolunteers")
+  @@map("users")
+}
+
+model VerificationRequest {
+  id         Int       @id @default(autoincrement())
+  identifier String
+  token      String    @unique
+  expires    DateTime  @db.Timestamptz(6)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime? @map("updated_at") @db.Timestamptz(6)
+  @@map("verification_requests")
+}
+
+model Volunteer {
+  id                      Int            @id @default(autoincrement())
+  phoneNumber             String?        @map("phone_number") @db.VarChar(50)
+  dateOfBirth             DateTime       @map("date_of_birth") @db.Timestamptz(6)
+  addressLine1            String?        @map("address_line1")
+  criminalRecordCheckLink String?        @map("criminal_record_check_link")
+  postalCode              String?        @map("postal_code") @db.VarChar(10)
+  cityName                String?        @map("city_name")
+  province                province?
+  school                  String?
+  preferredLanguage       locale?        @map("preferred_language")
+  skills                  String?
+  hearAboutUs             String?        @map("hear_about_us")
+  createdAt               DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime?      @map("updated_at") @db.Timestamptz(6)
+  user                    User           @relation("usersTovolunteers", fields: [id], references: [id])
+  volunteerRegs           VolunteerReg[] @relation("volunteer_regsTovolunteers")
+  @@map("volunteers")
+}
+
+model VolunteerReg {
+  volunteerId Int       @map("volunteer_id")
+  classId     Int       @map("class_id")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
+  class       Class     @relation("classesTovolunteer_regs", fields: [classId], references: [id])
+  volunteer   Volunteer @relation("volunteer_regsTovolunteers", fields: [volunteerId], references: [id])
+  @@id([volunteerId, classId])
+  @@map("volunteer_regs")
+}
+
+model ProgramAdmin {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  user      User      @relation("program_adminsTousers", fields: [id], references: [id])
+  @@map("program_admins")
+}
+
+model ClassTranslation {
+  classId     Int       @map("class_id")
+  name        String
+  description String?
+  language    locale
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
+  class       Class     @relation(fields: [classId], references: [id])
+  @@id([classId, language])
+  @@map("class_translations")
+}
+
+model Class {
+  id                      Int                @id @default(autoincrement())
+  name                    String?
+  ageGroup                String?            @map("age_group")
+  imageLink               String?            @map("image_link")
+  programId               Int                @map("program_id")
+  spaceTotal              Int                @map("space_total")
+  spaceAvailable          Int                @map("space_available")
+  volunteerSpaceTotal     Int                @map("volunteer_space_total")
+  volunteerSpaceAvailable Int                @map("volunteer_space_available")
+  isArchived              Boolean            @default(false) @map("is_archived")
+  startDate               DateTime           @map("start_date") @db.Timestamptz(6)
+  endDate                 DateTime           @map("end_date") @db.Timestamptz(6)
+  weekday                 weekday
+  startTimeMinutes        Int                @map("start_time_minutes")
+  durationMinutes         Int                @map("duration_minutes")
+  createdAt               DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime?          @map("updated_at") @db.Timestamptz(6)
+  program                 Program            @relation("programsToclasses", fields: [programId], references: [id])
+  classTranslation        ClassTranslation[]
+  parentRegs              ParentReg[]        @relation("classesToparent_regs")
+  teacherRegs             TeacherReg[]       @relation("classesToteacher_regs")
+  volunteerRegs           VolunteerReg[]     @relation("classesTovolunteer_regs")
+  waitlists               Waitlist[]
+  @@map("classes")
+}
+
+model Waitlist {
+  classId   Int       @map("class_id")
+  parentId  Int       @map("parent_id")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  class     Class     @relation(fields: [classId], references: [id])
+  parent    Parent    @relation("parentsTowaitlists", fields: [parentId], references: [id])
+  @@id([parentId, classId])
+  @@map("waitlists")
+}
+
+model ParentReg {
+  parentId  Int       @map("parent_id")
+  studentId Int       @map("student_id")
+  classId   Int       @map("class_id")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  class     Class     @relation("classesToparent_regs", fields: [classId], references: [id])
+  parent    Parent    @relation("parent_regsToparents", fields: [parentId], references: [id])
+  student   Student   @relation(fields: [studentId], references: [id])
+  @@id([parentId, studentId, classId])
+  @@map("parent_regs")
+}
+
+model Student {
+  id                     Int            @id @default(autoincrement())
+  parentId               Int            @map("parent_id")
+  firstName              String         @map("first_name")
+  lastName               String         @map("last_name")
+  dateOfBirth            DateTime       @map("date_of_birth") @db.Timestamptz(6)
+  addressLine1           String         @map("address_line1")
+  addressLine2           String?        @map("address_line2")
+  postalCode             String?        @map("postal_code") @db.VarChar(10)
+  cityName               String?        @map("city_name")
+  province               province?
+  school                 String?
+  grade                  Int?
+  difficulties           difficulties[]
+  otherDifficulties      String?        @map("other_difficulties")
+  therapy                therapy[]
+  otherTherapy           String?        @map("other_therapy")
+  specialEducation       Boolean?       @default(false) @map("special_education")
+  guardianExpectations   String?        @map("guardian_expectations")
+  medication             String?
+  allergies              String?
+  additionalInfo         String?        @map("additional_info")
+  emergFirstName         String         @map("emerg_first_name")
+  emergLastName          String         @map("emerg_last_name")
+  emergNumber            String         @map("emerg_number") @db.VarChar(50)
+  emergRelationToStudent String         @map("emerg_relation_to_student")
+  createdAt              DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime?      @map("updated_at") @db.Timestamptz(6)
+  parent                 Parent         @relation("parentsTostudents", fields: [parentId], references: [id])
+  parentRegs             ParentReg[]
+  @@map("students")
+}
+
+enum locale {
+  zh
+  en
+  ja
+  ko
+   @@map("locales")
+}
+
+enum province {
+  NL
+  PE
+  NS
+  NB
+  QC
+  ON
+  MB
+  SK
+  AB
+  BC
+  YT
+  NT
+  NU
+   @@map("provinces")
+}
+
+enum weekday {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+   @@map("weekdays")
+}
+
+enum programFormat {
+  online
+  inPerson @map("in-person")
+  blended
+   @@map("program_formats")
+}
+
+enum roles {
+  PARENT
+  PROGRAM_ADMIN
+  TEACHER
+  VOLUNTEER
+}
+
+enum difficulties {
+  LEARNING
+  PHYSICAL
+  SENSORY
+}
+
+enum heardFrom {
+  FRIENDS_FAMILY
+  FLYERS
+  EMAIL
+  SOCIAL_MEDIA
+  OTHER
+   @@map("heard_from")
+}
+
+enum therapy {
+  PHYSIO
+  SPEECH_LANG
+  OCCUPATIONAL
+  COUNSELING
+  ART
+}
