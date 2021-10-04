@@ -3,11 +3,13 @@ import { getSession } from "next-auth/client"; // Session handling
 import { ResponseUtil } from "@utils/responseUtil";
 import {
     createParentRegistration,
+    deleteParentRegistration,
     getParentRegistration,
+    getParentRegistrations,
 } from "@database/enroll";
 import { validateParentRegistrationRecord } from "@utils/validation/registration";
 import { ParentRegistrationInput } from "models/Enroll";
-import { roles } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -42,7 +44,25 @@ export default async function handle(
             // obtain query parameters
             const { studentId, classId } = req.query;
 
-            // verify that query parameters were passed in
+            // if no student or class query, we get all enrollments
+            if (!studentId && !classId) {
+                const parentRegistrationRecords = await getParentRegistrations(
+                    parentId,
+                    locale.en, // TODO: dynamic locale
+                );
+
+                // verify that the parent registration record could be obtained
+                if (!parentRegistrationRecords) {
+                    return ResponseUtil.returnNotFound(
+                        res,
+                        "a registration entries was not found for the parent Id",
+                    );
+                }
+
+                // return response
+                ResponseUtil.returnOK(res, parentRegistrationRecords);
+                return;
+            }
             if (!studentId || !classId) {
                 return ResponseUtil.returnBadRequest(
                     res,
@@ -111,8 +131,38 @@ export default async function handle(
             ResponseUtil.returnOK(res);
             break;
         }
+        case "DELETE": {
+            const parentRegistrationInput: ParentRegistrationInput = {
+                parentId,
+                studentId: req.body.studentId,
+                classId: req.body.classId,
+            };
+
+            // validate the request body and return if not validated
+            const validationErrors = validateParentRegistrationRecord(
+                parentRegistrationInput,
+            );
+            if (validationErrors.length !== 0) {
+                ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
+                return;
+            }
+
+            const deletedRegistration = await deleteParentRegistration(
+                parentRegistrationInput,
+            );
+            if (!deletedRegistration) {
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Registration could not be created`,
+                );
+                return;
+            }
+
+            ResponseUtil.returnOK(res, deletedRegistration);
+            return;
+        }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST"];
+            const allowedHeaders: string[] = ["GET", "POST", "DELETE"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
