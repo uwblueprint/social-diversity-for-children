@@ -2,6 +2,7 @@ import Wrapper from "@components/SDCWrapper";
 import { Flex, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
+import colourTheme from "@styles/colours";
 
 export default function ParentEnrollClass(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
@@ -39,7 +40,7 @@ export default function ParentEnrollClass(): JSX.Element {
                             _hover={{ border: "2px solid #0C53A0" }}
                             backgroundColor={
                                 selectedChild === childName
-                                    ? "#E2E8F0"
+                                    ? colourTheme.colors.LightGrayBlue
                                     : "white"
                             }
                             lineHeight="24px"

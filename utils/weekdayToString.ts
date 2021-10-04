@@ -20,6 +20,7 @@ export default function weekdayToString(wd: weekday): string {
             return "Saturday";
         case weekday.SUN:
             return "Sunday";
+        default:
+            return "Invalid weekday";
     }
-    return "Invalid weekday";
 }
