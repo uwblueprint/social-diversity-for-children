@@ -1,5 +1,13 @@
 import React from "react";
-import { HStack, FormLabel, FormControl, Input } from "@chakra-ui/react";
+import {
+    HStack,
+    FormLabel,
+    FormControl,
+    Input,
+    FormErrorMessage,
+    Button,
+} from "@chakra-ui/react";
+import colourTheme from "@styles/colours";
 
 type EmergPageProps = {
     styleProps?: Record<string, unknown>;
@@ -15,10 +23,17 @@ type EmergInfo = {
     setParentPhoneNumber: any;
     parentRelationship: any;
     setParentRelationship: any;
+    formButtonOnClick: any;
 };
 export const EmergInfoPage: React.FC<EmergPageProps> = ({
     props,
 }): JSX.Element => {
+    function testPhoneNumber(phonenumber) {
+        const phoneNumberRegex = new RegExp(
+            /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
+        );
+        return phoneNumberRegex.test(phonenumber);
+    }
     return (
         <>
             <FormLabel>
@@ -44,13 +59,22 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
                     </FormControl>
                 </HStack>
             </FormLabel>
-            <FormControl id="phone-number">
+            <FormControl
+                id="phone-number"
+                isRequired
+                isInvalid={!testPhoneNumber(props.parentPhoneNumber)}
+            >
                 <FormLabel>Phone Number </FormLabel>
                 <Input
                     placeholder="289 349 1048"
                     onChange={(e) => props.setParentPhoneNumber(e.target.value)}
                     value={props.parentPhoneNumber}
                 />
+                <FormErrorMessage>
+                    {props.parentPhoneNumber
+                        ? "Invalid Phone Number"
+                        : "Required"}
+                </FormErrorMessage>
             </FormControl>
             <FormControl id="parent-relationship-to-participant">
                 <FormLabel>Relationship to Participant</FormLabel>
@@ -62,6 +86,22 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
                     value={props.parentRelationship}
                 />
             </FormControl>
+            <div>
+                <Button
+                    id="Submit"
+                    bg={colourTheme.colors.Blue}
+                    color={"white"}
+                    fontWeight="400"
+                    my={8}
+                    px={12}
+                    borderRadius={100}
+                    mt={4}
+                    disabled={!testPhoneNumber(props.parentPhoneNumber)}
+                    onClick={props.formButtonOnClick}
+                >
+                    Next
+                </Button>
+            </div>
         </>
     );
 };

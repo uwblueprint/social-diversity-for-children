@@ -309,7 +309,6 @@ export default function ParticipantInfo({
             <FormPage>
                 <EmergInfoPage props={parentRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page for proof of income
         <Box>

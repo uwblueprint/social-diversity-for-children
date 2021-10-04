@@ -8,6 +8,7 @@ import {
     HStack,
     Select,
     Button,
+    FormErrorMessage,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,31 +20,6 @@ import { province } from "@models/User";
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
     props: ParticipantInfo;
-};
-
-const FormButton = (props) => {
-    console.log(props);
-    return (
-        <>
-            {props.isDisabled ? (
-                <p style={{ color: colourTheme.colors.Red }}>
-                    Please fix errors in the form
-                </p>
-            ) : null}
-            <Button
-                bg={colourTheme.colors.Blue}
-                color={"white"}
-                fontWeight="400"
-                onClick={props.onClick}
-                my={8}
-                px={12}
-                borderRadius={100}
-                isDisabled={props.isDisabled}
-            >
-                {props.children}
-            </Button>
-        </>
-    );
 };
 
 type ParticipantInfo = {
@@ -72,6 +48,14 @@ type ParticipantInfo = {
 export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
     props,
 }): JSX.Element => {
+    function testCanadianPostalCode(postalCode) {
+        console.log(postalCode);
+        const postalCodeRegex = new RegExp(
+            /^(?!.*[DFIOQU])[A-VXY][0-9][A-Z][ ]?[0-9][A-Z][0-9]$/,
+        );
+        return postalCodeRegex.test(postalCode);
+    }
+
     return (
         <>
             <Box maxW="55rem">
@@ -82,30 +66,39 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     be provided afterwards.
                 </Text>
             </Box>
-            <FormLabel>
-                Participant Name
-                <HStack spacing="24px">
-                    <FormControl id="participant-first-name" isRequired>
-                        <Input
-                            placeholder="First name"
-                            onChange={(e) =>
-                                props.setParticipantFirstName(e.target.value)
-                            }
-                            value={props.participantFirstName}
-                        />
-                    </FormControl>
-                    <FormControl id="participant-last-name" isRequired>
-                        <Input
-                            placeholder="Last name"
-                            onChange={(e) =>
-                                props.setParticipantLastName(e.target.value)
-                            }
-                            value={props.participantLastName}
-                        />
-                    </FormControl>
-                </HStack>
-            </FormLabel>
-
+            <HStack spacing="24px">
+                <FormControl
+                    id="participant-first-name"
+                    isRequired
+                    isInvalid={!props.participantFirstName}
+                >
+                    {" "}
+                    <FormLabel>First Name</FormLabel>
+                    <Input
+                        placeholder="First name"
+                        onChange={(e) =>
+                            props.setParticipantFirstName(e.target.value)
+                        }
+                        value={props.participantFirstName}
+                    />
+                    <FormErrorMessage>{"Required"}</FormErrorMessage>
+                </FormControl>
+                <FormControl
+                    id="participant-last-name"
+                    isRequired
+                    isInvalid={!props.participantLastName}
+                >
+                    <FormLabel>Last Name</FormLabel>
+                    <Input
+                        placeholder="Last name"
+                        onChange={(e) =>
+                            props.setParticipantLastName(e.target.value)
+                        }
+                        value={props.participantLastName}
+                    />
+                    <FormErrorMessage>{"Required"}</FormErrorMessage>
+                </FormControl>
+            </HStack>
             <FormControl id="date-of-birth" isRequired>
                 <FormLabel>Date Of Birth</FormLabel>
                 <div
@@ -116,6 +109,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     }}
                 >
                     <DatePicker
+                        dateFormat="yyyy-MM-dd"
                         selected={
                             Date.parse(props.dateOfBirth) || moment().toDate()
                         }
@@ -123,13 +117,18 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     />
                 </div>
             </FormControl>
-            <FormControl id="street-address-1" isRequired>
+            <FormControl
+                id="street-address-1"
+                isRequired
+                isInvalid={!props.address1}
+            >
                 <FormLabel>Street Address 1</FormLabel>
                 <Input
                     placeholder="815 Hornby St."
                     onChange={(e) => props.setAddress1(e.target.value)}
                     value={props.address1}
                 />
+                <FormErrorMessage>{"Required"}</FormErrorMessage>
             </FormControl>
             <FormControl id="street-address-2">
                 <FormLabel>Street Address 2</FormLabel>
@@ -140,14 +139,16 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                 />
             </FormControl>
             <HStack spacing="24px">
-                <FormControl id="city" isRequired>
+                <FormControl id="city" isRequired isInvalid={!props.city}>
                     <FormLabel>City</FormLabel>
                     <Input
                         placeholder="Vancouver"
                         onChange={(e) => props.setCity(e.target.value)}
                         value={props.city}
                     />
+                    <FormErrorMessage>{"Required"}</FormErrorMessage>
                 </FormControl>
+
                 <FormControl id="province" isRequired>
                     <FormLabel>Province</FormLabel>
                     <Select
@@ -171,13 +172,20 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                             })}
                     </Select>
                 </FormControl>
-                <FormControl id="postal-code" isRequired>
+                <FormControl
+                    id="postal-code"
+                    isRequired
+                    isInvalid={!testCanadianPostalCode(props.postalCode)}
+                >
                     <FormLabel>Postal Code</FormLabel>
                     <Input
                         placeholder="V6Z 2E6"
                         onChange={(e) => props.setPostalCode(e.target.value)}
                         value={props.postalCode}
                     />
+                    <FormErrorMessage>
+                        {props.postalCode ? "Invalid Postal Code" : "Required"}
+                    </FormErrorMessage>
                 </FormControl>
             </HStack>
             <FormControl id="school">
@@ -197,9 +205,20 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                 />
             </FormControl>
             <div>
-                <FormButton isDisabled={true} onClick={props.formButtonOnClick}>
+                <Button
+                    id="Submit"
+                    bg={colourTheme.colors.Blue}
+                    color={"white"}
+                    fontWeight="400"
+                    my={8}
+                    px={12}
+                    borderRadius={100}
+                    mt={4}
+                    disabled={!testCanadianPostalCode(props.postalCode)}
+                    onClick={props.formButtonOnClick}
+                >
                     Next
-                </FormButton>
+                </Button>
             </div>
         </>
     );

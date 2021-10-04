@@ -148,7 +148,7 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({
                     {props.otherDifficultyDetails}
                 </Stack>
             </FormControl>
-            <FormControl id="special-education">
+            <FormControl id="special-education" isRequired>
                 <FormLabel>
                     Is the participant currently involved in a special education
                     program at their school?
