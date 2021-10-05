@@ -6,8 +6,6 @@ import { BackButton } from "@components/BackButton";
 
 export default function Verify(): JSX.Element {
     const [localStorageEmail] = useLocalStorage("sdc-email-verification", "");
-    const logoSrc = "/images/sdc-logo-blue.png";
-
     return (
         <Wrapper>
             <BackButton />
@@ -16,12 +14,6 @@ export default function Verify(): JSX.Element {
                     <Center>
                         <Box>
                             <MailSentIcon />
-                            {/* <Image
-                                w={150}
-                                py={15}
-                                src={logoSrc}
-                                alt="SDC Logo"
-                            ></Image> */}
                         </Box>
                     </Center>
                     <Center>
@@ -29,7 +21,7 @@ export default function Verify(): JSX.Element {
                             fontWeight="700"
                             fontSize="24px"
                             align="center"
-                            mt="50px"
+                            mt="10px"
                         >
                             A verification email has been sent.
                             <br></br>
