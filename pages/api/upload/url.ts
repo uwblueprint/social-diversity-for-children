@@ -9,11 +9,10 @@ export default async function handle(
     switch (req.method) {
         case "GET": {
             const post = await s3.createPresignedPost({
-                Bucket: "uw-bp-sdc-test-bucket-1", // Some env var probably
+                Bucket: process.env.S3_UPLOAD_BUCKET, // Some env var probably
                 Fields: {
-                    key: req.query.file,
+                    key: req.query.key,
                 },
-                Expires: 60, // seconds
                 Conditions: [
                     ["content-length-range", 0, 5000000], // up to ~5MB
                 ],

@@ -1,4 +1,4 @@
-// import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 // import { ResponseUtil } from "@utils/responseUtil";
 // import { getUser } from "@database/user";
 

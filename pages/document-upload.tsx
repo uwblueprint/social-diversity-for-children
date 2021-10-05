@@ -3,17 +3,18 @@ import { Button, Box, Center, Text, VStack } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
 export default function documentUpload(): JSX.Element {
+    // allows future support of multiple file uploads
+    // if we really want to restrict to one document, remove the multiple from the input
     const [files, setFiles] = useState<File[]>([]);
     const upload = async () => {
         const file = files[0];
-        const res = await fetch(`/api/upload/url?file=${file.name}`);
+        const res = await fetch(`/api/upload/url?key=${file.name}`);
         const data = await res.json();
         const { url, fields } = data.data;
 
         const formData = new FormData();
-
         Object.entries({ ...fields, file }).forEach(([key, value]) => {
-            formData.append(key, value as string);
+            formData.append(key, value as string | Blob);
         });
 
         const upload = await fetch(url, {
@@ -24,6 +25,7 @@ export default function documentUpload(): JSX.Element {
         if (upload.ok) {
             console.log("Uploaded successfully!");
         } else {
+            // TODO
             console.error("Upload failed.");
         }
     };
