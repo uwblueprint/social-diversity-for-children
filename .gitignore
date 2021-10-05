@@ -12,3 +12,14 @@ node_modules
 yarn-error.log
 # DS _store
 .DS_Store
+
+# unnecessary terraform files
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# logs
+*.log
+
+# Directories
+.terraform/
