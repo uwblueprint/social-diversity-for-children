@@ -11,9 +11,12 @@ import {
 } from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
+import { Student, Parent } from "@prisma/client";
+import colourTheme from "@styles/colours";
+import parsePhoneNumber from "@utils/parsePhoneNumber";
 
 type ClassEnrollmentConfirmationProps = {
-    studentData: any; // Not actually any but I don't want to type the entire student object, let me know if I have to do this or if it's done somewhere else that can be used here
+    studentData: Student; // Not actually any but I don't want to type the entire student object, let me know if I have to do this or if it's done somewhere else that can be used here
     parentData: any; // ^^^ Same idea
     pageNum: number;
     setPageNum: React.Dispatch<SetStateAction<number>>;
@@ -50,7 +53,7 @@ export const ClassEnrollmentConfirmation = (
                 >
                     <Heading>
                         Confirm Personal Information{" "}
-                        <Heading color="#0C53A0" as="span">
+                        <Heading color={colourTheme.colors.Blue} as="span">
                             ({props.studentData.firstName}{" "}
                             {props.studentData.lastName})
                         </Heading>
@@ -70,7 +73,7 @@ export const ClassEnrollmentConfirmation = (
                     </Text>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -84,7 +87,7 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -92,13 +95,17 @@ export const ClassEnrollmentConfirmation = (
                             Date of Birth (YYYY-MM-DD){" "}
                         </Text>
                         <Text>
-                            {props.studentData.dateOfBirth.slice(0, 10)}
+                            {props.studentData.dateOfBirth.getFullYear +
+                                "-" +
+                                props.studentData.dateOfBirth.getMonth +
+                                "-" +
+                                props.studentData.dateOfBirth.getDate}
                         </Text>
                     </Box>
                     <Stack direction={["column", "row"]} spacing="50px">
                         <Box>
                             <Text
-                                color="#737373"
+                                color={colourTheme.colors.Gray}
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
@@ -109,7 +116,7 @@ export const ClassEnrollmentConfirmation = (
                         </Box>
                         <Box>
                             <Text
-                                color="#737373"
+                                color={colourTheme.colors.Gray}
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
@@ -120,7 +127,7 @@ export const ClassEnrollmentConfirmation = (
                         </Box>
                         <Box>
                             <Text
-                                color="#737373"
+                                color={colourTheme.colors.Gray}
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
@@ -131,7 +138,7 @@ export const ClassEnrollmentConfirmation = (
                         </Box>
                         <Box>
                             <Text
-                                color="#737373"
+                                color={colourTheme.colors.Gray}
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
@@ -144,7 +151,7 @@ export const ClassEnrollmentConfirmation = (
                     <Stack direction={["column", "row"]} spacing="50px">
                         <Box>
                             <Text
-                                color="#737373"
+                                color={colourTheme.colors.Gray}
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
@@ -155,7 +162,7 @@ export const ClassEnrollmentConfirmation = (
                         </Box>
                         <Box>
                             <Text
-                                color="#737373"
+                                color={colourTheme.colors.Gray}
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
@@ -167,7 +174,7 @@ export const ClassEnrollmentConfirmation = (
                     </Stack>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -190,7 +197,7 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -203,7 +210,7 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -222,7 +229,7 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -246,7 +253,7 @@ export const ClassEnrollmentConfirmation = (
                     </Text>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -257,20 +264,14 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
                             {" "}
                             Phone{" "}
                         </Text>
-                        <Text>
-                            {props.parentData.phone.slice(0, 3) +
-                                "-" +
-                                props.parentData.phone.slice(3, 6) +
-                                "-" +
-                                props.parentData.phone.slice(6, 10)}
-                        </Text>
+                        <Text>{parsePhoneNumber(props.parentData.phone)}</Text>
                     </Box>
                 </VStack>
                 <VStack
@@ -283,7 +284,7 @@ export const ClassEnrollmentConfirmation = (
                     </Text>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -298,7 +299,7 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -306,16 +307,12 @@ export const ClassEnrollmentConfirmation = (
                             Emergency Contact Cell Number{" "}
                         </Text>
                         <Text>
-                            {props.studentData.emergNumber.slice(0, 3) +
-                                "-" +
-                                props.studentData.emergNumber.slice(3, 6) +
-                                "-" +
-                                props.studentData.emergNumber.slice(6, 10)}
+                            {parsePhoneNumber(props.studentData.emergNumber)}
                         </Text>
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -335,7 +332,7 @@ export const ClassEnrollmentConfirmation = (
                     </Text>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -350,7 +347,7 @@ export const ClassEnrollmentConfirmation = (
                     </Box>
                     <Box>
                         <Text
-                            color="#737373"
+                            color={colourTheme.colors.Gray}
                             fontSize="14px"
                             marginBottom="6px"
                         >
@@ -373,7 +370,7 @@ export const ClassEnrollmentConfirmation = (
                         height="49px"
                         width="205px"
                         borderRadius="6px"
-                        background="#0C53A0"
+                        background={colourTheme.colors.Blue}
                         fontWeight="normal"
                         textColor="#FFFFFF"
                         fontSize="16px"
@@ -388,10 +385,10 @@ export const ClassEnrollmentConfirmation = (
                         width="311px"
                         background="#FFFFFF"
                         borderRadius="6px"
-                        borderColor="#0C53A0"
+                        borderColor={colourTheme.colors.Blue}
                         borderWidth="2px"
                         fontWeight="normal"
-                        textColor="#0C53A0"
+                        textColor={colourTheme.colors.Blue}
                         fontSize="16px"
                         onClick={() => {
                             props.setPageNum(props.pageNum + 1);

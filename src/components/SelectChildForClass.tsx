@@ -1,6 +1,7 @@
 import { Flex, Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { useState, SetStateAction } from "react";
 import { CloseButton } from "@components/CloseButton";
+import colourTheme from "@styles/colours";
 
 type SelectChildForClassProps = {
     children: string[];
@@ -48,7 +49,7 @@ export default function SelectChildForClass(
                             _hover={{ border: "2px solid #0C53A0" }}
                             backgroundColor={
                                 props.selectedChild === index
-                                    ? "#E2E8F0"
+                                    ? colourTheme.colors.LightGrayBlue
                                     : "white"
                             }
                             lineHeight="24px"
