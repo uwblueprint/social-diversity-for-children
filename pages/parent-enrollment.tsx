@@ -1,81 +1,75 @@
 import Wrapper from "@components/SDCWrapper";
-import { Flex, Button, Center, Text, VStack } from "@chakra-ui/react";
+import useSWR from "swr";
 import React, { useState } from "react";
-import { CloseButton } from "@components/CloseButton";
+import SelectChildForClass from "@components/SelectChildForClass";
+import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
+import { Text, Box } from "@chakra-ui/layout";
+import { GetServerSideProps } from "next";
+import { getSession, GetSessionOptions } from "next-auth/client";
 
-export default function ParentEnrollClass(): JSX.Element {
-    // Next button is disabled by default, activates when a child is selected
-    // Test data to be replaced with children associated with parent during integration
-    const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
-    const [selectedChild, setSelectedChild] = useState<string>("");
+type ParentEnrollClassProps = {
+    session: Record<string, unknown>;
+};
 
-    return (
-        <Wrapper>
-            <Flex justifyContent="flex-end">
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
-            <Center>
-                <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
-                    Program Registration
-                </Text>
-            </Center>
-            <Center>
-                <Text pb="55px" align="center" mt="30px">
-                    Who would you like to register for{" "}
-                    <b>
-                        Building Bridges with Music - <br />
-                        Singing Monkeys (Ages 9 and under)?{" "}
-                    </b>
-                    (select one)
-                </Text>
-            </Center>
+export default function ParentEnrollClass(
+    props: ParentEnrollClassProps,
+): JSX.Element {
+    const [pageNum, setPagNum] = useState<number>(0);
+    const [selectedChild, setSelectedChild] = useState<number>(0);
 
-            <Center>
-                <VStack spacing={5}>
-                    {children.map((childName) => (
-                        <Button
-                            _focus={{ boxShadow: null }}
-                            _hover={{ border: "2px solid #0C53A0" }}
-                            backgroundColor={
-                                selectedChild === childName
-                                    ? "#E2E8F0"
-                                    : "white"
-                            }
-                            lineHeight="24px"
-                            fontSize="16px"
-                            fontWeight="normal"
-                            textColor="#0C53A0"
-                            borderRadius="6px"
-                            height="50px"
-                            width="340px"
-                            key={childName}
-                            onClick={() => setSelectedChild(childName)}
-                            border={
-                                selectedChild === childName
-                                    ? null
-                                    : "2px solid #E1E1E1"
-                            }
-                        >
-                            {childName}
-                        </Button>
-                    ))}
-                </VStack>
-            </Center>
-            <Center mt="45px" mb="200px">
-                <Button
-                    height="50px"
-                    width="340px"
-                    borderRadius="6px"
-                    background={selectedChild === "" ? "#737373" : "#0C53A0"}
-                    fontWeight="normal"
-                    textColor="#FFFFFF"
-                    fontSize="16px"
-                    isDisabled={selectedChild === ""}
-                >
-                    Next
-                </Button>
-            </Center>
-        </Wrapper>
+    const fetcher = (url) => fetch(url).then((res) => res.json());
+    const { data: apiResponse, error } = useSWR(
+        `/api/user/${props.session.id}`,
+        fetcher,
     );
+    if (error) {
+        return <Box>{"An error has occurred: " + error.toString()}</Box>;
+    }
+    if (apiResponse) {
+        try {
+            const userData = apiResponse.data;
+            const parentData = {
+                name: userData.firstName + " " + userData.lastName,
+                phone: userData.parent.phoneNumber,
+            };
+            const studentData = userData.parent.students;
+            const studentNames = userData.parent.students.map((s) => {
+                return `${s.firstName} ${s.lastName}`;
+            });
+            console.log(userData);
+            const pageElements = [
+                <SelectChildForClass
+                    children={studentNames}
+                    selectedChild={selectedChild}
+                    setSelectedChild={setSelectedChild}
+                    pageNum={pageNum}
+                    setPageNum={setPagNum}
+                />,
+                <ClassEnrollmentConfirmation
+                    studentData={studentData[selectedChild]}
+                    parentData={parentData}
+                    pageNum={pageNum}
+                    setPageNum={setPagNum}
+                />,
+            ];
+            return <Wrapper>{pageElements[pageNum]}</Wrapper>;
+        } catch {
+            console.log("There was an error");
+        }
+    }
+    return <Box></Box>;
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    return {
+        props: { session },
+    };
+};
