@@ -85,7 +85,7 @@ export const ClassEnrollmentConfirmation = (
                             Participant Name
                         </Text>
                         <Text>
-                            {props.studentData.firstName}
+                            {props.studentData.firstName}{" "}
                             {props.studentData.lastName}
                         </Text>
                     </Box>
