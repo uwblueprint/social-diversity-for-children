@@ -1,82 +1,91 @@
 import Wrapper from "@components/SDCWrapper";
-import { Flex, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { CloseButton } from "@components/CloseButton";
-import colourTheme from "@styles/colours";
+import SelectChildForClass from "@components/SelectChildForClass";
+import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
+import { Box } from "@chakra-ui/layout";
+import { GetServerSideProps } from "next";
+import useUser from "@utils/useUser";
+import { useRouter } from "next/router";
+import { getSession, GetSessionOptions } from "next-auth/client";
+import { Loading } from "@components/Loading";
+import { Student } from "@prisma/client";
 
-export default function ParentEnrollClass(): JSX.Element {
-    // Next button is disabled by default, activates when a child is selected
-    // Test data to be replaced with children associated with parent during integration
-    const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
-    const [selectedChild, setSelectedChild] = useState<string>("");
+type ParentEnrollClassProps = {
+    session: Record<string, unknown>;
+};
 
-    return (
-        <Wrapper>
-            <Flex justifyContent="flex-end">
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
-            <Center>
-                <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
-                    Program Registration
-                </Text>
-            </Center>
-            <Center>
-                <Text pb="55px" align="center" mt="30px">
-                    Who would you like to register for{" "}
-                    <b>
-                        Building Bridges with Music - <br />
-                        Singing Monkeys (Ages 9 and under)?{" "}
-                    </b>
-                    (select one)
-                </Text>
-            </Center>
+/**
+ * This is the page that directs a user to register a student for a class
+ */
 
-            <Center>
-                <VStack spacing={5}>
-                    {children.map((childName) => (
-                        <Button
-                            _focus={{ boxShadow: null }}
-                            _hover={{ border: "2px solid #0C53A0" }}
-                            backgroundColor={
-                                selectedChild === childName
-                                    ? colourTheme.colors.LightGrayBlue
-                                    : "white"
-                            }
-                            lineHeight="24px"
-                            fontSize="16px"
-                            fontWeight="normal"
-                            textColor="#0C53A0"
-                            borderRadius="6px"
-                            height="50px"
-                            width="340px"
-                            key={childName}
-                            onClick={() => setSelectedChild(childName)}
-                            border={
-                                selectedChild === childName
-                                    ? null
-                                    : "2px solid #E1E1E1"
-                            }
-                        >
-                            {childName}
-                        </Button>
-                    ))}
-                </VStack>
-            </Center>
-            <Center mt="45px" mb="200px">
-                <Button
-                    height="50px"
-                    width="340px"
-                    borderRadius="6px"
-                    background={selectedChild === "" ? "#737373" : "#0C53A0"}
-                    fontWeight="normal"
-                    textColor="#FFFFFF"
-                    fontSize="16px"
-                    isDisabled={selectedChild === ""}
-                >
-                    Next
-                </Button>
-            </Center>
-        </Wrapper>
-    );
+export default function ParentEnrollClass(
+    props: ParentEnrollClassProps,
+): JSX.Element {
+    const [pageNum, setPageNum] = useState<number>(0);
+    const [selectedChild, setSelectedChild] = useState<number>(0);
+    const { user, isLoading, error } = useUser(props.session.id as string);
+    const router = useRouter();
+
+    if (error) {
+        return <Box>{"An error has occurred: " + error.toString()}</Box>;
+    }
+    if (isLoading) {
+        return <Loading></Loading>;
+    }
+    const parentData = {
+        name: user.firstName + " " + user.lastName,
+        phone: user.parent.phoneNumber,
+    };
+    const studentData = user.parent.students.map((s) => {
+        const replaceDate = new Date(s.dateOfBirth);
+        s.dateOfBirth = replaceDate;
+        return s;
+    });
+
+    const studentNames = studentData.map((s) => {
+        return `${s.firstName} ${s.lastName}`;
+    });
+
+    if (studentData.length < 1) {
+        router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if there are no children, this should be updated to a toast in a future sprint
+    }
+    const pageElements = [
+        <SelectChildForClass
+            children={studentNames}
+            selectedChild={selectedChild}
+            setSelectedChild={setSelectedChild}
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+        />,
+        <ClassEnrollmentConfirmation
+            studentData={studentData[selectedChild] as Student}
+            parentData={parentData}
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+        />,
+    ];
+    return <Wrapper>{pageElements[pageNum]}</Wrapper>;
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: { session },
+    };
+};
