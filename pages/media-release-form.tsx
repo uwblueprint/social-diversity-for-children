@@ -4,12 +4,12 @@ import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
 import { useRouter } from "next/router";
+import colourTheme from "@styles/colours";
 
 /**
  * Media release page within the class registration process
  * @returns a page component explaining SDC's media release policy and offering an option to accept it
  */
-
 export default function MediaReleaseForm(): JSX.Element {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration
@@ -94,11 +94,13 @@ export default function MediaReleaseForm(): JSX.Element {
                     height="50px"
                     width="200px"
                     borderRadius="6px"
-                    background={!acceptedTerms ? "#737373" : "#0C53A0"}
+                    background={
+                        !acceptedTerms ? "darkgray" : colourTheme.colors.Blue
+                    }
                     fontWeight="normal"
-                    textColor="#FFFFFF"
                     fontSize="16px"
                     isDisabled={!acceptedTerms}
+                    color="white"
                     onClick={() => router.push("/participant-waiver")}
                 >
                     Next
