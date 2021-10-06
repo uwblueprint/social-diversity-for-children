@@ -1,5 +1,5 @@
 import { Flex, Box, Button, Center, Text, VStack } from "@chakra-ui/react";
-import React, { useState, SetStateAction } from "react";
+import React, { SetStateAction } from "react";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 
@@ -14,11 +14,6 @@ type SelectChildForClassProps = {
 export default function SelectChildForClass(
     props: SelectChildForClassProps,
 ): JSX.Element {
-    // Next button is disabled by default, activates when a child is selected
-    // Test data to be replaced with children associated with parent during integration
-    // const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
-    // const [selectedChild, setSelectedChild] = useState<string>("");
-
     return (
         <Box>
             <Flex justifyContent="flex-end">
@@ -46,7 +41,9 @@ export default function SelectChildForClass(
                     {props.children.map((childName, index) => (
                         <Button
                             _focus={{ boxShadow: null }}
-                            _hover={{ border: "2px solid #0C53A0" }}
+                            _hover={{
+                                border: `2px solid ${colourTheme.colors.Blue} `,
+                            }}
                             backgroundColor={
                                 props.selectedChild === index
                                     ? colourTheme.colors.LightGrayBlue

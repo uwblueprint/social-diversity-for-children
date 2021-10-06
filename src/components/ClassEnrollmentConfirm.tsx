@@ -11,13 +11,18 @@ import {
 } from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
-import { Student, Parent } from "@prisma/client";
+import { Student } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import parsePhoneNumber from "@utils/parsePhoneNumber";
 
+type parentDataType = {
+    name: string;
+    phone: string;
+};
+
 type ClassEnrollmentConfirmationProps = {
-    studentData: Student; // Not actually any but I don't want to type the entire student object, let me know if I have to do this or if it's done somewhere else that can be used here
-    parentData: any; // ^^^ Same idea
+    studentData: Student;
+    parentData: parentDataType;
     pageNum: number;
     setPageNum: React.Dispatch<SetStateAction<number>>;
 };
@@ -26,7 +31,7 @@ const therapyMapping = {
     PHYSIO: "Physiotherapy",
     SPEECH_LANG: "Speech and language therapy",
     OCCUPATIONAL: "Occupational therapy",
-    COUNSELLING: "Counseling",
+    COUNSELLING: "Counselling",
     ART: "Art therapy",
 };
 
@@ -77,11 +82,10 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Participant Name{" "}
+                            Participant Name
                         </Text>
                         <Text>
-                            {props.studentData.firstName}{" "}
+                            {props.studentData.firstName}
                             {props.studentData.lastName}
                         </Text>
                     </Box>
@@ -91,15 +95,10 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Date of Birth (YYYY-MM-DD){" "}
+                            Date of Birth (YYYY-MM-DD)
                         </Text>
                         <Text>
-                            {props.studentData.dateOfBirth.getFullYear +
-                                "-" +
-                                props.studentData.dateOfBirth.getMonth +
-                                "-" +
-                                props.studentData.dateOfBirth.getDate}
+                            {props.studentData.dateOfBirth.slice(0, 10)}
                         </Text>
                     </Box>
                     <Stack direction={["column", "row"]} spacing="50px">
@@ -109,8 +108,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                {" "}
-                                Street Address 1{" "}
+                                Street Address 1
                             </Text>
                             <Text>{props.studentData.addressLine1}</Text>
                         </Box>
@@ -120,8 +118,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                {" "}
-                                City{" "}
+                                City
                             </Text>
                             <Text>{props.studentData.cityName}</Text>
                         </Box>
@@ -131,8 +128,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                {" "}
-                                Province{" "}
+                                Province
                             </Text>
                             <Text>{props.studentData.province}</Text>
                         </Box>
@@ -142,8 +138,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                {" "}
-                                Postal Code{" "}
+                                Postal Code
                             </Text>
                             <Text>{props.studentData.postalCode}</Text>
                         </Box>
@@ -155,8 +150,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                {" "}
-                                School{" "}
+                                School
                             </Text>
                             <Text>{props.studentData.school}</Text>
                         </Box>
@@ -166,8 +160,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                {" "}
-                                Grade{" "}
+                                Grade
                             </Text>
                             <Text>{props.studentData.grade}</Text>
                         </Box>
@@ -178,8 +171,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            The participant has{" "}
+                            The participant has
                         </Text>
                         <Text>
                             {props.studentData.difficulties.length === 0
@@ -201,8 +193,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Special education at school{" "}
+                            Special education at school
                         </Text>
                         <Text>
                             {props.studentData.specialEducation ? "Yes" : "No"}
@@ -214,8 +205,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Forms of therapy{" "}
+                            Forms of therapy
                         </Text>
                         <Text>
                             {props.studentData.therapy.length === 0
@@ -233,8 +223,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Parent/Guardian Expectations{" "}
+                            Parent/Guardian Expectations
                         </Text>
                         <Text>
                             {props.studentData.guardianExpectations
@@ -257,8 +246,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Parent/Guardian Name{" "}
+                            Parent/Guardian Name
                         </Text>
                         <Text>{props.parentData.name}</Text>
                     </Box>
@@ -268,8 +256,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Phone{" "}
+                            Phone
                         </Text>
                         <Text>{parsePhoneNumber(props.parentData.phone)}</Text>
                     </Box>
@@ -288,8 +275,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Emergency Contact Name{" "}
+                            Emergency Contact Name
                         </Text>
                         <Text>
                             {props.studentData.emergFirstName +
@@ -303,8 +289,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Emergency Contact Cell Number{" "}
+                            Emergency Contact Cell Number
                         </Text>
                         <Text>
                             {parsePhoneNumber(props.studentData.emergNumber)}
@@ -316,8 +301,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Relationship to participant{" "}
+                            Relationship to participant
                         </Text>
                         <Text>{props.studentData.emergRelationToStudent}</Text>
                     </Box>
@@ -336,8 +320,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Medication{" "}
+                            Medication
                         </Text>
                         <Text>
                             {props.studentData.medication
@@ -351,8 +334,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {" "}
-                            Allergies{" "}
+                            Allergies
                         </Text>
                         <Text>
                             {props.studentData.allergies
