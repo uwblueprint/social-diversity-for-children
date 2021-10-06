@@ -38,6 +38,7 @@ const therapyMapping = {
 export const ClassEnrollmentConfirmation = (
     props: ClassEnrollmentConfirmationProps,
 ): JSX.Element => {
+    console.log(typeof props.studentData.dateOfBirth);
     return (
         <Box>
             <Flex justifyContent="space-between" marginBottom="39px">
@@ -98,7 +99,11 @@ export const ClassEnrollmentConfirmation = (
                             Date of Birth (YYYY-MM-DD)
                         </Text>
                         <Text>
-                            {props.studentData.dateOfBirth.slice(0, 10)}
+                            {props.studentData.dateOfBirth.getFullYear()}
+                            {"-"}
+                            {props.studentData.dateOfBirth.getMonth()}
+                            {"-"}
+                            {props.studentData.dateOfBirth.getDay()}
                         </Text>
                     </Box>
                     <Stack direction={["column", "row"]} spacing="50px">

@@ -40,7 +40,12 @@ export default function ParentEnrollClass(
         name: user.firstName + " " + user.lastName,
         phone: user.parent.phoneNumber,
     };
-    const studentData = user.parent.students;
+    const studentData = user.parent.students.map((s) => {
+        const replaceDate = new Date(s.dateOfBirth);
+        s.dateOfBirth = replaceDate;
+        return s;
+    });
+
     const studentNames = studentData.map((s) => {
         return `${s.firstName} ${s.lastName}`;
     });
