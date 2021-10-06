@@ -7,19 +7,19 @@ variable "s3_bucket_name" {
 
 variable "criminal_check_folder" {
   description = "Name of the criminal check folder"
-  default     = "criminal_checks"
+  default     = "criminal-checks"
   type        = string
 }
 
 variable "income_proof_folder" {
   description = "Name of the income proof folder"
-  default     = "criminal_checks"
+  default     = "criminal-checks"
   type        = string
 }
 
 variable "curriculum_plans_folder" {
   description = "Name of the curriculum plans folder"
-  default     = "curriculum_plans"
+  default     = "curriculum-plans"
   type        = string
 }
 
