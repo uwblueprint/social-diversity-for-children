@@ -179,6 +179,8 @@ model Class {
   durationMinutes         Int                @map("duration_minutes")
   createdAt               DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt               DateTime?          @map("updated_at") @db.Timestamptz(6)
+  borderAge              Int?               @map("border_age")
+  isAgeMinimal          Boolean            @default(false) @map("is_age_minimal")
   program                 Program            @relation("programsToclasses", fields: [programId], references: [id])
   classTranslation        ClassTranslation[]
   parentRegs              ParentReg[]        @relation("classesToparent_regs")
