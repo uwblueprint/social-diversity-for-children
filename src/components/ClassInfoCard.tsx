@@ -58,7 +58,13 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             {cardInfo.name}
                         </Box>
                         <Spacer />
-                        <SDCBadge children={cardInfo.ageGroup} />
+                        {cardInfo.borderAge == null ? null : (
+                            <SDCBadge>
+                                {cardInfo.isAgeMinimal
+                                    ? cardInfo.borderAge + " and above"
+                                    : cardInfo.borderAge + " and below"}
+                            </SDCBadge>
+                        )}
                     </Flex>
                     <Flex>
                         <Box

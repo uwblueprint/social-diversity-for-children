@@ -66,6 +66,9 @@ CREATE TABLE classes (
   age_group TEXT, -- classes are always categorized by age group
   image_link TEXT,
 
+  border_age INTEGER NOT NULL,
+  is_age_minimal BOOLEAN DEFAULT false NOT NULL,
+
   program_id INTEGER NOT NULL,
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
 

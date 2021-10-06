@@ -9,7 +9,6 @@ export const SDCBadge: React.FC<BadgeProps> = (props) => {
     return (
         <Badge
             borderRadius="full"
-            textTransform="capitalize"
             fontWeight="medium"
             letterSpacing="wide"
             backgroundColor={colourTheme.colors.Blue}

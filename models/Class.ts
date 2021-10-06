@@ -22,7 +22,9 @@ export type ClassCardInfo = {
     image?: string;
     name?: string;
     description: string;
-    ageGroup?: string;
+    // ageGroup?: string;
+    borderAge?: number;
+    isAgeMinimal: boolean;
     spaceAvailable: number;
     spaceTotal: number;
     volunteerSpaceAvailable: number;
