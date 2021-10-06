@@ -26,10 +26,6 @@ export default function ParentEnrollClass(
     const { user, isLoading, error } = useUser(props.session.id as string);
     const router = useRouter();
 
-    if (!props.session.role) {
-        router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if user is not logged in
-    }
-
     if (error) {
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
@@ -79,6 +75,15 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
     // obtain the next auth session
     const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
 
     return {
         props: { session },

@@ -52,7 +52,7 @@ export default function SelectChildForClass(
                             lineHeight="24px"
                             fontSize="16px"
                             fontWeight="normal"
-                            textColor="#0C53A0"
+                            textColor={colourTheme.colors.Blue}
                             borderRadius="6px"
                             height="50px"
                             width="340px"
@@ -76,7 +76,7 @@ export default function SelectChildForClass(
                     height="50px"
                     width="340px"
                     borderRadius="6px"
-                    background="#0C53A0"
+                    background={colourTheme.colors.Blue}
                     fontWeight="normal"
                     textColor="#FFFFFF"
                     fontSize="16px"

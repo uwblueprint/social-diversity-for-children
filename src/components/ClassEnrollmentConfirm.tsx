@@ -14,6 +14,7 @@ import { CloseButton } from "@components/CloseButton";
 import { Student } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import parsePhoneNumber from "@utils/parsePhoneNumber";
+import parseDate from "@utils/parseDate";
 
 type parentDataType = {
     name: string;
@@ -38,7 +39,7 @@ const therapyMapping = {
 export const ClassEnrollmentConfirmation = (
     props: ClassEnrollmentConfirmationProps,
 ): JSX.Element => {
-    console.log(typeof props.studentData.dateOfBirth);
+    console.log(props.studentData.dateOfBirth);
     return (
         <Box>
             <Flex justifyContent="space-between" marginBottom="39px">
@@ -98,13 +99,7 @@ export const ClassEnrollmentConfirmation = (
                         >
                             Date of Birth (YYYY-MM-DD)
                         </Text>
-                        <Text>
-                            {props.studentData.dateOfBirth.getFullYear()}
-                            {"-"}
-                            {props.studentData.dateOfBirth.getMonth()}
-                            {"-"}
-                            {props.studentData.dateOfBirth.getDay()}
-                        </Text>
+                        <Text>{parseDate(props.studentData.dateOfBirth)}</Text>
                     </Box>
                     <Stack direction={["column", "row"]} spacing="50px">
                         <Box>

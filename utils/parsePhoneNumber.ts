@@ -3,6 +3,6 @@
  * @return phoneNUmber a string in the format ###-###-####
  */
 
-export default function parsePhoneNumber(s: string) {
+export default function parsePhoneNumber(s: string): string {
     return s.slice(0, 3) + "-" + s.slice(3, 6) + "-" + s.slice(6, 10);
 }
