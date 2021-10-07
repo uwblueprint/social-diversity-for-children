@@ -235,7 +235,6 @@ export default function VolunteerInfo({
             body: JSON.stringify(userData),
         };
         const response = await fetch("/api/user", request);
-        console.log(response);
         if (response.status === 200) {
             const updatedUserData = await response.json();
             return updatedUserData;
@@ -246,7 +245,6 @@ export default function VolunteerInfo({
 
     async function updateUserAndClearForm() {
         const updatedUser = await updateUser();
-        console.log(updatedUser);
         if (updatedUser) {
             setSuccessfulAccountCreation("success");
             localStorage.clear();

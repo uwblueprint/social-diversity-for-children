@@ -22,8 +22,6 @@ type VolunteerInfo = {
 export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
     props,
 }): JSX.Element => {
-    console.log(props);
-    console.log(props.phoneNumber);
     return (
         <>
             <HStack spacing="24px" style={{ height: 100 }}>

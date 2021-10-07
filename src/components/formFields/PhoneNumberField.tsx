@@ -26,7 +26,7 @@ export const PhoneNumberField: React.FC<Props> = ({
         <FormControl
             style={{ height: "50px" }}
             isRequired={required}
-            isInvalid={!validator.isMobilePhone(value) && required}
+            isInvalid={!validator.isMobilePhone(value || "") && required}
         >
             {" "}
             <FormLabel>{name}</FormLabel>

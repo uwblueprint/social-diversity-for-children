@@ -68,7 +68,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     if (user.role === roles.PARENT) {
         const roleData = user.roleData as ParentInput;
         if (
-            !validator.isAlpha(
+            !validator.isAlphanumeric(
                 roleData.createStudentInput.firstName,
                 undefined,
                 {
@@ -79,7 +79,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
             validationErrors.push("Child first name is not alphanumeric");
         }
         if (
-            !validator.isAlpha(
+            !validator.isAlphanumeric(
                 roleData.createStudentInput.lastName,
                 undefined,
                 {
@@ -120,7 +120,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
             );
         }
         if (
-            !validator.isAlpha(
+            !validator.isAlphanumeric(
                 roleData.createStudentInput.emergFirstName,
                 undefined,
                 {
@@ -133,7 +133,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
             );
         }
         if (
-            !validator.isAlpha(
+            !validator.isAlphanumeric(
                 roleData.createStudentInput.emergLastName,
                 undefined,
                 {

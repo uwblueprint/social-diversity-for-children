@@ -20,11 +20,13 @@ export type CreateStudentInput = {
     therapy?: therapy[];
     otherTherapy?: string;
     guardianExpectations?: string;
+    hasMedication?: boolean;
+    hasAllergies?: boolean;
     medication?: string;
     allergies?: string;
     additionalInfo?: string;
-    emergFirstName: string;
-    emergLastName: string;
-    emergNumber: string;
-    emergRelationToStudent: string;
+    emergFirstName?: string;
+    emergLastName?: string;
+    emergNumber?: string;
+    emergRelationToStudent?: string;
 };

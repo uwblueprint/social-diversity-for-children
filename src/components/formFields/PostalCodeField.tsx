@@ -24,9 +24,7 @@ export const PostalCodeField: React.FC<Props> = ({
         <FormControl
             style={{ height: "50px" }}
             isRequired={required}
-            isInvalid={
-                value && !validator.isPostalCode(value, "CA") && required
-            }
+            isInvalid={!validator.isPostalCode(value || "", "CA") && required}
         >
             <FormLabel>{name}</FormLabel>
             <Input

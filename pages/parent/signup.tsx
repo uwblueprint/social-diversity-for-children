@@ -7,21 +7,78 @@ import {
     Stack,
     HStack,
 } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
-import { ParticipantInfoPage } from "@components/parent-form/ParticipantInfoPage";
-import { LearningInfoPage } from "@components/parent-form/LearningInfoPage";
-import { EmergInfoPage } from "@components/parent-form/EmergInfoPage";
-import { IncomePage } from "@components/parent-form/IncomePage";
-import { HeardFromPage } from "@components/parent-form/HeardFromPage";
-import { ParentCreatedPage } from "@components/parent-form/ParentCreatedPage";
 import colourTheme from "@styles/colours";
 
+/*
+Dynamic import is a next.js feature. 
+You can add properties like {srr: false} to prevent a srr if the component is static
+Additionally, you use this to conditionally load a component during render
+*/
+const ParticipantInfoPage = dynamic(
+    () =>
+        import("@components/parent-form/ParticipantInfoPage").then(
+            (module) => module.ParticipantInfoPage,
+        ),
+    { ssr: false },
+);
+const LearningInfoPage = dynamic(
+    () =>
+        import("@components/parent-form/LearningInfoPage").then(
+            (module) => module.LearningInfoPage,
+        ),
+    { ssr: false },
+);
+const ParentInfoPage = dynamic(
+    () =>
+        import("@components/parent-form/ParentInfoPage").then(
+            (module) => module.ParentInfoPage,
+        ),
+    { ssr: false },
+);
+const EmergInfoPage = dynamic(
+    () =>
+        import("@components/parent-form/EmergInfoPage").then(
+            (module) => module.EmergInfoPage,
+        ),
+    { ssr: false },
+);
+const HealthInfoPage = dynamic(
+    () =>
+        import("@components/parent-form/HealthInfoPage").then(
+            (module) => module.HealthInfoPage,
+        ),
+    { ssr: false },
+);
+const HeardFromPage = dynamic(
+    () =>
+        import("@components/parent-form/HeardFromPage").then(
+            (module) => module.HeardFromPage,
+        ),
+    { ssr: false },
+);
+const IncomePage = dynamic(
+    () =>
+        import("@components/parent-form/IncomePage").then(
+            (module) => module.IncomePage,
+        ),
+    { ssr: false },
+);
+
+const ParentCreatedPage = dynamic(
+    () =>
+        import("@components/parent-form/ParentCreatedPage").then(
+            (module) => module.ParentCreatedPage,
+        ),
+    { ssr: false },
+);
+
 const DEFAULT_PROVINCE = province.BC;
-// TODO: Checkboxes have bugs in them; sometimes render sometimes don't
 
 const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];
 
@@ -94,20 +151,34 @@ export default function ParticipantInfo({
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
-    const [isOnMedication, setIsOnMedication] = useState(false);
-    const [hasAllergies, setHasAllergies] = useState(false);
+
+    //Helath
+    const [hasMedication, setHasMedication] = useLocalStorage(
+        "hasMedication",
+        false,
+    );
+    const [hasAllergies, setHasAllergies] = useLocalStorage(
+        "hasAllergies",
+        false,
+    );
     const [medication, setMedication] = useLocalStorage("medication", "");
     const [allergies, setAllergies] = useLocalStorage("allergies", "");
 
     // Participant difficulties & therapy
     const [hasLearningDifficulties, setHasLearningDifficulties] =
-        useState(false);
+        useLocalStorage("learning", false);
     const [hasPhysicalDifficulties, setHasPhysicalDifficulties] =
-        useState(false);
-    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useState(false);
+        useLocalStorage("physical", false);
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
+        "sensory",
+        false,
+    );
     const [participantDifficulties, setParticipantDifficulties] =
         useLocalStorage("participantDifficulties", []);
-    const [hasOtherDifficulties, setHasOtherDifficulties] = useState(false);
+    const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
+        "otherDifficulties",
+        false,
+    );
     const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
         "otherDifficulties",
         "",
@@ -116,39 +187,27 @@ export default function ParticipantInfo({
         "involvedInSpecialEd",
         "",
     );
-    const [physiotherapy, setPhysiotherapy] = useState(false);
-    const [speechTherapy, setSpeechTherapy] = useState(false);
-    const [occupationalTherapy, setOccupationalTherapy] = useState(false);
-    const [counseling, setCounseling] = useState(false);
-    const [artTherapy, setArtTherapy] = useState(false);
+    const [physiotherapy, setPhysiotherapy] = useLocalStorage("physio", false);
+    const [speechTherapy, setSpeechTherapy] = useLocalStorage("speech", false);
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
+        "occupational",
+        false,
+    );
+    const [counseling, setCounseling] = useLocalStorage("conseling", false);
+    const [artTherapy, setArtTherapy] = useLocalStorage("art", false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         [],
     );
-    const [hasOtherTherapy, setHasOtherTherapy] = useState(false);
+    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
+        "otherTherapy",
+        false,
+    );
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     // Parent/guardian expectations
     const [guardianExpectations, setGuardianExpectations] = useLocalStorage(
         "guardianExpectations",
-        "",
-    );
-
-    // Emergency contact info
-    const [emergFirstName, setEmergFirstName] = useLocalStorage(
-        "emergFirstName",
-        "",
-    );
-    const [emergLastName, setEmergLastName] = useLocalStorage(
-        "emergLastName",
-        "",
-    );
-    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage(
-        "emergNumber",
-        "",
-    );
-    const [emergRelationship, setEmergRelationship] = useLocalStorage(
-        "emergRelationship",
         "",
     );
 
@@ -170,16 +229,46 @@ export default function ParticipantInfo({
         "",
     );
 
+    // Emergency contact info
+    const [emergFirstName, setEmergFirstName] = useLocalStorage(
+        "emergFirstName",
+        "",
+    );
+    const [emergLastName, setEmergLastName] = useLocalStorage(
+        "emergLastName",
+        "",
+    );
+    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage(
+        "emergNumber",
+        "",
+    );
+    const [emergRelationship, setEmergRelationship] = useLocalStorage(
+        "emergRelationship",
+        "",
+    );
+
     // Heard from
-    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useState(false);
-    const [heardFromFlyers, setHeardFromFlyers] = useState(false);
-    const [heardFromEmail, setHeardFromEmail] = useState(false);
-    const [heardFromSocialMedia, setHeardFromSocialMedia] = useState(false);
-    const [heardFromOther, setHeardFromOther] = useState(false);
+    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useLocalStorage(
+        "friends",
+        false,
+    );
+    const [heardFromFlyers, setHeardFromFlyers] = useLocalStorage(
+        "flyers",
+        false,
+    );
+    const [heardFromEmail, setHeardFromEmail] = useLocalStorage("email", false);
+    const [heardFromSocialMedia, setHeardFromSocialMedia] = useLocalStorage(
+        "socialmedia",
+        false,
+    );
+    const [heardFromOther, setHeardFromOther] = useLocalStorage("other", false);
     const [heardFromOptions, setHeardFromOptions] = useLocalStorage(
         "heardFromOptions",
         [],
     );
+
+    const [successfulAccountCreation, setSuccessfulAccountCreation] =
+        useState("pending");
 
     const otherDifficultyDetails = hasOtherDifficulties ? (
         <Box mt={4}>
@@ -265,15 +354,35 @@ export default function ParticipantInfo({
         setGuardianExpectations: setGuardianExpectations,
         otherDifficultyDetails: otherDifficultyDetails,
         otherTherapyDetails: otherTherapyDetails,
-        // start of emergency info
-        parentFirstName: emergFirstName,
-        setParentFirstName: setEmergFirstName,
-        parentLastName: emergLastName,
-        setParentLastName: setEmergLastName,
-        parentPhoneNumber: emergPhoneNumber,
-        setParentPhoneNumber: setEmergPhoneNumber,
-        parentRelationship: emergRelationship,
-        setParentRelationship: setEmergRelationship,
+        //start of emergency info
+        emergFirstName: emergFirstName,
+        setEmergFirstName: setEmergFirstName,
+        emergLastName: emergLastName,
+        setEmergLastName: setEmergLastName,
+        emergPhoneNumber: emergPhoneNumber,
+        setEmergPhoneNumber: setEmergPhoneNumber,
+        emergRelationship: emergRelationship,
+        setEmergRelationship: setEmergRelationship,
+        //start of health info
+        hasMedication: hasMedication,
+        setHasMedication: setHasMedication,
+        hasAllergies: hasAllergies,
+        setHasAllergies: setHasAllergies,
+
+        allergies: allergies,
+        setAllergies: setAllergies,
+        medication: medication,
+        setMedication: setMedication,
+
+        // start of parent info
+        parentFirstName: parentFirstName,
+        setParentFirstName: setParentFirstName,
+        parentLastName: parentLastName,
+        setParentLastName: setParentLastName,
+        parentPhoneNumber: parentPhoneNumber,
+        setParentPhoneNumber: setParentPhoneNumber,
+        parentRelationship: parentRelationship,
+        setParentRelationship: setParentRelationship,
         // start of heard about information
         heardFromFriendsAndFam: heardFromFriendsAndFam,
         setHeardFromFriendsAndFam: setHeardFromFriendsAndFam,
@@ -302,12 +411,23 @@ export default function ParticipantInfo({
             <FormPage>
                 <LearningInfoPage props={parentRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page for emergency info
         <Box>
             <FormPage>
                 <EmergInfoPage props={parentRegistrationInfo} />
+            </FormPage>
+        </Box>,
+        //health
+        <Box>
+            <FormPage>
+                <HealthInfoPage props={parentRegistrationInfo} />
+            </FormPage>
+        </Box>,
+        // Page for parent info
+        <Box>
+            <FormPage>
+                <ParentInfoPage props={parentRegistrationInfo} />
             </FormPage>
         </Box>,
         // Page for proof of income
@@ -385,8 +505,10 @@ export default function ParticipantInfo({
                 emergLastName: emergLastName,
                 emergNumber: emergPhoneNumber,
                 emergRelationToStudent: emergRelationship,
-                medication: isOnMedication ? medication : null,
-                allergies: hasAllergies ? allergies : null,
+                hasMedication: hasMedication,
+                medication: medication,
+                hasAllergies: hasAllergies,
+                allergies: allergies,
             },
         };
         const userData = {
@@ -400,10 +522,13 @@ export default function ParticipantInfo({
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData),
         };
-        const response = await fetch("api/user", request);
-        console.log(response);
-        const updatedUserData = await response.json();
-        return updatedUserData;
+        const response = await fetch("/api/user", request);
+        if (response.status === 200) {
+            const updatedUserData = await response.json();
+            return updatedUserData;
+        } else {
+            return null;
+        }
     }
 
     //Form is finished
@@ -411,9 +536,11 @@ export default function ParticipantInfo({
         //Save the user
         const updatedUser = await updateUser();
         if (updatedUser) {
+            setSuccessfulAccountCreation("success");
             localStorage.clear();
             return updatedUser;
         } else {
+            setSuccessfulAccountCreation("failure");
             return null;
         }
     }
@@ -421,6 +548,7 @@ export default function ParticipantInfo({
     return (
         // Parent account created successfully
         <ParentCreatedPage
+            successful={successfulAccountCreation}
             session={session}
             pageNum={pageNum}
             setPageNum={setPageNum}
