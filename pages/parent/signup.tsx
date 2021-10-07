@@ -140,8 +140,7 @@ export default function ParticipantInfo({
 
     //States to store the answers to the questions
 
-    //Page 1
-
+    //Page 1 - Personal Information
     const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
@@ -152,7 +151,7 @@ export default function ParticipantInfo({
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
 
-    //Helath
+    //Health
     const [hasMedication, setHasMedication] = useLocalStorage(
         "hasMedication",
         false,
