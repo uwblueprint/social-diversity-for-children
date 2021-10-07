@@ -5,6 +5,7 @@ import { ClassInfoModal } from "./ClassInfoModal";
 import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
 import colourTheme from "@styles/colours";
+import { Student } from "@prisma/client";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
@@ -19,6 +20,8 @@ export const ClassList: React.FC<ClassListProps> = ({
     tag,
     session,
 }) => {
+    const students: Student[] = [];
+
     return (
         <Center width="100%">
             <List spacing="5" width="100%">
