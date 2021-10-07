@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Box,
     Text,
@@ -59,39 +59,43 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     be provided afterwards.
                 </Text>
             </Box>
-            <HStack spacing="24px">
-                <FormControl
-                    id="participant-first-name"
-                    isRequired
-                    isInvalid={!props.participantFirstName}
-                >
-                    {" "}
-                    <FormLabel>First Name</FormLabel>
-                    <Input
-                        placeholder="First name"
-                        onChange={(e) =>
-                            props.setParticipantFirstName(e.target.value)
-                        }
-                        value={props.participantFirstName}
-                    />
-                    <FormErrorMessage>{"Required"}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                    id="participant-last-name"
-                    isRequired
-                    isInvalid={!props.participantLastName}
-                >
-                    <FormLabel>Last Name</FormLabel>
-                    <Input
-                        placeholder="Last name"
-                        onChange={(e) =>
-                            props.setParticipantLastName(e.target.value)
-                        }
-                        value={props.participantLastName}
-                    />
-                    <FormErrorMessage>{"Required"}</FormErrorMessage>
-                </FormControl>
-            </HStack>
+            <FormLabel>
+                <HStack spacing="24px" style={{ height: "100px" }}>
+                    <FormControl
+                        style={{ height: "50px" }}
+                        id="participant-first-name"
+                        isRequired
+                        isInvalid={!props.participantFirstName}
+                    >
+                        {" "}
+                        <FormLabel>First Name</FormLabel>
+                        <Input
+                            placeholder="First name"
+                            onChange={(e) =>
+                                props.setParticipantFirstName(e.target.value)
+                            }
+                            value={props.participantFirstName}
+                        />
+                        <FormErrorMessage>{"Required"}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        style={{ height: "50px" }}
+                        id="participant-last-name"
+                        isRequired
+                        isInvalid={!props.participantLastName}
+                    >
+                        <FormLabel>Last Name</FormLabel>
+                        <Input
+                            placeholder="Last name"
+                            onChange={(e) =>
+                                props.setParticipantLastName(e.target.value)
+                            }
+                            value={props.participantLastName}
+                        />
+                        <FormErrorMessage>{"Required"}</FormErrorMessage>
+                    </FormControl>
+                </HStack>
+            </FormLabel>
             <FormControl id="date-of-birth" isRequired>
                 <FormLabel>Date Of Birth</FormLabel>
                 <div
@@ -132,7 +136,12 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                 />
             </FormControl>
             <HStack spacing="24px">
-                <FormControl id="city" isRequired isInvalid={!props.city}>
+                <FormControl
+                    style={{ height: "50px" }}
+                    id="city"
+                    isRequired
+                    isInvalid={!props.city}
+                >
                     <FormLabel>City</FormLabel>
                     <Input
                         placeholder="Vancouver"
@@ -142,7 +151,11 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     <FormErrorMessage>{"Required"}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl id="province" isRequired>
+                <FormControl
+                    style={{ height: "50px" }}
+                    id="province"
+                    isRequired
+                >
                     <FormLabel>Province</FormLabel>
                     <Select
                         placeholder={"Select option"}
@@ -166,6 +179,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     </Select>
                 </FormControl>
                 <FormControl
+                    style={{ height: "50px" }}
                     id="postal-code"
                     isRequired
                     isInvalid={!testCanadianPostalCode(props.postalCode)}

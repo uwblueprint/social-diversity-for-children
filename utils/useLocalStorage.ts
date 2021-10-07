@@ -7,7 +7,7 @@ import { useState } from "react";
  * @returns [storedValue, setValue]
  * Source: https://usehooks.com/useLocalStorage/
  */
-export default function useLocalStorage(key, initialValue) {
+export default function useLocalStorage(key, initialValue: any) {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {
@@ -15,6 +15,7 @@ export default function useLocalStorage(key, initialValue) {
             if (typeof window !== "undefined") {
                 // Get from local storage by key
                 const item = window.localStorage.getItem(key);
+                console.log(item);
                 // Parse stored json or if none return initialValue
                 return item ? JSON.parse(item) : initialValue;
             }
@@ -27,6 +28,7 @@ export default function useLocalStorage(key, initialValue) {
     // Return a wrapped version of useState's setter function that ...
     // ... persists the new value to localStorage.
     const setValue = (value) => {
+        console.log(value);
         try {
             // Allow value to be a function so we have same API as useState
             const valueToStore =

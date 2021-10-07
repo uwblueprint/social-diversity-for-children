@@ -52,10 +52,12 @@ function validatePreferredLanguage(userLanguage) {
 function getUserValidationErrors(user: UserInput): Array<string> {
     // validate base user fields
     const validationErrors = [];
-    if (!validator.isAlpha(user.firstName, undefined, { ignore: " -" })) {
+    if (
+        !validator.isAlphanumeric(user.firstName, undefined, { ignore: " -" })
+    ) {
         validationErrors.push("User first name is not alphanumeric");
     }
-    if (!validator.isAlpha(user.lastName, undefined, { ignore: " -" })) {
+    if (!validator.isAlphanumeric(user.lastName, undefined, { ignore: " -" })) {
         validationErrors.push("User last name is not alphanumeric");
     }
     if (!VALID_ROLES.has(user.role)) {

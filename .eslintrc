@@ -10,6 +10,15 @@
             }
         }
     ],
+    "rules": {
+        "prettier/prettier": [
+            //Automatically set the end of line character for those on unix
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ]
+    },
     "env": {
         "node": true,
         "browser": true,

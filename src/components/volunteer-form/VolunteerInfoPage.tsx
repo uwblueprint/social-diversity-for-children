@@ -1,14 +1,9 @@
 import React from "react";
-import {
-    HStack,
-    FormLabel,
-    FormControl,
-    Input,
-    FormErrorMessage,
-    Button,
-} from "@chakra-ui/react";
-import { testPhoneNumber } from "@utils/validation/fields";
+import { HStack, Box, Button } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
+import validator from "validator";
+import { TextField } from "@components/formFields/TextField";
+import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
 
 type VolunteerInfoPageProps = {
     styleProps?: Record<string, unknown>;
@@ -16,58 +11,39 @@ type VolunteerInfoPageProps = {
 };
 
 type VolunteerInfo = {
-    volunteerFirstName: any;
-    setVolunteerFirstName: any;
-    volunteerLastName: any;
-    setVolunteerLastName: any;
-    phoneNumber: any;
-    setPhoneNumber: any;
-    formButtonOnClick: any;
+    volunteerFirstName: string;
+    setVolunteerFirstName: (text: string) => void;
+    volunteerLastName: string;
+    setVolunteerLastName: (text: string) => void;
+    phoneNumber: string;
+    setPhoneNumber: (text: string) => void;
+    formButtonOnClick: () => void;
 };
 export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
     props,
 }): JSX.Element => {
+    console.log(props);
+    console.log(props.phoneNumber);
     return (
         <>
-            <FormLabel>
-                Volunteer Name
-                <HStack spacing="24px">
-                    <FormControl id="first-name" isRequired>
-                        <Input
-                            placeholder="First name"
-                            onChange={(e) =>
-                                props.setVolunteerFirstName(e.target.value)
-                            }
-                            value={props.volunteerFirstName}
-                        />
-                    </FormControl>
-                    <FormControl id="last-name" isRequired>
-                        <Input
-                            placeholder="Last name"
-                            onChange={(e) =>
-                                props.setVolunteerLastName(e.target.value)
-                            }
-                            value={props.volunteerLastName}
-                        />
-                    </FormControl>
-                </HStack>
-            </FormLabel>
-            <FormControl
-                id="phone-number"
-                isRequired
-                isInvalid={!testPhoneNumber(props.phoneNumber)}
-            >
-                <FormLabel>Phone Number </FormLabel>
-                <Input
-                    placeholder="289 349 1048"
-                    onChange={(e) => props.setPhoneNumber(e.target.value)}
-                    value={props.phoneNumber}
-                />
-                <FormErrorMessage>
-                    {props.phoneNumber ? "Invalid Phone Number" : "Required"}
-                </FormErrorMessage>
-            </FormControl>
-            <div>
+            <HStack spacing="24px" style={{ height: 100 }}>
+                <TextField
+                    name="First Name"
+                    value={props.volunteerFirstName}
+                    setValue={props.setVolunteerFirstName}
+                ></TextField>
+                <TextField
+                    name="Last Name"
+                    value={props.volunteerLastName}
+                    setValue={props.setVolunteerLastName}
+                ></TextField>
+            </HStack>
+            <PhoneNumberField
+                name="Phone Number"
+                value={props.phoneNumber}
+                setValue={props.setPhoneNumber}
+            ></PhoneNumberField>
+            <Box>
                 <Button
                     id="Submit"
                     bg={colourTheme.colors.Blue}
@@ -76,13 +52,17 @@ export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
                     my={8}
                     px={12}
                     borderRadius={100}
-                    mt={4}
-                    disabled={!testPhoneNumber(props.phoneNumber)}
+                    mt={8}
+                    disabled={
+                        !validator.isMobilePhone(props.phoneNumber) ||
+                        !props.volunteerFirstName ||
+                        !props.setVolunteerLastName
+                    }
                     onClick={props.formButtonOnClick}
                 >
                     Next
                 </Button>
-            </div>
+            </Box>
         </>
     );
 };
