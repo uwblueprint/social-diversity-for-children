@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
+    isLegible?: boolean;
     onClick: () => void;
 };
 
@@ -30,6 +31,7 @@ type ClassInfoProps = {
  */
 export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     cardInfo,
+    isLegible,
     onClick,
 }) => {
     const router = useRouter();
@@ -59,7 +61,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         {cardInfo.borderAge == null ? null : (
-                            <SDCBadge>
+                            <SDCBadge isOff={!isLegible}>
                                 {cardInfo.isAgeMinimal
                                     ? cardInfo.borderAge + " and above"
                                     : cardInfo.borderAge + " and below"}

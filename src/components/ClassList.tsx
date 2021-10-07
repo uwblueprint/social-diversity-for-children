@@ -26,7 +26,11 @@ export const ClassList: React.FC<ClassListProps> = ({
                     const { isOpen, onOpen, onClose } = useDisclosure();
                     // TODO: This should depend on whether user is legible for class
                     // This determines which model to display on program card click
-                    const legible = true;
+                    // For each of the class, we want to get this flag via some helper method.,
+                    // We do this by getting the min and max of the age range of students
+                    // If a class is in union with the range, we are good, it is legible
+                    // If not, it is ineligible, should be gray
+                    const legible = false;
 
                     return (
                         <ListItem
@@ -35,7 +39,11 @@ export const ClassList: React.FC<ClassListProps> = ({
                             borderWidth={2}
                             key={idx}
                         >
-                            <ClassInfoCard cardInfo={item} onClick={onOpen} />
+                            <ClassInfoCard
+                                cardInfo={item}
+                                onClick={onOpen}
+                                isLegible={legible}
+                            />
                             {legible ? (
                                 <ClassInfoModal
                                     isOpen={isOpen}

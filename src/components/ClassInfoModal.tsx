@@ -111,7 +111,8 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                     classInfo.durationMinutes,
                                 )}
                             </Text>
-                            <Text pb={1}>Ages {classInfo.ageGroup}</Text>
+                            {/* TODO: make dynamic */}
+                            <Text pb={1}>Ages 9 and down</Text>
                             <Text pb={1}>
                                 {t("program.teacherName", {
                                     name: classInfo.teacherName,
