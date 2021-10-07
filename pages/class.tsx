@@ -17,13 +17,6 @@ type ClassProps = {
  * This is the page that a user will see their registered classes
  */
 function Class({ session }: ClassProps): JSX.Element {
-    const router = useRouter();
-
-    // Redirect to home if use not logged in
-    if (!session.role) {
-        router.push("/login").then(() => window.scrollTo(0, 0));
-    }
-
     return (
         <Wrapper session={session}>
             <BackButton />
@@ -49,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (
     // obtain the next auth session
     const session = await getSession(context);
 
-    if (!session) {
+    if (!session || !session.role) {
         return {
             redirect: {
                 destination: "/login",
