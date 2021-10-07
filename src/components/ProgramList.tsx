@@ -5,7 +5,7 @@ import { ProgramCard } from "@components/ProgramCard";
 export const ProgramList: React.FC<{ cardInfo: ProgramCardInfo[] }> = ({
     cardInfo,
 }) => {
-    const [session, loading] = useSession();
+    const [session] = useSession();
 
     return <ProgramCard session={session} cardInfo={cardInfo} />;
 };

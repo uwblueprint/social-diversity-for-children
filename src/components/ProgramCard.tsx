@@ -60,14 +60,14 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                 {cardInfo.concat(placeholders).map((item, idx) => {
                     return item.name == "placeholder" ? (
                         <WrapItem
-                            flexBasis="300px"
+                            flexBasis="500px"
                             flexGrow={1}
                             display="hidden"
                             key={idx}
                         ></WrapItem>
                     ) : (
                         <WrapItem
-                            flexBasis="300px"
+                            flexBasis="500px"
                             key={idx}
                             flexGrow={1}
                             cursor={"pointer"}
