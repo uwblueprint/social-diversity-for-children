@@ -18,12 +18,15 @@ export type ClassInput = {
 
 // Information used for the card component of a class.
 export type ClassCardInfo = {
+    id: number;
     image?: string;
     name?: string;
     description: string;
     ageGroup?: string;
     spaceAvailable: number;
+    spaceTotal: number;
     volunteerSpaceAvailable: number;
+    volunteerSpaceTotal: number;
     weekday: weekday;
     startDate: Date;
     endDate: Date;

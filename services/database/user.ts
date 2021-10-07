@@ -7,7 +7,7 @@ import { User, roles } from "@prisma/client";
  * getUser takes the id parameter and returns the user associated with the userId
  * @param {string} id - userId
  */
-async function getUser(id: string) {
+async function getUser(id: string): Promise<User> {
     const user = await prisma.user.findUnique({
         where: {
             id: parseInt(id),
@@ -27,9 +27,28 @@ async function getUser(id: string) {
 }
 
 /**
+ * getUser takes the email parameter and returns a minimal user associated with the email
+ * @param {string} email
+ */
+async function getUserFromEmail(email: string): Promise<User> {
+    const user = await prisma.user.findUnique({
+        where: {
+            email: email,
+        },
+        include: {
+            teacher: true,
+            parent: true,
+            programAdmin: true,
+            volunteer: true,
+        },
+    });
+    return user;
+}
+
+/**
  * getUsers returns all the users
  */
-async function getUsers() {
+async function getUsers(): Promise<User[]> {
     const users = await prisma.user.findMany({
         include: {
             teacher: true,
@@ -288,4 +307,4 @@ async function updateUser(userInput: UserInput): Promise<User> {
     return updatedUser;
 }
 
-export { getUser, getUsers, updateUser };
+export { getUser, getUserFromEmail, getUsers, updateUser };
