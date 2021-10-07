@@ -60,7 +60,7 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
                 value={props.emergRelationship}
                 setValue={props.setEmergRelationship}
             ></TextField>
-            <div>
+            <Box>
                 <Button
                     id="Submit"
                     bg={colourTheme.colors.Blue}
@@ -80,7 +80,7 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
                 >
                     Next
                 </Button>
-            </div>
+            </Box>
         </>
     );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack, Button } from "@chakra-ui/react";
+import { HStack, Button, Box } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
@@ -50,7 +50,7 @@ export const ParentInfoPage: React.FC<ParentPageProps> = ({
                 value={props.parentRelationship}
                 setValue={props.setParentRelationship}
             ></TextField>
-            <div>
+            <Box>
                 <Button
                     id="Submit"
                     bg={colourTheme.colors.Blue}
@@ -70,7 +70,7 @@ export const ParentInfoPage: React.FC<ParentPageProps> = ({
                 >
                     Next
                 </Button>
-            </div>
+            </Box>
         </>
     );
 };
