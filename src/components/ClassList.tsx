@@ -6,11 +6,14 @@ import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
 import colourTheme from "@styles/colours";
 import { Student } from "@prisma/client";
+import Participants from "@utils/containers/Participants";
+import convertToAge from "@utils/convertToAge";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
     onlineFormat: string;
     tag: string;
+    students?: Student[];
     session?: Record<string, unknown>;
 };
 
@@ -20,20 +23,31 @@ export const ClassList: React.FC<ClassListProps> = ({
     tag,
     session,
 }) => {
-    const students: Student[] = [];
+    const { students } = Participants.useContainer();
 
     return (
         <Center width="100%">
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
                     const { isOpen, onOpen, onClose } = useDisclosure();
-                    // TODO: This should depend on whether user is legible for class
-                    // This determines which model to display on program card click
-                    // For each of the class, we want to get this flag via some helper method.,
-                    // We do this by getting the min and max of the age range of students
-                    // If a class is in union with the range, we are good, it is legible
-                    // If not, it is ineligible, should be gray
-                    const legible = false;
+                    let legible = true;
+                    if (students != null) {
+                        legible = false;
+                        legible = students.some((student) => {
+                            const age = convertToAge(
+                                new Date(student.dateOfBirth),
+                            );
+                            if (item.isAgeMinimal && age >= item.borderAge) {
+                                return true;
+                            } else if (
+                                !item.isAgeMinimal &&
+                                age <= item.borderAge
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
 
                     return (
                         <ListItem

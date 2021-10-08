@@ -37,7 +37,11 @@ async function getUserFromEmail(email: string): Promise<User> {
         },
         include: {
             teacher: true,
-            parent: true,
+            parent: {
+                include: {
+                    students: true,
+                },
+            },
             programAdmin: true,
             volunteer: true,
         },
