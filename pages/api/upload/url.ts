@@ -13,6 +13,7 @@ export default async function handle(
     if (!session) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
+
     // TODO make this more robost/better
     const accepted_type_paths = [
         "other",
@@ -20,6 +21,7 @@ export default async function handle(
         "income-proof",
         "curriculum-plans",
     ];
+
     if (!accepted_type_paths.includes(req.query.path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");
     }

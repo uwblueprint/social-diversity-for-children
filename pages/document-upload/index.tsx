@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Button, Box, Center, Text, VStack } from "@chakra-ui/react";
+import {
+    Button,
+    Box,
+    Center,
+    Text,
+    VStack,
+    Spinner,
+    Image,
+} from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
 export default function documentUpload(): JSX.Element {
@@ -9,7 +17,7 @@ export default function documentUpload(): JSX.Element {
     if (type === undefined) {
         type = "other";
     }
-    const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [uploadSuccess, setUploadSuccess] = useState(true);
     const [isUploading, setIsUploading] = useState(false);
     // allows future support of multiple file uploads
     // if we really want to restrict to one document, remove the multiple from the input
@@ -74,7 +82,7 @@ export default function documentUpload(): JSX.Element {
                         </Text>
                     ))}
                     <Center paddingBottom="40px">
-                        {!!files.length && (
+                        {!!files.length && !isUploading && (
                             <Button
                                 backgroundColor="#0C53A0"
                                 borderColor="brand.400"
@@ -90,6 +98,27 @@ export default function documentUpload(): JSX.Element {
                                 Submit
                             </Button>
                         )}
+                        {isUploading && (
+                            <Button
+                                backgroundColor="#0C53A0"
+                                borderColor="brand.400"
+                                width="366px"
+                                height="54px"
+                                fontSize="16px"
+                                fontWeight="400"
+                                color="white"
+                                border="1px"
+                                mt="20px"
+                            >
+                                <Spinner
+                                    thickness="4px"
+                                    speed="0.65s"
+                                    emptyColor="gray.200"
+                                    color="blue.500"
+                                    size="xl"
+                                />
+                            </Button>
+                        )}
                     </Center>
                 </VStack>
             </Wrapper>
@@ -101,15 +130,72 @@ export default function documentUpload(): JSX.Element {
             <Wrapper>
                 <VStack>
                     <Center>
-                        <Box width="700px" marginBottom="40px">
+                        <Box width="400px" marginBottom="40px">
+                            <Center>
+                                <Image
+                                    src=""
+                                    alt="TODO checkmark image"
+                                ></Image>
+                            </Center>
                             <Center>
                                 <Text
                                     fontWeight="700"
-                                    fontSize="36px"
-                                    margin="40px"
+                                    fontSize="25px"
+                                    margin="20px"
                                 >
-                                    Success
+                                    File submitted successfully
                                 </Text>
+                            </Center>
+                            <Center>
+                                <Text
+                                    fontWeight="200"
+                                    fontSize="15px"
+                                    marginBottom="20px"
+                                >
+                                    Document was successfully sent to SDC.
+                                </Text>
+                            </Center>
+                            <Center>
+                                <Text
+                                    fontWeight="200"
+                                    fontSize="15px"
+                                    marginBottom="20px"
+                                    textAlign={["center"]}
+                                >
+                                    Keep and eye out on the status of your
+                                    background check within the next few weeks.
+                                </Text>
+                            </Center>
+                            <Center>
+                                <Button
+                                    backgroundColor="white"
+                                    borderColor="brand.400"
+                                    width="366px"
+                                    height="54px"
+                                    fontSize="16px"
+                                    fontWeight="400"
+                                    color="#0C53A0"
+                                    border="2px"
+                                    mt="20px"
+                                >
+                                    View Account
+                                </Button>
+                            </Center>
+                            <Center>
+                                <Button
+                                    backgroundColor="#0C53A0"
+                                    borderColor="brand.400"
+                                    width="366px"
+                                    height="54px"
+                                    fontSize="16px"
+                                    fontWeight="400"
+                                    color="white"
+                                    border="1px"
+                                    mt="20px"
+                                    onClick={() => router.push("/")}
+                                >
+                                    Browse programs
+                                </Button>
                             </Center>
                         </Box>
                     </Center>
