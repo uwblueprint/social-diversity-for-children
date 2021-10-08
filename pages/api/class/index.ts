@@ -17,7 +17,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId } = req.query;
+            const { id: programId, lang: language } = req.query;
 
             if (!programId) {
                 const classes = await getClasses();
@@ -32,8 +32,8 @@ export default async function handle(
                 }
                 const classes = await getClassInfoWithProgramId(
                     programId as string,
-                    locale.en,
-                ); // TODO don't hardcode locale
+                    (language as locale) || locale.en,
+                );
                 ResponseUtil.returnOK(res, classes);
             }
             break;

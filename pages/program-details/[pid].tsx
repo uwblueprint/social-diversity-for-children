@@ -5,21 +5,20 @@ import { useSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
+import fetcherWithId from "@utils/fetcherWithId";
 
 export const ProgramDetails: React.FC = () => {
     const [session, loading] = useSession();
     const router = useRouter();
     const { pid } = router.query;
 
-    const fetchWithId = (url, id) =>
-        fetch(`${url}?id=${id}`).then((r) => r.json());
     const { data: classListResponse, error: classListError } = useSWR(
-        ["/api/class", pid],
-        fetchWithId,
+        ["/api/class", pid, router.locale],
+        fetcherWithId,
     );
     const { data: programInfoResponse, error: programInfoError } = useSWR(
-        ["/api/program/" + pid, pid],
-        fetchWithId,
+        ["/api/program/" + pid, pid, router.locale],
+        fetcherWithId,
     );
     if (classListError || programInfoError) {
         return (

@@ -18,7 +18,8 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId } = req.query;
+            const { id: programId, lang: language } = req.query;
+
             if (!programId) {
                 return ResponseUtil.returnBadRequest(
                     res,
@@ -34,10 +35,11 @@ export default async function handle(
                 );
             }
 
+            // TODO: For queries, we should always have two translations queried, english as a backup
             const result = await getProgramCardInfo(
                 programId as string,
-                locale.en,
-            ); // TODO don't hardcode locale
+                (language as locale) || locale.en,
+            );
             if (!result) {
                 ResponseUtil.returnNotFound(res, `Program info not found.`);
                 break;

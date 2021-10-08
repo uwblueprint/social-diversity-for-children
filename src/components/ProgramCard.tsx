@@ -12,6 +12,7 @@ import { programFormat } from "@prisma/client";
 import { SDCBadge } from "./SDCBadge";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import colourTheme from "@styles/colours";
+import Link from "next/link";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -72,65 +73,61 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                             flexGrow={1}
                             cursor={"pointer"}
                         >
-                            <Box
-                                borderWidth="1px"
-                                width="100%"
-                                _hover={{
-                                    borderColor: colourTheme.colors.Blue,
-                                    borderWidth: 1,
-                                }}
-                                onClick={() => {
-                                    if (!session)
-                                        window.location.href = "/login";
-                                    else
-                                        window.location.href = `/program-details/${item.id}`;
-                                }}
-                            >
-                                <AspectRatio width="100%" ratio={4 / 3}>
-                                    <Image
-                                        src={item.image}
-                                        boxSize="200"
-                                        key={idx}
-                                        data-index={idx}
-                                        fit="cover"
-                                        width={20}
-                                        alt={item.name}
-                                    />
-                                </AspectRatio>
-
-                                <Box p="6">
-                                    <Box
-                                        mt="1"
-                                        fontWeight="bold"
-                                        as="h2"
-                                        isTruncated
-                                        fontSize="lg"
-                                    >
-                                        {item.name}
-                                    </Box>
-
-                                    <Box
-                                        as="span"
-                                        color="gray.600"
-                                        fontSize="sm"
-                                    >
-                                        {convertToShortDateRange(
-                                            item.startDate,
-                                            item.endDate,
-                                        )}
-                                    </Box>
-                                    <Box mt="2" fontSize="md">
-                                        {item.description}
-                                    </Box>
-                                    <Box mt="2">
-                                        <SDCBadge children={item.tag} />
-                                        <SDCBadge
-                                            ml="2"
-                                            children={item.onlineFormat}
+                            <Link href={`program-details/${item.id}`}>
+                                <Box
+                                    borderWidth="1px"
+                                    width="100%"
+                                    _hover={{
+                                        borderColor: colourTheme.colors.Blue,
+                                        borderWidth: 1,
+                                    }}
+                                >
+                                    <AspectRatio width="100%" ratio={4 / 3}>
+                                        <Image
+                                            src={item.image}
+                                            boxSize="200"
+                                            key={idx}
+                                            data-index={idx}
+                                            fit="cover"
+                                            width={20}
+                                            alt={item.name}
                                         />
+                                    </AspectRatio>
+
+                                    <Box p="6">
+                                        <Box
+                                            mt="1"
+                                            fontWeight="bold"
+                                            as="h2"
+                                            isTruncated
+                                            fontSize="lg"
+                                        >
+                                            {item.name}
+                                        </Box>
+
+                                        <Box
+                                            as="span"
+                                            color="gray.600"
+                                            fontSize="sm"
+                                        >
+                                            {convertToShortDateRange(
+                                                item.startDate,
+                                                item.endDate,
+                                            )}
+                                        </Box>
+                                        <Box mt="2" fontSize="md">
+                                            {item.description}
+                                        </Box>
+                                        <Box mt="2">
+                                            <SDCBadge children={item.tag} />
+                                            <SDCBadge
+                                                ml="2"
+                                                children={item.onlineFormat}
+                                            />
+                                        </Box>
                                     </Box>
                                 </Box>
-                            </Box>
+                            </Link>
                         </WrapItem>
                     );
                 })}

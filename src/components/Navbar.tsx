@@ -1,10 +1,17 @@
 import React from "react";
-import { Box, Flex, HStack, Link, useColorModeValue } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    HStack,
+    Link as ChakraLink,
+    useColorModeValue,
+} from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
 import { ReactNode } from "react";
 import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 type NavbarProps = {
     session?: Record<string, unknown>;
@@ -23,7 +30,7 @@ const NavLink = ({
     href?: string;
     children: ReactNode;
 }) => (
-    <Link
+    <ChakraLink
         px={8}
         py={1}
         rounded={"md"}
@@ -32,7 +39,7 @@ const NavLink = ({
         textUnderlineOffset={"0.5em"}
     >
         {children}
-    </Link>
+    </ChakraLink>
 );
 
 export const DEFAULT_NAVBAR_HEIGHT = 16;
@@ -55,8 +62,10 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                     >
                         <HStack spacing={8} alignItems={"center"}>
                             <Box>
-                                <Link href={"/"} _focus={{}}>
-                                    <SdcLogoBlue />
+                                <Link href="/">
+                                    <ChakraLink _focus={{}}>
+                                        <SdcLogoBlue />
+                                    </ChakraLink>
                                 </Link>
                             </Box>
                             <HStack
