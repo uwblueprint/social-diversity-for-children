@@ -6,6 +6,8 @@ type DrapAndDropProps = {
     setFiles: (files: File[]) => void;
 };
 
+// TODO could be a lot of refactor for actual drag and drop
+// TODO detect mobile users and don't show d&d
 const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
     return (
         <Box
@@ -15,11 +17,11 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
             borderColor="gray.500"
         >
             <Center>
+                {/* TODO use svg and local image */}
                 <Image
                     src="http://www.clker.com/cliparts/S/j/7/o/b/H/cloud-upload-outline.svg.thumb.png"
                     marginTop="20px"
                 ></Image>
-                {/* <Image src=""></Image> */}
             </Center>
             <Center>
                 <Text
