@@ -8,7 +8,7 @@ import useUser from "@utils/useUser";
 import { useRouter } from "next/router";
 import { getSession, GetSessionOptions } from "next-auth/client";
 import { Loading } from "@components/Loading";
-import { Student } from "@prisma/client";
+import { roles, Student } from "@prisma/client";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (
     // obtain the next auth session
     const session = await getSession(context);
 
-    if (!session) {
+    if (!session || !(session.role === roles.PARENT)) {
         return {
             redirect: {
                 destination: "/login",
