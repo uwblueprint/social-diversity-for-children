@@ -175,7 +175,7 @@ export default function ParticipantInfo({
     const [participantDifficulties, setParticipantDifficulties] =
         useLocalStorage("participantDifficulties", []);
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
-        "otherDifficulties",
+        "hasOtherDifficulties",
         false,
     );
     const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
