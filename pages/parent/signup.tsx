@@ -520,7 +520,7 @@ export default function ParticipantInfo({
             body: JSON.stringify(userData),
         };
         const response = await fetch("/api/user", request);
-        if (response.status === 200) {
+        if (response.ok) {
             const updatedUserData = await response.json();
             return updatedUserData;
         } else {
