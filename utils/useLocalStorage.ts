@@ -7,7 +7,10 @@ import { useState } from "react";
  * @returns [storedValue, setValue]
  * Source: https://usehooks.com/useLocalStorage/
  */
-export default function useLocalStorage(key, initialValue: any) {
+export default function useLocalStorage<Type>(
+    key: string,
+    initialValue: Type,
+): [Type, (value: Type) => void] {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {
