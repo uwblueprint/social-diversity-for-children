@@ -17,8 +17,17 @@ export default async function handle(
     switch (req.method) {
         case "GET": {
             // This should be a me query
-            const user = await getUserFromEmail(session.user.email);
+            if (!session) {
+                ResponseUtil.returnBadRequest(res, "Invalid Session");
+            }
+            const user = await getUserFromEmail(session?.user.email);
+            console.log(user);
+            if (!user) {
+                ResponseUtil.returnBadRequest(res, "Invalid User");
+            }
+
             ResponseUtil.returnOK(res, user);
+
             break;
         }
         default: {

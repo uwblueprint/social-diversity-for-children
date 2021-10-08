@@ -21,6 +21,22 @@ export default function Signupform(): JSX.Element {
         return url === path;
     };
 
+    async function checkUserSession() {
+        const request = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        const response = await fetch("/api/user/me/", request).then(
+            //To get the body do response.json()
+            (response) => response,
+        );
+        if (!response.ok) {
+            router.push("/login").then(() => window.scrollTo(0, 0));
+        }
+    }
+
+    checkUserSession();
+
     return (
         <Wrapper>
             <Center h="500px" margin="10px">
