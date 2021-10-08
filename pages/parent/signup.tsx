@@ -199,7 +199,7 @@ export default function ParticipantInfo({
         [],
     );
     const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
-        "otherTherapy",
+        "hasOtherTherapy",
         false,
     );
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
