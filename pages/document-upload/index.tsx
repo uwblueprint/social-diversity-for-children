@@ -9,15 +9,18 @@ import {
     Spinner,
     Image,
 } from "@chakra-ui/react";
+import { GetServerSideProps } from "next"; // Get server side props
+import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
-export default function documentUpload(): JSX.Element {
+// TODO session should be typed
+export default function documentUpload({ session }): JSX.Element {
     const router = useRouter();
     let { type } = router.query;
     if (type === undefined) {
         type = "other";
     }
-    const [uploadSuccess, setUploadSuccess] = useState(true);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     // allows future support of multiple file uploads
     // if we really want to restrict to one document, remove the multiple from the input
@@ -26,8 +29,10 @@ export default function documentUpload(): JSX.Element {
         setIsUploading(true);
         const file = files[0];
         try {
+            // TODO don't prefix file name, instead put random file name into database eventually
+            // TODO randomize filename
             const res = await fetch(
-                `/api/upload/url?path=${type}&file=${file.name}`,
+                `/api/upload/url?path=${type}&file=${session.user.email}-${session.id}-${file.name}`,
             );
             const data = await res.json();
             const { url, fields } = data.data;
@@ -177,6 +182,11 @@ export default function documentUpload(): JSX.Element {
                                     color="#0C53A0"
                                     border="2px"
                                     mt="20px"
+                                    onClick={() =>
+                                        router.push("/myaccounts").then(() => {
+                                            window.scrollTo({ top: 0 });
+                                        })
+                                    }
                                 >
                                     View Account
                                 </Button>
@@ -192,7 +202,11 @@ export default function documentUpload(): JSX.Element {
                                     color="white"
                                     border="1px"
                                     mt="20px"
-                                    onClick={() => router.push("/")}
+                                    onClick={() =>
+                                        router.push("/").then(() => {
+                                            window.scrollTo({ top: 0 });
+                                        })
+                                    }
                                 >
                                     Browse programs
                                 </Button>
@@ -209,3 +223,22 @@ export default function documentUpload(): JSX.Element {
         return uploadDocumentUI();
     }
 }
+
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: { session },
+    };
+};
