@@ -42,7 +42,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
                     onInput={onFileInput}
                     type="file"
                     hidden
-                    multiple
+                    // multiple
                 />
             </Center>
         </FormControl>
