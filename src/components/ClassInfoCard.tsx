@@ -47,6 +47,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
                     <Image
+                        filter={isLegible ? "none" : "grayscale(100%)"}
                         src={cardInfo.image}
                         fit="cover"
                         alt={cardInfo.name}
