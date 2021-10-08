@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     FormLabel,
     FormControl,
@@ -24,24 +24,31 @@ export const TextField: React.FC<Props> = ({
     required = true,
     longAnswer = false,
 }): JSX.Element => {
+    const [interactedWith, setInteractedWith] = useState(false);
     return (
         <FormControl
             style={longAnswer ? { height: "160px" } : { height: "50px" }}
             isRequired={required}
-            isInvalid={!value && required}
+            isInvalid={!value && required && interactedWith}
         >
             <FormLabel>{name}</FormLabel>
             {longAnswer ? (
                 <Textarea
                     placeholder={placeholder}
                     size="sm"
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => {
+                        setValue(e.target.value);
+                        setInteractedWith(true);
+                    }}
                     value={value}
                 ></Textarea>
             ) : (
                 <Input
                     placeholder={placeholder || name}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => {
+                        setValue(e.target.value);
+                        setInteractedWith(true);
+                    }}
                     value={value}
                 />
             )}

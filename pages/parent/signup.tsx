@@ -493,12 +493,10 @@ export default function ParticipantInfo({
                 school: school,
                 grade: parseInt(grade, 10),
                 difficulties: participantDifficulties.sort(),
-                otherDifficulties: hasOtherDifficulties
-                    ? otherDifficulties
-                    : null,
+                otherDifficulties: null,
                 specialEducation: specialEd,
                 therapy: participantTherapy.sort(),
-                otherTherapy: hasOtherTherapy ? otherTherapy : null,
+                otherTherapy: null,
                 guardianExpectations,
                 emergFirstName: emergFirstName,
                 emergLastName: emergLastName,

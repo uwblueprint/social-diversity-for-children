@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     FormLabel,
     FormControl,
@@ -22,17 +22,25 @@ export const PhoneNumberField: React.FC<Props> = ({
     placeholder,
     required = true,
 }): JSX.Element => {
+    const [interactedWith, setInteractedWith] = useState(false);
     return (
         <FormControl
             style={{ height: "50px" }}
             isRequired={required}
-            isInvalid={!validator.isMobilePhone(value || "") && required}
+            isInvalid={
+                !validator.isMobilePhone(value || "") &&
+                required &&
+                interactedWith
+            }
         >
             {" "}
             <FormLabel>{name}</FormLabel>
             <Input
                 placeholder={placeholder || name}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {
+                    setValue(e.target.value);
+                    setInteractedWith(true);
+                }}
                 value={value}
             />
             <FormErrorMessage>
