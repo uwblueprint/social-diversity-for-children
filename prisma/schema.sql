@@ -63,11 +63,9 @@ CREATE TABLE programs (
 CREATE TABLE classes (
   id SERIAL PRIMARY KEY NOT NULL,
   name TEXT, 
-  age_group TEXT, -- classes are always categorized by age group
-  image_link TEXT,
-
   border_age INTEGER NOT NULL,
   is_age_minimal BOOLEAN DEFAULT false NOT NULL,
+  image_link TEXT,
 
   program_id INTEGER NOT NULL,
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,

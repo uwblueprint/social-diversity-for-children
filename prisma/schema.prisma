@@ -163,7 +163,8 @@ model ClassTranslation {
 model Class {
   id                      Int                @id @default(autoincrement())
   name                    String?
-  ageGroup                String?            @map("age_group")
+  borderAge               Int?               @map("border_age")
+  isAgeMinimal            Boolean            @default(false) @map("is_age_minimal")
   imageLink               String?            @map("image_link")
   programId               Int                @map("program_id")
   spaceTotal              Int                @map("space_total")
@@ -178,8 +179,6 @@ model Class {
   durationMinutes         Int                @map("duration_minutes")
   createdAt               DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt               DateTime?          @map("updated_at") @db.Timestamptz(6)
-  borderAge              Int?               @map("border_age")
-  isAgeMinimal          Boolean            @default(false) @map("is_age_minimal")
   program                 Program            @relation("programsToclasses", fields: [programId], references: [id])
   classTranslation        ClassTranslation[]
   parentRegs              ParentReg[]        @relation("classesToparent_regs")

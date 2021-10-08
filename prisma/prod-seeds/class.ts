@@ -6,7 +6,8 @@ const classes: Class[] = [
     {
         id: 1,
         name: "Singing Monkeys",
-        ageGroup: "9 and under",
+        borderAge: 9,
+        isAgeMinimal: false,
         imageLink: "https://media0.giphy.com/media/dNgK7Ws7y176U/giphy_s.gif",
         programId: 1,
         spaceTotal: 10,
@@ -25,7 +26,8 @@ const classes: Class[] = [
     {
         id: 2,
         name: "Singing Giraffes",
-        ageGroup: "10 and above",
+        borderAge: 10,
+        isAgeMinimal: true,
         imageLink:
             "https://media4.giphy.com/media/8OGIYNULdLNOE/giphy.gif?cid=ecf05e471dv24mebe5hsbyyuk9af2jnztcvo484u3r71911r&rid=giphy.gif&ct=g",
         programId: 1,

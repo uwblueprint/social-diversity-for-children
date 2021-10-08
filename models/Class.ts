@@ -5,7 +5,8 @@ import { weekday } from "@prisma/client";
  */
 export type ClassInput = {
     name?: string;
-    ageGroup?: string;
+    borderAge?: number;
+    isAgeMinimal: boolean;
     programId: number;
     spaceTotal: number;
     volunteerSpaceTotal: number;
@@ -22,7 +23,6 @@ export type ClassCardInfo = {
     image?: string;
     name?: string;
     description: string;
-    // ageGroup?: string;
     borderAge?: number;
     isAgeMinimal: boolean;
     spaceAvailable: number;
