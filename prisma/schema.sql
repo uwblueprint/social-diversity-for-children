@@ -69,6 +69,7 @@ CREATE TABLE classes (
 
   border_age INTEGER NOT NULL,
   is_age_minimal BOOLEAN DEFAULT false NOT NULL,
+  image_link TEXT,
 
   program_id INTEGER NOT NULL,
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
