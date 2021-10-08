@@ -16,12 +16,12 @@ type LearningInfo = {
     setHasPhysicalDifficulties: (text: boolean) => void;
     hasSensoryDifficulties: boolean;
     setHasSensoryDifficulties: (text: boolean) => void;
-    participantDifficulties: boolean;
-    setParticipantDifficulties: (text: boolean) => void;
+    participantDifficulties: any[];
+    setParticipantDifficulties: (text: boolean[]) => void;
     hasOtherDifficulties: boolean;
     setHasOtherDifficulties: (text: boolean) => void;
-    otherDifficulties: boolean;
-    setOtherDifficulties: (text: boolean) => void;
+    otherDifficulties: any;
+    setOtherDifficulties: (text: any) => void;
     specialEd: boolean;
     setSpecialEd: (text: boolean) => void;
     physiotherapy: boolean;
@@ -38,8 +38,8 @@ type LearningInfo = {
     setParticipantTherapy: (text: boolean) => void;
     hasOtherTherapy: boolean;
     setHasOtherTherapy: (text: boolean) => void;
-    otherTherapy: boolean;
-    setOtherTherapy: (text: boolean) => void;
+    otherTherapy: any;
+    setOtherTherapy: (text: any) => void;
     guardianExpectations: string;
     setGuardianExpectations: (text: string) => void;
     otherDifficultyDetails: JSX.Element | null;

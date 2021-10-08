@@ -184,7 +184,7 @@ export default function ParticipantInfo({
     );
     const [specialEd, setSpecialEd] = useLocalStorage(
         "involvedInSpecialEd",
-        "",
+        false,
     );
     const [physiotherapy, setPhysiotherapy] = useLocalStorage("physio", false);
     const [speechTherapy, setSpeechTherapy] = useLocalStorage("speech", false);
@@ -196,7 +196,7 @@ export default function ParticipantInfo({
     const [artTherapy, setArtTherapy] = useLocalStorage("art", false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
-        [],
+        false,
     );
     const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
         "hasOtherTherapy",
@@ -263,7 +263,7 @@ export default function ParticipantInfo({
     const [heardFromOther, setHeardFromOther] = useLocalStorage("other", false);
     const [heardFromOptions, setHeardFromOptions] = useLocalStorage(
         "heardFromOptions",
-        [],
+        null,
     );
 
     const [successfulAccountCreation, setSuccessfulAccountCreation] =
@@ -480,7 +480,7 @@ export default function ParticipantInfo({
             isLowIncome: undefined, // TODO
             preferredLanguage: locale.en,
             proofOfIncomeLink: undefined, // TODO
-            heardFrom: heardFromOptions.sort(),
+            heardFrom: [],
             createStudentInput: {
                 firstName: participantFirstName,
                 lastName: participantLastName,
@@ -495,7 +495,7 @@ export default function ParticipantInfo({
                 difficulties: participantDifficulties.sort(),
                 otherDifficulties: null,
                 specialEducation: specialEd,
-                therapy: participantTherapy.sort(),
+                therapy: [],
                 otherTherapy: null,
                 guardianExpectations,
                 emergFirstName: emergFirstName,
