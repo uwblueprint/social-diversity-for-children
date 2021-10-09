@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
     Button,
@@ -17,9 +17,36 @@ import DragAndDrop from "@components/DragAndDrop";
 export default function documentUpload({ session }): JSX.Element {
     const router = useRouter();
     let { type } = router.query;
-    if (type === undefined) {
-        type = "other";
-    }
+
+    useEffect(() => {
+        if (
+            Object.keys(router.query).length === 0 &&
+            Object.getPrototypeOf(router.query) === Object.prototype
+        ) {
+            type = "other";
+        } else if (!("type" in router.query)) {
+            console.log("Unsupported query parameter. Redirected");
+            type = "other";
+            router.push("/document-upload").then(() => {
+                window.scrollTo({ top: 0 });
+            });
+        } else if (type === undefined) {
+            console.log(
+                "Query parameter not assigned. Upload will be sent to 'other'",
+            );
+            type = "other";
+        } else if (type === "") {
+            console.log(
+                "Query parameter not assigned. Upload will be sent to 'other'",
+            );
+            type = "other";
+            router.push("/document-upload").then(() => {
+                window.scrollTo({ top: 0 });
+            });
+        }
+    }, []);
+    // if no query param specified
+
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     // allows future support of multiple file uploads
@@ -54,11 +81,10 @@ export default function documentUpload({ session }): JSX.Element {
                 console.error("Upload failed.");
                 setUploadSuccess(false);
             }
-
-            setIsUploading(false);
         } catch (e) {
             console.log(e);
         }
+        setIsUploading(false);
     };
 
     const uploadDocumentUI = (): JSX.Element => {
