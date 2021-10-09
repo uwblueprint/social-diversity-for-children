@@ -16,7 +16,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId, lang: language } = req.query;
+            const { id: programId } = req.query;
 
             if (!programId) {
                 const classes = await getClasses();
