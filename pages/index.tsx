@@ -1,11 +1,19 @@
 import Wrapper from "@components/SDCWrapper";
 import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
-import { Text, Box, Flex, Divider, Spacer, Heading } from "@chakra-ui/react";
+import {
+    Center,
+    Box,
+    Flex,
+    Divider,
+    Spacer,
+    Heading,
+    Spinner,
+} from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession } from "next-auth/client";
-import useSWR from "swr";
+import { getSession, GetSessionOptions } from "next-auth/client";
 import CardInfoUtil from "utils/cardInfoUtil";
+import useSWR from "swr";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
 
@@ -20,10 +28,10 @@ export default function Component(props: ComponentProps): JSX.Element {
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
     // if no programs are available, return value is []
-    // const programCardInfos = apiResponse
-    //     ? CardInfoUtil.getProgramCardInfos(apiResponse.data)
-    //     : [];
-    const programCardInfos = [];
+    const programCardInfos = apiResponse
+        ? CardInfoUtil.getProgramCardInfos(apiResponse.data)
+        : [];
+
     return (
         <Wrapper session={props.session}>
             <Flex direction="column" pt={4} pb={8}>
@@ -48,8 +56,12 @@ export default function Component(props: ComponentProps): JSX.Element {
                                 "There are currently no programs available to register for.\nCome back shortly to see the programs we have to offer for the next term!"
                             }
                         </EmptyState>
-                    ) : (
+                    ) : programCardInfos ? (
                         <ProgramList cardInfo={programCardInfos} />
+                    ) : (
+                        <Center>
+                            <Spinner size="xl" />
+                        </Center>
                     )}
                 </Box>
             </Flex>
