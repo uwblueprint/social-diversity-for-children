@@ -132,7 +132,9 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                             }}
                             minW={"100%"}
                         >
-                            {session ? "Register" : t("sign-in-to-register")}
+                            {session
+                                ? "Register"
+                                : t("program.sign-in-to-register")}
                         </Button>
                     </Link>
                 </ModalFooter>

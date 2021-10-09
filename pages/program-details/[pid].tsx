@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { Text, Spinner, Center } from "@chakra-ui/react";
-import { getSession, useSession } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
 import fetcherWithId from "@utils/fetcherWithId";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { locale } from "@prisma/client";
 
 type ProgramDetailsProps = {
     session: Record<string, unknown>;
@@ -38,10 +39,16 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
         );
     }
     const programCardInfo = programInfoResponse
-        ? CardInfoUtil.getProgramCardInfo(programInfoResponse.data)
+        ? CardInfoUtil.getProgramCardInfo(
+              programInfoResponse.data,
+              router.locale as locale,
+          )
         : null;
     const classCardInfos = classListResponse
-        ? CardInfoUtil.getClassCardInfos(classListResponse.data)
+        ? CardInfoUtil.getClassCardInfos(
+              classListResponse.data,
+              router.locale as locale,
+          )
         : [];
 
     return programCardInfo && classCardInfos ? (

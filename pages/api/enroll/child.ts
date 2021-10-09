@@ -9,7 +9,7 @@ import {
 } from "@database/enroll";
 import { validateParentRegistrationRecord } from "@utils/validation/registration";
 import { ParentRegistrationInput } from "models/Enroll";
-import { locale, roles } from "@prisma/client";
+import { roles } from "@prisma/client";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -48,7 +48,6 @@ export default async function handle(
             if (!studentId && !classId) {
                 const parentRegistrationRecords = await getParentRegistrations(
                     parentId,
-                    locale.en, // TODO: dynamic locale
                 );
 
                 // verify that the parent registration record could be obtained

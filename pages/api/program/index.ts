@@ -4,7 +4,6 @@ import { createProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
 import { getProgramCardInfos } from "@database/program-card-info";
-import { locale } from "@prisma/client";
 
 /**
  * handle controls the request made to the program resource
@@ -17,7 +16,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const result = await getProgramCardInfos(locale.en); // TODO don't hardcode locale
+            const result = await getProgramCardInfos();
             if (!result) {
                 ResponseUtil.returnNotFound(res, `Program info not found.`);
                 return;

@@ -17,6 +17,8 @@ import useSWR from "swr";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { locale } from "@prisma/client";
 
 type ComponentProps = {
     session: Record<string, unknown>;
@@ -24,6 +26,7 @@ type ComponentProps = {
 
 export default function Component(props: ComponentProps): JSX.Element {
     const { t } = useTranslation("common");
+    const router = useRouter();
 
     const fetcher = (url) => fetch(url).then((res) => res.json());
     const { data: apiResponse, error } = useSWR("/api/program", fetcher);
@@ -32,7 +35,10 @@ export default function Component(props: ComponentProps): JSX.Element {
     }
     // if no programs are available, return value is []
     const programCardInfos = apiResponse
-        ? CardInfoUtil.getProgramCardInfos(apiResponse.data)
+        ? CardInfoUtil.getProgramCardInfos(
+              apiResponse.data,
+              router.locale as locale,
+          )
         : [];
 
     return (

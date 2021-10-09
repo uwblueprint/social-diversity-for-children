@@ -4,7 +4,6 @@ import { getClasses, createClass } from "@database/class";
 import { ClassInput } from "@models/Class";
 import { validateClassData } from "@utils/validation/class";
 import { getClassInfoWithProgramId } from "@database/program-card-info";
-import { locale } from "@prisma/client";
 
 /**
  * handle controls the request made to the class resource
@@ -17,7 +16,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId, lang: language } = req.query;
+            const { id: programId } = req.query;
 
             if (!programId) {
                 const classes = await getClasses();
@@ -32,7 +31,6 @@ export default async function handle(
                 }
                 const classes = await getClassInfoWithProgramId(
                     programId as string,
-                    (language as locale) || locale.en,
                 );
                 ResponseUtil.returnOK(res, classes);
             }

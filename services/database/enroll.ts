@@ -3,17 +3,15 @@ import {
     ParentRegistrationInput,
     VolunteerRegistrationInput,
 } from "@models/Enroll";
-import { locale, ParentReg, VolunteerReg } from "@prisma/client";
+import { ParentReg, VolunteerReg } from "@prisma/client";
 
 /**
  * getParentRegistrations obtains the registration records of a parent
  *
+ * @param {number} parentId unique identifier of the parent
  * @returns {Promise<ParentReg[]>} record of the registration
  */
-async function getParentRegistrations(
-    parentId: number,
-    language: locale,
-): Promise<ParentReg[]> {
+async function getParentRegistrations(parentId: number): Promise<ParentReg[]> {
     const parentRegistrationRecords = await prisma.parentReg.findMany({
         where: {
             parentId,
@@ -22,11 +20,7 @@ async function getParentRegistrations(
             student: true,
             class: {
                 include: {
-                    classTranslation: {
-                        where: {
-                            language: language,
-                        },
-                    },
+                    classTranslation: true,
                     teacherRegs: {
                         include: {
                             teacher: {
@@ -55,6 +49,7 @@ async function getParentRegistrations(
 /**
  * getParentRegistration obtains the registration record of a parent enrollment
  *
+ * @param {number} parentId unique identifier of the parent
  * @param {number} studentId  unique identifier of the enrolled child
  * @param {number} classId unique identifier of the class the child was enrolled in
  * @returns {Promise<ParentReg>} record of the registration
@@ -127,7 +122,6 @@ async function deleteParentRegistration(
  */
 async function getVolunteerRegistrations(
     volunteerId: number,
-    language: locale,
 ): Promise<VolunteerReg[]> {
     const volunteerRegistrations = await prisma.volunteerReg.findMany({
         where: {
@@ -141,11 +135,7 @@ async function getVolunteerRegistrations(
             },
             class: {
                 include: {
-                    classTranslation: {
-                        where: {
-                            language: language,
-                        },
-                    },
+                    classTranslation: true,
                     teacherRegs: {
                         include: {
                             teacher: {

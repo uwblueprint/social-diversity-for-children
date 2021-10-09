@@ -4,7 +4,6 @@ import { deleteProgram, updateProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
 import { getProgramCardInfo } from "@database/program-card-info";
-import { locale } from "@prisma/client";
 
 /**
  * handle takes the programId parameter and returns
@@ -18,7 +17,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId, lang: language } = req.query;
+            const { id: programId } = req.query;
 
             if (!programId) {
                 return ResponseUtil.returnBadRequest(
@@ -35,11 +34,7 @@ export default async function handle(
                 );
             }
 
-            // TODO: For queries, we should always have two translations queried, english as a backup
-            const result = await getProgramCardInfo(
-                programId as string,
-                (language as locale) || locale.en,
-            );
+            const result = await getProgramCardInfo(programId as string);
             if (!result) {
                 ResponseUtil.returnNotFound(res, `Program info not found.`);
                 break;

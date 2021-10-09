@@ -4,13 +4,18 @@ import colourTheme from "@styles/colours";
 import { VolunteeringCard } from "./VolunteeringCard";
 import useVolunteerRegistrations from "@utils/useVolunteerRegistration";
 import { Loading } from "./Loading";
+import { useRouter } from "next/router";
+import { locale } from "@prisma/client";
 
 /**
  * VolunteeringList is a list containing volunteering cards
  * @returns a component that displays a list of volunteering card info
  */
 export const VolunteeringList: React.FC = () => {
-    const { volunteering, error, isLoading } = useVolunteerRegistrations();
+    const router = useRouter();
+    const { volunteering, error, isLoading } = useVolunteerRegistrations(
+        router.locale as locale,
+    );
 
     if (error) {
         return (
