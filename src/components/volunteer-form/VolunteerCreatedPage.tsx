@@ -6,7 +6,7 @@ import {
     Flex,
     Progress,
     Text,
-    Link,
+    Link as ChakraLink,
     Button,
     VStack,
 } from "@chakra-ui/react";
@@ -15,6 +15,7 @@ import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
+import Link from "next/link";
 
 type VolunteerCreatedPageProps = {
     styleProps?: Record<string, unknown>;
@@ -101,24 +102,25 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                             the button below to start browsing classes to
                             volunteer for!
                         </Text>
-                        <Link
-                            _hover={{ textDecoration: "none" }}
-                            _focus={{}}
-                            href="/"
-                        >
-                            <Button
-                                color={"white"}
-                                bg={colourTheme.colors.Blue}
-                                px={10}
-                                _hover={{
-                                    bg: colourTheme.colors.LightBlue,
-                                }}
-                                _active={{}}
-                                fontWeight={"200"}
-                                borderRadius={100}
+                        <Link href="/">
+                            <ChakraLink
+                                _hover={{ textDecoration: "none" }}
+                                _focus={{}}
                             >
-                                Browse Classes
-                            </Button>
+                                <Button
+                                    color={"white"}
+                                    bg={colourTheme.colors.Blue}
+                                    px={10}
+                                    _hover={{
+                                        bg: colourTheme.colors.LightBlue,
+                                    }}
+                                    _active={{}}
+                                    fontWeight={"200"}
+                                    borderRadius={100}
+                                >
+                                    Browse Classes
+                                </Button>
+                            </ChakraLink>
                         </Link>
                     </VStack>
                 </Center>

@@ -19,9 +19,9 @@ import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
+import Link from "next/link";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -50,15 +50,6 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     tag,
     session,
 }) => {
-    const router = useRouter();
-    const onRegister = () => {
-        if (session) {
-            router.push("/parent-enrollment").then(() => window.scrollTo(0, 0));
-        } else {
-            router.push("/login").then(() => window.scrollTo(0, 0));
-        }
-    };
-
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
@@ -114,32 +105,35 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button
-                        bg={colourTheme.colors.Blue}
-                        color={"white"}
-                        mx={"auto"}
-                        my={2}
-                        onClick={onRegister}
-                        fontWeight={"200"}
-                        _hover={{
-                            textDecoration: "none",
-                            bg: colourTheme.colors.LightBlue,
-                        }}
-                        _active={{
-                            bg: "lightgrey",
-                            outlineColor: "grey",
-                            border: "grey",
-                            boxShadow: "lightgrey",
-                        }}
-                        _focus={{
-                            outlineColor: "grey",
-                            border: "grey",
-                            boxShadow: "lightgrey",
-                        }}
-                        minW={"100%"}
-                    >
-                        {session ? "Register" : "Sign in to register/volunteer"}
-                    </Button>
+                    <Link href={session ? "/parent-enrollment" : "/login"}>
+                        <Button
+                            bg={colourTheme.colors.Blue}
+                            color={"white"}
+                            mx={"auto"}
+                            my={2}
+                            fontWeight={"200"}
+                            _hover={{
+                                textDecoration: "none",
+                                bg: colourTheme.colors.LightBlue,
+                            }}
+                            _active={{
+                                bg: "lightgrey",
+                                outlineColor: "grey",
+                                border: "grey",
+                                boxShadow: "lightgrey",
+                            }}
+                            _focus={{
+                                outlineColor: "grey",
+                                border: "grey",
+                                boxShadow: "lightgrey",
+                            }}
+                            minW={"100%"}
+                        >
+                            {session
+                                ? "Register"
+                                : "Sign in to register/volunteer"}
+                        </Button>
+                    </Link>
                 </ModalFooter>
             </ModalContent>
         </Modal>

@@ -23,23 +23,18 @@ const Links = [
     { name: "My Classes", url: "/class" },
 ];
 
-const NavLink = ({
-    href,
-    children,
-}: {
-    href?: string;
-    children: ReactNode;
-}) => (
-    <ChakraLink
-        px={8}
-        py={1}
-        rounded={"md"}
-        _focus={{}}
-        href={href}
-        textUnderlineOffset={"0.5em"}
-    >
-        {children}
-    </ChakraLink>
+const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
+    <Link href={href}>
+        <ChakraLink
+            px={8}
+            py={1}
+            rounded={"md"}
+            _focus={{}}
+            textUnderlineOffset={"0.5em"}
+        >
+            {children}
+        </ChakraLink>
+    </Link>
 );
 
 export const DEFAULT_NAVBAR_HEIGHT = 16;
@@ -47,7 +42,7 @@ export const DEFAULT_NAVBAR_HEIGHT = 16;
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const router = useRouter();
     const accountButton = props.session ? (
-        <NavLink>My Account</NavLink>
+        <NavLink href="/myaccounts">My Account</NavLink>
     ) : (
         <SignInButton />
     );
