@@ -23,8 +23,8 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     // TODO remove test data and get new images
     const title = t("home.welcome");
     const desc1 = t("home.registration");
-    const text1 = t("home.parent-browse");
-    const text2 = t("home.volunteer-browse");
+    const text1 = t("home.parentBrowse");
+    const text2 = t("home.volunteerBrowse");
     const img1 =
         "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/active_kids_other/1800x1200_active_kids_other_alt.jpg";
     const img2 =
@@ -62,7 +62,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                             borderRadius={100}
                                             fontWeight={"200"}
                                         >
-                                            {t("home.register-now")}
+                                            {t("home.registerNow")}
                                         </Button>
                                     </Link>
                                 )}
@@ -98,7 +98,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                             borderRadius={100}
                                             fontWeight={"200"}
                                         >
-                                            {t("home.register-now")}
+                                            {t("home.registerNow")}
                                         </Button>
                                     </Link>
                                 )}

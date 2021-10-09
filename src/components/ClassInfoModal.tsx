@@ -90,7 +90,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         </GridItem>
                         <GridItem colSpan={3}>
                             <Text pb={3} fontWeight={"bold"}>
-                                {t("program.class-details")}
+                                {t("program.classDetails")}
                             </Text>
                             <Text pb={1}>{classInfo.name}</Text>
                             <Text pb={1}>
@@ -134,7 +134,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         >
                             {session
                                 ? "Register"
-                                : t("program.sign-in-to-register")}
+                                : t("program.signInToRegister")}
                         </Button>
                     </Link>
                 </ModalFooter>

@@ -55,7 +55,7 @@ export default function Component(props: ComponentProps): JSX.Element {
                     marginBottom="5%"
                 />
                 <Heading fontSize="3xl" marginBottom="5%">
-                    {t("home.browse-program")}
+                    {t("home.browseProgram")}
                 </Heading>
 
                 <Box>
