@@ -1,14 +1,21 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { Text, Spinner, Center } from "@chakra-ui/react";
-import { useSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
 import fetcherWithId from "@utils/fetcherWithId";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export const ProgramDetails: React.FC = () => {
-    const [session, loading] = useSession();
+type ProgramDetailsProps = {
+    session: Record<string, unknown>;
+};
+
+export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
+    session,
+}: ProgramDetailsProps) => {
     const router = useRouter();
     const { pid } = router.query;
 
@@ -51,3 +58,18 @@ export const ProgramDetails: React.FC = () => {
 };
 
 export default ProgramDetails;
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    return {
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
+    };
+};

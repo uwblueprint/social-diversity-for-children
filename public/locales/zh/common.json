@@ -1,5 +1,12 @@
 {
-    "parents": "家长",
-    "volunteers": "义工",
-    "welcome": "欢迎来到 SDC"
+    "home.parents": "家长",
+    "home.volunteers": "义工",
+    "home.welcome": "欢迎来到 SDC",
+    "home.registration": "2021暑期课程将于6月31日开始接受报名！",
+    "home.parent-browse": "请浏览以下的课程，然后选择适合您的日期和时间。我们确保我们会百分百符合参加者的需求。",
+    "home.volunteer-browse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
+    "home.register-now": "立即注册",
+    "home.browse-program": "浏览课程",
+    "program.sign-in-to-register": "登录完成课程/义工注册",
+    "program.class-details": "课堂详情"
 }

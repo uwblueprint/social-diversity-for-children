@@ -22,6 +22,7 @@ import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -50,6 +51,8 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     tag,
     session,
 }) => {
+    const { t } = useTranslation("common");
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
@@ -87,7 +90,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         </GridItem>
                         <GridItem colSpan={3}>
                             <Text pb={3} fontWeight={"bold"}>
-                                Class details
+                                {t("program.class-details")}
                             </Text>
                             <Text pb={1}>{classInfo.name}</Text>
                             <Text pb={1}>
@@ -129,9 +132,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                             }}
                             minW={"100%"}
                         >
-                            {session
-                                ? "Register"
-                                : "Sign in to register/volunteer"}
+                            {session ? "Register" : t("sign-in-to-register")}
                         </Button>
                     </Link>
                 </ModalFooter>

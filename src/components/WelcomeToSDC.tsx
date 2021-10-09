@@ -21,12 +21,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const { t } = useTranslation("common");
 
     // TODO remove test data and get new images
-    const title = "Welcome to SDC";
-    const desc1 = "Registration for Summer 2021 classes begins June 31, 2021!";
-    const text1 =
-        "Browse through programs below and then select the day/time preferred! We make sure that 100% of our participants' demonstrated needs are met.";
-    const text2 =
-        "For volunteers, create an account to volunteer for SDC and then select the program you want to volunteer for!";
+    const title = t("home.welcome");
+    const desc1 = t("home.registration");
+    const text1 = t("home.parent-browse");
+    const text2 = t("home.volunteer-browse");
     const img1 =
         "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/active_kids_other/1800x1200_active_kids_other_alt.jpg";
     const img2 =
@@ -36,10 +34,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
         <Tabs>
             <TabList>
                 <Tab _focus={{}} _active={{}} color="#0C53A0">
-                    {t("parents")}
+                    {t("home.parents")}
                 </Tab>
                 <Tab _focus={{}} _active={{}} color="#0C53A0">
-                    {t("volunteers")}
+                    {t("home.volunteers")}
                 </Tab>
             </TabList>
             <TabPanels>
@@ -64,7 +62,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                             borderRadius={100}
                                             fontWeight={"200"}
                                         >
-                                            Register now
+                                            {t("home.register-now")}
                                         </Button>
                                     </Link>
                                 )}
@@ -100,7 +98,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                             borderRadius={100}
                                             fontWeight={"200"}
                                         >
-                                            Register now
+                                            {t("home.register-now")}
                                         </Button>
                                     </Link>
                                 )}

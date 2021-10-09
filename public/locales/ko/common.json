@@ -1,5 +1,12 @@
 {
-    "parents": "학부모",
-    "volunteers": "자원봉사자",
-    "welcome": "Welcome to SDC"
+    "home.parents": "학부모",
+    "home.volunteers": "자원봉사자",
+    "home.welcome": "SDC에 오신 것을 환영합니다",
+    "home.registration": "2021년 여름학기 프로그램 접수는 6월 31부터 시작합니다.",
+    "home.parent-browse": "이번 학기에 제공되는 프로그램들을 확인하시고 원하시는 시간과 날짜를 선택하세요. 경제적인 도움이 필요한경우, 저희 SDC가 도와드릴것을 보장합니다.",
+    "home.volunteer-browse": "SDC에서의 자원봉사는 간단하고 쉽습니다. 자원봉사자 용 계정을 만들고 지원하고 싶은 프로그램을 선택하여 SDC 자원봉사를 시작하세요.",
+    "home.register-now": "지금 등록하세요",
+    "home.browse-program": "프로그램 보기",
+    "program.sign-in-to-register": "프로그램 / 자원봉사 신청하기 ",
+    "program.class-details": "프로그램 상세 정보"
 }

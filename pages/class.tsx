@@ -5,7 +5,6 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { EnrollmentList } from "@components/EnrollmentList";
-import { useRouter } from "next/router";
 import { VolunteeringList } from "@components/VolunteeringList";
 import { roles } from ".prisma/client";
 

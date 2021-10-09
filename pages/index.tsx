@@ -11,17 +11,20 @@ import {
     Spinner,
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import CardInfoUtil from "utils/cardInfoUtil";
 import useSWR from "swr";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
+import { useTranslation } from "next-i18next";
 
 type ComponentProps = {
     session: Record<string, unknown>;
 };
 
 export default function Component(props: ComponentProps): JSX.Element {
+    const { t } = useTranslation("common");
+
     const fetcher = (url) => fetch(url).then((res) => res.json());
     const { data: apiResponse, error } = useSWR("/api/program", fetcher);
     if (error) {
@@ -46,7 +49,7 @@ export default function Component(props: ComponentProps): JSX.Element {
                     marginBottom="5%"
                 />
                 <Heading fontSize="3xl" marginBottom="5%">
-                    Browse programs
+                    {t("home.browse-program")}
                 </Heading>
 
                 <Box>
