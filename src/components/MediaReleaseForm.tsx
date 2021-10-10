@@ -1,6 +1,7 @@
 import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import colourTheme from "../styles/colours";
 
 type MediaReleaseFormProps = {
     styleProps?: Record<string, unknown>;
@@ -93,22 +94,22 @@ export const MediaReleaseForm: React.FC<MediaReleaseFormProps> =
                         I have read and agree to the terms above
                     </Checkbox>
                 </Box>
-                {/*next button will be implemented directly in the enrollment flow pages
-             <Box pb="50px">
-                <Button
-                    height="50px"
-                    width="200px"
-                    borderRadius="6px"
-                    background={!acceptedTerms ? "darkgray" : colourTheme.colors.Blue}
-                    fontWeight="normal"
-                    fontSize="16px"
-                    isDisabled={!acceptedTerms}
-                    color="white"
-                    onClick={() => router.push("/participant-waiver")}
-                >
-                    Next
-                </Button>
-            </Box>*/}
+                {/* Remove button for now
+                <Box pb="50px">
+                    <Button
+                        height="50px"
+                        width="200px"
+                        borderRadius="6px"
+                        background={!acceptedTerms ? "darkgray" : colourTheme.colors.Blue}
+                        fontWeight="normal"
+                        fontSize="16px"
+                        isDisabled={!acceptedTerms}
+                        color="white"
+                        onClick={() => router.push("/participant-waiver")}
+                    >
+                        Next
+                    </Button>
+                </Box> */}
             </>
         );
     };
