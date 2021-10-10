@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { , Box from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { getSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
@@ -10,6 +10,8 @@ import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { locale } from "@prisma/client";
 import { Loading } from "@components/Loading";
+import Participants from "@utils/containers/Participants";
+import useMe from "@utils/useMe";
 
 type ProgramDetailsProps = {
     session: Record<string, unknown>;
@@ -20,6 +22,8 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
 }: ProgramDetailsProps) => {
     const router = useRouter();
     const { pid } = router.query;
+
+    const { me, isLoading: isMeLoading } = useMe();
 
     const { data: classListResponse, error: classListError } = useSWR(
         ["/api/class", pid, router.locale],
@@ -32,7 +36,7 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
     );
     const isProgramInfoLoading = !programInfoResponse && !programInfoError;
 
-    if (isClassListLoading || isProgramInfoLoading) {
+    if (isClassListLoading || isProgramInfoLoading || isMeLoading) {
         return <Loading />;
     } else if (classListError || programInfoError) {
         return <Box>An Error has occured</Box>;
@@ -57,15 +61,7 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
 
     return (
         <Participants.Provider
-            initialState={
-                (
-                    me as User & {
-                        parent: Parent & {
-                            students: Student[];
-                        };
-                    }
-                ).parent.students || []
-            }
+            initialState={me && me.parent ? me.parent.students : null}
         >
             <ProgramInfo
                 programInfo={programCardInfo}

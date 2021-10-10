@@ -31,7 +31,7 @@ export const ClassList: React.FC<ClassListProps> = ({
                 {classInfo.map((item, idx) => {
                     const { isOpen, onOpen, onClose } = useDisclosure();
                     let legible = true;
-                    if (students != null) {
+                    if (students !== null) {
                         legible = false;
                         legible = students.some((student) => {
                             const age = convertToAge(

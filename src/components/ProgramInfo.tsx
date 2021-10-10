@@ -11,6 +11,8 @@ import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { locale } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { EmptyState } from "./EmptyState";
+import useMe from "@utils/useMe";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -34,6 +36,22 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
 }): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation("common");
+    const { me } = useMe();
+    let fullClassInfo;
+    let availableClassInfo;
+    if (me && me.volunteer) {
+        fullClassInfo = classInfo.filter(
+            (info) => info.volunteerSpaceAvailable === 0,
+        );
+        availableClassInfo = classInfo.filter(
+            (info) => info.volunteerSpaceAvailable !== 0,
+        );
+    } else {
+        fullClassInfo = classInfo.filter((info) => info.spaceAvailable === 0);
+        availableClassInfo = classInfo.filter(
+            (info) => info.spaceAvailable !== 0,
+        );
+    }
 
     return (
         <Wrapper session={session}>
@@ -70,12 +88,37 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         Filter
                     </Button>
                 </Flex>
-                <ClassList
-                    classInfo={classInfo}
-                    onlineFormat={programInfo.onlineFormat}
-                    tag={programInfo.tag}
-                    session={session}
-                />
+                {availableClassInfo.length === 0 ? (
+                    <EmptyState>
+                        There are currently no available classes for{" "}
+                        {programInfo.name}.
+                        <br />
+                        Register for a waitlisted class below or check out
+                        another program
+                    </EmptyState>
+                ) : (
+                    <ClassList
+                        classInfo={availableClassInfo}
+                        onlineFormat={programInfo.onlineFormat}
+                        tag={programInfo.tag}
+                        session={session}
+                    />
+                )}
+                {fullClassInfo.length < 1 ? null : (
+                    <>
+                        <Flex pt="70px" align="center">
+                            <Text fontSize="sm" fontWeight="semibold">
+                                Full classes
+                            </Text>
+                        </Flex>
+                        <ClassList
+                            classInfo={fullClassInfo}
+                            onlineFormat={programInfo.onlineFormat}
+                            tag={programInfo.tag}
+                            session={session}
+                        />
+                    </>
+                )}
             </Flex>
         </Wrapper>
     );

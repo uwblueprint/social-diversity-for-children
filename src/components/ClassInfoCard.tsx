@@ -16,6 +16,7 @@ import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import useMe from "@utils/useMe";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
@@ -36,6 +37,8 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
+
+    const { me } = useMe();
 
     return (
         <Grid
@@ -95,8 +98,17 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">
-                            {cardInfo.spaceAvailable} participant spot
-                            {cardInfo.spaceAvailable > 1 ? "s" : ""} available
+                            {me && me.volunteer
+                                ? cardInfo.volunteerSpaceAvailable +
+                                  " volunteer spot" +
+                                  (cardInfo.volunteerSpaceAvailable > 1
+                                      ? "s"
+                                      : "") +
+                                  " available"
+                                : cardInfo.spaceAvailable +
+                                  " participant spot" +
+                                  (cardInfo.spaceAvailable > 1 ? "s" : "") +
+                                  " available"}
                         </Box>
                     </Flex>
                 </VStack>

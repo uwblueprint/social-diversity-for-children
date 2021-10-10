@@ -16,6 +16,12 @@ export default async function handle(
 
     switch (req.method) {
         case "GET": {
+            // If no session, return no result
+            if (!session) {
+                ResponseUtil.returnOK(res, null);
+                return;
+            }
+
             // This should be a me query
             const user = await getUserFromEmail(session.user.email);
             ResponseUtil.returnOK(res, user);

@@ -19,6 +19,7 @@ import useParentRegistrations from "@utils/useParentRegistration";
 import { locale, Student } from "@prisma/client";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
+import { EmptyState } from "./EmptyState";
 
 type EnrollmentCardsProps = {
     enrollmentInfo: EnrollmentCardInfo[];
@@ -31,25 +32,32 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
 }) => {
     return (
         <Center width="100%">
-            <List spacing="5" width="100%">
-                {combineStudentEnrollment(enrollmentInfo).map((item) => {
-                    return (
-                        <ListItem
-                            borderColor="gray.200"
-                            _hover={{
-                                borderColor: colourTheme.colors.Blue,
-                            }}
-                            borderWidth={2}
-                            key={item.classId}
-                        >
-                            <EnrollmentCard
-                                isOnlyStudent={isOnlyStudent}
-                                enrollmentInfo={item}
-                            />
-                        </ListItem>
-                    );
-                })}
-            </List>
+            {enrollmentInfo.length === 0 ? (
+                <EmptyState>
+                    Currently you have not registered in any classes. <br />
+                    Any classes you registered for will show up here!
+                </EmptyState>
+            ) : (
+                <List spacing="5" width="100%">
+                    {combineStudentEnrollment(enrollmentInfo).map((item) => {
+                        return (
+                            <ListItem
+                                borderColor="gray.200"
+                                _hover={{
+                                    borderColor: colourTheme.colors.Blue,
+                                }}
+                                borderWidth={2}
+                                key={item.classId}
+                            >
+                                <EnrollmentCard
+                                    isOnlyStudent={isOnlyStudent}
+                                    enrollmentInfo={item}
+                                />
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            )}
         </Center>
     );
 };
