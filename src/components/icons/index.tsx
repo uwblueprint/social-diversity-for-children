@@ -1,4 +1,5 @@
 export { default as ApprovedIcon } from "./ApprovedIcon";
+export { default as ErrorIcon } from "./ErrorIcon";
 export { default as GithubIcon } from "./GithubIcon";
 export { default as InfoIcon } from "./InfoIcon";
 export { default as LinkedinIcon } from "./LinkedinIcon";
