@@ -11,6 +11,9 @@
     },
     "program": {
         "signInToRegister": "Sign in to register/volunteer",
-        "classDetails": "Class Details"
+        "classDetails": "Class Details",
+        "ageGroupUnder": "Ages {{age}} and under",
+        "ageGroupAbove": "Ages {{age}} and above",
+        "teacherName": "Teacher {{name}}"
     }
 }

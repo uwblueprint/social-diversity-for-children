@@ -11,6 +11,9 @@
     },
     "program": {
         "signInToRegister": "登录完成课程/义工注册",
-        "classDetails": "课堂详情"
+        "classDetails": "课堂详情",
+        "ageGroupUnder": "{{age}}岁或以下",
+        "ageGroupAbove": "{{age}}岁或以上",
+        "teacherName": "{{name}}老师"
     }
 }

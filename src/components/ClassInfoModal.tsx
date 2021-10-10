@@ -102,7 +102,11 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                 )}
                             </Text>
                             <Text pb={1}>Ages {classInfo.ageGroup}</Text>
-                            <Text pb={1}>Teacher {classInfo.teacherName}</Text>
+                            <Text pb={1}>
+                                {t("program.teacherName", {
+                                    name: classInfo.teacherName,
+                                })}
+                            </Text>
                         </GridItem>
                     </Grid>
                 </ModalBody>

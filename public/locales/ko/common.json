@@ -11,6 +11,9 @@
     },
     "program": {
         "signInToRegister": "프로그램 / 자원봉사 신청하기 ",
-        "classDetails": "프로그램 상세 정보"
+        "classDetails": "프로그램 상세 정보",
+        "ageGroupUnder": "{{age}}세 이하",
+        "ageGroupAbove": "{{age}}세 이상",
+        "teacherName": "선생님: {{name}}"
     }
 }
