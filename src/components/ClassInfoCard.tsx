@@ -13,6 +13,9 @@ import { SDCBadge } from "./SDCBadge";
 import weekdayToString from "@utils/weekdayToString";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { locale } from "@prisma/client";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
@@ -29,6 +32,9 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     cardInfo,
     onClick,
 }) => {
+    const router = useRouter();
+    const { t } = useTranslation();
+
     return (
         <Grid
             templateColumns="repeat(4, 1fr)"
@@ -61,15 +67,22 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             fontSize="sm"
                             textTransform="capitalize"
                         >
-                            {weekdayToString(cardInfo.weekday)}
-                            {"s "}
+                            {t("time.weekday_many", {
+                                day: weekdayToString(
+                                    cardInfo.weekday,
+                                    router.locale as locale,
+                                ),
+                            })}{" "}
                             {convertToShortTimeRange(
                                 cardInfo.startTimeMinutes,
                                 cardInfo.durationMinutes,
                             )}
                         </Box>
                         <Box as="span" color="gray.600" fontSize="sm" ml="1">
-                            {" with Teacher " + cardInfo.teacherName}
+                            {" with " +
+                                t("program.teacherName", {
+                                    name: cardInfo.teacherName,
+                                })}
                         </Box>
                         <Spacer />
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">

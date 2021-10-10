@@ -23,6 +23,8 @@ import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { locale } from "@prisma/client";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -51,6 +53,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     tag,
     session,
 }) => {
+    const router = useRouter();
     const { t } = useTranslation("common");
 
     return (
@@ -63,10 +66,13 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                     </ModalHeader>
                     <ModalCloseButton />
                     <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                        {convertToShortDateRange(
-                            classInfo.startDate,
-                            classInfo.endDate,
-                        )}
+                        {t("time.range", {
+                            ...convertToShortDateRange(
+                                classInfo.startDate,
+                                classInfo.endDate,
+                                router.locale as locale,
+                            ),
+                        })}
                     </Text>
                     <Box my={25}>
                         <SDCBadge children={onlineFormat} />
@@ -94,8 +100,12 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                             </Text>
                             <Text pb={1}>{classInfo.name}</Text>
                             <Text pb={1}>
-                                {weekdayToString(classInfo.weekday)}
-                                {"s "}
+                                {t("time.weekday_many", {
+                                    day: weekdayToString(
+                                        classInfo.weekday,
+                                        router.locale as locale,
+                                    ),
+                                })}{" "}
                                 {convertToShortTimeRange(
                                     classInfo.startTimeMinutes,
                                     classInfo.durationMinutes,

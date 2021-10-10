@@ -8,11 +8,13 @@ import {
     Image,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
-import { programFormat } from "@prisma/client";
+import { locale, programFormat } from "@prisma/client";
 import { SDCBadge } from "./SDCBadge";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -27,8 +29,10 @@ type ProgramCardProps = {
  */
 export const ProgramCard: React.FC<ProgramCardProps> = ({
     cardInfo,
-    session,
 }): JSX.Element => {
+    const router = useRouter();
+    const { t } = useTranslation();
+
     // For spacing, when the #cards in a row < max #cards
     const placeholders: ProgramCardInfo[] = [
         {
@@ -110,10 +114,13 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                                             color="gray.600"
                                             fontSize="sm"
                                         >
-                                            {convertToShortDateRange(
-                                                item.startDate,
-                                                item.endDate,
-                                            )}
+                                            {t("time.range", {
+                                                ...convertToShortDateRange(
+                                                    item.startDate,
+                                                    item.endDate,
+                                                    router.locale as locale,
+                                                ),
+                                            })}
                                         </Box>
                                         <Box mt="2" fontSize="md">
                                             {item.description}

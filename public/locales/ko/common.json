@@ -15,5 +15,9 @@
         "ageGroupUnder": "{{age}}세 이하",
         "ageGroupAbove": "{{age}}세 이상",
         "teacherName": "선생님: {{name}}"
+    },
+    "time": {
+        "range": "{{start}}부터{{end}}까지",
+        "weekday_many": "{{day}}"
     }
 }

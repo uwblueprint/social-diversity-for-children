@@ -15,5 +15,9 @@
         "ageGroupUnder": "Ages {{age}} and under",
         "ageGroupAbove": "Ages {{age}} and above",
         "teacherName": "Teacher {{name}}"
+    },
+    "time": {
+        "range": "{{start}} to {{end}}",
+        "weekday_many": "{{day}}s"
     }
 }

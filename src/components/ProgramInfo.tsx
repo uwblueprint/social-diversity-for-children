@@ -8,6 +8,9 @@ import { ProgramCardInfo } from "models/Program";
 import React from "react";
 import { SDCBadge } from "./SDCBadge";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
+import { locale } from "@prisma/client";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -29,6 +32,9 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     programInfo,
     classInfo,
 }): JSX.Element => {
+    const router = useRouter();
+    const { t } = useTranslation("common");
+
     return (
         <Wrapper session={session}>
             <BackButton />
@@ -40,10 +46,13 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                     <SDCBadge ml="2" children={programInfo.tag} />
                 </Flex>
                 <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                    {convertToShortDateRange(
-                        programInfo.startDate,
-                        programInfo.endDate,
-                    )}
+                    {t("time.range", {
+                        ...convertToShortDateRange(
+                            programInfo.startDate,
+                            programInfo.endDate,
+                            router.locale as locale,
+                        ),
+                    })}
                 </Text>
                 <Text mt="5">{programInfo.description}</Text>
                 <Flex mt="5" align="center">
