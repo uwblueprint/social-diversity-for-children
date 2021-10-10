@@ -1,10 +1,8 @@
-import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
-import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
+import { Flex, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
 import { useRouter } from "next/router";
-import colourTheme from "@styles/colours";
 
 type ParticipantWaiverProps = {
     styleProps?: Record<string, unknown>;

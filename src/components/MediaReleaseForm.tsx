@@ -1,7 +1,6 @@
-import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
+import { Flex, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import colourTheme from "../styles/colours";
 
 type MediaReleaseFormProps = {
     styleProps?: Record<string, unknown>;
