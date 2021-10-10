@@ -1,6 +1,5 @@
 import { Flex, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 
 type MediaReleaseFormProps = {
     styleProps?: Record<string, unknown>;
@@ -14,7 +13,6 @@ export const MediaReleaseForm: React.FC<MediaReleaseFormProps> =
         // Next button is disabled by default, activates when a child is selected
         // Test data to be replaced with children associated with parent during integration
         const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
-        const router = useRouter();
 
         return (
             <>

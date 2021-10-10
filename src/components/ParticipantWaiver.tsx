@@ -2,7 +2,6 @@ import { BackButton } from "@components/BackButton";
 import { Flex, Text, Checkbox, Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { CloseButton } from "@components/CloseButton";
-import { useRouter } from "next/router";
 
 type ParticipantWaiverProps = {
     styleProps?: Record<string, unknown>;
@@ -17,7 +16,6 @@ export const ParticipantWaiver: React.FC<ParticipantWaiverProps> =
         // Next button is disabled by default, activates when a child is selected
         // Test data to be replaced with children associated with parent during integration
         const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
-        const router = useRouter();
 
         return (
             <>
