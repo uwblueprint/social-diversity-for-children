@@ -20,16 +20,11 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
                 {/* TODO use svg and local image */}
                 <Image
                     src="http://www.clker.com/cliparts/S/j/7/o/b/H/cloud-upload-outline.svg.thumb.png"
-                    marginTop="20px"
+                    mt="20px"
                 ></Image>
             </Center>
             <Center>
-                <Text
-                    fontWeight="400"
-                    fontSize="18px"
-                    mt="18px"
-                    marginTop="20px"
-                >
+                <Text fontWeight="400" fontSize="18px" mt="18px">
                     Drag and drop your file here
                 </Text>
             </Center>
@@ -39,7 +34,7 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
                 </Text>
             </Center>
 
-            <Center marginBottom="40px">
+            <Center mb="40px">
                 <FileUploadButton setFiles={setFiles}>
                     Browse Files
                 </FileUploadButton>
