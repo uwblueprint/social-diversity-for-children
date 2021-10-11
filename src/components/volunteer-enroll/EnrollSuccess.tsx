@@ -23,7 +23,7 @@ type EnrollSuccessProps = {
     formPages: JSX.Element[];
 };
 
-export const VolunteerCreatedPage: React.FC<EnrollSuccessProps> = ({
+export const EnrollSuccessPage: React.FC<EnrollSuccessProps> = ({
     session,
     pageNum,
     setPageNum,
@@ -78,34 +78,72 @@ export const VolunteerCreatedPage: React.FC<EnrollSuccessProps> = ({
                 </Center>
             ) : (
                 <Center>
-                    <VStack mt={120} mb={180} spacing={50}>
-                        <Text fontWeight="700" fontSize="24px" align="center">
-                            Account created successfully
+                    <VStack mt={120} mb={180}>
+                        {/* need to add check icon? doesn't exist on other pages */}
+                        <Text
+                            mb={"55px"}
+                            maxW={476}
+                            fontWeight="700"
+                            fontSize="36px"
+                            align="center"
+                        >
+                            Thank you for signing up to volunteer!
                         </Text>
                         <Text maxW={512} textAlign="center">
-                            Your account has been successfully created. Click
-                            the button below to start browsing classes to
-                            volunteer for!
+                            We're really excited that you want to volunteer for
+                            us. Look out for an email from us shortly with more
+                            information!
                         </Text>
-                        <Link
-                            _hover={{ textDecoration: "none" }}
-                            _focus={{}}
-                            href="/"
-                        >
-                            <Button
-                                color={"white"}
-                                bg={colourTheme.colors.Blue}
-                                px={10}
-                                _hover={{
-                                    bg: colourTheme.colors.LightBlue,
-                                }}
-                                _active={{}}
-                                fontWeight={"200"}
-                                borderRadius={100}
+                        <Center>
+                            <Link
+                                _hover={{ textDecoration: "none" }}
+                                _focus={{}}
+                                href="/"
                             >
-                                Browse Classes
-                            </Button>
-                        </Link>
+                                <Button
+                                    mt={"55px"}
+                                    borderColor={colourTheme.colors.Blue}
+                                    border="2px"
+                                    width={"364px"}
+                                    height={"49px"}
+                                    color={colourTheme.colors.Blue}
+                                    backgroundColor={colourTheme.colors.white}
+                                    px={10}
+                                    _hover={{
+                                        bg: colourTheme.colors.LightBlue,
+                                    }}
+                                    _active={{}}
+                                    fontWeight={"200"}
+                                    borderRadius={"6px"}
+                                >
+                                    View upcoming classes
+                                </Button>
+                            </Link>
+                        </Center>
+                        <Center>
+                            <Link
+                                _hover={{ textDecoration: "none" }}
+                                _focus={{}}
+                                href="/"
+                            >
+                                <Button
+                                    mt="13px"
+                                    width={"364px"}
+                                    height={"49px"}
+                                    color={"white"}
+                                    bg={colourTheme.colors.Blue}
+                                    px={10}
+                                    _hover={{
+                                        bg: colourTheme.colors.LightBlue,
+                                    }}
+                                    _active={{}}
+                                    fontWeight={"400"}
+                                    borderRadius={"6px"}
+                                >
+                                    Browse Classes
+                                </Button>
+                            </Link>
+                        </Center>
                     </VStack>
                 </Center>
             )}
