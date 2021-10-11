@@ -14,6 +14,7 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
 import { BackButton } from "@components/BackButton";
+import { CloseButton } from "@components/CloseButton";
 
 type DocumentUploadProps = {
     session: Record<string, unknown>;
@@ -138,7 +139,7 @@ export default function documentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <BackButton />
+                <CloseButton />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">
