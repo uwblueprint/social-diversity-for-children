@@ -8,7 +8,7 @@ export default async function handle(
     res: NextApiResponse,
 ): Promise<void> {
     const session = await getSession({ req });
-
+    const fileSizeLimitBytes = 5000000; // up to ~5MB
     // If there is no session or the user is not a parent
     if (!session) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
@@ -29,13 +29,11 @@ export default async function handle(
     switch (req.method) {
         case "GET": {
             const post = await s3.createPresignedPost({
-                Bucket: process.env.S3_UPLOAD_BUCKET, // Some env var probably
+                Bucket: process.env.S3_UPLOAD_BUCKET,
                 Fields: {
                     key: `${req.query.path}/${req.query.file}`,
                 },
-                Conditions: [
-                    ["content-length-range", 0, 5000000], // up to ~5MB
-                ],
+                Conditions: [["content-length-range", 0, fileSizeLimitBytes]],
             });
 
             ResponseUtil.returnOK(res, post);
