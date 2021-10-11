@@ -13,14 +13,3 @@ yarn-error.log
 # DS _store
 .DS_Store
 .vscode
-
-# uncessary terraform files
-*.tfstate
-*.tfstate.backup
-*.tfstate.lock.info
-
-# logs
-*.log
-
-# Directories
-.terraform/
