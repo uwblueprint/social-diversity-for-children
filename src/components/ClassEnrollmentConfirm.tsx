@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import {
     Box,
     Button,
@@ -7,14 +7,12 @@ import {
     Heading,
     Text,
     Stack,
-    Flex,
 } from "@chakra-ui/react";
-import { BackButton } from "@components/BackButton";
-import { CloseButton } from "@components/CloseButton";
 import { Student } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import parsePhoneNumber from "@utils/parsePhoneNumber";
 import parseDate from "@utils/parseDate";
+import Link from "next/link";
 
 type parentDataType = {
     name: string;
@@ -24,8 +22,7 @@ type parentDataType = {
 type ClassEnrollmentConfirmationProps = {
     studentData: Student;
     parentData: parentDataType;
-    pageNum: number;
-    setPageNum: React.Dispatch<SetStateAction<number>>;
+    onNext: () => void;
 };
 
 const therapyMapping = {
@@ -42,15 +39,6 @@ export const ClassEnrollmentConfirmation = (
     console.log(props.studentData.dateOfBirth);
     return (
         <Box>
-            <Flex justifyContent="space-between" marginBottom="39px">
-                <BackButton
-                    onClick={() => {
-                        props.setPageNum(props.pageNum - 1);
-                    }}
-                />
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
             <VStack spacing="45px" alignItems="flex-start">
                 <HStack
                     alignSelf="flex-start"
@@ -356,28 +344,25 @@ export const ClassEnrollmentConfirmation = (
                         fontWeight="normal"
                         textColor="#FFFFFF"
                         fontSize="16px"
-                        onClick={() => {
-                            props.setPageNum(props.pageNum + 1);
-                        }}
+                        onClick={props.onNext}
                     >
                         Next
                     </Button>
-                    <Button
-                        height="50px"
-                        width="311px"
-                        background="#FFFFFF"
-                        borderRadius="6px"
-                        borderColor={colourTheme.colors.Blue}
-                        borderWidth="2px"
-                        fontWeight="normal"
-                        textColor={colourTheme.colors.Blue}
-                        fontSize="16px"
-                        onClick={() => {
-                            props.setPageNum(props.pageNum + 1);
-                        }}
-                    >
-                        Update Account Information
-                    </Button>
+                    <Link href="/myaccounts">
+                        <Button
+                            height="50px"
+                            width="311px"
+                            background="#FFFFFF"
+                            borderRadius="6px"
+                            borderColor={colourTheme.colors.Blue}
+                            borderWidth="2px"
+                            fontWeight="normal"
+                            textColor={colourTheme.colors.Blue}
+                            fontSize="16px"
+                        >
+                            Update Account Information
+                        </Button>
+                    </Link>
                 </Stack>
             </VStack>
         </Box>
