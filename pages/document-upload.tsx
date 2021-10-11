@@ -13,39 +13,18 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
-// TODO session should be typed
-export default function documentUpload({ session }): JSX.Element {
+import { BackButton } from "@components/BackButton";
+
+type DocumentUploadProps = {
+    session: Record<string, unknown>;
+};
+export default function documentUpload({
+    session,
+}: DocumentUploadProps): JSX.Element {
     const router = useRouter();
     let { type } = router.query;
-
-    useEffect(() => {
-        if (
-            Object.keys(router.query).length === 0 &&
-            Object.getPrototypeOf(router.query) === Object.prototype
-        ) {
-            type = "other";
-        } else if (!("type" in router.query)) {
-            console.log("Unsupported query parameter. Redirected");
-            type = "other";
-            router.push("/document-upload").then(() => {
-                window.scrollTo({ top: 0 });
-            });
-        } else if (type === undefined) {
-            console.log(
-                "Query parameter not assigned. Upload will be sent to 'other'",
-            );
-            type = "other";
-        } else if (type === "") {
-            console.log(
-                "Query parameter not assigned. Upload will be sent to 'other'",
-            );
-            type = "other";
-            router.push("/document-upload").then(() => {
-                window.scrollTo({ top: 0 });
-            });
-        }
-    }, []);
-    // if no query param specified
+    // sends file to other folder if type is not valid
+    type = type && type.length > 0 ? type : "other";
 
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -59,7 +38,10 @@ export default function documentUpload({ session }): JSX.Element {
             // TODO don't prefix file name, instead put random file name into database eventually
             // TODO randomize filename
             const res = await fetch(
-                `/api/upload/url?path=${type}&file=${session.user.email}-${session.id}-${file.name}`,
+                `/api/upload/url?path=${type}&file=${
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (session.user as any).email
+                }-${session.id}-${file.name}`,
             );
             const data = await res.json();
             const { url, fields } = data.data;
@@ -89,16 +71,13 @@ export default function documentUpload({ session }): JSX.Element {
 
     const uploadDocumentUI = (): JSX.Element => {
         return (
-            <Wrapper>
+            <Wrapper session={session}>
+                <BackButton />
                 <VStack>
                     <Center>
-                        <Box width="700px" marginBottom="40px">
+                        <Box width="700px" mb="40px">
                             <Center>
-                                <Text
-                                    fontWeight="700"
-                                    fontSize="36px"
-                                    margin="40px"
-                                >
+                                <Text fontWeight="700" fontSize="36px" m="40px">
                                     Upload Document
                                 </Text>
                             </Center>
@@ -158,10 +137,11 @@ export default function documentUpload({ session }): JSX.Element {
 
     const uploadSuccessUI = (): JSX.Element => {
         return (
-            <Wrapper>
+            <Wrapper session={session}>
+                <BackButton />
                 <VStack>
                     <Center>
-                        <Box width="400px" marginBottom="40px">
+                        <Box width="400px" mb="40px">
                             <Center>
                                 <Image
                                     src=""
@@ -169,11 +149,7 @@ export default function documentUpload({ session }): JSX.Element {
                                 ></Image>
                             </Center>
                             <Center>
-                                <Text
-                                    fontWeight="700"
-                                    fontSize="25px"
-                                    margin="20px"
-                                >
+                                <Text fontWeight="700" fontSize="25px" m="20px">
                                     File submitted successfully
                                 </Text>
                             </Center>
@@ -181,7 +157,7 @@ export default function documentUpload({ session }): JSX.Element {
                                 <Text
                                     fontWeight="200"
                                     fontSize="15px"
-                                    marginBottom="20px"
+                                    mb="20px"
                                 >
                                     Document was successfully sent to SDC.
                                 </Text>
@@ -190,7 +166,7 @@ export default function documentUpload({ session }): JSX.Element {
                                 <Text
                                     fontWeight="200"
                                     fontSize="15px"
-                                    marginBottom="20px"
+                                    mb="20px"
                                     textAlign={["center"]}
                                 >
                                     Keep and eye out on the status of your
