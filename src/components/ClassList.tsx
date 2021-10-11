@@ -30,10 +30,10 @@ export const ClassList: React.FC<ClassListProps> = ({
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
                     const { isOpen, onOpen, onClose } = useDisclosure();
-                    let legible = true;
+                    let eligible = true;
                     if (students !== null) {
-                        legible = false;
-                        legible = students.some((student) => {
+                        eligible = false;
+                        eligible = students.some((student) => {
                             const age = convertToAge(
                                 new Date(student.dateOfBirth),
                             );
@@ -59,9 +59,9 @@ export const ClassList: React.FC<ClassListProps> = ({
                             <ClassInfoCard
                                 cardInfo={item}
                                 onClick={onOpen}
-                                isLegible={legible}
+                                isEligible={eligible}
                             />
-                            {legible ? (
+                            {eligible ? (
                                 <ClassInfoModal
                                     isOpen={isOpen}
                                     onClose={onClose}

@@ -20,7 +20,7 @@ import useMe from "@utils/useMe";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
-    isLegible?: boolean;
+    isEligible?: boolean;
     onClick: () => void;
 };
 
@@ -32,7 +32,7 @@ type ClassInfoProps = {
  */
 export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     cardInfo,
-    isLegible,
+    isEligible,
     onClick,
 }) => {
     const router = useRouter();
@@ -50,7 +50,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
                     <Image
-                        filter={isLegible ? "none" : "grayscale(100%)"}
+                        filter={isEligible ? "none" : "grayscale(100%)"}
                         src={cardInfo.image}
                         fit="cover"
                         alt={cardInfo.name}
@@ -65,7 +65,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         {cardInfo.borderAge == null ? null : (
-                            <SDCBadge isOff={!isLegible}>
+                            <SDCBadge isOff={!isEligible}>
                                 {cardInfo.isAgeMinimal
                                     ? cardInfo.borderAge + " and above"
                                     : cardInfo.borderAge + " and below"}
