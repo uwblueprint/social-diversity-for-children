@@ -26,7 +26,7 @@ export const ClassList: React.FC<ClassListProps> = ({
     const { students } = Participants.useContainer();
 
     return (
-        <Center width="100%">
+        <Center width="100%" pt={4}>
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
                     const { isOpen, onOpen, onClose } = useDisclosure();

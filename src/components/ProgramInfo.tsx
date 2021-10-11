@@ -1,4 +1,14 @@
-import { Flex, Heading, Spacer, Text } from "@chakra-ui/react";
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Flex,
+    Heading,
+    Spacer,
+    Text,
+} from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { Button } from "@chakra-ui/react";
@@ -105,19 +115,30 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                     />
                 )}
                 {fullClassInfo.length < 1 ? null : (
-                    <>
-                        <Flex pt="70px" align="center">
-                            <Text fontSize="sm" fontWeight="semibold">
-                                Full classes
-                            </Text>
-                        </Flex>
-                        <ClassList
-                            classInfo={fullClassInfo}
-                            onlineFormat={programInfo.onlineFormat}
-                            tag={programInfo.tag}
-                            session={session}
-                        />
-                    </>
+                    <Accordion allowToggle defaultIndex={0}>
+                        <AccordionItem>
+                            <Flex
+                                pt="70px"
+                                align="center"
+                                justifyContent="space-between"
+                            >
+                                <Text fontSize="sm" fontWeight="semibold">
+                                    Full classes
+                                </Text>
+                                <AccordionButton w="min">
+                                    <AccordionIcon />
+                                </AccordionButton>
+                            </Flex>
+                            <AccordionPanel p={0}>
+                                <ClassList
+                                    classInfo={fullClassInfo}
+                                    onlineFormat={programInfo.onlineFormat}
+                                    tag={programInfo.tag}
+                                    session={session}
+                                />
+                            </AccordionPanel>
+                        </AccordionItem>
+                    </Accordion>
                 )}
             </Flex>
         </Wrapper>
