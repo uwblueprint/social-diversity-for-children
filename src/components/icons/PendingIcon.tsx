@@ -8,6 +8,7 @@ function SvgPendingIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 90 90"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <path
                 d="M45 7.5C24.3 7.5 7.5 24.3 7.5 45C7.5 65.7 24.3 82.5 45 82.5C65.7 82.5 82.5 65.7 82.5 45C82.5 24.3 65.7 7.5 45 7.5ZM45 75C28.425 75 15 61.575 15 45C15 28.425 28.425 15 45 15C61.575 15 75 28.425 75 45C75 61.575 61.575 75 45 75Z"

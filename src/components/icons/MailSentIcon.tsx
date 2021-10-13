@@ -8,14 +8,15 @@ function SvgMailSentIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 257 258"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <path
                 d="M181.852 193.097C159.008 216.201 135.925 238.966 106.402 228.322C94.889 224.172 43.4503 196.24 30.161 146.296C16.8717 96.3525 46.0321 97.8379 77.7842 65.7256C109.536 33.6132 145.904 28.5546 179.218 61.4955C193.956 76.0679 231.151 77.2782 234.769 109.551C239.57 152.369 199.557 175.191 181.852 193.097Z"
                 fill="#E2E8F0"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M124.467 62.1621C126.47 60.791 129.11 60.791 131.112 62.1621L204.903 112.676C206.504 113.773 207.462 115.589 207.462 117.53V194.635C207.462 197.884 204.829 200.517 201.58 200.517H53.9995C50.7511 200.517 48.1177 197.884 48.1177 194.635V117.53C48.1177 115.589 49.0753 113.773 50.677 112.676L124.467 62.1621Z"
                 fill="#0C53A0"
             />
@@ -24,26 +25,26 @@ function SvgMailSentIcon(props: React.SVGProps<SVGSVGElement>) {
                 fill="white"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M159.339 123.519H96.2432V121.38H159.339V123.519Z"
                 fill="#E1E1E1"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M159.338 134.213H96.2422V132.074H159.338V134.213Z"
                 fill="#E1E1E1"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M159.338 144.907H96.2422V142.768H159.338V144.907Z"
                 fill="#E1E1E1"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M159.338 155.601H96.2422V153.462H159.338V155.601Z"
                 fill="#E1E1E1"
             />
@@ -52,8 +53,8 @@ function SvgMailSentIcon(props: React.SVGProps<SVGSVGElement>) {
                 fill="#0C53A0"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M127.3 174.417C127.589 174.639 127.991 174.639 128.279 174.417L193.514 124.154C193.865 123.883 193.931 123.38 193.66 123.029C193.39 122.678 192.886 122.613 192.535 122.883L127.79 172.769L63.0446 122.883C62.6937 122.613 62.19 122.678 61.9197 123.029C61.6493 123.38 61.7146 123.883 62.0655 124.154L127.3 174.417Z"
                 fill="#E2E8F0"
             />
@@ -62,8 +63,8 @@ function SvgMailSentIcon(props: React.SVGProps<SVGSVGElement>) {
                 fill="#0C53A0"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M124.189 149.465C126.384 148.062 129.195 148.062 131.39 149.465L193.456 189.147L192.592 190.499L130.526 150.817C128.858 149.75 126.722 149.75 125.053 150.817L62.9866 190.499L62.1226 189.147L124.189 149.465Z"
                 fill="#E2E8F0"
             />
