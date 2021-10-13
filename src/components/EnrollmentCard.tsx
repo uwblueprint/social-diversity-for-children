@@ -29,6 +29,9 @@ import {
     deleteClassRegistration,
     deleteClassRegistrations,
 } from "@utils/deleteClassRegistration";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { locale } from "@prisma/client";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
@@ -45,6 +48,9 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     enrollmentInfo,
     isOnlyStudent,
 }) => {
+    const router = useRouter();
+    const { t } = useTranslation();
+
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             <GridItem>
@@ -66,22 +72,30 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
-                                    {weekdayToString(
-                                        enrollmentInfo.class.weekday,
-                                    )}
-                                    {"s "}
+                                    {t("time.weekday_many", {
+                                        day: weekdayToString(
+                                            enrollmentInfo.class.weekday,
+                                            router.locale as locale,
+                                        ),
+                                    })}{" "}
                                     {convertToShortTimeRange(
                                         enrollmentInfo.class.startTimeMinutes,
                                         enrollmentInfo.class.durationMinutes,
                                     )}
-                                    {" with Teacher " +
-                                        enrollmentInfo.class.teacherName}
+                                    {" with " +
+                                        t("program.teacherName", {
+                                            name: enrollmentInfo.class
+                                                .teacherName,
+                                        })}
                                 </Text>
                                 <Text>
-                                    {convertToShortDateRange(
-                                        enrollmentInfo.class.startDate,
-                                        enrollmentInfo.class.endDate,
-                                    )}
+                                    {t("time.range", {
+                                        ...convertToShortDateRange(
+                                            enrollmentInfo.class.startDate,
+                                            enrollmentInfo.class.endDate,
+                                            router.locale as locale,
+                                        ),
+                                    })}
                                 </Text>
                             </Box>
                             {isOnlyStudent ? null : (
@@ -134,9 +148,10 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 />
                                 <MenuList>
                                     {enrollmentInfo.students.map((student) => (
-                                        <>
+                                        <Box
+                                            key={`${enrollmentInfo.classId}-${student.id}`}
+                                        >
                                             <MenuItem
-                                                key={student.id}
                                                 onClick={() =>
                                                     deleteClassRegistration(
                                                         student,
@@ -151,24 +166,22 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             2 ? null : (
                                                 <MenuDivider />
                                             )}
-                                        </>
+                                        </Box>
                                     ))}
                                     {enrollmentInfo.students.length <
                                     2 ? null : (
-                                        <>
-                                            <MenuItem
-                                                onClick={() =>
-                                                    deleteClassRegistrations(
-                                                        enrollmentInfo.students,
-                                                        enrollmentInfo.classId,
-                                                    )
-                                                }
-                                            >
-                                                <Text fontWeight="bold">
-                                                    Unregister for all
-                                                </Text>
-                                            </MenuItem>
-                                        </>
+                                        <MenuItem
+                                            onClick={() =>
+                                                deleteClassRegistrations(
+                                                    enrollmentInfo.students,
+                                                    enrollmentInfo.classId,
+                                                )
+                                            }
+                                        >
+                                            <Text fontWeight="bold">
+                                                Unregister for all
+                                            </Text>
+                                        </MenuItem>
                                     )}
                                 </MenuList>
                             </Menu>

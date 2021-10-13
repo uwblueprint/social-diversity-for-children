@@ -1,4 +1,23 @@
 {
-    "parents": "家长",
-    "volunteers": "志愿者"
+    "home": {
+        "parents": "家长",
+        "volunteers": "义工",
+        "welcome": "欢迎来到 SDC",
+        "registration": "2021暑期课程将于6月31日开始接受报名！",
+        "parentBrowse": "请浏览以下的课程，然后选择适合您的日期和时间。我们确保我们会百分百符合参加者的需求。",
+        "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
+        "registerNow": "立即注册",
+        "browseProgram": "浏览课程"
+    },
+    "program": {
+        "signInToRegister": "登录完成课程/义工注册",
+        "classDetails": "课堂详情",
+        "ageGroupUnder": "{{age}}岁或以下",
+        "ageGroupAbove": "{{age}}岁或以上",
+        "teacherName": "{{name}}老师"
+    },
+    "time": {
+        "range": "{{start}}至{{end}}",
+        "weekday_many": "{{day}}"
+    }
 }

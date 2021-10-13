@@ -16,8 +16,9 @@ import { EnrollmentCard } from "./EnrollmentCard";
 import colourTheme from "@styles/colours";
 import combineStudentEnrollment from "@utils/combineStudentEnrollment";
 import useParentRegistrations from "@utils/useParentRegistration";
-import { Student } from "@prisma/client";
+import { locale, Student } from "@prisma/client";
 import { Loading } from "./Loading";
+import { useRouter } from "next/router";
 
 type EnrollmentCardsProps = {
     enrollmentInfo: EnrollmentCardInfo[];
@@ -60,7 +61,10 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
  * @returns a component that displays a list of enrollment card info with tabs
  */
 export const EnrollmentList: React.FC = () => {
-    const { enrollments, error, isLoading } = useParentRegistrations();
+    const router = useRouter();
+    const { enrollments, error, isLoading } = useParentRegistrations(
+        router.locale as locale,
+    );
 
     if (error) {
         return (

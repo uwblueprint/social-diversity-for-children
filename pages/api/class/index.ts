@@ -4,7 +4,6 @@ import { getClasses, createClass } from "@database/class";
 import { ClassInput } from "@models/Class";
 import { validateClassData } from "@utils/validation/class";
 import { getClassInfoWithProgramId } from "@database/program-card-info";
-import { locale } from "@prisma/client";
 
 /**
  * handle controls the request made to the class resource
@@ -32,8 +31,7 @@ export default async function handle(
                 }
                 const classes = await getClassInfoWithProgramId(
                     programId as string,
-                    locale.en,
-                ); // TODO don't hardcode locale
+                );
                 ResponseUtil.returnOK(res, classes);
             }
             break;

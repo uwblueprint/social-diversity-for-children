@@ -1,5 +1,4 @@
 import React from "react";
-import { useSession } from "next-auth/client";
 import {
     Box,
     HStack,
@@ -12,24 +11,21 @@ import {
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import colourTheme from "@styles/colours";
 
 type WelcomeToSDCProps = {
     session: Record<string, unknown>;
 };
 
 export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
-    const goToLogin = () => {
-        window.location.href = "/login";
-    };
     const { t } = useTranslation("common");
 
     // TODO remove test data and get new images
-    const title = "Welcome to SDC";
-    const desc1 = "Registration for Summer 2021 classes begins June 31, 2021!";
-    const text1 =
-        "Browse through programs below and then select the day/time preferred! We make sure that 100% of our participants' demonstrated needs are met.";
-    const text2 =
-        "For volunteers, create an account to volunteer for SDC and then select the program you want to volunteer for!";
+    const title = t("home.welcome");
+    const desc1 = t("home.registration");
+    const text1 = t("home.parentBrowse");
+    const text2 = t("home.volunteerBrowse");
     const img1 =
         "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/active_kids_other/1800x1200_active_kids_other_alt.jpg";
     const img2 =
@@ -38,11 +34,11 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     return (
         <Tabs>
             <TabList>
-                <Tab _focus={{}} _active={{}} color="#0C53A0">
-                    {t("parents")}
+                <Tab _focus={{}} _active={{}} color={colourTheme.colors.Blue}>
+                    {t("home.parents")}
                 </Tab>
-                <Tab _focus={{}} _active={{}} color="#0C53A0">
-                    {t("volunteers")}
+                <Tab _focus={{}} _active={{}} color={colourTheme.colors.Blue}>
+                    {t("home.volunteers")}
                 </Tab>
             </TabList>
             <TabPanels>
@@ -56,17 +52,24 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 {session ? (
                                     <span />
                                 ) : (
-                                    <Button
-                                        color="white"
-                                        backgroundColor="#0C53A0"
-                                        _hover={{ backgroundColor: "#2C6AAD" }}
-                                        width="50%"
-                                        onClick={goToLogin}
-                                        borderRadius={100}
-                                        fontWeight={"200"}
-                                    >
-                                        Register now
-                                    </Button>
+                                    <Link href="/login">
+                                        <Button
+                                            color="white"
+                                            backgroundColor={
+                                                colourTheme.colors.Blue
+                                            }
+                                            _hover={{
+                                                backgroundColor:
+                                                    colourTheme.colors
+                                                        .LightBlue,
+                                            }}
+                                            width="50%"
+                                            borderRadius={100}
+                                            fontWeight={"200"}
+                                        >
+                                            {t("home.registerNow")}
+                                        </Button>
+                                    </Link>
                                 )}
                             </VStack>
                         </Box>
@@ -89,17 +92,24 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 {session ? (
                                     <span />
                                 ) : (
-                                    <Button
-                                        color="white"
-                                        backgroundColor="#0C53A0"
-                                        _hover={{ backgroundColor: "#2C6AAD" }}
-                                        width="50%"
-                                        onClick={goToLogin}
-                                        borderRadius={100}
-                                        fontWeight={"200"}
-                                    >
-                                        Register now
-                                    </Button>
+                                    <Link href="/login">
+                                        <Button
+                                            color="white"
+                                            backgroundColor={
+                                                colourTheme.colors.Blue
+                                            }
+                                            _hover={{
+                                                backgroundColor:
+                                                    colourTheme.colors
+                                                        .LightBlue,
+                                            }}
+                                            width="50%"
+                                            borderRadius={100}
+                                            fontWeight={"200"}
+                                        >
+                                            {t("home.registerNow")}
+                                        </Button>
+                                    </Link>
                                 )}
                             </VStack>
                         </Box>

@@ -1,8 +1,9 @@
-import { Box, Center, Text, Image, Link } from "@chakra-ui/react";
+import { Box, Center, Text, Image, Link as ChakraLink } from "@chakra-ui/react";
 import useLocalStorage from "@utils/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
 import MailSentIcon from "@components/icons/MailSentIcon";
 import { BackButton } from "@components/BackButton";
+import Link from "next/link";
 
 export default function Verify(): JSX.Element {
     const [localStorageEmail] = useLocalStorage("sdc-email-verification", "");
@@ -37,14 +38,14 @@ export default function Verify(): JSX.Element {
                         >
                             To confirm your email address, click on the link in
                             the email we sent to{" "}
-                            <Link
+                            <ChakraLink
                                 textDecoration={"underline"}
                                 href={`mailto:${localStorageEmail}`}
                             >
                                 <u>
                                     <b>{localStorageEmail}</b>
                                 </u>
-                            </Link>
+                            </ChakraLink>
                             .<br></br>
                         </Text>
                     </Center>
@@ -56,12 +57,11 @@ export default function Verify(): JSX.Element {
                             color="brand.300"
                         >
                             Didn’t get an email? Return to the{" "}
-                            <Link
-                                _hover={{ textDecoration: "none" }}
-                                href="/login"
-                            >
-                                <Text as="u">Sign In</Text>
-                            </Link>{" "}
+                            <Link href="/login">
+                                <ChakraLink _hover={{ textDecoration: "none" }}>
+                                    <Text as="u">Sign In</Text>{" "}
+                                </ChakraLink>
+                            </Link>
                             page and re-enter a valid email.
                         </Text>
                     </Center>

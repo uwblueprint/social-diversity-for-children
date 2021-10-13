@@ -1,13 +1,13 @@
 import React from "react";
 import { Flex, Heading } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { EnrollmentList } from "@components/EnrollmentList";
-import { useRouter } from "next/router";
 import { VolunteeringList } from "@components/VolunteeringList";
 import { roles } from ".prisma/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ClassProps = {
     session: Record<string, unknown>;
@@ -36,9 +36,7 @@ export default Class;
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
@@ -52,6 +50,9 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

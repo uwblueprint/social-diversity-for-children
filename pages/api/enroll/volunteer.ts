@@ -9,7 +9,7 @@ import {
 } from "@database/enroll";
 import { validateVolunteerRegistrationRecord } from "@utils/validation/registration";
 import { VolunteerRegistrationInput } from "@models/Enroll";
-import { locale, roles } from "@prisma/client";
+import { roles } from "@prisma/client";
 
 /**
  * handle controls the request made to the enroll/volunteer resource.
@@ -46,10 +46,7 @@ export default async function handle(
             // Get all volunteer registrations if no class query
             if (!classId) {
                 const volunteerRegistrationRecords =
-                    await getVolunteerRegistrations(
-                        volunteerId,
-                        locale.en, // TODO: dynamic locale
-                    );
+                    await getVolunteerRegistrations(volunteerId);
 
                 // verify that the volunteer registration record could be obtained
                 if (!volunteerRegistrationRecords) {

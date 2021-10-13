@@ -1,4 +1,4 @@
-import { weekday } from ".prisma/client";
+import { locale, weekday } from "@prisma/client";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import weekdayToString from "@utils/weekdayToString";
@@ -24,7 +24,15 @@ export const classStartingSoonTemplate = (
     endDate: Date,
     startTimeMinutes: number,
     durationMinutes: number,
-): string => `
+    language: locale = locale.en,
+): string => {
+    const { start, end } = convertToShortDateRange(
+        startDate,
+        endDate,
+        language,
+    );
+
+    return `
             <head>
                 <link
                     href="https://fonts.googleapis.com/css?family=Poppins"
@@ -64,22 +72,24 @@ export const classStartingSoonTemplate = (
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
                             >${weekdayToString(
                                 classWeekday,
-                            )}s ${convertToShortTimeRange(
-    startTimeMinutes,
-    durationMinutes,
-)}</span
+                                language,
+                            )} ${convertToShortTimeRange(
+        startTimeMinutes,
+        durationMinutes,
+    )}</span
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
-                        >${convertToShortDateRange(startDate, endDate)} 
+                        >${start} to ${end} 
                         </span>
                     </div>
                 </div>
                 <br></br>
                 <p>Use this link to join the class:</p>
                 <a href="${process.env.NEXTAUTH_URL}/class">${
-    process.env.NEXTAUTH_URL
-}/class</a>
+        process.env.NEXTAUTH_URL
+    }/class</a>
                 <br></br>
                 <p>Regards, Social Diversity for Children</p>
             </body>
             `;
+};
