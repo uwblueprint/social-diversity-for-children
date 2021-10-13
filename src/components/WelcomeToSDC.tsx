@@ -12,6 +12,7 @@ import {
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import colourTheme from "@styles/colours";
 
 type WelcomeToSDCProps = {
     session: Record<string, unknown>;
@@ -33,10 +34,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     return (
         <Tabs>
             <TabList>
-                <Tab _focus={{}} _active={{}} color="#0C53A0">
+                <Tab _focus={{}} _active={{}} color={colourTheme.colors.Blue}>
                     {t("home.parents")}
                 </Tab>
-                <Tab _focus={{}} _active={{}} color="#0C53A0">
+                <Tab _focus={{}} _active={{}} color={colourTheme.colors.Blue}>
                     {t("home.volunteers")}
                 </Tab>
             </TabList>
@@ -54,9 +55,13 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor="#0C53A0"
+                                            backgroundColor={
+                                                colourTheme.colors.Blue
+                                            }
                                             _hover={{
-                                                backgroundColor: "#2C6AAD",
+                                                backgroundColor:
+                                                    colourTheme.colors
+                                                        .LightBlue,
                                             }}
                                             width="50%"
                                             borderRadius={100}
@@ -90,9 +95,13 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor="#0C53A0"
+                                            backgroundColor={
+                                                colourTheme.colors.Blue
+                                            }
                                             _hover={{
-                                                backgroundColor: "#2C6AAD",
+                                                backgroundColor:
+                                                    colourTheme.colors
+                                                        .LightBlue,
                                             }}
                                             width="50%"
                                             borderRadius={100}

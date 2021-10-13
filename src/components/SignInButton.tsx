@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Link as ChakraLink } from "@chakra-ui/react";
 import Link from "next/link";
+import colourTheme from "@styles/colours";
 
 export const SignInButton: React.FC = () => {
     return (
@@ -13,7 +14,7 @@ export const SignInButton: React.FC = () => {
                     mx={8}
                     my={1}
                     _hover={{
-                        bg: "#2C6AAD",
+                        bg: colourTheme.colors.LightBlue,
                     }}
                     _active={{}}
                     fontWeight={"200"}

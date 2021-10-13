@@ -114,7 +114,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                     bg={"#0C53A0"}
                                     px={10}
                                     _hover={{
-                                        bg: "#2C6AAD",
+                                        bg: colourTheme.colors.LightBlue,
                                     }}
                                     _active={{}}
                                     fontWeight={"200"}

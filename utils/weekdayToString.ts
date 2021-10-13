@@ -7,42 +7,27 @@ import moment from "moment";
  * @param locale locale used
  */
 export default function weekdayToString(wd: weekday, language: locale): string {
+    const getLocaleWeekday = (day: number) =>
+        moment()
+            .day(day)
+            .toDate()
+            .toLocaleDateString(language, { weekday: "long" });
+
     switch (wd) {
         case weekday.MON:
-            return moment()
-                .day(1)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(1);
         case weekday.TUE:
-            return moment()
-                .day(2)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(2);
         case weekday.WED:
-            return moment()
-                .day(3)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(3);
         case weekday.THU:
-            return moment()
-                .day(4)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(4);
         case weekday.FRI:
-            return moment()
-                .day(5)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(5);
         case weekday.SAT:
-            return moment()
-                .day(6)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(6);
         case weekday.SUN:
-            return moment()
-                .day(7)
-                .toDate()
-                .toLocaleDateString(language, { weekday: "long" });
+            return getLocaleWeekday(7);
         default:
             return "Invalid weekday";
     }
