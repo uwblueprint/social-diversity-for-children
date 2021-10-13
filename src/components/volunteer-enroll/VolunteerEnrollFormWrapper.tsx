@@ -24,12 +24,6 @@ type VolunteerEnrolledPageProps = {
 
 export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> =
     ({ session, pageNum, setPageNum, formPages }): JSX.Element => {
-        const formPageHeaders = [
-            "Submit a Background Check",
-            "Update Background Check",
-            "Media Release Form",
-            "Confirm Program Registration",
-        ];
         return (
             <Wrapper session={session}>
                 {pageNum < formPages.length ? (
