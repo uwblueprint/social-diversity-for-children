@@ -5,6 +5,7 @@ import send from "services/nodemailer/mail";
 import findEmails from "@database/mail";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { classStartingSoonTemplate } from "@utils/mail/templateUtil";
+import { locale } from "@prisma/client";
 
 /**
  * Handles the request to /api/mail (POST)
@@ -49,7 +50,7 @@ export default async function mailHandler(
         ResponseUtil.returnMethodNotAllowed(
             res,
             allowedHeaders,
-            `Method ${req.method} Not Allowed`,
+            `Method ${req.method} Not Allowed without key`,
         );
         return;
     }
@@ -80,16 +81,18 @@ function pushMailPromises(
             startTimeMinutes,
             durationMinutes,
         } = classes[i];
-        const emailSubject = `Class Reminder: ${name} ${weekdayToString(
-            weekday,
-        )}s ${convertToShortTimeRange(startTimeMinutes, durationMinutes)}`;
+        const getEmailSubject = (language: locale = locale.en) =>
+            `Class Reminder: ${name} ${weekdayToString(
+                weekday,
+                language,
+            )} ${convertToShortTimeRange(startTimeMinutes, durationMinutes)}`;
 
         (parentRegs as any[]).forEach((reg) => {
             mailerPromises.push(
                 send(
                     process.env.EMAIL_FROM,
                     reg.parent.user.email,
-                    emailSubject,
+                    getEmailSubject(reg.parent.preferredLanguage),
                     classStartingSoonTemplate(
                         intervalHours,
                         imageLink,
@@ -99,6 +102,7 @@ function pushMailPromises(
                         endDate,
                         startTimeMinutes,
                         durationMinutes,
+                        reg.parent.preferredLanguage,
                     ),
                 ),
             );
@@ -108,7 +112,11 @@ function pushMailPromises(
                 send(
                     process.env.EMAIL_FROM,
                     reg.volunteer.user.email,
-                    emailSubject,
+                    getEmailSubject(
+                        reg.volunteer.preferredLanguage
+                            ? reg.volunteer.preferredLanguage
+                            : undefined,
+                    ),
                     classStartingSoonTemplate(
                         intervalHours,
                         imageLink,
@@ -118,6 +126,9 @@ function pushMailPromises(
                         endDate,
                         startTimeMinutes,
                         durationMinutes,
+                        reg.volunteer.preferredLanguage
+                            ? reg.volunteer.preferredLanguage
+                            : undefined,
                     ),
                 ),
             );

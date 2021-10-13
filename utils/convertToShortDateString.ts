@@ -9,7 +9,7 @@ import { locale } from "@prisma/client";
  */
 export default function convertToShortDateString(
     date: Date,
-    language: locale,
+    language: locale = locale.en,
     withYear?: boolean,
 ): string {
     return new Date(date).toLocaleDateString(language, {

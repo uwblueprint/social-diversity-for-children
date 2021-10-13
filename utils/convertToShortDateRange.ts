@@ -16,7 +16,7 @@ type DateStringPair = {
 export default function convertToShortDateRange(
     startDate: Date,
     endDate: Date,
-    language: locale,
+    language: locale = locale.en,
 ): DateStringPair {
     const start = convertToShortDateString(startDate, language);
     let end;
