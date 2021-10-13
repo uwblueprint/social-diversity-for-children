@@ -63,8 +63,8 @@ CREATE TABLE programs (
 CREATE TABLE classes (
   id SERIAL PRIMARY KEY NOT NULL,
   name TEXT, 
-  border_age INTEGER NOT NULL,
-  is_age_minimal BOOLEAN DEFAULT false NOT NULL,
+  border_age INTEGER NOT NULL, -- represent pivot page in age group
+  is_age_minimal BOOLEAN DEFAULT false NOT NULL, -- determine if border_age is used as "<age> and above" or "<age> and under"
   image_link TEXT,
 
   border_age INTEGER NOT NULL,
