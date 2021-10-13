@@ -4,7 +4,7 @@ import moment from "moment";
 /**
  * Method for returning the corresponding string given a Weekday enum
  * @param wd the Weekday enum value
- * @param locale locale used
+ * @param language locale used
  */
 export default function weekdayToString(
     wd: weekday,
