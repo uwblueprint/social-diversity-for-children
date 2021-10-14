@@ -16,9 +16,11 @@ import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import useMe from "@utils/useMe";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
+    isEligible?: boolean;
     onClick: () => void;
 };
 
@@ -30,10 +32,13 @@ type ClassInfoProps = {
  */
 export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     cardInfo,
+    isEligible,
     onClick,
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
+
+    const { me } = useMe();
 
     return (
         <Grid
@@ -45,6 +50,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
                     <Image
+                        filter={isEligible ? "none" : "grayscale(100%)"}
                         src={cardInfo.image}
                         fit="cover"
                         alt={cardInfo.name}
@@ -58,7 +64,13 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             {cardInfo.name}
                         </Box>
                         <Spacer />
-                        <SDCBadge children={cardInfo.ageGroup} />
+                        {cardInfo.borderAge == null ? null : (
+                            <SDCBadge isOff={!isEligible}>
+                                {cardInfo.isAgeMinimal
+                                    ? cardInfo.borderAge + " and above"
+                                    : cardInfo.borderAge + " and under"}
+                            </SDCBadge>
+                        )}
                     </Flex>
                     <Flex>
                         <Box
@@ -86,8 +98,17 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">
-                            {cardInfo.spaceAvailable} participant spot
-                            {cardInfo.spaceAvailable > 1 ? "s" : ""} available
+                            {me && me.volunteer
+                                ? cardInfo.volunteerSpaceAvailable +
+                                  " volunteer spot" +
+                                  (cardInfo.volunteerSpaceAvailable > 1
+                                      ? "s"
+                                      : "") +
+                                  " available"
+                                : cardInfo.spaceAvailable +
+                                  " participant spot" +
+                                  (cardInfo.spaceAvailable > 1 ? "s" : "") +
+                                  " available"}
                         </Box>
                     </Flex>
                 </VStack>

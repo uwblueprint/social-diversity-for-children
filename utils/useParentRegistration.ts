@@ -4,7 +4,7 @@ import useSWR from "swr";
 import CardInfoUtil from "./cardInfoUtil";
 import fetcher from "./fetcher";
 
-export type useParentRegistrationsResponse = {
+export type UseParentRegistrationsResponse = {
     enrollments: EnrollmentCardInfo[];
     isLoading: boolean;
     error: any;
@@ -16,7 +16,7 @@ export type useParentRegistrationsResponse = {
  */
 export default function useParentRegistrations(
     language: locale,
-): useParentRegistrationsResponse {
+): UseParentRegistrationsResponse {
     const { data, error } = useSWR("/api/enroll/child", fetcher);
     const result = data
         ? CardInfoUtil.getEnrollmentCardInfos(data.data, language)

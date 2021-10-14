@@ -18,12 +18,12 @@ export default function convertToShortDateRange(
     endDate: Date,
     language: locale = locale.en,
 ): DateStringPair {
-    const start = convertToShortDateString(startDate, language);
-    let end;
+    const end = convertToShortDateString(endDate, language);
+    let start;
     if (new Date(startDate).getFullYear() === new Date(endDate).getFullYear()) {
-        end = convertToShortDateString(endDate, language, false);
+        start = convertToShortDateString(startDate, language, false);
     } else {
-        end = convertToShortDateString(endDate, language);
+        start = convertToShortDateString(startDate, language);
     }
 
     return {

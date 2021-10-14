@@ -35,7 +35,8 @@ export class CardInfoUtil {
             );
 
         return {
-            ageGroup: result.ageGroup,
+            borderAge: result.borderAge,
+            isAgeMinimal: result.isAgeMinimal,
             spaceTotal: result.spaceTotal,
             id: result.id,
             image: result.imageLink,

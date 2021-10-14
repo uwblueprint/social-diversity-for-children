@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { Text, Spinner, Center } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { getSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
@@ -9,6 +9,9 @@ import fetcherWithId from "@utils/fetcherWithId";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { locale } from "@prisma/client";
+import { Loading } from "@components/Loading";
+import Participants from "@utils/containers/Participants";
+import useMe from "@utils/useMe";
 
 type ProgramDetailsProps = {
     session: Record<string, unknown>;
@@ -20,24 +23,25 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
     const router = useRouter();
     const { pid } = router.query;
 
+    const { me, isLoading: isMeLoading } = useMe();
+
     const { data: classListResponse, error: classListError } = useSWR(
         ["/api/class", pid, router.locale],
         fetcherWithId,
     );
+    const isClassListLoading = !classListResponse && !classListError;
     const { data: programInfoResponse, error: programInfoError } = useSWR(
         ["/api/program/" + pid, pid, router.locale],
         fetcherWithId,
     );
-    if (classListError || programInfoError) {
-        return (
-            <Text>
-                An error has occurred.{" "}
-                {classListError
-                    ? classListError.toString()
-                    : programInfoError.toString()}
-            </Text>
-        );
+    const isProgramInfoLoading = !programInfoResponse && !programInfoError;
+
+    if (isClassListLoading || isProgramInfoLoading || isMeLoading) {
+        return <Loading />;
+    } else if (classListError || programInfoError) {
+        return <Box>An Error has occured</Box>;
     }
+
     const programCardInfo = programInfoResponse
         ? CardInfoUtil.getProgramCardInfo(
               programInfoResponse.data,
@@ -51,16 +55,20 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
           )
         : [];
 
-    return programCardInfo && classCardInfos ? (
-        <ProgramInfo
-            programInfo={programCardInfo}
-            session={session}
-            classInfo={classCardInfos}
-        />
-    ) : (
-        <Center>
-            <Spinner size="xl" />
-        </Center>
+    if (!programCardInfo || !classCardInfos) {
+        return <Loading />;
+    }
+
+    return (
+        <Participants.Provider
+            initialState={me && me.parent ? me.parent.students : null}
+        >
+            <ProgramInfo
+                programInfo={programCardInfo}
+                session={session}
+                classInfo={classCardInfos}
+            />
+        </Participants.Provider>
     );
 };
 

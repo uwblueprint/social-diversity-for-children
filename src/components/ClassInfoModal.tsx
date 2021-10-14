@@ -111,7 +111,17 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                     classInfo.durationMinutes,
                                 )}
                             </Text>
-                            <Text pb={1}>Ages {classInfo.ageGroup}</Text>
+                            {/* TODO: make dynamic */}
+                            <Text pb={1}>
+                                {t(
+                                    classInfo.isAgeMinimal
+                                        ? "program.ageGroupAbove"
+                                        : "program.ageGroupUnder",
+                                    {
+                                        age: classInfo.borderAge,
+                                    },
+                                )}
+                            </Text>
                             <Text pb={1}>
                                 {t("program.teacherName", {
                                     name: classInfo.teacherName,

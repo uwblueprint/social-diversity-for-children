@@ -6,6 +6,7 @@ import useVolunteerRegistrations from "@utils/useVolunteerRegistration";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
+import { EmptyState } from "./EmptyState";
 
 /**
  * VolunteeringList is a list containing volunteering cards
@@ -34,22 +35,29 @@ export const VolunteeringList: React.FC = () => {
                 Upcoming classes
             </Heading>
             <Center width="100%">
-                <List spacing="5" width="100%">
-                    {volunteering.map((item) => {
-                        return (
-                            <ListItem
-                                borderColor="gray.200"
-                                _hover={{
-                                    borderColor: colourTheme.colors.Blue,
-                                }}
-                                borderWidth={2}
-                                key={item.classId}
-                            >
-                                <VolunteeringCard volunteeringInfo={item} />
-                            </ListItem>
-                        );
-                    })}
-                </List>
+                {volunteering.length === 0 ? (
+                    <EmptyState>
+                        Currently you have not registered in any classes. <br />
+                        Any classes you registered for will show up here!
+                    </EmptyState>
+                ) : (
+                    <List spacing="5" width="100%">
+                        {volunteering.map((item) => {
+                            return (
+                                <ListItem
+                                    borderColor="gray.200"
+                                    _hover={{
+                                        borderColor: colourTheme.colors.Blue,
+                                    }}
+                                    borderWidth={2}
+                                    key={item.classId}
+                                >
+                                    <VolunteeringCard volunteeringInfo={item} />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                )}
             </Center>
         </>
     );

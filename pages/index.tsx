@@ -12,11 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
-import CardInfoUtil from "utils/cardInfoUtil";
-import useSWR from "swr";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
 import { useTranslation } from "next-i18next";
+import usePrograms from "@utils/usePrograms";
+import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 
@@ -28,18 +28,17 @@ export default function Component(props: ComponentProps): JSX.Element {
     const { t } = useTranslation("common");
     const router = useRouter();
 
-    const fetcher = (url) => fetch(url).then((res) => res.json());
-    const { data: apiResponse, error } = useSWR("/api/program", fetcher);
+    const {
+        programs: programCardInfos,
+        isLoading,
+        error,
+    } = usePrograms(router.locale as locale);
     if (error) {
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
-    // if no programs are available, return value is []
-    const programCardInfos = apiResponse
-        ? CardInfoUtil.getProgramCardInfos(
-              apiResponse.data,
-              router.locale as locale,
-          )
-        : [];
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <Wrapper session={props.session}>

@@ -163,7 +163,8 @@ model ClassTranslation {
 model Class {
   id                      Int                @id @default(autoincrement())
   name                    String?
-  ageGroup                String?            @map("age_group")
+  borderAge               Int?               @map("border_age")
+  isAgeMinimal            Boolean            @default(false) @map("is_age_minimal")
   imageLink               String?            @map("image_link")
   programId               Int                @map("program_id")
   spaceTotal              Int                @map("space_total")

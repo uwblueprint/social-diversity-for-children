@@ -40,10 +40,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
-    if (!session || !session.role) {
+    if (!session) {
         return {
             redirect: {
                 destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+    if (!session.role) {
+        return {
+            redirect: {
+                destination: "/signup",
                 permanent: false,
             },
         };

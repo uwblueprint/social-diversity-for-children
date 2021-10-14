@@ -1,4 +1,14 @@
-import { Flex, Heading, Spacer, Text } from "@chakra-ui/react";
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Flex,
+    Heading,
+    Spacer,
+    Text,
+} from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { Button } from "@chakra-ui/react";
@@ -11,6 +21,9 @@ import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { locale } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { EmptyState } from "./EmptyState";
+import useMe from "@utils/useMe";
+import Participants from "@utils/containers/Participants";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -34,6 +47,24 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
 }): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation("common");
+    const { me } = useMe();
+    const { students } = Participants.useContainer();
+
+    let fullClassInfo;
+    let availableClassInfo;
+    if (me && me.volunteer) {
+        fullClassInfo = classInfo.filter(
+            (info) => info.volunteerSpaceAvailable === 0,
+        );
+        availableClassInfo = classInfo.filter(
+            (info) => info.volunteerSpaceAvailable !== 0,
+        );
+    } else {
+        fullClassInfo = classInfo.filter((info) => info.spaceAvailable === 0);
+        availableClassInfo = classInfo.filter(
+            (info) => info.spaceAvailable !== 0,
+        );
+    }
 
     return (
         <Wrapper session={session}>
@@ -70,12 +101,50 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         Filter
                     </Button>
                 </Flex>
-                <ClassList
-                    classInfo={classInfo}
-                    onlineFormat={programInfo.onlineFormat}
-                    tag={programInfo.tag}
-                    session={session}
-                />
+                {availableClassInfo.length === 0 ? (
+                    <EmptyState>
+                        There are currently no available classes for{" "}
+                        {programInfo.name}.
+                        <br />
+                        Register for a waitlisted class below or check out
+                        another program
+                    </EmptyState>
+                ) : (
+                    <ClassList
+                        classInfo={availableClassInfo}
+                        onlineFormat={programInfo.onlineFormat}
+                        tag={programInfo.tag}
+                        students={students}
+                        session={session}
+                    />
+                )}
+                {fullClassInfo.length < 1 ? null : (
+                    <Accordion allowToggle defaultIndex={0}>
+                        <AccordionItem>
+                            <Flex
+                                pt="70px"
+                                align="center"
+                                justifyContent="space-between"
+                            >
+                                <Text fontSize="sm" fontWeight="semibold">
+                                    Full classes
+                                </Text>
+                                <AccordionButton w="min">
+                                    <AccordionIcon />
+                                </AccordionButton>
+                            </Flex>
+                            <AccordionPanel p={0}>
+                                <ClassList
+                                    classInfo={fullClassInfo}
+                                    onlineFormat={programInfo.onlineFormat}
+                                    tag={programInfo.tag}
+                                    students={students}
+                                    session={session}
+                                />
+                            </AccordionPanel>
+                        </AccordionItem>
+                    </Accordion>
+                )}
             </Flex>
         </Wrapper>
     );
