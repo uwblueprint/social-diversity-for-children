@@ -68,7 +68,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             <SDCBadge isOff={!isEligible}>
                                 {cardInfo.isAgeMinimal
                                     ? cardInfo.borderAge + " and above"
-                                    : cardInfo.borderAge + " and below"}
+                                    : cardInfo.borderAge + " and under"}
                             </SDCBadge>
                         )}
                     </Flex>

@@ -5,15 +5,14 @@ import { ClassInfoModal } from "./ClassInfoModal";
 import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
 import colourTheme from "@styles/colours";
-import { Student } from "@prisma/client";
-import Participants from "@utils/containers/Participants";
 import convertToAge from "@utils/convertToAge";
+import { Student } from "@prisma/client";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
     onlineFormat: string;
     tag: string;
-    students?: Student[];
+    students?: Student[] | null;
     session?: Record<string, unknown>;
 };
 
@@ -21,10 +20,9 @@ export const ClassList: React.FC<ClassListProps> = ({
     classInfo,
     onlineFormat,
     tag,
+    students,
     session,
 }) => {
-    const { students } = Participants.useContainer();
-
     return (
         <Center width="100%" pt={4}>
             <List spacing="5" width="100%">

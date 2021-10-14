@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { EmptyState } from "./EmptyState";
 import useMe from "@utils/useMe";
+import Participants from "@utils/containers/Participants";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -47,6 +48,8 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     const router = useRouter();
     const { t } = useTranslation("common");
     const { me } = useMe();
+    const { students } = Participants.useContainer();
+
     let fullClassInfo;
     let availableClassInfo;
     if (me && me.volunteer) {
@@ -111,6 +114,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         classInfo={availableClassInfo}
                         onlineFormat={programInfo.onlineFormat}
                         tag={programInfo.tag}
+                        students={students}
                         session={session}
                     />
                 )}
@@ -134,6 +138,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                                     classInfo={fullClassInfo}
                                     onlineFormat={programInfo.onlineFormat}
                                     tag={programInfo.tag}
+                                    students={students}
                                     session={session}
                                 />
                             </AccordionPanel>

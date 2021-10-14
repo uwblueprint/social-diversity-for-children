@@ -17,6 +17,8 @@ import { EmptyState } from "@components/EmptyState";
 import { useTranslation } from "next-i18next";
 import usePrograms from "@utils/usePrograms";
 import { Loading } from "@components/Loading";
+import { useRouter } from "next/router";
+import { locale } from "@prisma/client";
 
 type ComponentProps = {
     session: Record<string, unknown>;
@@ -24,8 +26,13 @@ type ComponentProps = {
 
 export default function Component(props: ComponentProps): JSX.Element {
     const { t } = useTranslation("common");
+    const router = useRouter();
 
-    const { programs: programCardInfos, isLoading, error } = usePrograms();
+    const {
+        programs: programCardInfos,
+        isLoading,
+        error,
+    } = usePrograms(router.locale as locale);
     if (error) {
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
