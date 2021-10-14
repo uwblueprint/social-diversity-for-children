@@ -17,7 +17,6 @@ import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 
 type ClassCardProps = {
     cardInfo: ClassCardInfo;
-    onNext: () => void;
 };
 
 /**
@@ -26,10 +25,15 @@ type ClassCardProps = {
  * @param onClick method that is called when card is clicked
  * @returns a component that displays the class card info
  */
-export const ClassCard: React.FC<ClassCardProps> = ({ cardInfo, onNext }) => {
+export const ClassCard: React.FC<ClassCardProps> = ({ cardInfo }) => {
     return (
         <>
-            <Grid templateColumns="repeat(4, 1fr)" gap={6} cursor={"pointer"}>
+            <Grid
+                border="1px solid #C5C5C5"
+                templateColumns="repeat(4, 1fr)"
+                gap={6}
+                cursor={"pointer"}
+            >
                 <GridItem>
                     <AspectRatio width="100%" ratio={1}>
                         <Image
@@ -70,22 +74,22 @@ export const ClassCard: React.FC<ClassCardProps> = ({ cardInfo, onNext }) => {
                             >
                                 {" with Teacher " + cardInfo.teacherName}
                             </Box>
-                            <Spacer />
+                        </Flex>
+                        <Flex>
                             <Box
-                                mr="3"
                                 as="span"
                                 color="gray.600"
                                 fontSize="sm"
+                                textTransform="capitalize"
                             >
-                                {cardInfo.spaceAvailable} participant spot
-                                {cardInfo.spaceAvailable > 1 ? "s" : ""}{" "}
-                                available
+                                {cardInfo.startDate.toString().substring(4, 15)}
+                                {" to "}
+                                {cardInfo.endDate.toString().substring(4, 15)}
                             </Box>
                         </Flex>
                     </VStack>
                 </GridItem>
             </Grid>
-            <Button onClick={onNext}>Finish</Button>
         </>
     );
 };
