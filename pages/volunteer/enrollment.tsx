@@ -1,11 +1,10 @@
-import { Stack, Button } from "@chakra-ui/react";
 import { useState } from "react";
-import colourTheme from "@styles/colours";
 import { VolunteerEnrolledFormWrapper } from "@components/volunteer-enroll/VolunteerEnrollFormWrapper";
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { SubmitBackgroundCheckForm } from "@components/volunteer-enroll/SubmitBackgroundCheck";
-import { ClassCard } from "@components/volunteer-enroll/ClassCard";
+import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClass";
 import { weekday } from "@prisma/client";
+import { useRouter } from "next/router";
 /**
  * This is the page that a volunteer will use to enroll into a class in a program
  */
@@ -16,11 +15,17 @@ export default function VolunteerEnroll({
 }): JSX.Element {
     const [pageNum, setPageNum] = useState<number>(0);
 
+    const router = useRouter();
+    // abstract the query
+    const { classId } = router.query;
+    console.log(classId);
+    // edit the register button to this page with the query
+
     const nextPage = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
     };
-
+    // replace with fetched data
     const classInfo = {
         image: "https://www.gstatic.com/webp/gallery3/2.png",
         name: "Test Class 1",
@@ -42,7 +47,7 @@ export default function VolunteerEnroll({
     const pageElements = [
         <SubmitBackgroundCheckForm onNext={nextPage} />,
         <MediaReleaseForm onNext={nextPage} />,
-        <ClassCard cardInfo={classInfo} onNext={nextPage} />,
+        <ConfirmClassEnrollment cardInfo={classInfo} onNext={nextPage} />,
     ];
 
     return (
