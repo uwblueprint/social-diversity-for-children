@@ -8,6 +8,7 @@ function SvgMailReceivedIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 257 258"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <path
                 d="M181.85 193.096C159.006 216.199 135.924 238.965 106.401 228.321C94.8882 224.17 43.45 196.239 30.1607 146.295C16.8714 96.3519 46.0317 97.8373 77.7836 65.7251C109.536 33.613 145.903 28.5544 179.217 61.4951C193.955 76.0674 231.149 77.2777 234.768 109.551C239.568 152.368 199.556 175.19 181.85 193.096Z"
@@ -22,8 +23,8 @@ function SvgMailReceivedIcon(props: React.SVGProps<SVGSVGElement>) {
                 fill="#0C53A0"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M127.798 166.118C128.102 166.387 128.558 166.387 128.862 166.118L194.096 108.363C194.428 108.069 194.459 107.562 194.165 107.231C193.871 106.899 193.365 106.868 193.033 107.162L128.33 164.446L63.6272 107.162C63.2955 106.868 62.7886 106.899 62.495 107.231C62.2014 107.562 62.2322 108.069 62.5639 108.363L127.798 166.118Z"
                 fill="#E2E8F0"
             />
@@ -32,8 +33,8 @@ function SvgMailReceivedIcon(props: React.SVGProps<SVGSVGElement>) {
                 fill="#0C53A0"
             />
             <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M124.372 137.937C126.727 136.207 129.932 136.207 132.287 137.937L194.039 183.303L193.089 184.596L131.337 139.23C129.547 137.915 127.112 137.915 125.322 139.23L63.5698 184.596L62.6201 183.303L124.372 137.937Z"
                 fill="#E2E8F0"
             />

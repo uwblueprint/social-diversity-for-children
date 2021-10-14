@@ -8,6 +8,7 @@ function SvgErrorIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 155 155"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <circle cx="77.5" cy="77.5" r="77.5" fill="#CFD7E0" />
             <rect

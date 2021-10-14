@@ -8,6 +8,7 @@ function UploadIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 87 87"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <g opacity="0.1">
                 <path
