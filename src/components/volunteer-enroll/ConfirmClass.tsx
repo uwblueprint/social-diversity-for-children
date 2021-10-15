@@ -1,18 +1,18 @@
 import colourTheme from "@styles/colours";
 import React, { useState } from "react";
 import { Button, Box, Text } from "@chakra-ui/react";
-import { ClassCard } from "@components/volunteer-enroll/ClassCard";
+import { VolunteerEnrollmentCard } from "@components/volunteer-enroll/VolunteerEnrollmentCard";
 import { ClassCardInfo } from "@models/Class";
 
 type ConfirmClassEnrollmentProps = {
     styleProps?: Record<string, unknown>;
-    cardInfo: ClassCardInfo;
+    classInfo: ClassCardInfo;
     onNext: () => void;
 };
 
 export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
     onNext,
-    cardInfo,
+    classInfo,
 }): JSX.Element => {
     return (
         <>
@@ -28,7 +28,7 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
                 </Text>
             </Box>
             <Box>
-                <ClassCard cardInfo={cardInfo} />
+                <VolunteerEnrollmentCard classInfo={classInfo} />
             </Box>
 
             <Button
