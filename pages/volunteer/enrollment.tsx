@@ -31,6 +31,9 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         fetcherWithId,
     );
 
+    // useMe
+    //
+
     // fetch programInfo from API(need program name)
     // const { data: programInfoResponse, error: programInfoError } = useSWR(
     //     ["/api/program/" + classInfoResponse.data.programId, classInfoResponse.data.programId, router.locale],
@@ -47,18 +50,6 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     //         </Text>
     //     );
     // }
-
-    const [user, setUser] = useState(null);
-    const request = {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-    };
-    const response = fetch("/api/user/me/", request).then(
-        //To get the body do response.json()
-        (response) => {
-            return setUser(response.json());
-        },
-    );
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
@@ -82,6 +73,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         startDate: new Date("1970-01-01T00:00:00.000Z"),
         endDate: new Date("1970-01-01T00:00:00.000Z"),
     };
+
     const pageElements = [
         <SubmitBackgroundCheckForm onNext={nextPage} />,
         <MediaReleaseForm onNext={nextPage} />,
