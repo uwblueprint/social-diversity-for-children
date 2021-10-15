@@ -22,7 +22,7 @@ export async function deleteVolunteerRegistration(
         body: JSON.stringify(registrationData),
     };
 
-    const response = await fetch("api/enroll/volunteer", request);
+    const response = await fetch("/api/enroll/volunteer", request);
     const deletedRegistration = await response.json();
 
     mutate("/api/enroll/volunteer");

@@ -183,7 +183,7 @@ export default function VolunteerInfo({
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData),
         };
-        const response = await fetch("api/user", request);
+        const response = await fetch("/api/user", request);
         const updatedUserData = await response.json();
         return updatedUserData;
     }
