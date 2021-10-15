@@ -10,7 +10,7 @@ type SDCBadgeProps = BadgeProps & { isOff?: boolean };
 export const SDCBadge: React.FC<SDCBadgeProps> = ({ isOff, ...restProps }) => {
     return (
         <Badge
-            borderRadius="full"
+            borderRadius="6px"
             fontWeight="medium"
             letterSpacing="wide"
             textTransform="none"

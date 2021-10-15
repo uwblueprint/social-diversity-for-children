@@ -118,7 +118,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                     }}
                                     _active={{}}
                                     fontWeight={"200"}
-                                    borderRadius={100}
+                                    borderRadius="6px"
                                 >
                                     Browse Classes
                                 </Button>
