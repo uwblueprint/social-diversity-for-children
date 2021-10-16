@@ -33,7 +33,11 @@ export class CardInfoUtil {
                 result.classTranslation,
                 language,
             );
-
+        const mainProgramTranslation: ProgramTranslation =
+            TranslationUtil.getMainProgramTranslation(
+                result.program.programTranslation,
+                language,
+            );
         return {
             borderAge: result.borderAge,
             isAgeMinimal: result.isAgeMinimal,
@@ -48,6 +52,9 @@ export class CardInfoUtil {
             weekday: result.weekday,
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,
+            programName: mainProgramTranslation
+                ? mainProgramTranslation.name
+                : "",
             name: mainClassTranslation
                 ? mainClassTranslation.name
                 : result.name,

@@ -6,11 +6,12 @@ import {
     Checkbox,
     Box,
     Button,
+    Link,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import React, { useState } from "react";
 
-type SubmitBackgroundCheckFormProps = {
+type SubmitCriminalCheckFormProps = {
     styleProps?: Record<string, unknown>;
     onNext: () => void;
 };
@@ -18,7 +19,7 @@ type SubmitBackgroundCheckFormProps = {
  * Media release page within the class registration process
  * @returns a page component explaining SDC's media release policy and offering an option to accept it
  */
-export const SubmitBackgroundCheckForm: React.FC<SubmitBackgroundCheckFormProps> =
+export const SubmitCriminalCheckForm: React.FC<SubmitCriminalCheckFormProps> =
     ({ onNext }): JSX.Element => {
         // Next button is disabled by default, activates criminal checkbox is checked
         const [criminalCheck, setCriminalCheck] = useState<boolean>(false);
@@ -93,19 +94,21 @@ export const SubmitBackgroundCheckForm: React.FC<SubmitBackgroundCheckFormProps>
                     </OrderedList>
                 </Box>
                 <Box>
-                    <Button
-                        mt="40px"
-                        width={"288px"}
-                        height={"49px"}
-                        color={colourTheme.colors.DarkerGray}
-                        bg={"#E2E8F0"}
-                        px={10}
-                        _active={{}}
-                        fontWeight={"400"}
-                        borderRadius={"6px"}
-                    >
-                        Upload criminal record check
-                    </Button>
+                    <Link href={"/document-upload"}>
+                        <Button
+                            mt="40px"
+                            width={"288px"}
+                            height={"49px"}
+                            color={colourTheme.colors.DarkerGray}
+                            bg={"#E2E8F0"}
+                            px={10}
+                            _active={{}}
+                            fontWeight={"400"}
+                            borderRadius={"6px"}
+                        >
+                            Upload criminal record check
+                        </Button>
+                    </Link>
                 </Box>
                 <Box>
                     <Checkbox

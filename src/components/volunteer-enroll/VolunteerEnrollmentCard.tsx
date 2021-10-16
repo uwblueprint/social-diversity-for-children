@@ -11,15 +11,11 @@ import {
     Spacer,
     VStack,
     Button,
-    IconButton,
-    Menu,
-    MenuButton,
 } from "@chakra-ui/react";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
-
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
@@ -54,7 +50,7 @@ export const VolunteerEnrollmentCard: React.FC<VolunteerEnrollmentCardProps> =
                         <Flex mr="3">
                             <Box>
                                 <Heading size="md" pb={4} pr={2}>
-                                    {classInfo.name}
+                                    {classInfo.programName} ({classInfo.name})
                                 </Heading>
 
                                 <Box as="span" color="gray.600" fontSize="sm">
@@ -95,7 +91,14 @@ export const VolunteerEnrollmentCard: React.FC<VolunteerEnrollmentCardProps> =
                                     borderRadius={"56px"}
                                     fontWeight={"normal"}
                                 >
-                                    {classInfo.ageGroup}
+                                    {t(
+                                        classInfo.isAgeMinimal
+                                            ? "program.ageGroupAbove"
+                                            : "program.ageGroupUnder",
+                                        {
+                                            age: classInfo.borderAge,
+                                        },
+                                    )}
                                 </Button>
                             </Flex>
                         </Flex>

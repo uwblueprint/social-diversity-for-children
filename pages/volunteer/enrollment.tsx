@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { VolunteerEnrolledFormWrapper } from "@components/volunteer-enroll/VolunteerEnrollFormWrapper";
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
-import { SubmitBackgroundCheckForm } from "@components/volunteer-enroll/SubmitBackgroundCheck";
+import { SubmitCriminalCheckForm } from "@components/volunteer-enroll/SubmitCriminalCheck";
 import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClass";
+import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCriminalCheck";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcherWithId from "@utils/fetcherWithId";
-import { weekday } from ".prisma/client";
 import useMe from "@utils/useMe";
 import { Box } from "@chakra-ui/layout";
 import { Loading } from "@components/Loading";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import CardInfoUtil from "@utils/cardInfoUtil";
+import { locale } from "@prisma/client";
 
 type VolunteerEnrollmentProps = {
     session: Record<string, unknown>;
@@ -29,10 +34,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     // fetch user info
     const { me, isLoading: isMeLoading } = useMe();
 
-    // TODO: edit the register button to this page with the query
-
     // fetch classInfo from API
-    // can also get program part of the class query
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId, classId, router.locale],
         fetcherWithId,
@@ -46,38 +48,63 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         return <Box>An Error has occured</Box>;
     }
 
+    const classInfo = classInfoResponse
+        ? CardInfoUtil.getClassCardInfo(
+              classInfoResponse.data,
+              router.locale as locale,
+          )
+        : null;
+
     const nextPage = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
     };
 
-    const classInfo = {
-        image: "https://www.gstatic.com/webp/gallery3/2.png",
-        name: "Test Class 1",
-        ageGroup: "9 and under",
-        weekday: weekday.MON,
-        startTimeMinutes: 0,
-        durationMinutes: 0,
-        teacherName: "Brian",
-        spaceAvailable: 0,
-        id: 2,
-        description: "test class",
-        spaceTotal: 10,
-        volunteerSpaceAvailable: 0,
-        volunteerSpaceTotal: 10,
-        startDate: new Date("1970-01-01T00:00:00.000Z"),
-        endDate: new Date("1970-01-01T00:00:00.000Z"),
-        isAgeMinimal: false,
+    const submitVolunteer = async () => {
+        const response = await fetch("/api/enroll/volunteer", {
+            method: "POST",
+            body: JSON.stringify({
+                volunteerId: me.id,
+                classId: classInfo.id,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        console.log(data);
     };
 
-    const pageElements = [
-        <SubmitBackgroundCheckForm onNext={nextPage} />,
-        <MediaReleaseForm onNext={nextPage} />,
-        <ConfirmClassEnrollment
-            classInfo={classInfoResponse.data}
-            onNext={nextPage}
-        />,
-    ];
+    // render submit page if criminal record not submitted
+    // render update criminal check form if expired
+    const pageElements = !me.volunteer.criminalRecordCheckLink
+        ? [
+              <SubmitCriminalCheckForm onNext={nextPage} />,
+              <MediaReleaseForm onNext={nextPage} />,
+              <ConfirmClassEnrollment
+                  classInfo={classInfo}
+                  onNext={nextPage}
+                  onFinish={submitVolunteer}
+              />,
+          ]
+        : me.volunteer.criminalCheckExpired
+        ? [
+              <UpdateCriminalCheckForm onNext={nextPage} />,
+              <MediaReleaseForm onNext={nextPage} />,
+              <ConfirmClassEnrollment
+                  classInfo={classInfo}
+                  onNext={nextPage}
+                  onFinish={submitVolunteer}
+              />,
+          ]
+        : [
+              <MediaReleaseForm onNext={nextPage} />,
+              <ConfirmClassEnrollment
+                  classInfo={classInfo}
+                  onNext={nextPage}
+                  onFinish={submitVolunteer}
+              />,
+          ];
 
     return (
         <VolunteerEnrolledFormWrapper
@@ -90,3 +117,18 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
 };
 
 export default VolunteerEnrollment;
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    return {
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
+    };
+};
