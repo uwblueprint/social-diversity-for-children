@@ -67,10 +67,6 @@ CREATE TABLE classes (
   is_age_minimal BOOLEAN DEFAULT false NOT NULL, -- determine if border_age is used as "<age> and above" or "<age> and under"
   image_link TEXT,
 
-  border_age INTEGER NOT NULL,
-  is_age_minimal BOOLEAN DEFAULT false NOT NULL,
-  image_link TEXT,
-
   program_id INTEGER NOT NULL,
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
 
@@ -90,6 +86,7 @@ CREATE TABLE classes (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );
+
 -- create parent table
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
