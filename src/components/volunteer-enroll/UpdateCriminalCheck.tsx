@@ -94,7 +94,7 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                     </OrderedList>
                 </Box>
                 <Box>
-                    <Link href={"/document-upload"}>
+                    <Link href={"/document-upload?type=criminal-check"}>
                         <Button
                             mt="40px"
                             width={"288px"}

@@ -24,7 +24,7 @@ import convertToShortDateRange from "@utils/convertToShortDateRange";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { locale } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -132,7 +132,15 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                 </ModalBody>
 
                 <ModalFooter>
-                    <Link href={session ? "/parent-enrollment" : "/login"}>
+                    <Link
+                        href={
+                            session
+                                ? session.role === roles.VOLUNTEER
+                                    ? `/volunteer/enrollment?classId=${classInfo.id}`
+                                    : `/parent/enrollment/?classId=${classInfo.id}`
+                                : "/login"
+                        }
+                    >
                         <Button
                             bg={colourTheme.colors.Blue}
                             color={"white"}

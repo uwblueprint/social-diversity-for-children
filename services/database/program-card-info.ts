@@ -10,6 +10,7 @@ async function getClassInfoWithProgramId(id: string) {
             isArchived: false,
         },
         include: {
+            program: { include: { programTranslation: true } },
             classTranslation: true,
             teacherRegs: {
                 include: {
