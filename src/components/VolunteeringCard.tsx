@@ -98,7 +98,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                                 color={"white"}
                                 mx={"auto"}
                                 my={2}
-                                borderRadius={6}
+                                borderRadius="6px"
                                 onClick={() => alert("Joining Zoom meeting...")}
                                 fontWeight={"normal"}
                                 _hover={{

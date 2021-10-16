@@ -64,7 +64,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                                         .LightBlue,
                                             }}
                                             width="50%"
-                                            borderRadius={100}
+                                            borderRadius="6px"
                                             fontWeight={"200"}
                                         >
                                             {t("home.registerNow")}
@@ -104,7 +104,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                                         .LightBlue,
                                             }}
                                             width="50%"
-                                            borderRadius={100}
+                                            borderRadius="6px"
                                             fontWeight={"200"}
                                         >
                                             {t("home.registerNow")}

@@ -44,7 +44,7 @@ const FormButton = (props) => {
             onClick={props.onClick}
             my={8}
             px={12}
-            borderRadius={100}
+            borderRadius="6px"
         >
             {props.children}
         </Button>
@@ -345,7 +345,7 @@ export default function ParticipantInfo({
                         variant="ghost"
                         as="u"
                         onClick={() => setPageNum((prevPage) => prevPage + 1)}
-                        borderRadius={100}
+                        borderRadius="6px"
                     >
                         Skip for Now
                     </Button>
