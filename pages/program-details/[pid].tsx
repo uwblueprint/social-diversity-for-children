@@ -23,6 +23,7 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
     const router = useRouter();
     const { pid } = router.query;
 
+    // No need to handle no user since it's a public page
     const { me, isLoading: isMeLoading } = useMe();
 
     const { data: classListResponse, error: classListError } = useSWR(
@@ -64,8 +65,9 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
             initialState={me && me.parent ? me.parent.students : null}
         >
             <ProgramInfo
-                programInfo={programCardInfo}
                 session={session}
+                programInfo={programCardInfo}
+                me={me}
                 classInfo={classCardInfos}
             />
         </Participants.Provider>

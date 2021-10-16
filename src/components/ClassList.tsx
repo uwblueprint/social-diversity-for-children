@@ -6,14 +6,15 @@ import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
 import colourTheme from "@styles/colours";
 import convertToAge from "@utils/convertToAge";
-import { Student } from "@prisma/client";
+import { roles, Student } from "@prisma/client";
+import { UseMeResponse } from "@utils/useMe";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
     onlineFormat: string;
     tag: string;
     students?: Student[] | null;
-    session?: Record<string, unknown>;
+    me?: UseMeResponse["me"];
 };
 
 export const ClassList: React.FC<ClassListProps> = ({
@@ -21,15 +22,15 @@ export const ClassList: React.FC<ClassListProps> = ({
     onlineFormat,
     tag,
     students,
-    session,
+    me,
 }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <Center width="100%" pt={4}>
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
-                    const { isOpen, onOpen, onClose } = useDisclosure();
                     let eligible = true;
-                    if (students !== null) {
+                    if (me && me.role === roles.PARENT && students !== null) {
                         eligible = false;
                         eligible = students.some((student) => {
                             const age = convertToAge(
@@ -66,7 +67,7 @@ export const ClassList: React.FC<ClassListProps> = ({
                                     classInfo={item}
                                     onlineFormat={onlineFormat}
                                     tag={tag}
-                                    session={session}
+                                    me={me}
                                 />
                             ) : (
                                 <IneligibleClassModal

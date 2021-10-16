@@ -1,4 +1,3 @@
-import Wrapper from "@components/SDCWrapper";
 import React, { useState } from "react";
 import SelectChildForClass from "@components/SelectChildForClass";
 import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
@@ -37,8 +36,15 @@ export default function ParentEnrollClass({
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
     if (isLoading) {
-        return <Loading></Loading>;
+        return <Loading />;
     }
+
+    // Stop and redirect to home page if user not parent
+    if (!user || user.role !== roles.PARENT) {
+        router.push("/signup");
+        return <Loading />;
+    }
+
     const parentData = {
         name: user.firstName + " " + user.lastName,
         phone: user.parent.phoneNumber,
@@ -92,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (
     // obtain the next auth session
     const session = await getSession(context);
 
-    if (!session || !(session.role === roles.PARENT)) {
+    if (!session) {
         return {
             redirect: {
                 destination: "/login",
