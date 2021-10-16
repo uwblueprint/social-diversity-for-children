@@ -16,9 +16,9 @@ export default async function handle(
 
     switch (req.method) {
         case "GET": {
-            // If no session, return no result
+            // If no session, return unauthorized error
             if (!session) {
-                ResponseUtil.returnOK(res, null);
+                ResponseUtil.returnUnauthorized(res, "No session");
                 return;
             }
 
