@@ -36,7 +36,7 @@ export async function deleteClassRegistration(
         body: JSON.stringify(registrationData),
     };
 
-    const response = await fetch("api/enroll/child", request);
+    const response = await fetch("/api/enroll/child", request);
     const deletedRegistration = await response.json();
 
     mutate("/api/enroll/child");
