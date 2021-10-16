@@ -22,7 +22,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     session,
 }: VolunteerEnrollmentProps) => {
     const [pageNum, setPageNum] = useState<number>(0);
-    console.log(session);
+
     const router = useRouter();
     const { classId } = router.query;
 
