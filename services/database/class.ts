@@ -11,6 +11,10 @@ async function getClass(id: number): Promise<Class> {
         where: {
             id,
         },
+        include: {
+            program: { include: { programTranslation: true } },
+            classTranslation: true,
+        },
     });
     return classSection;
 }

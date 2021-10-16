@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { VolunteerEnrolledFormWrapper } from "@components/volunteer-enroll/VolunteerEnrollFormWrapper";
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { SubmitBackgroundCheckForm } from "@components/volunteer-enroll/SubmitBackgroundCheck";
@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcherWithId from "@utils/fetcherWithId";
 import { weekday } from ".prisma/client";
+import useMe from "@utils/useMe";
+import { Box } from "@chakra-ui/layout";
+import { Loading } from "@components/Loading";
 
 type VolunteerEnrollmentProps = {
     session: Record<string, unknown>;
@@ -19,37 +22,29 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     session,
 }: VolunteerEnrollmentProps) => {
     const [pageNum, setPageNum] = useState<number>(0);
-
+    console.log(session);
     const router = useRouter();
-    // abstract the query
     const { classId } = router.query;
+
+    // fetch user info
+    const { me, isLoading: isMeLoading } = useMe();
+
     // TODO: edit the register button to this page with the query
 
     // fetch classInfo from API
+    // can also get program part of the class query
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId, classId, router.locale],
         fetcherWithId,
     );
 
-    // useMe
-    //
+    const isClassInfoLoading = !classInfoResponse && !classInfoError;
 
-    // fetch programInfo from API(need program name)
-    // const { data: programInfoResponse, error: programInfoError } = useSWR(
-    //     ["/api/program/" + classInfoResponse.data.programId, classInfoResponse.data.programId, router.locale],
-    //     fetcherWithId,
-    // );
-
-    // if (classInfoError || programInfoError) {
-    //     return (
-    //         <Text>
-    //             An error has occurred.{" "}
-    //             {classInfoError
-    //                 ? classInfoError.toString()
-    //                 : programInfoError.toString()}
-    //         </Text>
-    //     );
-    // }
+    if (isClassInfoLoading || isMeLoading) {
+        return <Loading />;
+    } else if (classInfoError) {
+        return <Box>An Error has occured</Box>;
+    }
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
@@ -72,12 +67,16 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         volunteerSpaceTotal: 10,
         startDate: new Date("1970-01-01T00:00:00.000Z"),
         endDate: new Date("1970-01-01T00:00:00.000Z"),
+        isAgeMinimal: false,
     };
 
     const pageElements = [
         <SubmitBackgroundCheckForm onNext={nextPage} />,
         <MediaReleaseForm onNext={nextPage} />,
-        <ConfirmClassEnrollment classInfo={classInfo} onNext={nextPage} />,
+        <ConfirmClassEnrollment
+            classInfo={classInfoResponse.data}
+            onNext={nextPage}
+        />,
     ];
 
     return (
