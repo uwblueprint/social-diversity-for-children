@@ -2,6 +2,11 @@ import { s3 } from "@aws";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getSession } from "next-auth/client"; // Session handling
 import { NextApiRequest, NextApiResponse } from "next";
+import { roles } from ".prisma/client";
+import {
+    updateParentProofOfIncomeLink,
+    updateVolunteerCriminalCheckLink,
+} from "@database/user";
 
 export default async function handle(
     req: NextApiRequest,
@@ -22,7 +27,9 @@ export default async function handle(
         "curriculum-plans",
     ];
 
-    if (!accepted_type_paths.includes(req.query.path as string)) {
+    const { path, file } = req.query;
+
+    if (!accepted_type_paths.includes(path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");
     }
 
@@ -31,10 +38,32 @@ export default async function handle(
             const post = await s3.createPresignedPost({
                 Bucket: process.env.S3_UPLOAD_BUCKET,
                 Fields: {
-                    key: `${req.query.path}/${req.query.file}`,
+                    key: `${path}/${file}`,
                 },
                 Conditions: [["content-length-range", 0, fileSizeLimitBytes]],
             });
+
+            // Assume that the presigned url is used immediately and save the path to records
+            // Depending on whether or not it's criminal check or poi, we do a vol or parent write
+            if (
+                session.role === roles.VOLUNTEER &&
+                path === accepted_type_paths[1]
+            ) {
+                console.log("saving criminal check link: " + path);
+                updateVolunteerCriminalCheckLink(
+                    session.user.email,
+                    `${path}/${file}`,
+                );
+            } else if (
+                session.role === roles.PARENT &&
+                path === accepted_type_paths[2]
+            ) {
+                console.log("saving poi link: " + path);
+                updateParentProofOfIncomeLink(
+                    session.user.email,
+                    `${path}/${file}`,
+                );
+            }
 
             ResponseUtil.returnOK(res, post);
             break;
