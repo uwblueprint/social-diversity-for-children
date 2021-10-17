@@ -14,6 +14,7 @@ import { getSession, GetSessionOptions } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
 import colourTheme from "@styles/colours";
+import { mutate } from "swr";
 
 /*
 Dynamic import is a next.js feature. 
@@ -120,10 +121,10 @@ export default function ParticipantInfo({
     session: Record<string, unknown>;
 }): JSX.Element {
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState(0);
+    const [pageNum, setPageNum] = useLocalStorage("VolunteerPage", 0);
 
     const formButtonOnClick = () => {
-        setPageNum((prevPage) => prevPage + 1);
+        setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
     };
 
@@ -531,6 +532,7 @@ export default function ParticipantInfo({
         if (updatedUser) {
             setSuccessfulAccountCreation("success");
             localStorage.clear();
+            mutate("/api/user/me"); //Clear the user - causing a refresh
             return updatedUser;
         } else {
             setSuccessfulAccountCreation("failure");

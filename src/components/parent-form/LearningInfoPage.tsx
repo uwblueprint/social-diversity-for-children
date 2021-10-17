@@ -90,7 +90,7 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({
                     "Is the participant currently involved in a special education program at their school?"
                 }
                 setValue={props.setSpecialEd}
-                required={true}
+                required={false}
             ></CheckBoxField>
             <br />
             <FormControl id="therapy">
@@ -161,7 +161,7 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({
                     px={12}
                     borderRadius={100}
                     mt={8}
-                    disabled={!props.specialEd || !props.guardianExpectations}
+                    disabled={!props.guardianExpectations}
                     onClick={props.formButtonOnClick}
                 >
                     Next

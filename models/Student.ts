@@ -25,8 +25,8 @@ export type CreateStudentInput = {
     medication?: string;
     allergies?: string;
     additionalInfo?: string;
-    emergFirstName?: string;
-    emergLastName?: string;
-    emergNumber?: string;
-    emergRelationToStudent?: string;
+    emergFirstName: string;
+    emergLastName: string;
+    emergNumber: string;
+    emergRelationToStudent: string;
 };
