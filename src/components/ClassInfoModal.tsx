@@ -24,7 +24,8 @@ import convertToShortDateRange from "@utils/convertToShortDateRange";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { locale } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
+import { UseMeResponse } from "@utils/useMe";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -32,7 +33,7 @@ type ClassInfoModalProps = {
     classInfo: ClassCardInfo;
     onlineFormat: string;
     tag: string;
-    session?: Record<string, unknown>;
+    me?: UseMeResponse["me"];
 };
 
 /**
@@ -51,7 +52,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     classInfo,
     onlineFormat,
     tag,
-    session,
+    me,
 }) => {
     const router = useRouter();
     const { t } = useTranslation("common");
@@ -132,7 +133,15 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                 </ModalBody>
 
                 <ModalFooter>
-                    <Link href={session ? "/parent-enrollment" : "/login"}>
+                    <Link
+                        href={
+                            me
+                                ? me.role === roles.VOLUNTEER
+                                    ? "/volunteer/enrollment"
+                                    : "/parent/enrollment"
+                                : "/login"
+                        }
+                    >
                         <Button
                             bg={colourTheme.colors.Blue}
                             color={"white"}
@@ -156,9 +165,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                             }}
                             minW={"100%"}
                         >
-                            {session
-                                ? "Register"
-                                : t("program.signInToRegister")}
+                            {me ? "Register" : t("program.signInToRegister")}
                         </Button>
                     </Link>
                 </ModalFooter>

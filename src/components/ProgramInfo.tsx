@@ -18,12 +18,12 @@ import { ProgramCardInfo } from "models/Program";
 import React from "react";
 import { SDCBadge } from "./SDCBadge";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
-import { locale } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { EmptyState } from "./EmptyState";
-import useMe from "@utils/useMe";
 import Participants from "@utils/containers/Participants";
+import { UseMeResponse } from "@utils/useMe";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -35,6 +35,7 @@ type ProgramDetailsProps = {
     programInfo: ProgramCardInfo;
     classInfo: ClassCardInfo[];
     session: Record<string, unknown>;
+    me: UseMeResponse["me"];
 };
 
 /**
@@ -42,17 +43,17 @@ type ProgramDetailsProps = {
  */
 export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     session,
+    me,
     programInfo,
     classInfo,
 }): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation("common");
-    const { me } = useMe();
     const { students } = Participants.useContainer();
 
     let fullClassInfo;
     let availableClassInfo;
-    if (me && me.volunteer) {
+    if (me && me.role === roles.VOLUNTEER) {
         fullClassInfo = classInfo.filter(
             (info) => info.volunteerSpaceAvailable === 0,
         );
@@ -115,7 +116,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         onlineFormat={programInfo.onlineFormat}
                         tag={programInfo.tag}
                         students={students}
-                        session={session}
+                        me={me}
                     />
                 )}
                 {fullClassInfo.length < 1 ? null : (
@@ -139,7 +140,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                                     onlineFormat={programInfo.onlineFormat}
                                     tag={programInfo.tag}
                                     students={students}
-                                    session={session}
+                                    me={me}
                                 />
                             </AccordionPanel>
                         </AccordionItem>

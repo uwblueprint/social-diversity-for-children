@@ -12,7 +12,7 @@ export class TranslationUtil {
      */
     static getMainClassTranslation(
         translations: ClassTranslation[],
-        langauge: locale,
+        language: locale,
     ): ClassTranslation {
         if (translations.length === 0) {
             return null;
@@ -23,7 +23,7 @@ export class TranslationUtil {
         // Return translation matching locale or fallback to english
         let fallBackTranslation;
         for (const translation of translations) {
-            if (translation.language === langauge) {
+            if (translation.language === language) {
                 return translation;
             } else if (translation.language === locale.en) {
                 fallBackTranslation = translation;

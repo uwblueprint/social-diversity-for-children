@@ -10,6 +10,7 @@ import {
 import { validateParentRegistrationRecord } from "@utils/validation/registration";
 import { ParentRegistrationInput } from "models/Enroll";
 import { roles } from "@prisma/client";
+import { getUserFromEmail } from "@database/user";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -23,8 +24,17 @@ export default async function handle(
 ): Promise<void> {
     const session = await getSession({ req });
 
-    // If there is no session or the user is not a parent
-    if (!session || session.role !== roles.PARENT) {
+    // If there is no session or the user is not a parent, not authorized
+    if (!session) {
+        return ResponseUtil.returnUnauthorized(
+            res,
+            "Only users with PARENT role can access this resource",
+        );
+    }
+
+    const user = await getUserFromEmail(session.user.email);
+
+    if (!user || user.role !== roles.PARENT) {
         return ResponseUtil.returnUnauthorized(
             res,
             "Only users with PARENT role can access this resource",
