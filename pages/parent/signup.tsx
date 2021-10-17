@@ -444,7 +444,7 @@ export default function ParticipantInfo({
                     <Button
                         variant="ghost"
                         as="u"
-                        onClick={() => setPageNum((prevPage) => prevPage + 1)}
+                        onClick={() => setPageNum(pageNum + 1)}
                         borderRadius="6px"
                     >
                         Skip for Now
@@ -459,7 +459,7 @@ export default function ParticipantInfo({
             </FormPage>
             <FormButton
                 onClick={() => {
-                    setPageNum((prevPage) => prevPage + 1);
+                    setPageNum(pageNum + 1);
                     updateUserAndClearForm();
                 }}
             >

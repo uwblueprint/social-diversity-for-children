@@ -190,7 +190,7 @@ export default function VolunteerInfo({
                         variant="ghost"
                         as="u"
                         onClick={() => {
-                            setPageNum((prevPage) => prevPage + 1);
+                            setPageNum(pageNum + 1);
                             updateUserAndClearForm();
                         }}
                         borderRadius="6px"
