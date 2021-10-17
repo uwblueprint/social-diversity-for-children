@@ -27,7 +27,6 @@ export default async function handle(
                 ResponseUtil.returnBadRequest(res, "Invalid Session");
             }
             const user = await getUserFromEmail(session?.user.email);
-            console.log(user);
             if (!user) {
                 ResponseUtil.returnBadRequest(res, "Invalid User");
             }

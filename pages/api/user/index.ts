@@ -18,7 +18,6 @@ export default async function handle(
     switch (req.method) {
         case "GET": {
             const users = await getUsers();
-            console.log(users);
             ResponseUtil.returnOK(res, users);
             break;
         }
