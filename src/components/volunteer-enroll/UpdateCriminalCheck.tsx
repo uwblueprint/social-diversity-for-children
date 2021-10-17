@@ -8,19 +8,21 @@ import {
     Button,
     Link,
 } from "@chakra-ui/react";
+import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import React, { useState } from "react";
 
 type UpdateCriminalCheckFormProps = {
     styleProps?: Record<string, unknown>;
     onNext: () => void;
+    classInfo: ClassCardInfo;
 };
 /**
  * Media release page within the class registration process
  * @returns a page component explaining SDC's media release policy and offering an option to accept it
  */
 export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
-    ({ onNext }): JSX.Element => {
+    ({ onNext, classInfo }): JSX.Element => {
         // Next button is disabled by default, activates criminal checkbox is checked
         const [criminalCheck, setCriminalCheck] = useState<boolean>(false);
 
@@ -94,7 +96,9 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                     </OrderedList>
                 </Box>
                 <Box>
-                    <Link href={"/document-upload?type=criminal-check"}>
+                    <Link
+                        href={`/document-upload?type=criminal-check&redirect=volunteer/enrollment?classId=${classInfo.id}%26page=1`}
+                    >
                         <Button
                             mt="40px"
                             width={"288px"}

@@ -26,12 +26,11 @@ type VolunteerEnrollmentProps = {
 export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     session,
 }: VolunteerEnrollmentProps) => {
-    const [pageNum, setPageNum] = useState<number>(0);
-
     const router = useRouter();
-    const { classId } = router.query;
-
-    // fetch user info
+    const { classId, page } = router.query;
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
     const { me, isLoading: isMeLoading } = useMe();
 
     // fetch classInfo from API
@@ -89,7 +88,10 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
           ]
         : me.volunteer.criminalCheckExpired
         ? [
-              <UpdateCriminalCheckForm onNext={nextPage} />,
+              <UpdateCriminalCheckForm
+                  classInfo={classInfo}
+                  onNext={nextPage}
+              />,
               <MediaReleaseForm onNext={nextPage} />,
               <ConfirmClassEnrollment
                   classInfo={classInfo}

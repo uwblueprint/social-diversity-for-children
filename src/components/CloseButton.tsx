@@ -20,5 +20,13 @@ export const CloseButton: React.FC<LinkProps> = ({
         </ChakraLink>
     );
 
-    return href ? <Link href={href}>{button}</Link> : button;
+    return href ? (
+        <Link href={href}>
+            <ChakraLink>
+                <CloseIcon />
+            </ChakraLink>
+        </Link>
+    ) : (
+        button
+    );
 };
