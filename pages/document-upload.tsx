@@ -12,7 +12,7 @@ import { ApprovedIcon } from "@components/icons";
 type DocumentUploadProps = {
     session: Record<string, unknown>;
 };
-export default function documentUpload({
+export default function DocumentUpload({
     session,
 }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
