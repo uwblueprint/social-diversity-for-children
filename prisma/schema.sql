@@ -63,7 +63,8 @@ CREATE TABLE programs (
 CREATE TABLE classes (
   id SERIAL PRIMARY KEY NOT NULL,
   name TEXT, 
-  age_group TEXT, -- classes are always categorized by age group
+  border_age INTEGER NOT NULL, -- represent pivot page in age group
+  is_age_minimal BOOLEAN DEFAULT false NOT NULL, -- determine if border_age is used as "<age> and above" or "<age> and under"
   image_link TEXT,
 
   program_id INTEGER NOT NULL,
@@ -85,6 +86,7 @@ CREATE TABLE classes (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );
+
 -- create parent table
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,

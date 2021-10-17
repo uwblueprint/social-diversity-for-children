@@ -1,26 +1,25 @@
-import Wrapper from "@components/SDCWrapper";
-import { BackButton } from "@components/BackButton";
-import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { CloseButton } from "@components/CloseButton";
+import { Text, Checkbox, Box, Button } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
+import React, { useState } from "react";
+
+type TermsAndConditionsProps = {
+    styleProps?: Record<string, unknown>;
+    onNext: () => void;
+};
 
 /**
  * Terms and conditions page within the class registration process
  * @returns a page component detailing SDC's terms and conditions and offering an option to accept it
  */
-export default function MediaReleaseForm(): JSX.Element {
+export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
+    onNext,
+}): JSX.Element => {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration
     const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
 
     return (
-        <Wrapper>
-            <Flex justifyContent="space-between">
-                <BackButton />
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
+        <>
             <Box>
                 <Text align="left" mt="35px" fontWeight="700" fontSize="36px">
                     Terms {"&"} Conditions
@@ -87,10 +86,11 @@ export default function MediaReleaseForm(): JSX.Element {
                     fontSize="16px"
                     isDisabled={!acceptedTerms}
                     color="white"
+                    onClick={onNext}
                 >
                     Next
                 </Button>
             </Box>
-        </Wrapper>
+        </>
     );
-}
+};

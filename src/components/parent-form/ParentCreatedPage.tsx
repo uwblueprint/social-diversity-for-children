@@ -6,15 +6,17 @@ import {
     Flex,
     Progress,
     Text,
-    Link,
+    Link as ChakraLink,
     Button,
     VStack,
     Spinner,
 } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
+import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
+import Link from "next/link";
 
 type ParentCreatedPageProps = {
     successful: string;
@@ -99,6 +101,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
             ) : (
                 <Center>
                     <VStack mt={120} mb={180} spacing={50}>
+                        <ApprovedIcon />
                         <Text fontWeight="700" fontSize="24px" align="center">
                             {successful === "success"
                                 ? "Account created successfully"
@@ -109,24 +112,25 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                 ? "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!"
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
-                        <Link
-                            _hover={{ textDecoration: "none" }}
-                            _focus={{}}
-                            href="/"
-                        >
-                            <Button
-                                color={"white"}
-                                bg={"#0C53A0"}
-                                px={10}
-                                _hover={{
-                                    bg: "#2C6AAD",
-                                }}
-                                _active={{}}
-                                fontWeight={"200"}
-                                borderRadius={100}
+                        <Link href="/">
+                            <ChakraLink
+                                _hover={{ textDecoration: "none" }}
+                                _focus={{}}
                             >
-                                Browse Classes
-                            </Button>
+                                <Button
+                                    color={"white"}
+                                    bg={"#0C53A0"}
+                                    px={10}
+                                    _hover={{
+                                        bg: colourTheme.colors.LightBlue,
+                                    }}
+                                    _active={{}}
+                                    fontWeight={"200"}
+                                    borderRadius="6px"
+                                >
+                                    Browse Classes
+                                </Button>
+                            </ChakraLink>
                         </Link>
                     </VStack>
                 </Center>

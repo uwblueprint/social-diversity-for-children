@@ -1,13 +1,16 @@
 import React from "react";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { EnrollmentList } from "@components/EnrollmentList";
-import { useRouter } from "next/router";
 import { VolunteeringList } from "@components/VolunteeringList";
 import { roles } from ".prisma/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import useMe from "@utils/useMe";
+import { Loading } from "@components/Loading";
+import { useRouter } from "next/router";
 
 type ClassProps = {
     session: Record<string, unknown>;
@@ -17,6 +20,21 @@ type ClassProps = {
  * This is the page that a user will see their registered classes
  */
 function Class({ session }: ClassProps): JSX.Element {
+    const { me, isLoading, error } = useMe();
+    const router = useRouter();
+
+    if (error) {
+        return <Box>{"An error has occurred: " + error.toString()}</Box>;
+    } else if (isLoading) {
+        return <Loading />;
+    }
+
+    // Stop and inform user to fill out information
+    if (me.role === null) {
+        router.push("/signup");
+        return <Loading />;
+    }
+
     return (
         <Wrapper session={session}>
             <BackButton />
@@ -24,8 +42,8 @@ function Class({ session }: ClassProps): JSX.Element {
                 <Flex align="center">
                     <Heading mb={8}>My Classes</Heading>
                 </Flex>
-                {session.role === roles.PARENT ? <EnrollmentList /> : null}
-                {session.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
+                {me.role === roles.PARENT ? <EnrollmentList /> : null}
+                {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
             </Flex>
         </Wrapper>
     );
@@ -36,13 +54,11 @@ export default Class;
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
-    if (!session || !session.role) {
+    if (!session) {
         return {
             redirect: {
                 destination: "/login",
@@ -52,6 +68,9 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

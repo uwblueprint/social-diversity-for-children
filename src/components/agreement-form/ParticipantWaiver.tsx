@@ -1,28 +1,25 @@
-import Wrapper from "@components/SDCWrapper";
-import { BackButton } from "@components/BackButton";
-import { Flex, Button, Text, Checkbox, Box } from "@chakra-ui/react";
+import { Text, Checkbox, Box, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { CloseButton } from "@components/CloseButton";
-import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
+
+type ParticipantWaiverProps = {
+    styleProps?: Record<string, unknown>;
+    onNext: () => void;
+};
 
 /**
  * Participant waiver page within the class registration process
  * @returns a page component providing SDC's participant waiver and offering an option to accept it
  */
-export default function MediaReleaseForm(): JSX.Element {
+export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({
+    onNext,
+}): JSX.Element => {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration
     const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
-    const router = useRouter();
 
     return (
-        <Wrapper>
-            <Flex justifyContent="space-between">
-                <BackButton />
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
+        <>
             <Box>
                 <Text align="left" mt="35px" fontWeight="700" fontSize="36px">
                     Participant Waiver
@@ -65,11 +62,11 @@ export default function MediaReleaseForm(): JSX.Element {
                     fontSize="16px"
                     isDisabled={!acceptedTerms}
                     color="white"
-                    onClick={() => router.push("/terms-and-conditions")}
+                    onClick={onNext}
                 >
                     Next
                 </Button>
             </Box>
-        </Wrapper>
+        </>
     );
-}
+};

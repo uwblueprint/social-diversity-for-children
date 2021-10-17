@@ -24,6 +24,9 @@ import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { VolunteeringCardInfo } from "@models/Enroll";
 import { deleteVolunteerRegistration } from "@utils/deleteVolunteerRegistration";
+import { useRouter } from "next/router";
+import { locale } from "@prisma/client";
+import { useTranslation } from "next-i18next";
 
 type VolunteeringCardProps = {
     volunteeringInfo: VolunteeringCardInfo;
@@ -37,6 +40,9 @@ type VolunteeringCardProps = {
 export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
     volunteeringInfo,
 }) => {
+    const router = useRouter();
+    const { t } = useTranslation();
+
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             <GridItem>
@@ -58,22 +64,30 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
-                                    {weekdayToString(
-                                        volunteeringInfo.class.weekday,
-                                    )}
-                                    {"s "}
+                                    {t("time.weekday_many", {
+                                        day: weekdayToString(
+                                            volunteeringInfo.class.weekday,
+                                            router.locale as locale,
+                                        ),
+                                    })}{" "}
                                     {convertToShortTimeRange(
                                         volunteeringInfo.class.startTimeMinutes,
                                         volunteeringInfo.class.durationMinutes,
                                     )}
-                                    {" with Teacher " +
-                                        volunteeringInfo.class.teacherName}
+                                    {" with " +
+                                        t("program.teacherName", {
+                                            name: volunteeringInfo.class
+                                                .teacherName,
+                                        })}
                                 </Text>
                                 <Text>
-                                    {convertToShortDateRange(
-                                        volunteeringInfo.class.startDate,
-                                        volunteeringInfo.class.endDate,
-                                    )}
+                                    {t("time.range", {
+                                        ...convertToShortDateRange(
+                                            volunteeringInfo.class.startDate,
+                                            volunteeringInfo.class.endDate,
+                                            router.locale as locale,
+                                        ),
+                                    })}
                                 </Text>
                             </Box>
                         </Box>
@@ -84,7 +98,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                                 color={"white"}
                                 mx={"auto"}
                                 my={2}
-                                borderRadius={6}
+                                borderRadius="6px"
                                 onClick={() => alert("Joining Zoom meeting...")}
                                 fontWeight={"normal"}
                                 _hover={{

@@ -63,7 +63,7 @@ const FormButton = (props) => {
             onClick={props.onClick}
             my={8}
             px={12}
-            borderRadius={100}
+            borderRadius="6px"
         >
             {props.children}
         </Button>
@@ -192,7 +192,7 @@ export default function VolunteerInfo({
                             setPageNum((prevPage) => prevPage + 1);
                             updateUserAndClearForm();
                         }}
-                        borderRadius={100}
+                        borderRadius="6px"
                     >
                         Skip for Now
                     </Button>
@@ -235,12 +235,8 @@ export default function VolunteerInfo({
             body: JSON.stringify(userData),
         };
         const response = await fetch("/api/user", request);
-        if (response.ok) {
-            const updatedUserData = await response.json();
-            return updatedUserData;
-        } else {
-            return null;
-        }
+        const updatedUserData = await response.json();
+        return updatedUserData;
     }
 
     async function updateUserAndClearForm() {

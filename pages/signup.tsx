@@ -1,8 +1,12 @@
 import { Button, Box, Center, Text } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import colourTheme from "@styles/colours";
+import useMe from "@utils/useMe";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Loading } from "@components/Loading";
 
 /**
  * This is the page that a user will use to either login or register
@@ -21,21 +25,16 @@ export default function Signupform(): JSX.Element {
         return url === path;
     };
 
-    async function checkUserSession() {
-        const request = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        const response = await fetch("/api/user/me/", request).then(
-            //To get the body do response.json()
-            (response) => response,
-        );
-        if (!response.ok) {
-            router.push("/login").then(() => window.scrollTo(0, 0));
-        }
+    // Redirect user if user already signed up
+    const { me, isLoading } = useMe();
+
+    if (isLoading) {
+        return <Loading />;
     }
 
-    checkUserSession();
+    if (me && me.role) {
+        router.push("/");
+    }
 
     return (
         <Wrapper>
@@ -126,3 +125,24 @@ export default function Signupform(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};

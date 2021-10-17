@@ -16,6 +16,12 @@ export default async function handle(
 
     switch (req.method) {
         case "GET": {
+            // If no session, return unauthorized error
+            if (!session) {
+                ResponseUtil.returnUnauthorized(res, "No session");
+                return;
+            }
+
             // This should be a me query
             if (!session) {
                 ResponseUtil.returnBadRequest(res, "Invalid Session");

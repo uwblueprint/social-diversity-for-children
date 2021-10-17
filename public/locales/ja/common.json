@@ -1,4 +1,23 @@
 {
-    "parents": "ペアレント",
-    "volunteers": "ボランティア"
+    "home": {
+        "parents": "Parents",
+        "volunteers": "Volunteers",
+        "welcome": "Welcome to SDC",
+        "registration": "Registration for Summer 2021 classes begins June 31, 2021!",
+        "parentBrowse": "Browse through programs below and then select a class with the date and time of your choice! We make sure that 100% of our participants’ demonstrated needs are met.",
+        "volunteerBrowse": "Volunteering with SDC is simple and easy! Get started with volunteering with SDC by creating an account to volunteer and then selecting the program you want to volunteer for.",
+        "registerNow": "Register now",
+        "browseProgram": "Browse programs"
+    },
+    "program": {
+        "signInToRegister": "Sign in to register/volunteer",
+        "classDetails": "Class Details",
+        "ageGroupUnder": "Ages {{age}} and under",
+        "ageGroupAbove": "Ages {{age}} and above",
+        "teacherName": "Teacher {{name}}"
+    },
+    "time": {
+        "range": "{{start}} to {{end}}",
+        "weekday_many": "{{day}}s"
+    }
 }
