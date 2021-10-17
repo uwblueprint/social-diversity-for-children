@@ -103,7 +103,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
 
     switch (userInput.role) {
         case roles.PARENT: {
-            if (!user || user.role !== roles.PARENT) {
+            if (user.role && user.role !== roles.PARENT) {
                 // TODO: add error message
                 return;
             }
@@ -240,7 +240,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
             break;
         }
         case roles.PROGRAM_ADMIN: {
-            if (!user || user.role !== roles.PROGRAM_ADMIN) {
+            if (user.role && user.role !== roles.PROGRAM_ADMIN) {
                 // TODO: add error message
                 return;
             }
@@ -259,7 +259,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
             break;
         }
         case roles.VOLUNTEER: {
-            if (!user || user.role !== roles.VOLUNTEER) {
+            if (user.role && user.role !== roles.VOLUNTEER) {
                 // TODO: add error message
                 return;
             }
