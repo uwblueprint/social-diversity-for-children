@@ -9,7 +9,7 @@ import {
     Link as ChakraLink,
     Button,
     VStack,
-    Spinner,
+    Loading,
 } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
