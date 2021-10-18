@@ -9,7 +9,6 @@ import {
     Link as ChakraLink,
     Button,
     VStack,
-    Loading,
 } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
@@ -17,6 +16,7 @@ import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
+import { Loading } from "@components/Loading";
 
 type ParentCreatedPageProps = {
     successful: string;
