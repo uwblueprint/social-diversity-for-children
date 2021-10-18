@@ -81,7 +81,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     name={"Date Of Birth"}
                     value={props.dateOfBirth}
                     setValue={props.setDateOfBirth}
-                ></DateField>
+                />
                 <br />
                 <TextField
                     name="Street Address"
