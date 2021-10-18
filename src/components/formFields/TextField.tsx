@@ -14,6 +14,7 @@ type Props = {
     placeholder?: string;
     required?: boolean;
     longAnswer?: boolean;
+    edit?: boolean;
 };
 
 export const TextField: React.FC<Props> = ({
@@ -23,16 +24,20 @@ export const TextField: React.FC<Props> = ({
     placeholder,
     required = true,
     longAnswer = false,
+    edit = true,
 }): JSX.Element => {
     const [interactedWith, setInteractedWith] = useState(false);
+
     return (
         <FormControl
             style={longAnswer ? { height: "160px" } : { height: "50px" }}
-            isRequired={required}
-            isInvalid={!value && required && interactedWith}
+            isRequired={required && edit}
+            isInvalid={!value && required && interactedWith && edit}
         >
             <FormLabel>{name}</FormLabel>
-            {longAnswer ? (
+            {!edit ? (
+                <p>{value}</p>
+            ) : longAnswer ? (
                 <Textarea
                     placeholder={placeholder}
                     size="sm"

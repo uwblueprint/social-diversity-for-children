@@ -1,39 +1,16 @@
 import Wrapper from "@components/SDCWrapper";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     MdPersonOutline,
     MdAccountCircle,
     MdArticle,
     MdLogout,
 } from "react-icons/md";
-import {
-    Box,
-    Text,
-    FormLabel,
-    FormControl,
-    Input,
-    HStack,
-    VStack,
-    Select,
-    Button,
-    FormErrorMessage,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-import colourTheme from "@styles/colours";
-import { testCanadianPostalCode } from "@utils/validation/fields";
-import { province } from "@models/User";
-import { PostalCodeField } from "@components/formFields/PostalCodeField";
-import { TextField } from "@components/formFields/TextField";
-import { ProvinceField } from "@components/formFields/ProvinceField";
-import { DateField } from "@components/formFields/DateField";
-import validator from "validator";
 import useMe from "@utils/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
-import { VolunteerInfo } from "@components/myAccounts/ParticipantInformation";
+import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
 
 /**
@@ -43,76 +20,110 @@ export default function MyAccount(): JSX.Element {
     // Redirect user if user already signed up
     const { me, isLoading } = useMe();
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
     console.log(me);
 
     const [sideBarPage, setSideBarPage] = useState(0);
+    const [editing, setEditing] = useState(false);
+
+    const [sideBar, setSideBar] = useState([]);
+
+    const saveParticipant = (participant) => {};
+    const saveGuardian = (participant) => {};
+    const saveVolunteer = (volunteer) => {};
 
     //The page will be rendered differently based on if the user is a parent or volunteer
 
-    //Generate the side bar
-    const SideBar = [];
-    if (me.role === "PARENT") {
-        me.parent.students.forEach((student) => {
-            const option = {
-                name: student.firstName + " " + student.lastName,
-                icon: <MdAccountCircle size={35} />,
-                type: "PARTICIPANT",
-                title: "Personal Information",
-                header: "General Information",
-            };
-            SideBar.push(option);
-        });
-        SideBar.push({
-            name: "",
-            icon: <MdPersonOutline size={35} />,
-            title: "Guardian Information",
-            header: "Guardian Information",
-        });
-        SideBar.push({
-            name: "",
-            icon: <MdArticle size={35} />,
-            title: "Proof of Income",
-            header: "Proof of Income",
-        });
-        SideBar.push({
-            name: "",
-            icon: <MdLogout size={35} />,
-            title: "log out",
-        });
-    } else {
-        SideBar.push({
-            name: "",
-            icon: <MdPersonOutline size={35} />,
-            title: "Participant Information",
-            header: "Participant Information",
-        });
-        SideBar.push({
-            name: "",
-            icon: <MdArticle size={35} />,
-            title: "Criminal Record Check",
-            header: "Criminal Record Check",
-        });
-        SideBar.push({
-            name: "",
-            icon: <MdLogout size={35} />,
-            onChange: null,
-            title: "log out",
-        });
-        //volunteer
+    console.log(editing);
+
+    useEffect(() => {
+        if (!me || isLoading) {
+            return;
+        }
+        //Generate the side bar
+        const SideBar = [];
+        if (me.role === "PARENT") {
+            me.parent.students.forEach((student) => {
+                const option = {
+                    name: student.firstName + " " + student.lastName,
+                    icon: <MdAccountCircle size={35} />,
+                    type: "PARTICIPANT",
+                    title: "Personal Information",
+                    header: "General Information",
+                    component: (
+                        <ParticipantInfo
+                            props={{
+                                student: student,
+                                save: saveParticipant,
+                                edit: editing,
+                            }}
+                        />
+                    ),
+                };
+                SideBar.push(option);
+            });
+            SideBar.push({
+                name: "",
+                icon: <MdPersonOutline size={35} />,
+                title: "Guardian Information",
+                header: "Guardian Information",
+                component: (
+                    <GuardianInfo
+                        props={{
+                            me: me.parent,
+                            save: saveGuardian,
+                            edit: editing,
+                        }}
+                    />
+                ),
+            });
+            SideBar.push({
+                name: "",
+                icon: <MdArticle size={35} />,
+                title: "Proof of Income",
+                header: "Proof of Income",
+            });
+            SideBar.push({
+                name: "",
+                icon: <MdLogout size={35} />,
+                title: "log out",
+            });
+        } else {
+            SideBar.push({
+                name: "",
+                icon: <MdPersonOutline size={35} />,
+                title: "Participant Information",
+                header: "Personal Information",
+                component: (
+                    <VolunteerInfo
+                        props={{
+                            me: me.volunteer,
+                            save: saveGuardian,
+                            edit: editing,
+                        }}
+                    />
+                ),
+            });
+            SideBar.push({
+                name: "",
+                icon: <MdArticle size={35} />,
+                title: "Criminal Record Check",
+                header: "Criminal Record Check",
+            });
+            SideBar.push({
+                name: "",
+                icon: <MdLogout size={35} />,
+                onChange: null,
+                title: "log out",
+            });
+            //volunteer
+        }
+        setSideBar(SideBar);
+    }, [me, editing]);
+
+    //Wait for the user to load
+    if (isLoading) {
+        return <Loading />;
     }
-
-    const props = {};
-    const router = useRouter();
-
-    const [editing, setEditing] = useState(false);
-
-    const save = () => {};
-
-    console.log(sideBarPage);
 
     return (
         <Wrapper>
@@ -127,7 +138,7 @@ export default function MyAccount(): JSX.Element {
                     >
                         {"My Account"}
                     </text>
-                    {SideBar.map((option, i) => (
+                    {sideBar.map((option, i) => (
                         <Box
                             key={i}
                             onClick={() => setSideBarPage(i)}
@@ -160,16 +171,17 @@ export default function MyAccount(): JSX.Element {
                         <Box style={{ display: "flex", alignItems: "center" }}>
                             {" "}
                             <text style={{ fontWeight: 700, fontSize: 24 }}>
-                                {SideBar[sideBarPage].header}
+                                {sideBar[sideBarPage]?.header}
                             </text>
                             <a
                                 onClick={() => setEditing(!editing)}
                                 style={{ marginLeft: 183 }}
                             >
                                 {" "}
-                                Edit
+                                {editing ? "Cancel" : "Edit"}
                             </a>
                         </Box>
+                        {sideBar[sideBarPage]?.component}
                     </Box>
                 </Box>
             </Box>

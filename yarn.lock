@@ -977,11 +977,13 @@
   "version" "1.0.3"
 
 "@next-auth/prisma-legacy-adapter@0.0.1-canary.127":
+  "integrity" "sha512-Pd2Y8b1ibDywrndbj3751VNKv1mVcg2w0uNIi01EBVkm5pqA1X+VnKWbPeHfh4arLYw93RPCvfLbWBZS7J1gZQ=="
   "version" "0.0.1-canary.127"
   dependencies:
     "@babel/runtime" "^7.14.0"
 
 "@next-auth/typeorm-legacy-adapter@0.0.2-canary.129":
+  "integrity" "sha512-xEGz3TzBzz+5nXQ6BnC++KGfxTOAgztL32ZRLq47UKz9M0kFBP6pCMJjTszltsBHYUI/Wac2IG2egMTpHtppiQ=="
   "version" "0.0.2-canary.129"
   dependencies:
     "@babel/runtime" "^7.14.0"

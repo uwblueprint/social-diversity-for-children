@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { HStack, Button, Box, Text } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import validator from "validator";
-import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { PostalCodeField } from "@components/formFields/PostalCodeField";
 import { TextField } from "@components/formFields/TextField";
 import { ProvinceField } from "@components/formFields/ProvinceField";
 import { DateField } from "@components/formFields/DateField";
+import "react-datepicker/dist/react-datepicker.css";
 
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
@@ -15,24 +15,34 @@ type ParticipantPageProps = {
 
 type ParticipantInfo = {
     student: any;
+    save: (participant: string) => void;
+    edit: boolean;
 };
 export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
     props,
 }): JSX.Element => {
-    const [dateOfBirth, setDateOfBirth] = useState(null);
-    const [address1, setAddress1] = useState(null);
-    const [address2, setAddress2] = useState(null);
-    const [city, setCity] = useState(null);
-    const [participantProvince, setParticipantProvince] = useState(null);
-    const [postalCode, setPostalCode] = useState(null);
-    const [school, setSchool] = useState(null);
-    const [grade, setGrade] = useState(null);
+    console.log(props.student);
+    const [dateOfBirth, setDateOfBirth] = useState(props.student.dateOfBirth);
+    const [address1, setAddress1] = useState(props.student.addressLine1);
+    const [address2, setAddress2] = useState(props.student.addressLine2);
+    const [city, setCity] = useState(props.student.cityName);
+    const [participantProvince, setParticipantProvince] = useState(
+        props.student.province,
+    );
+    const [postalCode, setPostalCode] = useState(props.student.postalCode);
+    const [school, setSchool] = useState(props.student.school);
+    const [grade, setGrade] = useState(props.student.grade);
     const [participantFirstName, setParticipantFirstName] = useState(
         props.student.firstName,
     );
     const [participantLastName, setParticipantLastName] = useState(
         props.student.lastName,
     );
+
+    const save = () => {
+        //Put into proper format
+        //Call parent props.save(data)
+    };
 
     return (
         <>
@@ -50,11 +60,13 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         name="First Name"
                         value={participantFirstName}
                         setValue={setParticipantFirstName}
+                        edit={props.edit}
                     ></TextField>
                     <TextField
                         name="Last Name"
                         value={participantLastName}
                         setValue={setParticipantLastName}
+                        edit={props.edit}
                     ></TextField>
                 </HStack>
                 <br />
@@ -62,6 +74,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     name={"Date Of Birth"}
                     value={dateOfBirth}
                     setValue={setDateOfBirth}
+                    edit={props.edit}
                 />
                 <br />
                 <br />
@@ -70,6 +83,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     value={address1}
                     setValue={setAddress1}
                     placeholder="815 Hornby St."
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <br />
@@ -79,6 +93,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     setValue={setAddress2}
                     placeholder="815 Hornby St."
                     required={false}
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <HStack spacing="24px" style={{ height: 100 }}>
@@ -87,16 +102,19 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         value={city}
                         setValue={setCity}
                         placeholder="Vancouver"
+                        edit={props.edit}
                     ></TextField>
                     <ProvinceField
                         name="Province"
                         value={participantProvince}
                         setValue={setParticipantProvince}
+                        edit={props.edit}
                     ></ProvinceField>
                     <PostalCodeField
                         value={postalCode}
                         setValue={setPostalCode}
                         name="Postal Code"
+                        edit={props.edit}
                     ></PostalCodeField>
                 </HStack>
                 <br />
@@ -106,6 +124,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     setValue={setSchool}
                     placeholder="Vancouver"
                     required={false}
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <br />
@@ -115,31 +134,34 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     setValue={setGrade}
                     placeholder="5"
                     required={false}
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <Box>
-                    <Button
-                        id="Submit"
-                        bg={colourTheme.colors.Blue}
-                        color={"white"}
-                        fontWeight="400"
-                        my={8}
-                        px={12}
-                        borderRadius={100}
-                        mt={8}
-                        disabled={
-                            !participantFirstName ||
-                            !participantLastName ||
-                            !dateOfBirth ||
-                            !address1 ||
-                            !city ||
-                            !participantProvince ||
-                            !validator.isPostalCode(postalCode, "CA")
-                        }
-                        onClick={save}
-                    >
-                        Save Changes
-                    </Button>
+                    {props.edit ? (
+                        <Button
+                            id="Submit"
+                            bg={colourTheme.colors.Blue}
+                            color={"white"}
+                            fontWeight="400"
+                            my={8}
+                            px={12}
+                            borderRadius={100}
+                            mt={8}
+                            disabled={
+                                !participantFirstName ||
+                                !participantLastName ||
+                                !dateOfBirth ||
+                                !address1 ||
+                                !city ||
+                                !participantProvince ||
+                                !validator.isPostalCode(postalCode, "CA")
+                            }
+                            onClick={save}
+                        >
+                            Save Changes
+                        </Button>
+                    ) : null}
                 </Box>
             </>
         </>
