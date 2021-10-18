@@ -6,13 +6,14 @@ import {
     CloseButton,
     Flex,
     Heading,
-    Link,
+    Link as ChakraLink,
     Text,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import InfoIcon from "@components/icons/InfoIcon";
 import { roles } from "@prisma/client";
 import { UseMeResponse } from "@utils/useMe";
+import Link from "next/link";
 
 type MissingDocAlertProps = {
     me?: UseMeResponse["me"];
@@ -93,22 +94,26 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                     <Box w="25%">
                         <Flex direction="column" align="center">
                             <Link href="/myaccounts">
-                                <Button
-                                    color="white"
-                                    backgroundColor={colourTheme.colors.Blue}
-                                    _hover={{
-                                        backgroundColor:
-                                            colourTheme.colors.LightBlue,
-                                    }}
-                                    size="sm"
-                                    py={5}
-                                    width="120%"
-                                    textDecoration="none"
-                                    borderRadius="6px"
-                                    fontWeight={"200"}
-                                >
-                                    View Details
-                                </Button>
+                                <ChakraLink _hover={{ textDecoration: "none" }}>
+                                    <Button
+                                        color="white"
+                                        backgroundColor={
+                                            colourTheme.colors.Blue
+                                        }
+                                        _hover={{
+                                            backgroundColor:
+                                                colourTheme.colors.LightBlue,
+                                        }}
+                                        size="sm"
+                                        py={5}
+                                        width="120%"
+                                        textDecoration="none"
+                                        borderRadius="6px"
+                                        fontWeight={"200"}
+                                    >
+                                        View Details
+                                    </Button>
+                                </ChakraLink>
                             </Link>
                         </Flex>
                     </Box>
