@@ -1,45 +1,45 @@
-import { TeacherReg } from ".prisma/client";
+import { VolunteerReg } from ".prisma/client";
 import prisma from "../../services/database"; // Relative path required, aliases throw error using seed
 
-// Seed teacher registrations data
-const teacherRegs: TeacherReg[] = [
+// Seed volunteer registrations data
+const volunteerRegs: VolunteerReg[] = [
     {
-        teacherId: 1,
+        volunteerId: 3,
         classId: 1,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
-        teacherId: 1,
-        classId: 3,
+        volunteerId: 5,
+        classId: 1,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
-        teacherId: 2,
-        classId: 2,
+        volunteerId: 7,
+        classId: 1,
         createdAt: new Date(),
         updatedAt: null,
     },
 ];
 
 /**
- * Upsert teachers registrations
+ * Upsert volunteer registrations
  * @param data custom data to upsert
  */
-export default async function teacherRegUpsert(
-    data?: TeacherReg[],
+export default async function volunteerRegUpsert(
+    data?: VolunteerReg[],
 ): Promise<void> {
-    for (const teacherReg of data || teacherRegs) {
-        const { teacherId, classId, updatedAt, ...rest } = teacherReg;
-        await prisma.teacherReg
+    for (const volunteerReg of data || volunteerRegs) {
+        const { volunteerId, classId, updatedAt, ...rest } = volunteerReg;
+        await prisma.volunteerReg
             .upsert({
                 where: {
-                    classId_teacherId: { classId, teacherId },
+                    volunteerId_classId: { volunteerId, classId },
                 },
                 update: rest,
                 create: {
-                    teacherId,
+                    volunteerId,
                     classId,
                     updatedAt,
                     ...rest,
