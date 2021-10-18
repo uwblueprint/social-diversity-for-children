@@ -1,17 +1,13 @@
 import { ssm } from "services/aws/index";
 
-const getParams = (param: string): string => {
-    ssm.getParameter(
-        {
+const getParams = async (param: string): Promise<string> => {
+    const request = await ssm
+        .getParameter({
             Name: param,
-        },
-        (err, data) => {
-            if (data?.Parameter) {
-                console.log(data.Parameter);
-                return data.Parameter.Value;
-            }
-        },
-    );
+        })
+        .promise();
+
+    return request.Parameter.Value;
 };
 
 export default getParams;

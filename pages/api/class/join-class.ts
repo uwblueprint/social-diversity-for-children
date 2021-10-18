@@ -14,12 +14,11 @@ export default async function handle(
     const zoomLinkParamsStoreKeyName = "zoom-class-link";
 
     switch (req.method) {
-        case "GET":
-            {
-                const zoomLink = getParams(zoomLinkParamsStoreKeyName);
-                ResponseUtil.returnOK(res, zoomLink);
-            }
+        case "GET": {
+            const zoomLink = await getParams(zoomLinkParamsStoreKeyName);
+            ResponseUtil.returnOK(res, zoomLink);
             break;
+        }
         default: {
             const allowedHeaders: string[] = ["GET"];
             ResponseUtil.returnMethodNotAllowed(

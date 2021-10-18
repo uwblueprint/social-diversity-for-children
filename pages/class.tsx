@@ -11,6 +11,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useMe from "@utils/useMe";
 import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
+// import useGetZoomLink from "@utils/useGetZoomLink";
 
 type ClassProps = {
     session: Record<string, unknown>;
@@ -20,12 +21,12 @@ type ClassProps = {
  * This is the page that a user will see their registered classes
  */
 function Class({ session }: ClassProps): JSX.Element {
-    const { me, isLoading, error } = useMe();
+    const { me, isLoading: isMeLoading, error: meError } = useMe();
     const router = useRouter();
 
-    if (error) {
-        return <Box>{"An error has occurred: " + error.toString()}</Box>;
-    } else if (isLoading) {
+    if (meError) {
+        return <Box>{"An error has occurred"}</Box>;
+    } else if (isMeLoading) {
         return <Loading />;
     }
 

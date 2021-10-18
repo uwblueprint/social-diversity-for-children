@@ -20,7 +20,7 @@ const s3 = new aws.S3();
 
 // Set up SSM to access Paramter Store for Zoom link
 const ssm = new aws.SSM({
-    apiVersion: "2010-12-01",
+    apiVersion: "2014-11-06",
     region: "us-east-1",
 });
 
