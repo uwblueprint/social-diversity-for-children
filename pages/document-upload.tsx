@@ -17,6 +17,7 @@ export default function documentUpload({
 }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
     let { type } = router.query;
+    const { redirect } = router.query;
     // sends file to other folder if type is not valid
     type = type && type.length > 0 ? type : "other";
 
@@ -132,7 +133,7 @@ export default function documentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton />
+                <CloseButton href={`${redirect as string}`} />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">
