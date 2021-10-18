@@ -97,7 +97,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                     </Box>
                 </Center>
             ) : successful === "pending" ? (
-                <Spinner />
+                <Loading />
             ) : (
                 <Center>
                     <VStack mt={120} mb={180} spacing={50}>
