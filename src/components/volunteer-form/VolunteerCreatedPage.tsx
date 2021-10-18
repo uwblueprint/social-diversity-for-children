@@ -94,7 +94,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                     </Box>
                 </Center>
             ) : successful === "pending" ? (
-                <Spinner />
+                <Loading />
             ) : (
                 <Center>
                     <VStack mt={120} mb={180} spacing={50}>
