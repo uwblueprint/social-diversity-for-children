@@ -23,8 +23,16 @@ export default async function handle(
             }
 
             // This should be a me query
-            const user = await getUserFromEmail(session.user.email);
+            if (!session) {
+                ResponseUtil.returnBadRequest(res, "Invalid Session");
+            }
+            const user = await getUserFromEmail(session?.user.email);
+            if (!user) {
+                ResponseUtil.returnBadRequest(res, "Invalid User");
+            }
+
             ResponseUtil.returnOK(res, user);
+
             break;
         }
         default: {

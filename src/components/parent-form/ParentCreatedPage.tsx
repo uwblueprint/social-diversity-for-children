@@ -16,8 +16,10 @@ import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
+import { Loading } from "@components/Loading";
 
 type ParentCreatedPageProps = {
+    successful: string;
     styleProps?: Record<string, unknown>;
     session: Record<string, unknown>;
     pageNum: number;
@@ -32,6 +34,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
     setPageNum,
     totalPages,
     formPages,
+    successful,
 }): JSX.Element => {
     const progressBarIncrement = Math.ceil(100 / totalPages);
     const getProgressBarValue = (pageNum) =>
@@ -93,16 +96,21 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                         </Stack>
                     </Box>
                 </Center>
+            ) : successful === "pending" ? (
+                <Loading />
             ) : (
                 <Center>
                     <VStack mt={120} mb={180} spacing={50}>
                         <ApprovedIcon />
                         <Text fontWeight="700" fontSize="24px" align="center">
-                            Account created successfully
+                            {successful === "success"
+                                ? "Account created successfully"
+                                : "Error: Account not Created"}
                         </Text>
                         <Text maxW={512} textAlign="center">
-                            Your account has been successfully created. Click
-                            the button below to start browsing classes!
+                            {successful === "success"
+                                ? "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!"
+                                : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">
                             <ChakraLink

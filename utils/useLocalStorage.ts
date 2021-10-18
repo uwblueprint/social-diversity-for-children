@@ -7,7 +7,10 @@ import { useState } from "react";
  * @returns [storedValue, setValue]
  * Source: https://usehooks.com/useLocalStorage/
  */
-export default function useLocalStorage(key, initialValue) {
+export default function useLocalStorage<Type>(
+    key: string,
+    initialValue: Type,
+): [Type, (value: Type) => void] {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {
@@ -20,7 +23,6 @@ export default function useLocalStorage(key, initialValue) {
             }
         } catch (error) {
             // If error also return initialValue
-            console.log(error);
             return initialValue;
         }
     });
@@ -39,7 +41,6 @@ export default function useLocalStorage(key, initialValue) {
             }
         } catch (error) {
             // A more advanced implementation would handle the error case
-            console.log(error);
         }
     };
     return [storedValue, setValue];
