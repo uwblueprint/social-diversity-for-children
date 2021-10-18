@@ -1,7 +1,12 @@
 import { Button, Box, Center, Text } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
+import colourTheme from "@styles/colours";
+import useMe from "@utils/useMe";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Loading } from "@components/Loading";
 
 /**
  * This is the page that a user will use to either login or register
@@ -11,6 +16,26 @@ export default function Signupform(): JSX.Element {
     const router = useRouter();
     // hook to hold the url to redirect to
     const [url, setUrl] = useState("");
+
+    const isUrlEmpty = () => {
+        return url === "";
+    };
+
+    const isUrlPath = (path: string) => {
+        return url === path;
+    };
+
+    // Redirect user if user already signed up
+    const { me, isLoading } = useMe();
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (me && me.role) {
+        router.push("/");
+    }
+
     return (
         <Wrapper>
             <Center h="500px" margin="10px">
@@ -27,46 +52,69 @@ export default function Signupform(): JSX.Element {
                     </Center>
                     <Center>
                         <Button
+                            _focus={{ boxShadow: null }}
                             backgroundColor="transparent"
-                            borderColor="brand.400"
+                            opacity={isUrlPath("/parent/signup") ? null : "50%"}
+                            color={
+                                isUrlPath("/parent/signup")
+                                    ? colourTheme.colors.Blue
+                                    : "darkgray"
+                            }
                             width="366px"
                             height="54px"
                             fontSize="16px"
                             fontWeight="400"
-                            border="1px"
+                            border="2px"
                             mt="20px"
                             onClick={() => setUrl("/parent/signup")}
                         >
-                            Parent
+                            <Text color={colourTheme.colors.Blue}>Parent</Text>
                         </Button>
                     </Center>
                     <Center>
                         <Button
+                            _focus={{ boxShadow: null }}
                             backgroundColor="transparent"
                             borderColor="brand.400"
+                            opacity={
+                                isUrlPath("/volunteer/signup") ? null : "50%"
+                            }
+                            color={
+                                isUrlPath("/volunteer/signup")
+                                    ? colourTheme.colors.Blue
+                                    : "darkgray"
+                            }
                             width="366px"
                             height="54px"
                             fontSize="16px"
                             fontWeight="400"
-                            border="1px"
+                            border="2px"
                             mt="20px"
-                            marginBottom="70px"
                             onClick={() => setUrl("/volunteer/signup")}
                         >
-                            Volunteer
+                            <Text color={colourTheme.colors.Blue}>
+                                Volunteer
+                            </Text>
                         </Button>
                     </Center>
                     <Center>
                         <Button
-                            backgroundColor="brand.500"
-                            color="brand.100"
+                            _hover={{
+                                backgroundColor: isUrlEmpty()
+                                    ? null
+                                    : colourTheme.colors.LightBlue,
+                            }}
+                            backgroundColor={
+                                isUrlEmpty() ? "black" : colourTheme.colors.Blue
+                            }
+                            disabled={isUrlEmpty()}
+                            color="white"
                             width="366px"
                             height="44px"
                             fontSize="14px"
                             fontWeight="400"
-                            mt="20px"
+                            mt="120px"
                             padding="5px"
-                            marginTop="100px"
                             onClick={() => router.push(url)}
                         >
                             Next
@@ -77,3 +125,24 @@ export default function Signupform(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};

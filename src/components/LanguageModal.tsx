@@ -71,7 +71,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                             color={"white"}
                             mx={"auto"}
                             my={2}
-                            borderRadius={100}
+                            borderRadius="6px"
                             onClick={() =>
                                 router.push(router.asPath, undefined, {
                                     locale: language,

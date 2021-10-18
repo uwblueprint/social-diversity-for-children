@@ -1,20 +1,19 @@
-import Wrapper from "@components/SDCWrapper";
-import { Flex, Button, Center, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { CloseButton } from "@components/CloseButton";
+import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
+import React, { SetStateAction } from "react";
+import colourTheme from "@styles/colours";
 
-export default function ParentEnrollClass(): JSX.Element {
-    // Next button is disabled by default, activates when a child is selected
-    // Test data to be replaced with children associated with parent during integration
-    const children = ["Christina Ru", "Raewyn Tsai", "Stacy Kwok"];
-    const [selectedChild, setSelectedChild] = useState<string>("");
+type SelectChildForClassProps = {
+    children: string[];
+    selectedChild: number;
+    setSelectedChild: React.Dispatch<SetStateAction<number>>;
+    onNext: () => void;
+};
 
+export default function SelectChildForClass(
+    props: SelectChildForClassProps,
+): JSX.Element {
     return (
-        <Wrapper>
-            <Flex justifyContent="flex-end">
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
+        <Box>
             <Center>
                 <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
                     Program Registration
@@ -33,26 +32,30 @@ export default function ParentEnrollClass(): JSX.Element {
 
             <Center>
                 <VStack spacing={5}>
-                    {children.map((childName) => (
+                    {props.children.map((childName, index) => (
                         <Button
                             _focus={{ boxShadow: null }}
-                            _hover={{ border: "2px solid #0C53A0" }}
+                            _hover={{
+                                border: `2px solid ${colourTheme.colors.Blue} `,
+                            }}
                             backgroundColor={
-                                selectedChild === childName
-                                    ? "#E2E8F0"
+                                props.selectedChild === index
+                                    ? colourTheme.colors.LightGrayBlue
                                     : "white"
                             }
                             lineHeight="24px"
                             fontSize="16px"
                             fontWeight="normal"
-                            textColor="#0C53A0"
+                            textColor={colourTheme.colors.Blue}
                             borderRadius="6px"
                             height="50px"
                             width="340px"
                             key={childName}
-                            onClick={() => setSelectedChild(childName)}
+                            onClick={() => {
+                                props.setSelectedChild(index);
+                            }}
                             border={
-                                selectedChild === childName
+                                props.selectedChild === index
                                     ? null
                                     : "2px solid #E1E1E1"
                             }
@@ -67,15 +70,15 @@ export default function ParentEnrollClass(): JSX.Element {
                     height="50px"
                     width="340px"
                     borderRadius="6px"
-                    background={selectedChild === "" ? "#737373" : "#0C53A0"}
+                    background={colourTheme.colors.Blue}
                     fontWeight="normal"
                     textColor="#FFFFFF"
                     fontSize="16px"
-                    isDisabled={selectedChild === ""}
+                    onClick={props.onNext}
                 >
                     Next
                 </Button>
             </Center>
-        </Wrapper>
+        </Box>
     );
 }

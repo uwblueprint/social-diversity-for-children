@@ -1,21 +1,16 @@
 import prisma from "@database";
-import { locale } from "@prisma/client";
 
 /**
  * @param {string} id - programId
  */
-async function getClassInfoWithProgramId(id: string, language: locale) {
+async function getClassInfoWithProgramId(id: string) {
     const findResults = await prisma.class.findMany({
         where: {
             programId: parseInt(id),
             isArchived: false,
         },
         include: {
-            classTranslation: {
-                where: {
-                    language: language,
-                },
-            },
+            classTranslation: true,
             teacherRegs: {
                 include: {
                     teacher: {
@@ -33,17 +28,13 @@ async function getClassInfoWithProgramId(id: string, language: locale) {
 /**
  * Get every program's card info
  */
-async function getProgramCardInfos(language: locale) {
+async function getProgramCardInfos() {
     const findResult = await prisma.program.findMany({
         where: {
             isArchived: false,
         },
         include: {
-            programTranslation: {
-                where: {
-                    language: language,
-                },
-            },
+            programTranslation: true,
         },
     });
     return findResult;
@@ -53,17 +44,13 @@ async function getProgramCardInfos(language: locale) {
  * Get the card info for one program with given id
  * @param {string} id - programId
  */
-async function getProgramCardInfo(id: string, language: locale) {
+async function getProgramCardInfo(id: string) {
     const findResult = await prisma.program.findUnique({
         where: {
             id: parseInt(id),
         },
         include: {
-            programTranslation: {
-                where: {
-                    language: language,
-                },
-            },
+            programTranslation: true,
         },
     });
 

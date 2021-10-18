@@ -1,10 +1,17 @@
 import React from "react";
-import { Box, Flex, HStack, Link, useColorModeValue } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    HStack,
+    Link as ChakraLink,
+    useColorModeValue,
+} from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
 import { ReactNode } from "react";
 import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 type NavbarProps = {
     session?: Record<string, unknown>;
@@ -13,25 +20,20 @@ type NavbarProps = {
 
 const Links = [
     { name: "Browse Programs", url: "/" },
-    { name: "My Classes", url: "#" },
+    { name: "My Classes", url: "/class" },
 ];
 
-const NavLink = ({
-    href,
-    children,
-}: {
-    href?: string;
-    children: ReactNode;
-}) => (
-    <Link
-        px={8}
-        py={1}
-        rounded={"md"}
-        _focus={{}}
-        href={href}
-        textUnderlineOffset={"0.5em"}
-    >
-        {children}
+const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
+    <Link href={href}>
+        <ChakraLink
+            px={8}
+            py={1}
+            rounded={"md"}
+            _focus={{}}
+            textUnderlineOffset={"0.5em"}
+        >
+            {children}
+        </ChakraLink>
     </Link>
 );
 
@@ -40,7 +42,7 @@ export const DEFAULT_NAVBAR_HEIGHT = 16;
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const router = useRouter();
     const accountButton = props.session ? (
-        <NavLink>My Account</NavLink>
+        <NavLink href="/myaccounts">My Account</NavLink>
     ) : (
         <SignInButton />
     );
@@ -55,8 +57,10 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                     >
                         <HStack spacing={8} alignItems={"center"}>
                             <Box>
-                                <Link href={"/"} _focus={{}}>
-                                    <SdcLogoBlue />
+                                <Link href="/">
+                                    <ChakraLink _focus={{}}>
+                                        <SdcLogoBlue />
+                                    </ChakraLink>
                                 </Link>
                             </Box>
                             <HStack

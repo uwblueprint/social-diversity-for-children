@@ -6,8 +6,50 @@ import {
 import { ParentReg, VolunteerReg } from "@prisma/client";
 
 /**
+ * getParentRegistrations obtains the registration records of a parent
+ *
+ * @param {number} parentId unique identifier of the parent
+ * @returns {Promise<ParentReg[]>} record of the registration
+ */
+async function getParentRegistrations(parentId: number): Promise<ParentReg[]> {
+    const parentRegistrationRecords = await prisma.parentReg.findMany({
+        where: {
+            parentId,
+        },
+        include: {
+            student: true,
+            class: {
+                include: {
+                    classTranslation: true,
+                    teacherRegs: {
+                        include: {
+                            teacher: {
+                                include: {
+                                    user: true,
+                                },
+                            },
+                        },
+                    },
+                    program: {
+                        include: {
+                            programTranslation: true,
+                        },
+                    },
+                },
+            },
+        },
+        orderBy: {
+            studentId: "asc",
+        },
+    });
+
+    return parentRegistrationRecords;
+}
+
+/**
  * getParentRegistration obtains the registration record of a parent enrollment
  *
+ * @param {number} parentId unique identifier of the parent
  * @param {number} studentId  unique identifier of the enrolled child
  * @param {number} classId unique identifier of the class the child was enrolled in
  * @returns {Promise<ParentReg>} record of the registration
@@ -48,6 +90,72 @@ async function createParentRegistration(
     });
 
     return parentRegistration;
+}
+
+/**
+ * deleteParentRegistration deletes an existing registration record of a parent enrollment
+ *
+ * @param {ParentRegistrationInput} parentRegistrationData the data containing the details of the enrollment
+ * @returns {Promise<ParentReg>} the deleted parent registration
+ */
+async function deleteParentRegistration(
+    parentRegistrationData: ParentRegistrationInput,
+): Promise<ParentReg> {
+    const parentRegistration = await prisma.parentReg.delete({
+        where: {
+            parentId_studentId_classId: {
+                parentId: parentRegistrationData.parentId,
+                studentId: parentRegistrationData.studentId,
+                classId: parentRegistrationData.classId,
+            },
+        },
+    });
+
+    return parentRegistration;
+}
+
+/**
+ * getVolunteerRegistrations obtains the class registrations of a volunteer
+ *
+ * @param {number} volunteerId  unique identifier of the enrolled volunteer
+ * @returns {Promise<VolunteerReg>[]} records of the registration
+ */
+async function getVolunteerRegistrations(
+    volunteerId: number,
+): Promise<VolunteerReg[]> {
+    const volunteerRegistrations = await prisma.volunteerReg.findMany({
+        where: {
+            volunteerId,
+        },
+        include: {
+            volunteer: {
+                include: {
+                    user: true,
+                },
+            },
+            class: {
+                include: {
+                    classTranslation: true,
+                    teacherRegs: {
+                        include: {
+                            teacher: {
+                                include: {
+                                    user: true,
+                                },
+                            },
+                        },
+                    },
+                    program: {
+                        include: {
+                            programTranslation: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return volunteerRegistrations;
 }
 
 /**
@@ -92,9 +200,34 @@ async function createVolunteerRegistration(
     return volunteerRegistration;
 }
 
+/**
+ * deleteVolunteerRegistration deletes an existing registration record of a volunteer enrollment
+ *
+ * @param {VolunteerRegistrationInput} volunteerRegistrationData the data containing the details of the enrollment
+ * @returns {Promise<VolunteerReg>} the deleted volunteer registration
+ */
+async function deleteVolunteerRegistration(
+    volunteerRegistrationData: VolunteerRegistrationInput,
+): Promise<VolunteerReg> {
+    const volunteerRegistration = await prisma.volunteerReg.delete({
+        where: {
+            volunteerId_classId: {
+                volunteerId: volunteerRegistrationData.volunteerId,
+                classId: volunteerRegistrationData.classId,
+            },
+        },
+    });
+
+    return volunteerRegistration;
+}
+
 export {
     getParentRegistration,
+    getParentRegistrations,
     createParentRegistration,
+    deleteParentRegistration,
     getVolunteerRegistration,
+    getVolunteerRegistrations,
     createVolunteerRegistration,
+    deleteVolunteerRegistration,
 };

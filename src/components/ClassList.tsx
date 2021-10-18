@@ -5,28 +5,48 @@ import { ClassInfoModal } from "./ClassInfoModal";
 import { ClassInfoCard } from "./ClassInfoCard";
 import { IneligibleClassModal } from "./IneligibleClassModal";
 import colourTheme from "@styles/colours";
+import convertToAge from "@utils/convertToAge";
+import { roles, Student } from "@prisma/client";
+import { UseMeResponse } from "@utils/useMe";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];
     onlineFormat: string;
     tag: string;
-    session?: Record<string, unknown>;
+    students?: Student[] | null;
+    me?: UseMeResponse["me"];
 };
 
 export const ClassList: React.FC<ClassListProps> = ({
     classInfo,
     onlineFormat,
     tag,
-    session,
+    students,
+    me,
 }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
-        <Center width="100%">
+        <Center width="100%" pt={4}>
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
-                    const { isOpen, onOpen, onClose } = useDisclosure();
-                    // TODO: This should depend on whether user is legible for class
-                    // This determines which model to display on program card click
-                    const legible = true;
+                    let eligible = true;
+                    if (me && me.role === roles.PARENT && students !== null) {
+                        eligible = false;
+                        eligible = students.some((student) => {
+                            const age = convertToAge(
+                                new Date(student.dateOfBirth),
+                            );
+                            if (item.isAgeMinimal && age >= item.borderAge) {
+                                return true;
+                            } else if (
+                                !item.isAgeMinimal &&
+                                age <= item.borderAge
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
 
                     return (
                         <ListItem
@@ -35,15 +55,19 @@ export const ClassList: React.FC<ClassListProps> = ({
                             borderWidth={2}
                             key={idx}
                         >
-                            <ClassInfoCard cardInfo={item} onClick={onOpen} />
-                            {legible ? (
+                            <ClassInfoCard
+                                cardInfo={item}
+                                onClick={onOpen}
+                                isEligible={eligible}
+                            />
+                            {eligible ? (
                                 <ClassInfoModal
                                     isOpen={isOpen}
                                     onClose={onClose}
                                     classInfo={item}
                                     onlineFormat={onlineFormat}
                                     tag={tag}
-                                    session={session}
+                                    me={me}
                                 />
                             ) : (
                                 <IneligibleClassModal

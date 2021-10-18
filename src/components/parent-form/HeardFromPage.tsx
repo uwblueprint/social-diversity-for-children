@@ -1,24 +1,25 @@
 import React from "react";
-import { FormControl, FormLabel, Stack, Checkbox } from "@chakra-ui/react";
-import { heardFrom } from "@models/User";
+import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
+import { CheckBoxField } from "@components/formFields/CheckBoxField";
+
 type HeardFromPageProps = {
     styleProps?: Record<string, unknown>;
     props: HeardFromInfo;
 };
 
 type HeardFromInfo = {
-    heardFromFriendsAndFam: any;
-    setHeardFromFriendsAndFam: any;
-    heardFromFlyers: any;
-    setHeardFromFlyers: any;
-    heardFromEmail: any;
-    setHeardFromEmail: any;
-    heardFromSocialMedia: any;
-    setHeardFromSocialMedia: any;
-    heardFromOther: any;
-    setHeardFromOther: any;
-    heardFromOptions: any;
-    setHeardFromOptions: any;
+    heardFromFriendsAndFam: boolean;
+    setHeardFromFriendsAndFam: (value: boolean) => void;
+    heardFromFlyers: boolean;
+    setHeardFromFlyers: (value: boolean) => void;
+    heardFromEmail: boolean;
+    setHeardFromEmail: (value: boolean) => void;
+    heardFromSocialMedia: boolean;
+    setHeardFromSocialMedia: (value: boolean) => void;
+    heardFromOther: boolean;
+    setHeardFromOther: (value: boolean) => void;
+    heardFromOptions: boolean;
+    setHeardFromOptions: (value: boolean) => void;
 };
 export const HeardFromPage: React.FC<HeardFromPageProps> = ({
     props,
@@ -28,110 +29,42 @@ export const HeardFromPage: React.FC<HeardFromPageProps> = ({
             <FormControl id="hear-about-us">
                 <FormLabel>How did you hear about our programs?</FormLabel>
                 <Stack direction="column">
-                    <Checkbox
-                        isChecked={props.heardFromFriendsAndFam}
-                        onChange={(e) => {
-                            props.setHeardFromFriendsAndFam(e.target.checked);
-                            if (e.target.checked) {
-                                props.heardFromOptions.push(
-                                    heardFrom.FRIENDS_FAMILY,
-                                );
-                                props.setHeardFromOptions(
-                                    props.heardFromOptions,
-                                );
-                            } else {
-                                const newHeardFromOptions =
-                                    props.heardFromOptions.filter(
-                                        (hf) => hf != heardFrom.FRIENDS_FAMILY,
-                                    );
-                                props.setHeardFromOptions(newHeardFromOptions);
-                            }
-                        }}
-                    >
-                        Friends and Family
-                    </Checkbox>
-                    <Checkbox
-                        isChecked={props.heardFromFlyers}
-                        onChange={(e) => {
-                            props.setHeardFromFlyers(e.target.checked);
-                            if (e.target.checked) {
-                                props.heardFromOptions.push(heardFrom.FLYERS);
-                                props.setHeardFromOptions(
-                                    props.heardFromOptions,
-                                );
-                            } else {
-                                const newHeardFromOptions =
-                                    props.heardFromOptions.filter(
-                                        (hf) => hf != heardFrom.FLYERS,
-                                    );
-                                props.setHeardFromOptions(newHeardFromOptions);
-                            }
-                        }}
-                    >
-                        Flyers
-                    </Checkbox>
-                    <Checkbox
-                        isChecked={props.heardFromEmail}
-                        onChange={(e) => {
-                            props.setHeardFromEmail(e.target.checked);
-                            if (e.target.checked) {
-                                props.heardFromOptions.push(heardFrom.EMAIL);
-                                props.setHeardFromOptions(
-                                    props.heardFromOptions,
-                                );
-                            } else {
-                                const newHeardFromOptions =
-                                    props.heardFromOptions.filter(
-                                        (hf) => hf != heardFrom.EMAIL,
-                                    );
-                                props.setHeardFromOptions(newHeardFromOptions);
-                            }
-                        }}
-                    >
-                        Email
-                    </Checkbox>
-                    <Checkbox
-                        isChecked={props.heardFromSocialMedia}
-                        onChange={(e) => {
-                            props.setHeardFromSocialMedia(e.target.checked);
-                            if (e.target.checked) {
-                                props.heardFromOptions.push(
-                                    heardFrom.SOCIAL_MEDIA,
-                                );
-                                props.setHeardFromOptions(
-                                    props.heardFromOptions,
-                                );
-                            } else {
-                                const newHeardFromOptions =
-                                    props.heardFromOptions.filter(
-                                        (hf) => hf != heardFrom.SOCIAL_MEDIA,
-                                    );
-                                props.setHeardFromOptions(newHeardFromOptions);
-                            }
-                        }}
-                    >
-                        Social Media
-                    </Checkbox>
-                    <Checkbox
-                        isChecked={props.heardFromOther}
-                        onChange={(e) => {
-                            props.setHeardFromOther(e.target.checked);
-                            if (e.target.checked) {
-                                props.heardFromOptions.push(heardFrom.OTHER);
-                                props.setHeardFromOptions(
-                                    props.heardFromOptions,
-                                );
-                            } else {
-                                const newHeardFromOptions =
-                                    props.heardFromOptions.filter(
-                                        (hf) => hf != heardFrom.OTHER,
-                                    );
-                                props.setHeardFromOptions(newHeardFromOptions);
-                            }
-                        }}
-                    >
-                        Other
-                    </Checkbox>
+                    <FormLabel>Does the participant have:</FormLabel>
+                    <CheckBoxField
+                        value={props.heardFromFriendsAndFam}
+                        name={"Friends and Family"}
+                        setValue={props.setHeardFromFriendsAndFam}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={props.heardFromFlyers}
+                        name={"Flyers"}
+                        setValue={props.setHeardFromFlyers}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={props.heardFromEmail}
+                        name={"Email"}
+                        setValue={props.setHeardFromEmail}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={props.heardFromSocialMedia}
+                        name={"Social Media"}
+                        setValue={props.setHeardFromSocialMedia}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={props.heardFromOther}
+                        name={"Other"}
+                        setValue={props.setHeardFromOther}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
                 </Stack>
             </FormControl>
         </>

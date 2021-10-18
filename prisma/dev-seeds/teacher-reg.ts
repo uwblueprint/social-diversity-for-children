@@ -11,6 +11,12 @@ const teacherRegs: TeacherReg[] = [
     },
     {
         teacherId: 1,
+        classId: 3,
+        createdAt: new Date(),
+        updatedAt: null,
+    },
+    {
+        teacherId: 2,
         classId: 2,
         createdAt: new Date(),
         updatedAt: null,

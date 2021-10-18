@@ -1,11 +1,12 @@
-import { Box, Center, Text, Image, Link } from "@chakra-ui/react";
+import { Box, Center, Text, Image, Link as ChakraLink } from "@chakra-ui/react";
 import useLocalStorage from "@utils/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
+import MailSentIcon from "@components/icons/MailSentIcon";
 import { BackButton } from "@components/BackButton";
+import Link from "next/link";
 
 export default function Verify(): JSX.Element {
     const [localStorageEmail] = useLocalStorage("sdc-email-verification", "");
-    const logoSrc = "/images/sdc-logo-blue.png";
     return (
         <Wrapper>
             <BackButton />
@@ -13,12 +14,7 @@ export default function Verify(): JSX.Element {
                 <Box width="700px">
                     <Center>
                         <Box>
-                            <Image
-                                w={150}
-                                py={15}
-                                src={logoSrc}
-                                alt="SDC Logo"
-                            ></Image>
+                            <MailSentIcon />
                         </Box>
                     </Center>
                     <Center>
@@ -26,7 +22,7 @@ export default function Verify(): JSX.Element {
                             fontWeight="700"
                             fontSize="24px"
                             align="center"
-                            mt="50px"
+                            mt="10px"
                         >
                             A verification email has been sent.
                             <br></br>
@@ -42,14 +38,14 @@ export default function Verify(): JSX.Element {
                         >
                             To confirm your email address, click on the link in
                             the email we sent to{" "}
-                            <Link
+                            <ChakraLink
                                 textDecoration={"underline"}
                                 href={`mailto:${localStorageEmail}`}
                             >
                                 <u>
                                     <b>{localStorageEmail}</b>
                                 </u>
-                            </Link>
+                            </ChakraLink>
                             .<br></br>
                         </Text>
                     </Center>
@@ -61,12 +57,11 @@ export default function Verify(): JSX.Element {
                             color="brand.300"
                         >
                             Didn’t get an email? Return to the{" "}
-                            <Link
-                                _hover={{ textDecoration: "none" }}
-                                href="/login"
-                            >
-                                <Text as="u">Sign In</Text>
-                            </Link>{" "}
+                            <Link href="/login">
+                                <ChakraLink _hover={{ textDecoration: "none" }}>
+                                    <Text as="u">Sign In</Text>{" "}
+                                </ChakraLink>
+                            </Link>
                             page and re-enter a valid email.
                         </Text>
                     </Center>
