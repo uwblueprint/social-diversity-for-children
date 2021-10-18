@@ -41,7 +41,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                 name={"Date Of Birth"}
                 value={props.dateOfBirth}
                 setValue={props.setDateOfBirth}
-            ></DateField>
+            />
             <CheckBoxField
                 value={props.certifyAge15}
                 name={
