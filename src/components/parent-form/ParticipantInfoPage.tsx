@@ -1,27 +1,13 @@
 import React from "react";
-import {
-    Box,
-    Text,
-    FormLabel,
-    FormControl,
-    Input,
-    HStack,
-    Select,
-    Button,
-    FormErrorMessage,
-} from "@chakra-ui/react";
-import DatePicker from "react-datepicker";
+import { Box, Text, HStack, Button } from "@chakra-ui/react";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
 import colourTheme from "@styles/colours";
 import { PostalCodeField } from "@components/formFields/PostalCodeField";
 import { TextField } from "@components/formFields/TextField";
 import { ProvinceField } from "@components/formFields/ProvinceField";
-import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { DateField } from "@components/formFields/DateField";
-
-import { province } from "@models/User";
 import validator from "validator";
+
 // pass in props then do props.participant Name, etc...
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
