@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HStack, Button, Box, Text, VStack } from "@chakra-ui/react";
+import { HStack, Button, Box, VStack } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";

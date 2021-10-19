@@ -81,7 +81,7 @@ export default function MyAccount(): JSX.Element {
         }
         //Generate the side bar
         const SideBar = [];
-        if (me.role === "PARENT" && false) {
+        if (me.role === "PARENT") {
             me.parent.students.forEach((student) => {
                 const option = {
                     name: student.firstName + " " + student.lastName,
