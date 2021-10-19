@@ -73,40 +73,27 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         const data = await response.json();
         console.log(data);
     };
+    const pageElements = [
+        <MediaReleaseForm onNext={nextPage} />,
+        <ConfirmClassEnrollment
+            classInfo={classInfo}
+            onNext={nextPage}
+            onFinish={submitVolunteer}
+        />,
+    ];
 
     // render submit page if criminal record not submitted
     // render update criminal check form if expired
-    const pageElements = !me.volunteer.criminalRecordCheckLink
-        ? [
-              <SubmitCriminalCheckForm onNext={nextPage} />,
-              <MediaReleaseForm onNext={nextPage} />,
-              <ConfirmClassEnrollment
-                  classInfo={classInfo}
-                  onNext={nextPage}
-                  onFinish={submitVolunteer}
-              />,
-          ]
+    !me.volunteer.criminalRecordCheckLink
+        ? pageElements.unshift(<SubmitCriminalCheckForm onNext={nextPage} />)
         : me.volunteer.criminalCheckExpired
-        ? [
+        ? pageElements.unshift(
               <UpdateCriminalCheckForm
                   classInfo={classInfo}
                   onNext={nextPage}
               />,
-              <MediaReleaseForm onNext={nextPage} />,
-              <ConfirmClassEnrollment
-                  classInfo={classInfo}
-                  onNext={nextPage}
-                  onFinish={submitVolunteer}
-              />,
-          ]
-        : [
-              <MediaReleaseForm onNext={nextPage} />,
-              <ConfirmClassEnrollment
-                  classInfo={classInfo}
-                  onNext={nextPage}
-                  onFinish={submitVolunteer}
-              />,
-          ];
+          )
+        : {};
 
     return (
         <VolunteerEnrolledFormWrapper

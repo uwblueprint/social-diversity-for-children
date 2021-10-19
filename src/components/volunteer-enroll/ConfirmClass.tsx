@@ -35,6 +35,7 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
 
             <Button
                 mt="60px"
+                mb="60px"
                 height="50px"
                 width="200px"
                 borderRadius="6px"
