@@ -28,8 +28,8 @@ export default function ParentEnrollClass({
     const [selectedChild, setSelectedChild] = useState<number>(0);
     const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
-    let { classId } = router.query;
-    classId = classId ? Number(classId) : null;
+    const { urlArg } = router.query;
+    const classId = urlArg ? Number(urlArg) : null;
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
