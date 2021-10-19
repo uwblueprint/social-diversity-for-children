@@ -11,7 +11,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useMe from "@utils/useMe";
 import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
-// import useGetZoomLink from "@utils/useGetZoomLink";
 
 type ClassProps = {
     session: Record<string, unknown>;

@@ -8,10 +8,10 @@ export type UseGetZoomLinkResponse = {
 };
 
 /**
- * Me hook to get data about current user
+ * Zoom link hook to get class Zoom link
  */
 export default function useGetZoomLink(): UseGetZoomLinkResponse {
-    const { data, error } = useSWR("/api/class/join-class", fetcher);
+    const { data, error } = useSWR("/api/class/meeting", fetcher);
     return {
         link: data ? data.data : null,
         isLoading: !error && !data,
