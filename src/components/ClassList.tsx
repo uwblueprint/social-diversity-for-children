@@ -24,11 +24,11 @@ export const ClassList: React.FC<ClassListProps> = ({
     students,
     me,
 }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <Center width="100%" pt={4}>
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
+                    const { isOpen, onOpen, onClose } = useDisclosure();
                     let eligible = true;
                     if (me && me.role === roles.PARENT && students !== null) {
                         eligible = false;
