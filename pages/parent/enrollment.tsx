@@ -12,6 +12,7 @@ import { ParentEnrolledFormWrapper } from "@components/registration-form/ParentE
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { ParticipantWaiver } from "@components/agreement-form/ParticipantWaiver";
 import { TermsAndConditions } from "@components/agreement-form/TermsAndConditions";
+import { ProofOfIncomeWrapper } from "@components/registration-form/ProofOfIncomeWrapper";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -27,6 +28,8 @@ export default function ParentEnrollClass({
     const [selectedChild, setSelectedChild] = useState<number>(0);
     const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
+    let { classId } = router.query;
+    classId = classId ? Number(classId) : null;
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
@@ -77,6 +80,12 @@ export default function ParentEnrollClass({
         <MediaReleaseForm onNext={nextPage} />,
         <ParticipantWaiver onNext={nextPage} />,
         <TermsAndConditions onNext={nextPage} />,
+        <ProofOfIncomeWrapper
+            hasProofOfIncome={user.parent.proofOfIncomeLink !== null}
+            isLowIncome={user.parent.isLowIncome}
+            onNext={nextPage}
+            pageNum={pageNum}
+        />,
     ];
 
     return (
@@ -85,6 +94,8 @@ export default function ParentEnrollClass({
             formPages={pageElements}
             pageNum={pageNum}
             setPageNum={setPageNum}
+            student={studentData[selectedChild] as Student}
+            classId={classId}
         />
     );
 }

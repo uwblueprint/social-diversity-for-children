@@ -36,7 +36,6 @@ const therapyMapping = {
 export const ClassEnrollmentConfirmation = (
     props: ClassEnrollmentConfirmationProps,
 ): JSX.Element => {
-    console.log(props.studentData.dateOfBirth);
     return (
         <Box>
             <VStack spacing="45px" alignItems="flex-start">
