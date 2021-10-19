@@ -15,6 +15,7 @@ import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
 import colourTheme from "@styles/colours";
 import { mutate } from "swr";
+import { useRouter } from "next/router";
 
 /*
 Dynamic import is a next.js feature. 
@@ -120,12 +121,19 @@ export default function ParticipantInfo({
 }: {
     session: Record<string, unknown>;
 }): JSX.Element {
+    const router = useRouter();
+    const { page } = router.query;
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useLocalStorage("VolunteerPage", 0);
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
 
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
+        if (pageNum === formPages.length - 1) {
+            updateUserAndClearForm();
+        }
     };
 
     /* Store form fields in local storage */
@@ -440,7 +448,17 @@ export default function ParticipantInfo({
             </FormPage>
             <Box>
                 <HStack spacing="24px">
-                    <FormButton>Upload Proof of Income</FormButton>
+                    <FormButton
+                        onClick={() => {
+                            router.push(
+                                `/document-upload?type=income-proof&redirect=/parent/signup?page=${
+                                    pageNum + 1
+                                }`,
+                            );
+                        }}
+                    >
+                        Upload Proof of Income
+                    </FormButton>
                     <Button
                         variant="ghost"
                         as="u"
@@ -457,14 +475,7 @@ export default function ParticipantInfo({
             <FormPage>
                 <HeardFromPage props={parentRegistrationInfo} />
             </FormPage>
-            <FormButton
-                onClick={() => {
-                    setPageNum(pageNum + 1);
-                    updateUserAndClearForm();
-                }}
-            >
-                Finish
-            </FormButton>
+            <FormButton onClick={formButtonOnClick}>Finish</FormButton>
         </Box>,
     ];
 

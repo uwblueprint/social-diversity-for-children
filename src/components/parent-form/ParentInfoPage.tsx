@@ -29,17 +29,20 @@ export const ParentInfoPage: React.FC<ParentPageProps> = ({
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
                     name="Parent/Guardian First Name"
+                    placeholder="John"
                     value={props.parentFirstName}
                     setValue={props.setParentFirstName}
                 ></TextField>
                 <TextField
                     name="Parent/Guardian Last Name"
+                    placeholder="Doe"
                     value={props.parentLastName}
                     setValue={props.setParentLastName}
                 ></TextField>
             </HStack>
             <PhoneNumberField
                 name="Phone Number"
+                placeholder="2893491048"
                 value={props.parentPhoneNumber}
                 setValue={props.setParentPhoneNumber}
             ></PhoneNumberField>

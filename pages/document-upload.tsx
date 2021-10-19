@@ -133,7 +133,9 @@ export default function documentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton href={`${redirect as string}`} />
+                <CloseButton
+                    href={redirect ? (redirect as string) : undefined}
+                />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">

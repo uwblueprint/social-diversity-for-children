@@ -77,7 +77,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                 name="School (if applicable)"
                 value={props.school}
                 setValue={props.setSchool}
-                placeholder="Vancouver"
+                placeholder="Westmount Secondary School"
                 required={false}
             ></TextField>
             <Box>
