@@ -5,7 +5,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed user data
 const users: User[] = [
     {
-        id: 1,
+        id: 10000,
         firstName: "Brian",
         lastName: "Anderson",
         email: "ricksonyang+teacher@uwblueprint.org",
