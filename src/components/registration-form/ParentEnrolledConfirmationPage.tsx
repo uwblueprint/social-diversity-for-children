@@ -5,7 +5,7 @@ import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { createClassRegistration } from "@utils/createClassRegistration";
 import { Student } from "@prisma/client";
-import Loading from "@components/Loading";
+import { Loading } from "@components/Loading";
 
 type ParentEnrolledConfirmationPageProps = {
     student: Student;
