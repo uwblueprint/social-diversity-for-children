@@ -85,7 +85,12 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     // render submit page if criminal record not submitted
     // render update criminal check form if expired
     !me.volunteer.criminalRecordCheckLink
-        ? pageElements.unshift(<SubmitCriminalCheckForm onNext={nextPage} />)
+        ? pageElements.unshift(
+              <SubmitCriminalCheckForm
+                  classInfo={classInfo}
+                  onNext={nextPage}
+              />,
+          )
         : me.volunteer.criminalCheckExpired
         ? pageElements.unshift(
               <UpdateCriminalCheckForm
