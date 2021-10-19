@@ -39,17 +39,20 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
                     name="Emergency Contact First Name"
+                    placeholder="John"
                     value={props.emergFirstName}
                     setValue={props.setEmergFirstName}
                 ></TextField>
                 <TextField
                     name="Emergency Contact Last Name"
+                    placeholder="Doe"
                     value={props.emergLastName}
                     setValue={props.setEmergLastName}
                 ></TextField>
             </HStack>
             <PhoneNumberField
                 name="Emergency Contact Phone Number"
+                placeholder="2893491048"
                 value={props.emergPhoneNumber}
                 setValue={props.setEmergPhoneNumber}
             ></PhoneNumberField>

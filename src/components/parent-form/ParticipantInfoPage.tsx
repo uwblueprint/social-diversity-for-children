@@ -54,11 +54,13 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                 <HStack spacing="24px" style={{ height: "100px" }}>
                     <TextField
                         name="First Name"
+                        placeholder="John"
                         value={props.participantFirstName}
                         setValue={props.setParticipantFirstName}
                     ></TextField>
                     <TextField
                         name="Last Name"
+                        placeholder="Doe"
                         value={props.participantLastName}
                         setValue={props.setParticipantLastName}
                     ></TextField>
@@ -80,7 +82,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     name="Street Address 2"
                     value={props.address2}
                     setValue={props.setAddress2}
-                    placeholder="815 Hornby St."
+                    placeholder="811 Hornby St."
                     required={false}
                 ></TextField>
                 <HStack spacing="24px" style={{ height: 100 }}>
@@ -105,7 +107,7 @@ export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
                     name="School (if applicable)"
                     value={props.school}
                     setValue={props.setSchool}
-                    placeholder="Vancouver"
+                    placeholder="Westmount Secondary School"
                     required={false}
                 ></TextField>
                 <TextField
