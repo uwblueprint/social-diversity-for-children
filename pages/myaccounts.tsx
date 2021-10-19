@@ -12,6 +12,8 @@ import useMe from "@utils/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
 import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
+import { IncomePage } from "@components/parent-form/IncomePage";
+import { roles } from "@models/User";
 
 /**
  * This is the page that a user will use to edit their account information
@@ -27,9 +29,47 @@ export default function MyAccount(): JSX.Element {
 
     const [sideBar, setSideBar] = useState([]);
 
-    const saveParticipant = (participant) => {};
-    const saveGuardian = (participant) => {};
-    const saveVolunteer = (volunteer) => {};
+    const saveParticipant = (participant) => {
+        //Update the me object with the new partipcant data.
+        //Particpant to update can be found by sideBarPage
+        //(If there are 3 children SideBarPage 0-2 represents the index in the student array)
+    };
+    const saveGuardian = (parent) => {
+        const parentData = me.parent;
+
+        parentData.phoneNumber = parent.phoneNumber;
+        const userData = {
+            firstName: parent.firstName,
+            lastName: parent.lastName,
+            role: roles.PARENT,
+            roleData: parentData,
+        };
+        updateUser(userData);
+    };
+    const saveVolunteer = (volunteer) => {
+        //Update the me object and save
+    };
+
+    async function updateUser(userData) {
+        const request = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        };
+        const response = await fetch("/api/user", request);
+        const updatedUserData = await response.json();
+        return updatedUserData;
+    }
+
+    const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];
+
+    const UPLOADING_PROOF_OF_INCOME = [
+        `Navigate to My Account > Proof of Income`,
+        `Upload a copy of the result to your SDC account`,
+        `Once you’ve submitted your proof of income, keep an eye out for approval status from SDC!`,
+        `Upon approval, discounts will automatically applied to your account!
+    Check your account for details on the amount of discount you have been approved for`,
+    ];
 
     //The page will be rendered differently based on if the user is a parent or volunteer
 
@@ -41,7 +81,7 @@ export default function MyAccount(): JSX.Element {
         }
         //Generate the side bar
         const SideBar = [];
-        if (me.role === "PARENT") {
+        if (me.role === "PARENT" && false) {
             me.parent.students.forEach((student) => {
                 const option = {
                     name: student.firstName + " " + student.lastName,
@@ -69,7 +109,7 @@ export default function MyAccount(): JSX.Element {
                 component: (
                     <GuardianInfo
                         props={{
-                            me: me.parent,
+                            me: me,
                             save: saveGuardian,
                             edit: editing,
                         }}
@@ -81,6 +121,12 @@ export default function MyAccount(): JSX.Element {
                 icon: <MdArticle size={35} />,
                 title: "Proof of Income",
                 header: "Proof of Income",
+                component: (
+                    <IncomePage
+                        UPLOADING_PROOF_OF_INCOME={UPLOADING_PROOF_OF_INCOME}
+                        PROOF_OF_INCOME_EXAMPLES={PROOF_OF_INCOME_EXAMPLES}
+                    />
+                ),
             });
             SideBar.push({
                 name: "",
@@ -96,7 +142,7 @@ export default function MyAccount(): JSX.Element {
                 component: (
                     <VolunteerInfo
                         props={{
-                            me: me.volunteer,
+                            me: me,
                             save: saveGuardian,
                             edit: editing,
                         }}
@@ -127,7 +173,7 @@ export default function MyAccount(): JSX.Element {
 
     return (
         <Wrapper>
-            <Box style={{ display: "flex" }}>
+            <Box style={{ display: "flex", marginBottom: 50 }}>
                 <Box style={{ width: 312, marginBottom: 50 }}>
                     <text
                         style={{
@@ -175,7 +221,7 @@ export default function MyAccount(): JSX.Element {
                             </text>
                             <a
                                 onClick={() => setEditing(!editing)}
-                                style={{ marginLeft: 183 }}
+                                style={{ marginLeft: 200 }}
                             >
                                 {" "}
                                 {editing ? "Cancel" : "Edit"}

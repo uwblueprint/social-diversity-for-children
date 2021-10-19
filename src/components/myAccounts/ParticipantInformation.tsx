@@ -15,7 +15,7 @@ type ParticipantPageProps = {
 
 type ParticipantInfo = {
     student: any;
-    save: (participant: string) => void;
+    save: (participant: any) => void;
     edit: boolean;
 };
 export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
@@ -40,6 +40,19 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
     );
 
     const save = () => {
+        const data = {
+            dateOfBirth,
+            address1,
+            address2,
+            city,
+            participantProvince,
+            postalCode,
+            school,
+            grade,
+            participantFirstName,
+            participantLastName,
+        };
+        props.save(data);
         //Put into proper format
         //Call parent props.save(data)
     };

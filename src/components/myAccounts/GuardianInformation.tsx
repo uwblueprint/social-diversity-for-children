@@ -3,7 +3,6 @@ import { HStack, Button, Box, Text } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
-import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
 
 type GuardianPageProps = {
@@ -13,31 +12,41 @@ type GuardianPageProps = {
 
 type GuardianInfo = {
     me: any;
-    save: (participant: string) => void;
+    save: (participant: any) => void;
     edit: boolean;
 };
 export const GuardianInfo: React.FC<GuardianPageProps> = ({
     props,
 }): JSX.Element => {
-    const [name, setName] = useState(
-        props.me.firstName + " " + props.me.lastName,
-    );
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [relationship, setRelationship] = useState("");
-
+    const [firstName, setFirstName] = useState(props.me.firstName);
+    const [lastName, setLastName] = useState(props.me.lastName);
+    const [phoneNumber, setPhoneNumber] = useState(props.me.parent.phoneNumber);
     const save = () => {
         //Put into proper format
-        //Call parent props.save(data)
+        const data = {
+            firstName,
+            lastName,
+            phoneNumber,
+        };
+        props.save(data);
     };
     return (
         <>
             <br />
-            <TextField
-                name="Parent/Guardian First Name"
-                value={name}
-                setValue={setName}
-                edit={props.edit}
-            ></TextField>
+            <HStack spacing="24px" style={{ height: "100px" }}>
+                <TextField
+                    name="Parent/Guardian First Name"
+                    value={firstName}
+                    setValue={setFirstName}
+                    edit={props.edit}
+                ></TextField>
+                <TextField
+                    name="Parent/GuardianLast Name"
+                    value={lastName}
+                    setValue={setLastName}
+                    edit={props.edit}
+                ></TextField>
+            </HStack>
             <br />
             <br />
             <PhoneNumberField
@@ -47,13 +56,29 @@ export const GuardianInfo: React.FC<GuardianPageProps> = ({
                 edit={props.edit}
             ></PhoneNumberField>
             <br />
-            <br />
-            <TextField
-                name="Relationship to participant"
-                value={relationship}
-                setValue={setRelationship}
-                edit={props.edit}
-            ></TextField>
+            <Box>
+                {props.edit ? (
+                    <Button
+                        id="Submit"
+                        bg={colourTheme.colors.Blue}
+                        color={"white"}
+                        fontWeight="400"
+                        my={8}
+                        px={12}
+                        borderRadius={100}
+                        mt={8}
+                        disabled={
+                            !firstName ||
+                            !lastName ||
+                            !phoneNumber ||
+                            !validator.isMobilePhone(phoneNumber)
+                        }
+                        onClick={save}
+                    >
+                        Save Changes
+                    </Button>
+                ) : null}
+            </Box>
         </>
     );
 };

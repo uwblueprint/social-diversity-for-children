@@ -6,6 +6,7 @@ import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Loading } from "@components/Loading";
+import useMe from "@utils/useMe";
 
 /**
  * This is the page that a user will use to either login or register

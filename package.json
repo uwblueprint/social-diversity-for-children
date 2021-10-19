@@ -26,7 +26,6 @@
         "@prisma/client": "^2.23.0",
         "@stripe/stripe-js": "^1.15.0",
         "aws-sdk": "^2.926.0",
-        "formik": "^2.2.9",
         "framer-motion": "^3.2.1",
         "moment": "^2.29.1",
         "next": "^11.1.2",
