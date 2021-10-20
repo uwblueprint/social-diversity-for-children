@@ -131,7 +131,7 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
             ></TextField>
             <br />
             <br />
-            <VStack>
+            <VStack spacing={12}>
                 <TextField
                     name="Skills/Experience (ex. Arts and Crafts, Music, First-Aid
                     Certificates, Teaching or Volunteering Experience,
@@ -160,7 +160,6 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
                         my={8}
                         px={12}
                         borderRadius={100}
-                        mt={8}
                         disabled={
                             !firstName ||
                             !lastName ||

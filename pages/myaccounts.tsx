@@ -6,7 +6,7 @@ import {
     MdArticle,
     MdLogout,
 } from "react-icons/md";
-import { Box } from "@chakra-ui/react";
+import { Spacer, Box, Icon, Button, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
 import useMe from "@utils/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
@@ -14,15 +14,20 @@ import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
 import { IncomePage } from "@components/parent-form/IncomePage";
 import { roles } from "@models/User";
+import { GetServerSideProps } from "next";
+import { getSession, signOut } from "next-auth/client";
+import colourTheme from "@styles/colours";
+
+type MyAccountProps = {
+    session: Record<string, unknown>;
+};
 
 /**
  * This is the page that a user will use to edit their account information
  */
-export default function MyAccount(): JSX.Element {
+export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     // Redirect user if user already signed up
     const { me, isLoading } = useMe();
-
-    console.log(me);
 
     const [sideBarPage, setSideBarPage] = useState(0);
     const [editing, setEditing] = useState(false);
@@ -85,27 +90,33 @@ export default function MyAccount(): JSX.Element {
             me.parent.students.forEach((student) => {
                 const option = {
                     name: student.firstName + " " + student.lastName,
-                    icon: <MdAccountCircle size={35} />,
+                    icon: MdAccountCircle,
                     type: "PARTICIPANT",
                     title: "Personal Information",
                     header: "General Information",
+                    canEdit: true,
                     component: (
-                        <ParticipantInfo
-                            props={{
-                                student: student,
-                                save: saveParticipant,
-                                edit: editing,
-                            }}
-                        />
+                        <>
+                            <p>{student.firstName}</p>
+                            <ParticipantInfo
+                                key={student.id}
+                                props={{
+                                    student: student,
+                                    save: saveParticipant,
+                                    edit: editing,
+                                }}
+                            />
+                        </>
                     ),
                 };
                 SideBar.push(option);
             });
             SideBar.push({
                 name: "",
-                icon: <MdPersonOutline size={35} />,
+                icon: MdPersonOutline,
                 title: "Guardian Information",
                 header: "Guardian Information",
+                canEdit: true,
                 component: (
                     <GuardianInfo
                         props={{
@@ -118,9 +129,10 @@ export default function MyAccount(): JSX.Element {
             });
             SideBar.push({
                 name: "",
-                icon: <MdArticle size={35} />,
+                icon: MdArticle,
                 title: "Proof of Income",
                 header: "Proof of Income",
+                canEdit: false,
                 component: (
                     <IncomePage
                         UPLOADING_PROOF_OF_INCOME={UPLOADING_PROOF_OF_INCOME}
@@ -128,17 +140,13 @@ export default function MyAccount(): JSX.Element {
                     />
                 ),
             });
-            SideBar.push({
-                name: "",
-                icon: <MdLogout size={35} />,
-                title: "log out",
-            });
         } else {
             SideBar.push({
                 name: "",
-                icon: <MdPersonOutline size={35} />,
+                icon: MdPersonOutline,
                 title: "Participant Information",
                 header: "Personal Information",
+                canEdit: true,
                 component: (
                     <VolunteerInfo
                         props={{
@@ -151,15 +159,10 @@ export default function MyAccount(): JSX.Element {
             });
             SideBar.push({
                 name: "",
-                icon: <MdArticle size={35} />,
+                icon: MdArticle,
                 title: "Criminal Record Check",
                 header: "Criminal Record Check",
-            });
-            SideBar.push({
-                name: "",
-                icon: <MdLogout size={35} />,
-                onChange: null,
-                title: "log out",
+                canEdit: false,
             });
             //volunteer
         }
@@ -172,38 +175,46 @@ export default function MyAccount(): JSX.Element {
     }
 
     return (
-        <Wrapper>
-            <Box style={{ display: "flex", marginBottom: 50 }}>
+        <Wrapper session={session}>
+            <Box display="flex" marginBottom={50}>
                 <Box style={{ width: 312, marginBottom: 50 }}>
-                    <text
-                        style={{
-                            fontWeight: 700,
-                            fontSize: 36,
-                            marginBottom: 44,
-                        }}
-                    >
+                    <Text fontWeight={700} fontSize={36}>
                         {"My Account"}
-                    </text>
+                    </Text>
                     {sideBar.map((option, i) => (
-                        <Box
+                        <Button
                             key={i}
-                            onClick={() => setSideBarPage(i)}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                marginTop: 32,
+                            variant="link"
+                            mt={6}
+                            onClick={() => {
+                                setSideBarPage(i);
+                                console.log(sideBarPage);
                             }}
+                            color={
+                                sideBarPage === i
+                                    ? colourTheme.colors.Blue
+                                    : colourTheme.colors.Gray
+                            }
+                            _hover={{ color: colourTheme.colors.Blue }}
                         >
-                            <br></br>
-                            {option.icon}
-                            <Box style={{ marginLeft: 27 }}>
-                                <p>{option.title}</p>
-                                <p>
-                                    {option.name ? "(" + option.name + ")" : ""}
-                                </p>
-                            </Box>
-                        </Box>
+                            <Icon as={option.icon} w={8} h={8} />
+                            <Text align="left" pl={4}>
+                                {option.title} <br />
+                                {option.name ? "(" + option.name + ")" : ""}
+                            </Text>
+                        </Button>
                     ))}
+                    <br />
+                    <Button
+                        variant="link"
+                        mt={40}
+                        onClick={() => signOut()}
+                        color={colourTheme.colors.Gray}
+                        _hover={{ color: colourTheme.colors.Blue }}
+                    >
+                        <Icon as={MdLogout} w={8} h={8} />
+                        Log out
+                    </Button>
                 </Box>
                 <Box>
                     <Box
@@ -216,16 +227,21 @@ export default function MyAccount(): JSX.Element {
                     >
                         <Box style={{ display: "flex", alignItems: "center" }}>
                             {" "}
-                            <text style={{ fontWeight: 700, fontSize: 24 }}>
+                            <Text fontWeight={700} fontSize={24}>
                                 {sideBar[sideBarPage]?.header}
-                            </text>
-                            <a
+                            </Text>
+                            <Spacer />
+                            <Button
+                                variant="link"
                                 onClick={() => setEditing(!editing)}
-                                style={{ marginLeft: 200 }}
+                                color={colourTheme.colors.Blue}
                             >
-                                {" "}
-                                {editing ? "Cancel" : "Edit"}
-                            </a>
+                                {sideBar[sideBarPage]?.canEdit
+                                    ? editing
+                                        ? "Cancel"
+                                        : "Edit"
+                                    : undefined}
+                            </Button>
                         </Box>
                         {sideBar[sideBarPage]?.component}
                     </Box>
@@ -234,3 +250,26 @@ export default function MyAccount(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {
+            session,
+        },
+    };
+};
