@@ -13,7 +13,7 @@ import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
 import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
 import { IncomePage } from "@components/parent-form/IncomePage";
-import { roles } from "@models/User";
+import { roles, UserInput } from "@models/User";
 import { GetServerSideProps } from "next";
 import { getSession, signOut } from "next-auth/client";
 import colourTheme from "@styles/colours";
@@ -21,6 +21,8 @@ import colourTheme from "@styles/colours";
 type MyAccountProps = {
     session: Record<string, unknown>;
 };
+
+type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
 
 /**
  * This is the page that a user will use to edit their account information
@@ -41,9 +43,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     };
     const saveGuardian = (parent) => {
         const parentData = me.parent;
-
         parentData.phoneNumber = parent.phoneNumber;
-        const userData = {
+        const userData: ApiUserInput = {
             firstName: parent.firstName,
             lastName: parent.lastName,
             role: roles.PARENT,
@@ -51,8 +52,16 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
         };
         updateUser(userData);
     };
+
     const saveVolunteer = (volunteer) => {
-        //Update the me object and save
+        const { firstName, lastName, ...roleData } = volunteer;
+        const userData: ApiUserInput = {
+            firstName,
+            lastName,
+            role: roles.VOLUNTEER,
+            roleData,
+        };
+        updateUser(userData);
     };
 
     async function updateUser(userData) {
@@ -96,17 +105,14 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     header: "General Information",
                     canEdit: true,
                     component: (
-                        <>
-                            <p>{student.firstName}</p>
-                            <ParticipantInfo
-                                key={student.id}
-                                props={{
-                                    student: student,
-                                    save: saveParticipant,
-                                    edit: editing,
-                                }}
-                            />
-                        </>
+                        <ParticipantInfo
+                            key={student.id}
+                            props={{
+                                student: student,
+                                save: saveParticipant,
+                                edit: editing,
+                            }}
+                        />
                     ),
                 };
                 SideBar.push(option);
@@ -151,7 +157,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     <VolunteerInfo
                         props={{
                             me: me,
-                            save: saveGuardian,
+                            save: saveVolunteer,
                             edit: editing,
                         }}
                     />
@@ -219,11 +225,12 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                 <Box>
                     <Box
                         style={{
-                            border: "1px solid",
                             width: 600,
                             marginTop: 87,
                             padding: 48,
                         }}
+                        borderWidth="1px"
+                        borderColor="#C1C1C1"
                     >
                         <Box style={{ display: "flex", alignItems: "center" }}>
                             {" "}

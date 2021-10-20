@@ -15,7 +15,7 @@ type VolunteerPageProps = {
 
 type VolunteerInfo = {
     me: any;
-    save: (participant: any) => void;
+    save: (volunteer: any) => void;
     edit: boolean;
 };
 export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
@@ -30,15 +30,17 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
     const [dateOfBirth, setDateOfBirth] = useState(
         props.me.volunteer.dateOfBirth,
     );
-    const [address, setAddress] = useState(props.me.volunteer.addressLine1);
-    const [city, setCity] = useState(props.me.volunteer.cityName);
-    const [participantProvince, setParticipantProvince] = useState(
-        props.me.volunteer.province,
+    const [addressLine1, setAddressLine1] = useState(
+        props.me.volunteer.addressLine1,
     );
+    const [cityName, setCityName] = useState(props.me.volunteer.cityName);
+    const [province, setProvince] = useState(props.me.volunteer.province);
     const [postalCode, setPostalCode] = useState(props.me.volunteer.postalCode);
     const [school, setSchool] = useState(props.me.volunteer.school);
     const [skills, setSkills] = useState(props.me.volunteer.skills);
-    const [heardFrom, setHeardFrom] = useState(props.me.volunteer.heardAboutUs);
+    const [hearAboutUs, setHearAboutUs] = useState(
+        props.me.volunteer.hearAboutUs,
+    );
 
     const save = () => {
         //Put into proper format
@@ -47,19 +49,18 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
             lastName,
             phoneNumber,
             dateOfBirth,
-            address,
-            city,
-            participantProvince,
+            addressLine1,
+            cityName,
+            province,
             postalCode,
             school,
             skills,
-            heardFrom,
+            hearAboutUs,
         };
         props.save(data);
     };
     return (
         <>
-            <br />
             <HStack spacing="24px" style={{ height: "100px" }}>
                 <TextField
                     name="Volunteer First Name"
@@ -82,6 +83,7 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
                 edit={props.edit}
             ></PhoneNumberField>
             <br />
+            <br />
             <DateField
                 name={"Date Of Birth"}
                 value={dateOfBirth}
@@ -92,8 +94,8 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
             <br />
             <TextField
                 name="Street Address"
-                value={address}
-                setValue={setAddress}
+                value={addressLine1}
+                setValue={setAddressLine1}
                 placeholder="815 Hornby St."
                 edit={props.edit}
             ></TextField>
@@ -102,15 +104,15 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
                     name="City"
-                    value={city}
-                    setValue={setCity}
+                    value={cityName}
+                    setValue={setCityName}
                     placeholder="Vancouver"
                     edit={props.edit}
                 ></TextField>
                 <ProvinceField
                     name="Province"
-                    value={participantProvince}
-                    setValue={setParticipantProvince}
+                    value={province}
+                    setValue={setProvince}
                     edit={props.edit}
                 ></ProvinceField>
                 <PostalCodeField
@@ -131,7 +133,7 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
             ></TextField>
             <br />
             <br />
-            <VStack spacing={12}>
+            <VStack spacing={9}>
                 <TextField
                     name="Skills/Experience (ex. Arts and Crafts, Music, First-Aid
                     Certificates, Teaching or Volunteering Experience,
@@ -140,13 +142,15 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
                     setValue={setSkills}
                     placeholder="Type here"
                     longAnswer={true}
+                    edit={props.edit}
                 ></TextField>
                 <TextField
                     name="How Did You Hear About this Volunteer Opportunity?"
-                    value={heardFrom}
-                    setValue={setHeardFrom}
+                    value={hearAboutUs}
+                    setValue={setHearAboutUs}
                     placeholder="Type here"
                     longAnswer={true}
+                    edit={props.edit}
                 ></TextField>
             </VStack>
             <br />
@@ -164,9 +168,9 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
                             !firstName ||
                             !lastName ||
                             !dateOfBirth ||
-                            !address ||
-                            !city ||
-                            !participantProvince ||
+                            !addressLine1 ||
+                            !cityName ||
+                            !province ||
                             !validator.isPostalCode(postalCode, "CA") ||
                             !validator.isMobilePhone(phoneNumber)
                         }

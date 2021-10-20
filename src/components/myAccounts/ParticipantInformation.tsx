@@ -41,16 +41,22 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
 
     const save = () => {
         const data = {
+            id: props.student.id,
             dateOfBirth,
-            address1,
-            address2,
-            city,
-            participantProvince,
+            addressLine1: address1,
+            addressLine2: address2,
+            cityName: city,
+            province: participantProvince,
             postalCode,
             school,
-            grade,
-            participantFirstName,
-            participantLastName,
+            grade: parseInt(grade, 10),
+            firstName: participantFirstName,
+            lastName: participantLastName,
+            // TODO: Emergency info
+            emergFirstName: "STUBFIRSTNAME",
+            emergLastName: "STUBLASTNAME",
+            emergNumber: "999999",
+            emergRelationToStudent: "STUBRELATION",
         };
         props.save(data);
         //Put into proper format

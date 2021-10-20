@@ -20,7 +20,7 @@ export type ParentInput = {
     proofOfIncomeLink?: string;
     heardFrom?: heardFrom[];
     heardFromOther?: string;
-    createStudentInput: CreateStudentInput;
+    createStudentInput?: CreateStudentInput;
 };
 
 /* Input type for Volunteer inputs */
