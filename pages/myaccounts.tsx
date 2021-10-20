@@ -17,6 +17,7 @@ import { roles, UserInput } from "@models/User";
 import { GetServerSideProps } from "next";
 import { getSession, signOut } from "next-auth/client";
 import colourTheme from "@styles/colours";
+import { UpdateStudentInput } from "@models/Student";
 
 type MyAccountProps = {
     session: Record<string, unknown>;
@@ -37,9 +38,9 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     const [sideBar, setSideBar] = useState([]);
 
     const saveParticipant = (participant) => {
-        //Update the me object with the new partipcant data.
-        //Particpant to update can be found by sideBarPage
-        //(If there are 3 children SideBarPage 0-2 represents the index in the student array)
+        const studentData = participant as UpdateStudentInput;
+        studentData.parentId = me.id;
+        updateStudent(studentData);
     };
     const saveGuardian = (parent) => {
         const parentData = me.parent;
@@ -73,6 +74,16 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
         const response = await fetch("/api/user", request);
         const updatedUserData = await response.json();
         return updatedUserData;
+    }
+    async function updateStudent(userData) {
+        const request = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        };
+        const response = await fetch("/api/student", request);
+        const updatedStudentData = await response.json();
+        return updatedStudentData;
     }
 
     const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];

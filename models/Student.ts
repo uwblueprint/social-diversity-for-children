@@ -30,3 +30,8 @@ export type CreateStudentInput = {
     emergNumber: string;
     emergRelationToStudent: string;
 };
+
+/**
+ * Request Body Input for Student update
+ */
+export type UpdateStudentInput = CreateStudentInput & { id: number };
