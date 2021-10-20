@@ -12,7 +12,8 @@ import { ParentEnrolledFormWrapper } from "@components/registration-form/ParentE
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { ParticipantWaiver } from "@components/agreement-form/ParticipantWaiver";
 import { TermsAndConditions } from "@components/agreement-form/TermsAndConditions";
-import { ProofOfIncomeWrapper } from "@components/registration-form/ProofOfIncomeWrapper";
+import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePage";
+import { DiscountPage } from "@components/registration-form/DiscountPage";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -24,12 +25,14 @@ type ParentEnrollClassProps = {
 export default function ParentEnrollClass({
     session,
 }: ParentEnrollClassProps): JSX.Element {
-    const [pageNum, setPageNum] = useState<number>(0);
     const [selectedChild, setSelectedChild] = useState<number>(0);
     const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
-    const { urlArg } = router.query;
-    const classId = urlArg ? Number(urlArg) : null;
+    const { classId, page } = router.query;
+    const numberClassId =
+        classId && classId.length > 0 ? Number(classId) : null;
+    const numberPage = page ? parseInt(String(page), 10) : null;
+    const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
@@ -80,12 +83,20 @@ export default function ParentEnrollClass({
         <MediaReleaseForm onNext={nextPage} />,
         <ParticipantWaiver onNext={nextPage} />,
         <TermsAndConditions onNext={nextPage} />,
-        <ProofOfIncomeWrapper
-            hasProofOfIncome={user.parent.proofOfIncomeLink !== null}
-            isLowIncome={user.parent.isLowIncome}
-            onNext={nextPage}
-            pageNum={pageNum}
-        />,
+        <>
+            {" "}
+            {user.parent.proofOfIncomeLink === null ? (
+                <ProofOfIncomePage
+                    pageNum={pageNum}
+                    classId={numberClassId}
+                    onNext={nextPage}
+                />
+            ) : user.parent.isLowIncome ? (
+                <DiscountPage onNext={nextPage} />
+            ) : (
+                <>{pageNum == 5 && nextPage()}</>
+            )}{" "}
+        </>,
     ];
 
     return (
@@ -95,7 +106,7 @@ export default function ParentEnrollClass({
             pageNum={pageNum}
             setPageNum={setPageNum}
             student={studentData[selectedChild] as Student}
-            classId={classId}
+            classId={numberClassId}
         />
     );
 }

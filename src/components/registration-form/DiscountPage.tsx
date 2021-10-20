@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Text, Heading, Stack, Button, Link } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
 
 const FormButton = (props) => {
@@ -22,13 +23,12 @@ const FormButton = (props) => {
 type DiscountPageProps = {
     styleProps?: Record<string, unknown>;
     onNext: () => void;
-    setUpdateProofOfIncome: any;
 };
 
 export const DiscountPage: React.FC<DiscountPageProps> = ({
     onNext,
-    setUpdateProofOfIncome,
 }): JSX.Element => {
+    const router = useRouter();
     return (
         <>
             <Box maxW="55rem">
@@ -51,22 +51,15 @@ export const DiscountPage: React.FC<DiscountPageProps> = ({
                         variant="ghost"
                         as="u"
                         onClick={() => {
-                            setUpdateProofOfIncome(true);
+                            router.push("/myaccounts");
                         }}
-                        // borderRadius="6px"
                         alignSelf="flex-start"
                         alignItems="flex-start"
                         paddingLeft="0"
                     >
                         Update income
                     </Button>
-                    <FormButton
-                        onClick={() => {
-                            // setPageNum((prevPage) => prevPage + 1);
-                        }}
-                    >
-                        Next
-                    </FormButton>
+                    <FormButton onClick={onNext}>Next</FormButton>
                 </Stack>
             </Box>
         </>
