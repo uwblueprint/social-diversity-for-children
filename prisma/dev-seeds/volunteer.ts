@@ -4,7 +4,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed volunteer data
 const volunteers: Volunteer[] = [
     {
-        id: 3,
+        id: 10002,
         phoneNumber: null,
         dateOfBirth: new Date(),
         addressLine1: "999 Philips Street",
@@ -20,7 +20,7 @@ const volunteers: Volunteer[] = [
         updatedAt: null,
     },
     {
-        id: 5,
+        id: 10004,
         phoneNumber: null,
         dateOfBirth: new Date(),
         addressLine1: "998 Philips Street",
@@ -36,7 +36,7 @@ const volunteers: Volunteer[] = [
         updatedAt: null,
     },
     {
-        id: 7,
+        id: 10006,
         phoneNumber: null,
         dateOfBirth: new Date(),
         addressLine1: "997 Philips Street",

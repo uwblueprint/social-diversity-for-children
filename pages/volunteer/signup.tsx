@@ -7,6 +7,7 @@ import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
 import { mutate } from "swr";
+import { useRouter } from "next/router";
 
 /*
 Dynamic import is a next.js feature. 
@@ -84,11 +85,18 @@ export default function VolunteerInfo({
 }: {
     session: Record<string, unknown>;
 }): JSX.Element {
+    const router = useRouter();
+    const { page } = router.query;
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useLocalStorage("VolunteerPage", 0);
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
+        if (pageNum === formPages.length - 1) {
+            updateUserAndClearForm();
+        }
     };
 
     /* Store form fields in local storage */
@@ -172,12 +180,6 @@ export default function VolunteerInfo({
                 <VolunteerDetailsPage props={volunteerRegistrationInfo} />
             </FormPage>
         </Box>,
-        // Page for volunteer skills
-        <Box>
-            <FormPage>
-                <VolunteerSkillsPage props={volunteerRegistrationInfo} />
-            </FormPage>
-        </Box>,
         // Page to upload criminal record check
         <Box>
             <FormPage>
@@ -185,7 +187,17 @@ export default function VolunteerInfo({
             </FormPage>
             <Box>
                 <HStack spacing="24px">
-                    <FormButton>Upload Criminal Record Check</FormButton>
+                    <FormButton
+                        onClick={() => {
+                            router.push(
+                                `/document-upload?type=criminal-check&redirect=/volunteer/signup?page=${
+                                    pageNum + 1
+                                }`,
+                            );
+                        }}
+                    >
+                        Upload Criminal Record Check
+                    </FormButton>
                     <Button
                         variant="link"
                         color="black"
@@ -201,6 +213,12 @@ export default function VolunteerInfo({
                     </Button>
                 </HStack>
             </Box>
+        </Box>,
+        // Page for volunteer skills
+        <Box>
+            <FormPage>
+                <VolunteerSkillsPage props={volunteerRegistrationInfo} />
+            </FormPage>
         </Box>,
     ];
 

@@ -4,7 +4,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed teacher data
 const teachers: Teacher[] = [
     {
-        id: 1,
+        id: 10000,
         createdAt: new Date(),
         updatedAt: null,
     },

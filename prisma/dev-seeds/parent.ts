@@ -4,7 +4,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed parent data
 const parents: Parent[] = [
     {
-        id: 4,
+        id: 10003,
         phoneNumber: "1111111111",
         isLowIncome: false,
         preferredLanguage: locale.en,
@@ -14,7 +14,7 @@ const parents: Parent[] = [
         updatedAt: null,
     },
     {
-        id: 6,
+        id: 10005,
         phoneNumber: "1111111111",
         isLowIncome: false,
         preferredLanguage: locale.en,
@@ -24,7 +24,7 @@ const parents: Parent[] = [
         updatedAt: null,
     },
     {
-        id: 8,
+        id: 10007,
         phoneNumber: "1111111111",
         isLowIncome: false,
         preferredLanguage: locale.en,
