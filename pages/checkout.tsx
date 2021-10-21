@@ -1,31 +1,19 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { CheckoutButton } from "@components/CheckoutButton";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
-import { Button, Box, Text, Divider, Flex } from "@chakra-ui/react";
+import { Box, Text, Divider, Flex } from "@chakra-ui/react";
 import { CheckoutEnrollmentCard } from "@components/CheckoutEnrollmentCard";
 import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
-import { ClassCardInfo } from "@models/Class";
-import { ProgramCardInfo } from "@models/Program";
-// test price id corresponding to a product in stripe
-const testPriceId = "price_1J1GuzL97YpjuvTOePyVbsRh";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-// test quantity to specify number of products
-const testQuantity = 1;
-
-// uncomment to test automatic coupon discounts
-// const testCouponId = "3R69NQNw";
-
-/**
- * This is a test page to test the Checkout Button Component
- * TODO: delete this page once the checkout button is consumed in
- * a different component or page
- */
+import useSWR from "swr";
+import fetcherWithId from "@utils/fetcherWithId";
+import { Loading } from "@components/Loading";
 
 type CheckoutProps = {
     session: Record<string, unknown>;
@@ -33,50 +21,29 @@ type CheckoutProps = {
 
 export default function Checkout({ session }: CheckoutProps): JSX.Element {
     const router = useRouter();
-    const { classId } = router.query;
-    const [classData, setClassData] = useState();
-    const [classCard, setClassCard] = useState<ClassCardInfo>();
-    const [programData, setProgramData] = useState();
-    const [programCard, setProgramCard] = useState<ProgramCardInfo>();
-    useEffect(() => {
-        const getClassResponse = async () => {
-            await fetch(`/api/class/${classId}`).then(async (res) => {
-                const { data } = await res.json();
-                data.classTranslation = router.locale;
-                data.teacherRegs = "";
-                const classCardData = data
-                    ? await CardInfoUtil.getClassCardInfo(
-                          data,
-                          router.locale as locale,
-                      )
-                    : null;
-                setClassData(data);
-                setClassCard(classCardData);
-            });
-        };
-        getClassResponse();
-    }, [classId]);
+    const { classId, couponId } = router.query;
+    // const { me, isLoading: isMeLoading } = useMe();
+    const { data: classInfoResponse, error: classInfoError } = useSWR(
+        ["/api/class/" + classId, classId, router.locale],
+        fetcherWithId,
+    );
 
-    useEffect(() => {
-        if (classData) {
-            const getProgramResponse = async () => {
-                await fetch(`/api/program/${classData.programId}`).then(
-                    async (res) => {
-                        const { data } = await res.json();
-                        const programCardData = data
-                            ? await CardInfoUtil.getProgramCardInfo(
-                                  data,
-                                  router.locale as locale,
-                              )
-                            : null;
-                        setProgramData(data);
-                        setProgramCard(programCardData);
-                    },
-                );
-            };
-            getProgramResponse();
-        }
-    }, [classData]);
+    const isClassInfoLoading = !classInfoResponse && !classInfoError;
+
+    if (isClassInfoLoading) {
+        return <Loading />;
+    } else if (classInfoError) {
+        return <Box>An Error has occured</Box>;
+    } else {
+        // console.log(classInfoResponse);
+    }
+
+    const classCard = classInfoResponse
+        ? CardInfoUtil.getClassCardInfo(
+              classInfoResponse.data,
+              router.locale as locale,
+          )
+        : null;
 
     return (
         <Wrapper session={session}>
@@ -109,15 +76,18 @@ export default function Checkout({ session }: CheckoutProps): JSX.Element {
             <Text mb="30px" fontWeight="700" fontSize="22px">
                 Order Summary
             </Text>
-            {programCard && (
+            {classInfoResponse && (
                 <>
+                    {/* divide by 100 since data is stored in cents */}
                     <Flex
                         mb="20px"
                         alignItems={"center"}
                         justifyContent={"space-between"}
                     >
                         <Text>Course Fee:</Text>
-                        <Text>{`$${programCard.price.toFixed(2)}`}</Text>
+                        <Text>{`$${(
+                            classInfoResponse.data.program.price / 100
+                        ).toFixed(2)}`}</Text>
                     </Flex>
                     <Flex
                         mb="20px"
@@ -125,7 +95,9 @@ export default function Checkout({ session }: CheckoutProps): JSX.Element {
                         justifyContent={"space-between"}
                     >
                         <Text>Coupon Applied (TODO):</Text>
-                        <Text>{`-$${programCard.price.toFixed(2)}`}</Text>
+                        <Text>{`-$${(
+                            classInfoResponse.data.program.price / 100
+                        ).toFixed(2)}`}</Text>
                     </Flex>
                     <Divider mb="20px" />
                     <Flex
@@ -134,23 +106,23 @@ export default function Checkout({ session }: CheckoutProps): JSX.Element {
                         justifyContent={"space-between"}
                     >
                         <Text>Estimated Total:</Text>
-                        <Text>{`$${programCard.price.toFixed(2)}`}</Text>
+                        <Text>{`$${(
+                            classInfoResponse.data.program.price / 100
+                        ).toFixed(2)}`}</Text>
                     </Flex>
                 </>
             )}
 
             <CheckoutButton
-                priceId={testPriceId}
-                quantity={testQuantity}
-                // couponId={testCouponId}
+                priceId={classInfoResponse.data.stripePriceId}
+                quantity={1}
+                couponId={couponId as string}
             />
         </Wrapper>
     );
 }
 
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
     if (!session) {
@@ -163,6 +135,9 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };
