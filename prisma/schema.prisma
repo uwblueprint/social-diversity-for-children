@@ -165,10 +165,11 @@ model ClassTranslation {
 model Class {
   id                      Int                @id @default(autoincrement())
   name                    String?
-  borderAge               Int?               @map("border_age")
+  borderAge               Int                @map("border_age")
   isAgeMinimal            Boolean            @default(false) @map("is_age_minimal")
   imageLink               String?            @map("image_link")
   programId               Int                @map("program_id")
+  stripePriceId           String             @map("stripe_price_id") @db.VarChar(50)
   spaceTotal              Int                @map("space_total")
   spaceAvailable          Int                @map("space_available")
   volunteerSpaceTotal     Int                @map("volunteer_space_total")

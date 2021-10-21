@@ -68,6 +68,7 @@ CREATE TABLE classes (
   image_link TEXT,
 
   program_id INTEGER NOT NULL,
+  stripe_price_id VARCHAR(50) NOT NULL, -- not sure if this can be > 50 characters though TODO
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
 
   space_total INTEGER NOT NULL,
