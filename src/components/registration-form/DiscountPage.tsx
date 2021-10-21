@@ -48,8 +48,10 @@ export const DiscountPage: React.FC<DiscountPageProps> = ({
                         Has your income changed?
                     </Heading>
                     <Button
-                        variant="ghost"
-                        as="u"
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
                         onClick={() => {
                             router.push("/myaccounts");
                         }}
@@ -57,7 +59,7 @@ export const DiscountPage: React.FC<DiscountPageProps> = ({
                         alignItems="flex-start"
                         paddingLeft="0"
                     >
-                        Update income
+                        <Text as="u">Update income</Text>
                     </Button>
                     <FormButton onClick={onNext}>Next</FormButton>
                 </Stack>

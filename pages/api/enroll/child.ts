@@ -126,7 +126,7 @@ export default async function handle(
             }
 
             // create parent registration record and return if it could not be created
-            const newRegistration = createParentRegistration(
+            const newRegistration = await createParentRegistration(
                 parentRegistrationInput,
             );
             if (!newRegistration) {
@@ -137,7 +137,7 @@ export default async function handle(
                 return;
             }
 
-            ResponseUtil.returnOK(res);
+            ResponseUtil.returnOK(res, newRegistration);
             break;
         }
         case "DELETE": {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Center, Box, Text, Button, VStack } from "@chakra-ui/react";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
 import colourTheme from "@styles/colours";
@@ -14,9 +14,13 @@ type ParentEnrolledConfirmationPageProps = {
 
 export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmationPageProps> =
     ({ student, classId }): JSX.Element => {
-        const data = createClassRegistration(student, classId);
-
-        if (!data) return <Loading></Loading>;
+        const [success, setSuccess] = useState(false);
+        let data;
+        if (!success) {
+            data = createClassRegistration(student, classId).then((res) => res);
+            setSuccess(true);
+        }
+        if (data === null) return <Loading />;
         return (
             <Center>
                 <VStack mt={120} mb={180}>

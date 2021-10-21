@@ -11,7 +11,7 @@ import { mutate } from "swr";
 export async function createClassRegistration(
     student: Student,
     classId: number,
-) {
+): Promise<any> {
     const registrationData: ParentRegistrationInput = {
         parentId: student.parentId,
         classId: classId,

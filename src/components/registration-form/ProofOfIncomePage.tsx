@@ -70,12 +70,14 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
                         Upload Proof of Income
                     </FormButton>
                     <Button
-                        variant="ghost"
-                        as="u"
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
                         onClick={onNext}
                         borderRadius="6px"
                     >
-                        Skip for Now
+                        <Text as="u">Skip for Now</Text>
                     </Button>
                 </HStack>
             </Box>

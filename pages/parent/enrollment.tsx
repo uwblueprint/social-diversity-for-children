@@ -14,6 +14,7 @@ import { ParticipantWaiver } from "@components/agreement-form/ParticipantWaiver"
 import { TermsAndConditions } from "@components/agreement-form/TermsAndConditions";
 import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePage";
 import { DiscountPage } from "@components/registration-form/DiscountPage";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -29,9 +30,8 @@ export default function ParentEnrollClass({
     const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
     const { classId, page } = router.query;
-    const numberClassId =
-        classId && classId.length > 0 ? Number(classId) : null;
-    const numberPage = page ? parseInt(String(page), 10) : null;
+    const numberClassId = classId ? parseInt(classId as string, 10) : null;
+    const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
 
     const nextPage = () => {
@@ -43,6 +43,9 @@ export default function ParentEnrollClass({
     }
     if (isLoading) {
         return <Loading />;
+    }
+    if (!isLoading && !classId) {
+        router.back();
     }
 
     // Stop and redirect to home page if user not parent
@@ -83,22 +86,19 @@ export default function ParentEnrollClass({
         <MediaReleaseForm onNext={nextPage} />,
         <ParticipantWaiver onNext={nextPage} />,
         <TermsAndConditions onNext={nextPage} />,
-        <>
-            {" "}
-            {user.parent.proofOfIncomeLink === null ? (
-                <ProofOfIncomePage
-                    pageNum={pageNum}
-                    classId={numberClassId}
-                    onNext={nextPage}
-                />
-            ) : user.parent.isLowIncome ? (
-                <DiscountPage onNext={nextPage} />
-            ) : (
-                <>{pageNum == 5 && nextPage()}</>
-            )}{" "}
-        </>,
     ];
 
+    if (user.parent.isLowIncome) {
+        pageElements.push(<DiscountPage onNext={nextPage} />);
+    } else if (user.parent.proofOfIncomeLink === null) {
+        pageElements.push(
+            <ProofOfIncomePage
+                pageNum={pageNum}
+                classId={numberClassId}
+                onNext={nextPage}
+            />,
+        );
+    }
     return (
         <ParentEnrolledFormWrapper
             session={session}
@@ -114,9 +114,7 @@ export default function ParentEnrollClass({
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
@@ -130,6 +128,9 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["form", "poi"])),
+        },
     };
 };
