@@ -12,12 +12,13 @@ import useMe from "@utils/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
 import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
-import { IncomePage } from "@components/parent-form/IncomePage";
+import { ProofOfIncome } from "@components/myAccounts/ProofOfIncome";
 import { roles, UserInput } from "@models/User";
 import { GetServerSideProps } from "next";
 import { getSession, signOut } from "next-auth/client";
 import colourTheme from "@styles/colours";
 import { UpdateStudentInput } from "@models/Student";
+import { CriminalCheck } from "@components/myAccounts/CriminalCheck";
 
 type MyAccountProps = {
     session: Record<string, unknown>;
@@ -30,7 +31,7 @@ type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
  */
 export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     // Redirect user if user already signed up
-    const { me, isLoading } = useMe();
+    const { me, isLoading, mutate } = useMe();
 
     const [sideBarPage, setSideBarPage] = useState(0);
     const [editing, setEditing] = useState(false);
@@ -72,6 +73,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             body: JSON.stringify(userData),
         };
         const response = await fetch("/api/user", request);
+        mutate();
         const updatedUserData = await response.json();
         return updatedUserData;
     }
@@ -82,6 +84,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             body: JSON.stringify(userData),
         };
         const response = await fetch("/api/student", request);
+        mutate();
         const updatedStudentData = await response.json();
         return updatedStudentData;
     }
@@ -97,9 +100,6 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     ];
 
     //The page will be rendered differently based on if the user is a parent or volunteer
-
-    console.log(editing);
-
     useEffect(() => {
         if (!me || isLoading) {
             return;
@@ -120,7 +120,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                             key={student.id}
                             props={{
                                 student: student,
-                                save: saveParticipant,
+                                save: (participant) => {
+                                    saveParticipant(participant);
+                                    setEditing(false);
+                                },
                                 edit: editing,
                             }}
                         />
@@ -138,7 +141,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     <GuardianInfo
                         props={{
                             me: me,
-                            save: saveGuardian,
+                            save: (parent) => {
+                                saveGuardian(parent);
+                                setEditing(false);
+                            },
                             edit: editing,
                         }}
                     />
@@ -151,9 +157,11 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                 header: "Proof of Income",
                 canEdit: false,
                 component: (
-                    <IncomePage
-                        UPLOADING_PROOF_OF_INCOME={UPLOADING_PROOF_OF_INCOME}
-                        PROOF_OF_INCOME_EXAMPLES={PROOF_OF_INCOME_EXAMPLES}
+                    <ProofOfIncome
+                        approved={me.parent.isLowIncome}
+                        link={me.parent.proofOfIncomeLink}
+                        // TODO: Add submit date columns to table rows
+                        submitDate={new Date()}
                     />
                 ),
             });
@@ -168,7 +176,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     <VolunteerInfo
                         props={{
                             me: me,
-                            save: saveVolunteer,
+                            save: (volunteer) => {
+                                saveVolunteer(volunteer);
+                                setEditing(false);
+                            },
                             edit: editing,
                         }}
                     />
@@ -180,6 +191,17 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                 title: "Criminal Record Check",
                 header: "Criminal Record Check",
                 canEdit: false,
+                component: (
+                    <CriminalCheck
+                        // TODO: Integrate is approved column, it is in PR #107
+                        approved={
+                            me.volunteer.criminalRecordCheckLink ? true : false
+                        }
+                        link={me.volunteer.criminalRecordCheckLink}
+                        // TODO: Add submit date columns to table rows
+                        submitDate={new Date()}
+                    />
+                ),
             });
             //volunteer
         }
@@ -243,7 +265,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                         borderWidth="1px"
                         borderColor="#C1C1C1"
                     >
-                        <Box style={{ display: "flex", alignItems: "center" }}>
+                        <Box
+                            style={{ display: "flex", alignItems: "center" }}
+                            pb={8}
+                        >
                             {" "}
                             <Text fontWeight={700} fontSize={24}>
                                 {sideBar[sideBarPage]?.header}

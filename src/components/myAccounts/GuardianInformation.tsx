@@ -12,7 +12,7 @@ type GuardianPageProps = {
 
 type GuardianInfo = {
     me: any;
-    save: (participant: any) => void;
+    save: (parent: any) => void;
     edit: boolean;
 };
 export const GuardianInfo: React.FC<GuardianPageProps> = ({
