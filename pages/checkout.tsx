@@ -22,7 +22,6 @@ type CheckoutProps = {
 export default function Checkout({ session }: CheckoutProps): JSX.Element {
     const router = useRouter();
     const { classId, couponId } = router.query;
-    // const { me, isLoading: isMeLoading } = useMe();
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId, classId, router.locale],
         fetcherWithId,
