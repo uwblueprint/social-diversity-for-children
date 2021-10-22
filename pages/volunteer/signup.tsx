@@ -1,4 +1,4 @@
-import { Button, Box, Stack, HStack } from "@chakra-ui/react";
+import { Button, Box, Stack, Text, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next"; // Get server side props
@@ -199,12 +199,17 @@ export default function VolunteerInfo({
                         Upload Criminal Record Check
                     </FormButton>
                     <Button
-                        variant="ghost"
-                        as="u"
-                        onClick={formButtonOnClick}
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
+                        onClick={() => {
+                            setPageNum(pageNum + 1);
+                            updateUserAndClearForm();
+                        }}
                         borderRadius="6px"
                     >
-                        Skip for Now
+                        <Text as="u">Skip for Now</Text>
                     </Button>
                 </HStack>
             </Box>

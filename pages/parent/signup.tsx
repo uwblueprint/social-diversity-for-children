@@ -5,6 +5,7 @@ import {
     FormControl,
     FormLabel,
     Stack,
+    Text,
     HStack,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
@@ -460,12 +461,14 @@ export default function ParticipantInfo({
                         Upload Proof of Income
                     </FormButton>
                     <Button
-                        variant="ghost"
-                        as="u"
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
                         onClick={() => setPageNum(pageNum + 1)}
                         borderRadius="6px"
                     >
-                        Skip for Now
+                        <Text as="u">Skip for Now</Text>
                     </Button>
                 </HStack>
             </Box>
