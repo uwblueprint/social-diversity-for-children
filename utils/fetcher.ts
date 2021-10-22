@@ -3,6 +3,39 @@
  * @param url route to call fetch
  * @returns the promise corresponding to the response of the route
  */
-export default function fetcher(url: string): Promise<any> {
+export function fetcher(url: string): Promise<any> {
     return fetch(url).then((r) => r.json());
+}
+
+/**
+ * Generic fetcher with id
+ * @param url route to call fetch
+ * @returns the promise corresponding to the response of the route
+ */
+export function fetcherWithId(url: string, id: string): Promise<any> {
+    return fetcher(`${url}?id=${id}`);
+}
+/**
+ * Generic fetcher with file and path for S3 APIs
+ * @param  {string} url
+ * @param  {string} path
+ * @param  {string} file
+ * @returns the promise corresponding to the response of the route
+ */
+export function fetcherWithPathFile(
+    url: string,
+    path?: string,
+    file?: string,
+): Promise<any> {
+    let endpoint = `${url}`;
+
+    if (path && file) {
+        endpoint += `?path=${path}&file=${file}`;
+    } else if (path) {
+        endpoint += `?path=${path}`;
+    } else if (file) {
+        endpoint += `?file=${file}`;
+    }
+
+    return fetcher(endpoint);
 }

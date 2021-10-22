@@ -34,10 +34,7 @@ export default function documentUpload({
             // TODO don't prefix file name, instead put random file name into database eventually
             // TODO randomize filename
             const res = await fetch(
-                `/api/upload/url?path=${type}&file=${
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (session.user as any).email
-                }-${session.id}-${file.name}`,
+                `/api/file/upload?path=${type}&file=${file.name}`,
             );
             const data = await res.json();
             const { url, fields } = data.data;

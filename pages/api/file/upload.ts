@@ -1,4 +1,3 @@
-import { s3 } from "@aws";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getSession } from "next-auth/client"; // Session handling
 import { NextApiRequest, NextApiResponse } from "next";
@@ -8,13 +7,13 @@ import {
     updateParentProofOfIncomeLink,
     updateVolunteerCriminalCheckLink,
 } from "@database/user";
+import { getPresignedPostForUpload } from "@aws/s3";
 
 export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     const session = await getSession({ req });
-    const fileSizeLimitBytes = 5000000; // up to ~5MB
     // If there is no session
     if (!session) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
@@ -22,7 +21,6 @@ export default async function handle(
 
     // TODO make this more robost/better
     const accepted_type_paths = [
-        "other",
         "criminal-check",
         "income-proof",
         "curriculum-plans",
@@ -36,37 +34,36 @@ export default async function handle(
 
     switch (req.method) {
         case "GET": {
-            const post = await s3.createPresignedPost({
-                Bucket: process.env.S3_UPLOAD_BUCKET,
-                Fields: {
-                    key: `${path}/${file}`,
-                },
-                Conditions: [["content-length-range", 0, fileSizeLimitBytes]],
-            });
-
             const user = await getUserFromEmail(session.user.email);
 
             if (!user) {
                 return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
 
+            const uploadFilePath = `${path}/${user.email}/${file}`;
+
+            const post = getPresignedPostForUpload(
+                process.env.S3_UPLOAD_BUCKET,
+                uploadFilePath,
+            );
+
             // Assume that the presigned url is used immediately and save the path to records
             // Depending on whether or not it's criminal check or poi, we do a vol or parent write
             if (
                 user.role === roles.VOLUNTEER &&
-                path === accepted_type_paths[1]
+                path === accepted_type_paths[0]
             ) {
-                updateVolunteerCriminalCheckLink(
+                await updateVolunteerCriminalCheckLink(
                     session.user.email,
-                    `${path}/${file}`,
+                    file as string,
                 );
             } else if (
                 user.role === roles.PARENT &&
-                path === accepted_type_paths[2]
+                path === accepted_type_paths[1]
             ) {
-                updateParentProofOfIncomeLink(
+                await updateParentProofOfIncomeLink(
                     session.user.email,
-                    `${path}/${file}`,
+                    file as string,
                 );
             }
 
