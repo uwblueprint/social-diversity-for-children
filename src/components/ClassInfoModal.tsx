@@ -137,8 +137,8 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         href={
                             me
                                 ? me.role === roles.VOLUNTEER
-                                    ? "/volunteer/enrollment"
-                                    : `/parent/enrollment?classId=${classInfo.id}`
+                                    ? `/volunteer/enrollment?classId=${classInfo.id}`
+                                    : `/parent/enrollment/?classId=${classInfo.id}`
                                 : "/login"
                         }
                     >

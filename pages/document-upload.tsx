@@ -16,6 +16,7 @@ export default function documentUpload({
     session,
 }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
+
     let { type } = router.query;
     const { redirect } = router.query;
     // sends file to other folder if type is not valid

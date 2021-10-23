@@ -1,4 +1,5 @@
 import { weekday } from "@prisma/client";
+import { ProgramCardInfo } from "./Program";
 
 /**
  * Request Body Input for POST /class
@@ -37,4 +38,5 @@ export type ClassCardInfo = {
     teacherName: string;
     teacherEmail?: string;
     teacherImage?: string;
+    programName?: string;
 };

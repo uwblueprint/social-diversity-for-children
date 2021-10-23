@@ -9,6 +9,7 @@ const colourTheme = extendTheme({
         Gray: "#737373",
         LightGray: "#F8F8F8",
         DarkGray: "#464646",
+        DarkerGray: "2D3748",
     },
 });
 

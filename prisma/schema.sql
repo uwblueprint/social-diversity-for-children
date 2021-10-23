@@ -107,6 +107,8 @@ CREATE TABLE volunteers (
   date_of_birth TIMESTAMPTZ NOT NULL,
   address_line1 TEXT,
   criminal_record_check_link TEXT,
+  criminal_check_approved BOOLEAN DEFAULT false,
+  criminal_check_expired BOOLEAN DEFAULT false,
   postal_code VARCHAR(10),
   city_name TEXT,
   province provinces,
