@@ -7,6 +7,7 @@ const colourTheme = extendTheme({
         Red: "#D8000C",
         LightGrayBlue: "#E2E8F0",
         Gray: "#737373",
+        MildGray: "#B4B4B4",
         LightGray: "#F8F8F8",
         DarkGray: "#464646",
         DarkerGray: "2D3748",

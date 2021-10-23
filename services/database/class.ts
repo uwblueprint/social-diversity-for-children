@@ -44,6 +44,7 @@ async function createClass(input: ClassInput): Promise<Class> {
             programId: input.programId,
             spaceTotal: input.spaceTotal,
             spaceAvailable: input.spaceTotal,
+            stripePriceId: input.stripePriceId,
             volunteerSpaceTotal: input.volunteerSpaceTotal,
             volunteerSpaceAvailable: input.volunteerSpaceTotal,
             startDate: input.startDate,
