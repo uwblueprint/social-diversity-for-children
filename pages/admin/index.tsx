@@ -1,9 +1,9 @@
 import Wrapper from "@components/AdminWrapper";
 
-type ComponentProps = {
+type AdminProps = {
     session: Record<string, unknown>;
 };
 
-export default function Component(props: ComponentProps): JSX.Element {
-    return <Wrapper session={props.session}></Wrapper>;
+export default function Admin(props: AdminProps): JSX.Element {
+    return <Wrapper session={props.session}>Hello world!</Wrapper>;
 }
