@@ -36,7 +36,6 @@ async function getClasses(): Promise<Class[]> {
  * @returns Promise<Class> - Promise with the newly created class
  */
 async function createClass(input: ClassInput): Promise<Class> {
-    // TODO
     const newClass = await prisma.class.create({
         data: {
             name: input.name,
@@ -45,6 +44,7 @@ async function createClass(input: ClassInput): Promise<Class> {
             programId: input.programId,
             spaceTotal: input.spaceTotal,
             spaceAvailable: input.spaceTotal,
+            stripePriceId: input.stripePriceId,
             volunteerSpaceTotal: input.volunteerSpaceTotal,
             volunteerSpaceAvailable: input.volunteerSpaceTotal,
             startDate: input.startDate,

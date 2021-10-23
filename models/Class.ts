@@ -9,6 +9,7 @@ export type ClassInput = {
     borderAge?: number;
     isAgeMinimal: boolean;
     programId: number;
+    stripePriceId: string;
     spaceTotal: number;
     volunteerSpaceTotal: number;
     startDate: string;
