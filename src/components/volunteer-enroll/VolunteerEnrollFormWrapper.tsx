@@ -81,7 +81,7 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                 <Link
                                     _hover={{ textDecoration: "none" }}
                                     _focus={{}}
-                                    href="/"
+                                    href="/class"
                                 >
                                     <Button
                                         mt={"55px"}
