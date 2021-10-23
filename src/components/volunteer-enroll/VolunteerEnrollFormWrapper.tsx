@@ -94,9 +94,6 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                             colourTheme.colors.white
                                         }
                                         px={10}
-                                        _hover={{
-                                            bg: colourTheme.colors.LightBlue,
-                                        }}
                                         _active={{}}
                                         fontWeight={"200"}
                                         borderRadius={"6px"}

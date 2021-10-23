@@ -70,15 +70,15 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                 "Content-Type": "application/json",
             },
         });
-        const data = await response.json();
-        console.log(data);
     };
     const pageElements = [
         <MediaReleaseForm onNext={nextPage} />,
         <ConfirmClassEnrollment
             classInfo={classInfo}
-            onNext={nextPage}
-            onFinish={submitVolunteer}
+            onNext={() => {
+                submitVolunteer();
+                nextPage();
+            }}
         />,
     ];
 

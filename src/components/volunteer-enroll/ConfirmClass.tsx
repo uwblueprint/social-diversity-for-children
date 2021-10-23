@@ -8,13 +8,11 @@ type ConfirmClassEnrollmentProps = {
     styleProps?: Record<string, unknown>;
     classInfo: ClassCardInfo;
     onNext: () => void;
-    onFinish: () => void;
 };
 
 export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
     onNext,
     classInfo,
-    onFinish,
 }): JSX.Element => {
     return (
         <>
@@ -44,7 +42,6 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
                 color="white"
                 background={colourTheme.colors.Blue}
                 onClick={() => {
-                    onFinish();
                     onNext();
                 }}
             >
