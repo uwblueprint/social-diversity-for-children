@@ -311,4 +311,53 @@ async function updateUser(userInput: UserInput): Promise<User> {
     return updatedUser;
 }
 
-export { getUser, getUserFromEmail, getUsers, updateUser };
+async function updateVolunteerCriminalCheckLink(
+    email: string,
+    link: string,
+): Promise<User> {
+    const user = prisma.user.update({
+        data: {
+            volunteer: {
+                update: {
+                    criminalRecordCheckLink: link,
+                },
+            },
+        },
+        where: { email },
+        include: {
+            volunteer: true,
+        },
+    });
+
+    return user;
+}
+
+async function updateParentProofOfIncomeLink(
+    email: string,
+    link: string,
+): Promise<User> {
+    const user = prisma.user.update({
+        data: {
+            parent: {
+                update: {
+                    proofOfIncomeLink: link,
+                },
+            },
+        },
+        where: { email },
+        include: {
+            volunteer: true,
+        },
+    });
+
+    return user;
+}
+
+export {
+    getUser,
+    getUserFromEmail,
+    getUsers,
+    updateUser,
+    updateVolunteerCriminalCheckLink,
+    updateParentProofOfIncomeLink,
+};

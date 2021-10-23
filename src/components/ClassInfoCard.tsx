@@ -13,7 +13,7 @@ import { SDCBadge } from "./SDCBadge";
 import weekdayToString from "@utils/weekdayToString";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import { locale } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import useMe from "@utils/useMe";
@@ -37,7 +37,6 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
-
     const { me } = useMe();
 
     return (
@@ -98,7 +97,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">
-                            {me && me.volunteer
+                            {me && me.role === roles.VOLUNTEER
                                 ? cardInfo.volunteerSpaceAvailable +
                                   " volunteer spot" +
                                   (cardInfo.volunteerSpaceAvailable > 1

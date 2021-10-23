@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import {
-    Button,
-    Box,
-    Center,
-    Text,
-    VStack,
-    Spinner,
-    Image,
-} from "@chakra-ui/react";
+import { Button, Box, Center, Text, VStack, Spinner } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
+import { ApprovedIcon } from "@components/icons";
 
 type DocumentUploadProps = {
     session: Record<string, unknown>;
@@ -141,15 +134,14 @@ export default function documentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton href={`${redirect as string}`} />
+                <CloseButton
+                    href={redirect ? (redirect as string) : undefined}
+                />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">
                             <Center>
-                                <Image
-                                    src=""
-                                    alt="TODO checkmark image"
-                                ></Image>
+                                <ApprovedIcon />
                             </Center>
                             <Center>
                                 <Text fontWeight="700" fontSize="25px" m="20px">

@@ -16,6 +16,7 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
+    Link,
 } from "@chakra-ui/react";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
@@ -27,6 +28,7 @@ import { deleteVolunteerRegistration } from "@utils/deleteVolunteerRegistration"
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import { useTranslation } from "next-i18next";
+import useGetZoomLink from "@utils/useGetZoomLink";
 
 type VolunteeringCardProps = {
     volunteeringInfo: VolunteeringCardInfo;
@@ -42,6 +44,8 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
+
+    const { link } = useGetZoomLink();
 
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
@@ -93,32 +97,33 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
-                            <Button
-                                bg={colourTheme.colors.Blue}
-                                color={"white"}
-                                mx={"auto"}
-                                my={2}
-                                borderRadius={6}
-                                onClick={() => alert("Joining Zoom meeting...")}
-                                fontWeight={"normal"}
-                                _hover={{
-                                    textDecoration: "none",
-                                    bg: colourTheme.colors.LightBlue,
-                                }}
-                                _active={{
-                                    bg: "lightgrey",
-                                    outlineColor: "grey",
-                                    border: "grey",
-                                    boxShadow: "lightgrey",
-                                }}
-                                _focus={{
-                                    outlineColor: "grey",
-                                    border: "grey",
-                                    boxShadow: "lightgrey",
-                                }}
-                            >
-                                Join class
-                            </Button>
+                            <Link href={link} isExternal>
+                                <Button
+                                    bg={colourTheme.colors.Blue}
+                                    color={"white"}
+                                    mx={"auto"}
+                                    my={2}
+                                    borderRadius="6px"
+                                    fontWeight={"normal"}
+                                    _hover={{
+                                        textDecoration: "none",
+                                        bg: colourTheme.colors.LightBlue,
+                                    }}
+                                    _active={{
+                                        bg: "lightgrey",
+                                        outlineColor: "grey",
+                                        border: "grey",
+                                        boxShadow: "lightgrey",
+                                    }}
+                                    _focus={{
+                                        outlineColor: "grey",
+                                        border: "grey",
+                                        boxShadow: "lightgrey",
+                                    }}
+                                >
+                                    Join class
+                                </Button>
+                            </Link>
                             <Menu>
                                 <MenuButton
                                     ml={1}

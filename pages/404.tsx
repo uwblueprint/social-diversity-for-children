@@ -31,7 +31,7 @@ export default function Custom404(props: ComponentProps): JSX.Element {
                             size="sm"
                             py={5}
                             width="50%"
-                            borderRadius={100}
+                            borderRadius="6px"
                             fontWeight={"200"}
                         >
                             Return to main page

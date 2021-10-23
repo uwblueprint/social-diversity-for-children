@@ -1,32 +1,35 @@
 import React from "react";
-import {
-    HStack,
-    FormLabel,
-    FormControl,
-    Input,
-    Stack,
-    Checkbox,
-    Select,
-} from "@chakra-ui/react";
-import { province } from "@models/User";
+import { HStack, Button, Box } from "@chakra-ui/react";
+import colourTheme from "@styles/colours";
+import "react-datepicker/dist/react-datepicker.css";
+import validator from "validator";
+import { PostalCodeField } from "@components/formFields/PostalCodeField";
+import { TextField } from "@components/formFields/TextField";
+import { ProvinceField } from "@components/formFields/ProvinceField";
+import { CheckBoxField } from "@components/formFields/CheckBoxField";
+import { DateField } from "@components/formFields/DateField";
+
 type VolunteerDetailsPageProps = {
     styleProps?: Record<string, unknown>;
     props: VolunteerDetailsInfo;
 };
 
 type VolunteerDetailsInfo = {
-    dateOfBirth: any;
-    setDateOfBirth: any;
-    address1: any;
-    setAddress1: any;
-    city: any;
-    setCity: any;
+    dateOfBirth: string;
+    setDateOfBirth: (text: string) => void;
+    certifyAge15: boolean;
+    setCertifyAge15: (value: boolean) => void;
+    address1: string;
+    setAddress1: (text: string) => void;
+    city: string;
+    setCity: (text: string) => void;
     participantProvince: any;
-    setParticipantProvince: any;
-    postalCode: any;
-    setPostalCode: any;
-    school: any;
-    setSchool: any;
+    setParticipantProvince: (text: any) => void;
+    postalCode: string;
+    setPostalCode: (text: string) => void;
+    school: string;
+    setSchool: (text: string) => void;
+    formButtonOnClick: () => void;
 };
 
 export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
@@ -34,83 +37,72 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
 }): JSX.Element => {
     return (
         <>
-            <FormControl id="date-of-birth">
-                <FormLabel>Date Of Birth (YYYY-MM-DD) </FormLabel>
-                <Input
-                    placeholder="Date Of Birth"
-                    onChange={(e) => props.setDateOfBirth(e.target.value)}
-                    value={props.dateOfBirth}
-                />
-            </FormControl>
-            <FormControl id="fifteen" isRequired>
-                {/* TODO: make mandatory before proceeding with rest of form */}
-                <Stack direction="column">
-                    <Checkbox>
-                        I certify that I am over the age of 15 in order to
-                        volunteer with SDC
-                    </Checkbox>
-                </Stack>
-            </FormControl>
-            <FormControl id="street-address">
-                <FormLabel>Street Address </FormLabel>
-                <Input
-                    placeholder="815 Hornby St."
-                    onChange={(e) => props.setAddress1(e.target.value)}
-                    value={props.address1}
-                />
-            </FormControl>
-            <HStack spacing="24px">
-                <FormControl id="city">
-                    <FormLabel>City</FormLabel>
-                    <Input
-                        placeholder="Vancouver"
-                        onChange={(e) => props.setCity(e.target.value)}
-                        value={props.city}
-                    />
-                </FormControl>
-                <FormControl id="province">
-                    <FormLabel>Province</FormLabel>
-                    <Select
-                        placeholder="Select option"
-                        onChange={(e) =>
-                            props.setParticipantProvince(
-                                province[e.target.value],
-                            )
-                        }
-                        value={props.participantProvince} // TODO: bug with displayed value after refresh
-                    >
-                        <option value="NL">NL</option>
-                        <option value="PE">PE</option>
-                        <option value="NS">NS</option>
-                        <option value="NB">NB</option>
-                        <option value="QC">QC</option>
-                        <option value="ON">ON</option>
-                        <option value="MB">MB</option>
-                        <option value="SK">SK</option>
-                        <option value="AB">AB</option>
-                        <option value="BC">BC</option>
-                        <option value="YT">YT</option>
-                        <option value="NT">NT</option>
-                        <option value="NU">NU</option>
-                    </Select>
-                </FormControl>
-                <FormControl id="postal-code">
-                    <FormLabel>Postal Code</FormLabel>
-                    <Input
-                        placeholder="V6Z 2E6"
-                        onChange={(e) => props.setPostalCode(e.target.value)}
-                        value={props.postalCode}
-                    />
-                </FormControl>
+            <DateField
+                name={"Date Of Birth"}
+                value={props.dateOfBirth}
+                setValue={props.setDateOfBirth}
+            />
+            <CheckBoxField
+                value={props.certifyAge15}
+                name={
+                    " I certify that I am over the age of 15 in order to volunteer with SDC"
+                }
+                setValue={props.setCertifyAge15}
+            ></CheckBoxField>
+            <TextField
+                name="Street Address"
+                value={props.address1}
+                setValue={props.setAddress1}
+                placeholder="815 Hornby St."
+            ></TextField>
+            <HStack spacing="24px" style={{ height: 100 }}>
+                <TextField
+                    name="City"
+                    value={props.city}
+                    setValue={props.setCity}
+                    placeholder="Vancouver"
+                ></TextField>
+                <ProvinceField
+                    name="Province"
+                    value={props.participantProvince}
+                    setValue={props.setParticipantProvince}
+                ></ProvinceField>
+                <PostalCodeField
+                    value={props.postalCode}
+                    setValue={props.setPostalCode}
+                    name="Postal Code"
+                ></PostalCodeField>
             </HStack>
-            <FormControl id="school">
-                <FormLabel>School (if applicable)</FormLabel>
-                <Input
-                    placeholder="Westmount Secondary School"
-                    onChange={(e) => props.setSchool(e.target.value)}
-                    value={props.school}
-                />
-            </FormControl>
+            <TextField
+                name="School (if applicable)"
+                value={props.school}
+                setValue={props.setSchool}
+                placeholder="Westmount Secondary School"
+                required={false}
+            ></TextField>
+            <Box>
+                <Button
+                    id="Submit"
+                    bg={colourTheme.colors.Blue}
+                    color={"white"}
+                    fontWeight="400"
+                    my={8}
+                    px={12}
+                    borderRadius={100}
+                    mt={8}
+                    disabled={
+                        !validator.isPostalCode(props.postalCode, "CA") ||
+                        !props.certifyAge15 ||
+                        !props.dateOfBirth ||
+                        !props.address1 ||
+                        !props.city ||
+                        !props.participantProvince
+                    }
+                    onClick={props.formButtonOnClick}
+                >
+                    Next
+                </Button>
+            </Box>
         </>
     );
 };

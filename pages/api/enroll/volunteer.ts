@@ -10,6 +10,7 @@ import {
 import { validateVolunteerRegistrationRecord } from "@utils/validation/registration";
 import { VolunteerRegistrationInput } from "@models/Enroll";
 import { roles } from "@prisma/client";
+import { getUserFromEmail } from "@database/user";
 
 /**
  * handle controls the request made to the enroll/volunteer resource.
@@ -24,7 +25,16 @@ export default async function handle(
     const session = await getSession({ req });
 
     // If there is no session or the user is not a volunteer
-    if (!session || session.role !== roles.VOLUNTEER) {
+    if (!session) {
+        return ResponseUtil.returnUnauthorized(
+            res,
+            "Only users with VOLUNTEER role can access this resource",
+        );
+    }
+
+    const user = await getUserFromEmail(session.user.email);
+
+    if (!user || user.role !== roles.VOLUNTEER) {
         return ResponseUtil.returnUnauthorized(
             res,
             "Only users with VOLUNTEER role can access this resource",

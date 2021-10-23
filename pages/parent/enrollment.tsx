@@ -1,4 +1,3 @@
-import Wrapper from "@components/SDCWrapper";
 import React, { useState } from "react";
 import SelectChildForClass from "@components/SelectChildForClass";
 import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
@@ -13,6 +12,9 @@ import { ParentEnrolledFormWrapper } from "@components/registration-form/ParentE
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { ParticipantWaiver } from "@components/agreement-form/ParticipantWaiver";
 import { TermsAndConditions } from "@components/agreement-form/TermsAndConditions";
+import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePage";
+import { DiscountPage } from "@components/registration-form/DiscountPage";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -24,10 +26,13 @@ type ParentEnrollClassProps = {
 export default function ParentEnrollClass({
     session,
 }: ParentEnrollClassProps): JSX.Element {
-    const [pageNum, setPageNum] = useState<number>(0);
     const [selectedChild, setSelectedChild] = useState<number>(0);
     const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
+    const { classId, page } = router.query;
+    const numberClassId = classId ? parseInt(classId as string, 10) : null;
+    const numberPage = page ? parseInt(page as string, 10) : null;
+    const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
@@ -37,8 +42,18 @@ export default function ParentEnrollClass({
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
     if (isLoading) {
-        return <Loading></Loading>;
+        return <Loading />;
     }
+    if (!isLoading && !classId) {
+        router.back();
+    }
+
+    // Stop and redirect to home page if user not parent
+    if (!user || user.role !== roles.PARENT) {
+        router.push("/signup");
+        return <Loading />;
+    }
+
     const parentData = {
         name: user.firstName + " " + user.lastName,
         phone: user.parent.phoneNumber,
@@ -73,12 +88,25 @@ export default function ParentEnrollClass({
         <TermsAndConditions onNext={nextPage} />,
     ];
 
+    if (user.parent.isLowIncome) {
+        pageElements.push(<DiscountPage onNext={nextPage} />);
+    } else if (user.parent.proofOfIncomeLink === null) {
+        pageElements.push(
+            <ProofOfIncomePage
+                pageNum={pageNum}
+                classId={numberClassId}
+                onNext={nextPage}
+            />,
+        );
+    }
     return (
         <ParentEnrolledFormWrapper
             session={session}
             formPages={pageElements}
             pageNum={pageNum}
             setPageNum={setPageNum}
+            student={studentData[selectedChild] as Student}
+            classId={numberClassId}
         />
     );
 }
@@ -86,13 +114,11 @@ export default function ParentEnrollClass({
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
-    if (!session || !(session.role === roles.PARENT)) {
+    if (!session) {
         return {
             redirect: {
                 destination: "/login",
@@ -102,6 +128,9 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["form", "poi"])),
+        },
     };
 };

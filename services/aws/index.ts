@@ -18,5 +18,11 @@ const ses = new aws.SES({
 // Set up S3
 const s3 = new aws.S3();
 
-export { aws, ses, s3 };
+// Set up SSM to access Paramter Store for Zoom link
+const ssm = new aws.SSM({
+    apiVersion: "2014-11-06",
+    region: "us-east-1",
+});
+
+export { aws, ses, s3, ssm };
 export type { S3, AWSError, ManagedUpload };

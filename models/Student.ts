@@ -20,6 +20,8 @@ export type CreateStudentInput = {
     therapy?: therapy[];
     otherTherapy?: string;
     guardianExpectations?: string;
+    hasMedication?: boolean;
+    hasAllergies?: boolean;
     medication?: string;
     allergies?: string;
     additionalInfo?: string;

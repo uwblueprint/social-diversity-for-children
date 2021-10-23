@@ -10,7 +10,7 @@ export const CloseButton: React.FC<LinkProps> = ({
     ...restProps
 }) => {
     const router = useRouter();
-    if (!onClick) {
+    if (!onClick && !href) {
         onClick = () => router.back();
     }
 

@@ -25,6 +25,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { locale, roles } from "@prisma/client";
+import { UseMeResponse } from "@utils/useMe";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -32,7 +33,7 @@ type ClassInfoModalProps = {
     classInfo: ClassCardInfo;
     onlineFormat: string;
     tag: string;
-    session?: Record<string, unknown>;
+    me?: UseMeResponse["me"];
 };
 
 /**
@@ -51,7 +52,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     classInfo,
     onlineFormat,
     tag,
-    session,
+    me,
 }) => {
     const router = useRouter();
     const { t } = useTranslation("common");
@@ -134,8 +135,8 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                 <ModalFooter>
                     <Link
                         href={
-                            session
-                                ? session.role === roles.VOLUNTEER
+                            me
+                                ? me.role === roles.VOLUNTEER
                                     ? `/volunteer/enrollment?classId=${classInfo.id}`
                                     : `/parent/enrollment/?classId=${classInfo.id}`
                                 : "/login"
@@ -164,9 +165,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                             }}
                             minW={"100%"}
                         >
-                            {session
-                                ? "Register"
-                                : t("program.signInToRegister")}
+                            {me ? "Register" : t("program.signInToRegister")}
                         </Button>
                     </Link>
                 </ModalFooter>

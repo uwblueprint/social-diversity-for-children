@@ -7,10 +7,13 @@ import prisma from "../services/database";
  */
 const main = async () => {
     if (process.env.NODE_ENV === "production") {
+        console.log("Running production seed...");
         await seedProd();
     } else {
+        console.log("Running development seed...");
         await seedDev();
     }
+    console.log("Seeding finished");
 };
 
 // Execute main to start seeding

@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
@@ -8,6 +8,9 @@ import { EnrollmentList } from "@components/EnrollmentList";
 import { VolunteeringList } from "@components/VolunteeringList";
 import { roles } from ".prisma/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import useMe from "@utils/useMe";
+import { Loading } from "@components/Loading";
+import { useRouter } from "next/router";
 
 type ClassProps = {
     session: Record<string, unknown>;
@@ -17,6 +20,21 @@ type ClassProps = {
  * This is the page that a user will see their registered classes
  */
 function Class({ session }: ClassProps): JSX.Element {
+    const { me, isLoading: isMeLoading, error: meError } = useMe();
+    const router = useRouter();
+
+    if (meError) {
+        return <Box>{"An error has occurred"}</Box>;
+    } else if (isMeLoading) {
+        return <Loading />;
+    }
+
+    // Stop and inform user to fill out information
+    if (me.role === null) {
+        router.push("/signup");
+        return <Loading />;
+    }
+
     return (
         <Wrapper session={session}>
             <BackButton />
@@ -24,8 +42,8 @@ function Class({ session }: ClassProps): JSX.Element {
                 <Flex align="center">
                     <Heading mb={8}>My Classes</Heading>
                 </Flex>
-                {session.role === roles.PARENT ? <EnrollmentList /> : null}
-                {session.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
+                {me.role === roles.PARENT ? <EnrollmentList /> : null}
+                {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
             </Flex>
         </Wrapper>
     );
@@ -44,14 +62,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return {
             redirect: {
                 destination: "/login",
-                permanent: false,
-            },
-        };
-    }
-    if (!session.role) {
-        return {
-            redirect: {
-                destination: "/signup",
                 permanent: false,
             },
         };
