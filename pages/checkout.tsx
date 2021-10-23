@@ -14,6 +14,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useSWR from "swr";
 import fetcherWithId from "@utils/fetcherWithId";
 import { Loading } from "@components/Loading";
+import colourTheme from "@styles/colours";
 
 type CheckoutProps = {
     session: Record<string, unknown>;
@@ -33,8 +34,6 @@ export default function Checkout({ session }: CheckoutProps): JSX.Element {
         return <Loading />;
     } else if (classInfoError) {
         return <Box>An Error has occured</Box>;
-    } else {
-        // console.log(classInfoResponse);
     }
 
     const classCard = classInfoResponse
@@ -98,7 +97,10 @@ export default function Checkout({ session }: CheckoutProps): JSX.Element {
                             classInfoResponse.data.program.price / 100
                         ).toFixed(2)}`}</Text>
                     </Flex>
-                    <Divider mb="20px" />
+                    <Divider
+                        mb="20px"
+                        borderColor={colourTheme.colors.MildGray}
+                    />
                     <Flex
                         mb="20px"
                         alignItems={"center"}
