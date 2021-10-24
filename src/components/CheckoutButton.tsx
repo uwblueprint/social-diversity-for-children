@@ -12,6 +12,7 @@ type CheckoutButtonProps = {
     priceId: string;
     couponId?: string;
     quantity: number;
+    successPath?: string;
 };
 
 /**
@@ -22,6 +23,7 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = ({
     priceId,
     couponId,
     quantity,
+    successPath,
 }) => {
     const handleClick = async () => {
         const { sessionId } = await fetch("/api/checkout/session", {
@@ -30,9 +32,10 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = ({
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                priceId: priceId,
-                couponId: couponId,
-                quantity: quantity,
+                priceId,
+                couponId,
+                quantity,
+                successPath,
             }),
         }).then((res) => res.json());
 

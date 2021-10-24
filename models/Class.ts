@@ -1,5 +1,4 @@
 import { weekday } from "@prisma/client";
-import { ProgramCardInfo } from "./Program";
 
 /**
  * Request Body Input for POST /class
@@ -27,6 +26,7 @@ export type ClassCardInfo = {
     description: string;
     borderAge?: number;
     isAgeMinimal: boolean;
+    stripePriceId: string;
     spaceAvailable: number;
     spaceTotal: number;
     volunteerSpaceAvailable: number;

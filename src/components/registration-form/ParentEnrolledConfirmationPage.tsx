@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Center, Box, Text, Button, VStack } from "@chakra-ui/react";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
 import colourTheme from "@styles/colours";
@@ -6,21 +6,39 @@ import Link from "next/link";
 import { createClassRegistration } from "@utils/createClassRegistration";
 import { Student } from "@prisma/client";
 import { Loading } from "@components/Loading";
+import useStripeSession from "@utils/useStripeSession";
+import { Stripe } from "services/stripe";
 
 type ParentEnrolledConfirmationPageProps = {
     student: Student;
     classId: number;
+    stripeSessionId?: string;
+    classPriceId?: string;
 };
 
 export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmationPageProps> =
-    ({ student, classId }): JSX.Element => {
-        const [success, setSuccess] = useState(false);
-        let data;
-        if (!success) {
-            data = createClassRegistration(student, classId).then((res) => res);
-            setSuccess(true);
-        }
-        if (data === null) return <Loading />;
+    ({ student, classId, stripeSessionId, classPriceId }): JSX.Element => {
+        const { stripeSession, stripeSessionItems } =
+            useStripeSession(stripeSessionId);
+        const [enrolled, setEnrolled] = useState(false);
+
+        useEffect(() => {
+            // Only create registration if stripe session is successful & product matches current class
+            if (
+                !enrolled &&
+                stripeSession &&
+                (stripeSession.payment_intent as Stripe.PaymentIntent)
+                    .status === "succeeded" &&
+                stripeSessionItems.some(
+                    (item) => item.price.id === classPriceId,
+                )
+            ) {
+                createClassRegistration(student, classId);
+                setEnrolled(true);
+            }
+        }, [classId, stripeSession]);
+
+        if (enrolled === false) return <Loading />;
         return (
             <Center>
                 <VStack mt={120} mb={180}>
