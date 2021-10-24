@@ -31,8 +31,8 @@ export const DiscountPage: React.FC<DiscountPageProps> = ({
     const router = useRouter();
     return (
         <>
-            <Box maxW="55rem">
-                <Stack spacing={8}>
+            <Box>
+                <Stack spacing={8} mb={8}>
                     <Text fontWeight="700" fontSize="36px" marginTop="39px">
                         Proof of Income
                     </Text>

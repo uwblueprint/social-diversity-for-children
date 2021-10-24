@@ -3,8 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "services/stripe";
 
 /**
- * handler takes the priceId parameter and returns
- * the Stripe price information associated with the priceId
+ * handler takes the couponId parameter and returns
+ * the Stripe coupon information associated with the coupon id
  * @param req API request object
  * @param res API response object
  */
@@ -14,14 +14,14 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            // obtain the priceId
-            const { priceId } = req.query;
+            // obtain the coupondId
+            const { couponId } = req.query;
 
-            // obtain the price information from priceId
-            const price = await stripe.prices.retrieve(priceId as string);
+            // obtain the coupon information from coupon id
+            const coupon = await stripe.coupons.retrieve(couponId as string);
 
-            // return price information
-            res.status(200).json({ price });
+            // return coupon information
+            res.status(200).json({ coupon });
             break;
         }
         default: {
