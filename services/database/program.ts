@@ -11,7 +11,6 @@ import { Program } from "@prisma/client";
 async function createProgram(newProgramData: ProgramInput): Promise<Program> {
     const program = await prisma.program.create({
         data: {
-            price: newProgramData.price,
             onlineFormat: newProgramData.onlineFormat,
             tag: newProgramData.tag,
             startDate: newProgramData.startDate,

@@ -26,7 +26,6 @@ model Parent {
 
 model Program {
   id                 Int                  @id @default(autoincrement())
-  price              Int
   onlineFormat       programFormat        @map("online_format")
   tag                String
   imageLink          String?              @map("image_link")

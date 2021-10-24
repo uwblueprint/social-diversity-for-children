@@ -47,7 +47,6 @@ CREATE TABLE verification_requests (
 -- create program table
 CREATE TABLE programs (
   id SERIAL PRIMARY KEY NOT NULL,
-  price INTEGER NOT NULL, -- price in cents, to make it integer
   online_format program_formats NOT NULL,
   tag TEXT NOT NULL, -- art, music, math etc (TODO we might need a tag table later)
   image_link TEXT,
