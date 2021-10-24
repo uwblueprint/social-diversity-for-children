@@ -44,6 +44,7 @@ export class CardInfoUtil {
             spaceTotal: result.spaceTotal,
             id: result.id,
             image: result.imageLink,
+            stripePriceId: result.stripePriceId,
             spaceAvailable: result.spaceAvailable,
             volunteerSpaceTotal: result.volunteerSpaceTotal,
             volunteerSpaceAvailable: result.volunteerSpaceAvailable,

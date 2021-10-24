@@ -3,34 +3,25 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "services/stripe";
 
 /**
- * sessionIdHandler takes the sessionId parameter and returns
- * the Stripe session information associated with the sessionId
+ * handler takes the priceId parameter and returns
+ * the Stripe price information associated with the priceId
  * @param req API request object
  * @param res API response object
  */
-export default async function sessionIdHandler(
+export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
             // obtain the sessionId
-            const { sessionId } = req.query;
+            const { priceId } = req.query;
 
             // obtain the session information from sessionId
-            const session = await stripe.checkout.sessions.retrieve(
-                sessionId as string,
-                {
-                    expand: ["payment_intent"],
-                },
-            );
+            const price = await stripe.prices.retrieve(priceId as string);
 
-            const items = await stripe.checkout.sessions.listLineItems(
-                sessionId as string,
-            );
-
-            // return related session information
-            res.status(200).json({ session, items });
+            // return session information
+            res.status(200).json({ price });
             break;
         }
         default: {

@@ -10,24 +10,21 @@ import {
     GridItem,
     Spacer,
     VStack,
-    Button,
 } from "@chakra-ui/react";
 import weekdayToString from "@utils/weekdayToString";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
 import { ClassCardInfo } from "@models/Class";
+import { SDCBadge } from "./SDCBadge";
 
-type CheckoutEnrollmentCardProps = {
+type FormClassCardProps = {
     classInfo: ClassCardInfo;
 };
 
-export const CheckoutEnrollmentCard: React.FC<CheckoutEnrollmentCardProps> = ({
-    classInfo,
-}) => {
+export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
     const router = useRouter();
     const { t } = useTranslation();
 
@@ -84,14 +81,7 @@ export const CheckoutEnrollmentCard: React.FC<CheckoutEnrollmentCardProps> = ({
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
-                            <Button
-                                bg={colourTheme.colors.Blue}
-                                color={"white"}
-                                mx={"auto"}
-                                my={2}
-                                borderRadius={"56px"}
-                                fontWeight={"normal"}
-                            >
+                            <SDCBadge>
                                 {t(
                                     classInfo.isAgeMinimal
                                         ? "program.ageGroupAbove"
@@ -100,7 +90,7 @@ export const CheckoutEnrollmentCard: React.FC<CheckoutEnrollmentCardProps> = ({
                                         age: classInfo.borderAge,
                                     },
                                 )}
-                            </Button>
+                            </SDCBadge>
                         </Flex>
                     </Flex>
                 </VStack>

@@ -25,8 +25,12 @@ export default async function sessionHandler(
                     },
                 ],
                 mode: "payment",
-                success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${req.headers.origin}/checkout`,
+                success_url: stripeRequest.successPath
+                    ? `${req.headers.origin}/${stripeRequest.successPath}${
+                          stripeRequest.successPath.includes("?") ? "&" : "?"
+                      }stripe={CHECKOUT_SESSION_ID}`
+                    : `${req.headers.origin}/result?stripe={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${req.headers.referer}`,
                 allow_promotion_codes: true,
             };
 
