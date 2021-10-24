@@ -110,7 +110,6 @@ export class CardInfoUtil {
         return {
             id: result.id,
             image: result.imageLink,
-            price: result.price,
             name: mainProgramTranslation ? mainProgramTranslation.name : "",
             description: mainProgramTranslation
                 ? mainProgramTranslation.description

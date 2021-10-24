@@ -5,7 +5,6 @@ import type { programFormat } from "@prisma/client";
  * id is not required and is automatically incremented in the record
  */
 export type ProgramInput = {
-    price: number;
     onlineFormat: programFormat;
     tag: string;
     startDate: string;
@@ -22,5 +21,4 @@ export type ProgramCardInfo = {
     endDate: Date;
     tag: string;
     onlineFormat: string;
-    price: number;
 };

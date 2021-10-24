@@ -19,7 +19,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import fetcherWithId from "@utils/fetcherWithId";
 import useSWR from "swr";
 import CardInfoUtil from "@utils/cardInfoUtil";
-import { pathWithQuery } from "@utils/request/query";
+import { pathWithQueries, pathWithQuery } from "@utils/request/query";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -31,13 +31,15 @@ type ParentEnrollClassProps = {
 export default function ParentEnrollClass({
     session,
 }: ParentEnrollClassProps): JSX.Element {
-    const [selectedChild, setSelectedChild] = useState<number>(0);
-    const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
-    const { classId, page, stripe } = router.query;
+    const { classId, page, child, stripe } = router.query;
+    const { user, isLoading, error } = useUser(session.id as string);
     const numberClassId = classId ? parseInt(classId as string, 10) : null;
     const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
+    const [selectedChild, setSelectedChild] = useState<number>(
+        child ? parseInt(child as string, 10) : 0,
+    );
     const [couponId, setCouponId] = useState<string>();
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
@@ -134,11 +136,13 @@ export default function ParentEnrollClass({
     pageElements.push(
         <Checkout
             classInfo={classInfo}
-            successPath={pathWithQuery(
-                router.asPath,
-                "page",
-                (pageElements.length + 1).toString(),
-            )}
+            successPath={pathWithQueries(router.asPath, [
+                { param: "page", value: (pageElements.length + 1).toString() },
+                {
+                    param: "child",
+                    value: selectedChild.toString(),
+                },
+            ])}
             couponId={couponId}
         />,
     );
