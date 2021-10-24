@@ -38,6 +38,7 @@ export default function ParentEnrollClass({
     const numberClassId = classId ? parseInt(classId as string, 10) : null;
     const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
+    const [couponId, setCouponId] = useState<string>();
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId, classId, router.locale],
@@ -116,8 +117,11 @@ export default function ParentEnrollClass({
     ];
 
     if (user.parent.isLowIncome) {
-        // TODO: In this case, we should know what the coupon is already to be passed...
         pageElements.push(<DiscountPage onNext={nextPage} />);
+        if (!couponId) {
+            // TODO: If we go with automatic coupons, replace flow with post coupon creation
+            setCouponId("THRPT0Bq");
+        }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
             <ProofOfIncomePage
@@ -135,6 +139,7 @@ export default function ParentEnrollClass({
                 "page",
                 (pageElements.length + 1).toString(),
             )}
+            couponId={couponId}
         />,
     );
 
