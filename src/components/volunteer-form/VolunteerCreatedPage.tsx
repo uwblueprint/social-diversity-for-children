@@ -17,6 +17,7 @@ import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { Loading } from "@components/Loading";
+import { useTranslation } from "react-i18next";
 
 type VolunteerCreatedPageProps = {
     successful: string;
@@ -36,6 +37,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
     formPages,
     successful,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
     const progressBarIncrement = Math.ceil(100 / totalPages);
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
@@ -43,8 +45,8 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
     const formPageHeaders = [
         "Volunteer Information",
         "Volunteer Personal Details",
+        t("bgc.title"),
         "Volunteer Personal Details",
-        "Criminal Record Check",
     ];
     return (
         <Wrapper session={session}>
@@ -76,7 +78,6 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                                 size="sm"
                                 color={colourTheme.colors.Blue}
                                 mt={8}
-                                mb={6}
                             />
                             {formPages.map((formPage, idx) => {
                                 return (
@@ -101,7 +102,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                         <ApprovedIcon />
                         <Text fontWeight="700" fontSize="24px" align="center">
                             {successful === "success"
-                                ? "Account created successfully"
+                                ? t("form.accountCreated")
                                 : "Error: Account not Created"}
                         </Text>
                         <Text maxW={512} textAlign="center">
@@ -125,7 +126,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                                     fontWeight={"200"}
                                     borderRadius="6px"
                                 >
-                                    Browse Classes
+                                    {t("form.browseClasses")}
                                 </Button>
                             </ChakraLink>
                         </Link>

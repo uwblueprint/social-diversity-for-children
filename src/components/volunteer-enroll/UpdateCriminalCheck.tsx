@@ -11,6 +11,7 @@ import {
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type UpdateCriminalCheckFormProps = {
     styleProps?: Record<string, unknown>;
@@ -25,6 +26,7 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
     ({ onNext, classInfo }): JSX.Element => {
         // Next button is disabled by default, activates criminal checkbox is checked
         const [criminalCheck, setCriminalCheck] = useState<boolean>(false);
+        const { t } = useTranslation("form");
 
         return (
             <>
@@ -36,7 +38,7 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                         fontWeight="700"
                         fontSize="36px"
                     >
-                        Update Background Check
+                        {t("bgc.updateTitle")}
                     </Text>
                 </Box>
                 <Box>
@@ -47,23 +49,13 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                         mt="50px"
                         fontSize="22px"
                     >
-                        Your criminal record check has expired!
+                        {t("bgc.expired")}
                     </Text>
                     <Text pb="5px" align="left" mt="30px">
-                        As volunteering in our programs involves working closely
-                        with children and vulnerable persons, we ask that all
-                        our volunteers get a Criminal Record Check completed at
-                        their local police station or the RCMP office. The price
-                        of the CRC will be waived with a letter provided from
-                        SDC.
+                        {t("bgc.desc1")}
                     </Text>
                     <Text pb="5px" align="left" mt="30px">
-                        Also, please note that the MPM/JELIC is an IN-PERSON
-                        math program. If you apply to volunteer for this
-                        program, pleasure ensure that you are aware that it is
-                        an in-person program and are able to attend the classes
-                        at Richmond Quantum Academy (6650-8181 Cambie Rd,
-                        Richmond, BC V6X 3X9).
+                        {t("bgc.desc2")}
                     </Text>
                 </Box>
                 <Box>
@@ -74,25 +66,13 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                         mt="50px"
                         fontSize="22px"
                     >
-                        Uploading your Criminal Record Check
+                        {t("bgc.instruction")}
                     </Text>
                     <OrderedList pb="5px" align="left" mt="30px">
-                        <ListItem>
-                            Under My Account {">"} Criminal Record Check
-                            generates a volunteer letter from SDC
-                        </ListItem>
-                        <ListItem>
-                            Use the provided letter to obtain a criminal record
-                            check at the local police station or RCMP office
-                        </ListItem>
-                        <ListItem>
-                            Upload a copy of the document to your SDC account
-                        </ListItem>
-
-                        <ListItem>
-                            Once you've submitted your document(s), keep an eye
-                            out for the approval status from SDC!
-                        </ListItem>
+                        <ListItem>{t("bgc.instruction1")}</ListItem>
+                        <ListItem>{t("bgc.instruction2")}</ListItem>
+                        <ListItem>{t("bgc.instruction3")}</ListItem>
+                        <ListItem>{t("bgc.instruction3")}</ListItem>
                     </OrderedList>
                 </Box>
                 <Box>
@@ -110,7 +90,7 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                             fontWeight={"400"}
                             borderRadius={"6px"}
                         >
-                            Upload criminal record check
+                            {t("bgc.upload")}
                         </Button>
                     </Link>
                 </Box>
@@ -119,8 +99,7 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                         mt="75px"
                         onChange={() => setCriminalCheck(!criminalCheck)}
                     >
-                        I will provide an updated CRC by the first day of
-                        volunteering
+                        {t("bgc.firstDayProvide")}
                     </Checkbox>
                 </Box>
 
@@ -140,7 +119,7 @@ export const UpdateCriminalCheckForm: React.FC<UpdateCriminalCheckFormProps> =
                         color="white"
                         onClick={onNext}
                     >
-                        Next
+                        {t("form.next")}
                     </Button>
                 </Box>
             </>
