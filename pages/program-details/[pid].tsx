@@ -5,13 +5,13 @@ import { getSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
 import useSWR from "swr";
 import CardInfoUtil from "utils/cardInfoUtil";
-import fetcherWithId from "@utils/fetcherWithId";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { locale } from "@prisma/client";
 import { Loading } from "@components/Loading";
 import Participants from "@utils/containers/Participants";
 import useMe from "@utils/useMe";
+import { fetcherWithId } from "@utils/fetcher";
 
 type ProgramDetailsProps = {
     session: Record<string, unknown>;
