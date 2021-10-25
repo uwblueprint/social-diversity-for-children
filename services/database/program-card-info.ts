@@ -3,6 +3,7 @@ import prisma from "@database";
 /**
  * @param {string} id - programId
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function getClassInfoWithProgramId(id: string) {
     const findResults = await prisma.class.findMany({
         where: {
@@ -19,6 +20,12 @@ async function getClassInfoWithProgramId(id: string) {
                             user: true,
                         },
                     },
+                },
+            },
+            _count: {
+                select: {
+                    parentRegs: true,
+                    volunteerRegs: true,
                 },
             },
         },

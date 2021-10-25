@@ -11,6 +11,7 @@ import { validateParentRegistrationRecord } from "@utils/validation/registration
 import { ParentRegistrationInput } from "models/Enroll";
 import { roles } from "@prisma/client";
 import { getUserFromEmail } from "@database/user";
+import { getClass } from "@database/class";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -123,6 +124,12 @@ export default async function handle(
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
                 return;
+            }
+
+            // First, check if there is still space, if not, return conflict
+            const enrollClass = await getClass(parentRegistrationInput.classId);
+            if (enrollClass._count.parentRegs >= enrollClass.spaceTotal) {
+                return ResponseUtil.returnConflict(res, "Class is full");
             }
 
             // create parent registration record and return if it could not be created

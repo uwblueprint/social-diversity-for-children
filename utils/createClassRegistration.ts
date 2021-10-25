@@ -11,7 +11,7 @@ import { mutate } from "swr";
 export async function createClassRegistration(
     student: Student,
     classId: number,
-): Promise<any> {
+): Promise<Response> {
     const registrationData: ParentRegistrationInput = {
         parentId: student.parentId,
         classId: classId,
@@ -25,9 +25,8 @@ export async function createClassRegistration(
     };
 
     const response = await fetch("/api/enroll/child", request);
-    const createdRegistrations = await response.json();
 
     mutate("/api/enroll/child");
 
-    return createdRegistrations;
+    return response;
 }

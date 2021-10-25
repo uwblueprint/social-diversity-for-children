@@ -71,9 +71,7 @@ CREATE TABLE classes (
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
 
   space_total INTEGER NOT NULL,
-  space_available INTEGER NOT NULL,
   volunteer_space_total INTEGER NOT NULL,
-  volunteer_space_available INTEGER NOT NULL,
 
   is_archived BOOLEAN DEFAULT false NOT NULL, -- its possible to archive classes separately
 

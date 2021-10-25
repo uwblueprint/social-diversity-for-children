@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Center, Box, Text, Button, VStack } from "@chakra-ui/react";
+import { Center, Box, Text, Button, VStack, useToast } from "@chakra-ui/react";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
@@ -8,6 +8,8 @@ import { Student } from "@prisma/client";
 import { Loading } from "@components/Loading";
 import useStripeSession from "@utils/useStripeSession";
 import { Stripe } from "services/stripe";
+import { useRouter } from "next/router";
+import { createStripeRefund } from "@utils/createStripeRefund";
 
 type ParentEnrolledConfirmationPageProps = {
     student: Student;
@@ -21,6 +23,8 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
         const { stripeSession, stripeSessionItems } =
             useStripeSession(stripeSessionId);
         const [enrolled, setEnrolled] = useState(false);
+        const toast = useToast();
+        const router = useRouter();
 
         useEffect(() => {
             // Only create registration if stripe session is successful & product matches current class
@@ -33,8 +37,27 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                     (item) => item.price.id === classPriceId,
                 )
             ) {
-                createClassRegistration(student, classId);
-                setEnrolled(true);
+                createClassRegistration(student, classId).then((res) => {
+                    if (res.ok === true) {
+                        setEnrolled(true);
+                    } else if (res.ok === false) {
+                        createStripeRefund(
+                            (
+                                stripeSession.payment_intent as Stripe.PaymentIntent
+                            ).id,
+                        );
+                        router.push("/");
+                        toast({
+                            title: "Registration failed.",
+                            description:
+                                "The class is not available for registration at this time",
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top-right",
+                        });
+                    }
+                });
             }
         }, [classId, stripeSession]);
 

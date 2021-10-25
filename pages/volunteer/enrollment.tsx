@@ -15,6 +15,7 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
+import { useToast } from "@chakra-ui/react";
 
 type VolunteerEnrollmentProps = {
     session: Record<string, unknown>;
@@ -32,6 +33,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         page ? parseInt(page as string, 10) : 0,
     );
     const { me, isLoading: isMeLoading } = useMe();
+    const toast = useToast();
 
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
@@ -70,14 +72,29 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                 "Content-Type": "application/json",
             },
         });
+        return response;
     };
     const pageElements = [
         <MediaReleaseForm onNext={nextPage} />,
         <ConfirmClassEnrollment
             classInfo={classInfo}
             onNext={() => {
-                submitVolunteer();
-                nextPage();
+                submitVolunteer().then((res) => {
+                    if (res.ok === true) {
+                        nextPage();
+                    } else if (res.ok === false) {
+                        router.push("/");
+                        toast({
+                            title: "Registration failed.",
+                            description:
+                                "The class is not available for registration at this time",
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top-right",
+                        });
+                    }
+                });
             }}
         />,
     ];

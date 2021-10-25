@@ -61,4 +61,13 @@ export class ResponseUtil {
         res.setHeader("Allow", allowedHeaders);
         res.status(405).json({ error: message });
     }
+
+    /**
+     * Method for returning a status 409 Conflict
+     * @param res NextApiResponse
+     * @param message Optional message
+     */
+    static returnConflict(res: NextApiResponse, message: string): void {
+        res.status(409).json({ error: message });
+    }
 }

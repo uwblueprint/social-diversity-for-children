@@ -11,6 +11,7 @@ import { validateVolunteerRegistrationRecord } from "@utils/validation/registrat
 import { VolunteerRegistrationInput } from "@models/Enroll";
 import { roles } from "@prisma/client";
 import { getUserFromEmail } from "@database/user";
+import { getClass } from "@database/class";
 
 /**
  * handle controls the request made to the enroll/volunteer resource.
@@ -114,6 +115,17 @@ export default async function handle(
                 return;
             }
 
+            // First, check if there is still space, if not, return conflict
+            const enrollClass = await getClass(
+                volunteerRegistrationInput.classId,
+            );
+            if (
+                enrollClass._count.volunteerRegs >=
+                enrollClass.volunteerSpaceTotal
+            ) {
+                return ResponseUtil.returnConflict(res, "Class is full");
+            }
+
             // create volunteer registration record and return if it could not be created
             const newRegistration = createVolunteerRegistration(
                 volunteerRegistrationInput,
@@ -126,7 +138,7 @@ export default async function handle(
                 return;
             }
 
-            ResponseUtil.returnOK(res);
+            ResponseUtil.returnOK(res, newRegistration);
             break;
         }
         case "DELETE": {
