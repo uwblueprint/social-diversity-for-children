@@ -44,7 +44,6 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
             endDate: new Date(),
             onlineFormat: programFormat.online,
             tag: "",
-            price: 0,
         },
         {
             id: 0,
@@ -55,7 +54,6 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
             endDate: new Date(),
             onlineFormat: programFormat.online,
             tag: "",
-            price: 0,
         },
     ];
 

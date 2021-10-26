@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, Box, Flex, Text, Button, VStack } from "@chakra-ui/react";
+import { Center, Box, Flex } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
@@ -14,6 +14,8 @@ type ParentEnrolledPageProps = {
     formPages: JSX.Element[];
     student: Student;
     classId: number;
+    stripeSessionId?: string;
+    classPriceId?: string;
 };
 
 export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
@@ -23,6 +25,8 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
     formPages,
     student,
     classId,
+    stripeSessionId,
+    classPriceId,
 }): JSX.Element => {
     return (
         <Wrapper session={session}>
@@ -61,6 +65,8 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
                 <ParentEnrolledConfirmationPage
                     student={student}
                     classId={classId}
+                    stripeSessionId={stripeSessionId}
+                    classPriceId={classPriceId}
                 />
             )}
         </Wrapper>

@@ -5,7 +5,6 @@ import prisma from "../../services/database"; // Relative path required, aliases
 const programs: Program[] = [
     {
         id: 1,
-        price: 1000,
         onlineFormat: programFormat.online,
         tag: "Music",
         imageLink:
@@ -18,7 +17,6 @@ const programs: Program[] = [
     },
     {
         id: 2,
-        price: 2000,
         onlineFormat: programFormat.online,
         tag: "Art",
         imageLink:

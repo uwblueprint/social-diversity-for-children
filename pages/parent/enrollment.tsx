@@ -5,16 +5,21 @@ import { Box } from "@chakra-ui/layout";
 import { GetServerSideProps } from "next";
 import useUser from "@utils/useUser";
 import { useRouter } from "next/router";
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import { Loading } from "@components/Loading";
-import { roles, Student } from "@prisma/client";
+import { locale, roles, Student } from "@prisma/client";
 import { ParentEnrolledFormWrapper } from "@components/registration-form/ParentEnrollFormWrapper";
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { ParticipantWaiver } from "@components/agreement-form/ParticipantWaiver";
 import { TermsAndConditions } from "@components/agreement-form/TermsAndConditions";
 import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePage";
+import { Checkout } from "@components/registration-form/Checkout";
 import { DiscountPage } from "@components/registration-form/DiscountPage";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import useSWR from "swr";
+import CardInfoUtil from "@utils/cardInfoUtil";
+import { pathWithQueries } from "@utils/request/query";
+import { fetcherWithId } from "@utils/fetcher";
 
 type ParentEnrollClassProps = {
     session: Record<string, unknown>;
@@ -26,18 +31,42 @@ type ParentEnrollClassProps = {
 export default function ParentEnrollClass({
     session,
 }: ParentEnrollClassProps): JSX.Element {
-    const [selectedChild, setSelectedChild] = useState<number>(0);
-    const { user, isLoading, error } = useUser(session.id as string);
     const router = useRouter();
-    const { classId, page } = router.query;
+    const { classId, page, child, stripe } = router.query;
+    const { user, isLoading, error } = useUser(session.id as string);
     const numberClassId = classId ? parseInt(classId as string, 10) : null;
     const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
+    const [selectedChild, setSelectedChild] = useState<number>(
+        child ? parseInt(child as string, 10) : 0,
+    );
+    const [couponId, setCouponId] = useState<string>();
+
+    const { data: classInfoResponse, error: classInfoError } = useSWR(
+        ["/api/class/" + classId, classId, router.locale],
+        fetcherWithId,
+    );
+
+    const isClassInfoLoading = !classInfoResponse && !classInfoError;
+
+    if (isClassInfoLoading) {
+        return <Loading />;
+    } else if (classInfoError) {
+        return <Box>An Error has occured</Box>;
+    }
+
+    const classInfo = classInfoResponse
+        ? CardInfoUtil.getClassCardInfo(
+              classInfoResponse.data,
+              router.locale as locale,
+          )
+        : null;
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
     };
+
     if (error) {
         return <Box>{"An error has occurred: " + error.toString()}</Box>;
     }
@@ -71,6 +100,7 @@ export default function ParentEnrollClass({
     if (studentData.length < 1) {
         router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if there are no children, this should be updated to a toast in a future sprint
     }
+
     const pageElements = [
         <SelectChildForClass
             children={studentNames}
@@ -90,6 +120,10 @@ export default function ParentEnrollClass({
 
     if (user.parent.isLowIncome) {
         pageElements.push(<DiscountPage onNext={nextPage} />);
+        if (!couponId) {
+            // TODO: If we go with automatic coupons, replace flow with post coupon creation
+            setCouponId("THRPT0Bq");
+        }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
             <ProofOfIncomePage
@@ -99,6 +133,20 @@ export default function ParentEnrollClass({
             />,
         );
     }
+    pageElements.push(
+        <Checkout
+            classInfo={classInfo}
+            successPath={pathWithQueries(router.asPath, [
+                { param: "page", value: (pageElements.length + 1).toString() },
+                {
+                    param: "child",
+                    value: selectedChild.toString(),
+                },
+            ])}
+            couponId={couponId}
+        />,
+    );
+
     return (
         <ParentEnrolledFormWrapper
             session={session}
@@ -107,6 +155,8 @@ export default function ParentEnrollClass({
             setPageNum={setPageNum}
             student={studentData[selectedChild] as Student}
             classId={numberClassId}
+            stripeSessionId={stripe ? stripe.toString() : undefined}
+            classPriceId={classInfo.stripePriceId}
         />
     );
 }
@@ -130,7 +180,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["form", "poi"])),
+            ...(await serverSideTranslations(context.locale, [
+                "common",
+                "form",
+                "poi",
+            ])),
         },
     };
 };

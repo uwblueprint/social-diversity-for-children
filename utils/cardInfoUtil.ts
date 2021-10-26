@@ -44,6 +44,7 @@ export class CardInfoUtil {
             spaceTotal: result.spaceTotal,
             id: result.id,
             image: result.imageLink,
+            stripePriceId: result.stripePriceId,
             spaceAvailable: result.spaceAvailable,
             volunteerSpaceTotal: result.volunteerSpaceTotal,
             volunteerSpaceAvailable: result.volunteerSpaceAvailable,
@@ -109,7 +110,6 @@ export class CardInfoUtil {
         return {
             id: result.id,
             image: result.imageLink,
-            price: result.price,
             name: mainProgramTranslation ? mainProgramTranslation.name : "",
             description: mainProgramTranslation
                 ? mainProgramTranslation.description
