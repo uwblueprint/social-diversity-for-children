@@ -29,6 +29,8 @@ async function createStudent(input: CreateStudentInput): Promise<Student> {
             emergLastName: input.emergLastName,
             emergNumber: input.emergNumber,
             emergRelationToStudent: input.emergRelationToStudent,
+            therapy: input.therapy,
+            difficulties: input.difficulties,
             parent: {
                 connect: {
                     id: input.parentId,
@@ -66,6 +68,8 @@ async function updateStudent(input: UpdateStudentInput): Promise<Student> {
             emergLastName: input.emergLastName,
             emergNumber: input.emergNumber,
             emergRelationToStudent: input.emergRelationToStudent,
+            therapy: input.therapy,
+            difficulties: input.difficulties,
         },
         create: {
             firstName: input.firstName,
@@ -87,6 +91,8 @@ async function updateStudent(input: UpdateStudentInput): Promise<Student> {
             emergLastName: input.emergLastName,
             emergNumber: input.emergNumber,
             emergRelationToStudent: input.emergRelationToStudent,
+            therapy: input.therapy,
+            difficulties: input.difficulties,
             parent: {
                 connect: {
                     id: input.parentId,

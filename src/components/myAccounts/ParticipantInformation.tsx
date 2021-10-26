@@ -24,7 +24,6 @@ type ParticipantInfo = {
 export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
     props,
 }): JSX.Element => {
-    console.log(props.student);
     const [dateOfBirth, setDateOfBirth] = useState(props.student.dateOfBirth);
     const [address1, setAddress1] = useState(props.student.addressLine1);
     const [address2, setAddress2] = useState(props.student.addressLine2);
@@ -55,7 +54,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
         props.student.emergNumber,
     );
     const [emergRelationship, setEmergRelationship] = useState(
-        props.student.emergRelationship,
+        props.student.emergRelationToStudent,
     );
 
     //Particpant Therapy
@@ -80,16 +79,16 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
 
     // Participant difficulties
     const [hasLearningDifficulties, setHasLearningDifficulties] = useState(
-        props.student.therapy.includes(difficulties.LEARNING),
+        props.student.difficulties.includes(difficulties.LEARNING),
     );
     const [hasPhysicalDifficulties, setHasPhysicalDifficulties] = useState(
-        props.student.therapy.includes(difficulties.PHYSICAL),
+        props.student.difficulties.includes(difficulties.PHYSICAL),
     );
     const [hasSensoryDifficulties, setHasSensoryDifficulties] = useState(
-        props.student.therapy.includes(difficulties.SENSORY),
+        props.student.difficulties.includes(difficulties.SENSORY),
     );
     const [hasOtherDifficulties, setHasOtherDifficulties] = useState(
-        props.student.therapy.includes(difficulties.OTHER),
+        props.student.difficulties.includes(difficulties.OTHER),
     );
 
     //Health info
@@ -248,6 +247,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setHasLearningDifficulties}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={hasPhysicalDifficulties}
@@ -255,6 +255,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setHasPhysicalDifficulties}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={hasSensoryDifficulties}
@@ -262,6 +263,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setHasSensoryDifficulties}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={hasOtherDifficulties}
@@ -269,8 +271,18 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setHasOtherDifficulties}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                 </Stack>
+                <br />
+                <br />
+                <TextField
+                    name="Parent/Guardian Expectations"
+                    value={guardianExpectations}
+                    setValue={setGuardianExpectations}
+                    edit={props.edit}
+                ></TextField>
+                <br />
                 <br />
                 <TextField
                     name="Food Allergies"
@@ -288,6 +300,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setPhysiotherapy}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={speechTherapy}
@@ -295,6 +308,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setSpeechTherapy}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={occupationalTherapy}
@@ -302,6 +316,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setOccupationalTherapy}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={counseling}
@@ -309,6 +324,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setCounseling}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={artTherapy}
@@ -316,6 +332,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setArtTherapy}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={otherTherapy}
@@ -323,6 +340,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         setValue={setOtherTherapy}
                         required={false}
                         spacing={false}
+                        edit={props.edit}
                     ></CheckBoxField>
                 </Stack>
                 <br />

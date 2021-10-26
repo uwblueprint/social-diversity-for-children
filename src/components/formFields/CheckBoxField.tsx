@@ -38,7 +38,7 @@ export const CheckBoxField: React.FC<Props> = ({
                 <Checkbox
                     isChecked={value}
                     onChange={(e) => setValue(e.target.checked)}
-                    disabled={!edit}
+                    isDisabled={!edit}
                 >
                     {name}
                 </Checkbox>

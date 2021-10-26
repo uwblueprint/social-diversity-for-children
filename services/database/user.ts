@@ -318,9 +318,7 @@ async function updateUser(userInput: UserInput): Promise<User> {
                 // TODO: add error message
                 return;
             }
-            console.log(roleData);
             const volunteerData = roleData as VolunteerInput;
-            console.log(volunteerData.hearAboutUs);
             [, updatedUser] = await prisma.$transaction([
                 prisma.volunteer.upsert({
                     create: {

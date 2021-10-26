@@ -89,8 +89,6 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
         return updatedStudentData;
     }
 
-    console.log(me);
-
     //The page will be rendered differently based on if the user is a parent or volunteer
     useEffect(() => {
         if (!me || isLoading) {
@@ -219,7 +217,6 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                             mt={6}
                             onClick={() => {
                                 setSideBarPage(i);
-                                console.log(sideBarPage);
                             }}
                             color={
                                 sideBarPage === i
