@@ -13,7 +13,6 @@ type VolunteerDetailsPageProps = {
     styleProps?: Record<string, unknown>;
     props: VolunteerDetailsInfo;
 };
-import { testCanadianPostalCode } from "@utils/validation/fields";
 
 type VolunteerDetailsInfo = {
     dateOfBirth: string;
