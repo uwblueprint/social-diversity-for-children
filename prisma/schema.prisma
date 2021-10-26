@@ -26,7 +26,6 @@ model Parent {
 
 model Program {
   id                 Int                  @id @default(autoincrement())
-  price              Int
   onlineFormat       programFormat        @map("online_format")
   tag                String
   imageLink          String?              @map("image_link")
@@ -111,6 +110,8 @@ model Volunteer {
   dateOfBirth             DateTime       @map("date_of_birth") @db.Timestamptz(6)
   addressLine1            String?        @map("address_line1")
   criminalRecordCheckLink String?        @map("criminal_record_check_link")
+  criminalCheckApproved   Boolean?       @default(false) @map("criminal_check_approved")
+  criminalCheckExpired    Boolean?       @default(false) @map("criminal_check_expired")
   postalCode              String?        @map("postal_code") @db.VarChar(10)
   cityName                String?        @map("city_name")
   province                province?
@@ -163,14 +164,13 @@ model ClassTranslation {
 model Class {
   id                      Int                @id @default(autoincrement())
   name                    String?
-  borderAge               Int?               @map("border_age")
+  borderAge               Int                @map("border_age")
   isAgeMinimal            Boolean            @default(false) @map("is_age_minimal")
   imageLink               String?            @map("image_link")
   programId               Int                @map("program_id")
+  stripePriceId           String             @map("stripe_price_id") @db.VarChar(50)
   spaceTotal              Int                @map("space_total")
-  spaceAvailable          Int                @map("space_available")
   volunteerSpaceTotal     Int                @map("volunteer_space_total")
-  volunteerSpaceAvailable Int                @map("volunteer_space_available")
   isArchived              Boolean            @default(false) @map("is_archived")
   startDate               DateTime           @map("start_date") @db.Timestamptz(6)
   endDate                 DateTime           @map("end_date") @db.Timestamptz(6)

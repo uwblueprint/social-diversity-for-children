@@ -7,7 +7,8 @@ import { User, roles } from "@prisma/client";
  * getUser takes the id parameter and returns the user associated with the userId
  * @param {string} id - userId
  */
-async function getUser(id: string): Promise<User> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getUser(id: string) {
     const user = await prisma.user.findUnique({
         where: {
             id: parseInt(id),
@@ -30,7 +31,8 @@ async function getUser(id: string): Promise<User> {
  * getUser takes the email parameter and returns a minimal user associated with the email
  * @param {string} email
  */
-async function getUserFromEmail(email: string): Promise<User> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getUserFromEmail(email: string) {
     const user = await prisma.user.findUnique({
         where: {
             email: email,
@@ -52,7 +54,8 @@ async function getUserFromEmail(email: string): Promise<User> {
 /**
  * getUsers returns all the users
  */
-async function getUsers(): Promise<User[]> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getUsers() {
     const users = await prisma.user.findMany({
         include: {
             teacher: true,
@@ -73,7 +76,8 @@ async function getUsers(): Promise<User[]> {
  * @param userInput - data for the updated user
  * @returns prisma User with updated information
  */
-async function updateUser(userInput: UserInput): Promise<User> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function updateUser(userInput: UserInput) {
     /*
     Flow:
     - get role and role data from UserInput
@@ -366,10 +370,13 @@ async function updateUser(userInput: UserInput): Promise<User> {
     return updatedUser;
 }
 
-async function updateVolunteerCriminalCheckLink(
-    email: string,
-    link: string,
-): Promise<User> {
+/**
+ * update volunteer's criminal check link in db to keep track of latest upload
+ * @param  {string} email email of volunteer
+ * @param  {string} link criminal check link name
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function updateVolunteerCriminalCheckLink(email: string, link: string) {
     const user = prisma.user.update({
         data: {
             volunteer: {
@@ -387,10 +394,13 @@ async function updateVolunteerCriminalCheckLink(
     return user;
 }
 
-async function updateParentProofOfIncomeLink(
-    email: string,
-    link: string,
-): Promise<User> {
+/**
+ * update parent's proof of income link in db to keep track of latest upload
+ * @param  {string} email email of parent
+ * @param  {string} link proof of income link name
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function updateParentProofOfIncomeLink(email: string, link: string) {
     const user = prisma.user.update({
         data: {
             parent: {

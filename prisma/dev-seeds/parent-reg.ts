@@ -4,21 +4,21 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed parent registrations data
 const parentRegs: ParentReg[] = [
     {
-        parentId: 4,
+        parentId: 10003,
         studentId: 1,
         classId: 1,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
-        parentId: 6,
+        parentId: 10005,
         studentId: 3,
         classId: 1,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
-        parentId: 8,
+        parentId: 10007,
         studentId: 5,
         classId: 1,
         createdAt: new Date(),

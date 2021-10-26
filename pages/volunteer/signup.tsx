@@ -1,12 +1,15 @@
-import { Button, Box, Stack, HStack } from "@chakra-ui/react";
+import { Button, Box, Stack, Text, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
 import { mutate } from "swr";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 /*
 Dynamic import is a next.js feature. 
@@ -84,11 +87,19 @@ export default function VolunteerInfo({
 }: {
     session: Record<string, unknown>;
 }): JSX.Element {
+    const router = useRouter();
+    const { page } = router.query;
+    const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useLocalStorage("VolunteerPage", 0);
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
+        if (pageNum === formPages.length - 1) {
+            updateUserAndClearForm();
+        }
     };
 
     /* Store form fields in local storage */
@@ -172,12 +183,6 @@ export default function VolunteerInfo({
                 <VolunteerDetailsPage props={volunteerRegistrationInfo} />
             </FormPage>
         </Box>,
-        // Page for volunteer skills
-        <Box>
-            <FormPage>
-                <VolunteerSkillsPage props={volunteerRegistrationInfo} />
-            </FormPage>
-        </Box>,
         // Page to upload criminal record check
         <Box>
             <FormPage>
@@ -185,20 +190,38 @@ export default function VolunteerInfo({
             </FormPage>
             <Box>
                 <HStack spacing="24px">
-                    <FormButton>Upload Criminal Record Check</FormButton>
+                    <FormButton
+                        onClick={() => {
+                            router.push(
+                                `/document-upload?type=criminal-check&redirect=/volunteer/signup?page=${
+                                    pageNum + 1
+                                }`,
+                            );
+                        }}
+                    >
+                        {t("bgc.upload")}
+                    </FormButton>
                     <Button
-                        variant="ghost"
-                        as="u"
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
                         onClick={() => {
                             setPageNum(pageNum + 1);
                             updateUserAndClearForm();
                         }}
                         borderRadius="6px"
                     >
-                        Skip for Now
+                        <Text as="u">{t("form.skip")}</Text>
                     </Button>
                 </HStack>
             </Box>
+        </Box>,
+        // Page for volunteer skills
+        <Box>
+            <FormPage>
+                <VolunteerSkillsPage props={volunteerRegistrationInfo} />
+            </FormPage>
         </Box>,
     ];
 
@@ -268,13 +291,14 @@ export default function VolunteerInfo({
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["form"])),
+        },
     };
 };

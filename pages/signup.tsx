@@ -8,11 +8,15 @@ import { useState } from "react";
 import { Loading } from "@components/Loading";
 import useMe from "@utils/useMe";
 
+type SignupFormProps = {
+    session: Record<string, unknown>;
+};
+
 /**
  * This is the page that a user will use to either login or register
  * to the SDC platform as a parent of volunteer
  */
-export default function Signupform(): JSX.Element {
+export default function SignupForm({ session }: SignupFormProps): JSX.Element {
     const router = useRouter();
     // hook to hold the url to redirect to
     const [url, setUrl] = useState("");
@@ -37,7 +41,7 @@ export default function Signupform(): JSX.Element {
     }
 
     return (
-        <Wrapper>
+        <Wrapper session={session}>
             <Center h="500px" margin="10px">
                 <Box width="700px">
                     <Center>
@@ -143,6 +147,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: { session },
     };
 };

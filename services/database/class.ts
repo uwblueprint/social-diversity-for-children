@@ -6,20 +6,44 @@ import { ClassInput } from "@models/Class";
  * @param {string} id - classId
  *
  */
-async function getClass(id: number): Promise<Class> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getClass(id: number) {
     const classSection = await prisma.class.findUnique({
         where: {
             id,
+        },
+        include: {
+            program: { include: { programTranslation: true } },
+            classTranslation: true,
+            teacherRegs: {
+                include: { teacher: { include: { user: true } } },
+            },
+            _count: {
+                select: {
+                    parentRegs: true,
+                    volunteerRegs: true,
+                },
+            },
         },
     });
     return classSection;
 }
 
 /**
- * getClasses returns all the classes
+ * getClasses returns all the classes with registration counts
  */
-async function getClasses(): Promise<Class[]> {
-    const classes = await prisma.class.findMany();
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getClasses() {
+    const classes = await prisma.class.findMany({
+        include: {
+            _count: {
+                select: {
+                    parentRegs: true,
+                    volunteerRegs: true,
+                },
+            },
+        },
+    });
     return classes;
 }
 
@@ -36,9 +60,8 @@ async function createClass(input: ClassInput): Promise<Class> {
             isAgeMinimal: input.isAgeMinimal,
             programId: input.programId,
             spaceTotal: input.spaceTotal,
-            spaceAvailable: input.spaceTotal,
+            stripePriceId: input.stripePriceId,
             volunteerSpaceTotal: input.volunteerSpaceTotal,
-            volunteerSpaceAvailable: input.volunteerSpaceTotal,
             startDate: input.startDate,
             endDate: input.endDate,
             weekday: input.weekday,

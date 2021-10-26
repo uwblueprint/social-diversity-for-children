@@ -25,8 +25,12 @@ export default async function sessionIdHandler(
                 },
             );
 
-            // return session information
-            res.status(200).json({ session });
+            const items = await stripe.checkout.sessions.listLineItems(
+                sessionId as string,
+            );
+
+            // return related session information
+            res.status(200).json({ session, items });
             break;
         }
         default: {

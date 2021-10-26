@@ -28,6 +28,8 @@ export type VolunteerInput = {
     dateOfBirth: Date;
     phoneNumber: string;
     criminalRecordCheckLink?: string;
+    criminalCheckApproved?: boolean;
+    criminalCheckExpired?: boolean;
     addressLine1: string;
     postalCode: string;
     cityName: string;

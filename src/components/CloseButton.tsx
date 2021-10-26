@@ -10,7 +10,7 @@ export const CloseButton: React.FC<LinkProps> = ({
     ...restProps
 }) => {
     const router = useRouter();
-    if (!onClick) {
+    if (!onClick && !href) {
         onClick = () => router.back();
     }
 
@@ -20,5 +20,13 @@ export const CloseButton: React.FC<LinkProps> = ({
         </ChakraLink>
     );
 
-    return href ? <Link href={href}>{button}</Link> : button;
+    return href ? (
+        <Link href={href}>
+            <ChakraLink>
+                <CloseIcon />
+            </ChakraLink>
+        </Link>
+    ) : (
+        button
+    );
 };

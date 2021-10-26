@@ -20,12 +20,12 @@ type ClassProps = {
  * This is the page that a user will see their registered classes
  */
 function Class({ session }: ClassProps): JSX.Element {
-    const { me, isLoading, error } = useMe();
+    const { me, isLoading: isMeLoading, error: meError } = useMe();
     const router = useRouter();
 
-    if (error) {
-        return <Box>{"An error has occurred: " + error.toString()}</Box>;
-    } else if (isLoading) {
+    if (meError) {
+        return <Box>{"An error has occurred"}</Box>;
+    } else if (isMeLoading) {
         return <Loading />;
     }
 

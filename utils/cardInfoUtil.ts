@@ -33,21 +33,30 @@ export class CardInfoUtil {
                 result.classTranslation,
                 language,
             );
-
+        const mainProgramTranslation: ProgramTranslation =
+            TranslationUtil.getMainProgramTranslation(
+                result.program.programTranslation,
+                language,
+            );
         return {
             borderAge: result.borderAge,
             isAgeMinimal: result.isAgeMinimal,
-            spaceTotal: result.spaceTotal,
             id: result.id,
             image: result.imageLink,
-            spaceAvailable: result.spaceAvailable,
+            stripePriceId: result.stripePriceId,
+            spaceTotal: result.spaceTotal,
+            spaceAvailable: result.spaceTotal - result._count?.parentRegs,
             volunteerSpaceTotal: result.volunteerSpaceTotal,
-            volunteerSpaceAvailable: result.volunteerSpaceAvailable,
+            volunteerSpaceAvailable:
+                result.volunteerSpaceTotal - result._count?.volunteerRegs,
             startDate: result.startDate,
             endDate: result.endDate,
             weekday: result.weekday,
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,
+            programName: mainProgramTranslation
+                ? mainProgramTranslation.name
+                : "",
             name: mainClassTranslation
                 ? mainClassTranslation.name
                 : result.name,
@@ -102,7 +111,6 @@ export class CardInfoUtil {
         return {
             id: result.id,
             image: result.imageLink,
-            price: result.price,
             name: mainProgramTranslation ? mainProgramTranslation.name : "",
             description: mainProgramTranslation
                 ? mainProgramTranslation.description

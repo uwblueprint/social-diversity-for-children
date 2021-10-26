@@ -12,6 +12,7 @@ export { default as PankodIcon } from "./PankodIcon";
 export { default as PendingIcon } from "./PendingIcon";
 export { default as SdcLogoBlueHd } from "./SdcLogoBlueHd";
 export { default as SdcLogoBlue } from "./SdcLogoBlue";
+export { default as SdcLogoWhite } from "./SdcLogoWhite";
 export { default as SunIcon } from "./SunIcon";
 export { default as TwitterIcon } from "./TwitterIcon";
 export { default as UploadIcon } from "./UploadIcon";

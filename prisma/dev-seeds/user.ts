@@ -4,7 +4,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed user data
 const users: User[] = [
     {
-        id: 1,
+        id: 10000,
         firstName: "Brian",
         lastName: "Anderson",
         email: "ricksonyang+teacher@uwblueprint.org",
@@ -15,9 +15,9 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 2,
-        firstName: "John",
-        lastName: "Doe",
+        id: 10001,
+        firstName: "Brian",
+        lastName: "Anderson",
         email: "ricksonyang+teacher2@uwblueprint.org",
         emailVerified: new Date(),
         role: roles.TEACHER,
@@ -26,7 +26,7 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 3,
+        id: 10002,
         firstName: "Rickson",
         lastName: "Yang",
         email: "ricksonyang+volunteer@uwblueprint.org",
@@ -37,7 +37,7 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 4,
+        id: 10003,
         firstName: "Rickson",
         lastName: "Yang",
         email: "ricksonyang+parent@uwblueprint.org",
@@ -48,7 +48,7 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 5,
+        id: 10004,
         firstName: "Rebecca",
         lastName: "Ma",
         email: "rebeccama+volunteer@uwblueprint.org",
@@ -59,7 +59,7 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 6,
+        id: 10005,
         firstName: "Rebecca",
         lastName: "Ma",
         email: "rebeccama+parent@uwblueprint.org",
@@ -70,7 +70,7 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 7,
+        id: 10006,
         firstName: "Vedant",
         lastName: "Patel",
         email: "vedantpatel+volunteer@uwblueprint.org",
@@ -81,7 +81,7 @@ const users: User[] = [
         updatedAt: null,
     },
     {
-        id: 8,
+        id: 10007,
         firstName: "Vedant",
         lastName: "Patel",
         email: "vedantpatel+parent@uwblueprint.org",

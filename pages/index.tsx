@@ -19,6 +19,8 @@ import usePrograms from "@utils/usePrograms";
 import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
+import useMe from "@utils/useMe";
+import { MissingDocAlert } from "@components/MissingDocAlert";
 
 type ComponentProps = {
     session: Record<string, unknown>;
@@ -27,6 +29,7 @@ type ComponentProps = {
 export default function Component(props: ComponentProps): JSX.Element {
     const { t } = useTranslation("common");
     const router = useRouter();
+    const { me } = useMe();
 
     const {
         programs: programCardInfos,
@@ -44,6 +47,7 @@ export default function Component(props: ComponentProps): JSX.Element {
         <Wrapper session={props.session}>
             <Flex direction="column" pt={4} pb={8}>
                 <Box>
+                    <MissingDocAlert me={me} />
                     <WelcomeToSDC session={props.session} />
                 </Box>
                 <Spacer />

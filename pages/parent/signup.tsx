@@ -5,17 +5,21 @@ import {
     FormControl,
     FormLabel,
     Stack,
+    Text,
     HStack,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
 import colourTheme from "@styles/colours";
 import { mutate } from "swr";
 import { therapy, difficulties } from ".prisma/client";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 /*
 Dynamic import is a next.js feature. 
@@ -82,16 +86,6 @@ const ParentCreatedPage = dynamic(
 
 const DEFAULT_PROVINCE = province.BC;
 
-const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];
-
-const UPLOADING_PROOF_OF_INCOME = [
-    `Navigate to My Account > Proof of Income`,
-    `Upload a copy of the result to your SDC account`,
-    `Once you’ve submitted your proof of income, keep an eye out for approval status from SDC!`,
-    `Upon approval, discounts will automatically applied to your account!
-    Check your account for details on the amount of discount you have been approved for`,
-];
-
 const FormButton = (props) => {
     return (
         <Button
@@ -121,12 +115,20 @@ export default function ParticipantInfo({
 }: {
     session: Record<string, unknown>;
 }): JSX.Element {
+    const router = useRouter();
+    const { page } = router.query;
+    const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useLocalStorage("VolunteerPage", 0);
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
 
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
+        if (pageNum === formPages.length - 1) {
+            updateUserAndClearForm();
+        }
     };
 
     /* Store form fields in local storage */
@@ -434,21 +436,30 @@ export default function ParticipantInfo({
         // Page for proof of income
         <Box>
             <FormPage>
-                <IncomePage
-                    UPLOADING_PROOF_OF_INCOME={UPLOADING_PROOF_OF_INCOME}
-                    PROOF_OF_INCOME_EXAMPLES={PROOF_OF_INCOME_EXAMPLES}
-                />
+                <IncomePage />
             </FormPage>
             <Box>
                 <HStack spacing="24px">
-                    <FormButton>Upload Proof of Income</FormButton>
+                    <FormButton
+                        onClick={() => {
+                            router.push(
+                                `/document-upload?type=income-proof&redirect=/parent/signup?page=${
+                                    pageNum + 1
+                                }`,
+                            );
+                        }}
+                    >
+                        {t("poi.upload")}
+                    </FormButton>
                     <Button
-                        variant="ghost"
-                        as="u"
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
                         onClick={() => setPageNum(pageNum + 1)}
                         borderRadius="6px"
                     >
-                        Skip for Now
+                        <Text as="u">{t("form.skip")}</Text>
                     </Button>
                 </HStack>
             </Box>
@@ -458,14 +469,7 @@ export default function ParticipantInfo({
             <FormPage>
                 <HeardFromPage props={parentRegistrationInfo} />
             </FormPage>
-            <FormButton
-                onClick={() => {
-                    setPageNum(pageNum + 1);
-                    updateUserAndClearForm();
-                }}
-            >
-                Finish
-            </FormButton>
+            <FormButton onClick={formButtonOnClick}>Finish</FormButton>
         </Box>,
     ];
 
@@ -576,13 +580,14 @@ export default function ParticipantInfo({
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["form"])),
+        },
     };
 };

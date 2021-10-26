@@ -12,10 +12,11 @@ import { ApprovedIcon } from "@components/icons";
 type DocumentUploadProps = {
     session: Record<string, unknown>;
 };
-export default function documentUpload({
+export default function DocumentUpload({
     session,
 }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
+
     let { type } = router.query;
     const { redirect } = router.query;
     // sends file to other folder if type is not valid
@@ -33,10 +34,7 @@ export default function documentUpload({
             // TODO don't prefix file name, instead put random file name into database eventually
             // TODO randomize filename
             const res = await fetch(
-                `/api/upload/url?path=${type}&file=${
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (session.user as any).email
-                }-${session.id}-${file.name}`,
+                `/api/file/upload?path=${type}&file=${file.name}`,
             );
             const data = await res.json();
             const { url, fields } = data.data;
@@ -133,7 +131,9 @@ export default function documentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton href={`${redirect as string}`} />
+                <CloseButton
+                    href={redirect ? (redirect as string) : undefined}
+                />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">

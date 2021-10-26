@@ -100,4 +100,49 @@ const deleteFileFromS3 = (
     });
 };
 
-export { uploadFileToS3, getFileFromS3, deleteFileFromS3 };
+/**
+ * Get presigned post object for file upload to be used in client side
+ * @param  {string} bucketName
+ * @param  {string} fileKey
+ * @returns S3.PresignedPost object representing url and fields required to upload file
+ */
+const getPresignedPostForUpload = (
+    bucketName: string,
+    fileKey: string,
+): S3.PresignedPost => {
+    const fileSizeLimitBytes = 5000000; // up to ~5MB
+
+    return s3.createPresignedPost({
+        Bucket: bucketName,
+        Fields: {
+            key: fileKey,
+        },
+        Conditions: [["content-length-range", 0, fileSizeLimitBytes]],
+    });
+};
+/**
+ * Get signed url to retrieve file to be used on the client side
+ * @param  {string} bucketName
+ * @param  {string} fileKey
+ * @returns string the url to retrieve the requested file
+ */
+const getSignedUrlForRetrieve = (
+    bucketName: string,
+    fileKey: string,
+): string => {
+    const secIn5Min = 60 * 5;
+
+    return s3.getSignedUrl("getObject", {
+        Bucket: bucketName,
+        Key: fileKey,
+        Expires: secIn5Min,
+    });
+};
+
+export {
+    uploadFileToS3,
+    getFileFromS3,
+    deleteFileFromS3,
+    getPresignedPostForUpload,
+    getSignedUrlForRetrieve,
+};

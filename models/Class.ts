@@ -8,6 +8,7 @@ export type ClassInput = {
     borderAge?: number;
     isAgeMinimal: boolean;
     programId: number;
+    stripePriceId: string;
     spaceTotal: number;
     volunteerSpaceTotal: number;
     startDate: string;
@@ -25,6 +26,7 @@ export type ClassCardInfo = {
     description: string;
     borderAge?: number;
     isAgeMinimal: boolean;
+    stripePriceId: string;
     spaceAvailable: number;
     spaceTotal: number;
     volunteerSpaceAvailable: number;
@@ -37,4 +39,5 @@ export type ClassCardInfo = {
     teacherName: string;
     teacherEmail?: string;
     teacherImage?: string;
+    programName?: string;
 };
