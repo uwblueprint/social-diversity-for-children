@@ -41,8 +41,6 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
         props.student.lastName,
     );
 
-    const [expectations, setExpections] = useState();
-
     // Emergency contact info
     const [emergFirstName, setEmergFirstName] = useState(
         props.student.emergFirstName,
