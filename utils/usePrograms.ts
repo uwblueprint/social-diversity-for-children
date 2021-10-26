@@ -2,12 +2,13 @@ import { ProgramCardInfo } from "@models/Program";
 import { locale } from "@prisma/client";
 import useSWR from "swr";
 import CardInfoUtil from "./cardInfoUtil";
-import fetcher from "./fetcher";
+import { fetcher } from "./fetcher";
 
 export type UseProgramsResponse = {
     programs: ProgramCardInfo[];
     isLoading: boolean;
     error: any;
+    mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
@@ -16,13 +17,14 @@ export type UseProgramsResponse = {
  * @returns UseProgramsResponse
  */
 export default function usePrograms(language: locale): UseProgramsResponse {
-    const { data, error } = useSWR("/api/program", fetcher);
+    const { data, error, mutate } = useSWR("/api/program", fetcher);
     const result = data
         ? CardInfoUtil.getProgramCardInfos(data.data, language)
         : [];
     return {
         programs: result,
         isLoading: !error && !data,
-        error: error,
+        error,
+        mutate,
     };
 }

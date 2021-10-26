@@ -16,7 +16,7 @@ import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePa
 import { Checkout } from "@components/registration-form/Checkout";
 import { DiscountPage } from "@components/registration-form/DiscountPage";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import fetcherWithId from "@utils/fetcherWithId";
+import { fetcherWithId } from "@utils/fetcher";
 import useSWR from "swr";
 import CardInfoUtil from "@utils/cardInfoUtil";
 import { pathWithQueries } from "@utils/request/query";
