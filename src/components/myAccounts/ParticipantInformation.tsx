@@ -352,11 +352,13 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                         name="Emergency Contact First Name"
                         value={emergFirstName}
                         setValue={setEmergFirstName}
+                        edit={props.edit}
                     ></TextField>
                     <TextField
                         name="Emergency Contact Last Name"
                         value={emergLastName}
                         setValue={setEmergLastName}
+                        edit={props.edit}
                     ></TextField>
                 </HStack>
                 <br />
@@ -365,6 +367,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     name="Emergency Contact Phone Number"
                     value={emergPhoneNumber}
                     setValue={setEmergPhoneNumber}
+                    edit={props.edit}
                 ></PhoneNumberField>
                 <br />
                 <br />
@@ -373,6 +376,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     placeholder="Mother"
                     value={emergRelationship}
                     setValue={setEmergRelationship}
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <br />
@@ -386,6 +390,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     setValue={setMedication}
                     placeholder="Details"
                     required={false}
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <br />
@@ -395,6 +400,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     setValue={setAllergies}
                     placeholder="Details"
                     required={false}
+                    edit={props.edit}
                 ></TextField>
                 <br />
                 <Box>

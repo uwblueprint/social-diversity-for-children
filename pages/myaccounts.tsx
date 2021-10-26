@@ -1,10 +1,10 @@
 import Wrapper from "@components/SDCWrapper";
 import { useEffect, useState } from "react";
 import {
-    MdPersonOutline,
-    MdAccountCircle,
-    MdArticle,
     MdLogout,
+    MdPerson,
+    MdSupervisorAccount,
+    MdDescription,
 } from "react-icons/md";
 import { Spacer, Box, Icon, Button, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
@@ -100,7 +100,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             me.parent.students.forEach((student) => {
                 const option = {
                     name: student.firstName + " " + student.lastName,
-                    icon: MdAccountCircle,
+                    icon: MdPerson,
                     type: "PARTICIPANT",
                     title: "Personal Information",
                     header: "General Information",
@@ -123,7 +123,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             });
             SideBar.push({
                 name: "",
-                icon: MdPersonOutline,
+                icon: MdSupervisorAccount,
                 title: "Guardian Information",
                 header: "Guardian Information",
                 canEdit: true,
@@ -142,7 +142,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             });
             SideBar.push({
                 name: "",
-                icon: MdArticle,
+                icon: MdDescription,
                 title: "Proof of Income",
                 header: "Proof of Income",
                 canEdit: false,
@@ -158,7 +158,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
         } else {
             SideBar.push({
                 name: "",
-                icon: MdPersonOutline,
+                icon: MdPerson,
                 title: "Participant Information",
                 header: "Personal Information",
                 canEdit: true,
@@ -177,7 +177,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             });
             SideBar.push({
                 name: "",
-                icon: MdArticle,
+                icon: MdDescription,
                 title: "Criminal Record Check",
                 header: "Criminal Record Check",
                 canEdit: false,
