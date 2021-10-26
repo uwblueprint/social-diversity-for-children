@@ -17,7 +17,7 @@ export default function useFileUpload(
     file?: string,
 ): UseFileUploadResponse {
     const { data, error, mutate } = useSWR(
-        ["/api/file/retrieve", path, file],
+        ["/api/file", path, file],
         fetcherWithPathFile,
     );
     return {
