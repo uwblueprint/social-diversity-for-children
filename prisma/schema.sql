@@ -19,8 +19,8 @@ CREATE TYPE roles AS ENUM ('PARENT', 'PROGRAM_ADMIN', 'TEACHER', 'VOLUNTEER');
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
 CREATE TYPE program_formats AS ENUM ('online', 'in-person', 'blended');
-CREATE TYPE difficulties AS ENUM ('LEARNING', 'PHYSICAL', 'SENSORY');
-CREATE TYPE therapy AS ENUM('PHYSIO', 'SPEECH_LANG', 'OCCUPATIONAL', 'COUNSELING', 'ART');
+CREATE TYPE difficulties AS ENUM ('LEARNING', 'PHYSICAL', 'SENSORY', 'OTHER');
+CREATE TYPE therapy AS ENUM('PHYSIO', 'SPEECH_LANG', 'OCCUPATIONAL', 'COUNSELING', 'ART', 'OTHER');
 CREATE TYPE heard_from AS ENUM ('FRIENDS_FAMILY', 'FLYERS', 'EMAIL', 'SOCIAL_MEDIA', 'OTHER');
 
 -- Create users table

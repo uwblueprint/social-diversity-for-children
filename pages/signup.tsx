@@ -1,12 +1,12 @@
 import { Button, Box, Center, Text } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import colourTheme from "@styles/colours";
-import useMe from "@utils/useMe";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Loading } from "@components/Loading";
+import useMe from "@utils/useMe";
 
 type SignupFormProps = {
     session: Record<string, unknown>;

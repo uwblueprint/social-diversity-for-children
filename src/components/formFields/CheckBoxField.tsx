@@ -13,6 +13,7 @@ type Props = {
     placeholder?: string;
     required?: boolean;
     spacing?: boolean;
+    edit?: boolean;
 };
 
 export const CheckBoxField: React.FC<Props> = ({
@@ -21,6 +22,7 @@ export const CheckBoxField: React.FC<Props> = ({
     name,
     required = true,
     spacing = true,
+    edit = true,
 }): JSX.Element => {
     return (
         <FormControl
@@ -29,13 +31,14 @@ export const CheckBoxField: React.FC<Props> = ({
                     ? { height: "50px", paddingTop: 25, paddingBottom: 25 }
                     : null
             }
-            isRequired={required}
-            isInvalid={!value && required}
+            isRequired={required && edit}
+            isInvalid={!value && required && edit}
         >
             <Stack direction="column">
                 <Checkbox
                     isChecked={value}
                     onChange={(e) => setValue(e.target.checked)}
+                    isDisabled={!edit}
                 >
                     {name}
                 </Checkbox>

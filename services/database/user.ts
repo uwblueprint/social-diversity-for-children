@@ -113,132 +113,187 @@ async function updateUser(userInput: UserInput) {
             }
             const parentData = roleData as ParentInput;
             [, updatedUser] = await prisma.$transaction([
-                prisma.parent.upsert({
-                    create: {
-                        phoneNumber: parentData.phoneNumber,
-                        isLowIncome: parentData.isLowIncome,
-                        preferredLanguage: parentData.preferredLanguage,
-                        proofOfIncomeLink: parentData.proofOfIncomeLink,
-                        heardFrom: parentData.heardFrom,
-                        user: {
-                            connect: { id: user.id },
-                        },
-                        students: {
-                            create: {
-                                firstName:
-                                    parentData.createStudentInput.firstName,
-                                lastName:
-                                    parentData.createStudentInput.lastName,
-                                dateOfBirth:
-                                    parentData.createStudentInput.dateOfBirth,
-                                addressLine1:
-                                    parentData.createStudentInput.addressLine1,
-                                addressLine2:
-                                    parentData.createStudentInput.addressLine2,
-                                postalCode:
-                                    parentData.createStudentInput.postalCode,
-                                cityName:
-                                    parentData.createStudentInput.cityName,
-                                province:
-                                    parentData.createStudentInput.province,
-                                school: parentData.createStudentInput.school,
-                                grade: parentData.createStudentInput.grade,
-                                difficulties:
-                                    parentData.createStudentInput.difficulties,
-                                otherDifficulties:
-                                    parentData.createStudentInput
-                                        .otherDifficulties,
-                                specialEducation:
-                                    parentData.createStudentInput
-                                        .specialEducation,
-                                therapy: parentData.createStudentInput.therapy,
-                                otherTherapy:
-                                    parentData.createStudentInput.otherTherapy,
-                                guardianExpectations:
-                                    parentData.createStudentInput
-                                        .guardianExpectations,
-                                medication:
-                                    parentData.createStudentInput.medication,
-                                allergies:
-                                    parentData.createStudentInput.allergies,
-                                additionalInfo:
-                                    parentData.createStudentInput
-                                        .additionalInfo,
-                                emergFirstName:
-                                    parentData.createStudentInput
-                                        .emergFirstName,
-                                emergLastName:
-                                    parentData.createStudentInput.emergLastName,
-                                emergNumber:
-                                    parentData.createStudentInput.emergNumber,
-                                emergRelationToStudent:
-                                    parentData.createStudentInput
-                                        .emergRelationToStudent,
-                            },
-                        },
-                    },
-                    update: {
-                        phoneNumber: parentData.phoneNumber,
-                        isLowIncome: parentData.isLowIncome,
-                        proofOfIncomeLink: parentData.proofOfIncomeLink,
-                        preferredLanguage: parentData.preferredLanguage,
-                        heardFrom: parentData.heardFrom,
-                        students: {
-                            create: {
-                                firstName:
-                                    parentData.createStudentInput.firstName,
-                                lastName:
-                                    parentData.createStudentInput.lastName,
-                                dateOfBirth:
-                                    parentData.createStudentInput.dateOfBirth,
-                                addressLine1:
-                                    parentData.createStudentInput.addressLine1,
-                                addressLine2:
-                                    parentData.createStudentInput.addressLine2,
-                                postalCode:
-                                    parentData.createStudentInput.postalCode,
-                                cityName:
-                                    parentData.createStudentInput.cityName,
-                                province:
-                                    parentData.createStudentInput.province,
-                                school: parentData.createStudentInput.school,
-                                grade: parentData.createStudentInput.grade,
-                                difficulties:
-                                    parentData.createStudentInput.difficulties,
-                                otherDifficulties:
-                                    parentData.createStudentInput
-                                        .otherDifficulties,
-                                specialEducation:
-                                    parentData.createStudentInput
-                                        .specialEducation,
-                                therapy: parentData.createStudentInput.therapy,
-                                otherTherapy:
-                                    parentData.createStudentInput.otherTherapy,
-                                guardianExpectations:
-                                    parentData.createStudentInput
-                                        .guardianExpectations,
-                                medication:
-                                    parentData.createStudentInput.medication,
-                                allergies:
-                                    parentData.createStudentInput.allergies,
-                                additionalInfo:
-                                    parentData.createStudentInput
-                                        .additionalInfo,
-                                emergFirstName:
-                                    parentData.createStudentInput
-                                        .emergFirstName,
-                                emergLastName:
-                                    parentData.createStudentInput.emergLastName,
-                                emergNumber:
-                                    parentData.createStudentInput.emergNumber,
-                                emergRelationToStudent:
-                                    parentData.createStudentInput
-                                        .emergRelationToStudent,
-                            },
-                        },
-                    },
-                    where: { id: user.id },
-                }),
+                parentData.createStudentInput
+                    ? prisma.parent.upsert({
+                          create: {
+                              phoneNumber: parentData.phoneNumber,
+                              isLowIncome: parentData.isLowIncome,
+                              preferredLanguage: parentData.preferredLanguage,
+                              proofOfIncomeLink: parentData.proofOfIncomeLink,
+                              heardFrom: parentData.heardFrom,
+                              user: {
+                                  connect: { id: user.id },
+                              },
+                              students: {
+                                  create: {
+                                      firstName:
+                                          parentData.createStudentInput
+                                              .firstName,
+                                      lastName:
+                                          parentData.createStudentInput
+                                              .lastName,
+                                      dateOfBirth:
+                                          parentData.createStudentInput
+                                              .dateOfBirth,
+                                      addressLine1:
+                                          parentData.createStudentInput
+                                              .addressLine1,
+                                      addressLine2:
+                                          parentData.createStudentInput
+                                              .addressLine2,
+                                      postalCode:
+                                          parentData.createStudentInput
+                                              .postalCode,
+                                      cityName:
+                                          parentData.createStudentInput
+                                              .cityName,
+                                      province:
+                                          parentData.createStudentInput
+                                              .province,
+                                      school: parentData.createStudentInput
+                                          .school,
+                                      grade: parentData.createStudentInput
+                                          .grade,
+                                      difficulties:
+                                          parentData.createStudentInput
+                                              .difficulties,
+                                      otherDifficulties:
+                                          parentData.createStudentInput
+                                              .otherDifficulties,
+                                      specialEducation:
+                                          parentData.createStudentInput
+                                              .specialEducation,
+                                      therapy:
+                                          parentData.createStudentInput.therapy,
+                                      otherTherapy:
+                                          parentData.createStudentInput
+                                              .otherTherapy,
+                                      guardianExpectations:
+                                          parentData.createStudentInput
+                                              .guardianExpectations,
+                                      medication:
+                                          parentData.createStudentInput
+                                              .medication,
+                                      allergies:
+                                          parentData.createStudentInput
+                                              .allergies,
+                                      additionalInfo:
+                                          parentData.createStudentInput
+                                              .additionalInfo,
+                                      emergFirstName:
+                                          parentData.createStudentInput
+                                              .emergFirstName,
+                                      emergLastName:
+                                          parentData.createStudentInput
+                                              .emergLastName,
+                                      emergNumber:
+                                          parentData.createStudentInput
+                                              .emergNumber,
+                                      emergRelationToStudent:
+                                          parentData.createStudentInput
+                                              .emergRelationToStudent,
+                                  },
+                              },
+                          },
+                          update: {
+                              phoneNumber: parentData.phoneNumber,
+                              isLowIncome: parentData.isLowIncome,
+                              proofOfIncomeLink: parentData.proofOfIncomeLink,
+                              preferredLanguage: parentData.preferredLanguage,
+                              heardFrom: parentData.heardFrom,
+                              students: {
+                                  create: {
+                                      firstName:
+                                          parentData.createStudentInput
+                                              .firstName,
+                                      lastName:
+                                          parentData.createStudentInput
+                                              .lastName,
+                                      dateOfBirth:
+                                          parentData.createStudentInput
+                                              .dateOfBirth,
+                                      addressLine1:
+                                          parentData.createStudentInput
+                                              .addressLine1,
+                                      addressLine2:
+                                          parentData.createStudentInput
+                                              .addressLine2,
+                                      postalCode:
+                                          parentData.createStudentInput
+                                              .postalCode,
+                                      cityName:
+                                          parentData.createStudentInput
+                                              .cityName,
+                                      province:
+                                          parentData.createStudentInput
+                                              .province,
+                                      school: parentData.createStudentInput
+                                          .school,
+                                      grade: parentData.createStudentInput
+                                          .grade,
+                                      difficulties:
+                                          parentData.createStudentInput
+                                              .difficulties,
+                                      otherDifficulties:
+                                          parentData.createStudentInput
+                                              .otherDifficulties,
+                                      specialEducation:
+                                          parentData.createStudentInput
+                                              .specialEducation,
+                                      therapy:
+                                          parentData.createStudentInput.therapy,
+                                      otherTherapy:
+                                          parentData.createStudentInput
+                                              .otherTherapy,
+                                      guardianExpectations:
+                                          parentData.createStudentInput
+                                              .guardianExpectations,
+                                      medication:
+                                          parentData.createStudentInput
+                                              .medication,
+                                      allergies:
+                                          parentData.createStudentInput
+                                              .allergies,
+                                      additionalInfo:
+                                          parentData.createStudentInput
+                                              .additionalInfo,
+                                      emergFirstName:
+                                          parentData.createStudentInput
+                                              .emergFirstName,
+                                      emergLastName:
+                                          parentData.createStudentInput
+                                              .emergLastName,
+                                      emergNumber:
+                                          parentData.createStudentInput
+                                              .emergNumber,
+                                      emergRelationToStudent:
+                                          parentData.createStudentInput
+                                              .emergRelationToStudent,
+                                  },
+                              },
+                          },
+                          where: { id: user.id },
+                      })
+                    : prisma.parent.upsert({
+                          create: {
+                              phoneNumber: parentData.phoneNumber,
+                              isLowIncome: parentData.isLowIncome,
+                              preferredLanguage: parentData.preferredLanguage,
+                              proofOfIncomeLink: parentData.proofOfIncomeLink,
+                              heardFrom: parentData.heardFrom,
+                              user: {
+                                  connect: { id: user.id },
+                              },
+                          },
+                          update: {
+                              phoneNumber: parentData.phoneNumber,
+                              isLowIncome: parentData.isLowIncome,
+                              proofOfIncomeLink: parentData.proofOfIncomeLink,
+                              preferredLanguage: parentData.preferredLanguage,
+                              heardFrom: parentData.heardFrom,
+                          },
+                          where: { id: user.id },
+                      }),
                 prisma.user.update(updateUserArgs),
             ]);
             break;

@@ -20,16 +20,18 @@ export type UseMeResponse = {
     };
     isLoading: boolean;
     error: any;
+    mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
  * Me hook to get data about current user
  */
 export default function useMe(): UseMeResponse {
-    const { data, error } = useSWR("/api/user/me", fetcher);
+    const { data, error, mutate } = useSWR("/api/user/me", fetcher);
     return {
         me: data ? data.data : null,
         isLoading: !error && !data,
-        error: error,
+        error,
+        mutate,
     };
 }

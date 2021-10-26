@@ -4,6 +4,7 @@ import {
     FormControl,
     Input,
     FormErrorMessage,
+    Box,
 } from "@chakra-ui/react";
 import validator from "validator";
 
@@ -13,6 +14,7 @@ type Props = {
     name: string;
     placeholder?: string;
     required?: boolean;
+    edit?: boolean;
 };
 
 export const PhoneNumberField: React.FC<Props> = ({
@@ -21,31 +23,39 @@ export const PhoneNumberField: React.FC<Props> = ({
     name,
     placeholder,
     required = true,
+    edit = true,
 }): JSX.Element => {
     const [interactedWith, setInteractedWith] = useState(false);
     return (
         <FormControl
             style={{ height: "50px" }}
-            isRequired={required}
+            isRequired={required && edit}
             isInvalid={
                 !validator.isMobilePhone(value || "") &&
                 required &&
-                interactedWith
+                interactedWith &&
+                edit
             }
         >
             {" "}
             <FormLabel>{name}</FormLabel>
-            <Input
-                placeholder={placeholder || name}
-                onChange={(e) => {
-                    setValue(e.target.value);
-                    setInteractedWith(true);
-                }}
-                value={value}
-            />
-            <FormErrorMessage>
-                {value ? "Invalid Phone Number" : "Required"}
-            </FormErrorMessage>
+            {!edit ? (
+                <p>{value}</p>
+            ) : (
+                <Box>
+                    <Input
+                        placeholder={placeholder || name}
+                        onChange={(e) => {
+                            setValue(e.target.value);
+                            setInteractedWith(true);
+                        }}
+                        value={value}
+                    />
+                    <FormErrorMessage>
+                        {value ? "Invalid Phone Number" : "Required"}
+                    </FormErrorMessage>
+                </Box>
+            )}
         </FormControl>
     );
 };

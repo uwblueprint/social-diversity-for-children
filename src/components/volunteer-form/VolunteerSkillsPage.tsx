@@ -1,14 +1,5 @@
 import React from "react";
-import {
-    VStack,
-    FormLabel,
-    FormControl,
-    Stack,
-    Checkbox,
-    Textarea,
-    Button,
-    Box,
-} from "@chakra-ui/react";
+import { VStack, Button, Box } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import { TextField } from "@components/formFields/TextField";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
