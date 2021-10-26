@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Text, Heading, Stack, Button, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "react-i18next";
 
 const FormButton = (props) => {
     return (
@@ -29,23 +30,21 @@ export const DiscountPage: React.FC<DiscountPageProps> = ({
     onNext,
 }): JSX.Element => {
     const router = useRouter();
+    const { t } = useTranslation("form");
+
     return (
         <>
             <Box>
                 <Stack spacing={8} mb={8}>
                     <Text fontWeight="700" fontSize="36px" marginTop="39px">
-                        Proof of Income
+                        {t("poi.discount")}
                     </Text>
                     <Heading fontSize="22px" fontWeight="900">
-                        You have qualified for an income based discount!
+                        {t("poi.discountDesc")}
                     </Heading>
-                    <Text>
-                        From the Proof of Income on your account, you qualify
-                        for a discount that will be automatically applied to
-                        your total.
-                    </Text>
+                    <Text>{t("poi.discountDesc2")}</Text>
                     <Heading fontSize="22px" fontWeight="900">
-                        Has your income changed?
+                        {t("poi.changed")}
                     </Heading>
                     <Button
                         variant="link"
@@ -59,9 +58,9 @@ export const DiscountPage: React.FC<DiscountPageProps> = ({
                         alignItems="flex-start"
                         paddingLeft="0"
                     >
-                        <Text as="u">Update income</Text>
+                        <Text as="u">{t("poi.update")}</Text>
                     </Button>
-                    <FormButton onClick={onNext}>Next</FormButton>
+                    <FormButton onClick={onNext}>{t("form.next")}</FormButton>
                 </Stack>
             </Box>
         </>

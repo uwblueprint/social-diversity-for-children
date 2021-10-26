@@ -2,12 +2,13 @@ import { VolunteeringCardInfo } from "@models/Enroll";
 import { locale } from "@prisma/client";
 import useSWR from "swr";
 import CardInfoUtil from "./cardInfoUtil";
-import fetcher from "./fetcher";
+import { fetcher } from "./fetcher";
 
 export type UseVolunteerRegistrationsResponse = {
     volunteering: VolunteeringCardInfo[];
     isLoading: boolean;
     error: any;
+    mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
@@ -17,13 +18,14 @@ export type UseVolunteerRegistrationsResponse = {
 export default function useVolunteerRegistrations(
     language: locale,
 ): UseVolunteerRegistrationsResponse {
-    const { data, error } = useSWR("/api/enroll/volunteer", fetcher);
+    const { data, error, mutate } = useSWR("/api/enroll/volunteer", fetcher);
     const result = data
         ? CardInfoUtil.getVolunteeringCardInfos(data.data, language)
         : [];
     return {
         volunteering: result,
         isLoading: !error && !data,
-        error: error,
+        error,
+        mutate,
     };
 }

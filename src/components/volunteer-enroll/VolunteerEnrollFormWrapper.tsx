@@ -1,7 +1,6 @@
 import React from "react";
 import {
     Center,
-    Stack,
     Box,
     Flex,
     Text,
@@ -13,6 +12,7 @@ import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "react-i18next";
 
 type VolunteerEnrolledPageProps = {
     styleProps?: Record<string, unknown>;
@@ -24,6 +24,8 @@ type VolunteerEnrolledPageProps = {
 
 export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> =
     ({ session, pageNum, setPageNum, formPages }): JSX.Element => {
+        const { t } = useTranslation("form");
+
         return (
             <Wrapper session={session}>
                 {pageNum < formPages.length ? (
@@ -70,7 +72,7 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                 fontSize="36px"
                                 align="center"
                             >
-                                Thank you for signing up to volunteer!
+                                {t("form.volunteerSignup")}
                             </Text>
                             <Text maxW={512} textAlign="center">
                                 We're really excited that you want to volunteer
@@ -98,7 +100,7 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                         fontWeight={"200"}
                                         borderRadius={"6px"}
                                     >
-                                        View upcoming classes
+                                        {t("form.volunteerSignup")}
                                     </Button>
                                 </Link>
                             </Center>
@@ -122,7 +124,7 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                         fontWeight={"400"}
                                         borderRadius={"6px"}
                                     >
-                                        Browse Classes
+                                        {t("form.browseClasses")}
                                     </Button>
                                 </Link>
                             </Center>

@@ -6,7 +6,6 @@ import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClas
 import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCriminalCheck";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import fetcherWithId from "@utils/fetcherWithId";
 import useMe from "@utils/useMe";
 import { Box } from "@chakra-ui/layout";
 import { Loading } from "@components/Loading";
@@ -16,6 +15,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
+import { fetcherWithId } from "@utils/fetcher";
 
 type VolunteerEnrollmentProps = {
     session: Record<string, unknown>;
@@ -139,7 +139,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            ...(await serverSideTranslations(context.locale, [
+                "common",
+                "form",
+            ])),
         },
     };
 };

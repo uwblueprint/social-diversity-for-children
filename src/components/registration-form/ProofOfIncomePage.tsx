@@ -1,8 +1,9 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { IncomePage } from "@components/parent-form/IncomePage";
-import { Stack, Box, HStack, Text, Button } from "@chakra-ui/react";
+import { Stack, Box, HStack, Text, Button, Heading } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 const FormButton = (props) => {
     return (
@@ -20,16 +21,6 @@ const FormButton = (props) => {
     );
 };
 
-const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];
-
-const UPLOADING_PROOF_OF_INCOME = [
-    `Navigate to My Account > Proof of Income`,
-    `Upload a copy of the result to your SDC account`,
-    `Once you’ve submitted your proof of income, keep an eye out for approval status from SDC!`,
-    `Upon approval, discounts will automatically applied to your account!
-    Check your account for details on the amount of discount you have been approved for`,
-];
-
 type ProofOfIncomePageProps = {
     styleProps?: Record<string, unknown>;
     pageNum: number;
@@ -43,16 +34,19 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
     onNext,
 }): JSX.Element => {
     const router = useRouter();
+    const { t } = useTranslation("form");
+
     return (
         <>
             <Text fontWeight="700" fontSize="36px" marginTop="39px">
-                Submit a Proof of Income
+                {t("poi.submitTitle")}
             </Text>
+            <Heading fontSize="22px" fontWeight="900" mt="35px">
+                {t("poi.missing")}
+            </Heading>
+            <br />
             <Stack spacing={8}>
-                <IncomePage
-                    UPLOADING_PROOF_OF_INCOME={UPLOADING_PROOF_OF_INCOME}
-                    PROOF_OF_INCOME_EXAMPLES={PROOF_OF_INCOME_EXAMPLES}
-                />
+                <IncomePage />
             </Stack>
             <Box>
                 <HStack spacing="24px">
@@ -65,7 +59,7 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
                                 .then(() => window.scrollTo(0, 0));
                         }}
                     >
-                        Upload Proof of Income
+                        {t("poi.upload")}
                     </FormButton>
                     <Button
                         variant="link"
@@ -75,7 +69,7 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
                         onClick={onNext}
                         borderRadius="6px"
                     >
-                        <Text as="u">Skip for Now</Text>
+                        <Text as="u">{t("form.skip")}</Text>
                     </Button>
                 </HStack>
             </Box>

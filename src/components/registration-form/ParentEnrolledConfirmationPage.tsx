@@ -10,6 +10,7 @@ import useStripeSession from "@utils/useStripeSession";
 import { Stripe } from "services/stripe";
 import { useRouter } from "next/router";
 import { createStripeRefund } from "@utils/createStripeRefund";
+import { useTranslation } from "react-i18next";
 
 type ParentEnrolledConfirmationPageProps = {
     student: Student;
@@ -25,6 +26,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
         const [enrolled, setEnrolled] = useState(false);
         const toast = useToast();
         const router = useRouter();
+        const { t } = useTranslation("form");
 
         useEffect(() => {
             // Only create registration if stripe session is successful & product matches current class
@@ -72,7 +74,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                         align="center"
                         pt={5}
                     >
-                        Thank you for registering!
+                        {t("form.registered")}
                     </Text>
                     <Text maxW={512} textAlign="center" py={3}>
                         We look forward to see you at our program. Look out for
@@ -90,7 +92,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             w="350px"
                             color={colourTheme.colors.Blue}
                         >
-                            View upcoming classes
+                            {t("form.viewUpcoming")}
                         </Button>
                     </Link>
                     <Box pt={1} />
@@ -106,7 +108,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             fontWeight={"200"}
                             w="350px"
                         >
-                            Browse Classes
+                            {t("form.browseClasses")}
                         </Button>
                     </Link>
                 </VStack>
