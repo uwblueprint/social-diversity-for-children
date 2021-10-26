@@ -54,9 +54,7 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
                         onClick={() => {
                             router
                                 .push(
-                                    `/document-upload?type=income-proof&redirect=/parent/enrollment?classId=${classId}%26page=${
-                                        pageNum + 1
-                                    }`,
+                                    `/document-upload?type=income-proof&redirect=/parent/enrollment?classId=${classId}%26page=${pageNum}`,
                                 )
                                 .then(() => window.scrollTo(0, 0));
                         }}

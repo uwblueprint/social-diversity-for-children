@@ -27,9 +27,11 @@ export function pathWithQuery(
     param: string,
     value: string,
 ): string {
-    if (path.includes("?")) {
-        return `${path}&${param}=${value}`;
+    const re = new RegExp("([?&])" + param + "=.*?(&|$)", "i");
+    const separator = path.indexOf("?") !== -1 ? "&" : "?";
+    if (path.match(re)) {
+        return path.replace(re, "$1" + param + "=" + value + "$2");
     } else {
-        return `${path}?${param}=${value}`;
+        return path + separator + param + "=" + value;
     }
 }

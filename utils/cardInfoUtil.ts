@@ -41,13 +41,14 @@ export class CardInfoUtil {
         return {
             borderAge: result.borderAge,
             isAgeMinimal: result.isAgeMinimal,
-            spaceTotal: result.spaceTotal,
             id: result.id,
             image: result.imageLink,
             stripePriceId: result.stripePriceId,
-            spaceAvailable: result.spaceAvailable,
+            spaceTotal: result.spaceTotal,
+            spaceAvailable: result.spaceTotal - result._count?.parentRegs,
             volunteerSpaceTotal: result.volunteerSpaceTotal,
-            volunteerSpaceAvailable: result.volunteerSpaceAvailable,
+            volunteerSpaceAvailable:
+                result.volunteerSpaceTotal - result._count?.volunteerRegs,
             startDate: result.startDate,
             endDate: result.endDate,
             weekday: result.weekday,
