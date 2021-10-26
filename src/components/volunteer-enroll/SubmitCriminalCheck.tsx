@@ -97,7 +97,7 @@ export const SubmitCriminalCheckForm: React.FC<SubmitCriminalCheckFormProps> =
                 </Box>
                 <Box>
                     <Link
-                        href={`/document-upload?type=criminal-check&redirect=/volunteer/enrollment?classId=${classInfo.id}%26page=1`}
+                        href={`/document-upload?type=criminal-check&redirect=/volunteer/enrollment?classId=${classInfo.id}%26page=0`}
                     >
                         <Button
                             mt="40px"
