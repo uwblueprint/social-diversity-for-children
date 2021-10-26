@@ -89,15 +89,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
         return updatedStudentData;
     }
 
-    const PROOF_OF_INCOME_EXAMPLES = ["Income tax notice", "Paystub", "etc"];
-
-    const UPLOADING_PROOF_OF_INCOME = [
-        `Navigate to My Account > Proof of Income`,
-        `Upload a copy of the result to your SDC account`,
-        `Once you’ve submitted your proof of income, keep an eye out for approval status from SDC!`,
-        `Upon approval, discounts will automatically applied to your account!
-    Check your account for details on the amount of discount you have been approved for`,
-    ];
+    console.log(me);
 
     //The page will be rendered differently based on if the user is a parent or volunteer
     useEffect(() => {

@@ -15,6 +15,7 @@ import useLocalStorage from "@utils/useLocalStorage";
 import { ParentInput, roles, locale, province } from "@models/User";
 import colourTheme from "@styles/colours";
 import { mutate } from "swr";
+import { therapy, difficulties } from ".prisma/client";
 
 /*
 Dynamic import is a next.js feature. 
@@ -476,6 +477,25 @@ export default function ParticipantInfo({
     }
 
     async function updateUser() {
+        //Save Therapy
+        const therapyArray = [];
+        if (physiotherapy) therapyArray.push(therapy.PHYSIO);
+        if (speechTherapy) therapyArray.push(therapy.SPEECH_LANG);
+        if (occupationalTherapy) therapyArray.push(therapy.OCCUPATIONAL);
+        if (counseling) therapyArray.push(therapy.COUNSELING);
+        if (artTherapy) therapyArray.push(therapy.ART);
+        if (otherTherapy) therapyArray.push(therapy.OTHER);
+
+        //Save Difficulties
+        const difficultiesArray = [];
+        if (hasLearningDifficulties)
+            difficultiesArray.push(difficulties.LEARNING);
+        if (hasPhysicalDifficulties)
+            difficultiesArray.push(difficulties.PHYSICAL);
+        if (hasSensoryDifficulties)
+            difficultiesArray.push(difficulties.SENSORY);
+        if (hasOtherDifficulties) difficultiesArray.push(difficulties.OTHER);
+
         const parentData: ParentInput = {
             phoneNumber: parentPhoneNumber,
             isLowIncome: undefined, // TODO
@@ -493,10 +513,10 @@ export default function ParticipantInfo({
                 province: participantProvince,
                 school: school,
                 grade: parseInt(grade, 10),
-                difficulties: participantDifficulties.sort(),
+                difficulties: difficultiesArray,
                 otherDifficulties: null,
                 specialEducation: specialEd,
-                therapy: [],
+                therapy: therapyArray,
                 otherTherapy: null,
                 guardianExpectations,
                 emergFirstName: emergFirstName,

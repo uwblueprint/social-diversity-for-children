@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { HStack, Button, Box, Text } from "@chakra-ui/react";
+import { HStack, Button, Box, Text, Stack, FormLabel } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import validator from "validator";
 import { PostalCodeField } from "@components/formFields/PostalCodeField";
 import { TextField } from "@components/formFields/TextField";
 import { ProvinceField } from "@components/formFields/ProvinceField";
 import { DateField } from "@components/formFields/DateField";
+import { CheckBoxField } from "@components/formFields/CheckBoxField";
+import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
 import "react-datepicker/dist/react-datepicker.css";
+import { therapy, difficulties } from ".prisma/client";
 
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
@@ -39,7 +42,83 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
         props.student.lastName,
     );
 
+    const [expectations, setExpections] = useState();
+
+    // Emergency contact info
+    const [emergFirstName, setEmergFirstName] = useState(
+        props.student.emergFirstName,
+    );
+    const [emergLastName, setEmergLastName] = useState(
+        props.student.emergLastName,
+    );
+    const [emergPhoneNumber, setEmergPhoneNumber] = useState(
+        props.student.emergNumber,
+    );
+    const [emergRelationship, setEmergRelationship] = useState(
+        props.student.emergRelationship,
+    );
+
+    //Particpant Therapy
+    const [physiotherapy, setPhysiotherapy] = useState(
+        props.student.therapy.includes(therapy.PHYSIO),
+    );
+    const [speechTherapy, setSpeechTherapy] = useState(
+        props.student.therapy.includes(therapy.SPEECH_LANG),
+    );
+    const [occupationalTherapy, setOccupationalTherapy] = useState(
+        props.student.therapy.includes(therapy.OCCUPATIONAL),
+    );
+    const [counseling, setCounseling] = useState(
+        props.student.therapy.includes(therapy.COUNSELING),
+    );
+    const [artTherapy, setArtTherapy] = useState(
+        props.student.therapy.includes(therapy.ART),
+    );
+    const [otherTherapy, setOtherTherapy] = useState(
+        props.student.therapy.includes(therapy.OTHER),
+    );
+
+    // Participant difficulties
+    const [hasLearningDifficulties, setHasLearningDifficulties] = useState(
+        props.student.therapy.includes(difficulties.LEARNING),
+    );
+    const [hasPhysicalDifficulties, setHasPhysicalDifficulties] = useState(
+        props.student.therapy.includes(difficulties.PHYSICAL),
+    );
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useState(
+        props.student.therapy.includes(difficulties.SENSORY),
+    );
+    const [hasOtherDifficulties, setHasOtherDifficulties] = useState(
+        props.student.therapy.includes(difficulties.OTHER),
+    );
+
+    //Health info
+    const [allergies, setAllergies] = useState(props.student.allergies);
+    const [medication, setMedication] = useState(props.student.medication);
+
+    const [guardianExpectations, setGuardianExpectations] = useState(
+        props.student.guardianExpectations,
+    );
     const save = () => {
+        //Save Therapy
+        const therapyArray = [];
+        if (physiotherapy) therapyArray.push(therapy.PHYSIO);
+        if (speechTherapy) therapyArray.push(therapy.SPEECH_LANG);
+        if (occupationalTherapy) therapyArray.push(therapy.OCCUPATIONAL);
+        if (counseling) therapyArray.push(therapy.COUNSELING);
+        if (artTherapy) therapyArray.push(therapy.ART);
+        if (otherTherapy) therapyArray.push(therapy.OTHER);
+
+        //Save Difficulties
+        const difficultiesArray = [];
+        if (hasLearningDifficulties)
+            difficultiesArray.push(difficulties.LEARNING);
+        if (hasPhysicalDifficulties)
+            difficultiesArray.push(difficulties.PHYSICAL);
+        if (hasSensoryDifficulties)
+            difficultiesArray.push(difficulties.SENSORY);
+        if (hasOtherDifficulties) difficultiesArray.push(difficulties.OTHER);
+
         const data = {
             id: props.student.id,
             dateOfBirth,
@@ -52,11 +131,15 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
             grade: parseInt(grade, 10),
             firstName: participantFirstName,
             lastName: participantLastName,
-            // TODO: Emergency info
-            emergFirstName: "STUBFIRSTNAME",
-            emergLastName: "STUBLASTNAME",
-            emergNumber: "999999",
-            emergRelationToStudent: "STUBRELATION",
+            emergFirstName: emergFirstName,
+            emergLastName: emergLastName,
+            emergNumber: emergPhoneNumber,
+            emergRelationToStudent: emergRelationship,
+            allergies,
+            medication,
+            guardianExpectations,
+            therapy: therapyArray,
+            difficulties: difficultiesArray,
         };
         props.save(data);
         //Put into proper format
@@ -154,6 +237,146 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     placeholder="5"
                     required={false}
                     edit={props.edit}
+                ></TextField>
+                <br />
+                <br />
+                <Stack direction="column">
+                    <FormLabel>The participant has</FormLabel>
+                    <CheckBoxField
+                        value={hasLearningDifficulties}
+                        name={"Learning difficulties"}
+                        setValue={setHasLearningDifficulties}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={hasPhysicalDifficulties}
+                        name={"Physical difficulties"}
+                        setValue={setHasPhysicalDifficulties}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={hasSensoryDifficulties}
+                        name={"Sensory difficulties"}
+                        setValue={setHasSensoryDifficulties}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={hasOtherDifficulties}
+                        name={"Other difficulties"}
+                        setValue={setHasOtherDifficulties}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                </Stack>
+                <br />
+                <TextField
+                    name="Food Allergies"
+                    value={allergies}
+                    setValue={setAllergies}
+                    edit={props.edit}
+                ></TextField>
+                <br />
+                <br />
+                <Stack direction="column">
+                    <FormLabel>Forms of therapy</FormLabel>
+                    <CheckBoxField
+                        value={physiotherapy}
+                        name={"Physiotherapy"}
+                        setValue={setPhysiotherapy}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={speechTherapy}
+                        name={"Speech and Language Therapy"}
+                        setValue={setSpeechTherapy}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={occupationalTherapy}
+                        name={"Occupational Therapy"}
+                        setValue={setOccupationalTherapy}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={counseling}
+                        name={"Psychotherapy/Counseling"}
+                        setValue={setCounseling}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={artTherapy}
+                        name={"Music or Art Therapy"}
+                        setValue={setArtTherapy}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                    <CheckBoxField
+                        value={otherTherapy}
+                        name={"Other"}
+                        setValue={setOtherTherapy}
+                        required={false}
+                        spacing={false}
+                    ></CheckBoxField>
+                </Stack>
+                <br />
+                <Text fontWeight={700} fontSize={24}>
+                    Emergency Information
+                </Text>
+                <HStack spacing="24px" style={{ height: 100 }}>
+                    <TextField
+                        name="Emergency Contact First Name"
+                        value={emergFirstName}
+                        setValue={setEmergFirstName}
+                    ></TextField>
+                    <TextField
+                        name="Emergency Contact Last Name"
+                        value={emergLastName}
+                        setValue={setEmergLastName}
+                    ></TextField>
+                </HStack>
+                <br />
+                <br />
+                <PhoneNumberField
+                    name="Emergency Contact Phone Number"
+                    value={emergPhoneNumber}
+                    setValue={setEmergPhoneNumber}
+                ></PhoneNumberField>
+                <br />
+                <br />
+                <TextField
+                    name="Emergency Contact Relationship to Participant"
+                    placeholder="Mother"
+                    value={emergRelationship}
+                    setValue={setEmergRelationship}
+                ></TextField>
+                <br />
+                <br />
+                <Text fontWeight={700} fontSize={24}>
+                    Health Information
+                </Text>
+                <br />
+                <TextField
+                    name="If yes, please provide any details if necessary"
+                    value={medication}
+                    setValue={setMedication}
+                    placeholder="Details"
+                    required={false}
+                ></TextField>
+                <br />
+                <br />
+                <TextField
+                    name="If yes, please provide any details if necessary"
+                    value={allergies}
+                    setValue={setAllergies}
+                    placeholder="Details"
+                    required={false}
                 ></TextField>
                 <br />
                 <Box>
