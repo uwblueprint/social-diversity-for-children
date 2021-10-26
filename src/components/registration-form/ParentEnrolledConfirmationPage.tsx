@@ -8,6 +8,7 @@ import { Student } from "@prisma/client";
 import { Loading } from "@components/Loading";
 import useStripeSession from "@utils/useStripeSession";
 import { Stripe } from "services/stripe";
+import { useTranslation } from "react-i18next";
 
 type ParentEnrolledConfirmationPageProps = {
     student: Student;
@@ -18,6 +19,7 @@ type ParentEnrolledConfirmationPageProps = {
 
 export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmationPageProps> =
     ({ student, classId, stripeSessionId, classPriceId }): JSX.Element => {
+        const { t } = useTranslation("form");
         const { stripeSession, stripeSessionItems } =
             useStripeSession(stripeSessionId);
         const [enrolled, setEnrolled] = useState(false);
@@ -49,7 +51,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                         align="center"
                         pt={5}
                     >
-                        Thank you for registering!
+                        {t("form.registered")}
                     </Text>
                     <Text maxW={512} textAlign="center" py={3}>
                         We look forward to see you at our program. Look out for
@@ -67,7 +69,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             w="350px"
                             color={colourTheme.colors.Blue}
                         >
-                            View upcoming classes
+                            {t("form.viewUpcoming")}
                         </Button>
                     </Link>
                     <Box pt={1} />
@@ -83,7 +85,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             fontWeight={"200"}
                             w="350px"
                         >
-                            Browse Classes
+                            {t("form.browseClasses")}
                         </Button>
                     </Link>
                 </VStack>

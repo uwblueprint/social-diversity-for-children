@@ -17,6 +17,7 @@ import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { Loading } from "@components/Loading";
+import { useTranslation } from "next-i18next";
 
 type ParentCreatedPageProps = {
     successful: string;
@@ -36,6 +37,8 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
     formPages,
     successful,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     const progressBarIncrement = Math.ceil(100 / totalPages);
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
@@ -46,7 +49,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
         "Participant Emergency Form",
         "Participant Health Form",
         "Parent Guardian Information",
-        "Proof of Income",
+        t("poi.title"),
         "How did you hear about us?",
     ];
     return (
@@ -104,7 +107,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                         <ApprovedIcon />
                         <Text fontWeight="700" fontSize="24px" align="center">
                             {successful === "success"
-                                ? "Account created successfully"
+                                ? t("form.accountCreated")
                                 : "Error: Account not Created"}
                         </Text>
                         <Text maxW={512} textAlign="center">
@@ -128,7 +131,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                     fontWeight={"200"}
                                     borderRadius="6px"
                                 >
-                                    Browse Classes
+                                    {t("form.browseClasses")}
                                 </Button>
                             </ChakraLink>
                         </Link>
