@@ -46,6 +46,12 @@ export default async function handle(
                 process.env.S3_UPLOAD_BUCKET,
                 uploadFilePath,
             );
+            if (!post) {
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "Could not get link for upload",
+                );
+            }
 
             // Assume that the presigned url is used immediately and save the path to records
             // Depending on whether or not it's criminal check or poi, we do a vol or parent write

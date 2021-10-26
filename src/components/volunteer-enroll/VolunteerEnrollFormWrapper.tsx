@@ -100,7 +100,7 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                         fontWeight={"200"}
                                         borderRadius={"6px"}
                                     >
-                                        {t("form.volunteerSignup")}
+                                        {t("form.browseClasses")}
                                     </Button>
                                 </Link>
                             </Center>
