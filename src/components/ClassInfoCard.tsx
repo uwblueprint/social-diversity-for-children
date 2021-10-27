@@ -39,6 +39,9 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     const { t } = useTranslation();
     const { me } = useMe();
 
+    const fullClass =
+        me && me.role === roles.PARENT && cardInfo.spaceAvailable < 1;
+
     return (
         <Grid
             templateColumns="repeat(4, 1fr)"
@@ -110,6 +113,19 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                   " available"}
                         </Box>
                     </Flex>
+                    {fullClass && (
+                        <Flex mt={3}>
+                            <Box as="h2">
+                                We'll notify you once space becomes available
+                            </Box>
+                            <Spacer />
+                            <SDCBadge isOff={!isEligible}>
+                                {cardInfo.isAgeMinimal
+                                    ? cardInfo.borderAge + " and above"
+                                    : cardInfo.borderAge + " and under"}
+                            </SDCBadge>
+                        </Flex>
+                    )}
                 </VStack>
             </GridItem>
         </Grid>
