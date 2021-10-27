@@ -5,19 +5,19 @@ import prisma from "../../services/database"; // Relative path required, aliases
 const volunteerRegs: VolunteerReg[] = [
     {
         volunteerId: 10002,
-        classId: 1,
+        classId: 10000,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
         volunteerId: 10004,
-        classId: 1,
+        classId: 10000,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
         volunteerId: 10006,
-        classId: 1,
+        classId: 10000,
         createdAt: new Date(),
         updatedAt: null,
     },

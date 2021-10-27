@@ -19,6 +19,8 @@ import { getSession, signOut } from "next-auth/client";
 import colourTheme from "@styles/colours";
 import { UpdateStudentInput } from "@models/Student";
 import { CriminalCheck } from "@components/myAccounts/CriminalCheck";
+import router from "next/router";
+import Link from "next/link";
 
 type MyAccountProps = {
     session: Record<string, unknown>;
@@ -87,6 +89,11 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
         mutate();
         const updatedStudentData = await response.json();
         return updatedStudentData;
+    }
+    // Stop and inform user to fill out information
+    if (me && me.role === null) {
+        router.push("/signup");
+        return <Loading />;
     }
 
     //The page will be rendered differently based on if the user is a parent or volunteer
@@ -183,10 +190,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                 canEdit: false,
                 component: (
                     <CriminalCheck
-                        // TODO: Integrate is approved column, it is in PR #107
-                        approved={
-                            me.volunteer.criminalRecordCheckLink ? true : false
-                        }
+                        approved={me.volunteer.criminalCheckApproved}
                         link={me.volunteer.criminalRecordCheckLink}
                         // TODO: Add submit date columns to table rows
                         submitDate={new Date()}
@@ -210,6 +214,23 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     <Text fontWeight={700} fontSize={36}>
                         {"My Account"}
                     </Text>
+                    {me && me.role === "PARENT" ? (
+                        <Link href="/parent/participant">
+                            <Button
+                                mt={8}
+                                backgroundColor="#0C53A0"
+                                borderColor="brand.400"
+                                width="85%"
+                                height="54px"
+                                fontSize="16px"
+                                fontWeight="400"
+                                color="white"
+                                border="1px"
+                            >
+                                Add participant
+                            </Button>
+                        </Link>
+                    ) : null}
                     {sideBar.map((option, i) => (
                         <Button
                             key={i}

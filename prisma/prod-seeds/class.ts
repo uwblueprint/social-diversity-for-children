@@ -4,12 +4,12 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed class data
 const classes: Class[] = [
     {
-        id: 1,
+        id: 10000,
         name: "Singing Monkeys",
         borderAge: 9,
         isAgeMinimal: false,
         imageLink: "https://i.imgur.com/2ZCdUW8.png",
-        programId: 1,
+        programId: 10000,
         stripePriceId: "price_1JmtVCL97YpjuvTOGSqYAdya",
         spaceTotal: 10,
         volunteerSpaceTotal: 5,
@@ -23,12 +23,12 @@ const classes: Class[] = [
         updatedAt: null,
     },
     {
-        id: 2,
+        id: 10001,
         name: "Singing Giraffes",
         borderAge: 10,
         isAgeMinimal: true,
         imageLink: "https://i.imgur.com/Y4qw1al.png",
-        programId: 1,
+        programId: 10000,
         stripePriceId: "price_1JmtVpL97YpjuvTOaiyFxZqY",
         spaceTotal: 10,
         volunteerSpaceTotal: 5,
