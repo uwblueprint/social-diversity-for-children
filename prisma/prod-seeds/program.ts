@@ -4,7 +4,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed program data
 const programs: Program[] = [
     {
-        id: 1,
+        id: 10000,
         onlineFormat: programFormat.online,
         tag: "Music",
         imageLink:
@@ -16,7 +16,7 @@ const programs: Program[] = [
         updatedAt: null,
     },
     {
-        id: 2,
+        id: 10001,
         onlineFormat: programFormat.online,
         tag: "Art",
         imageLink:

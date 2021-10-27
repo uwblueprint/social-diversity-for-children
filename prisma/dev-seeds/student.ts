@@ -4,7 +4,7 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed student data
 const students: Student[] = [
     {
-        id: 1,
+        id: 10000,
         parentId: 10003,
         firstName: "Jo",
         lastName: "Black",
@@ -33,7 +33,7 @@ const students: Student[] = [
         updatedAt: null,
     },
     {
-        id: 2,
+        id: 10001,
         parentId: 10003,
         firstName: "Arianna",
         lastName: "Simmons",
@@ -62,7 +62,7 @@ const students: Student[] = [
         updatedAt: null,
     },
     {
-        id: 3,
+        id: 10002,
         parentId: 10005,
         firstName: "Sahib",
         lastName: "Gould",
@@ -91,7 +91,7 @@ const students: Student[] = [
         updatedAt: null,
     },
     {
-        id: 4,
+        id: 10003,
         parentId: 10005,
         firstName: "Toni",
         lastName: "Dixon",
@@ -120,7 +120,7 @@ const students: Student[] = [
         updatedAt: null,
     },
     {
-        id: 5,
+        id: 10004,
         parentId: 10007,
         firstName: "Caris",
         lastName: "Aguilar",
@@ -149,7 +149,7 @@ const students: Student[] = [
         updatedAt: null,
     },
     {
-        id: 6,
+        id: 10005,
         parentId: 10007,
         firstName: "Aman",
         lastName: "Riggs",

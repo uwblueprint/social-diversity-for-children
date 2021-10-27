@@ -100,7 +100,7 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                         fontWeight={"200"}
                                         borderRadius={"6px"}
                                     >
-                                        {t("form.browseClasses")}
+                                        {t("form.viewUpcoming")}
                                     </Button>
                                 </Link>
                             </Center>
