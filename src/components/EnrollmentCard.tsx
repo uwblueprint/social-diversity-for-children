@@ -33,7 +33,7 @@ import {
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
-import useGetZoomLink from "@utils/useGetZoomLink";
+import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;

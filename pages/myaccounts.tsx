@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import { Spacer, Box, Icon, Button, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
 import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";

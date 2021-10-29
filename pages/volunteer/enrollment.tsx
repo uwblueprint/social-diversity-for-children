@@ -6,7 +6,7 @@ import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClas
 import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCriminalCheck";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { Box } from "@chakra-ui/layout";
 import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next";

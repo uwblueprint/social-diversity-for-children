@@ -25,7 +25,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { locale, roles } from "@prisma/client";
-import { UseMeResponse } from "@utils/useMe";
+import { UseMeResponse } from "@utils/hooks/useMe";
 
 type ClassInfoModalProps = {
     isOpen: boolean;

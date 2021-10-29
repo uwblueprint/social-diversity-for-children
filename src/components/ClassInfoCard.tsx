@@ -16,7 +16,7 @@ import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;

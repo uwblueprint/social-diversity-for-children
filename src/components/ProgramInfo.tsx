@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { EmptyState } from "./EmptyState";
 import Participants from "@utils/containers/Participants";
-import { UseMeResponse } from "@utils/useMe";
+import { UseMeResponse } from "@utils/hooks/useMe";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type

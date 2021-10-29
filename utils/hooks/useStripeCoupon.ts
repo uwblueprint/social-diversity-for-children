@@ -1,6 +1,6 @@
 import { Stripe } from "services/stripe";
 import useSWR from "swr";
-import { fetcher } from "./fetcher";
+import { fetcher } from "../fetcher";
 
 export type UseStripeCouponResponse = {
     stripeCoupon: Stripe.Coupon;

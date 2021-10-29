@@ -28,7 +28,7 @@ import { deleteVolunteerRegistration } from "@utils/deleteVolunteerRegistration"
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import { useTranslation } from "next-i18next";
-import useGetZoomLink from "@utils/useGetZoomLink";
+import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 
 type VolunteeringCardProps = {
     volunteeringInfo: VolunteeringCardInfo;

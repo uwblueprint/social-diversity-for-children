@@ -7,10 +7,10 @@ import {
     Volunteer,
 } from "@prisma/client";
 import useSWR from "swr";
-import { fetcher } from "./fetcher";
+import { fetcher } from "../fetcher";
 
-export type UseUserResponse = {
-    user: User & {
+export type UseMeResponse = {
+    me: User & {
         parent: Parent & {
             students: Student[];
         };
@@ -23,10 +23,13 @@ export type UseUserResponse = {
     mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
-export default function useUser(id: string): UseUserResponse {
-    const { data, error, mutate } = useSWR(`/api/user/${id}`, fetcher);
+/**
+ * Me hook to get data about current user
+ */
+export default function useMe(): UseMeResponse {
+    const { data, error, mutate } = useSWR("/api/user/me", fetcher);
     return {
-        user: data ? data.data : null,
+        me: data ? data.data : null,
         isLoading: !error && !data,
         error,
         mutate,

@@ -15,7 +15,7 @@ import { EnrollmentCardInfo } from "@models/Enroll";
 import { EnrollmentCard } from "./EnrollmentCard";
 import colourTheme from "@styles/colours";
 import combineStudentEnrollment from "@utils/combineStudentEnrollment";
-import useParentRegistrations from "@utils/useParentRegistration";
+import useParentRegistrations from "@utils/hooks/useParentRegistration";
 import { locale, Student } from "@prisma/client";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
