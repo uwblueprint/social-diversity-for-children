@@ -6,7 +6,7 @@ import Link from "next/link";
 import { createClassRegistration } from "@utils/createClassRegistration";
 import { Student } from "@prisma/client";
 import { Loading } from "@components/Loading";
-import useStripeSession from "@utils/useStripeSession";
+import useStripeSession from "@utils/hooks/useStripeSession";
 import { Stripe } from "services/stripe";
 import { useRouter } from "next/router";
 import { createStripeRefund } from "@utils/createStripeRefund";

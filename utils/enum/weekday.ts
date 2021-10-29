@@ -6,7 +6,7 @@ import moment from "moment";
  * @param wd the Weekday enum value
  * @param language locale used
  */
-export default function weekdayToString(
+export function weekdayToString(
     wd: weekday,
     language: locale = locale.en,
 ): string {

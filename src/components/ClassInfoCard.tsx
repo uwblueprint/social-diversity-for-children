@@ -10,7 +10,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale, roles } from "@prisma/client";
