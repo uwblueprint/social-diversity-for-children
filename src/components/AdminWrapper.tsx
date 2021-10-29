@@ -29,7 +29,7 @@ type SDCWrapperProps = {
 
 const AdminWrapper: React.FC<SDCWrapperProps> = (props): JSX.Element => {
     return (
-        <Box minHeight={"100vh"} position={"relative"}>
+        <Box position={"relative"}>
             <AdminNavBar />
             <Box pl={275}>{props.children}</Box>
         </Box>

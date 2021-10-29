@@ -48,6 +48,37 @@ async function getClasses() {
 }
 
 /**
+ * getWeeklySortedClasses returns all the upcoming classes for a particular week
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getWeeklySortedClasses() {
+    const classes = await prisma.class.findMany({
+        include: {
+            program: { include: { programTranslation: true } },
+            classTranslation: true,
+            teacherRegs: {
+                include: { teacher: { include: { user: true } } },
+            },
+            _count: {
+                select: {
+                    parentRegs: true,
+                    volunteerRegs: true,
+                },
+            },
+        },
+        orderBy: [
+            {
+                weekday: "asc",
+            },
+            {
+                startTimeMinutes: "asc",
+            },
+        ],
+    });
+    return classes;
+}
+
+/**
  * createClass creates a new class record
  * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
@@ -104,4 +135,11 @@ async function updateClass(
     return updatedClass;
 }
 
-export { getClass, getClasses, createClass, deleteClass, updateClass };
+export {
+    getClass,
+    getClasses,
+    getWeeklySortedClasses,
+    createClass,
+    deleteClass,
+    updateClass,
+};

@@ -5,7 +5,8 @@ import CardInfoUtil from "../cardInfoUtil";
 import { fetcher } from "../fetcher";
 
 export type UseUpcomingClassesResponse = {
-    classes: ClassCardInfo[];
+    liveClass?: ClassCardInfo;
+    upcomingClasses: ClassCardInfo[];
     isLoading: boolean;
     error: any;
     mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
@@ -19,11 +20,15 @@ export default function useUpcomingClasses(
     language: locale,
 ): UseUpcomingClassesResponse {
     const { data, error, mutate } = useSWR("/api/class/upcoming", fetcher);
-    const result = data
-        ? CardInfoUtil.getClassCardInfos(data.data, language)
-        : [];
+    console.log(data);
+    const result =
+        data && data.data
+            ? CardInfoUtil.getClassCardInfos(data.data.classes, language)
+            : [];
     return {
-        classes: result,
+        liveClass: data && data.data && data.data.hasLive ? result[0] : null,
+        upcomingClasses:
+            data && data.data && data.data.hasLive ? result.slice(1) : result,
         isLoading: !error && !data,
         error,
         mutate,
