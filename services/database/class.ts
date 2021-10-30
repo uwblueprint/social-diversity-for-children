@@ -79,6 +79,14 @@ async function getWeeklySortedClasses() {
 }
 
 /**
+ * getClassCount returns count of all classes
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getClassCount() {
+    return await prisma.class.count();
+}
+
+/**
  * createClass creates a new class record
  * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
@@ -139,6 +147,7 @@ export {
     getClass,
     getClasses,
     getWeeklySortedClasses,
+    getClassCount,
     createClass,
     deleteClass,
     updateClass,

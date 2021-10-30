@@ -46,9 +46,11 @@ export class CardInfoUtil {
             stripePriceId: result.stripePriceId,
             spaceTotal: result.spaceTotal,
             spaceAvailable: result.spaceTotal - result._count?.parentRegs,
+            spaceTaken: result._count?.parentRegs,
             volunteerSpaceTotal: result.volunteerSpaceTotal,
             volunteerSpaceAvailable:
                 result.volunteerSpaceTotal - result._count?.volunteerRegs,
+            volunteerSpaceTaken: result._count?.volunteerRegs,
             startDate: result.startDate,
             endDate: result.endDate,
             weekday: result.weekday,

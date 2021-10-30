@@ -20,15 +20,20 @@ export default function useUpcomingClasses(
     language: locale,
 ): UseUpcomingClassesResponse {
     const { data, error, mutate } = useSWR("/api/class/upcoming", fetcher);
-    console.log(data);
-    const result =
+    const liveClass =
+        data && data.data && data.data.liveClass
+            ? CardInfoUtil.getClassCardInfo(data.data.liveClass, language)
+            : null;
+    const upcomingClasses =
         data && data.data
-            ? CardInfoUtil.getClassCardInfos(data.data.classes, language)
+            ? CardInfoUtil.getClassCardInfos(
+                  data.data.upcomingClasses,
+                  language,
+              )
             : [];
     return {
-        liveClass: data && data.data && data.data.hasLive ? result[0] : null,
-        upcomingClasses:
-            data && data.data && data.data.hasLive ? result.slice(1) : result,
+        liveClass,
+        upcomingClasses,
         isLoading: !error && !data,
         error,
         mutate,
