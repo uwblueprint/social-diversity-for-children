@@ -4,6 +4,8 @@ import { getRegistrantCount, getTeacherCount } from "@database/user";
 import { getStudentCount } from "@database/student";
 import { getProgramCount } from "@database/program";
 import { getClassCount } from "@database/class";
+import { getSession } from "next-auth/client";
+import { roles } from ".prisma/client";
 
 /**
  * handle controls the request made to the admin stats resources
@@ -14,7 +16,15 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    // TODO: Admin access lock
+    const session = await getSession({ req });
+
+    // If there is no session or the user is not a parent, not authorized
+    if (
+        !session ||
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
+        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+    }
 
     switch (req.method) {
         case "GET": {

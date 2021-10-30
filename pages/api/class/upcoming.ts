@@ -29,8 +29,8 @@ export default async function handle(
                 if (classDay > todayDay) {
                     return true;
                 } else if (
-                    // TODO: Also add start time comparison in if statement
                     classDay === todayDay &&
+                    currentTimeInMinute >= c.startTimeMinutes &&
                     currentTimeInMinute < c.startTimeMinutes + c.durationMinutes
                 ) {
                     hasLive = true;
@@ -46,8 +46,15 @@ export default async function handle(
             // If today is the weekend, we include the classes for the next weekdays
             if (todayDay >= 6) {
                 let index = classes.length;
+
                 classes.some((c, i) => {
-                    if (weekdayToDay(c.weekday) >= todayDay) {
+                    const classDay = weekdayToDay(c.weekday);
+                    if (
+                        classDay > todayDay ||
+                        (classDay === todayDay &&
+                            currentTimeInMinute <
+                                c.startTimeMinutes + c.durationMinutes)
+                    ) {
                         index = i;
                         return true;
                     }
