@@ -17,8 +17,8 @@ export const AdminStatBox: React.FC<AdminStatBoxProps> = ({
 }) => {
     return (
         <Center
-            w={250}
             h={130}
+            w={244}
             border="1px"
             borderColor={colourTheme.colors.Sliver}
             {...props}

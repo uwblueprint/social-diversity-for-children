@@ -319,6 +319,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     }
+    if ([roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)) {
+        return {
+            redirect: {
+                destination: "/admin",
+                permanent: false,
+            },
+        };
+    }
 
     return {
         props: {

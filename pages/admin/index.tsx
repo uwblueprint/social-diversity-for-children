@@ -81,7 +81,7 @@ export default function Admin(props: AdminProps): JSX.Element {
                 <Heading size="sm" alignSelf="flex-start" fontWeight="normal">
                     Overview and Analytics
                 </Heading>
-                <HStack>
+                <HStack spacing={4}>
                     <AdminStatBox
                         amount={totalRegistrants}
                         isLoading={isStatLoading}
