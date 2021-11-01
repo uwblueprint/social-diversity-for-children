@@ -60,7 +60,11 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent minH={80} minW={550} p={10}>
+            <ModalContent
+                minH={80}
+                minW={{ base: 0, md: 550 }}
+                p={{ base: 2, md: 10 }}
+            >
                 <ModalBody>
                     <ModalHeader textAlign={"left"} px={0}>
                         {classInfo.name}

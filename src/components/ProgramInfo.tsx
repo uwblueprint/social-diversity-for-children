@@ -8,6 +8,8 @@ import {
     Heading,
     Spacer,
     Text,
+    Box,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
@@ -50,6 +52,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     const router = useRouter();
     const { t } = useTranslation("common");
     const { students } = Participants.useContainer();
+    const isTagsBesideHeading = useBreakpointValue({ base: false, xl: true });
 
     let fullClassInfo;
     let availableClassInfo;
@@ -67,6 +70,13 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
         );
     }
 
+    const programTags = (
+        <Box>
+            <SDCBadge children={programInfo.onlineFormat} />
+            <SDCBadge ml="2" children={programInfo.tag} />
+        </Box>
+    );
+
     return (
         <Wrapper session={session}>
             <BackButton />
@@ -74,8 +84,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                 <Flex align="center">
                     <Heading>{programInfo.name}</Heading>
                     <Spacer />
-                    <SDCBadge children={programInfo.onlineFormat} />
-                    <SDCBadge ml="2" children={programInfo.tag} />
+                    {isTagsBesideHeading ? programTags : null}
                 </Flex>
                 <Text as="span" color="gray.600" fontSize="sm" mt="5">
                     {t("time.range", {
@@ -86,8 +95,9 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                         ),
                     })}
                 </Text>
-                <Text mt="5">{programInfo.description}</Text>
-                <Flex mt="5" align="center">
+                <Text my="5">{programInfo.description}</Text>
+                {isTagsBesideHeading ? null : programTags}
+                <Flex mt={{ base: 5, xl: 0 }} align="center">
                     <Text fontSize="sm" fontWeight="semibold">
                         Select a class
                     </Text>
