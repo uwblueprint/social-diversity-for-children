@@ -8,6 +8,8 @@ import {
     Image,
     Link,
     Button,
+    HStack,
+    Text,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 import { SDCBadge } from "./SDCBadge";
@@ -21,13 +23,12 @@ import { IoEllipsisVertical } from "react-icons/io5";
 type BrowseProgramCardProps = {
     styleProps?: Record<string, unknown>;
     cardInfo: ProgramCardInfo;
-    session: Record<string, unknown>;
 };
 
 export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
     cardInfo,
 }): JSX.Element => {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
     const router = useRouter();
 
     return (
@@ -43,15 +44,19 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                         }}
                     >
                         <Box width="340px" height="252px" p="35px">
-                            <Box
-                                mt="1"
-                                fontWeight="600"
-                                fontSize="18px"
-                                width="218px"
-                            >
-                                {cardInfo.name}
-                            </Box>
-
+                            <HStack>
+                                <Box
+                                    mt="1"
+                                    fontWeight="600"
+                                    fontSize="18px"
+                                    width="218px"
+                                >
+                                    {cardInfo.name}
+                                </Box>
+                                <Button padding="2px" borderRadius="full">
+                                    <IoEllipsisVertical />
+                                </Button>
+                            </HStack>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 {t("time.range", {
                                     ...convertToShortDateRange(
@@ -61,13 +66,31 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                                     ),
                                 })}
                             </Box>
-                            <Box mt="2" fontSize="md">
+                            <Box
+                                whiteSpace="pre-wrap"
+                                noOfLines={2}
+                                overflow="hidden"
+                                width="275px"
+                                height={9}
+                                mt="2"
+                                fontSize="12px"
+                            >
                                 {cardInfo.description}
                             </Box>
-                            <Box mt="2">
-                                <SDCBadge children={cardInfo.tag} />
+                            <Box mt={6}>
+                                <SDCBadge
+                                    backgroundColor={
+                                        colourTheme.colors.LightGrayBlue
+                                    }
+                                    color={colourTheme.colors.Blue}
+                                    children={cardInfo.tag}
+                                />
                                 <SDCBadge
                                     ml="2"
+                                    backgroundColor={
+                                        colourTheme.colors.LightGrayBlue
+                                    }
+                                    color={colourTheme.colors.Blue}
                                     children={cardInfo.onlineFormat}
                                 />
                             </Box>
