@@ -94,6 +94,7 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
                                 color={"white"}
                                 mx={"auto"}
                                 my={2}
+                                mr={5}
                                 borderRadius="6px"
                                 fontWeight={"normal"}
                                 _hover={{

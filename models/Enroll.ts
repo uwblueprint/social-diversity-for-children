@@ -67,6 +67,9 @@ export type CombinedEnrollmentCardInfo = {
     program: ProgramCardInfo;
 };
 
+/**
+ * Information used for the waitlist card component of my classes page
+ */
 export type WaitlistCardInfo = {
     classId: number;
     createdAt: Date;

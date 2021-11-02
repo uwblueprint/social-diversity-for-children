@@ -117,7 +117,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                     </Flex>
                     {isFull && (
                         <Box>
-                            <Divider mt={8} mb={8} />
+                            <Divider mt={8} mb={8} mr="3" />
                             <Flex mt={3}>
                                 <Box as="h2">
                                     We'll notify you once space becomes
@@ -125,10 +125,12 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 </Box>
                                 <Spacer />
                                 <Button
-                                    border="2px"
+                                    border="1px"
                                     borderColor={colourTheme.colors.Blue}
                                     color={colourTheme.colors.Blue}
                                     variant="outline"
+                                    mr="3"
+                                    width="30%"
                                 >
                                     Learn More
                                 </Button>

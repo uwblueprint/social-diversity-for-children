@@ -18,7 +18,7 @@ export type UseParentWaitlistResponse = {
 export default function useParentWaitlist(
     language: locale,
 ): UseParentWaitlistResponse {
-    const { data, error, mutate } = useSWR("/api/waitlist", fetcher); // ????
+    const { data, error, mutate } = useSWR("/api/waitlist", fetcher);
     const result = data
         ? CardInfoUtil.getWaitlistCardInfos(data.data, language)
         : [];
