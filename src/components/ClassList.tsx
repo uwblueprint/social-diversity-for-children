@@ -28,6 +28,10 @@ export const ClassList: React.FC<ClassListProps> = ({
         <Center width="100%" pt={4}>
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
+                    const isFull =
+                        me &&
+                        me.role === roles.PARENT &&
+                        item.spaceAvailable < 1;
                     const { isOpen, onOpen, onClose } = useDisclosure();
                     let eligible = true;
                     if (me && me.role === roles.PARENT && students !== null) {
@@ -59,6 +63,7 @@ export const ClassList: React.FC<ClassListProps> = ({
                                 cardInfo={item}
                                 onClick={onOpen}
                                 isEligible={eligible}
+                                isFull={isFull}
                             />
                             {eligible ? (
                                 <ClassInfoModal
@@ -68,6 +73,7 @@ export const ClassList: React.FC<ClassListProps> = ({
                                     onlineFormat={onlineFormat}
                                     tag={tag}
                                     me={me}
+                                    isFull={isFull}
                                 />
                             ) : (
                                 <IneligibleClassModal

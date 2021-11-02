@@ -1,4 +1,4 @@
-import { Student, User } from "@prisma/client";
+import { Student, User, Parent } from "@prisma/client";
 import { ClassCardInfo } from "./Class";
 import { ProgramCardInfo } from "./Program";
 
@@ -11,6 +11,16 @@ export type ParentRegistrationInput = {
     /** Unique identifier of the child being enrolled */
     studentId: number;
     /** Unique identifier of the class the child is being enrolled in */
+    classId: number;
+};
+
+/**
+ * Request Body Input For Parent Waitlist
+ */
+export type ParentWaitlistInput = {
+    /** Unique identifier of the parent enrolling their child */
+    parentId: number;
+    /** Unique identifier of the class the child is being waitlisted in */
     classId: number;
 };
 
@@ -54,5 +64,13 @@ export type CombinedEnrollmentCardInfo = {
     createdAt: Date;
     class: ClassCardInfo;
     students: Student[];
+    program: ProgramCardInfo;
+};
+
+export type WaitlistCardInfo = {
+    classId: number;
+    createdAt: Date;
+    class: ClassCardInfo;
+    parent: Parent;
     program: ProgramCardInfo;
 };

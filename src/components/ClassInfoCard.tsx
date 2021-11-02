@@ -1,9 +1,11 @@
 import React from "react";
 import {
     Box,
+    Button,
     AspectRatio,
     Image,
     Flex,
+    Divider,
     Grid,
     GridItem,
     Spacer,
@@ -17,11 +19,13 @@ import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import useMe from "@utils/useMe";
+import colourTheme from "@styles/colours";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
     isEligible?: boolean;
     onClick: () => void;
+    isFull: boolean;
 };
 
 /**
@@ -34,6 +38,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     cardInfo,
     isEligible,
     onClick,
+    isFull,
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
@@ -100,16 +105,36 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             {me && me.role === roles.VOLUNTEER
                                 ? cardInfo.volunteerSpaceAvailable +
                                   " volunteer spot" +
-                                  (cardInfo.volunteerSpaceAvailable > 1
+                                  (cardInfo.volunteerSpaceAvailable != 1
                                       ? "s"
                                       : "") +
                                   " available"
                                 : cardInfo.spaceAvailable +
                                   " participant spot" +
-                                  (cardInfo.spaceAvailable > 1 ? "s" : "") +
+                                  (cardInfo.spaceAvailable != 1 ? "s" : "") +
                                   " available"}
                         </Box>
                     </Flex>
+                    {isFull && (
+                        <Box>
+                            <Divider mt={8} mb={8} />
+                            <Flex mt={3}>
+                                <Box as="h2">
+                                    We'll notify you once space becomes
+                                    available
+                                </Box>
+                                <Spacer />
+                                <Button
+                                    border="2px"
+                                    borderColor={colourTheme.colors.Blue}
+                                    color={colourTheme.colors.Blue}
+                                    variant="outline"
+                                >
+                                    Learn More
+                                </Button>
+                            </Flex>
+                        </Box>
+                    )}
                 </VStack>
             </GridItem>
         </Grid>

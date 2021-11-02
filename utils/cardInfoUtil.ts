@@ -1,6 +1,10 @@
 import { ProgramCardInfo } from "models/Program";
 import { ClassCardInfo } from "models/Class";
-import { EnrollmentCardInfo, VolunteeringCardInfo } from "@models/Enroll";
+import {
+    EnrollmentCardInfo,
+    VolunteeringCardInfo,
+    WaitlistCardInfo,
+} from "@models/Enroll";
 import { ClassTranslation, locale, ProgramTranslation } from "@prisma/client";
 import { TranslationUtil } from "./translationUtil";
 
@@ -151,6 +155,39 @@ export class CardInfoUtil {
             createdAt: result.createdAt,
             class: this.getClassCardInfo(result.class, language),
             student: result.student,
+            program: this.getProgramCardInfo(result.class.program, language),
+        };
+    }
+
+    /** Converts result of GET /api/waitlist into WaitlistCardInfo
+     * @param  {any[]} findResults raw results form api
+     * @param  {locale} language locale used
+     * @returns WaitlistCardInfo[]
+     */
+    static getWaitlistCardInfos(
+        findResults: any[],
+        language: locale,
+    ): WaitlistCardInfo[] {
+        if (!findResults) return [];
+        return findResults.map((result) => {
+            return this.getWaitlistCardInfo(result, language);
+        });
+    }
+
+    /** Converts a result of GET /api/waitlist into WaitlistCardInfo
+     * @param  {any} result raw result from api
+     * @param  {locale} language locale used
+     * @returns WaitlistCardInfo
+     */
+    static getWaitlistCardInfo(
+        result: any,
+        language: locale,
+    ): WaitlistCardInfo {
+        return {
+            classId: result.classId,
+            createdAt: result.createdAt,
+            class: this.getClassCardInfo(result.class, language),
+            parent: result.parent,
             program: this.getProgramCardInfo(result.class.program, language),
         };
     }
