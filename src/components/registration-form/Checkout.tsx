@@ -4,8 +4,8 @@ import { FormClassCard } from "@components/FormClass";
 
 import colourTheme from "@styles/colours";
 import { ClassCardInfo } from "@models/Class";
-import useStripePrice from "@utils/useStripePrice";
-import useStripeCoupon from "@utils/useStripeCoupon";
+import useStripePrice from "@utils/hooks/useStripePrice";
+import useStripeCoupon from "@utils/hooks/useStripeCoupon";
 import { Stripe } from "services/stripe";
 
 type CheckoutProps = {

@@ -3,6 +3,14 @@ import { Student } from "@prisma/client";
 import { CreateStudentInput, UpdateStudentInput } from "@models/Student";
 
 /**
+ * getStudentCount returns count of all students
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getStudentCount() {
+    return await prisma.student.count();
+}
+
+/**
  * createStudent creates a new student record
  * @param input - data of type createStudentInput
  * @returns Promise<Student> - Promise with the newly created student
@@ -120,4 +128,4 @@ async function deleteStudent(id: string): Promise<Student> {
     return deletedStudent;
 }
 
-export { createStudent, updateStudent, deleteStudent };
+export { getStudentCount, createStudent, updateStudent, deleteStudent };

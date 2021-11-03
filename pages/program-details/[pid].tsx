@@ -10,7 +10,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { locale } from "@prisma/client";
 import { Loading } from "@components/Loading";
 import Participants from "@utils/containers/Participants";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { fetcherWithId } from "@utils/fetcher";
 
 type ProgramDetailsProps = {

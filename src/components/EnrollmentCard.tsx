@@ -19,7 +19,7 @@ import {
     MenuDivider,
     Link,
 } from "@chakra-ui/react";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { CombinedEnrollmentCardInfo } from "@models/Enroll";
 import colourTheme from "@styles/colours";
@@ -33,7 +33,7 @@ import {
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
-import useGetZoomLink from "@utils/useGetZoomLink";
+import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;

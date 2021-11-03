@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import { Spacer, Box, Icon, Button, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
 import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
@@ -315,6 +315,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return {
             redirect: {
                 destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+    if ([roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)) {
+        return {
+            redirect: {
+                destination: "/admin",
                 permanent: false,
             },
         };

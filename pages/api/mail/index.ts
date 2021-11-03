@@ -1,5 +1,5 @@
 import { ResponseUtil } from "@utils/responseUtil";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import type { NextApiRequest, NextApiResponse } from "next";
 import send from "services/nodemailer/mail";
 import findEmails from "@database/mail";

@@ -1,26 +1,27 @@
 import useSWR from "swr";
-import { fetcherWithPathFile } from "./fetcher";
+import { S3 } from "services/aws/index";
+import { fetcherWithPathFile } from "../fetcher";
 
-export type UseFileRetrieveResponse = {
-    url: string;
+export type UseFileUploadResponse = {
+    post: S3.PresignedPost;
     isLoading: boolean;
     error: any;
     mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
- * File retrieve hook to get url to download file in bucket
+ * File upload presigned url hook to upload file
  */
-export default function useFileRetrieve(
+export default function useFileUpload(
     path?: string,
     file?: string,
-): UseFileRetrieveResponse {
+): UseFileUploadResponse {
     const { data, error, mutate } = useSWR(
-        ["/api/file/retrieve", path, file],
+        ["/api/file", path, file],
         fetcherWithPathFile,
     );
     return {
-        url: data ? data.data : null,
+        post: data ? data.data : null,
         isLoading: !error && !data,
         error,
         mutate,

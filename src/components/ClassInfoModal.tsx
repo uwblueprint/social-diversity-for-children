@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
@@ -25,7 +25,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { locale, roles } from "@prisma/client";
-import { UseMeResponse } from "@utils/useMe";
+import { UseMeResponse } from "@utils/hooks/useMe";
 
 type ClassInfoModalProps = {
     isOpen: boolean;

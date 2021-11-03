@@ -1,7 +1,7 @@
 import { locale, weekday } from "@prisma/client";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 
 /**
  * Return html representing the class notification template

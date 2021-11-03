@@ -28,8 +28,10 @@ export type ClassCardInfo = {
     isAgeMinimal: boolean;
     stripePriceId: string;
     spaceAvailable: number;
+    spaceTaken: number;
     spaceTotal: number;
     volunteerSpaceAvailable: number;
+    volunteerSpaceTaken: number;
     volunteerSpaceTotal: number;
     weekday: weekday;
     startDate: Date;

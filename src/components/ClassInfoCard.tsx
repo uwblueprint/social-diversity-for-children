@@ -9,14 +9,14 @@ import {
     Spacer,
     VStack,
 } from "@chakra-ui/react";
-import { SDCBadge } from "./SDCBadge";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
+import { AgeBadge } from "./AgeBadge";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
@@ -64,11 +64,11 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         {cardInfo.borderAge == null ? null : (
-                            <SDCBadge isOff={!isEligible}>
-                                {cardInfo.isAgeMinimal
-                                    ? cardInfo.borderAge + " and above"
-                                    : cardInfo.borderAge + " and under"}
-                            </SDCBadge>
+                            <AgeBadge
+                                isOff={!isEligible}
+                                isAgeMinimal={cardInfo.isAgeMinimal}
+                                borderAge={cardInfo.borderAge}
+                            />
                         )}
                     </Flex>
                     <Flex>

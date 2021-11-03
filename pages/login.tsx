@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions, signIn } from "next-auth/client";
-import useLocalStorage from "@utils/useLocalStorage";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
 import isEmail from "validator/lib/isEmail";
 

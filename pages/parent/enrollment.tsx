@@ -3,7 +3,7 @@ import SelectChildForClass from "@components/SelectChildForClass";
 import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
 import { Box } from "@chakra-ui/layout";
 import { GetServerSideProps } from "next";
-import useUser from "@utils/useUser";
+import useUser from "@utils/hooks/useUser";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
 import { Loading } from "@components/Loading";

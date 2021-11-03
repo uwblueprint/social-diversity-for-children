@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { fetcher } from "./fetcher";
+import { fetcher } from "../fetcher";
 
 export type UseGetZoomLinkResponse = {
     link: string;
