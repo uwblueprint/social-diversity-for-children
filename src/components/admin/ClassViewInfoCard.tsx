@@ -28,8 +28,6 @@ export type ClassViewInfoCard = {
 export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
     cardInfo,
 }) => {
-    const router = useRouter();
-
     return (
         <Grid
             templateColumns="repeat(5, 1fr)"

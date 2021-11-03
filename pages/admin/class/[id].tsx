@@ -1,19 +1,26 @@
-import { SearchIcon } from "@chakra-ui/icons";
+import { SearchIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
     Button,
+    chakra,
     Flex,
     Icon,
     Input,
     InputGroup,
     InputLeftElement,
     Tab,
+    Table,
     TabList,
     TabPanel,
     TabPanels,
     Tabs,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
     VStack,
 } from "@chakra-ui/react";
 import { ClassViewInfoCard } from "@components/admin/ClassViewInfoCard";
@@ -24,6 +31,7 @@ import useUpcomingClasses from "@utils/hooks/useUpcomingClasses";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
+import { useSortBy, useTable } from "react-table";
 
 type ClassViewProps = {
     session: Record<string, unknown>;
@@ -38,6 +46,61 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
     const { upcomingClasses, isLoading: isUpcomingLoading } =
         useUpcomingClasses(locale.en);
     const classCard = upcomingClasses[0];
+
+    const data = React.useMemo(
+        () => [
+            {
+                fullName: "Joe Black",
+                emergFullName: "Rickson Yang",
+                emergNumber: "123-456-789",
+                grade: 5,
+                cityProvince: "Waterloo, ON",
+            },
+            {
+                fullName: "Boe Black",
+                emergFullName: "Rickson Yang",
+                emergNumber: "123-456-789",
+                grade: 7,
+                cityProvince: "Waterloo, ON",
+            },
+            {
+                fullName: "Loe Black",
+                emergFullName: "Rickson Yang",
+                emergNumber: "123-456-789",
+                grade: 3,
+                cityProvince: "Waterloo, ON",
+            },
+        ],
+        [],
+    );
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: "Name",
+                accessor: "fullName",
+            },
+            {
+                Header: "Emergency Contact",
+                accessor: "emergFullName",
+            },
+            {
+                Header: "Phone Number",
+                accessor: "emergNumber",
+            },
+            {
+                Header: "Grade",
+                accessor: "grade",
+                isNumeric: true,
+            },
+            {
+                Header: "City",
+                accessor: "cityProvince",
+            },
+        ],
+        [],
+    );
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+        useTable({ columns, data }, useSortBy);
 
     if (isUpcomingLoading) {
         return <Loading />;
@@ -99,7 +162,61 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 </InputGroup>
                                 <Button>Export Classlist</Button>
                             </Flex>
-                            <p>one!</p>
+                            <Table {...getTableProps()}>
+                                <Thead>
+                                    {headerGroups.map((headerGroup) => (
+                                        <Tr
+                                            {...headerGroup.getHeaderGroupProps()}
+                                        >
+                                            {headerGroup.headers.map(
+                                                (column) => (
+                                                    <Th
+                                                        {...column.getHeaderProps(
+                                                            column.getSortByToggleProps(),
+                                                        )}
+                                                        isNumeric={
+                                                            column.isNumeric
+                                                        }
+                                                    >
+                                                        {column.render(
+                                                            "Header",
+                                                        )}
+                                                        <chakra.span pl="4">
+                                                            {column.isSorted ? (
+                                                                column.isSortedDesc ? (
+                                                                    <TriangleDownIcon aria-label="sorted descending" />
+                                                                ) : (
+                                                                    <TriangleUpIcon aria-label="sorted ascending" />
+                                                                )
+                                                            ) : null}
+                                                        </chakra.span>
+                                                    </Th>
+                                                ),
+                                            )}
+                                        </Tr>
+                                    ))}
+                                </Thead>
+                                <Tbody {...getTableBodyProps()}>
+                                    {rows.map((row) => {
+                                        prepareRow(row);
+                                        return (
+                                            <Tr {...row.getRowProps()}>
+                                                {row.cells.map((cell) => (
+                                                    <Td
+                                                        {...cell.getCellProps()}
+                                                        isNumeric={
+                                                            cell.column
+                                                                .isNumeric
+                                                        }
+                                                    >
+                                                        {cell.render("Cell")}
+                                                    </Td>
+                                                ))}
+                                            </Tr>
+                                        );
+                                    })}
+                                </Tbody>
+                            </Table>
                         </TabPanel>
                         <TabPanel>
                             <p>two!</p>
