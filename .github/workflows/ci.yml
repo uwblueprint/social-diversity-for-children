@@ -45,10 +45,20 @@ jobs:
               run: yarn
 
             - name: Linting Prettier
+              if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:prettier
 
             - name: Linting ESlint
+              if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:eslint
+            
+             - name: Linting Prettier
+              if: ${{ github.event_name == 'pull_request' }}
+              run: yarn lint:prettier-modified-files
+
+            - name: Linting ESlint
+              if: ${{ github.event_name == 'pull_request' }}
+              run: yarn lint:eslint-modified-files
 
             - name: Build
               run: yarn build
