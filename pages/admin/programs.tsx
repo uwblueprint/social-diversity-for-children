@@ -31,6 +31,9 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
+import useSWR from "swr";
+import fetcherWithId from "@utils/fetcherWithId";
+import CardInfoUtil from "utils/cardInfoUtil";
 
 type BrowseProgramsProps = {
     session: Record<string, unknown>;
@@ -69,15 +72,32 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
         error,
     } = usePrograms(router.locale as locale);
 
-    if (error) {
-        return <Box>{"An error has occurred: " + error.toString()}</Box>;
+    const pid = 1;
+
+    const { data: classListResponse, error: classListError } = useSWR(
+        ["/api/class", pid, router.locale],
+        fetcherWithId,
+    );
+    const isClassListLoading = !classListResponse && !classListError;
+
+    if (isLoading || isClassListLoading) {
+        return <Loading />;
+    } else if (error || classListError) {
+        return <Box>An Error has occurred</Box>;
     }
-    if (isLoading) {
+
+    const classCardInfos = classListResponse
+        ? CardInfoUtil.getClassCardInfos(
+              classListResponse.data,
+              router.locale as locale,
+          )
+        : [];
+
+    if (!classCardInfos) {
         return <Loading />;
     }
-    const programCardArray = programCardInfos.map((cardInfo) => (
-        <BrowseProgramCard cardInfo={cardInfo} />
-    ));
+
+    console.log(classCardInfos);
 
     return (
         <Wrapper session={props.session}>

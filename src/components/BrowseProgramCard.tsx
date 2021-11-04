@@ -34,7 +34,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
     return (
         <Wrap spacing="50px" justify="space-between">
             <WrapItem flexBasis="300px" flexGrow={1} cursor={"pointer"}>
-                <Link href={`program-details/${cardInfo.id}`}>
+                <Link href={`/admin/classes?programId=${cardInfo.id}`}>
                     <Box
                         borderWidth="1px"
                         width="100%"
