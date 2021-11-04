@@ -27,6 +27,9 @@ export const TextField: React.FC<Props> = ({
     edit = true,
 }): JSX.Element => {
     const [interactedWith, setInteractedWith] = useState(false);
+    const formatInput = () => {
+        setValue(value.trim());
+    };
 
     return (
         <FormControl
@@ -46,6 +49,7 @@ export const TextField: React.FC<Props> = ({
                         setInteractedWith(true);
                     }}
                     value={value}
+                    onBlur={formatInput}
                 ></Textarea>
             ) : (
                 <Input
@@ -54,6 +58,7 @@ export const TextField: React.FC<Props> = ({
                         setValue(e.target.value);
                         setInteractedWith(true);
                     }}
+                    onBlur={formatInput}
                     value={value}
                 />
             )}
