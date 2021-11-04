@@ -10,6 +10,7 @@ import {
     Flex,
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import colourTheme from "@styles/colours";
@@ -20,6 +21,7 @@ type WelcomeToSDCProps = {
 
 export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const { t } = useTranslation("common");
+    const [isComputer] = useMediaQuery("(min-width: 500px)");
 
     // TODO remove test data and get new images
     const title = t("home.welcome");
@@ -44,10 +46,12 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
             <TabPanels>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w="50%">
+                        <Box w={isComputer ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
-                                <Text fontSize="2xl">{desc1}</Text>
+                                <Text fontSize={{ base: "lg", lg: "2xl" }}>
+                                    {desc1}
+                                </Text>
                                 <Text>{text1}</Text>
                                 {session ? (
                                     <span />
@@ -73,21 +77,25 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 )}
                             </VStack>
                         </Box>
-                        <Box width="50%">
-                            <Flex direction="column" align="flex-end">
-                                <Box maxWidth="sm" maxHeight="sm">
-                                    <Image src={img1} objectFit="cover" />
-                                </Box>
-                            </Flex>
-                        </Box>
+                        {isComputer && (
+                            <Box width="50%">
+                                <Flex direction="column" align="flex-end">
+                                    <Box maxWidth="sm" maxHeight="sm">
+                                        <Image src={img1} objectFit="cover" />
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        )}
                     </HStack>
                 </TabPanel>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w="50%">
+                        <Box w={isComputer ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
-                                <Text fontSize="2xl">{desc1}</Text>
+                                <Text fontSize={{ base: "lg", lg: "2xl" }}>
+                                    {desc1}
+                                </Text>
                                 <Text>{text2}</Text>
                                 {session ? (
                                     <span />
@@ -113,13 +121,15 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 )}
                             </VStack>
                         </Box>
-                        <Box width="50%">
-                            <Flex direction="column" align="flex-end">
-                                <Box maxWidth="sm" maxHeight="sm">
-                                    <Image src={img2} objectFit="cover" />
-                                </Box>
-                            </Flex>
-                        </Box>
+                        {isComputer && (
+                            <Box width="50%">
+                                <Flex direction="column" align="flex-end">
+                                    <Box maxWidth="sm" maxHeight="sm">
+                                        <Image src={img2} objectFit="cover" />
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        )}
                     </HStack>
                 </TabPanel>
             </TabPanels>

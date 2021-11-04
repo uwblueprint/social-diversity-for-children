@@ -49,7 +49,13 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
     return (
         <>
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
-                <Box bg={"transparent"} px={48} pt={4} pb={8} mx={"auto"}>
+                <Box
+                    bg={"transparent"}
+                    px={{ base: "5", md: "15", lg: "48" }}
+                    pt={4}
+                    pb={8}
+                    mx={"auto"}
+                >
                     <Flex
                         h={props.height || DEFAULT_NAVBAR_HEIGHT}
                         alignItems={"center"}
