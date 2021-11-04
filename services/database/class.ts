@@ -87,6 +87,38 @@ async function getClassCount() {
 }
 
 /**
+ * getClassRegistrants takes the classId parameter and returns the class registrants (students + volunteer)
+ * @param {string} classId - classId
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getClassRegistrants(classId: number) {
+    const classSection = await prisma.class.findUnique({
+        where: {
+            id: classId,
+        },
+        select: {
+            id: true,
+            parentRegs: {
+                include: {
+                    student: true,
+                },
+            },
+            volunteerRegs: {
+                include: {
+                    volunteer: {
+                        include: {
+                            user: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+    return classSection;
+}
+
+/**
  * createClass creates a new class record
  * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
@@ -147,6 +179,7 @@ export {
     getClass,
     getClasses,
     getWeeklySortedClasses,
+    getClassRegistrants,
     getClassCount,
     createClass,
     deleteClass,

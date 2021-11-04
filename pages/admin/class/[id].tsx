@@ -1,37 +1,28 @@
-import { SearchIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
-    Button,
-    chakra,
-    Flex,
-    Icon,
-    Input,
-    InputGroup,
-    InputLeftElement,
     Tab,
-    Table,
     TabList,
     TabPanel,
     TabPanels,
     Tabs,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
     VStack,
 } from "@chakra-ui/react";
 import { ClassViewInfoCard } from "@components/admin/ClassViewInfoCard";
+import { AdminTable } from "@components/admin/table/AdminTable";
+import { AdminBadge } from "@components/AdminBadge";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
+import { SDCBadge } from "@components/SDCBadge";
 import { locale, roles } from "@prisma/client";
-import useUpcomingClasses from "@utils/hooks/useUpcomingClasses";
+import convertToAge from "@utils/convertToAge";
+import useClass from "@utils/hooks/useClass";
+import useClassRegistrant from "@utils/hooks/useClassRegistrants";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
+import { useRouter } from "next/router";
 import React from "react";
-import { useSortBy, useTable } from "react-table";
 
 type ClassViewProps = {
     session: Record<string, unknown>;
@@ -43,66 +34,68 @@ type ClassViewProps = {
  */
 export default function ClassView(props: ClassViewProps): JSX.Element {
     // We want a hook that grabs the current class data
-    const { upcomingClasses, isLoading: isUpcomingLoading } =
-        useUpcomingClasses(locale.en);
-    const classCard = upcomingClasses[0];
+    const router = useRouter();
+    const { id } = router.query;
 
-    const data = React.useMemo(
-        () => [
-            {
-                fullName: "Joe Black",
-                emergFullName: "Rickson Yang",
-                emergNumber: "123-456-789",
-                grade: 5,
-                cityProvince: "Waterloo, ON",
-            },
-            {
-                fullName: "Boe Black",
-                emergFullName: "Rickson Yang",
-                emergNumber: "123-456-789",
-                grade: 7,
-                cityProvince: "Waterloo, ON",
-            },
-            {
-                fullName: "Loe Black",
-                emergFullName: "Rickson Yang",
-                emergNumber: "123-456-789",
-                grade: 3,
-                cityProvince: "Waterloo, ON",
-            },
-        ],
-        [],
-    );
-    const columns = React.useMemo(
+    const {
+        classCard,
+        isLoading: isClassLoading,
+        error: classError,
+    } = useClass(id as string, locale.en);
+    const {
+        studentRegs,
+        volunteerRegs,
+        isLoading: isRegistrantLoading,
+        error: registrantError,
+    } = useClassRegistrant(parseInt(id as string, 10));
+
+    const { studentColumns, studentData } = useStudentTableData(studentRegs);
+    const volunteerColumns = React.useMemo(
         () => [
             {
                 Header: "Name",
                 accessor: "fullName",
             },
             {
-                Header: "Emergency Contact",
-                accessor: "emergFullName",
-            },
-            {
-                Header: "Phone Number",
-                accessor: "emergNumber",
-            },
-            {
-                Header: "Grade",
-                accessor: "grade",
-                isNumeric: true,
+                Header: "Email",
+                accessor: "email",
             },
             {
                 Header: "City",
                 accessor: "cityProvince",
             },
+            {
+                Header: "Age",
+                isNumeric: true,
+                accessor: "age",
+            },
+            {
+                Header: "Background Check",
+                accessor: "criminalCheckApproved",
+            },
         ],
         [],
     );
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data }, useSortBy);
+    const volunteerData = React.useMemo(
+        () =>
+            volunteerRegs?.map((reg) => {
+                return {
+                    fullName: `${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`,
+                    email: reg.volunteer.user.email,
+                    cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
+                    age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
+                    criminalCheckApproved: reg.volunteer
+                        .criminalCheckApproved ? (
+                        <SDCBadge>Complete</SDCBadge>
+                    ) : (
+                        <AdminBadge>Incomplete</AdminBadge>
+                    ),
+                };
+            }),
+        [volunteerRegs],
+    );
 
-    if (isUpcomingLoading) {
+    if (isClassLoading) {
         return <Loading />;
     }
 
@@ -144,82 +137,20 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
 
                     <TabPanels>
                         <TabPanel>
-                            <Flex>
-                                <InputGroup>
-                                    <InputLeftElement
-                                        pointerEvents="none"
-                                        children={
-                                            <Icon
-                                                as={SearchIcon}
-                                                color="gray.300"
-                                            />
-                                        }
-                                    />
-                                    <Input
-                                        type="programs"
-                                        placeholder="Search SDC Programs"
-                                    />
-                                </InputGroup>
-                                <Button>Export Classlist</Button>
-                            </Flex>
-                            <Table {...getTableProps()}>
-                                <Thead>
-                                    {headerGroups.map((headerGroup) => (
-                                        <Tr
-                                            {...headerGroup.getHeaderGroupProps()}
-                                        >
-                                            {headerGroup.headers.map(
-                                                (column) => (
-                                                    <Th
-                                                        {...column.getHeaderProps(
-                                                            column.getSortByToggleProps(),
-                                                        )}
-                                                        isNumeric={
-                                                            column.isNumeric
-                                                        }
-                                                    >
-                                                        {column.render(
-                                                            "Header",
-                                                        )}
-                                                        <chakra.span pl="4">
-                                                            {column.isSorted ? (
-                                                                column.isSortedDesc ? (
-                                                                    <TriangleDownIcon aria-label="sorted descending" />
-                                                                ) : (
-                                                                    <TriangleUpIcon aria-label="sorted ascending" />
-                                                                )
-                                                            ) : null}
-                                                        </chakra.span>
-                                                    </Th>
-                                                ),
-                                            )}
-                                        </Tr>
-                                    ))}
-                                </Thead>
-                                <Tbody {...getTableBodyProps()}>
-                                    {rows.map((row) => {
-                                        prepareRow(row);
-                                        return (
-                                            <Tr {...row.getRowProps()}>
-                                                {row.cells.map((cell) => (
-                                                    <Td
-                                                        {...cell.getCellProps()}
-                                                        isNumeric={
-                                                            cell.column
-                                                                .isNumeric
-                                                        }
-                                                    >
-                                                        {cell.render("Cell")}
-                                                    </Td>
-                                                ))}
-                                            </Tr>
-                                        );
-                                    })}
-                                </Tbody>
-                            </Table>
+                            <AdminTable
+                                className={classCard.name}
+                                dataColumns={studentColumns}
+                                tableData={studentData}
+                                isRegistrantLoading={isRegistrantLoading}
+                            />
                         </TabPanel>
                         <TabPanel>
-                            <p>two!</p>
+                            <AdminTable
+                                className={classCard.name}
+                                dataColumns={volunteerColumns}
+                                tableData={volunteerData}
+                                isRegistrantLoading={isRegistrantLoading}
+                            />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
@@ -257,3 +188,45 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {},
     };
 };
+function useStudentTableData(studentRegs) {
+    const studentColumns = React.useMemo(
+        () => [
+            {
+                Header: "Name",
+                accessor: "fullName",
+            },
+            {
+                Header: "Emergency Contact",
+                accessor: "emergFullName",
+            },
+            {
+                Header: "Phone Number",
+                accessor: "emergNumber",
+            },
+            {
+                Header: "Grade",
+                accessor: "grade",
+                isNumeric: true,
+            },
+            {
+                Header: "City",
+                accessor: "cityProvince",
+            },
+        ],
+        [],
+    );
+    const studentData = React.useMemo(
+        () =>
+            studentRegs?.map((reg) => {
+                return {
+                    fullName: `${reg.student.firstName} ${reg.student.lastName}`,
+                    emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
+                    emergNumber: reg.student.emergNumber,
+                    grade: reg.student.grade,
+                    cityProvince: `${reg.student.cityName}, ${reg.student.province}`,
+                };
+            }),
+        [studentRegs],
+    );
+    return { studentColumns, studentData };
+}
