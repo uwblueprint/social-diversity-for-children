@@ -12,11 +12,7 @@
     ],
     "rules": {
         "prettier/prettier": [
-            //Automatically set the end of line character for those on unix
-            "error",
-            {
-                "endOfLine": "auto"
-            }
+            "error"
         ]
     },
     "env": {
