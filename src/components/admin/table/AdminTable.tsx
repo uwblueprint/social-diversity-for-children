@@ -3,6 +3,9 @@ import {
     TriangleUpIcon,
     SearchIcon,
     ArrowDownIcon,
+    ArrowForwardIcon,
+    ArrowBackIcon,
+    ChevronDownIcon,
 } from "@chakra-ui/icons";
 import {
     Button,
@@ -12,6 +15,7 @@ import {
     Icon,
     InputGroup,
     InputLeftElement,
+    Select,
     Table,
     Tbody,
     Td,
@@ -22,48 +26,67 @@ import {
 import { Loading } from "@components/Loading";
 import colourTheme from "@styles/colours";
 import React from "react";
-import { useSortBy, useGlobalFilter, useTable } from "react-table";
+import {
+    useSortBy,
+    useGlobalFilter,
+    useTable,
+    usePagination,
+} from "react-table";
 import { CSVLink } from "react-csv";
 import { GlobalTableFilter } from "./GlobalTableFilter";
 
 export type AdminTableProps = {
     dataColumns: any;
     tableData: any;
+    csvData?: any;
     className: string;
-    isRegistrantLoading: boolean;
+    isLoading?: boolean;
 };
 
 // Define a default UI for filtering
 export const AdminTable: React.FC<AdminTableProps> = ({
     dataColumns,
     tableData,
+    csvData,
     className,
-    isRegistrantLoading,
+    isLoading,
 }): JSX.Element => {
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
         prepareRow,
-        state,
+        state: { pageIndex, globalFilter },
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
         setGlobalFilter,
     } = useTable(
-        { columns: dataColumns, data: tableData || [] },
+        {
+            columns: dataColumns || [],
+            data: tableData || [],
+            initialState: { pageSize: 3 },
+        },
         useGlobalFilter,
         useSortBy,
+        usePagination,
     );
 
     return (
         <>
             <AdminTableInput
-                state={state}
+                globalFilter={globalFilter}
                 setGlobalFilter={setGlobalFilter}
-                tableData={tableData}
+                csvData={csvData || tableData}
                 className={className}
                 mb={4}
             />
-            {isRegistrantLoading ? (
+            {isLoading ? (
                 <Loading />
             ) : (
                 <Table {...getTableProps()}>
@@ -93,7 +116,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                         ))}
                     </Thead>
                     <Tbody {...getTableBodyProps()}>
-                        {rows.map((row) => {
+                        {page.map((row) => {
                             prepareRow(row);
                             return (
                                 <Tr {...row.getRowProps()}>
@@ -111,21 +134,61 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                     </Tbody>
                 </Table>
             )}
+            <Flex justifyContent="flex-end" alignItems="baseline" mt={4}>
+                <Select
+                    size="sm"
+                    icon={<ChevronDownIcon />}
+                    color={colourTheme.colors.Blue}
+                    borderColor={colourTheme.colors.Blue}
+                    borderWidth={2}
+                    borderRadius={6}
+                    maxWidth={16}
+                    value={pageIndex + 1}
+                    onChange={(event) =>
+                        gotoPage(parseInt(event.target.value, 10) - 1)
+                    }
+                    mr={3}
+                >
+                    {pageOptions.map((option, i) => {
+                        return (
+                            <option key={i} value={i + 1}>
+                                {i + 1}
+                            </option>
+                        );
+                    })}
+                </Select>
+                of {pageCount} pages
+                <Button
+                    ml={8}
+                    onClick={() => previousPage()}
+                    disabled={!canPreviousPage}
+                    variant="ghost"
+                >
+                    <ArrowBackIcon />
+                </Button>
+                <Button
+                    onClick={() => nextPage()}
+                    disabled={!canNextPage}
+                    variant="ghost"
+                >
+                    <ArrowForwardIcon />
+                </Button>
+            </Flex>
         </>
     );
 };
 
 export type AdminTableInputProps = FlexProps & {
-    state: any;
+    globalFilter: any;
     setGlobalFilter: any;
-    tableData: any[];
+    csvData: any[];
     className: string;
 };
 
 export const AdminTableInput: React.FC<AdminTableInputProps> = ({
-    state,
+    globalFilter,
     setGlobalFilter,
-    tableData,
+    csvData,
     className,
     ...props
 }): JSX.Element => {
@@ -137,7 +200,7 @@ export const AdminTableInput: React.FC<AdminTableInputProps> = ({
                     children={<Icon as={SearchIcon} color="gray.300" />}
                 />
                 <GlobalTableFilter
-                    globalFilter={state.globalFilter}
+                    globalFilter={globalFilter}
                     setGlobalFilter={setGlobalFilter}
                 />
             </InputGroup>
@@ -153,7 +216,7 @@ export const AdminTableInput: React.FC<AdminTableInputProps> = ({
                 fontWeight="normal"
             >
                 <ArrowDownIcon mr={2} />
-                <CSVLink data={tableData} filename={`${className}.csv`}>
+                <CSVLink data={csvData || []} filename={`${className}.csv`}>
                     Export Classlist
                 </CSVLink>
             </Button>

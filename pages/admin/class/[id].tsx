@@ -1,4 +1,5 @@
 import {
+    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -11,17 +12,16 @@ import {
 } from "@chakra-ui/react";
 import { ClassViewInfoCard } from "@components/admin/ClassViewInfoCard";
 import { AdminTable } from "@components/admin/table/AdminTable";
-import { AdminBadge } from "@components/AdminBadge";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
-import { SDCBadge } from "@components/SDCBadge";
 import { locale, roles } from "@prisma/client";
-import convertToAge from "@utils/convertToAge";
 import useClass from "@utils/hooks/useClass";
 import useClassRegistrant from "@utils/hooks/useClassRegistrants";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
+import { useVolunteerTableData } from "../../../utils/hooks/useVolunteerTableData";
+import { useStudentTableData } from "../../../utils/hooks/useStudentTableData";
 import React from "react";
 
 type ClassViewProps = {
@@ -50,53 +50,17 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
     } = useClassRegistrant(parseInt(id as string, 10));
 
     const { studentColumns, studentData } = useStudentTableData(studentRegs);
-    const volunteerColumns = React.useMemo(
-        () => [
-            {
-                Header: "Name",
-                accessor: "fullName",
-            },
-            {
-                Header: "Email",
-                accessor: "email",
-            },
-            {
-                Header: "City",
-                accessor: "cityProvince",
-            },
-            {
-                Header: "Age",
-                isNumeric: true,
-                accessor: "age",
-            },
-            {
-                Header: "Background Check",
-                accessor: "criminalCheckApproved",
-            },
-        ],
-        [],
-    );
-    const volunteerData = React.useMemo(
-        () =>
-            volunteerRegs?.map((reg) => {
-                return {
-                    fullName: `${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`,
-                    email: reg.volunteer.user.email,
-                    cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
-                    age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
-                    criminalCheckApproved: reg.volunteer
-                        .criminalCheckApproved ? (
-                        <SDCBadge>Complete</SDCBadge>
-                    ) : (
-                        <AdminBadge>Incomplete</AdminBadge>
-                    ),
-                };
-            }),
-        [volunteerRegs],
-    );
+    const { volunteerColumns, volunteerData, volunteerCsvData } =
+        useVolunteerTableData(volunteerRegs);
 
     if (isClassLoading) {
         return <Loading />;
+    } else if (classError || registrantError) {
+        return (
+            <Box>
+                {"An error has occurred. Class/registrants could not be loaded"}
+            </Box>
+        );
     }
 
     return (
@@ -111,7 +75,9 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
 
                     <BreadcrumbItem>
                         {/* TODO: Change ID to program ID */}
-                        <BreadcrumbLink href={`/admin/program/${classCard.id}`}>
+                        <BreadcrumbLink
+                            href={`/admin/program/${classCard.programId}`}
+                        >
                             {classCard.programName}
                         </BreadcrumbLink>
                     </BreadcrumbItem>
@@ -141,7 +107,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 className={classCard.name}
                                 dataColumns={studentColumns}
                                 tableData={studentData}
-                                isRegistrantLoading={isRegistrantLoading}
+                                isLoading={isRegistrantLoading}
                             />
                         </TabPanel>
                         <TabPanel>
@@ -149,7 +115,8 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 className={classCard.name}
                                 dataColumns={volunteerColumns}
                                 tableData={volunteerData}
-                                isRegistrantLoading={isRegistrantLoading}
+                                csvData={volunteerCsvData}
+                                isLoading={isRegistrantLoading}
                             />
                         </TabPanel>
                     </TabPanels>
@@ -174,6 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     } else if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
     ) {
         return {
@@ -188,45 +156,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {},
     };
 };
-function useStudentTableData(studentRegs) {
-    const studentColumns = React.useMemo(
-        () => [
-            {
-                Header: "Name",
-                accessor: "fullName",
-            },
-            {
-                Header: "Emergency Contact",
-                accessor: "emergFullName",
-            },
-            {
-                Header: "Phone Number",
-                accessor: "emergNumber",
-            },
-            {
-                Header: "Grade",
-                accessor: "grade",
-                isNumeric: true,
-            },
-            {
-                Header: "City",
-                accessor: "cityProvince",
-            },
-        ],
-        [],
-    );
-    const studentData = React.useMemo(
-        () =>
-            studentRegs?.map((reg) => {
-                return {
-                    fullName: `${reg.student.firstName} ${reg.student.lastName}`,
-                    emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
-                    emergNumber: reg.student.emergNumber,
-                    grade: reg.student.grade,
-                    cityProvince: `${reg.student.cityName}, ${reg.student.province}`,
-                };
-            }),
-        [studentRegs],
-    );
-    return { studentColumns, studentData };
-}

@@ -56,6 +56,7 @@ export class CardInfoUtil {
             weekday: result.weekday,
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,
+            programId: result.program.id,
             programName: mainProgramTranslation
                 ? mainProgramTranslation.name
                 : "",
