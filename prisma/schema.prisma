@@ -110,7 +110,7 @@ model Volunteer {
   dateOfBirth             DateTime       @map("date_of_birth") @db.Timestamptz(6)
   addressLine1            String?        @map("address_line1")
   criminalRecordCheckLink String?        @map("criminal_record_check_link")
-  criminalCheckApproved   Boolean?       @default(false) @map("criminal_check_approved")
+  criminalCheckApproved   Boolean?       @map("criminal_check_approved")
   criminalCheckExpired    Boolean?       @default(false) @map("criminal_check_expired")
   postalCode              String?        @map("postal_code") @db.VarChar(10)
   cityName                String?        @map("city_name")

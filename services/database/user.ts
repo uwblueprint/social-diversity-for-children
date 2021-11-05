@@ -421,6 +421,33 @@ async function updateVolunteerCriminalCheckLink(email: string, link: string) {
 }
 
 /**
+ * update volunteer's criminal check approval in db when admin changes it
+ * @param  {string} email email of volunteer
+ * @param  {boolean} approval criminal check approval status
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function updateVolunteerCriminalCheckApproval(
+    email: string,
+    approval: boolean,
+) {
+    const user = prisma.user.update({
+        data: {
+            volunteer: {
+                update: {
+                    criminalCheckApproved: approval,
+                },
+            },
+        },
+        where: { email },
+        include: {
+            volunteer: true,
+        },
+    });
+
+    return user;
+}
+
+/**
  * update parent's proof of income link in db to keep track of latest upload
  * @param  {string} email email of parent
  * @param  {string} link proof of income link name
@@ -452,5 +479,6 @@ export {
     getTeacherCount,
     updateUser,
     updateVolunteerCriminalCheckLink,
+    updateVolunteerCriminalCheckApproval,
     updateParentProofOfIncomeLink,
 };
