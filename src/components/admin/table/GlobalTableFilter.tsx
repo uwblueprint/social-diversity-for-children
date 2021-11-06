@@ -5,12 +5,14 @@ import { useAsyncDebounce } from "react-table";
 export type GlobalTableFilterProps = {
     globalFilter: any;
     setGlobalFilter: any;
+    placeholder?: string;
 };
 
 // Define a default UI for filtering
 export const GlobalTableFilter: React.FC<GlobalTableFilterProps> = ({
     globalFilter,
     setGlobalFilter,
+    placeholder,
 }): JSX.Element => {
     const [value, setValue] = useState(globalFilter);
     const onChange = useAsyncDebounce((value) => {
@@ -25,7 +27,7 @@ export const GlobalTableFilter: React.FC<GlobalTableFilterProps> = ({
                 setValue(e.target.value);
                 onChange(e.target.value);
             }}
-            placeholder={"Search students"}
+            placeholder={placeholder}
         />
     );
 };

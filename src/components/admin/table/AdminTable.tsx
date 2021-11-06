@@ -41,6 +41,7 @@ export type AdminTableProps = {
     csvData?: any;
     exportName: string;
     isLoading?: boolean;
+    filterPlaceholder?: string;
 };
 
 // Define a default UI for filtering
@@ -50,6 +51,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
     csvData,
     exportName,
     isLoading,
+    filterPlaceholder,
 }): JSX.Element => {
     const {
         getTableProps,
@@ -70,7 +72,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
         {
             columns: dataColumns || [],
             data: tableData || [],
-            initialState: { pageSize: 3 },
+            initialState: { pageSize: 20 },
         },
         useGlobalFilter,
         useSortBy,
@@ -84,6 +86,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                 setGlobalFilter={setGlobalFilter}
                 csvData={csvData || tableData}
                 exportName={exportName}
+                placeholder={filterPlaceholder}
                 mb={4}
             />
             {isLoading ? (
@@ -183,6 +186,7 @@ export type AdminTableInputProps = FlexProps & {
     setGlobalFilter: any;
     csvData: any[];
     exportName: string;
+    placeholder?: string;
 };
 
 export const AdminTableInput: React.FC<AdminTableInputProps> = ({
@@ -190,6 +194,7 @@ export const AdminTableInput: React.FC<AdminTableInputProps> = ({
     setGlobalFilter,
     csvData,
     exportName,
+    placeholder,
     ...props
 }): JSX.Element => {
     return (
@@ -202,6 +207,7 @@ export const AdminTableInput: React.FC<AdminTableInputProps> = ({
                 <GlobalTableFilter
                     globalFilter={globalFilter}
                     setGlobalFilter={setGlobalFilter}
+                    placeholder={placeholder}
                 />
             </InputGroup>
             <Button

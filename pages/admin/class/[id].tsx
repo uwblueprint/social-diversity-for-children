@@ -110,6 +110,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 tableData={studentData}
                                 csvData={studentCsvData}
                                 isLoading={isRegistrantLoading}
+                                filterPlaceholder="Search students"
                             />
                         </TabPanel>
                         <TabPanel>
@@ -119,6 +120,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 tableData={volunteerData}
                                 csvData={volunteerCsvData}
                                 isLoading={isRegistrantLoading}
+                                filterPlaceholder="Search volunteers"
                             />
                         </TabPanel>
                     </TabPanels>

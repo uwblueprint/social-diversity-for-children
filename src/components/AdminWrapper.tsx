@@ -28,9 +28,9 @@ type AdminWrapperProps = {
 
 const AdminWrapper: React.FC<AdminWrapperProps> = (props): JSX.Element => {
     return (
-        <Flex position={"relative"} h="100vh">
+        <Flex h="100vh">
             <AdminNavBar />
-            <Box>{props.children}</Box>
+            <Box pl={250}>{props.children}</Box>
         </Flex>
     );
 };
@@ -38,8 +38,9 @@ const AdminWrapper: React.FC<AdminWrapperProps> = (props): JSX.Element => {
 const AdminNavBar: React.FC = () => {
     return (
         <Box
+            position="fixed"
             p={5}
-            w={275}
+            w={250}
             zIndex={1}
             h="inherit"
             bg="#dfdfdf"
