@@ -44,7 +44,10 @@ export type AdminTableProps = {
     filterPlaceholder?: string;
 };
 
-// Define a default UI for filtering
+/**
+ * Table with input search field, sortable table, and pagination for internal use.
+ * @returns A full-featured table component for internal use
+ */
 export const AdminTable: React.FC<AdminTableProps> = ({
     dataColumns,
     tableData,
@@ -189,6 +192,10 @@ export type AdminTableInputProps = FlexProps & {
     placeholder?: string;
 };
 
+/**
+ * Table input search field for the internal tables
+ * @returns A input field for global filtering tables
+ */
 export const AdminTableInput: React.FC<AdminTableInputProps> = ({
     globalFilter,
     setGlobalFilter,

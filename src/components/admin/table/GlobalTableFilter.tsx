@@ -8,7 +8,10 @@ export type GlobalTableFilterProps = {
     placeholder?: string;
 };
 
-// Define a default UI for filtering
+/**
+ * Generic global filtering input component for react-tables
+ * @returns A input component with global filtering capability
+ */
 export const GlobalTableFilter: React.FC<GlobalTableFilterProps> = ({
     globalFilter,
     setGlobalFilter,

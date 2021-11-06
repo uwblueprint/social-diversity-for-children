@@ -29,11 +29,10 @@ type ClassViewProps = {
 };
 
 /**
- * Admin dasboard page that displays the platform stats, live classes, and upcoming classes
- * @returns Admin dashboard page component
+ * Admin class view page that displays the information about the class given a class id
+ * @returns Admin class view page component
  */
 export default function ClassView(props: ClassViewProps): JSX.Element {
-    // We want a hook that grabs the current class data
     const router = useRouter();
     const { id } = router.query;
 
@@ -75,7 +74,6 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                     </BreadcrumbItem>
 
                     <BreadcrumbItem>
-                        {/* TODO: Change ID to program ID */}
                         <BreadcrumbLink
                             href={`/admin/program/${classCard.programId}`}
                         >

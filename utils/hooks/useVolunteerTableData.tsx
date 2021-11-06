@@ -6,6 +6,11 @@ import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
+/**
+ * use volunteer table data hook to format all the data needed for an admin table
+ * @param  volunteerRegs volunteer registrations
+ * @returns header columns, row data, csv data for table
+ */
 export function useVolunteerTableData(
     volunteerRegs: (VolunteerReg & {
         volunteer: Volunteer & {

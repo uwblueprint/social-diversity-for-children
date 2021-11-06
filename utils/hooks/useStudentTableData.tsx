@@ -4,6 +4,11 @@ import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
+/**
+ * use student table data hook to format all the data needed for an admin table
+ * @param  studentRegs student registrations - from parent regs
+ * @returns header columns, row data, csv data for table
+ */
 export function useStudentTableData(
     studentRegs: (ParentReg & {
         student: Student;

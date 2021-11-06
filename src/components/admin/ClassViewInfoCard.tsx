@@ -17,7 +17,6 @@ import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { weekdayToString } from "@utils/enum/weekday";
-import { useRouter } from "next/router";
 import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 
@@ -25,6 +24,9 @@ export type ClassViewInfoCard = {
     cardInfo: ClassCardInfo;
 };
 
+/**
+ * Admin view class card component used in the internal class details page
+ */
 export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
     cardInfo,
 }) => {
@@ -51,7 +53,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                     <Flex mr="3" alignItems="baseline">
                         <Heading size="md">{cardInfo.name}</Heading>
                         <Spacer />
-                        {/* TODO: Make this a component */}
+                        {/* TODO: Make this a component with modal features */}
                         <Button borderRadius="full" p={2}>
                             <Icon as={IoEllipsisVertical} />
                         </Button>
