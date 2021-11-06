@@ -10,9 +10,9 @@
         "lint": "yarn lint:prettier && yarn lint:eslint",
         "lint-modified-files":"yarn lint:prettier-modified-files && yarn lint:eslint-modified-files",
         "lint:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
-        "lint:prettier-modified-files": "prettier --check --no-error-on-unmatched-pattern  $(git diff --name-only --diff-filter=d $GITHUB_BASE_REF | grep -E '(.js|.jsx|.ts|.tsx)$' | xargs)",
+        "lint:prettier-modified-files": "prettier --check --no-error-on-unmatched-pattern  $(git diff --name-only --diff-filter=d  origin/$GITHUB_BASE_REF | grep -E '(.js|.jsx|.ts|.tsx)$' | xargs)",
         "lint:eslint": "eslint '**/*.{js,jsx,ts,tsx}' --cache --format stylish",
-        "lint:eslint-modified-files": "eslint $(git diff --name-only --diff-filter=d $GITHUB_BASE_REF | grep -E '(.js|.jsx|.ts|.tsx)$' | xargs) --cache --format stylish",
+        "lint:eslint-modified-files": "eslint $(git diff --name-only --diff-filter=d origin/$GITHUB_BASE_REF | grep -E '(.js|.jsx|.ts|.tsx)$' | xargs) --cache --format stylish",
         "fix": "yarn fix:eslint && yarn fix:prettier",
         "fix:prettier": "prettier --write '**/*.{js,jsx,ts,tsx}'",
         "fix:eslint": "eslint '**/*.{js,jsx,ts,tsx}' --format stylish --fix"
