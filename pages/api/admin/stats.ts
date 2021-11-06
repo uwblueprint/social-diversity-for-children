@@ -18,7 +18,7 @@ export default async function handle(
 ): Promise<void> {
     const session = await getSession({ req });
 
-    // If there is no session or the user is not a parent, not authorized
+    // If there is no session or the user is not a internal user, not authorized
     if (
         !session ||
         ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)

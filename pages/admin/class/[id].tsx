@@ -49,7 +49,8 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
         error: registrantError,
     } = useClassRegistrant(parseInt(id as string, 10));
 
-    const { studentColumns, studentData } = useStudentTableData(studentRegs);
+    const { studentColumns, studentData, studentCsvData } =
+        useStudentTableData(studentRegs);
     const { volunteerColumns, volunteerData, volunteerCsvData } =
         useVolunteerTableData(volunteerRegs);
 
@@ -104,15 +105,16 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                     <TabPanels>
                         <TabPanel>
                             <AdminTable
-                                className={classCard.name}
+                                exportName={`Students - ${classCard.name}`}
                                 dataColumns={studentColumns}
                                 tableData={studentData}
+                                csvData={studentCsvData}
                                 isLoading={isRegistrantLoading}
                             />
                         </TabPanel>
                         <TabPanel>
                             <AdminTable
-                                className={classCard.name}
+                                exportName={`Volunteers - ${classCard.name}`}
                                 dataColumns={volunteerColumns}
                                 tableData={volunteerData}
                                 csvData={volunteerCsvData}

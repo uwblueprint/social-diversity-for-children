@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getClassRegistrants } from "@database/class";
+import { getSession } from "next-auth/client";
+import { roles } from "@prisma/client";
 
 /**
  * handle takes the classId parameter and returns class registrants
@@ -13,6 +15,15 @@ export default async function handle(
 ): Promise<void> {
     // Obtain class id
     const { classId } = req.query;
+    const session = await getSession({ req });
+
+    // If there is no session or the user is not a internal user, not authorized
+    if (
+        !session ||
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
+        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+    }
 
     //parse query parameters from string to number and validate that id is a number
     const id = parseInt(classId as string, 10);

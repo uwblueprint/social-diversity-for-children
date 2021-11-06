@@ -2,7 +2,9 @@ import { AdminBadge } from "@components/AdminBadge";
 import { SDCBadge } from "@components/SDCBadge";
 import { User, Volunteer, VolunteerReg } from "@prisma/client";
 import convertToAge from "@utils/convertToAge";
+import Link from "next/link";
 import React from "react";
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 export function useVolunteerTableData(
     volunteerRegs: (VolunteerReg & {
@@ -17,7 +19,7 @@ export function useVolunteerTableData(
         isNumeric?: boolean;
     }[];
     volunteerData: {
-        fullName: string;
+        fullName: JSX.Element;
         email: string;
         cityProvince: string;
         age: number;
@@ -61,7 +63,15 @@ export function useVolunteerTableData(
         () =>
             volunteerRegs?.map((reg) => {
                 return {
-                    fullName: `${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`,
+                    fullName: (
+                        <Link
+                            href={`/admin/registrant/volunteer/${reg.volunteer.id}`}
+                        >
+                            <ChakraLink>
+                                {`${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`}
+                            </ChakraLink>
+                        </Link>
+                    ),
                     email: reg.volunteer.user.email,
                     cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
                     age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
