@@ -8,9 +8,9 @@ import {
     Image,
     Button,
     Flex,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { useMediaQuery } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import colourTheme from "@styles/colours";
@@ -21,7 +21,7 @@ type WelcomeToSDCProps = {
 
 export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const { t } = useTranslation("common");
-    const [isComputer] = useMediaQuery("(min-width: 500px)");
+    const variant = useBreakpointValue({ base: "mobile", lg: "computer" });
 
     // TODO remove test data and get new images
     const title = t("home.welcome");
@@ -46,7 +46,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
             <TabPanels>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w={isComputer ? "50%" : "100%"}>
+                        <Box w={variant === "computer" ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
                                 <Text fontSize={{ base: "lg", lg: "2xl" }}>
@@ -77,7 +77,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 )}
                             </VStack>
                         </Box>
-                        {isComputer && (
+                        {variant === "computer" && (
                             <Box width="50%">
                                 <Flex direction="column" align="flex-end">
                                     <Box maxWidth="sm" maxHeight="sm">
@@ -90,7 +90,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                 </TabPanel>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w={isComputer ? "50%" : "100%"}>
+                        <Box w={variant === "computer" ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
                                 <Text fontSize={{ base: "lg", lg: "2xl" }}>
@@ -121,7 +121,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 )}
                             </VStack>
                         </Box>
-                        {isComputer && (
+                        {variant === "computer" && (
                             <Box width="50%">
                                 <Flex direction="column" align="flex-end">
                                     <Box maxWidth="sm" maxHeight="sm">
