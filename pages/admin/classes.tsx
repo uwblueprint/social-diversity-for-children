@@ -25,6 +25,12 @@ import { useRouter } from "next/router";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { ReactNode } from "react";
 import { ClassCardInfo } from "@models/Class";
+import { fetcherWithId } from "@utils/fetcher";
+import useSWR from "swr";
+import { Loading } from "@components/Loading";
+import CardInfoUtil from "utils/cardInfoUtil";
+import { locale } from "@prisma/client";
+import { ProgramDescriptionCard } from "@components/ProgramDescriptionCard";
 
 type BrowseClassesProps = {
     session: Record<string, unknown>;
@@ -56,9 +62,31 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
 
 export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
     const router = useRouter();
-    const { programId, programName } = router.query;
-    console.log(programId);
+    const { programId } = router.query;
+
     // refetch program data
+    const { data: programInfoResponse, error: programInfoError } = useSWR(
+        ["/api/program/" + programId, programId, router.locale],
+        fetcherWithId,
+    );
+    const isProgramInfoLoading = !programInfoResponse && !programInfoError;
+
+    if (isProgramInfoLoading) {
+        return <Loading />;
+    } else if (programInfoError) {
+        return <Box>An Error has occured</Box>;
+    }
+
+    const programCardInfo = programInfoResponse
+        ? CardInfoUtil.getProgramCardInfo(
+              programInfoResponse.data,
+              router.locale as locale,
+          )
+        : null;
+
+    if (!programCardInfo) {
+        return <Loading />;
+    }
 
     return (
         <Wrapper session={props.session}>
@@ -103,10 +131,25 @@ export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
                 border="2px"
             />
             <Text px="50px" fontSize="16px">
-                {"Browse Programs >"} <b>{programName}</b>
+                {"Browse Programs >"} <b>{programCardInfo.name}</b>
             </Text>
         </Wrapper>
     );
 };
 
 export default BrowseClasses;
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+    // TODO : check session for admin/volunteer , if not redirect to no access
+    // refer to github
+    return {
+        props: {
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
+    };
+};

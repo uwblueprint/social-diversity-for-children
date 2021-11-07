@@ -10,13 +10,13 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 
 type ProgramDescriptionCardProps = {
     cardInfo: ClassCardInfo;

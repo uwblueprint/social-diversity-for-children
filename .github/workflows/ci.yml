@@ -51,7 +51,7 @@ jobs:
             - name: Linting all ESlint on push
               if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:eslint
-            
+
             - name: Linting modified files Prettier on pull request
               if: ${{ github.event_name == 'pull_request' }}
               run: yarn lint:prettier-modified-files

@@ -24,7 +24,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { BrowseProgramCard } from "@components/BrowseProgramCard";
 import type { ProgramCardInfo } from "models/Program";
 import { locale, programFormat } from "@prisma/client";
-import usePrograms from "@utils/usePrograms";
+import usePrograms from "@utils/hooks/usePrograms";
 import { useRouter } from "next/router";
 import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next"; // Get server side props
@@ -32,7 +32,7 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import useSWR from "swr";
-import fetcherWithId from "@utils/fetcherWithId";
+import { fetcherWithId } from "@utils/fetcher";
 import CardInfoUtil from "utils/cardInfoUtil";
 
 type BrowseProgramsProps = {
@@ -96,8 +96,6 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     if (!classCardInfos) {
         return <Loading />;
     }
-
-    console.log(classCardInfos);
 
     return (
         <Wrapper session={props.session}>

@@ -36,7 +36,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
             <WrapItem flexBasis="300px" flexGrow={1} cursor={"pointer"}>
                 <Link
                     params={{ cardInfo: cardInfo }}
-                    href={`/admin/classes?programId=${cardInfo.id}&programName=${cardInfo.name}`}
+                    href={`/admin/classes?programId=${cardInfo.id}`}
                 >
                     <Box
                         borderWidth="1px"
@@ -83,7 +83,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                             <Box mt={6}>
                                 <SDCBadge
                                     backgroundColor={
-                                        colourTheme.colors.LightGrayBlue
+                                        colourTheme.colors.CatskillWhite
                                     }
                                     color={colourTheme.colors.Blue}
                                     children={cardInfo.tag}
@@ -91,7 +91,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                                 <SDCBadge
                                     ml="2"
                                     backgroundColor={
-                                        colourTheme.colors.LightGrayBlue
+                                        colourTheme.colors.CatskillWhite
                                     }
                                     color={colourTheme.colors.Blue}
                                     children={cardInfo.onlineFormat}
