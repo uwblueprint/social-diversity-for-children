@@ -46,14 +46,16 @@ jobs:
 
             - name: Linting all Prettier on push
               if: ${{ github.event_name != 'pull_request' }}
-              run: |
-                git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
-                yarn lint:prettier
+              run: yarn lint:prettier
 
             - name: Linting all ESlint on push
               if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:eslint
-            
+
+            - name: Fetch target pr branch for diff
+              if: ${{ github.event_name == 'pull_request' }}
+              run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
+
             - name: Linting modified files Prettier on pull request
               if: ${{ github.event_name == 'pull_request' }}
               run: yarn lint:prettier-modified-files
