@@ -113,7 +113,7 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                         </Text>
                         <Text maxW={400} textAlign="center" pt={3} pb={9}>
                             {successful === "success"
-                                ? "Participant has been successfully added as a participant in your account"
+                                ? "The participant has been successfully added to your account"
                                 : "There was an error adding the participant. Please contact us"}
                         </Text>
                         <Button
