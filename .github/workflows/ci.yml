@@ -69,6 +69,7 @@ jobs:
               continue-on-error: true
             
             - name: PR - Create linting comment on error
+              # maybe change the ref version to main later?
               uses: actions/github-script@v5
               with:
                 script: |
@@ -80,8 +81,8 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     body: output
-                  })
-              run: exit 1
+                  });
+                  core.setFailed('Linting errors. Please check prettier and eslint');
 
             - name: Build
               run: yarn build
