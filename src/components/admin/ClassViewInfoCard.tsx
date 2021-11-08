@@ -10,13 +10,21 @@ import {
     Box,
     Image,
     Text,
-    Button,
-    Icon,
+    Menu,
+    MenuButton,
+    MenuDivider,
+    MenuItem,
+    MenuList,
+    IconButton,
+    useToast,
 } from "@chakra-ui/react";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { deleteClass } from "@utils/deleteClass";
 import { weekdayToString } from "@utils/enum/weekday";
+import { updateClassArchive } from "@utils/updateClassArchive";
+import { useRouter } from "next/router";
 import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 
@@ -25,11 +33,14 @@ export type ClassViewInfoCard = {
 };
 
 /**
- * Admin view class card component used in the internal class details page
+ * Admin view class card component used in the admin class details page
  */
 export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
     cardInfo,
 }) => {
+    const router = useRouter();
+    const toast = useToast();
+
     return (
         <Grid
             templateColumns="repeat(5, 1fr)"
@@ -53,10 +64,63 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                     <Flex mr="3" alignItems="baseline">
                         <Heading size="md">{cardInfo.name}</Heading>
                         <Spacer />
-                        {/* TODO: Make this a component with modal features */}
-                        <Button borderRadius="full" p={2}>
-                            <Icon as={IoEllipsisVertical} />
-                        </Button>
+                        <Menu>
+                            <MenuButton
+                                px={4}
+                                py={2}
+                                transition="all 0.2s"
+                                borderRadius="full"
+                                borderWidth="1px"
+                                as={IconButton}
+                                aria-label="Options"
+                                icon={<IoEllipsisVertical />}
+                            />
+                            <MenuList>
+                                <MenuItem
+                                    onClick={() =>
+                                        router.push(
+                                            `/admin/edit/class/${cardInfo.id}`,
+                                        )
+                                    }
+                                >
+                                    Edit
+                                </MenuItem>
+                                <MenuDivider />
+                                <MenuItem
+                                    onClick={() => {
+                                        deleteClass(cardInfo.id);
+                                        toast({
+                                            title: "Class deleted.",
+                                            description: `${cardInfo.name} has been deleted`,
+                                            status: "info",
+                                            duration: 9000,
+                                            isClosable: true,
+                                            position: "top-right",
+                                        });
+                                        router.push("/admin");
+                                    }}
+                                >
+                                    Delete
+                                </MenuItem>
+                                <MenuDivider />
+                                <MenuItem
+                                    onClick={() => {
+                                        updateClassArchive(cardInfo.id, true);
+                                        toast({
+                                            title: "Class archived.",
+                                            description: `${cardInfo.name} has been archived`,
+                                            status: "info",
+                                            duration: 9000,
+                                            isClosable: true,
+                                            position: "top-right",
+                                        });
+                                        router.push("/admin");
+                                    }}
+                                >
+                                    Archive
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
                     </Flex>
                     <Flex>
                         <Box
