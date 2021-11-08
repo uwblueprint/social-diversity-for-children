@@ -164,11 +164,12 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             key={`${enrollmentInfo.classId}-${student.id}`}
                                         >
                                             <MenuItem
-                                                onClick={() =>
-                                                    deleteClassRegistration(
-                                                        student,
-                                                        enrollmentInfo.classId,
-                                                    )
+                                                onClick={
+                                                    () =>
+                                                        deleteClassRegistration(
+                                                            student,
+                                                            enrollmentInfo.classId,
+                                                        ) // add another function here to send mail
                                                 }
                                             >
                                                 Unregister for{" "}
