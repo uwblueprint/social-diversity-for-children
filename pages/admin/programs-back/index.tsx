@@ -15,24 +15,27 @@ import {
     Grid,
     GridItem,
 } from "@chakra-ui/react";
+import Wrapper from "@components/AdminWrapper";
 import React from "react";
+import { ReactNode } from "react";
 import colourTheme from "@styles/colours";
+import { SmallAddIcon } from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
+import { BrowseProgramCard } from "@components/BrowseProgramCard";
+import type { ProgramCardInfo } from "models/Program";
+import { locale, programFormat } from "@prisma/client";
+import usePrograms from "@utils/hooks/usePrograms";
+import { useRouter } from "next/router";
+import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Wrapper from "@components/AdminWrapper";
-import { useRouter } from "next/router";
-import { SmallAddIcon } from "@chakra-ui/icons";
-import { ReactNode } from "react";
-import { ClassCardInfo } from "@models/Class";
-import { fetcherWithId } from "@utils/fetcher";
+import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import useSWR from "swr";
-import { Loading } from "@components/Loading";
+import { fetcherWithId } from "@utils/fetcher";
 import CardInfoUtil from "utils/cardInfoUtil";
-import { locale } from "@prisma/client";
-import { ProgramDescriptionCard } from "@components/ProgramDescriptionCard";
 
-type BrowseClassesProps = {
+type BrowseProgramsProps = {
     session: Record<string, unknown>;
 };
 
@@ -60,32 +63,19 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     </Link>
 );
 
-export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
+export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
-    const { programId } = router.query;
 
-    // refetch program data
-    const { data: programInfoResponse, error: programInfoError } = useSWR(
-        ["/api/program/" + programId, programId, router.locale],
-        fetcherWithId,
-    );
-    const isProgramInfoLoading = !programInfoResponse && !programInfoError;
+    const {
+        programs: programCardInfos,
+        isLoading,
+        error,
+    } = usePrograms(router.locale as locale);
 
-    if (isProgramInfoLoading) {
+    if (isLoading) {
         return <Loading />;
-    } else if (programInfoError) {
-        return <Box>An Error has occured</Box>;
-    }
-
-    const programCardInfo = programInfoResponse
-        ? CardInfoUtil.getProgramCardInfo(
-              programInfoResponse.data,
-              router.locale as locale,
-          )
-        : null;
-
-    if (!programCardInfo) {
-        return <Loading />;
+    } else if (error) {
+        return <Box>An Error has occurred</Box>;
     }
 
     return (
@@ -100,7 +90,7 @@ export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
                         <HStack spacing={8} alignItems={"center"}>
                             <Text
                                 fontSize="22px"
-                                font-weight="bold"
+                                fontWeight="bold"
                                 color={colourTheme.colors.Blue}
                             >
                                 Dashboard
@@ -130,14 +120,40 @@ export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
                 marginBottom="30px"
                 border="2px"
             />
-            <Text px="50px" fontSize="16px">
-                {"Browse Programs >"} <b>{programCardInfo.name}</b>
-            </Text>
+
+            <Box px="50px">
+                <Text fontSize="16px">Browse Programs</Text>
+                <InputGroup mt="25px">
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<SearchIcon color="gray.300" />}
+                    />
+                    <Input pl={8} placeholder={"Search Programs"} />
+                </InputGroup>
+            </Box>
+
+            <Box mx="50px" mt="25px">
+                {programCardInfos && programCardInfos.length > 0 ? (
+                    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                        {programCardInfos.map((item, idx) => {
+                            return (
+                                <GridItem key={idx}>
+                                    <BrowseProgramCard cardInfo={item} />
+                                </GridItem>
+                            );
+                        })}
+                    </Grid>
+                ) : (
+                    <AdminEmptyState w={625} h="100%" isLoading={isLoading}>
+                        No upcoming classes this week
+                    </AdminEmptyState>
+                )}
+            </Box>
         </Wrapper>
     );
 };
 
-export default BrowseClasses;
+export default BrowsePrograms;
 
 /**
  * getServerSideProps gets the session before this page is rendered

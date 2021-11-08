@@ -15,27 +15,24 @@ import {
     Grid,
     GridItem,
 } from "@chakra-ui/react";
-import Wrapper from "@components/AdminWrapper";
 import React from "react";
-import { ReactNode } from "react";
 import colourTheme from "@styles/colours";
-import { SmallAddIcon } from "@chakra-ui/icons";
-import { SearchIcon } from "@chakra-ui/icons";
-import { BrowseProgramCard } from "@components/BrowseProgramCard";
-import type { ProgramCardInfo } from "models/Program";
-import { locale, programFormat } from "@prisma/client";
-import usePrograms from "@utils/hooks/usePrograms";
-import { useRouter } from "next/router";
-import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { AdminEmptyState } from "@components/admin/AdminEmptyState";
-import useSWR from "swr";
+import Wrapper from "@components/AdminWrapper";
+import { useRouter } from "next/router";
+import { SmallAddIcon } from "@chakra-ui/icons";
+import { ReactNode } from "react";
+import { ClassCardInfo } from "@models/Class";
 import { fetcherWithId } from "@utils/fetcher";
+import useSWR from "swr";
+import { Loading } from "@components/Loading";
 import CardInfoUtil from "utils/cardInfoUtil";
+import { locale } from "@prisma/client";
+import { ProgramDescriptionCard } from "@components/ProgramDescriptionCard";
 
-type BrowseProgramsProps = {
+type BrowseClassesProps = {
     session: Record<string, unknown>;
 };
 
@@ -63,37 +60,31 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     </Link>
 );
 
-export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
+export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
     const router = useRouter();
+    const { pid } = router.query;
 
-    const {
-        programs: programCardInfos,
-        isLoading,
-        error,
-    } = usePrograms(router.locale as locale);
-
-    const pid = 1;
-
-    const { data: classListResponse, error: classListError } = useSWR(
-        ["/api/class", pid, router.locale],
+    // refetch program data
+    const { data: programInfoResponse, error: programInfoError } = useSWR(
+        ["/api/program/" + pid, pid, router.locale],
         fetcherWithId,
     );
-    const isClassListLoading = !classListResponse && !classListError;
+    const isProgramInfoLoading = !programInfoResponse && !programInfoError;
 
-    if (isLoading || isClassListLoading) {
+    if (isProgramInfoLoading) {
         return <Loading />;
-    } else if (error || classListError) {
-        return <Box>An Error has occurred</Box>;
+    } else if (programInfoError) {
+        return <Box>An Error has occured</Box>;
     }
 
-    const classCardInfos = classListResponse
-        ? CardInfoUtil.getClassCardInfos(
-              classListResponse.data,
+    const programCardInfo = programInfoResponse
+        ? CardInfoUtil.getProgramCardInfo(
+              programInfoResponse.data,
               router.locale as locale,
           )
-        : [];
+        : null;
 
-    if (!classCardInfos) {
+    if (!programCardInfo) {
         return <Loading />;
     }
 
@@ -109,7 +100,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                         <HStack spacing={8} alignItems={"center"}>
                             <Text
                                 fontSize="22px"
-                                font-weight="bold"
+                                fontWeight="bold"
                                 color={colourTheme.colors.Blue}
                             >
                                 Dashboard
@@ -140,39 +131,13 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                 border="2px"
             />
             <Text px="50px" fontSize="16px">
-                Browse Programs
+                {"Browse Programs >"} <b>{programCardInfo.name}</b>
             </Text>
-
-            <InputGroup mx="50px" mt="25px">
-                <InputLeftElement
-                    pointerEvents="none"
-                    children={<SearchIcon color="gray.300" />}
-                />
-                <Input type="programs" placeholder="Search SDC Programs" />
-            </InputGroup>
-
-            <Box mx="50px" mt="25px">
-                {programCardInfos && programCardInfos.length > 0 ? (
-                    <Grid templateColumns="repeat(3, 1fr)">
-                        {programCardInfos.map((item, idx) => {
-                            return (
-                                <GridItem key={idx}>
-                                    <BrowseProgramCard cardInfo={item} />
-                                </GridItem>
-                            );
-                        })}
-                    </Grid>
-                ) : (
-                    <AdminEmptyState w={625} h="100%" isLoading={isLoading}>
-                        No upcoming classes this week
-                    </AdminEmptyState>
-                )}
-            </Box>
         </Wrapper>
     );
 };
 
-export default BrowsePrograms;
+export default BrowseClasses;
 
 /**
  * getServerSideProps gets the session before this page is rendered
