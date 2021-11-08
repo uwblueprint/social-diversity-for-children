@@ -2,7 +2,7 @@ import React from "react";
 import { BadgeProps } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { AdminBadge } from "./AdminBadge";
-import {BackButton} from "./BackButton";
+import { BackButton } from "./BackButton";
 
 type AgeBadgeProps = BadgeProps & {
     isOff?: boolean;
@@ -14,6 +14,8 @@ type AgeBadgeProps = BadgeProps & {
 /**
  * Displays a age group tag in a pres-styled badge
  */
+var test;
+
 export const AgeBadge: React.FC<AgeBadgeProps> = ({
     isOff,
     isAdminTheme,
