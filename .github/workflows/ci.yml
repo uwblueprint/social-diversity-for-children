@@ -58,11 +58,15 @@ jobs:
 
             - name: Linting modified files Prettier on pull request
               if: ${{ github.event_name == 'pull_request' }}
+              id: prettier-pr
               run: yarn lint:prettier-modified-files
+              continue-on-error: true
 
             - name: Linting modified files ESlint on pull request
+              id: eslint-pr
               if: ${{ github.event_name == 'pull_request' }}
               run: yarn lint:eslint-modified-files
+              continue-on-error: true
 
             - name: Build
               run: yarn build
