@@ -14,6 +14,7 @@ import {
     ModalCloseButton,
     ModalHeader,
     Image,
+    useToast,
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
@@ -21,6 +22,7 @@ import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
+import { createWaitlistRegistration } from "@utils/createWaitlistRegistration";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -34,6 +36,7 @@ type ClassInfoModalProps = {
     onlineFormat: string;
     tag: string;
     me?: UseMeResponse["me"];
+    isFull: boolean;
 };
 
 /**
@@ -53,9 +56,11 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     onlineFormat,
     tag,
     me,
+    isFull,
 }) => {
     const router = useRouter();
     const { t } = useTranslation("common");
+    const toast = useToast();
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -137,41 +142,93 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                 </ModalBody>
 
                 <ModalFooter>
-                    <Link
-                        href={
-                            me
-                                ? me.role === roles.VOLUNTEER
-                                    ? `/volunteer/enrollment?classId=${classInfo.id}`
-                                    : `/parent/enrollment/?classId=${classInfo.id}`
-                                : "/login"
-                        }
-                    >
-                        <Button
-                            bg={colourTheme.colors.Blue}
-                            color={"white"}
-                            mx={"auto"}
-                            my={2}
-                            fontWeight={"200"}
-                            _hover={{
-                                textDecoration: "none",
-                                bg: colourTheme.colors.LightBlue,
-                            }}
-                            _active={{
-                                bg: "lightgrey",
-                                outlineColor: "grey",
-                                border: "grey",
-                                boxShadow: "lightgrey",
-                            }}
-                            _focus={{
-                                outlineColor: "grey",
-                                border: "grey",
-                                boxShadow: "lightgrey",
-                            }}
-                            minW={"100%"}
+                    {isFull ? (
+                        <Box w="100%">
+                            <Button
+                                bg={colourTheme.colors.Blue}
+                                color={"white"}
+                                mx={"auto"}
+                                my={2}
+                                fontWeight={"200"}
+                                _hover={{
+                                    textDecoration: "none",
+                                    bg: colourTheme.colors.LightBlue,
+                                }}
+                                _active={{
+                                    bg: "lightgrey",
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                _focus={{
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                minW={"100%"}
+                                onClick={() => {
+                                    createWaitlistRegistration(
+                                        me.parent,
+                                        classInfo.id,
+                                    );
+                                    toast({
+                                        title: "Waitlist record added!",
+                                        description:
+                                            "You will receive an email when a spot opens up.",
+                                        status: "info",
+                                        duration: 9000,
+                                        isClosable: true,
+                                        position: "top-right",
+                                        variant: "left-accent",
+                                    });
+                                    onClose();
+                                }}
+                            >
+                                Add to Waitlist
+                            </Button>
+                            <Text fontSize="sm" align="center">
+                                We'll notify you once space becomes available
+                            </Text>
+                        </Box>
+                    ) : (
+                        <Link
+                            href={
+                                me
+                                    ? me.role === roles.VOLUNTEER
+                                        ? `/volunteer/enrollment?classId=${classInfo.id}`
+                                        : `/parent/enrollment/?classId=${classInfo.id}`
+                                    : "/login"
+                            }
                         >
-                            {me ? "Register" : t("program.signInToRegister")}
-                        </Button>
-                    </Link>
+                            <Button
+                                bg={colourTheme.colors.Blue}
+                                color={"white"}
+                                mx={"auto"}
+                                my={2}
+                                fontWeight={"200"}
+                                _hover={{
+                                    textDecoration: "none",
+                                    bg: colourTheme.colors.LightBlue,
+                                }}
+                                _active={{
+                                    bg: "lightgrey",
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                _focus={{
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                minW={"100%"}
+                            >
+                                {me
+                                    ? "Register"
+                                    : t("program.signInToRegister")}
+                            </Button>
+                        </Link>
+                    )}
                 </ModalFooter>
             </ModalContent>
         </Modal>
