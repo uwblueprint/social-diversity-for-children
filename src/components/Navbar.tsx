@@ -29,7 +29,7 @@ import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Session } from "next-auth";
-import { getSession, signOut } from "next-auth/client";
+import { signOut } from "next-auth/client";
 
 type NavbarProps = {
     session?: Record<string, unknown>;
@@ -111,11 +111,11 @@ const SideBar = ({
                 <DrawerBody>
                     <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                         <Icon as={MdOutlineDns} width={6} height={6} />
-                        <Text marginLeft="5">Browse Programs</Text>
+                        <NavLink href="/">Browse Programs</NavLink>
                     </Flex>
                     <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                         <Icon as={MdOutlineClass} width={6} height={6} />
-                        <Text marginLeft="5">View My Classes</Text>
+                        <NavLink href="/class">View My Classes</NavLink>
                     </Flex>
                     {loggedIn && (
                         <Flex
@@ -125,7 +125,7 @@ const SideBar = ({
                             alignItems="center"
                         >
                             <Icon as={BiUserCircle} width={6} height={6} />
-                            <Text marginLeft="5">Account</Text>
+                            <NavLink href="/myaccounts">Account</NavLink>
                         </Flex>
                     )}
                 </DrawerBody>
@@ -135,7 +135,11 @@ const SideBar = ({
                             <Divider mt="15" mb="15" />
                             <Flex alignItems="center">
                                 <Icon as={MdLogout} width={6} height={6} />
-                                <Text marginLeft="5" onClick={() => signOut()}>
+                                <Text
+                                    marginLeft="5"
+                                    cursor="pointer"
+                                    onClick={() => signOut()}
+                                >
                                     Log Out
                                 </Text>
                             </Flex>
