@@ -34,10 +34,6 @@ type WaitlistCardProps = {
 export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
     const router = useRouter();
     const { t } = useTranslation();
-    console.log("WAITLIST INFO");
-    console.log(waitlistInfo);
-
-    //const { link } = useGetZoomLink();
 
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>

@@ -14,6 +14,7 @@ import {
     ModalCloseButton,
     ModalHeader,
     Image,
+    useToast,
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
@@ -59,6 +60,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
 }) => {
     const router = useRouter();
     const { t } = useTranslation("common");
+    const toast = useToast();
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -137,7 +139,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
 
                 <ModalFooter>
                     {isFull ? (
-                        <ModalBody>
+                        <Box w="100%">
                             <Button
                                 bg={colourTheme.colors.Blue}
                                 color={"white"}
@@ -160,19 +162,30 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                     boxShadow: "lightgrey",
                                 }}
                                 minW={"100%"}
-                                onClick={() =>
+                                onClick={() => {
                                     createWaitlistRegistration(
                                         me.parent,
                                         classInfo.id,
-                                    )
-                                }
+                                    );
+                                    toast({
+                                        title: "Waitlist record added!",
+                                        description:
+                                            "You will receive an email when a spot opens up.",
+                                        status: "info",
+                                        duration: 9000,
+                                        isClosable: true,
+                                        position: "top-right",
+                                        variant: "left-accent",
+                                    });
+                                    onClose();
+                                }}
                             >
                                 Add to Waitlist
                             </Button>
                             <Text fontSize="sm" align="center">
                                 We'll notify you once space becomes available
                             </Text>
-                        </ModalBody>
+                        </Box>
                     ) : (
                         <Link
                             href={

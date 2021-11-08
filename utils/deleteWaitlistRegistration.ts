@@ -12,9 +12,6 @@ export async function deleteWaitlistRegistration(
     parent: Parent,
     classId: number,
 ) {
-    console.log("Here");
-    console.log(classId);
-    console.log(parent);
     const registrationData: ParentWaitlistInput = {
         classId,
         parentId: parent.id,
