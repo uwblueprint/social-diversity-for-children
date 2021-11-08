@@ -45,7 +45,7 @@ jobs:
               run: yarn
 
             - name: Linting all Prettier on push
-                if: github.event_name != 'pull_request'
+              if: github.event_name != 'pull_request'
               run: yarn lint:prettier
 
             - name: Linting all ESlint on push
