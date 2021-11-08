@@ -10,8 +10,6 @@ import {
     InputGroup,
     InputLeftElement,
     Input,
-    List,
-    ListItem,
     Grid,
     GridItem,
 } from "@chakra-ui/react";
@@ -22,8 +20,7 @@ import colourTheme from "@styles/colours";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { SearchIcon } from "@chakra-ui/icons";
 import { BrowseProgramCard } from "@components/BrowseProgramCard";
-import type { ProgramCardInfo } from "models/Program";
-import { locale, programFormat } from "@prisma/client";
+import { locale } from "@prisma/client";
 import usePrograms from "@utils/hooks/usePrograms";
 import { useRouter } from "next/router";
 import { Loading } from "@components/Loading";
@@ -31,9 +28,7 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
-import useSWR from "swr";
-import { fetcherWithId } from "@utils/fetcher";
-import CardInfoUtil from "utils/cardInfoUtil";
+import { useState } from "react";
 
 type BrowseProgramsProps = {
     session: Record<string, unknown>;
@@ -65,6 +60,7 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
 
 export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
+    const [searchTerm, setSearchTerm] = useState("");
 
     const {
         programs: programCardInfos,
@@ -128,20 +124,41 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                         pointerEvents="none"
                         children={<SearchIcon color="gray.300" />}
                     />
-                    <Input pl={8} placeholder={"Search Programs"} />
+                    <Input
+                        pl={8}
+                        placeholder={"Search Programs"}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                        }}
+                    />
                 </InputGroup>
             </Box>
 
             <Box mx="50px" mt="25px">
                 {programCardInfos && programCardInfos.length > 0 ? (
                     <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                        {programCardInfos.map((item, idx) => {
-                            return (
-                                <GridItem key={idx}>
-                                    <BrowseProgramCard cardInfo={item} />
-                                </GridItem>
-                            );
-                        })}
+                        {programCardInfos
+                            .filter((val) => {
+                                if (searchTerm == "") {
+                                    return val;
+                                } else if (
+                                    val.name
+                                        .toLowerCase()
+                                        .includes(searchTerm.toLowerCase()) ||
+                                    val.description
+                                        .toLowerCase()
+                                        .includes(searchTerm.toLowerCase())
+                                ) {
+                                    return val;
+                                }
+                            })
+                            .map((item, idx) => {
+                                return (
+                                    <GridItem key={idx}>
+                                        <BrowseProgramCard cardInfo={item} />
+                                    </GridItem>
+                                );
+                            })}
                     </Grid>
                 ) : (
                     <AdminEmptyState w={625} h="100%" isLoading={isLoading}>
