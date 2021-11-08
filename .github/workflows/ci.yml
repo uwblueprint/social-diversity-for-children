@@ -45,7 +45,7 @@ jobs:
               run: yarn
 
             - name: Linting all Prettier on push
-              if: github.event_name != 'pull_request'
+                if: github.event_name != 'pull_request'
               run: yarn lint:prettier
 
             - name: Linting all ESlint on push
@@ -72,8 +72,8 @@ jobs:
               uses: actions/github-script@v5
               with:
                 script: |
-                  const output = `#### Prettier \`${{ steps.prettier-pr.outcome }}\`
-                  #### Eslint \`${{ steps.eslint-pr.outcome }}\``;
+                  const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
+                  #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
 
                   github.rest.issues.createComment({
                     issue_number: context.issue.number,
@@ -81,6 +81,7 @@ jobs:
                     repo: context.repo.repo,
                     body: output
                   })
+              run: exit 1
 
             - name: Build
               run: yarn build
