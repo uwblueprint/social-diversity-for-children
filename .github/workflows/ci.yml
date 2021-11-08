@@ -52,21 +52,34 @@ jobs:
               if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:eslint
 
-            - name: Fetch target pr branch for diff
+            - name: PR - Fetch target pr branch for diff
               if: ${{ github.event_name == 'pull_request' }}
               run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
-            - name: Linting modified files Prettier on pull request
+            - name: PR - Linting modified files Prettier on pull request
               if: ${{ github.event_name == 'pull_request' }}
               id: prettier-pr
               run: yarn lint:prettier-modified-files
               continue-on-error: true
 
-            - name: Linting modified files ESlint on pull request
+            - name: PR - Linting modified files ESlint on pull request
               id: eslint-pr
               if: ${{ github.event_name == 'pull_request' }}
               run: yarn lint:eslint-modified-files
               continue-on-error: true
+            
+            - name: PR - Create linting comment on error
+              uses: actions/github-script@v5
+              with:
+                script: |
+                  const output = `#### Prettier \`${{ steps.prettier-pr.outcome }}\`
+                  #### Eslint \`${{ steps.eslint-pr.outcome }}\``;
 
+                  github.rest.issues.createComment({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: output
+                  })
             - name: Build
               run: yarn build
