@@ -420,6 +420,7 @@ export default function ParticipantInfo({
             setPageNum={setPageNum}
             totalPages={totalPages}
             formPages={formPages}
+            name={`${participantFirstName} ${participantLastName}`}
         />
     );
 }
