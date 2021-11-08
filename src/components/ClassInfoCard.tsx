@@ -56,7 +56,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box fontWeight="bold" as="h2">
@@ -71,13 +71,8 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             />
                         )}
                     </Flex>
-                    <Flex>
-                        <Box
-                            as="span"
-                            color="gray.600"
-                            fontSize="sm"
-                            textTransform="capitalize"
-                        >
+                    <Flex direction={{ base: "column", xl: "row" }}>
+                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {t("time.weekday_many", {
                                 day: weekdayToString(
                                     cardInfo.weekday,
@@ -88,8 +83,6 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 cardInfo.startTimeMinutes,
                                 cardInfo.durationMinutes,
                             )}
-                        </Box>
-                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {" with " +
                                 t("program.teacherName", {
                                     name: cardInfo.teacherName,
