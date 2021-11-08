@@ -12,7 +12,7 @@ import {
     VStack,
     Button,
 } from "@chakra-ui/react";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { WaitlistCardInfo } from "@models/Enroll";
 import colourTheme from "@styles/colours";
