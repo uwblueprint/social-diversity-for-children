@@ -2,11 +2,10 @@ import React from "react";
 import {
     Link as ChakraLink,
     Box,
-    Button,
-    ButtonProps,
     Icon,
     VStack,
     LinkProps,
+    Flex,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import { SdcLogoWhite } from "./icons";
@@ -22,29 +21,27 @@ import { IconType } from "react-icons";
 import Link from "next/link";
 import { signOut } from "next-auth/client";
 
-type SDCWrapperProps = {
+type AdminWrapperProps = {
     session?: Record<string, unknown>;
     children?: React.ReactNode;
 };
 
-const AdminWrapper: React.FC<SDCWrapperProps> = (props): JSX.Element => {
+const AdminWrapper: React.FC<AdminWrapperProps> = (props): JSX.Element => {
     return (
-        <Box minHeight={"100vh"} position={"relative"}>
+        <Flex position={"relative"} h="100vh">
             <AdminNavBar />
-            <Box pl={275}>{props.children}</Box>
-        </Box>
+            <Box>{props.children}</Box>
+        </Flex>
     );
 };
 
 const AdminNavBar: React.FC = () => {
     return (
         <Box
-            position="fixed"
-            left={0}
             p={5}
             w={275}
-            top={0}
-            h="100%"
+            zIndex={1}
+            h="inherit"
             bg="#dfdfdf"
             bgColor={colourTheme.colors.Blue}
         >

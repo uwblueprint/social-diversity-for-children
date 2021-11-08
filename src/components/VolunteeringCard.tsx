@@ -18,7 +18,7 @@ import {
     MenuList,
     Link,
 } from "@chakra-ui/react";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
@@ -28,7 +28,7 @@ import { deleteVolunteerRegistration } from "@utils/deleteVolunteerRegistration"
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import { useTranslation } from "next-i18next";
-import useGetZoomLink from "@utils/useGetZoomLink";
+import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 
 type VolunteeringCardProps = {
     volunteeringInfo: VolunteeringCardInfo;

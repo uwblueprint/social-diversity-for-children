@@ -2,7 +2,7 @@ import React from "react";
 import { Center, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import { VolunteeringCard } from "./VolunteeringCard";
-import useVolunteerRegistrations from "@utils/useVolunteerRegistration";
+import useVolunteerRegistrations from "@utils/hooks/useVolunteerRegistration";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";

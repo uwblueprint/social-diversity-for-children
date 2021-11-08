@@ -6,9 +6,9 @@ import {
     MdSupervisorAccount,
     MdDescription,
 } from "react-icons/md";
-import { Spacer, Box, Icon, Button, Text } from "@chakra-ui/react";
+import { Spacer, Box, Icon, Button, Flex, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { ParticipantInfo } from "@components/myAccounts/ParticipantInformation";
 import { VolunteerInfo } from "@components/myAccounts/PersonalVolunteer";
 import { GuardianInfo } from "@components/myAccounts/GuardianInformation";
@@ -209,8 +209,12 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
 
     return (
         <Wrapper session={session}>
-            <Box display="flex" marginBottom={50}>
-                <Box style={{ width: 312, marginBottom: 50 }}>
+            <Flex marginBottom={50} direction={{ base: "column", lg: "row" }}>
+                <Box
+                    mb={{ base: 6, lg: 50 }}
+                    mr={{ base: 0, lg: 12 }}
+                    w={{ base: "100%", lg: 312 }}
+                >
                     <Text fontWeight={700} fontSize={36}>
                         {"My Account"}
                     </Text>
@@ -231,48 +235,47 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                             </Button>
                         </Link>
                     ) : null}
-                    {sideBar.map((option, i) => (
+                    <Flex direction="column" align="flex-start">
+                        {sideBar.map((option, i) => (
+                            <Button
+                                key={i}
+                                variant="link"
+                                mt={6}
+                                onClick={() => {
+                                    setSideBarPage(i);
+                                }}
+                                color={
+                                    sideBarPage === i
+                                        ? colourTheme.colors.Blue
+                                        : colourTheme.colors.Gray
+                                }
+                                _hover={{ color: colourTheme.colors.Blue }}
+                            >
+                                <Icon as={option.icon} w={8} h={8} />
+                                <Text align="left" pl={4}>
+                                    {option.title} <br />
+                                    {option.name ? "(" + option.name + ")" : ""}
+                                </Text>
+                            </Button>
+                        ))}
                         <Button
-                            key={i}
                             variant="link"
-                            mt={6}
-                            onClick={() => {
-                                setSideBarPage(i);
-                            }}
-                            color={
-                                sideBarPage === i
-                                    ? colourTheme.colors.Blue
-                                    : colourTheme.colors.Gray
-                            }
+                            mt={{ base: 6, lg: 40 }}
+                            onClick={() => signOut()}
+                            color={colourTheme.colors.Gray}
                             _hover={{ color: colourTheme.colors.Blue }}
                         >
-                            <Icon as={option.icon} w={8} h={8} />
-                            <Text align="left" pl={4}>
-                                {option.title} <br />
-                                {option.name ? "(" + option.name + ")" : ""}
-                            </Text>
+                            <Icon as={MdLogout} w={8} h={8} />
+                            Log out
                         </Button>
-                    ))}
-                    <br />
-                    <Button
-                        variant="link"
-                        mt={40}
-                        onClick={() => signOut()}
-                        color={colourTheme.colors.Gray}
-                        _hover={{ color: colourTheme.colors.Blue }}
-                    >
-                        <Icon as={MdLogout} w={8} h={8} />
-                        Log out
-                    </Button>
+                    </Flex>
                 </Box>
                 <Box>
                     <Box
-                        style={{
-                            width: 600,
-                            marginTop: 87,
-                            padding: 48,
-                        }}
-                        borderWidth="1px"
+                        minW={{ base: 400, lg: 600 }}
+                        p={{ base: 0, lg: 12 }}
+                        mt={{ base: 6, lg: "80px" }}
+                        borderWidth={{ base: "0", lg: "1px" }}
                         borderColor="#C1C1C1"
                     >
                         <Box
@@ -299,7 +302,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                         {sideBar[sideBarPage]?.component}
                     </Box>
                 </Box>
-            </Box>
+            </Flex>
         </Wrapper>
     );
 }
@@ -315,6 +318,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return {
             redirect: {
                 destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+    if ([roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)) {
+        return {
+            redirect: {
+                destination: "/admin",
                 permanent: false,
             },
         };

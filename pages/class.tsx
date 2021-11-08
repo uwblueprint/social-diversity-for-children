@@ -9,7 +9,7 @@ import { VolunteeringList } from "@components/VolunteeringList";
 import { WaitlistList } from "@components/WaitlistList";
 import { roles } from ".prisma/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
 

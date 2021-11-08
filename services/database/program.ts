@@ -3,6 +3,14 @@ import { ProgramInput } from "models/Program";
 import { Program } from "@prisma/client";
 
 /**
+ * getProgramCount returns count of all programs
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getProgramCount() {
+    return await prisma.program.count();
+}
+
+/**
  * NOTE: https://www.prisma.io/docs/concepts/components/prisma-client/advanced-type-safety/operating-against-partial-structures-of-model-types
  * createProgram takes in newProgramData and returns the newly created program
  * @param newProgramData - data corresponding to new program
@@ -47,4 +55,4 @@ async function updateProgram(
     return program;
 }
 
-export { createProgram, deleteProgram, updateProgram };
+export { getProgramCount, createProgram, deleteProgram, updateProgram };

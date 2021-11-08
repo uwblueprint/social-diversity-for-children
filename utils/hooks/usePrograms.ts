@@ -1,8 +1,8 @@
 import { ProgramCardInfo } from "@models/Program";
 import { locale } from "@prisma/client";
 import useSWR from "swr";
-import CardInfoUtil from "./cardInfoUtil";
-import { fetcher } from "./fetcher";
+import CardInfoUtil from "../cardInfoUtil";
+import { fetcher } from "../fetcher";
 
 export type UseProgramsResponse = {
     programs: ProgramCardInfo[];
@@ -12,7 +12,7 @@ export type UseProgramsResponse = {
 };
 
 /**
- * Parent registrations hook to get all of current parent registrations
+ * Programs hook to get all programs in the platform
  * @param  {locale} language locale used
  * @returns UseProgramsResponse
  */

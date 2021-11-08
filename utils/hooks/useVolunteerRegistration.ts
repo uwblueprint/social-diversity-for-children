@@ -1,8 +1,8 @@
 import { VolunteeringCardInfo } from "@models/Enroll";
 import { locale } from "@prisma/client";
 import useSWR from "swr";
-import CardInfoUtil from "./cardInfoUtil";
-import { fetcher } from "./fetcher";
+import CardInfoUtil from "../cardInfoUtil";
+import { fetcher } from "../fetcher";
 
 export type UseVolunteerRegistrationsResponse = {
     volunteering: VolunteeringCardInfo[];

@@ -3,7 +3,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
-import useLocalStorage from "@utils/useLocalStorage";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
 import { mutate } from "swr";

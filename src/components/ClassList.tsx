@@ -7,7 +7,7 @@ import { IneligibleClassModal } from "./IneligibleClassModal";
 import colourTheme from "@styles/colours";
 import convertToAge from "@utils/convertToAge";
 import { roles, Student } from "@prisma/client";
-import { UseMeResponse } from "@utils/useMe";
+import { UseMeResponse } from "@utils/hooks/useMe";
 
 type ClassListProps = {
     classInfo: ClassCardInfo[];

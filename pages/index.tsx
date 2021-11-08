@@ -15,11 +15,11 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
 import { useTranslation } from "next-i18next";
-import usePrograms from "@utils/usePrograms";
+import usePrograms from "@utils/hooks/usePrograms";
 import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { MissingDocAlert } from "@components/MissingDocAlert";
 
 type ComponentProps = {

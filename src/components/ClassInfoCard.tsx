@@ -11,15 +11,15 @@ import {
     Spacer,
     VStack,
 } from "@chakra-ui/react";
-import { SDCBadge } from "./SDCBadge";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import useMe from "@utils/useMe";
 import colourTheme from "@styles/colours";
+import useMe from "@utils/hooks/useMe";
+import { AgeBadge } from "./AgeBadge";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
@@ -61,7 +61,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box fontWeight="bold" as="h2">
@@ -69,20 +69,15 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         {cardInfo.borderAge == null ? null : (
-                            <SDCBadge isOff={!isEligible}>
-                                {cardInfo.isAgeMinimal
-                                    ? cardInfo.borderAge + " and above"
-                                    : cardInfo.borderAge + " and under"}
-                            </SDCBadge>
+                            <AgeBadge
+                                isOff={!isEligible}
+                                isAgeMinimal={cardInfo.isAgeMinimal}
+                                borderAge={cardInfo.borderAge}
+                            />
                         )}
                     </Flex>
-                    <Flex>
-                        <Box
-                            as="span"
-                            color="gray.600"
-                            fontSize="sm"
-                            textTransform="capitalize"
-                        >
+                    <Flex direction={{ base: "column", xl: "row" }}>
+                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {t("time.weekday_many", {
                                 day: weekdayToString(
                                     cardInfo.weekday,
@@ -93,8 +88,6 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 cardInfo.startTimeMinutes,
                                 cardInfo.durationMinutes,
                             )}
-                        </Box>
-                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {" with " +
                                 t("program.teacherName", {
                                     name: cardInfo.teacherName,

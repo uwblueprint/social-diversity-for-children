@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
@@ -27,7 +27,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { locale, roles } from "@prisma/client";
-import { UseMeResponse } from "@utils/useMe";
+import { UseMeResponse } from "@utils/hooks/useMe";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -65,7 +65,11 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent minH={80} minW={550} p={10}>
+            <ModalContent
+                minH={80}
+                minW={{ base: 0, md: 550 }}
+                p={{ base: 2, md: 10 }}
+            >
                 <ModalBody>
                     <ModalHeader textAlign={"left"} px={0}>
                         {classInfo.name}

@@ -6,7 +6,7 @@ import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Loading } from "@components/Loading";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 
 type SignupFormProps = {
     session: Record<string, unknown>;

@@ -72,6 +72,32 @@ async function getUsers() {
 }
 
 /**
+ * getRegistrantCount returns count of all parents + volunteers
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getRegistrantCount() {
+    const count = await prisma.user.count({
+        where: {
+            OR: [{ role: "PARENT" }, { role: "VOLUNTEER" }],
+        },
+    });
+    return count;
+}
+
+/**
+ * getTeacherCount returns count of all teachers
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getTeacherCount() {
+    const count = await prisma.user.count({
+        where: {
+            role: "TEACHER",
+        },
+    });
+    return count;
+}
+
+/**
  * Updates a user with the data corresponding to userInput
  * @param userInput - data for the updated user
  * @returns prisma User with updated information
@@ -422,6 +448,8 @@ export {
     getUser,
     getUserFromEmail,
     getUsers,
+    getRegistrantCount,
+    getTeacherCount,
     updateUser,
     updateVolunteerCriminalCheckLink,
     updateParentProofOfIncomeLink,
