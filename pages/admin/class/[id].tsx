@@ -20,8 +20,8 @@ import useClassRegistrant from "@utils/hooks/useClassRegistrants";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import { useVolunteerTableData } from "../../../utils/hooks/useVolunteerTableData";
-import { useStudentTableData } from "../../../utils/hooks/useStudentTableData";
+import { useVolunteerRegTableData } from "../../../utils/hooks/useVolunteerTableData";
+import { useStudentRegTableData } from "../../../utils/hooks/useStudentTableData";
 import React from "react";
 
 type ClassViewProps = {
@@ -48,9 +48,9 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
         error: registrantError,
     } = useClassRegistrant(parseInt(id as string, 10));
 
-    const { studentColumns, studentData } = useStudentTableData(studentRegs);
+    const { studentColumns, studentData } = useStudentRegTableData(studentRegs);
     const { volunteerColumns, volunteerData } =
-        useVolunteerTableData(volunteerRegs);
+        useVolunteerRegTableData(volunteerRegs);
 
     if (isClassLoading) {
         return <Loading />;

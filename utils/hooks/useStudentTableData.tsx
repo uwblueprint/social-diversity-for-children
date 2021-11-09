@@ -9,7 +9,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
  * @param  studentRegs student registrations - from parent regs
  * @returns header columns, row data, csv data for table
  */
-export function useStudentTableData(
+export function useStudentRegTableData(
     studentRegs: (ParentReg & {
         student: Student;
     })[],

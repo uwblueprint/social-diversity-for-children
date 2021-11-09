@@ -11,7 +11,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
  * @param  volunteerRegs volunteer registrations
  * @returns header columns, row data, csv data for table
  */
-export function useVolunteerTableData(
+export function useVolunteerRegTableData(
     volunteerRegs: (VolunteerReg & {
         volunteer: Volunteer & {
             user: User;
