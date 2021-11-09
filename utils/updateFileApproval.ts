@@ -4,17 +4,17 @@ import { mutate } from "swr";
 /**
  * updateFileApproval updates a file's approval from an admin
  * @param filePath
- * @param email
+ * @param id
  * @param approval
  * @returns deleted records
  */
 export async function updateFileApproval(
     filePath: string,
-    email: string,
+    id: number,
     approval: boolean | null,
 ): Promise<Response> {
     const updateData = {
-        email: email,
+        id: id as number,
         approval: approval,
     };
 
@@ -23,14 +23,13 @@ export async function updateFileApproval(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
     };
-    console.log(request.body);
 
     const response = await fetch(
         `/api/admin/update-${filePath}-status`,
         request,
     );
 
-    mutate(`/api/admin/update-${filePath}-status`);
+    mutate(`/api/user/${id}`);
 
     return response;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import useFileRetrieve from "@utils/hooks/useFileRetrieve";
 import {
     Box,
     HStack,
@@ -19,27 +19,30 @@ import { updateFileApproval } from "@utils/updateFileApproval";
 
 type FileDownloadCardProps = {
     filePath: string;
-    docLink: string;
     docName: string;
     docApproved: boolean | null;
-    participantEmail: string;
+    participantId: number;
 };
 
 const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
     filePath,
-    docLink,
     docName,
     docApproved,
-    participantEmail,
+    participantId,
 }): JSX.Element => {
     const [approvalState, setApprovalState] = useState<boolean | null>(
         docApproved,
     );
 
     useEffect(() => {
-        console.log(filePath, participantEmail, approvalState);
-        updateFileApproval(filePath, participantEmail, approvalState);
-    }, [approvalState, participantEmail]);
+        updateFileApproval(filePath, participantId, approvalState);
+    }, [approvalState, participantId]);
+
+    const {
+        url: docLink,
+        isLoading: criminalRecordIsLoading,
+        error: criminalRecordError,
+    } = useFileRetrieve(filePath, docName);
 
     return (
         <Box
@@ -62,7 +65,11 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                 />
                 <VStack alignItems="flex-start" w="300px" h="full">
                     <Text fontSize="18px" marginTop="75px" as="u">
-                        <Link href={docLink} color={colourTheme.colors.Blue}>
+                        <Link
+                            href={docLink}
+                            color={colourTheme.colors.Blue}
+                            isExternal
+                        >
                             {docName}
                         </Link>
                     </Text>

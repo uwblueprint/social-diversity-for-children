@@ -26,11 +26,10 @@ export default async function handle(
     switch (req.method) {
         case "POST": {
             const input = req.body;
-            const volunteerEmail = input.email as string;
+            const volunteerId = input.id as string;
             const criminalCheckApproval = input.approval as boolean | null;
-
             const recordApproval = await updateVolunteerCriminalCheckApproval(
-                volunteerEmail,
+                volunteerId,
                 criminalCheckApproval,
             );
 
