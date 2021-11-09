@@ -40,6 +40,7 @@ export type AdminTableProps = {
     tableData: any;
     csvData?: any;
     exportName: string;
+    exportItem: string;
     isLoading?: boolean;
     filterPlaceholder?: string;
     hiddenColumns?: string[];
@@ -54,6 +55,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
     tableData,
     csvData,
     exportName,
+    exportItem,
     isLoading,
     filterPlaceholder,
     hiddenColumns,
@@ -91,6 +93,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                 setGlobalFilter={setGlobalFilter}
                 csvData={csvData || tableData}
                 exportName={exportName}
+                exportItem={exportItem}
                 placeholder={filterPlaceholder}
                 mb={4}
             />
@@ -191,6 +194,7 @@ export type AdminTableInputProps = FlexProps & {
     setGlobalFilter: any;
     csvData: any[];
     exportName: string;
+    exportItem: string;
     placeholder?: string;
 };
 
@@ -203,6 +207,7 @@ export const AdminTableInput: React.FC<AdminTableInputProps> = ({
     setGlobalFilter,
     csvData,
     exportName,
+    exportItem,
     placeholder,
     ...props
 }): JSX.Element => {
@@ -232,7 +237,7 @@ export const AdminTableInput: React.FC<AdminTableInputProps> = ({
             >
                 <ArrowDownIcon mr={2} />
                 <CSVLink data={csvData || []} filename={`${exportName}.csv`}>
-                    Export Classlist
+                    Export {exportItem}
                 </CSVLink>
             </Button>
         </Flex>

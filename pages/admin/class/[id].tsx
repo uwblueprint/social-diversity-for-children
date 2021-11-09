@@ -103,6 +103,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                         <TabPanel>
                             <AdminTable
                                 exportName={`Students - ${classCard.name}`}
+                                exportItem="Classlist"
                                 dataColumns={studentColumns}
                                 tableData={studentData}
                                 isLoading={isRegistrantLoading}
@@ -113,6 +114,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                         <TabPanel>
                             <AdminTable
                                 exportName={`Volunteers - ${classCard.name}`}
+                                exportItem="Classlist"
                                 dataColumns={volunteerColumns}
                                 tableData={volunteerData}
                                 isLoading={isRegistrantLoading}
