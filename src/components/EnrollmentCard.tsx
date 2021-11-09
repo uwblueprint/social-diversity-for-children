@@ -18,6 +18,7 @@ import {
     MenuList,
     MenuDivider,
     Link,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
@@ -52,8 +53,39 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
+    const isJoinBesideTitle = useBreakpointValue({ base: false, md: true });
 
     const { link } = useGetZoomLink();
+
+    const joinLink = (
+        <Link href={link} isExternal>
+            <Button
+                bg={colourTheme.colors.Blue}
+                color={"white"}
+                mx={"auto"}
+                my={2}
+                borderRadius="6px"
+                fontWeight={"normal"}
+                _hover={{
+                    textDecoration: "none",
+                    bg: colourTheme.colors.LightBlue,
+                }}
+                _active={{
+                    bg: "lightgrey",
+                    outlineColor: "grey",
+                    border: "grey",
+                    boxShadow: "lightgrey",
+                }}
+                _focus={{
+                    outlineColor: "grey",
+                    border: "grey",
+                    boxShadow: "lightgrey",
+                }}
+            >
+                Join class
+            </Button>
+        </Link>
+    );
 
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
@@ -66,7 +98,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box>
@@ -112,36 +144,11 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                     )}
                                 </Text>
                             )}
+                            {isJoinBesideTitle ? null : joinLink}
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
-                            <Link href={link} isExternal>
-                                <Button
-                                    bg={colourTheme.colors.Blue}
-                                    color={"white"}
-                                    mx={"auto"}
-                                    my={2}
-                                    borderRadius="6px"
-                                    fontWeight={"normal"}
-                                    _hover={{
-                                        textDecoration: "none",
-                                        bg: colourTheme.colors.LightBlue,
-                                    }}
-                                    _active={{
-                                        bg: "lightgrey",
-                                        outlineColor: "grey",
-                                        border: "grey",
-                                        boxShadow: "lightgrey",
-                                    }}
-                                    _focus={{
-                                        outlineColor: "grey",
-                                        border: "grey",
-                                        boxShadow: "lightgrey",
-                                    }}
-                                >
-                                    Join class
-                                </Button>
-                            </Link>
+                            {isJoinBesideTitle ? joinLink : null}
                             <Menu>
                                 <MenuButton
                                     ml={1}
