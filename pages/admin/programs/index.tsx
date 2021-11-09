@@ -12,6 +12,7 @@ import {
     Input,
     Grid,
     GridItem,
+    Spacer,
 } from "@chakra-ui/react";
 import Wrapper from "@components/AdminWrapper";
 import React from "react";
@@ -74,16 +75,22 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
         return <Box>An Error has occurred</Box>;
     }
 
+    const filteredCards = programCardInfos.filter((val) => {
+        if (searchTerm == "") {
+            return val;
+        } else if (
+            val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            val.description.toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
+            return val;
+        }
+    });
     return (
         <Wrapper session={props.session}>
-            <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
-                <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
-                    <Flex
-                        h={"94px"}
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                    >
-                        <HStack spacing={8} alignItems={"center"}>
+            <Box width="80vw">
+                <Box bg={"transparent"} pl={"50px"} pt={"20px"} mx={"auto"}>
+                    <Flex h={"94px"}>
+                        <HStack spacing={8}>
                             <Text
                                 fontSize="22px"
                                 fontWeight="bold"
@@ -92,79 +99,64 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                                 Dashboard
                             </Text>
                         </HStack>
-                        <Flex alignItems={"center"}>
-                            <HStack
-                                spacing={4}
-                                display={{ base: "none", md: "flex" }}
-                            >
-                                {Links.map((linkInfo) => (
-                                    <NavLink
-                                        key={linkInfo.name}
-                                        href={linkInfo.url}
-                                    >
-                                        {linkInfo.name}
-                                    </NavLink>
-                                ))}
-                            </HStack>
-                        </Flex>
+                        <Spacer />
+                        <HStack spacing={4}>
+                            {Links.map((linkInfo) => (
+                                <NavLink
+                                    key={linkInfo.name}
+                                    href={linkInfo.url}
+                                >
+                                    {linkInfo.name}
+                                </NavLink>
+                            ))}
+                        </HStack>
                     </Flex>
                 </Box>
-            </Box>
-            <Divider
-                orientation="horizontal"
-                marginTop="25px"
-                marginBottom="30px"
-                border="2px"
-            />
+                <Divider
+                    orientation="horizontal"
+                    marginTop="25px"
+                    marginBottom="30px"
+                    border="2px"
+                />
 
-            <Box px="50px">
-                <Text fontSize="16px">Browse Programs</Text>
-                <InputGroup mt="25px">
-                    <InputLeftElement
-                        pointerEvents="none"
-                        children={<SearchIcon color="gray.300" />}
-                    />
-                    <Input
-                        pl={8}
-                        placeholder={"Search Programs"}
-                        onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                        }}
-                    />
-                </InputGroup>
-            </Box>
+                <Box px="50px">
+                    <Text fontSize="16px">Browse Programs</Text>
+                    <InputGroup mt="25px">
+                        <InputLeftElement
+                            pointerEvents="none"
+                            children={<SearchIcon color="gray.300" />}
+                        />
+                        <Input
+                            pl={8}
+                            placeholder={"Search Programs"}
+                            onChange={(e) => {
+                                setSearchTerm(e.target.value);
+                            }}
+                        />
+                    </InputGroup>
+                </Box>
 
-            <Box mx="50px" mt="25px">
-                {programCardInfos && programCardInfos.length > 0 ? (
+                <Box ml="50px" mt="25px">
                     <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                        {programCardInfos
-                            .filter((val) => {
-                                if (searchTerm == "") {
-                                    return val;
-                                } else if (
-                                    val.name
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLowerCase()) ||
-                                    val.description
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLowerCase())
-                                ) {
-                                    return val;
-                                }
-                            })
-                            .map((item, idx) => {
+                        {filteredCards && filteredCards.length > 0 ? (
+                            filteredCards.map((item, idx) => {
                                 return (
                                     <GridItem key={idx}>
                                         <BrowseProgramCard cardInfo={item} />
                                     </GridItem>
                                 );
-                            })}
+                            })
+                        ) : (
+                            <AdminEmptyState
+                                w="100"
+                                h="100%"
+                                isLoading={isLoading}
+                            >
+                                No filtered classes available
+                            </AdminEmptyState>
+                        )}
                     </Grid>
-                ) : (
-                    <AdminEmptyState w={625} h="100%" isLoading={isLoading}>
-                        No upcoming classes this week
-                    </AdminEmptyState>
-                )}
+                </Box>
             </Box>
         </Wrapper>
     );
