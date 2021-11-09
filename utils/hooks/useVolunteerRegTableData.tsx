@@ -28,7 +28,7 @@ export function useVolunteerRegTableData(
         email: string;
         cityProvince: string;
         age: number;
-        criminalCheckApproved: boolean;
+        criminalCheckApproved: string;
     }[];
 } {
     const volunteerColumns = React.useMemo(
@@ -69,7 +69,8 @@ export function useVolunteerRegTableData(
                 Header: "Background Check",
                 accessor: "criminalCheckApproved",
                 Cell: (props) => {
-                    return props.row.original.criminalCheckApproved ? (
+                    return props.row.original.criminalCheckApproved ===
+                        "Complete" ? (
                         <SDCBadge>Complete</SDCBadge>
                     ) : (
                         <AdminBadge>Incomplete</AdminBadge>
@@ -88,7 +89,9 @@ export function useVolunteerRegTableData(
                     email: reg.volunteer.user.email,
                     cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
                     age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
-                    criminalCheckApproved: reg.volunteer.criminalCheckApproved,
+                    criminalCheckApproved: reg.volunteer.criminalCheckApproved
+                        ? "Complete"
+                        : "Incomplete",
                 };
             }),
         [volunteerRegs],
