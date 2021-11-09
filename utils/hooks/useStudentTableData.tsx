@@ -20,13 +20,6 @@ export function useStudentTableData(
         isNumeric?: boolean;
     }[];
     studentData: {
-        fullName: JSX.Element;
-        emergFullName: string;
-        emergNumber: string;
-        grade: number;
-        cityProvince: string;
-    }[];
-    studentCsvData: {
         fullName: string;
         emergFullName: string;
         emergNumber: string;
@@ -37,8 +30,23 @@ export function useStudentTableData(
     const studentColumns = React.useMemo(
         () => [
             {
+                Header: "Parent ID",
+                accessor: "parentId",
+            },
+            {
                 Header: "Name",
                 accessor: "fullName",
+                Cell: (props) => {
+                    return (
+                        <Link
+                            href={`/admin/registrant/parent/${props.row.original.parentId}`}
+                        >
+                            <ChakraLink>
+                                {props.row.original.fullName}
+                            </ChakraLink>
+                        </Link>
+                    );
+                },
             },
             {
                 Header: "Emergency Contact",
@@ -65,13 +73,8 @@ export function useStudentTableData(
             studentRegs?.map((reg) => {
                 return {
                     // This should be a link
-                    fullName: (
-                        <Link href={`/admin/registrant/parent/${reg.parentId}`}>
-                            <ChakraLink>
-                                {`${reg.student.firstName} ${reg.student.lastName}`}
-                            </ChakraLink>
-                        </Link>
-                    ),
+                    parentId: reg.student.parentId,
+                    fullName: `${reg.student.firstName} ${reg.student.lastName}`,
                     emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
                     emergNumber: parsePhoneNumber(reg.student.emergNumber),
                     grade: reg.student.grade,
@@ -80,18 +83,5 @@ export function useStudentTableData(
             }),
         [studentRegs],
     );
-    const studentCsvData = React.useMemo(
-        () =>
-            studentRegs?.map((reg) => {
-                return {
-                    fullName: `${reg.student.firstName} ${reg.student.lastName}`,
-                    emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
-                    emergNumber: reg.student.emergNumber,
-                    grade: reg.student.grade,
-                    cityProvince: `${reg.student.cityName}, ${reg.student.province}`,
-                };
-            }),
-        [studentRegs],
-    );
-    return { studentColumns, studentData, studentCsvData };
+    return { studentColumns, studentData };
 }

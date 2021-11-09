@@ -42,6 +42,7 @@ export type AdminTableProps = {
     exportName: string;
     isLoading?: boolean;
     filterPlaceholder?: string;
+    hiddenColumns?: string[];
 };
 
 /**
@@ -55,6 +56,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
     exportName,
     isLoading,
     filterPlaceholder,
+    hiddenColumns,
 }): JSX.Element => {
     const {
         getTableProps,
@@ -75,7 +77,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
         {
             columns: dataColumns || [],
             data: tableData || [],
-            initialState: { pageSize: 20 },
+            initialState: { pageSize: 20, hiddenColumns: hiddenColumns || [] },
         },
         useGlobalFilter,
         useSortBy,

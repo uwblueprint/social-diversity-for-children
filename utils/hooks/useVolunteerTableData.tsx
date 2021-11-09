@@ -24,25 +24,33 @@ export function useVolunteerTableData(
         isNumeric?: boolean;
     }[];
     volunteerData: {
-        fullName: JSX.Element;
-        email: string;
-        cityProvince: string;
-        age: number;
-        criminalCheckApproved: JSX.Element;
-    }[];
-    volunteerCsvData: {
         fullName: string;
         email: string;
         cityProvince: string;
         age: number;
-        criminalCheckApproved: string;
+        criminalCheckApproved: boolean;
     }[];
 } {
     const volunteerColumns = React.useMemo(
         () => [
             {
+                Header: "ID",
+                accessor: "id",
+            },
+            {
                 Header: "Name",
                 accessor: "fullName",
+                Cell: (props) => {
+                    return (
+                        <Link
+                            href={`/admin/registrant/volunteer/${props.row.original.id}`}
+                        >
+                            <ChakraLink>
+                                {props.row.original.fullName}
+                            </ChakraLink>
+                        </Link>
+                    );
+                },
             },
             {
                 Header: "Email",
@@ -60,6 +68,13 @@ export function useVolunteerTableData(
             {
                 Header: "Background Check",
                 accessor: "criminalCheckApproved",
+                Cell: (props) => {
+                    return props.row.original.criminalCheckApproved ? (
+                        <SDCBadge>Complete</SDCBadge>
+                    ) : (
+                        <AdminBadge>Incomplete</AdminBadge>
+                    );
+                },
             },
         ],
         [],
@@ -68,42 +83,15 @@ export function useVolunteerTableData(
         () =>
             volunteerRegs?.map((reg) => {
                 return {
-                    fullName: (
-                        <Link
-                            href={`/admin/registrant/volunteer/${reg.volunteer.id}`}
-                        >
-                            <ChakraLink>
-                                {`${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`}
-                            </ChakraLink>
-                        </Link>
-                    ),
-                    email: reg.volunteer.user.email,
-                    cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
-                    age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
-                    criminalCheckApproved: reg.volunteer
-                        .criminalCheckApproved ? (
-                        <SDCBadge>Complete</SDCBadge>
-                    ) : (
-                        <AdminBadge>Incomplete</AdminBadge>
-                    ),
-                };
-            }),
-        [volunteerRegs],
-    );
-    const volunteerCsvData = React.useMemo(
-        () =>
-            volunteerRegs?.map((reg) => {
-                return {
+                    id: reg.volunteerId,
                     fullName: `${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`,
                     email: reg.volunteer.user.email,
                     cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
                     age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
-                    criminalCheckApproved: reg.volunteer.criminalCheckApproved
-                        ? "true"
-                        : "false",
+                    criminalCheckApproved: reg.volunteer.criminalCheckApproved,
                 };
             }),
         [volunteerRegs],
     );
-    return { volunteerColumns, volunteerData, volunteerCsvData };
+    return { volunteerColumns, volunteerData };
 }

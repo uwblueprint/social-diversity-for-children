@@ -48,9 +48,8 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
         error: registrantError,
     } = useClassRegistrant(parseInt(id as string, 10));
 
-    const { studentColumns, studentData, studentCsvData } =
-        useStudentTableData(studentRegs);
-    const { volunteerColumns, volunteerData, volunteerCsvData } =
+    const { studentColumns, studentData } = useStudentTableData(studentRegs);
+    const { volunteerColumns, volunteerData } =
         useVolunteerTableData(volunteerRegs);
 
     if (isClassLoading) {
@@ -106,9 +105,9 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 exportName={`Students - ${classCard.name}`}
                                 dataColumns={studentColumns}
                                 tableData={studentData}
-                                csvData={studentCsvData}
                                 isLoading={isRegistrantLoading}
                                 filterPlaceholder="Search students"
+                                hiddenColumns={["parentId"]}
                             />
                         </TabPanel>
                         <TabPanel>
@@ -116,9 +115,9 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                                 exportName={`Volunteers - ${classCard.name}`}
                                 dataColumns={volunteerColumns}
                                 tableData={volunteerData}
-                                csvData={volunteerCsvData}
                                 isLoading={isRegistrantLoading}
                                 filterPlaceholder="Search volunteers"
+                                hiddenColumns={["id"]}
                             />
                         </TabPanel>
                     </TabPanels>
