@@ -45,20 +45,44 @@ jobs:
               run: yarn
 
             - name: Linting all Prettier on push
-              if: ${{ github.event_name != 'pull_request' }}
+              if: github.event_name != 'pull_request'
               run: yarn lint:prettier
 
             - name: Linting all ESlint on push
-              if: ${{ github.event_name != 'pull_request' }}
+              if: github.event_name != 'pull_request'
               run: yarn lint:eslint
 
-            - name: Linting modified files Prettier on pull request
-              if: ${{ github.event_name == 'pull_request' }}
-              run: yarn lint:prettier-modified-files
+            - name: PR - Fetch target pr branch for diff
+              if: github.event_name == 'pull_request'
+              run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
-            - name: Linting modified files ESlint on pull request
-              if: ${{ github.event_name == 'pull_request' }}
+            - name: PR - Linting modified files Prettier on pull request
+              if: github.event_name == 'pull_request'
+              id: prettier-pr
+              run: yarn lint:prettier-modified-files
+              continue-on-error: true
+
+            - name: PR - Linting modified files ESlint on pull request
+              id: eslint-pr
+              if: github.event_name == 'pull_request'
               run: yarn lint:eslint-modified-files
+              continue-on-error: true
+            
+            - name: PR - Create linting comment on error
+              if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure') 
+              uses: actions/github-script@v5
+              with:
+                script: |
+                  const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
+                  #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
+
+                  github.rest.issues.createComment({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: output
+                  });
+                  core.setFailed('Linting errors. Please check prettier and eslint');
 
             - name: Build
               run: yarn build
