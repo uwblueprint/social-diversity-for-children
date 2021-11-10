@@ -71,6 +71,7 @@ jobs:
             
             - name: PR - Create linting comment on error
               # maybe change the ref version to main later?
+              if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == "failure" || steps.eslint-pr.outcome == "failure") 
               uses: actions/github-script@v5
               with:
                 script: |
