@@ -56,7 +56,6 @@ jobs:
               if: github.event_name == 'pull_request'
               run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
-            # TODO add stdout to a button 
             - name: PR - Linting modified files Prettier on pull request
               if: github.event_name == 'pull_request'
               id: prettier-pr
@@ -70,7 +69,6 @@ jobs:
               continue-on-error: true
             
             - name: PR - Create linting comment on error
-              # maybe change the ref version to main later?
               if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure') 
               uses: actions/github-script@v5
               with:
