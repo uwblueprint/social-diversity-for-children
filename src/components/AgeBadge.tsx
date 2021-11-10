@@ -13,7 +13,6 @@ type AgeBadgeProps = BadgeProps & {
 /**
  * Displays a age group tag in a pres-styled badge
  */
-var test;
 
 export const AgeBadge: React.FC<AgeBadgeProps> = ({
     isOff,
