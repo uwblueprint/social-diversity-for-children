@@ -5,8 +5,10 @@ import { weekday } from "@prisma/client";
  */
 export type ClassInput = {
     name?: string;
-    ageGroup?: string;
+    borderAge?: number;
+    isAgeMinimal: boolean;
     programId: number;
+    stripePriceId: string;
     spaceTotal: number;
     volunteerSpaceTotal: number;
     startDate: string;
@@ -22,10 +24,14 @@ export type ClassCardInfo = {
     image?: string;
     name?: string;
     description: string;
-    ageGroup?: string;
+    borderAge?: number;
+    isAgeMinimal: boolean;
+    stripePriceId: string;
     spaceAvailable: number;
+    spaceTaken: number;
     spaceTotal: number;
     volunteerSpaceAvailable: number;
+    volunteerSpaceTaken: number;
     volunteerSpaceTotal: number;
     weekday: weekday;
     startDate: Date;
@@ -35,4 +41,5 @@ export type ClassCardInfo = {
     teacherName: string;
     teacherEmail?: string;
     teacherImage?: string;
+    programName?: string;
 };

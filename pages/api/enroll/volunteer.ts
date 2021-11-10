@@ -9,7 +9,9 @@ import {
 } from "@database/enroll";
 import { validateVolunteerRegistrationRecord } from "@utils/validation/registration";
 import { VolunteerRegistrationInput } from "@models/Enroll";
-import { locale, roles } from "@prisma/client";
+import { roles } from "@prisma/client";
+import { getUserFromEmail } from "@database/user";
+import { getClass } from "@database/class";
 
 /**
  * handle controls the request made to the enroll/volunteer resource.
@@ -24,7 +26,16 @@ export default async function handle(
     const session = await getSession({ req });
 
     // If there is no session or the user is not a volunteer
-    if (!session || session.role !== roles.VOLUNTEER) {
+    if (!session) {
+        return ResponseUtil.returnUnauthorized(
+            res,
+            "Only users with VOLUNTEER role can access this resource",
+        );
+    }
+
+    const user = await getUserFromEmail(session.user.email);
+
+    if (!user || user.role !== roles.VOLUNTEER) {
         return ResponseUtil.returnUnauthorized(
             res,
             "Only users with VOLUNTEER role can access this resource",
@@ -46,10 +57,7 @@ export default async function handle(
             // Get all volunteer registrations if no class query
             if (!classId) {
                 const volunteerRegistrationRecords =
-                    await getVolunteerRegistrations(
-                        volunteerId,
-                        locale.en, // TODO: dynamic locale
-                    );
+                    await getVolunteerRegistrations(volunteerId);
 
                 // verify that the volunteer registration record could be obtained
                 if (!volunteerRegistrationRecords) {
@@ -107,6 +115,17 @@ export default async function handle(
                 return;
             }
 
+            // First, check if there is still space, if not, return conflict
+            const enrollClass = await getClass(
+                volunteerRegistrationInput.classId,
+            );
+            if (
+                enrollClass._count.volunteerRegs >=
+                enrollClass.volunteerSpaceTotal
+            ) {
+                return ResponseUtil.returnConflict(res, "Class is full");
+            }
+
             // create volunteer registration record and return if it could not be created
             const newRegistration = createVolunteerRegistration(
                 volunteerRegistrationInput,
@@ -119,7 +138,7 @@ export default async function handle(
                 return;
             }
 
-            ResponseUtil.returnOK(res);
+            ResponseUtil.returnOK(res, newRegistration);
             break;
         }
         case "DELETE": {

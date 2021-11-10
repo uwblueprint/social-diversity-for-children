@@ -1,24 +1,28 @@
 import React from "react";
-import { Button, Link } from "@chakra-ui/react";
+import { Button, Link as ChakraLink } from "@chakra-ui/react";
+import Link from "next/link";
+import colourTheme from "@styles/colours";
 
 export const SignInButton: React.FC = () => {
     return (
-        <Link _hover={{ textDecoration: "none" }} href="/login">
-            <Button
-                color={"white"}
-                bg={"#0C53A0"}
-                px={10}
-                mx={8}
-                my={1}
-                _hover={{
-                    bg: "#2C6AAD",
-                }}
-                _active={{}}
-                fontWeight={"200"}
-                borderRadius={100}
-            >
-                Sign In
-            </Button>
+        <Link href="/login">
+            <ChakraLink _hover={{ textDecoration: "none" }}>
+                <Button
+                    color={"white"}
+                    bg={"#0C53A0"}
+                    px={10}
+                    mx={8}
+                    my={1}
+                    _hover={{
+                        bg: colourTheme.colors.LightBlue,
+                    }}
+                    _active={{}}
+                    fontWeight={"200"}
+                    borderRadius="6px"
+                >
+                    Sign In
+                </Button>
+            </ChakraLink>
         </Link>
     );
 };

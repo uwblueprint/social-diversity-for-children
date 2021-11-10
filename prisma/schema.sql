@@ -19,8 +19,8 @@ CREATE TYPE roles AS ENUM ('PARENT', 'PROGRAM_ADMIN', 'TEACHER', 'VOLUNTEER');
 -- chinese, english, japanese, korean
 CREATE TYPE locales AS ENUM ('zh', 'en', 'ja', 'ko');
 CREATE TYPE program_formats AS ENUM ('online', 'in-person', 'blended');
-CREATE TYPE difficulties AS ENUM ('LEARNING', 'PHYSICAL', 'SENSORY');
-CREATE TYPE therapy AS ENUM('PHYSIO', 'SPEECH_LANG', 'OCCUPATIONAL', 'COUNSELING', 'ART');
+CREATE TYPE difficulties AS ENUM ('LEARNING', 'PHYSICAL', 'SENSORY', 'OTHER');
+CREATE TYPE therapy AS ENUM('PHYSIO', 'SPEECH_LANG', 'OCCUPATIONAL', 'COUNSELING', 'ART', 'OTHER');
 CREATE TYPE heard_from AS ENUM ('FRIENDS_FAMILY', 'FLYERS', 'EMAIL', 'SOCIAL_MEDIA', 'OTHER');
 
 -- Create users table
@@ -47,7 +47,6 @@ CREATE TABLE verification_requests (
 -- create program table
 CREATE TABLE programs (
   id SERIAL PRIMARY KEY NOT NULL,
-  price INTEGER NOT NULL, -- price in cents, to make it integer
   online_format program_formats NOT NULL,
   tag TEXT NOT NULL, -- art, music, math etc (TODO we might need a tag table later)
   image_link TEXT,
@@ -63,16 +62,16 @@ CREATE TABLE programs (
 CREATE TABLE classes (
   id SERIAL PRIMARY KEY NOT NULL,
   name TEXT, 
-  age_group TEXT, -- classes are always categorized by age group
+  border_age INTEGER NOT NULL, -- represent pivot page in age group
+  is_age_minimal BOOLEAN DEFAULT false NOT NULL, -- determine if border_age is used as "<age> and above" or "<age> and under"
   image_link TEXT,
 
   program_id INTEGER NOT NULL,
+  stripe_price_id VARCHAR(50) NOT NULL, -- not sure if this can be > 50 characters though TODO
   FOREIGN KEY(program_id) REFERENCES programs(id) ON DELETE CASCADE,
 
   space_total INTEGER NOT NULL,
-  space_available INTEGER NOT NULL,
   volunteer_space_total INTEGER NOT NULL,
-  volunteer_space_available INTEGER NOT NULL,
 
   is_archived BOOLEAN DEFAULT false NOT NULL, -- its possible to archive classes separately
 
@@ -85,6 +84,7 @@ CREATE TABLE classes (
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );
+
 -- create parent table
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -105,6 +105,8 @@ CREATE TABLE volunteers (
   date_of_birth TIMESTAMPTZ NOT NULL,
   address_line1 TEXT,
   criminal_record_check_link TEXT,
+  criminal_check_approved BOOLEAN DEFAULT false,
+  criminal_check_expired BOOLEAN DEFAULT false,
   postal_code VARCHAR(10),
   city_name TEXT,
   province provinces,

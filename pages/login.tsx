@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession, GetSessionOptions, signIn } from "next-auth/client";
-import useLocalStorage from "@utils/useLocalStorage";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
 import isEmail from "validator/lib/isEmail";
 
@@ -83,7 +83,7 @@ export default function Login(): JSX.Element {
                                 fontWeight="400"
                                 mt="30px"
                                 _hover={{}}
-                                borderRadius={100}
+                                borderRadius="6px"
                             >
                                 Please enter a valid email to continue.
                             </Button>
@@ -98,7 +98,7 @@ export default function Login(): JSX.Element {
                                 _hover={{
                                     bg: "#2C6AAD",
                                 }}
-                                borderRadius={100}
+                                borderRadius="6px"
                                 onClick={() => {
                                     setValue(!value);
                                     setLocalStorageEmail(email);
@@ -118,7 +118,7 @@ export default function Login(): JSX.Element {
                                 fontSize="12px"
                                 fontWeight="400"
                                 mt="20px"
-                                borderRadius={100}
+                                borderRadius="6px"
                             />
                         )}
                     </Center>

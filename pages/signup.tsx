@@ -1,14 +1,22 @@
 import { Button, Box, Center, Text } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import colourTheme from "@styles/colours";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Loading } from "@components/Loading";
+import useMe from "@utils/hooks/useMe";
+
+type SignupFormProps = {
+    session: Record<string, unknown>;
+};
 
 /**
  * This is the page that a user will use to either login or register
  * to the SDC platform as a parent of volunteer
  */
-export default function Signupform(): JSX.Element {
+export default function SignupForm({ session }: SignupFormProps): JSX.Element {
     const router = useRouter();
     // hook to hold the url to redirect to
     const [url, setUrl] = useState("");
@@ -21,8 +29,19 @@ export default function Signupform(): JSX.Element {
         return url === path;
     };
 
+    // Redirect user if user already signed up
+    const { me, isLoading } = useMe();
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (me && me.role) {
+        router.push("/");
+    }
+
     return (
-        <Wrapper>
+        <Wrapper session={session}>
             <Center h="500px" margin="10px">
                 <Box width="700px">
                     <Center>
@@ -110,3 +129,24 @@ export default function Signupform(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: { session },
+    };
+};

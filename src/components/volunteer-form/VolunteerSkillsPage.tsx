@@ -1,12 +1,8 @@
 import React from "react";
-import {
-    VStack,
-    FormLabel,
-    FormControl,
-    Stack,
-    Checkbox,
-    Textarea,
-} from "@chakra-ui/react";
+import { VStack, Button, Box } from "@chakra-ui/react";
+import colourTheme from "@styles/colours";
+import { TextField } from "@components/formFields/TextField";
+import { CheckBoxField } from "@components/formFields/CheckBoxField";
 
 type VolunteerSkillsPageProps = {
     styleProps?: Record<string, unknown>;
@@ -14,10 +10,13 @@ type VolunteerSkillsPageProps = {
 };
 
 type VolunteerSkillsInfo = {
-    skills: any;
-    setSkills: any;
-    heardFrom: any;
-    setHeardFrom: any;
+    skills: string;
+    setSkills: (text: string) => void;
+    heardFrom: string;
+    setHeardFrom: (text: string) => void;
+    certifyCommit: boolean;
+    setCertifyCommit: (value: boolean) => void;
+    formButtonOnClick: () => void;
 };
 
 export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({
@@ -26,40 +25,50 @@ export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({
     return (
         <>
             <VStack>
-                <FormControl id="skills">
-                    <FormLabel>
-                        Skills/Experience (ex. Arts and Crafts, Music, First-Aid
-                        Certificates, Teaching or Volunteering Experience,
-                        Experience with Children with Special Needs)
-                    </FormLabel>
-                    <Textarea
-                        placeholder="Type here"
-                        size="sm"
-                        onChange={(e) => props.setSkills(e.target.value)}
-                        value={props.skills}
-                    ></Textarea>
-                </FormControl>
-                <FormControl id="hear-about-us">
-                    <FormLabel>
-                        How Did You Hear About this Volunteer Opportunity?
-                    </FormLabel>
-                    <Textarea
-                        placeholder="Type here"
-                        size="sm"
-                        onChange={(e) => props.setHeardFrom(e.target.value)}
-                        value={props.heardFrom}
-                    ></Textarea>
-                </FormControl>
-                <FormControl id="commit">
-                    {/* TODO: make mandatory before proceeding with rest of form */}
-                    <Stack direction="column">
-                        <Checkbox>
-                            I certify that I will commit to attending all
-                            volunteer sessions I sign up for
-                        </Checkbox>
-                    </Stack>
-                </FormControl>
+                <TextField
+                    name="Skills/Experience (ex. Arts and Crafts, Music, First-Aid
+                    Certificates, Teaching or Volunteering Experience,
+                    Experience with Children with Special Needs)"
+                    value={props.skills}
+                    setValue={props.setSkills}
+                    placeholder="Type here"
+                    longAnswer={true}
+                ></TextField>
+                <TextField
+                    name="How Did You Hear About this Volunteer Opportunity?"
+                    value={props.heardFrom}
+                    setValue={props.setHeardFrom}
+                    placeholder="Type here"
+                    longAnswer={true}
+                ></TextField>
             </VStack>
+            <CheckBoxField
+                value={props.certifyCommit}
+                name={
+                    "I certify that I will commit to attending all volunteer sessions I sign up for"
+                }
+                setValue={props.setCertifyCommit}
+            ></CheckBoxField>
+            <Box>
+                <Button
+                    id="Submit"
+                    bg={colourTheme.colors.Blue}
+                    color={"white"}
+                    fontWeight="400"
+                    my={8}
+                    px={12}
+                    borderRadius={100}
+                    mt={8}
+                    disabled={
+                        !props.heardFrom ||
+                        !props.certifyCommit ||
+                        !props.skills
+                    }
+                    onClick={props.formButtonOnClick}
+                >
+                    Next
+                </Button>
+            </Box>
         </>
     );
 };

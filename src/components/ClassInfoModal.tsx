@@ -14,14 +14,20 @@ import {
     ModalCloseButton,
     ModalHeader,
     Image,
+    useToast,
 } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { ClassCardInfo } from "@models/Class";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
-import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
+import { createWaitlistRegistration } from "@utils/createWaitlistRegistration";
+import Link from "next/link";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { locale, roles } from "@prisma/client";
+import { UseMeResponse } from "@utils/hooks/useMe";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -29,7 +35,8 @@ type ClassInfoModalProps = {
     classInfo: ClassCardInfo;
     onlineFormat: string;
     tag: string;
-    session?: Record<string, unknown>;
+    me?: UseMeResponse["me"];
+    isFull: boolean;
 };
 
 /**
@@ -48,31 +55,34 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     classInfo,
     onlineFormat,
     tag,
-    session,
+    me,
+    isFull,
 }) => {
     const router = useRouter();
-    const onRegister = () => {
-        if (session) {
-            router.push("/parent-enrollment").then(() => window.scrollTo(0, 0));
-        } else {
-            router.push("/login").then(() => window.scrollTo(0, 0));
-        }
-    };
+    const { t } = useTranslation("common");
+    const toast = useToast();
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent minH={80} minW={550} p={10}>
+            <ModalContent
+                minH={80}
+                minW={{ base: 0, md: 550 }}
+                p={{ base: 2, md: 10 }}
+            >
                 <ModalBody>
                     <ModalHeader textAlign={"left"} px={0}>
                         {classInfo.name}
                     </ModalHeader>
                     <ModalCloseButton />
                     <Text as="span" color="gray.600" fontSize="sm" mt="5">
-                        {convertToShortDateRange(
-                            classInfo.startDate,
-                            classInfo.endDate,
-                        )}
+                        {t("time.range", {
+                            ...convertToShortDateRange(
+                                classInfo.startDate,
+                                classInfo.endDate,
+                                router.locale as locale,
+                            ),
+                        })}
                     </Text>
                     <Box my={25}>
                         <SDCBadge children={onlineFormat} />
@@ -96,50 +106,129 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         </GridItem>
                         <GridItem colSpan={3}>
                             <Text pb={3} fontWeight={"bold"}>
-                                Class details
+                                {t("program.classDetails")}
                             </Text>
                             <Text pb={1}>{classInfo.name}</Text>
                             <Text pb={1}>
-                                {weekdayToString(classInfo.weekday)}
-                                {"s "}
+                                {t("time.weekday_many", {
+                                    day: weekdayToString(
+                                        classInfo.weekday,
+                                        router.locale as locale,
+                                    ),
+                                })}{" "}
                                 {convertToShortTimeRange(
                                     classInfo.startTimeMinutes,
                                     classInfo.durationMinutes,
                                 )}
                             </Text>
-                            <Text pb={1}>Ages {classInfo.ageGroup}</Text>
-                            <Text pb={1}>Teacher {classInfo.teacherName}</Text>
+                            {/* TODO: make dynamic */}
+                            <Text pb={1}>
+                                {t(
+                                    classInfo.isAgeMinimal
+                                        ? "program.ageGroupAbove"
+                                        : "program.ageGroupUnder",
+                                    {
+                                        age: classInfo.borderAge,
+                                    },
+                                )}
+                            </Text>
+                            <Text pb={1}>
+                                {t("program.teacherName", {
+                                    name: classInfo.teacherName,
+                                })}
+                            </Text>
                         </GridItem>
                     </Grid>
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button
-                        bg={colourTheme.colors.Blue}
-                        color={"white"}
-                        mx={"auto"}
-                        my={2}
-                        onClick={onRegister}
-                        fontWeight={"200"}
-                        _hover={{
-                            textDecoration: "none",
-                            bg: colourTheme.colors.LightBlue,
-                        }}
-                        _active={{
-                            bg: "lightgrey",
-                            outlineColor: "grey",
-                            border: "grey",
-                            boxShadow: "lightgrey",
-                        }}
-                        _focus={{
-                            outlineColor: "grey",
-                            border: "grey",
-                            boxShadow: "lightgrey",
-                        }}
-                        minW={"100%"}
-                    >
-                        {session ? "Register" : "Sign in to register/volunteer"}
-                    </Button>
+                    {isFull ? (
+                        <Box w="100%">
+                            <Button
+                                bg={colourTheme.colors.Blue}
+                                color={"white"}
+                                mx={"auto"}
+                                my={2}
+                                fontWeight={"200"}
+                                _hover={{
+                                    textDecoration: "none",
+                                    bg: colourTheme.colors.LightBlue,
+                                }}
+                                _active={{
+                                    bg: "lightgrey",
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                _focus={{
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                minW={"100%"}
+                                onClick={() => {
+                                    createWaitlistRegistration(
+                                        me.parent,
+                                        classInfo.id,
+                                    );
+                                    toast({
+                                        title: "Waitlist record added!",
+                                        description:
+                                            "You will receive an email when a spot opens up.",
+                                        status: "info",
+                                        duration: 9000,
+                                        isClosable: true,
+                                        position: "top-right",
+                                        variant: "left-accent",
+                                    });
+                                    onClose();
+                                }}
+                            >
+                                Add to Waitlist
+                            </Button>
+                            <Text fontSize="sm" align="center">
+                                We'll notify you once space becomes available
+                            </Text>
+                        </Box>
+                    ) : (
+                        <Link
+                            href={
+                                me
+                                    ? me.role === roles.VOLUNTEER
+                                        ? `/volunteer/enrollment?classId=${classInfo.id}`
+                                        : `/parent/enrollment/?classId=${classInfo.id}`
+                                    : "/login"
+                            }
+                        >
+                            <Button
+                                bg={colourTheme.colors.Blue}
+                                color={"white"}
+                                mx={"auto"}
+                                my={2}
+                                fontWeight={"200"}
+                                _hover={{
+                                    textDecoration: "none",
+                                    bg: colourTheme.colors.LightBlue,
+                                }}
+                                _active={{
+                                    bg: "lightgrey",
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                _focus={{
+                                    outlineColor: "grey",
+                                    border: "grey",
+                                    boxShadow: "lightgrey",
+                                }}
+                                minW={"100%"}
+                            >
+                                {me
+                                    ? "Register"
+                                    : t("program.signInToRegister")}
+                            </Button>
+                        </Link>
+                    )}
                 </ModalFooter>
             </ModalContent>
         </Modal>

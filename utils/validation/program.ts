@@ -9,9 +9,6 @@ export function validateProgramData(newProgramData: ProgramInput): string[] {
     const validationError = [];
     const startDate = new Date(newProgramData.startDate);
     const endDate = new Date(newProgramData.endDate);
-    if (newProgramData.price < 0) {
-        validationError.push("Program price cannot be negative");
-    }
     if (startDate > endDate) {
         validationError.push("End date cannot be before the start date");
     }

@@ -44,11 +44,21 @@ jobs:
             - name: Install dependencies
               run: yarn
 
-            - name: Linting Prettier
+            - name: Linting all Prettier on push
+              if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:prettier
 
-            - name: Linting ESlint
+            - name: Linting all ESlint on push
+              if: ${{ github.event_name != 'pull_request' }}
               run: yarn lint:eslint
+
+            - name: Linting modified files Prettier on pull request
+              if: ${{ github.event_name == 'pull_request' }}
+              run: yarn lint:prettier-modified-files
+
+            - name: Linting modified files ESlint on pull request
+              if: ${{ github.event_name == 'pull_request' }}
+              run: yarn lint:eslint-modified-files
 
             - name: Build
               run: yarn build

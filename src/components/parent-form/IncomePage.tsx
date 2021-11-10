@@ -7,26 +7,35 @@ import {
     ListItem,
     OrderedList,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 type IncomePageProps = {
     styleProps?: Record<string, unknown>;
-    PROOF_OF_INCOME_EXAMPLES: string[];
-    UPLOADING_PROOF_OF_INCOME: string[];
 };
 
-export const IncomePage: React.FC<IncomePageProps> = ({
-    PROOF_OF_INCOME_EXAMPLES,
-    UPLOADING_PROOF_OF_INCOME,
-}): JSX.Element => {
+export const IncomePage: React.FC<IncomePageProps> = (): JSX.Element => {
+    const { t } = useTranslation("form");
+    const PROOF_OF_INCOME_EXAMPLES = [
+        t("poi.taxNotice"),
+        t("poi.paystub"),
+        t("poi.etc"),
+    ];
+
+    const UPLOADING_PROOF_OF_INCOME = [
+        t("poi.instruction1"),
+        t("poi.instruction2"),
+        t("poi.instruction3"),
+        t("poi.instruction4"),
+    ];
+
     return (
         <>
             <Box maxW="55rem">
                 <Text fontSize="16px" fontWeight="200" mb="60px">
-                    Upload a Proof of Income to recieve automated discounts on
-                    classes you take!
+                    {t("poi.desc")}
                 </Text>
                 <Heading fontSize="22px" fontWeight="900">
-                    Examples of Proof of Income Include
+                    {t("poi.example")}
                 </Heading>
                 <br />
                 <UnorderedList margin="10px" fontSize="16px" fontWeight="400">
@@ -38,7 +47,7 @@ export const IncomePage: React.FC<IncomePageProps> = ({
                 </UnorderedList>
                 <br />
                 <Heading fontSize="22px" fontWeight="900">
-                    Uploading your Proof of Income
+                    {t("poi.instruction")}
                 </Heading>
                 <br />
                 <OrderedList margin="10px" fontSize="16px" fontWeight="400">

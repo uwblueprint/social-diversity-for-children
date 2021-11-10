@@ -4,14 +4,14 @@ import prisma from "../../services/database"; // Relative path required, aliases
 // Seed teacher registrations data
 const teacherRegs: TeacherReg[] = [
     {
-        teacherId: 1,
-        classId: 1,
+        teacherId: 10000,
+        classId: 10000,
         createdAt: new Date(),
         updatedAt: null,
     },
     {
-        teacherId: 1,
-        classId: 2,
+        teacherId: 10000,
+        classId: 10001,
         createdAt: new Date(),
         updatedAt: null,
     },

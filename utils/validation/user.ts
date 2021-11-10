@@ -52,10 +52,12 @@ function validatePreferredLanguage(userLanguage) {
 function getUserValidationErrors(user: UserInput): Array<string> {
     // validate base user fields
     const validationErrors = [];
-    if (!validator.isAlpha(user.firstName, undefined, { ignore: " -" })) {
+    if (
+        !validator.isAlphanumeric(user.firstName, undefined, { ignore: " -" })
+    ) {
         validationErrors.push("User first name is not alphanumeric");
     }
-    if (!validator.isAlpha(user.lastName, undefined, { ignore: " -" })) {
+    if (!validator.isAlphanumeric(user.lastName, undefined, { ignore: " -" })) {
         validationErrors.push("User last name is not alphanumeric");
     }
     if (!VALID_ROLES.has(user.role)) {
@@ -65,82 +67,88 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     // validate role fields
     if (user.role === roles.PARENT) {
         const roleData = user.roleData as ParentInput;
-        if (
-            !validator.isAlpha(
-                roleData.createStudentInput.firstName,
-                undefined,
-                {
-                    ignore: " -",
-                },
-            )
-        ) {
-            validationErrors.push("Child first name is not alphanumeric");
-        }
-        if (
-            !validator.isAlpha(
-                roleData.createStudentInput.lastName,
-                undefined,
-                {
-                    ignore: " -",
-                },
-            )
-        ) {
-            validationErrors.push("Child last name is not alphanumeric");
+        if (roleData.createStudentInput) {
+            if (
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.firstName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
+            ) {
+                validationErrors.push("Child first name is not alphanumeric");
+            }
+            if (
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.lastName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
+            ) {
+                validationErrors.push("Child last name is not alphanumeric");
+            }
+            if (
+                !validator.isPostalCode(
+                    roleData.createStudentInput.postalCode,
+                    "CA",
+                )
+            ) {
+                validationErrors.push(
+                    `Invalid postal code provided: ${roleData.createStudentInput.postalCode}`,
+                );
+            }
+            if (!validateProvince(roleData.createStudentInput.province)) {
+                validationErrors.push(
+                    `Invalid province provided: ${roleData.createStudentInput.province}`,
+                );
+            }
+            if (
+                !validator.isMobilePhone(
+                    roleData.createStudentInput.emergNumber,
+                )
+            ) {
+                validationErrors.push(
+                    `Invalid emergency contact number provided: ${roleData.createStudentInput.emergNumber}`,
+                );
+            }
+            if (
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.emergFirstName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
+            ) {
+                validationErrors.push(
+                    "Emergency contact first name is not alphanumeric",
+                );
+            }
+            if (
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.emergLastName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
+            ) {
+                validationErrors.push(
+                    "Emergency contact last name is not alphanumeric",
+                );
+            }
         }
         if (!validator.isMobilePhone(roleData.phoneNumber)) {
             validationErrors.push(
                 `Invalid phone number provided: ${roleData.phoneNumber}`,
             );
         }
-        if (
-            !validator.isPostalCode(
-                roleData.createStudentInput.postalCode,
-                "CA",
-            )
-        ) {
-            validationErrors.push(
-                `Invalid postal code provided: ${roleData.createStudentInput.postalCode}`,
-            );
-        }
-        if (!validateProvince(roleData.createStudentInput.province)) {
-            validationErrors.push(
-                `Invalid province provided: ${roleData.createStudentInput.province}`,
-            );
-        }
         if (!validatePreferredLanguage(roleData.preferredLanguage)) {
             validationErrors.push(
                 `Invalid preferred language: ${roleData.preferredLanguage}`,
-            );
-        }
-        if (!validator.isMobilePhone(roleData.createStudentInput.emergNumber)) {
-            validationErrors.push(
-                `Invalid emergency contact number provided: ${roleData.createStudentInput.emergNumber}`,
-            );
-        }
-        if (
-            !validator.isAlpha(
-                roleData.createStudentInput.emergFirstName,
-                undefined,
-                {
-                    ignore: " -",
-                },
-            )
-        ) {
-            validationErrors.push(
-                "Emergency contact first name is not alphanumeric",
-            );
-        }
-        if (
-            !validator.isAlpha(
-                roleData.createStudentInput.emergLastName,
-                undefined,
-                {
-                    ignore: " -",
-                },
-            )
-        ) {
-            validationErrors.push(
-                "Emergency contact last name is not alphanumeric",
             );
         }
     } else if (user.role === roles.PROGRAM_ADMIN) {

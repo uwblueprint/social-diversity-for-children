@@ -9,7 +9,9 @@ import {
 } from "@database/enroll";
 import { validateParentRegistrationRecord } from "@utils/validation/registration";
 import { ParentRegistrationInput } from "models/Enroll";
-import { locale, roles } from "@prisma/client";
+import { roles } from "@prisma/client";
+import { getUserFromEmail } from "@database/user";
+import { getClass } from "@database/class";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -23,8 +25,17 @@ export default async function handle(
 ): Promise<void> {
     const session = await getSession({ req });
 
-    // If there is no session or the user is not a parent
-    if (!session || session.role !== roles.PARENT) {
+    // If there is no session or the user is not a parent, not authorized
+    if (!session) {
+        return ResponseUtil.returnUnauthorized(
+            res,
+            "Only users with PARENT role can access this resource",
+        );
+    }
+
+    const user = await getUserFromEmail(session.user.email);
+
+    if (!user || user.role !== roles.PARENT) {
         return ResponseUtil.returnUnauthorized(
             res,
             "Only users with PARENT role can access this resource",
@@ -48,7 +59,6 @@ export default async function handle(
             if (!studentId && !classId) {
                 const parentRegistrationRecords = await getParentRegistrations(
                     parentId,
-                    locale.en, // TODO: dynamic locale
                 );
 
                 // verify that the parent registration record could be obtained
@@ -116,8 +126,14 @@ export default async function handle(
                 return;
             }
 
+            // First, check if there is still space, if not, return conflict
+            const enrollClass = await getClass(parentRegistrationInput.classId);
+            if (enrollClass._count.parentRegs >= enrollClass.spaceTotal) {
+                return ResponseUtil.returnConflict(res, "Class is full");
+            }
+
             // create parent registration record and return if it could not be created
-            const newRegistration = createParentRegistration(
+            const newRegistration = await createParentRegistration(
                 parentRegistrationInput,
             );
             if (!newRegistration) {
@@ -128,7 +144,7 @@ export default async function handle(
                 return;
             }
 
-            ResponseUtil.returnOK(res);
+            ResponseUtil.returnOK(res, newRegistration);
             break;
         }
         case "DELETE": {

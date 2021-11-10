@@ -20,7 +20,7 @@ export type ParentInput = {
     proofOfIncomeLink?: string;
     heardFrom?: heardFrom[];
     heardFromOther?: string;
-    createStudentInput: CreateStudentInput;
+    createStudentInput?: CreateStudentInput;
 };
 
 /* Input type for Volunteer inputs */
@@ -28,6 +28,8 @@ export type VolunteerInput = {
     dateOfBirth: Date;
     phoneNumber: string;
     criminalRecordCheckLink?: string;
+    criminalCheckApproved?: boolean;
+    criminalCheckExpired?: boolean;
     addressLine1: string;
     postalCode: string;
     cityName: string;

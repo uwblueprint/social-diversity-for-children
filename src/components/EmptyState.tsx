@@ -15,6 +15,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             w="100%"
             py={"40px"}
             px={"64px"}
+            mt={5}
             color={colourTheme.colors.Gray}
         >
             <Box>

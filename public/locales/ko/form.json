@@ -1,0 +1,50 @@
+{
+    "poi": {
+        "title": "소득증명서",
+        "submitTitle": "소득증명서 제출하기",
+        "missing": "아직 소득증명서를 업로드하지 않았습니다!",
+        "desc": "소득증명서 제출 경우 자동 할인 혜택을 받으실 수 있습니다.",
+        "example": "소득증명서 예",
+        "taxNotice": "소득세 신고서류 (T4 등)",
+        "paystub": "급여 정보",
+        "etc": "등등",
+        "instruction": "소득증명서 업로드 하기",
+        "instruction1": "내 계정 > 소득증명서",
+        "instruction2": "SDC 계정에 소득증명서를 업로드 하세요",
+        "instruction3": "소득증명서 확인 및 할인이 승인 되었을 경우, SDC에서 연락을 드리겠습니다.",
+        "instruction4": "승인 될 경우 자동으로 할인이 적용됩니다. 할인 금액에 대한 자세한 내용은 계정을 통해 확인하세요.",
+        "upload": "소득증명서 업로드하기",
+        "discount": "소득증명에 따른 할인",
+        "discountDesc": "할인이 적용되었습니다.",
+        "discountDesc2": "제출하신 소득 증명서에 의해, 자동으로 할인이 적용 되었습니다.",
+        "changed": "소득이 바뀌었나요?",
+        "update": "소득세 증명서 재제출하기"
+    },
+    "bgc": {
+        "title": "신원조회 (Criminal Record Check)",
+        "submitTitle": "신원조회 (Criminal Record Check) 제출하기",
+        "missing": "아직 신원조회를 업로드하지 않으셨습니다.",
+        "desc1": "SDC 봉사자들은 어린이 및 도움이 필요한 사람들과 밀접하게 일합니다. 봉사하기 전, 신원조회 (Criminal Record Check)를 제출하세요. SDC가 자원봉사자에게 제공하는 서류로 자원봉사 신청자가 추가 비용 부담 없이 CRC 신청 가능합니다.",
+        "desc2": "모든 MPM/JELIC 수업들은 대면으로 진행됩니다. MPM/JELIC 봉사 신청 전, Richmond Quantum Academy (6650-8181 Cambie Rd, Richmond BC V6X 3X9)에서 자원 봉사 할 수 있는지 확인해 주십시오.",
+        "instruction": "신원조회 업로드하기 ",
+        "instruction1": "“내 계정” > “신원조회\"에서 SDC 봉사자용 서류를 발급 받으세요.",
+        "instruction2": "SDC에서 발급한 서류로 관할 경찰서에서 봉사자용 신원조회를 신청하세요.",
+        "instruction3": "신원조회를 SDC 계정에 업로드하세요.",
+        "instruction4": "신원조회를 제출한 후, 승인 상태를 확인하세요.",
+        "skip": "(동의) 아직 신원조회 결과가 없지만, 자원봉사 첫날까지 신원조회를 제출하겠습니다.",
+        "upload": "신원조회 업로드하기",
+        "updateTitle": "신원조회 갱신하기",
+        "expired": "신원조회가 만료되었습니다.",
+        "firstDayProvide": "(동의) 자원봉사 첫날까지 신원조회를 제공하겠습니다."
+    },
+    "form": {
+        "accountCreated": "계정이 성공적으로 생성되었습니다.",
+        "registered": "등록해주셔서 감사합니다!",
+        "volunteerSignup": "자원봉사를 지원해 주셔서 감사합니다!",
+        "browseClasses": "프로그램 보기",
+        "viewUpcoming": "예정 프로그램 보기",
+        "skip": "건너뛰기",
+        "next": "다음",
+        "back": "뒤로"
+    }
+}

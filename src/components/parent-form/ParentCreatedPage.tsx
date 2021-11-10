@@ -6,7 +6,7 @@ import {
     Flex,
     Progress,
     Text,
-    Link,
+    Link as ChakraLink,
     Button,
     VStack,
 } from "@chakra-ui/react";
@@ -15,8 +15,12 @@ import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
+import Link from "next/link";
+import { Loading } from "@components/Loading";
+import { useTranslation } from "next-i18next";
 
 type ParentCreatedPageProps = {
+    successful: string;
     styleProps?: Record<string, unknown>;
     session: Record<string, unknown>;
     pageNum: number;
@@ -31,7 +35,10 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
     setPageNum,
     totalPages,
     formPages,
+    successful,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     const progressBarIncrement = Math.ceil(100 / totalPages);
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
@@ -42,7 +49,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
         "Participant Emergency Form",
         "Participant Health Form",
         "Parent Guardian Information",
-        "Proof of Income",
+        t("poi.title"),
         "How did you hear about us?",
     ];
     return (
@@ -92,35 +99,41 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                         </Stack>
                     </Box>
                 </Center>
+            ) : successful === "pending" ? (
+                <Loading />
             ) : (
                 <Center>
                     <VStack mt={120} mb={180} spacing={50}>
                         <ApprovedIcon />
                         <Text fontWeight="700" fontSize="24px" align="center">
-                            Account created successfully
+                            {successful === "success"
+                                ? t("form.accountCreated")
+                                : "Error: Account not Created"}
                         </Text>
                         <Text maxW={512} textAlign="center">
-                            Your account has been successfully created. Click
-                            the button below to start browsing classes!
+                            {successful === "success"
+                                ? "Your account has been successfully created. Click the button below to start browsing classes to register for!"
+                                : "There was an error creating your account. Please contact us"}
                         </Text>
-                        <Link
-                            _hover={{ textDecoration: "none" }}
-                            _focus={{}}
-                            href="/"
-                        >
-                            <Button
-                                color={"white"}
-                                bg={"#0C53A0"}
-                                px={10}
-                                _hover={{
-                                    bg: "#2C6AAD",
-                                }}
-                                _active={{}}
-                                fontWeight={"200"}
-                                borderRadius={100}
+                        <Link href="/">
+                            <ChakraLink
+                                _hover={{ textDecoration: "none" }}
+                                _focus={{}}
                             >
-                                Browse Classes
-                            </Button>
+                                <Button
+                                    color={"white"}
+                                    bg={"#0C53A0"}
+                                    px={10}
+                                    _hover={{
+                                        bg: colourTheme.colors.LightBlue,
+                                    }}
+                                    _active={{}}
+                                    fontWeight={"200"}
+                                    borderRadius="6px"
+                                >
+                                    {t("form.browseClasses")}
+                                </Button>
+                            </ChakraLink>
                         </Link>
                     </VStack>
                 </Center>

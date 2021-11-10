@@ -1,14 +1,12 @@
-import { Flex, Box, Button, Center, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { SetStateAction } from "react";
-import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 
 type SelectChildForClassProps = {
     children: string[];
     selectedChild: number;
     setSelectedChild: React.Dispatch<SetStateAction<number>>;
-    pageNum: number;
-    setPageNum: React.Dispatch<SetStateAction<number>>;
+    onNext: () => void;
 };
 
 export default function SelectChildForClass(
@@ -16,10 +14,6 @@ export default function SelectChildForClass(
 ): JSX.Element {
     return (
         <Box>
-            <Flex justifyContent="flex-end">
-                {/* navigate to browse programs page instead of going back */}
-                <CloseButton href="/" />
-            </Flex>
             <Center>
                 <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
                     Program Registration
@@ -46,7 +40,7 @@ export default function SelectChildForClass(
                             }}
                             backgroundColor={
                                 props.selectedChild === index
-                                    ? colourTheme.colors.LightGrayBlue
+                                    ? colourTheme.colors.CatskillWhite
                                     : "white"
                             }
                             lineHeight="24px"
@@ -80,9 +74,7 @@ export default function SelectChildForClass(
                     fontWeight="normal"
                     textColor="#FFFFFF"
                     fontSize="16px"
-                    onClick={() => {
-                        props.setPageNum(props.pageNum + 1);
-                    }}
+                    onClick={props.onNext}
                 >
                     Next
                 </Button>

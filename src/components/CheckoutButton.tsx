@@ -12,25 +12,30 @@ type CheckoutButtonProps = {
     priceId: string;
     couponId?: string;
     quantity: number;
+    successPath?: string;
 };
 
 /**
  * CheckoutButton is a button component that redirects to the
  * stripe checkout page
  */
-export const CheckoutButton: React.FC<CheckoutButtonProps> = (
-    props: CheckoutButtonProps,
-) => {
+export const CheckoutButton: React.FC<CheckoutButtonProps> = ({
+    priceId,
+    couponId,
+    quantity,
+    successPath,
+}) => {
     const handleClick = async () => {
         const { sessionId } = await fetch("/api/checkout/session", {
             method: "POST",
             headers: {
-                "content-type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                priceId: props.priceId,
-                couponId: props.couponId,
-                quantity: props.quantity,
+                priceId,
+                couponId,
+                quantity,
+                successPath,
             }),
         }).then((res) => res.json());
 
@@ -41,10 +46,20 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = (
         });
     };
     return (
-        <div>
-            <Button colorScheme="blue" onClick={handleClick}>
-                Checkout
-            </Button>
-        </div>
+        <Button
+            backgroundColor="#0C53A0"
+            borderColor="brand.400"
+            width="200px"
+            height="54px"
+            fontSize="16px"
+            fontWeight="400"
+            color="white"
+            border="1px"
+            mt="20px"
+            mb="50px"
+            onClick={handleClick}
+        >
+            Proceed to Checkout
+        </Button>
     );
 };

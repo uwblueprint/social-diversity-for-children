@@ -17,8 +17,10 @@ import {
     MenuItem,
     MenuList,
     MenuDivider,
+    Link,
+    useBreakpointValue,
 } from "@chakra-ui/react";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { CombinedEnrollmentCardInfo } from "@models/Enroll";
 import colourTheme from "@styles/colours";
@@ -29,6 +31,10 @@ import {
     deleteClassRegistration,
     deleteClassRegistrations,
 } from "@utils/deleteClassRegistration";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { locale } from "@prisma/client";
+import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
@@ -45,6 +51,42 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     enrollmentInfo,
     isOnlyStudent,
 }) => {
+    const router = useRouter();
+    const { t } = useTranslation();
+    const isJoinBesideTitle = useBreakpointValue({ base: false, md: true });
+
+    const { link } = useGetZoomLink();
+
+    const joinLink = (
+        <Link href={link} isExternal>
+            <Button
+                bg={colourTheme.colors.Blue}
+                color={"white"}
+                mx={"auto"}
+                my={2}
+                borderRadius="6px"
+                fontWeight={"normal"}
+                _hover={{
+                    textDecoration: "none",
+                    bg: colourTheme.colors.LightBlue,
+                }}
+                _active={{
+                    bg: "lightgrey",
+                    outlineColor: "grey",
+                    border: "grey",
+                    boxShadow: "lightgrey",
+                }}
+                _focus={{
+                    outlineColor: "grey",
+                    border: "grey",
+                    boxShadow: "lightgrey",
+                }}
+            >
+                Join class
+            </Button>
+        </Link>
+    );
+
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
             <GridItem>
@@ -56,7 +98,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box>
@@ -66,22 +108,30 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
-                                    {weekdayToString(
-                                        enrollmentInfo.class.weekday,
-                                    )}
-                                    {"s "}
+                                    {t("time.weekday_many", {
+                                        day: weekdayToString(
+                                            enrollmentInfo.class.weekday,
+                                            router.locale as locale,
+                                        ),
+                                    })}{" "}
                                     {convertToShortTimeRange(
                                         enrollmentInfo.class.startTimeMinutes,
                                         enrollmentInfo.class.durationMinutes,
                                     )}
-                                    {" with Teacher " +
-                                        enrollmentInfo.class.teacherName}
+                                    {" with " +
+                                        t("program.teacherName", {
+                                            name: enrollmentInfo.class
+                                                .teacherName,
+                                        })}
                                 </Text>
                                 <Text>
-                                    {convertToShortDateRange(
-                                        enrollmentInfo.class.startDate,
-                                        enrollmentInfo.class.endDate,
-                                    )}
+                                    {t("time.range", {
+                                        ...convertToShortDateRange(
+                                            enrollmentInfo.class.startDate,
+                                            enrollmentInfo.class.endDate,
+                                            router.locale as locale,
+                                        ),
+                                    })}
                                 </Text>
                             </Box>
                             {isOnlyStudent ? null : (
@@ -94,35 +144,11 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                     )}
                                 </Text>
                             )}
+                            {isJoinBesideTitle ? null : joinLink}
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
-                            <Button
-                                bg={colourTheme.colors.Blue}
-                                color={"white"}
-                                mx={"auto"}
-                                my={2}
-                                borderRadius={6}
-                                onClick={() => alert("Joining Zoom meeting...")}
-                                fontWeight={"normal"}
-                                _hover={{
-                                    textDecoration: "none",
-                                    bg: colourTheme.colors.LightBlue,
-                                }}
-                                _active={{
-                                    bg: "lightgrey",
-                                    outlineColor: "grey",
-                                    border: "grey",
-                                    boxShadow: "lightgrey",
-                                }}
-                                _focus={{
-                                    outlineColor: "grey",
-                                    border: "grey",
-                                    boxShadow: "lightgrey",
-                                }}
-                            >
-                                Join class
-                            </Button>
+                            {isJoinBesideTitle ? joinLink : null}
                             <Menu>
                                 <MenuButton
                                     ml={1}
@@ -134,9 +160,10 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 />
                                 <MenuList>
                                     {enrollmentInfo.students.map((student) => (
-                                        <>
+                                        <Box
+                                            key={`${enrollmentInfo.classId}-${student.id}`}
+                                        >
                                             <MenuItem
-                                                key={student.id}
                                                 onClick={() =>
                                                     deleteClassRegistration(
                                                         student,
@@ -151,24 +178,22 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             2 ? null : (
                                                 <MenuDivider />
                                             )}
-                                        </>
+                                        </Box>
                                     ))}
                                     {enrollmentInfo.students.length <
                                     2 ? null : (
-                                        <>
-                                            <MenuItem
-                                                onClick={() =>
-                                                    deleteClassRegistrations(
-                                                        enrollmentInfo.students,
-                                                        enrollmentInfo.classId,
-                                                    )
-                                                }
-                                            >
-                                                <Text fontWeight="bold">
-                                                    Unregister for all
-                                                </Text>
-                                            </MenuItem>
-                                        </>
+                                        <MenuItem
+                                            onClick={() =>
+                                                deleteClassRegistrations(
+                                                    enrollmentInfo.students,
+                                                    enrollmentInfo.classId,
+                                                )
+                                            }
+                                        >
+                                            <Text fontWeight="bold">
+                                                Unregister for all
+                                            </Text>
+                                        </MenuItem>
                                     )}
                                 </MenuList>
                             </Menu>

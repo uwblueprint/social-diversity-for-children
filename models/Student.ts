@@ -20,6 +20,8 @@ export type CreateStudentInput = {
     therapy?: therapy[];
     otherTherapy?: string;
     guardianExpectations?: string;
+    hasMedication?: boolean;
+    hasAllergies?: boolean;
     medication?: string;
     allergies?: string;
     additionalInfo?: string;
@@ -28,3 +30,8 @@ export type CreateStudentInput = {
     emergNumber: string;
     emergRelationToStudent: string;
 };
+
+/**
+ * Request Body Input for Student update
+ */
+export type UpdateStudentInput = CreateStudentInput & { id: number };

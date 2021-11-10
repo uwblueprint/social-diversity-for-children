@@ -1,15 +1,60 @@
-import { Button, Box, Stack, HStack } from "@chakra-ui/react";
+import { Button, Box, Stack, Text, HStack } from "@chakra-ui/react";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
-import useLocalStorage from "@utils/useLocalStorage";
+import { getSession } from "next-auth/client";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
 import { roles, locale, province, VolunteerInput } from "@models/User";
 import colourTheme from "@styles/colours";
-import { VolunteerInfoPage } from "@components/volunteer-form/VolunteerInfoPage";
-import { VolunteerDetailsPage } from "@components/volunteer-form/VolunteerDetailsPage";
-import { VolunteerSkillsPage } from "@components/volunteer-form/VolunteerSkillsPage";
-import { CriminalPage } from "@components/volunteer-form/CriminalPage";
-import { VolunteerCreatedPage } from "@components/volunteer-form/VolunteerCreatedPage";
+import { mutate } from "swr";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
+
+/*
+Dynamic import is a next.js feature. 
+You can add properties like {srr: false} to prevent a srr if the component is static
+Additionally, you use this to conditionally load a component during render
+*/
+const VolunteerInfoPage = dynamic(
+    () =>
+        import("@components/volunteer-form/VolunteerInfoPage").then(
+            (module) => module.VolunteerInfoPage,
+        ),
+    { ssr: false },
+);
+
+const VolunteerDetailsPage = dynamic(
+    () =>
+        import("@components/volunteer-form/VolunteerDetailsPage").then(
+            (module) => module.VolunteerDetailsPage,
+        ),
+    { ssr: false },
+);
+
+const VolunteerSkillsPage = dynamic(
+    () =>
+        import("@components/volunteer-form/VolunteerSkillsPage").then(
+            (module) => module.VolunteerSkillsPage,
+        ),
+    { ssr: false },
+);
+
+const CriminalPage = dynamic(
+    () =>
+        import("@components/volunteer-form/CriminalPage").then(
+            (module) => module.CriminalPage,
+        ),
+    { ssr: false },
+);
+
+const VolunteerCreatedPage = dynamic(
+    () =>
+        import("@components/volunteer-form/VolunteerCreatedPage").then(
+            (module) => module.VolunteerCreatedPage,
+        ),
+    { ssr: false },
+);
 
 const DEFAULT_PROVINCE = province.BC;
 
@@ -22,7 +67,7 @@ const FormButton = (props) => {
             onClick={props.onClick}
             my={8}
             px={12}
-            borderRadius={100}
+            borderRadius="6px"
         >
             {props.children}
         </Button>
@@ -42,16 +87,23 @@ export default function VolunteerInfo({
 }: {
     session: Record<string, unknown>;
 }): JSX.Element {
+    const router = useRouter();
+    const { page } = router.query;
+    const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState(0);
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
     const formButtonOnClick = () => {
-        setPageNum((prevPage) => prevPage + 1);
+        setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
+        if (pageNum === formPages.length - 1) {
+            updateUserAndClearForm();
+        }
     };
 
     /* Store form fields in local storage */
-    //Volunteer Info
-
+    //Volunteer Info - Page 1
     const [volunteerFirstName, setVolunteerFirstName] = useLocalStorage(
         "volunteerFirstName",
         "",
@@ -62,8 +114,7 @@ export default function VolunteerInfo({
     );
     const [phoneNumber, setPhoneNumber] = useLocalStorage("phoneNumber", "");
 
-    //volunteer Personal Details
-
+    //volunteer Personal Details - Page 2
     const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [city, setCity] = useLocalStorage("city", "");
@@ -71,21 +122,29 @@ export default function VolunteerInfo({
         useState(DEFAULT_PROVINCE);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
+    const [certifyAge15, setCertifyAge15] = useLocalStorage("age15", false);
 
-    //volunteer personal details
-
+    //volunteer personal details - Page 3
     const [skills, setSkills] = useLocalStorage("skills", "");
     const [heardFrom, setHeardFrom] = useLocalStorage("heardFrom", "");
+    const [certifyCommit, setCertifyCommit] = useLocalStorage(
+        "certifyCommit",
+        false,
+    );
+
+    const [successfulAccountCreation, setSuccessfulAccountCreation] =
+        useState("pending");
 
     // JSON object with volunteer registration info
-
     const volunteerRegistrationInfo = {
+        //Page 1
         volunteerFirstName: volunteerFirstName,
         setVolunteerFirstName: setVolunteerFirstName,
         volunteerLastName: volunteerLastName,
         setVolunteerLastName: setVolunteerLastName,
         phoneNumber: phoneNumber,
         setPhoneNumber: setPhoneNumber,
+        //Page 2
         dateOfBirth: dateOfBirth,
         setDateOfBirth: setDateOfBirth,
         address1: address1,
@@ -98,10 +157,17 @@ export default function VolunteerInfo({
         setPostalCode: setPostalCode,
         school: school,
         setSchool: setSchool,
+        certifyAge15: certifyAge15,
+        setCertifyAge15: setCertifyAge15,
+        //Page 3
         skills: skills,
         setSkills: setSkills,
         heardFrom: heardFrom,
         setHeardFrom: setHeardFrom,
+        certifyCommit: certifyCommit,
+        setCertifyCommit: setCertifyCommit,
+        //Move onto next page
+        formButtonOnClick: formButtonOnClick,
     };
 
     const formPages = [
@@ -110,21 +176,12 @@ export default function VolunteerInfo({
             <FormPage>
                 <VolunteerInfoPage props={volunteerRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page for volunteer details
         <Box>
             <FormPage>
                 <VolunteerDetailsPage props={volunteerRegistrationInfo} />
             </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
-        </Box>,
-        // Page for volunteer skills
-        <Box>
-            <FormPage>
-                <VolunteerSkillsPage props={volunteerRegistrationInfo} />
-            </FormPage>
-            <FormButton onClick={formButtonOnClick}>Next</FormButton>
         </Box>,
         // Page to upload criminal record check
         <Box>
@@ -133,20 +190,38 @@ export default function VolunteerInfo({
             </FormPage>
             <Box>
                 <HStack spacing="24px">
-                    <FormButton>Upload Criminal Record Check</FormButton>
-                    <Button
-                        variant="ghost"
-                        as="u"
+                    <FormButton
                         onClick={() => {
-                            setPageNum((prevPage) => prevPage + 1);
+                            router.push(
+                                `/document-upload?type=criminal-check&redirect=/volunteer/signup?page=${
+                                    pageNum + 1
+                                }`,
+                            );
+                        }}
+                    >
+                        {t("bgc.upload")}
+                    </FormButton>
+                    <Button
+                        variant="link"
+                        color="black"
+                        fontWeight={400}
+                        _hover={{ color: colourTheme.colors.Gray }}
+                        onClick={() => {
+                            setPageNum(pageNum + 1);
                             updateUserAndClearForm();
                         }}
-                        borderRadius={100}
+                        borderRadius="6px"
                     >
-                        Skip for Now
+                        <Text as="u">{t("form.skip")}</Text>
                     </Button>
                 </HStack>
             </Box>
+        </Box>,
+        // Page for volunteer skills
+        <Box>
+            <FormPage>
+                <VolunteerSkillsPage props={volunteerRegistrationInfo} />
+            </FormPage>
         </Box>,
     ];
 
@@ -183,36 +258,27 @@ export default function VolunteerInfo({
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData),
         };
-        const response = await fetch("api/user", request);
+        const response = await fetch("/api/user", request);
         const updatedUserData = await response.json();
         return updatedUserData;
     }
 
-    const clearLocalStorage = () => {
-        setVolunteerFirstName("");
-        setVolunteerLastName("");
-        setPhoneNumber("");
-        setDateOfBirth("");
-        setAddress1("");
-        setCity("");
-        setParticipantProvince(DEFAULT_PROVINCE);
-        setPostalCode("");
-        setSchool("");
-        setSkills("");
-        setHeardFrom("");
-    };
     async function updateUserAndClearForm() {
         const updatedUser = await updateUser();
         if (updatedUser) {
-            clearLocalStorage();
+            setSuccessfulAccountCreation("success");
+            localStorage.clear();
+            mutate("/api/user/me"); //Clear the user - causing a refresh
             return updatedUser;
         } else {
+            setSuccessfulAccountCreation("failure");
             return null;
         }
     }
 
     return (
         <VolunteerCreatedPage
+            successful={successfulAccountCreation}
             session={session}
             pageNum={pageNum}
             setPageNum={setPageNum}
@@ -225,13 +291,14 @@ export default function VolunteerInfo({
 /**
  * getServerSideProps gets the session before this page is rendered
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["form"])),
+        },
     };
 };

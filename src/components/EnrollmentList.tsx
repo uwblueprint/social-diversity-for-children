@@ -15,9 +15,11 @@ import { EnrollmentCardInfo } from "@models/Enroll";
 import { EnrollmentCard } from "./EnrollmentCard";
 import colourTheme from "@styles/colours";
 import combineStudentEnrollment from "@utils/combineStudentEnrollment";
-import useParentRegistrations from "@utils/useParentRegistration";
-import { Student } from "@prisma/client";
+import useParentRegistrations from "@utils/hooks/useParentRegistration";
+import { locale, Student } from "@prisma/client";
 import { Loading } from "./Loading";
+import { useRouter } from "next/router";
+import { EmptyState } from "./EmptyState";
 
 type EnrollmentCardsProps = {
     enrollmentInfo: EnrollmentCardInfo[];
@@ -30,25 +32,32 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
 }) => {
     return (
         <Center width="100%">
-            <List spacing="5" width="100%">
-                {combineStudentEnrollment(enrollmentInfo).map((item) => {
-                    return (
-                        <ListItem
-                            borderColor="gray.200"
-                            _hover={{
-                                borderColor: colourTheme.colors.Blue,
-                            }}
-                            borderWidth={2}
-                            key={item.classId}
-                        >
-                            <EnrollmentCard
-                                isOnlyStudent={isOnlyStudent}
-                                enrollmentInfo={item}
-                            />
-                        </ListItem>
-                    );
-                })}
-            </List>
+            {enrollmentInfo.length === 0 ? (
+                <EmptyState>
+                    Currently you have not registered in any classes. <br />
+                    Any classes you registered for will show up here!
+                </EmptyState>
+            ) : (
+                <List spacing="5" width="100%">
+                    {combineStudentEnrollment(enrollmentInfo).map((item) => {
+                        return (
+                            <ListItem
+                                borderColor="gray.200"
+                                _hover={{
+                                    borderColor: colourTheme.colors.Blue,
+                                }}
+                                borderWidth={2}
+                                key={item.classId}
+                            >
+                                <EnrollmentCard
+                                    isOnlyStudent={isOnlyStudent}
+                                    enrollmentInfo={item}
+                                />
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            )}
         </Center>
     );
 };
@@ -60,7 +69,10 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
  * @returns a component that displays a list of enrollment card info with tabs
  */
 export const EnrollmentList: React.FC = () => {
-    const { enrollments, error, isLoading } = useParentRegistrations();
+    const router = useRouter();
+    const { enrollments, error, isLoading } = useParentRegistrations(
+        router.locale as locale,
+    );
 
     if (error) {
         return (
