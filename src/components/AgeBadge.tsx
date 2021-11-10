@@ -2,7 +2,7 @@ import React from "react";
 import { BadgeProps } from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { AdminBadge } from "./AdminBadge";
-import {BackButton } from "./BackButton";
+import { BackButton } from "./BackButton";
 
 type AgeBadgeProps = BadgeProps & {
     isOff?: boolean;
