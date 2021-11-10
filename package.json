@@ -8,7 +8,7 @@
         "start": "next start --port ${PORT-3000}",
         "svgr": "npx @svgr/cli -d src/components/icons --ignore-existing --icon --typescript public/icons",
         "lint": "yarn lint:prettier && yarn lint:eslint",
-        "lint-modified-files":"yarn lint:prettier-modified-files && yarn lint:eslint-modified-files",
+        "lint-modified-files": "yarn lint:prettier-modified-files && yarn lint:eslint-modified-files",
         "lint:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
         "lint:prettier-modified-files": "prettier --check --no-error-on-unmatched-pattern  $(git diff --name-only --diff-filter=d  origin/$GITHUB_BASE_REF HEAD | grep -E '(.js|.jsx|.ts|.tsx)$' | xargs)",
         "lint:eslint": "eslint '**/*.{js,jsx,ts,tsx}' --cache --format stylish",
