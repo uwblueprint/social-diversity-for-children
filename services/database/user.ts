@@ -98,6 +98,49 @@ async function getTeacherCount() {
 }
 
 /**
+ * createUser creates a new user, it is intended for creating internal users securely
+ * @param  {UserInput} userInput the input used to create the user
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function createUser(userInput: UserInput) {
+    // No support for parent/volunteer creation, use next-auth instead
+    const createRole = (role: roles) => {
+        switch (role) {
+            case roles.TEACHER:
+                return {
+                    teacher: {
+                        create: {
+                            updatedAt: null,
+                        },
+                    },
+                };
+            case roles.PROGRAM_ADMIN:
+                return {
+                    programAdmin: {
+                        create: {
+                            updatedAt: null,
+                        },
+                    },
+                };
+            default:
+                return;
+        }
+    };
+
+    const userAndRole = await prisma.user.create({
+        data: {
+            firstName: userInput.firstName,
+            email: userInput.email,
+            lastName: userInput.lastName,
+            role: userInput.role,
+            ...createRole(userInput.role),
+        },
+    });
+
+    return userAndRole;
+}
+
+/**
  * Updates a user with the data corresponding to userInput
  * @param userInput - data for the updated user
  * @returns prisma User with updated information
@@ -450,6 +493,7 @@ export {
     getUsers,
     getRegistrantCount,
     getTeacherCount,
+    createUser,
     updateUser,
     updateVolunteerCriminalCheckLink,
     updateParentProofOfIncomeLink,

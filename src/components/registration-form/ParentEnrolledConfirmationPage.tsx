@@ -52,11 +52,12 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                         toast({
                             title: "Registration failed.",
                             description:
-                                "The class is not available for registration at this time",
+                                "The class is not available for registration at this time.",
                             status: "error",
                             duration: 9000,
                             isClosable: true,
                             position: "top-right",
+                            variant: "left-accent",
                         });
                     }
                 });

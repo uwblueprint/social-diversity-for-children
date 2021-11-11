@@ -91,11 +91,12 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                                         deleteClass(cardInfo.id);
                                         toast({
                                             title: "Class deleted.",
-                                            description: `${cardInfo.name} has been deleted`,
+                                            description: `${cardInfo.name} has been deleted.`,
                                             status: "info",
                                             duration: 9000,
                                             isClosable: true,
                                             position: "top-right",
+                                            variant: "left-accent",
                                         });
                                         router.push("/admin");
                                     }}
@@ -108,11 +109,12 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                                         updateClassArchive(cardInfo.id, true);
                                         toast({
                                             title: "Class archived.",
-                                            description: `${cardInfo.name} has been archived`,
+                                            description: `${cardInfo.name} has been archived.`,
                                             status: "info",
                                             duration: 9000,
                                             isClosable: true,
                                             position: "top-right",
+                                            variant: "left-accent",
                                         });
                                         router.push("/admin");
                                     }}
