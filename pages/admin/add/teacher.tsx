@@ -27,21 +27,33 @@ export default function AddTeacher(): JSX.Element {
         }
     }, [firstName, lastName, email]);
 
-    const InviteEmailAsTeacher = () => {
-        createTeacherUser(email, firstName, lastName);
-        signIn("email", {
-            email,
-            redirect: false,
-        });
-        toast({
-            title: "Teacher invited!",
-            description: `A teacher invite has been sent to ${email}`,
-            status: "info",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right",
-            variant: "left-accent",
-        });
+    const InviteEmailAsTeacher = async () => {
+        const res = await createTeacherUser(email, firstName, lastName);
+        if (res.ok) {
+            signIn("email", {
+                email,
+                redirect: false,
+            });
+            toast({
+                title: "Teacher invited!",
+                description: `Invite has been sent to ${email}.`,
+                status: "info",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right",
+                variant: "left-accent",
+            });
+        } else {
+            toast({
+                title: "Teacher invitation failed.",
+                description: "Cannot invite existing users.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right",
+                variant: "left-accent",
+            });
+        }
     };
 
     return (

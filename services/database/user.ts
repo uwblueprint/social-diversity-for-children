@@ -101,8 +101,7 @@ async function getTeacherCount() {
  * createUser creates a new user, it is intended for creating internal users securely
  * @param  {UserInput} userInput the input used to create the user
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function createUser(userInput: UserInput) {
+async function createUser(userInput: UserInput): Promise<User> {
     // No support for parent/volunteer creation, use next-auth instead
     const createRole = (role: roles) => {
         switch (role) {
@@ -127,15 +126,17 @@ async function createUser(userInput: UserInput) {
         }
     };
 
-    const userAndRole = await prisma.user.create({
-        data: {
-            firstName: userInput.firstName,
-            email: userInput.email,
-            lastName: userInput.lastName,
-            role: userInput.role,
-            ...createRole(userInput.role),
-        },
-    });
+    const userAndRole = await prisma.user
+        .create({
+            data: {
+                firstName: userInput.firstName,
+                email: userInput.email,
+                lastName: userInput.lastName,
+                role: userInput.role,
+                ...createRole(userInput.role),
+            },
+        })
+        .catch((err) => null);
 
     return userAndRole;
 }

@@ -27,21 +27,33 @@ export default function AddAdmin(): JSX.Element {
         }
     }, [firstName, lastName, email]);
 
-    const InviteEmailAsProgramAdmin = () => {
-        createAdminUser(email, firstName, lastName);
-        signIn("email", {
-            email,
-            redirect: false,
-        });
-        toast({
-            title: "Program admin invited!",
-            description: `A program admin invite has been sent to ${email}`,
-            status: "info",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right",
-            variant: "left-accent",
-        });
+    const InviteEmailAsProgramAdmin = async () => {
+        const res = await createAdminUser(email, firstName, lastName);
+        if (res.ok) {
+            signIn("email", {
+                email,
+                redirect: false,
+            });
+            toast({
+                title: "Program admin invited!",
+                description: `Invite has been sent to ${email}.`,
+                status: "info",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right",
+                variant: "left-accent",
+            });
+        } else {
+            toast({
+                title: "Program admin invitation failed.",
+                description: "Cannot invite existing users.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right",
+                variant: "left-accent",
+            });
+        }
     };
 
     return (
@@ -142,6 +154,7 @@ export const getServerSideProps: GetServerSideProps = async (
                 permanent: false,
             },
         };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } else if (![roles.PROGRAM_ADMIN].includes((session as any).role)) {
         return {
             redirect: {
