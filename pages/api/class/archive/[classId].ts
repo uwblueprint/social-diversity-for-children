@@ -18,7 +18,8 @@ export default async function handle(
     const { isArchive }: { isArchive: boolean } = req.body;
     const session = await getSession({ req });
 
-    // If there is no session or the user is not a internal user, not authorized
+    // If there is no session or the user is not an admin user, not authorized
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!session || ![roles.PROGRAM_ADMIN].includes((session as any).role)) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
@@ -32,26 +33,28 @@ export default async function handle(
         );
     }
 
-    if (req.method == "PUT") {
-        // obtain class with provided classId after updating archive column
-        const classSection = await updateClassArchive(id, isArchive);
+    switch (req.method) {
+        case "PUT": {
+            // obtain class with provided classId after updating archive column
+            const classSection = await updateClassArchive(id, isArchive);
 
-        if (!classSection) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
-            return;
+            if (!classSection) {
+                return ResponseUtil.returnNotFound(
+                    res,
+                    `Class with id ${classId} not found.`,
+                );
+            }
+            ResponseUtil.returnOK(res, classSection);
+            break;
         }
-        ResponseUtil.returnOK(res, classSection);
-        return;
-    } else {
-        const allowedHeaders: string[] = ["PUT"];
-        ResponseUtil.returnMethodNotAllowed(
-            res,
-            allowedHeaders,
-            `Method ${req.method} Not Allowed`,
-        );
-        return;
+        default: {
+            const allowedHeaders: string[] = ["PUT"];
+            ResponseUtil.returnMethodNotAllowed(
+                res,
+                allowedHeaders,
+                `Method ${req.method} Not Allowed`,
+            );
+        }
     }
+    return;
 }

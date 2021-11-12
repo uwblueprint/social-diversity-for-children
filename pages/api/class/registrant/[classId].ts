@@ -20,6 +20,7 @@ export default async function handle(
     // If there is no session or the user is not a internal user, not authorized
     if (
         !session ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
     ) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
@@ -34,26 +35,29 @@ export default async function handle(
         );
     }
 
-    if (req.method == "GET") {
-        // obtain class with provided classId
-        const classSection = await getClassRegistrants(id);
+    switch (req.method) {
+        case "GET": {
+            // obtain class with provided classId
+            const classSection = await getClassRegistrants(id);
 
-        if (!classSection) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
-            return;
+            if (!classSection) {
+                return ResponseUtil.returnNotFound(
+                    res,
+                    `Class with id ${classId} not found.`,
+                );
+            }
+            ResponseUtil.returnOK(res, classSection);
+            break;
         }
-        ResponseUtil.returnOK(res, classSection);
-        return;
-    } else {
-        const allowedHeaders: string[] = ["GET"];
-        ResponseUtil.returnMethodNotAllowed(
-            res,
-            allowedHeaders,
-            `Method ${req.method} Not Allowed`,
-        );
-        return;
+        default: {
+            const allowedHeaders: string[] = ["GET"];
+            ResponseUtil.returnMethodNotAllowed(
+                res,
+                allowedHeaders,
+                `Method ${req.method} Not Allowed`,
+            );
+            break;
+        }
     }
+    return;
 }
