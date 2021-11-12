@@ -41,6 +41,5 @@ export type ClassCardInfo = {
     teacherName: string;
     teacherEmail?: string;
     teacherImage?: string;
-    programId?: number;
     programName?: string;
 };

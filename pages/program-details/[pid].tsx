@@ -27,12 +27,12 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
     const { me, isLoading: isMeLoading } = useMe();
 
     const { data: classListResponse, error: classListError } = useSWR(
-        ["/api/class", pid],
+        ["/api/class", pid, router.locale],
         fetcherWithId,
     );
     const isClassListLoading = !classListResponse && !classListError;
     const { data: programInfoResponse, error: programInfoError } = useSWR(
-        ["/api/program/" + pid],
+        ["/api/program/" + pid, pid, router.locale],
         fetcherWithId,
     );
     const isProgramInfoLoading = !programInfoResponse && !programInfoError;

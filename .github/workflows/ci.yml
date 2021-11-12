@@ -67,22 +67,22 @@ jobs:
               if: github.event_name == 'pull_request'
               run: yarn lint:eslint-modified-files
               continue-on-error: true
-
+            
             - name: PR - Create linting comment on error
-              if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure')
+              if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure') 
               uses: actions/github-script@v5
               with:
-                  script: |
-                      const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
-                      #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
+                script: |
+                  const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
+                  #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
 
-                      github.rest.issues.createComment({
-                        issue_number: context.issue.number,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        body: output
-                      });
-                      core.setFailed('Linting errors. Please check prettier and eslint');
+                  github.rest.issues.createComment({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: output
+                  });
+                  core.setFailed('Linting errors. Please check prettier and eslint');
 
             - name: Build
               run: yarn build

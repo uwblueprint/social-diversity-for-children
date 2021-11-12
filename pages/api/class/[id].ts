@@ -3,8 +3,6 @@ import { ResponseUtil } from "@utils/responseUtil";
 import { getClass, deleteClass, updateClass } from "@database/class";
 import { ClassInput } from "models/Class";
 import { validateClassData } from "@utils/validation/class";
-import { getSession } from "next-auth/client";
-import { roles } from "@models/User";
 
 /**
  * handle takes the classId parameter and returns
@@ -18,7 +16,6 @@ export default async function handle(
 ): Promise<void> {
     // Obtain class id
     const { id } = req.query;
-    const session = await getSession({ req });
 
     //parse query parameters from string to number and validate that id is a number
     const classId = parseInt(id as string, 10);
@@ -43,14 +40,6 @@ export default async function handle(
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
-        // If there is no session or the user is not a internal user, not authorized
-        if (
-            !session ||
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ![roles.PROGRAM_ADMIN].includes((session as any).role)
-        ) {
-            return ResponseUtil.returnUnauthorized(res, "Unauthorized");
-        }
         const deletedClass = await deleteClass(classId);
 
         if (!deleteClass) {
@@ -63,16 +52,7 @@ export default async function handle(
         ResponseUtil.returnOK(res, deletedClass);
         return;
     } else if (req.method == "PUT") {
-        if (
-            !session ||
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ![roles.PROGRAM_ADMIN].includes((session as any).role)
-        ) {
-            return ResponseUtil.returnUnauthorized(res, "Unauthorized");
-        }
-
         // validate updated class body
-
         const classInput = req.body as ClassInput;
         const validationError = validateClassData(classInput);
         if (validationError.length !== 0) {

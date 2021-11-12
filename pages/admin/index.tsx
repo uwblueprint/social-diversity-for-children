@@ -186,7 +186,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     } else if (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
     ) {
         return {

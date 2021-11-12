@@ -43,7 +43,7 @@ export default function ParentEnrollClass({
     const [couponId, setCouponId] = useState<string>();
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
-        ["/api/class/" + classId],
+        ["/api/class/" + classId, classId, router.locale],
         fetcherWithId,
     );
 
