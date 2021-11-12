@@ -3,20 +3,17 @@ import {
     Box,
     Wrap,
     WrapItem,
-    Center,
-    AspectRatio,
-    Image,
     Link,
     Button,
     HStack,
-    Text,
+    Spacer,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 import { SDCBadge } from "./SDCBadge";
 import { useTranslation } from "react-i18next";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
-import { locale, programFormat } from "@prisma/client";
+import { locale } from "@prisma/client";
 import { useRouter } from "next/router";
 import { IoEllipsisVertical } from "react-icons/io5";
 
@@ -33,21 +30,21 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
 
     return (
         <Wrap spacing="50px" justify="space-between">
-            <WrapItem flexBasis="300px" flexGrow={1} cursor={"pointer"}>
-                <Link
-                    params={{ cardInfo: cardInfo }}
-                    href={`/admin/classes?programId=${cardInfo.id}`}
+            <WrapItem flexBasis="300px" flexGrow={1}>
+                <Box
+                    borderWidth="1px"
+                    width="100%"
+                    _hover={{
+                        borderColor: colourTheme.colors.Blue,
+                        borderWidth: 1,
+                    }}
                 >
-                    <Box
-                        borderWidth="1px"
-                        width="100%"
-                        _hover={{
-                            borderColor: colourTheme.colors.Blue,
-                            borderWidth: 1,
-                        }}
-                    >
-                        <Box width="340px" height="252px" p="35px">
-                            <HStack>
+                    <Box minWidth="340px" height="252px" p="35px">
+                        <HStack>
+                            <Link
+                                params={{ cardInfo: cardInfo }}
+                                href={`/admin/classes?programId=${cardInfo.id}`}
+                            >
                                 <Box
                                     mt="1"
                                     fontWeight="600"
@@ -56,50 +53,51 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                                 >
                                     {cardInfo.name}
                                 </Box>
-                                <Button padding="2px" borderRadius="full">
-                                    <IoEllipsisVertical />
-                                </Button>
-                            </HStack>
-                            <Box as="span" color="gray.600" fontSize="sm">
-                                {t("time.range", {
-                                    ...convertToShortDateRange(
-                                        cardInfo.startDate,
-                                        cardInfo.endDate,
-                                        router.locale as locale,
-                                    ),
-                                })}
-                            </Box>
-                            <Box
-                                whiteSpace="pre-wrap"
-                                noOfLines={2}
-                                overflow="hidden"
-                                width="275px"
-                                height={9}
-                                mt="2"
-                                fontSize="12px"
-                            >
-                                {cardInfo.description}
-                            </Box>
-                            <Box mt={6}>
-                                <SDCBadge
-                                    backgroundColor={
-                                        colourTheme.colors.CatskillWhite
-                                    }
-                                    color={colourTheme.colors.Blue}
-                                    children={cardInfo.tag}
-                                />
-                                <SDCBadge
-                                    ml="2"
-                                    backgroundColor={
-                                        colourTheme.colors.CatskillWhite
-                                    }
-                                    color={colourTheme.colors.Blue}
-                                    children={cardInfo.onlineFormat}
-                                />
-                            </Box>
+                            </Link>
+                            <Spacer />
+                            <Button padding="2px" borderRadius="full">
+                                <IoEllipsisVertical />
+                            </Button>
+                        </HStack>
+                        <Box as="span" color="gray.600" fontSize="sm">
+                            {t("time.range", {
+                                ...convertToShortDateRange(
+                                    cardInfo.startDate,
+                                    cardInfo.endDate,
+                                    router.locale as locale,
+                                ),
+                            })}
+                        </Box>
+                        <Box
+                            whiteSpace="pre-wrap"
+                            noOfLines={2}
+                            overflow="hidden"
+                            width="275px"
+                            height={9}
+                            mt="2"
+                            fontSize="12px"
+                        >
+                            {cardInfo.description}
+                        </Box>
+                        <Box mt={6}>
+                            <SDCBadge
+                                backgroundColor={
+                                    colourTheme.colors.CatskillWhite
+                                }
+                                color={colourTheme.colors.Blue}
+                                children={cardInfo.tag}
+                            />
+                            <SDCBadge
+                                ml="2"
+                                backgroundColor={
+                                    colourTheme.colors.CatskillWhite
+                                }
+                                color={colourTheme.colors.Blue}
+                                children={cardInfo.onlineFormat}
+                            />
                         </Box>
                     </Box>
-                </Link>
+                </Box>
             </WrapItem>
         </Wrap>
     );

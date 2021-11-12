@@ -36,8 +36,8 @@ type BrowseProgramsProps = {
 };
 
 const Links = [
-    { name: "Add Program", url: "/" },
-    { name: "Add Class", url: "/" },
+    { name: "Add Program", url: "/admin/program/create" },
+    { name: "Add Class", url: "/admin/class/create" },
 ];
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
@@ -87,8 +87,8 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     });
     return (
         <Wrapper session={props.session}>
-            <Box width="80vw">
-                <Box bg={"transparent"} pl={"50px"} pt={"20px"} mx={"auto"}>
+            <Box>
+                <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
                     <Flex h={"94px"}>
                         <HStack spacing={8}>
                             <Text
@@ -96,7 +96,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                                 fontWeight="bold"
                                 color={colourTheme.colors.Blue}
                             >
-                                Dashboard
+                                Programs
                             </Text>
                         </HStack>
                         <Spacer />
