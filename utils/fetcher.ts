@@ -10,11 +10,18 @@ export function fetcher(url: string): Promise<any> {
 /**
  * Generic fetcher with id
  * @param url route to call fetch
+ * @param id id of dyanmic route
+ * @param label label of id field, default is "id"
  * @returns the promise corresponding to the response of the route
  */
-export function fetcherWithId(url: string, id: string): Promise<any> {
-    return fetcher(`${url}?id=${id}`);
+export function fetcherWithId(
+    url: string,
+    id: string,
+    label = "id",
+): Promise<any> {
+    return fetcher(`${url}?${label}=${id}`);
 }
+
 /**
  * Generic fetcher with file and path for S3 APIs
  * @param  {string} url

@@ -1,14 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getRegistrantCount, getTeacherCount } from "@database/user";
-import { getStudentCount } from "@database/student";
-import { getProgramCount } from "@database/program";
-import { getClassCount } from "@database/class";
+import { getClassRegistrants } from "@database/class";
 import { getSession } from "next-auth/client";
-import { roles } from ".prisma/client";
+import { roles } from "@prisma/client";
 
 /**
- * handle controls the request made to the admin stats resources
+ * handle takes the classId parameter and returns class registrants
  * @param req API request object
  * @param res API response object
  */
@@ -16,6 +13,8 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
+    // Obtain class id
+    const { classId } = req.query;
     const session = await getSession({ req });
 
     // If there is no session or the user is not a internal user, not authorized
@@ -27,21 +26,27 @@ export default async function handle(
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
 
+    //parse query parameters from string to number and validate that id is a number
+    const id = parseInt(classId as string, 10);
+    if (isNaN(id)) {
+        return ResponseUtil.returnBadRequest(
+            res,
+            "classId should be passed in as numbers",
+        );
+    }
+
     switch (req.method) {
         case "GET": {
-            // Contains the registrants - parent + students + volunteers
-            const totalRegistrants =
-                (await getRegistrantCount()) + (await getStudentCount());
-            const totalPrograms = await getProgramCount();
-            const totalClasses = await getClassCount();
-            const totalTeachers = await getTeacherCount();
+            // obtain class with provided classId
+            const classSection = await getClassRegistrants(id);
 
-            ResponseUtil.returnOK(res, {
-                totalRegistrants,
-                totalPrograms,
-                totalClasses,
-                totalTeachers,
-            });
+            if (!classSection) {
+                return ResponseUtil.returnNotFound(
+                    res,
+                    `Class with id ${classId} not found.`,
+                );
+            }
+            ResponseUtil.returnOK(res, classSection);
             break;
         }
         default: {
@@ -51,6 +56,8 @@ export default async function handle(
                 allowedHeaders,
                 `Method ${req.method} Not Allowed`,
             );
+            break;
         }
     }
+    return;
 }
