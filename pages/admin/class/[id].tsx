@@ -91,11 +91,11 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                     <TabList>
                         <Tab>
                             {classCard.spaceTaken} Student
-                            {classCard.spaceTaken != 1 ? "s" : ""}
+                            {classCard.spaceTaken !== 1 ? "s" : ""}
                         </Tab>
                         <Tab>
                             {classCard.volunteerSpaceTaken} Volunteer
-                            {classCard.volunteerSpaceTaken != 1 ? "s" : ""}
+                            {classCard.volunteerSpaceTaken !== 1 ? "s" : ""}
                         </Tab>
                     </TabList>
 

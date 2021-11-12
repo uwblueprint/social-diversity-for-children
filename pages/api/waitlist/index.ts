@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client"; // Session handling
 import { ResponseUtil } from "@utils/responseUtil";
 import {
     getWaitlistRecord,
@@ -19,12 +20,22 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
+    const session = await getSession({ req });
+
+    const parentId = session.id as number;
+    if (!parentId) {
+        return ResponseUtil.returnBadRequest(
+            res,
+            "No user id stored in session",
+        );
+    }
+
     switch (req.method) {
         // Retrieving a waitlist by passing in the classId and parentId.
         case "GET": {
             const input = req.body as WaitlistInput;
 
-            if (input.classId && input.parentId) {
+            if (input.classId && parentId) {
                 // If both classId and parentId are passed in, retrieve the specific waitlist record
                 const waitlistRecord = await getWaitlistRecord(input);
                 ResponseUtil.returnOK(res, waitlistRecord);
@@ -33,7 +44,7 @@ export default async function handle(
                 const waitlistRecordsForClass =
                     await getWaitlistRecordsByClassId(input.classId);
                 ResponseUtil.returnOK(res, waitlistRecordsForClass);
-            } else if (input.parentId) {
+            } else if (parentId) {
                 // If only the parentId was passed in, retrieve all waitlist records for the parent
                 const waitlistRecordsForParent =
                     await getWaitlistRecordsByParentId(input.parentId);

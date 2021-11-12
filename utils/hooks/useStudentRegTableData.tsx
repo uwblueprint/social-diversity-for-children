@@ -72,7 +72,6 @@ export function useStudentRegTableData(
         () =>
             studentRegs?.map((reg) => {
                 return {
-                    // This should be a link
                     parentId: reg.student.parentId,
                     fullName: `${reg.student.firstName} ${reg.student.lastName}`,
                     emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,

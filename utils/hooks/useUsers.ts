@@ -37,7 +37,6 @@ export type UseUsersResponse = {
 export default function useUsers(): UseUsersResponse {
     const { data, error, mutate } = useSWR("/api/user", fetcher);
 
-    console.log(data);
     const parents = data?.data?.filter((user) => user.parent !== null);
     const volunteers = data?.data?.filter((user) => user.volunteer !== null);
     const teachers = data?.data?.filter((user) => user.teacher !== null);
