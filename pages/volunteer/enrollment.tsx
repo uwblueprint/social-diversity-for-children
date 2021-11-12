@@ -37,7 +37,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
 
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
-        ["/api/class/" + classId, classId, router.locale],
+        ["/api/class/" + classId],
         fetcherWithId,
     );
 

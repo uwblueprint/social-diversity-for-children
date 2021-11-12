@@ -81,7 +81,7 @@ export default function Admin(props: AdminProps): JSX.Element {
                 <Heading size="sm" alignSelf="flex-start" fontWeight="normal">
                     Overview and Analytics
                 </Heading>
-                <HStack spacing={4}>
+                <HStack spacing={4} alignSelf="start">
                     <AdminStatBox
                         amount={totalRegistrants}
                         isLoading={isStatLoading}
@@ -186,6 +186,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     } else if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
     ) {
         return {
