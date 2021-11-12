@@ -4,7 +4,7 @@ import { useAsyncDebounce } from "react-table";
 
 export type GlobalTableFilterProps = {
     globalFilter: any;
-    setGlobalFilter: any;
+    setGlobalFilter: (filterValue: any) => void;
     placeholder?: string;
 };
 

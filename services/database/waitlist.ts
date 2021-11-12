@@ -49,6 +49,28 @@ async function getWaitlistRecordsByParentId(
         where: {
             parentId: parentId,
         },
+        include: {
+            parent: true,
+            class: {
+                include: {
+                    classTranslation: true,
+                    teacherRegs: {
+                        include: {
+                            teacher: {
+                                include: {
+                                    user: true,
+                                },
+                            },
+                        },
+                    },
+                    program: {
+                        include: {
+                            programTranslation: true,
+                        },
+                    },
+                },
+            },
+        },
         orderBy: {
             createdAt: "asc",
         },

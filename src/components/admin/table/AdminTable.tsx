@@ -36,9 +36,9 @@ import { CSVLink } from "react-csv";
 import { GlobalTableFilter } from "./GlobalTableFilter";
 
 export type AdminTableProps = {
-    dataColumns: any;
-    tableData: any;
-    csvData?: any;
+    dataColumns: any[];
+    tableData: any[];
+    csvData?: any[];
     exportName: string;
     exportItem: string;
     isLoading?: boolean;
@@ -109,7 +109,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                                         {...column.getHeaderProps(
                                             column.getSortByToggleProps(),
                                         )}
-                                        isNumeric={column.isNumeric}
+                                        isNumeric={(column as any).isNumeric}
                                     >
                                         {column.render("Header")}
                                         <chakra.span pl="4">
@@ -134,7 +134,9 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                                     {row.cells.map((cell) => (
                                         <Td
                                             {...cell.getCellProps()}
-                                            isNumeric={cell.column.isNumeric}
+                                            isNumeric={
+                                                (cell.column as any).isNumeric
+                                            }
                                         >
                                             {cell.render("Cell")}
                                         </Td>
@@ -191,7 +193,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
 
 export type AdminTableInputProps = FlexProps & {
     globalFilter: any;
-    setGlobalFilter: any;
+    setGlobalFilter: (filterValue: any) => void;
     csvData: any[];
     exportName: string;
     exportItem: string;

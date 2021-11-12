@@ -46,6 +46,7 @@ export default async function handle(
         // If there is no session or the user is not a internal user, not authorized
         if (
             !session ||
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ![roles.PROGRAM_ADMIN].includes((session as any).role)
         ) {
             return ResponseUtil.returnUnauthorized(res, "Unauthorized");
@@ -64,6 +65,7 @@ export default async function handle(
     } else if (req.method == "PUT") {
         if (
             !session ||
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ![roles.PROGRAM_ADMIN].includes((session as any).role)
         ) {
             return ResponseUtil.returnUnauthorized(res, "Unauthorized");

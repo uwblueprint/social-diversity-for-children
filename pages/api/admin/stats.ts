@@ -21,6 +21,7 @@ export default async function handle(
     // If there is no session or the user is not a internal user, not authorized
     if (
         !session ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
     ) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
