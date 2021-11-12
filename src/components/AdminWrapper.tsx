@@ -30,7 +30,9 @@ const AdminWrapper: React.FC<AdminWrapperProps> = (props): JSX.Element => {
     return (
         <Flex h="100vh">
             <AdminNavBar />
-            <Box pl={250}>{props.children}</Box>
+            <Box pl={250} w="full">
+                {props.children}
+            </Box>
         </Flex>
     );
 };

@@ -23,6 +23,11 @@ export type UseUserResponse = {
     mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
+/**
+ * use user hook using id to get the user
+ * @param {string} id user id
+ * @returns UseUserResponse
+ */
 export default function useUser(id: string): UseUserResponse {
     const { data, error, mutate } = useSWR(`/api/user/${id}`, fetcher);
     return {
