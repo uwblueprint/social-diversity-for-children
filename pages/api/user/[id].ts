@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUser } from "@database/user";
+import { deleteUser, getUser } from "@database/user";
 
 /**
  * handle takes the userId parameter and returns
@@ -12,26 +12,46 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    if (req.method == "GET") {
-        // Obtain user id
-        const { id } = req.query;
+    // Obtain user id
+    const { id } = req.query;
 
-        // obtain user with provided userId
-        const user = await getUser(id as string);
+    switch (req.method) {
+        case "GET": {
+            // obtain user with provided userId
+            const user = await getUser(id as string);
 
-        if (!user) {
-            ResponseUtil.returnNotFound(res, `User with id ${id} not found.`);
+            if (!user) {
+                ResponseUtil.returnNotFound(
+                    res,
+                    `User with id ${id} not found.`,
+                );
+                return;
+            }
+            ResponseUtil.returnOK(res, user);
             return;
         }
-        ResponseUtil.returnOK(res, user);
-        return;
-    } else {
-        const allowedHeaders: string[] = ["GET"];
-        ResponseUtil.returnMethodNotAllowed(
-            res,
-            allowedHeaders,
-            `Method ${req.method} Not Allowed`,
-        );
-        return;
+        case "DELETE": {
+            //  delete user with provided userId
+            const user = await deleteUser(id as string);
+
+            if (!user) {
+                ResponseUtil.returnConflict(
+                    res,
+                    `User with id ${id} cannot be deleted.`,
+                );
+                return;
+            }
+            ResponseUtil.returnOK(res, user);
+            return;
+        }
+        default: {
+            const allowedHeaders: string[] = ["GET"];
+            ResponseUtil.returnMethodNotAllowed(
+                res,
+                allowedHeaders,
+                `Method ${req.method} Not Allowed`,
+            );
+            return;
+        }
     }
 }

@@ -19,6 +19,7 @@ import React from "react";
 import useUsers from "@utils/hooks/useUsers";
 import useAdminsTableData from "@utils/hooks/useAdminsTableData";
 import { isAdmin } from "@utils/session/authorization";
+import useTeachersTableData from "@utils/hooks/useTeachersTableData";
 
 type UserViewProps = {
     session: Record<string, unknown>;
@@ -48,6 +49,7 @@ export default function UserView(props: UserViewProps): JSX.Element {
     } = useUsers();
 
     const { adminColumns, adminData } = useAdminsTableData(programAdmins);
+    const { teacherColumns, teacherData } = useTeachersTableData(teachers);
 
     if (isUsersLoading) {
         return <Loading />;
@@ -87,7 +89,17 @@ export default function UserView(props: UserViewProps): JSX.Element {
                                 hiddenColumns={["id"]}
                             />
                         </TabPanel>
-                        <TabPanel></TabPanel>
+                        <TabPanel>
+                            <AdminTable
+                                exportName="Teachers"
+                                exportItem="Teachers"
+                                dataColumns={teacherColumns}
+                                tableData={teacherData}
+                                isLoading={isUsersLoading}
+                                filterPlaceholder="Search Teachers"
+                                hiddenColumns={["id"]}
+                            />
+                        </TabPanel>
                     </TabPanels>
                 </Tabs>
             </VStack>

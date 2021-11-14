@@ -1,38 +1,43 @@
 import { Button } from "@chakra-ui/button";
 import { useToast } from "@chakra-ui/toast";
-import { ProgramAdmin, User } from "@prisma/client";
+import { Teacher, User } from "@prisma/client";
 import { deleteUser } from "@utils/deleteUser";
 import React from "react";
 import { MdDelete } from "react-icons/md";
 import { CellProps } from "react-table";
 
-export type AdminDataType = {
+export type TeacherDataType = {
     id: number;
     fullName: string;
     email: string;
+    numberClasses: number;
 };
 
 /**
- * use admins table data hook to format all the data needed for an admin table
- * @param  admins - admin users
+ * use teacher table data hook to format all the data needed for an admin table
+ * @param  teachers - teacher users
  * @returns header columns, row data, csv data for table
  */
-export default function useAdminsTableData(
-    admins: (User & {
-        programAdmins: ProgramAdmin;
+export default function useTeachersTableData(
+    teachers: (User & {
+        teacher: Teacher & {
+            _count: {
+                teacherRegs: number;
+            };
+        };
     })[],
 ): {
-    adminColumns: {
+    teacherColumns: {
         Header: string;
         accessor: string;
         isNumeric?: boolean;
-        Cell?: (props: CellProps<AdminDataType>) => JSX.Element;
+        Cell?: (props: CellProps<TeacherDataType>) => JSX.Element;
     }[];
-    adminData: AdminDataType[];
+    teacherData: TeacherDataType[];
 } {
     const toast = useToast();
 
-    const adminColumns = React.useMemo(
+    const teacherColumns = React.useMemo(
         () => [
             {
                 Header: "ID",
@@ -47,9 +52,13 @@ export default function useAdminsTableData(
                 accessor: "email",
             },
             {
+                Header: "# Classes",
+                accessor: "numberClasses",
+            },
+            {
                 Header: "",
                 accessor: "options",
-                Cell: (props: CellProps<AdminDataType>) => {
+                Cell: (props: CellProps<TeacherDataType>) => {
                     return (
                         <Button
                             leftIcon={<MdDelete />}
@@ -59,7 +68,7 @@ export default function useAdminsTableData(
                                 const res = await deleteUser(userId);
                                 if (res.ok) {
                                     toast({
-                                        title: "Program admin has been revoked.",
+                                        title: "Teacher has been revoked.",
                                         description: `User with id: ${userId} has been deleted.`,
                                         status: "info",
                                         duration: 9000,
@@ -69,7 +78,7 @@ export default function useAdminsTableData(
                                     });
                                 } else {
                                     toast({
-                                        title: "Program admin cannot be revoked.",
+                                        title: "Teacher cannot be revoked.",
                                         description: `User with id: ${userId} is currently in use.`,
                                         status: "error",
                                         duration: 9000,
@@ -88,16 +97,17 @@ export default function useAdminsTableData(
         ],
         [],
     );
-    const adminData = React.useMemo(
+    const teacherData = React.useMemo(
         () =>
-            admins?.map((user) => {
+            teachers?.map((user) => {
                 return {
                     id: user.id,
                     fullName: `${user.firstName} ${user.lastName}`,
                     email: user.email,
+                    numberClasses: user.teacher._count.teacherRegs,
                 };
             }),
-        [admins],
+        [teachers],
     );
-    return { adminColumns, adminData };
+    return { teacherColumns, teacherData };
 }
