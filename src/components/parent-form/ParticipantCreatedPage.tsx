@@ -26,6 +26,7 @@ type ParticipantCreatedPageProps = {
     setPageNum: any;
     totalPages: number;
     formPages: JSX.Element[];
+    name: string;
 };
 
 export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
@@ -35,6 +36,7 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
     totalPages,
     formPages,
     successful,
+    name,
 }): JSX.Element => {
     const router = useRouter();
 
@@ -112,9 +114,15 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                                 : "Error: Participant not added successfully"}
                         </Text>
                         <Text maxW={400} textAlign="center" pt={3} pb={9}>
-                            {successful === "success"
-                                ? "Participant has been successfully added as a participant in your account"
-                                : "There was an error adding the participant. Please contact us"}
+                            {successful === "success" ? (
+                                <>
+                                    <strong>{name}</strong> has been
+                                    successfully added as a participant in your
+                                    account!
+                                </>
+                            ) : (
+                                "There was an error adding the participant. Please contact us"
+                            )}
                         </Text>
                         <Button
                             bg={"transparent"}
