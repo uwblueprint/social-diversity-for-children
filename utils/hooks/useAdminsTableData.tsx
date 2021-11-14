@@ -2,13 +2,20 @@ import { Button } from "@chakra-ui/button";
 import { ProgramAdmin, User } from "@prisma/client";
 import React from "react";
 import { MdDelete } from "react-icons/md";
+import { CellProps } from "react-table";
+
+export type AdminDataType = {
+    id: number;
+    fullName: string;
+    email: string;
+};
 
 /**
  * use admins table data hook to format all the data needed for an admin table
  * @param  admins - admin users
  * @returns header columns, row data, csv data for table
  */
-export function useAdminsTableData(
+export default function useAdminsTableData(
     admins: (User & {
         programAdmins: ProgramAdmin;
     })[],
@@ -17,13 +24,9 @@ export function useAdminsTableData(
         Header: string;
         accessor: string;
         isNumeric?: boolean;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        Cell?: (props: any) => JSX.Element;
+        Cell?: (props: CellProps<AdminDataType>) => JSX.Element;
     }[];
-    adminData: {
-        fullName: string;
-        email: string;
-    }[];
+    adminData: AdminDataType[];
 } {
     const adminColumns = React.useMemo(
         () => [
@@ -42,9 +45,13 @@ export function useAdminsTableData(
             {
                 Header: "",
                 accessor: "options",
-                Cell: (props) => {
+                Cell: (props: CellProps<AdminDataType>) => {
                     return (
-                        <Button leftIcon={<MdDelete />} bgColor="transparent">
+                        <Button
+                            leftIcon={<MdDelete />}
+                            variant="link"
+                            onClick={() => alert(props.row.original.id)}
+                        >
                             Revoke
                         </Button>
                     );

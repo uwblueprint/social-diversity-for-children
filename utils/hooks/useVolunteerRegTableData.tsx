@@ -5,13 +5,23 @@ import convertToAge from "@utils/convertToAge";
 import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { CellProps } from "react-table";
+
+export type VolunteerDataType = {
+    id: number;
+    fullName: string;
+    email: string;
+    cityProvince: string;
+    age: number;
+    criminalCheckApproved: string;
+};
 
 /**
  * use volunteer table data hook to format all the data needed for an admin table
  * @param  volunteerRegs volunteer registrations
  * @returns header columns, row data, csv data for table
  */
-export function useVolunteerRegTableData(
+export default function useVolunteerRegTableData(
     volunteerRegs: (VolunteerReg & {
         volunteer: Volunteer & {
             user: User;
@@ -22,14 +32,9 @@ export function useVolunteerRegTableData(
         Header: string;
         accessor: string;
         isNumeric?: boolean;
+        Cell?: (props: CellProps<VolunteerDataType>) => JSX.Element;
     }[];
-    volunteerData: {
-        fullName: string;
-        email: string;
-        cityProvince: string;
-        age: number;
-        criminalCheckApproved: string;
-    }[];
+    volunteerData: VolunteerDataType[];
 } {
     const volunteerColumns = React.useMemo(
         () => [
@@ -40,7 +45,7 @@ export function useVolunteerRegTableData(
             {
                 Header: "Name",
                 accessor: "fullName",
-                Cell: (props) => {
+                Cell: (props: CellProps<VolunteerDataType>) => {
                     return (
                         <Link
                             href={`/admin/registrant/volunteer/${props.row.original.id}`}
@@ -68,7 +73,7 @@ export function useVolunteerRegTableData(
             {
                 Header: "Background Check",
                 accessor: "criminalCheckApproved",
-                Cell: (props) => {
+                Cell: (props: CellProps<VolunteerDataType>) => {
                     return props.row.original.criminalCheckApproved ===
                         "Complete" ? (
                         <SDCBadge>Complete</SDCBadge>

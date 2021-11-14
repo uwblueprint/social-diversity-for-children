@@ -17,7 +17,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
 import useUsers from "@utils/hooks/useUsers";
-import { useAdminsTableData } from "@utils/hooks/useAdminsTableData";
+import useAdminsTableData from "@utils/hooks/useAdminsTableData";
 import { isAdmin } from "@utils/session/authorization";
 
 type UserViewProps = {

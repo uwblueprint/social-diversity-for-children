@@ -13,10 +13,10 @@ import {
 import { AdminTable } from "@components/admin/table/AdminTable";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
-import { useParentsTableData } from "@utils/hooks/useParentsTableData";
-import { useStudentsTableData } from "@utils/hooks/useStudentsTableData";
+import useParentsTableData from "@utils/hooks/useParentsTableData";
+import useStudentsTableData from "@utils/hooks/useStudentsTableData";
 import useUsers from "@utils/hooks/useUsers";
-import { useVolunteersTableData } from "@utils/hooks/useVolunteersTableData";
+import useVolunteersTableData from "@utils/hooks/useVolunteersTableData";
 import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";

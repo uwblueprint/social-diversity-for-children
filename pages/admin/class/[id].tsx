@@ -20,8 +20,8 @@ import useClassRegistrant from "@utils/hooks/useClassRegistrants";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import { useVolunteerRegTableData } from "../../../utils/hooks/useVolunteerRegTableData";
-import { useStudentRegTableData } from "../../../utils/hooks/useStudentRegTableData";
+import useVolunteerRegTableData from "../../../utils/hooks/useVolunteerRegTableData";
+import useStudentRegTableData from "../../../utils/hooks/useStudentRegTableData";
 import React from "react";
 import { isInternal } from "@utils/session/authorization";
 
