@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { ResponseUtil } from "@utils/responseUtil";
-import { getSession } from "next-auth/client";
-import { roles } from "@prisma/client";
 import { updateClassArchive } from "@database/class";
+import { ResponseUtil } from "@utils/responseUtil";
+import { isAdmin } from "@utils/session/authorization";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client";
 
 /**
  * handle takes the classId query and a isArchive param and returns updates class archive column
@@ -19,8 +19,7 @@ export default async function handle(
     const session = await getSession({ req });
 
     // If there is no session or the user is not an admin user, not authorized
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!session || ![roles.PROGRAM_ADMIN].includes((session as any).role)) {
+    if (!isAdmin(session)) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
 

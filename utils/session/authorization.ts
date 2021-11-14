@@ -8,7 +8,7 @@ import { Session } from "next-auth";
  */
 export function isInternal(session: Session): boolean {
     const internalUsers: roles[] = [roles.PROGRAM_ADMIN, roles.TEACHER];
-    if (internalUsers.includes(session.role)) {
+    if (session && internalUsers.includes(session.role)) {
         return true;
     } else {
         false;
@@ -20,7 +20,7 @@ export function isInternal(session: Session): boolean {
  * @returns boolean whether or not user is admin
  */
 export function isAdmin(session: Session): boolean {
-    if (session.role === roles.PROGRAM_ADMIN) {
+    if (session && session.role === roles.PROGRAM_ADMIN) {
         return true;
     } else {
         false;

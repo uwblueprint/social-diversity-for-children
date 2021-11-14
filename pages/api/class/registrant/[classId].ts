@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getClassRegistrants } from "@database/class";
 import { getSession } from "next-auth/client";
-import { roles } from "@prisma/client";
+import { isInternal } from "@utils/session/authorization";
 
 /**
  * handle takes the classId parameter and returns class registrants
@@ -18,11 +18,7 @@ export default async function handle(
     const session = await getSession({ req });
 
     // If there is no session or the user is not a internal user, not authorized
-    if (
-        !session ||
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    if (!isInternal(session)) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
 
