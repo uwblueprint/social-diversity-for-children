@@ -1,5 +1,4 @@
-import { Button } from "@chakra-ui/button";
-import { useToast } from "@chakra-ui/toast";
+import { useToast, Button } from "@chakra-ui/react";
 import { ProgramAdmin, User } from "@prisma/client";
 import { deleteUser } from "@utils/deleteUser";
 import React from "react";
