@@ -177,9 +177,11 @@ export default async function handle(
                 return;
             }
 
+            // check if there exists waitlist records for this class
             const waitlistRecords = await getWaitlistRecordsByClassId(
                 parentRegistrationInput.classId,
             );
+            // if there are, get class information & send email to all on waitlist
             if (waitlistRecords.length > 0) {
                 const waitlistClass = await getClass(
                     parentRegistrationInput.classId,
@@ -214,7 +216,6 @@ export default async function handle(
                         ),
                     );
                 });
-                // // send all the reminder emails to the respective users
                 await Promise.all(mailerPromises);
             }
 
