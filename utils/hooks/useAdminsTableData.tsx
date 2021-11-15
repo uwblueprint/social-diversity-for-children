@@ -1,7 +1,6 @@
-import { useToast, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { ProgramAdmin, User } from "@prisma/client";
-import { deleteUser } from "@utils/deleteUser";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { MdDelete } from "react-icons/md";
 import { CellProps } from "react-table";
 
@@ -20,6 +19,10 @@ export default function useAdminsTableData(
     admins: (User & {
         programAdmins: ProgramAdmin;
     })[],
+    onOpen: () => void,
+    setRevokeName: Dispatch<SetStateAction<string>>,
+    setRevokeUserId: Dispatch<SetStateAction<number>>,
+    currentUserId: number,
 ): {
     adminColumns: {
         Header: string;
@@ -29,8 +32,6 @@ export default function useAdminsTableData(
     }[];
     adminData: AdminDataType[];
 } {
-    const toast = useToast();
-
     const adminColumns = React.useMemo(
         () => [
             {
@@ -51,32 +52,14 @@ export default function useAdminsTableData(
                 Cell: (props: CellProps<AdminDataType>) => {
                     return (
                         <Button
+                            isDisabled={currentUserId === props.row.original.id}
                             leftIcon={<MdDelete />}
                             variant="link"
-                            onClick={async () => {
-                                const userId = props.row.original.id;
-                                const res = await deleteUser(userId);
-                                if (res.ok) {
-                                    toast({
-                                        title: "Program admin has been revoked.",
-                                        description: `User with id: ${userId} has been deleted.`,
-                                        status: "info",
-                                        duration: 9000,
-                                        isClosable: true,
-                                        position: "top-right",
-                                        variant: "left-accent",
-                                    });
-                                } else {
-                                    toast({
-                                        title: "Program admin cannot be revoked.",
-                                        description: `User with id: ${userId} is currently in use.`,
-                                        status: "error",
-                                        duration: 9000,
-                                        isClosable: true,
-                                        position: "top-right",
-                                        variant: "left-accent",
-                                    });
-                                }
+                            color="red.400"
+                            onClick={() => {
+                                setRevokeName(props.row.original.fullName);
+                                setRevokeUserId(props.row.original.id);
+                                onOpen();
                             }}
                         >
                             Revoke

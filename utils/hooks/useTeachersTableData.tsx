@@ -1,8 +1,6 @@
-import { Button } from "@chakra-ui/button";
-import { useToast } from "@chakra-ui/toast";
+import { useToast, Button } from "@chakra-ui/react";
 import { Teacher, User } from "@prisma/client";
-import { deleteUser } from "@utils/deleteUser";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { MdDelete } from "react-icons/md";
 import { CellProps } from "react-table";
 
@@ -26,6 +24,10 @@ export default function useTeachersTableData(
             };
         };
     })[],
+    onOpen: () => void,
+    setRevokeName: Dispatch<SetStateAction<string>>,
+    setRevokeUserId: Dispatch<SetStateAction<number>>,
+    currentUserId: number,
 ): {
     teacherColumns: {
         Header: string;
@@ -61,32 +63,14 @@ export default function useTeachersTableData(
                 Cell: (props: CellProps<TeacherDataType>) => {
                     return (
                         <Button
+                            isDisabled={currentUserId === props.row.original.id}
                             leftIcon={<MdDelete />}
                             variant="link"
-                            onClick={async () => {
-                                const userId = props.row.original.id;
-                                const res = await deleteUser(userId);
-                                if (res.ok) {
-                                    toast({
-                                        title: "Teacher has been revoked.",
-                                        description: `User with id: ${userId} has been deleted.`,
-                                        status: "info",
-                                        duration: 9000,
-                                        isClosable: true,
-                                        position: "top-right",
-                                        variant: "left-accent",
-                                    });
-                                } else {
-                                    toast({
-                                        title: "Teacher cannot be revoked.",
-                                        description: `User with id: ${userId} is currently in use.`,
-                                        status: "error",
-                                        duration: 9000,
-                                        isClosable: true,
-                                        position: "top-right",
-                                        variant: "left-accent",
-                                    });
-                                }
+                            color="red.400"
+                            onClick={() => {
+                                setRevokeName(props.row.original.fullName);
+                                setRevokeUserId(props.row.original.id);
+                                onOpen();
                             }}
                         >
                             Revoke

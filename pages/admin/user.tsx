@@ -1,13 +1,22 @@
 import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
     Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
+    Button,
     Tab,
     TabList,
     TabPanel,
     TabPanels,
     Tabs,
+    useDisclosure,
+    useToast,
     VStack,
 } from "@chakra-ui/react";
 import { AdminTable } from "@components/admin/table/AdminTable";
@@ -15,32 +24,26 @@ import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
-import React from "react";
+import React, { useState } from "react";
 import useUsers from "@utils/hooks/useUsers";
 import useAdminsTableData from "@utils/hooks/useAdminsTableData";
 import { isAdmin } from "@utils/session/authorization";
 import useTeachersTableData from "@utils/hooks/useTeachersTableData";
+import { deleteUser } from "@utils/deleteUser";
+import { Session } from "next-auth";
 
 type UserViewProps = {
     session: Record<string, unknown>;
 };
-
-// TODO: make the following fields either dash or N/A
-// Students
-// Grade -
-// postal,city,school N/A
-// Volunteers
-// city,postal
-// Volunteer add pending state?
-// parents
-// better phone format?
-// For teacher, we can show # classes they are in
 
 /**
  * Admin registrant view page that displays all the registrants in the platform
  * @returns Admin class view page component
  */
 export default function UserView(props: UserViewProps): JSX.Element {
+    const [revokeName, setRevokeName] = useState("");
+    const [revokeUserId, setRevokeUserId] = useState(-1);
+
     const {
         programAdmins,
         teachers,
@@ -48,8 +51,23 @@ export default function UserView(props: UserViewProps): JSX.Element {
         error: usersError,
     } = useUsers();
 
-    const { adminColumns, adminData } = useAdminsTableData(programAdmins);
-    const { teacherColumns, teacherData } = useTeachersTableData(teachers);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = React.useRef();
+    const { adminColumns, adminData } = useAdminsTableData(
+        programAdmins,
+        onOpen,
+        setRevokeName,
+        setRevokeUserId,
+        (props.session as Session).id,
+    );
+    const { teacherColumns, teacherData } = useTeachersTableData(
+        teachers,
+        onOpen,
+        setRevokeName,
+        setRevokeUserId,
+        (props.session as Session).id,
+    );
+    const toast = useToast();
 
     if (isUsersLoading) {
         return <Loading />;
@@ -103,6 +121,62 @@ export default function UserView(props: UserViewProps): JSX.Element {
                     </TabPanels>
                 </Tabs>
             </VStack>
+
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Delete User {revokeName}
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            Are you sure? You can't undo this action afterwards.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button
+                                colorScheme="red"
+                                onClick={async () => {
+                                    const res = await deleteUser(
+                                        revokeUserId,
+                                    ).finally(onClose);
+                                    if (res.ok) {
+                                        toast({
+                                            title: "Internal user has been revoked.",
+                                            description: `User ${revokeName} has been deleted.`,
+                                            status: "info",
+                                            duration: 9000,
+                                            isClosable: true,
+                                            position: "top-right",
+                                            variant: "left-accent",
+                                        });
+                                    } else {
+                                        toast({
+                                            title: "Internal user cannot be revoked.",
+                                            description: `User ${revokeName} is currently in use.`,
+                                            status: "error",
+                                            duration: 9000,
+                                            isClosable: true,
+                                            position: "top-right",
+                                            variant: "left-accent",
+                                        });
+                                    }
+                                }}
+                                ml={3}
+                            >
+                                Delete
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
         </Wrapper>
     );
 }
@@ -131,6 +205,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+        },
     };
 };
