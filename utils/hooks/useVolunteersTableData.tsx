@@ -90,7 +90,12 @@ export default function useVolunteersTableData(
                     id: user.volunteer.id,
                     fullName: `${user.firstName} ${user.lastName}`,
                     email: user.email,
-                    cityProvince: `${user.volunteer.cityName}, ${user.volunteer.province}`,
+                    cityProvince:
+                        user.volunteer.cityName && user.volunteer.province
+                            ? `${user.volunteer.cityName}, ${user.volunteer.province}`
+                            : user.volunteer.cityName
+                            ? user.volunteer.cityName
+                            : "N/A",
                     age: convertToAge(new Date(user.volunteer.dateOfBirth)),
                     criminalCheckApproved: user.volunteer.criminalCheckApproved
                         ? "Complete"

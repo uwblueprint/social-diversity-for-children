@@ -1,4 +1,4 @@
-import { useToast, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { Teacher, User } from "@prisma/client";
 import React, { Dispatch, SetStateAction } from "react";
 import { MdDelete } from "react-icons/md";
@@ -37,8 +37,6 @@ export default function useTeachersTableData(
     }[];
     teacherData: TeacherDataType[];
 } {
-    const toast = useToast();
-
     const teacherColumns = React.useMemo(
         () => [
             {

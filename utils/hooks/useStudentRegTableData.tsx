@@ -10,7 +10,7 @@ export type StudentDataType = {
     fullName: string;
     emergFullName: string;
     emergNumber: string;
-    grade: number;
+    grade: string;
     cityProvince: string;
 };
 
@@ -81,8 +81,15 @@ export default function useStudentRegTableData(
                     fullName: `${reg.student.firstName} ${reg.student.lastName}`,
                     emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
                     emergNumber: parsePhoneNumber(reg.student.emergNumber),
-                    grade: reg.student.grade,
-                    cityProvince: `${reg.student.cityName}, ${reg.student.province}`,
+                    grade: reg.student.grade
+                        ? reg.student.grade.toString()
+                        : "-",
+                    cityProvince:
+                        reg.student.cityName && reg.student.province
+                            ? `${reg.student.cityName}, ${reg.student.province}`
+                            : reg.student.cityName
+                            ? reg.student.cityName
+                            : "N/A",
                 };
             }),
         [studentRegs],

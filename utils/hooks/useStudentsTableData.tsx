@@ -10,7 +10,7 @@ export type StudentDataType = {
     fullName: string;
     emergFullName: string;
     emergNumber: string;
-    grade: number;
+    grade: string;
     cityProvince: string;
 };
 
@@ -77,8 +77,13 @@ export default function useStudentsTableData(students: Student[]): {
                     fullName: `${student.firstName} ${student.lastName}`,
                     emergFullName: `${student.emergFirstName} ${student.emergLastName}`,
                     emergNumber: parsePhoneNumber(student.emergNumber),
-                    grade: student.grade,
-                    cityProvince: `${student.cityName}, ${student.province}`,
+                    grade: student.grade ? student.grade.toString() : "-",
+                    cityProvince:
+                        student.cityName && student.province
+                            ? `${student.cityName}, ${student.province}`
+                            : student.cityName
+                            ? student.cityName
+                            : "N/A",
                 };
             }),
         [students],
