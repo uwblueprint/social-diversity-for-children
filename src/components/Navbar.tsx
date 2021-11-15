@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                     >
                         <HStack spacing={4} alignItems={"center"}>
                             {variant === "sidebar" && (
-                                <Button onClick={onOpen}>
+                                <Button bgColor={"white"} onClick={onOpen}>
                                     <HamburgerIcon w={6} h={6} />
                                 </Button>
                             )}

@@ -1,6 +1,6 @@
 import {
     Button,
-    Box,
+    Flex,
     Center,
     Text,
     Input,
@@ -36,8 +36,13 @@ export default function Login(): JSX.Element {
 
     return (
         <Wrapper>
-            <Center h="500px">
-                <Box width="700px">
+            <Center>
+                <Flex
+                    h={{ base: "700px", lg: "500px" }}
+                    width={{ base: "90%", lg: "700px" }}
+                    justify={"center"}
+                    direction={"column"}
+                >
                     <Center>
                         <Text fontWeight="700" fontSize="36px">
                             Sign In
@@ -57,7 +62,7 @@ export default function Login(): JSX.Element {
                     <FormControl id="email">
                         <Center>
                             <Input
-                                width="366px"
+                                width={{ base: "366px", lg: "366px" }}
                                 type="email"
                                 placeholder="Enter email"
                                 textAlign="center"
@@ -126,14 +131,14 @@ export default function Login(): JSX.Element {
                         <Text
                             fontWeight="400"
                             fontSize="14px"
-                            mt="70px"
+                            mt="50px"
                             color="brand.300"
                         >
                             First time? We'll email you a magic code to sign up
                             instantly.
                         </Text>
                     </Center>
-                </Box>
+                </Flex>
             </Center>
         </Wrapper>
     );
