@@ -137,16 +137,19 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                 </Box>
 
                 <Box ml="50px" mt="25px">
-                    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                        {filteredCards && filteredCards.length > 0 ? (
-                            filteredCards.map((item, idx) => {
+                    {filteredCards && filteredCards.length > 0 ? (
+                        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                            {" "}
+                            {filteredCards.map((item, idx) => {
                                 return (
                                     <GridItem key={idx}>
                                         <BrowseProgramCard cardInfo={item} />
                                     </GridItem>
                                 );
-                            })
-                        ) : (
+                            })}
+                        </Grid>
+                    ) : (
+                        <Box pr="50px">
                             <AdminEmptyState
                                 w="100"
                                 h="100%"
@@ -154,8 +157,8 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                             >
                                 No filtered classes available
                             </AdminEmptyState>
-                        )}
-                    </Grid>
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </Wrapper>
