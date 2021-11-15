@@ -12,6 +12,9 @@ import { ParentRegistrationInput } from "models/Enroll";
 import { roles } from "@prisma/client";
 import { getUserFromEmail } from "@database/user";
 import { getClass } from "@database/class";
+import { getWaitlistRecordsByClassId } from "@database/waitlist";
+import send from "services/nodemailer/mail";
+import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -172,6 +175,47 @@ export default async function handle(
                     `Registration could not be created`,
                 );
                 return;
+            }
+
+            const waitlistRecords = await getWaitlistRecordsByClassId(
+                parentRegistrationInput.classId,
+            );
+            if (waitlistRecords.length > 0) {
+                const waitlistClass = await getClass(
+                    parentRegistrationInput.classId,
+                );
+                if (!waitlistClass) {
+                    ResponseUtil.returnBadRequest(
+                        res,
+                        `Class information could not be found`,
+                    );
+                    return;
+                }
+
+                const mailerPromises = [];
+                waitlistRecords.forEach((record) => {
+                    const emailSubject = `Spot Available for Waitlisted Class: ${waitlistClass.name}`;
+                    mailerPromises.push(
+                        send(
+                            process.env.EMAIL_FROM,
+                            (record as any).parent.user.email,
+                            emailSubject,
+                            openSpotWaitlistTemplate(
+                                req.body.classId,
+                                waitlistClass.imageLink,
+                                waitlistClass.name,
+                                waitlistClass.weekday,
+                                waitlistClass.startDate,
+                                waitlistClass.endDate,
+                                waitlistClass.startTimeMinutes,
+                                waitlistClass.durationMinutes,
+                                (record as any).parent.preferredLanguage,
+                            ),
+                        ),
+                    );
+                });
+                // // send all the reminder emails to the respective users
+                await Promise.all(mailerPromises);
             }
 
             ResponseUtil.returnOK(res, deletedRegistration);

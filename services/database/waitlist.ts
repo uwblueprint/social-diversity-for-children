@@ -30,6 +30,13 @@ async function getWaitlistRecordsByClassId(
         where: {
             classId: classId,
         },
+        include: {
+            parent: {
+                include: {
+                    user: true,
+                },
+            },
+        },
         orderBy: {
             createdAt: "asc", // ascending order as the oldest createdAt date is the highest priority.
         },
