@@ -166,6 +166,23 @@ export default async function handle(
                 return;
             }
 
+            // check if the class is full, prior to deletion
+            let notifyWaitlist = true;
+            const waitlistClass = await getClass(
+                parentRegistrationInput.classId,
+            );
+            if (!waitlistClass) {
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Class information could not be found`,
+                );
+                return;
+            }
+            // if class wasn't originally full, do not notify waitlist
+            if (waitlistClass._count.parentRegs < waitlistClass.spaceTotal) {
+                notifyWaitlist = false;
+            }
+
             const deletedRegistration = await deleteParentRegistration(
                 parentRegistrationInput,
             );
@@ -182,23 +199,11 @@ export default async function handle(
                 parentRegistrationInput.classId,
             );
             // if there are, get class information & send email to all on waitlist
-            if (waitlistRecords.length > 0) {
-                const waitlistClass = await getClass(
-                    parentRegistrationInput.classId,
-                );
-                if (!waitlistClass) {
-                    ResponseUtil.returnBadRequest(
-                        res,
-                        `Class information could not be found`,
-                    );
-                    return;
-                }
-
-                const mailerPromises = [];
-                waitlistRecords.forEach((record) => {
-                    const emailSubject = `Spot Available for Waitlisted Class: ${waitlistClass.name}`;
-                    mailerPromises.push(
-                        send(
+            if (notifyWaitlist && waitlistRecords.length > 0) {
+                await Promise.all(
+                    waitlistRecords.map((record) => {
+                        const emailSubject = `Spot Available for Waitlisted Class: ${waitlistClass.name}`;
+                        return send(
                             process.env.EMAIL_FROM,
                             (record as any).parent.user.email,
                             emailSubject,
@@ -211,12 +216,11 @@ export default async function handle(
                                 waitlistClass.endDate,
                                 waitlistClass.startTimeMinutes,
                                 waitlistClass.durationMinutes,
-                                (record as any).parent.preferredLanguage,
+                                record.parent.preferredLanguage,
                             ),
-                        ),
-                    );
-                });
-                await Promise.all(mailerPromises);
+                        );
+                    }),
+                );
             }
 
             ResponseUtil.returnOK(res, deletedRegistration);

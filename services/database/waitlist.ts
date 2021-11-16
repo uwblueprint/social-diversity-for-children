@@ -23,9 +23,8 @@ async function getWaitlistRecord(input: WaitlistInput): Promise<Waitlist> {
  * @param classId
  * @returns Promise<Waitlist[]> - Promise with list of waitlist records associated with the class
  */
-async function getWaitlistRecordsByClassId(
-    classId: number,
-): Promise<Waitlist[]> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getWaitlistRecordsByClassId(classId: number) {
     const waitlistRecords = await prisma.waitlist.findMany({
         where: {
             classId: classId,

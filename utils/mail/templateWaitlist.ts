@@ -84,6 +84,10 @@ export const openSpotWaitlistTemplate = (
                         </span>
                     </div>
                 </div>
+                <p style="font-style: normal;
+                    font-weight: normal;
+                    font-size: 16px;
+                    line-height: 24px;">Please note that registration is first come, first serve.</p>
                 <br></br>
                 <p>Use this link to register for the class:</p>
                 <a href="${
