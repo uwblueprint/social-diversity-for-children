@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getUsers } from "@database/user";
+import { createUser, getUsers } from "@database/user";
 import { getSession } from "next-auth/client";
-import { UserInput } from "@models/User";
+import { roles, UserInput } from "@models/User";
 import { updateUser } from "@database/user";
 import { getUserValidationErrors } from "@utils/validation/user";
+import isEmail from "validator/lib/isEmail";
 
 /**
  * handle controls the request made to the user resource
@@ -22,7 +23,31 @@ export default async function handle(
             break;
         }
         case "POST": {
-            // TODO
+            // Creation of users should only be done for teachers and admins explicitly
+            const session = await getSession({ req });
+            if (
+                !session ||
+                ![roles.PROGRAM_ADMIN].includes((session as any).role)
+            ) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+            const createUserData: UserInput = {
+                firstName: req.body.firstName,
+                email: req.body.email,
+                lastName: req.body.lastName,
+                role: req.body.role,
+            };
+
+            if (!isEmail(createUserData.email)) {
+                return ResponseUtil.returnBadRequest(res, "Invalid user email");
+            }
+
+            const createdUser = await createUser(createUserData);
+            if (!createdUser) {
+                ResponseUtil.returnBadRequest(res, `Error creating user.`);
+                return;
+            }
+            ResponseUtil.returnOK(res, createdUser);
             break;
         }
         case "PUT": {
