@@ -15,6 +15,7 @@ import { getClass } from "@database/class";
 import { getWaitlistRecordsByClassId } from "@database/waitlist";
 import send from "services/nodemailer/mail";
 import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
+import { IoRecordingOutline } from "react-icons/io5";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -205,7 +206,7 @@ export default async function handle(
                         const emailSubject = `Spot Available for Waitlisted Class: ${waitlistClass.name}`;
                         return send(
                             process.env.EMAIL_FROM,
-                            (record as any).parent.user.email,
+                            record.parent.user.email,
                             emailSubject,
                             openSpotWaitlistTemplate(
                                 req.body.classId,
