@@ -14,16 +14,17 @@ import {
     Text,
     useToast,
 } from "@chakra-ui/react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { GetServerSideProps } from "next"; // Get server side props
+import { getSession, GetSessionOptions, signIn } from "next-auth/client";
 import Wrapper from "@components/AdminWrapper";
+import isEmail from "validator/lib/isEmail";
+import { roles } from "@prisma/client";
 import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
 import { createAdminUser, createTeacherUser } from "@utils/createUser";
-import { isAdmin } from "@utils/session/authorization";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions, signIn } from "next-auth/client";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
-import isEmail from "validator/lib/isEmail";
+import { isAdmin } from "@utils/session/authorization";
 
 /**
  * Internal page for admins to add/invite teachers via email
