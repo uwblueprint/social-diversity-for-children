@@ -3,6 +3,16 @@ variable "function_name" {
   type        = string
 }
 
+variable "layers" {
+  description = "Function layers"
+  type        = list(any)
+}
+
+variable "runtime" {
+  description = "Runtime of lambda function. botocore.vendored.requests is depreciated and gone in python 3.8"
+  type        = string
+}
+
 variable "cloudwatch_lambda_logs_policy_arn" {
   description = "Arn of cloudwatch lambda logs policy"
   type        = string

@@ -9,11 +9,6 @@ data "aws_iam_policy_document" "cloudwatch_logs" {
       "logs:CreateLogGroup",
       "logs:PutLogEvents"
     ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
     resources = ["arn:aws:logs:*:*:*"]
   }
 }

@@ -13,6 +13,10 @@ resource "aws_s3_bucket" "s3_uploads" {
     # TODO look into other options ex below
     # max_age_seconds = 3000
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # ----------------------------------------------------------
@@ -23,6 +27,9 @@ resource "aws_s3_bucket_object" "criminal_check_folder" {
   acl          = "private"
   key          = "${var.criminal_check_folder}/"
   content_type = "application/x-directory"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # ----------------------------------------------------------
@@ -33,6 +40,9 @@ resource "aws_s3_bucket_object" "income_proof_folder" {
   acl          = "private"
   key          = "${var.income_proof_folder}/"
   content_type = "application/x-directory"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # ----------------------------------------------------------
@@ -43,6 +53,9 @@ resource "aws_s3_bucket_object" "curriculum_plans_folder" {
   acl          = "private"
   key          = "${var.curriculum_plans_folder}/"
   content_type = "application/x-directory"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # ----------------------------------------------------------
@@ -52,4 +65,7 @@ resource "aws_s3_bucket_object" "other_folder" {
   acl          = "private"
   key          = "${var.other_folder}/"
   content_type = "application/x-directory"
+  lifecycle {
+    prevent_destroy = true
+  }
 }

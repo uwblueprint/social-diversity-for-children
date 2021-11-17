@@ -6,9 +6,11 @@ data "archive_file" "lambda_zip" {
 
 resource "aws_lambda_function" "this" {
   function_name = var.function_name
-  runtime       = "python3.8"
+  runtime       = var.runtime
   handler       = "${var.function_name}.lambda_handler"
   role          = aws_iam_role.lambda.arn
+  architectures = ["arm64"]
+  layers        = var.layers
 
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
