@@ -21,6 +21,7 @@ import { UpdateStudentInput } from "@models/Student";
 import { CriminalCheck } from "@components/myAccounts/CriminalCheck";
 import router from "next/router";
 import Link from "next/link";
+import { isInternal } from "@utils/session/authorization";
 
 type MyAccountProps = {
     session: Record<string, unknown>;
@@ -322,7 +323,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     }
-    if ([roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)) {
+    if (isInternal(session)) {
         return {
             redirect: {
                 destination: "/admin",

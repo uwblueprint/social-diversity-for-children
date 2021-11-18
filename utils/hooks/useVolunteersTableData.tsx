@@ -5,13 +5,23 @@ import convertToAge from "@utils/convertToAge";
 import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { CellProps } from "react-table";
+
+export type VolunteerDataType = {
+    id: number;
+    fullName: string;
+    email: string;
+    cityProvince: string;
+    age: number;
+    criminalCheckApproved: string;
+};
 
 /**
  * use volunteers table data hook to format all the data needed for an admin table
  * @param  volunteers volunteer users
  * @returns header columns, row data, csv data for table
  */
-export function useVolunteersTableData(
+export default function useVolunteersTableData(
     volunteers: (User & {
         volunteer: Volunteer;
     })[],
@@ -20,16 +30,9 @@ export function useVolunteersTableData(
         Header: string;
         accessor: string;
         isNumeric?: boolean;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        Cell?: (props: any) => JSX.Element;
+        Cell?: (props: CellProps<VolunteerDataType>) => JSX.Element;
     }[];
-    volunteerData: {
-        fullName: string;
-        email: string;
-        cityProvince: string;
-        age: number;
-        criminalCheckApproved: string;
-    }[];
+    volunteerData: VolunteerDataType[];
 } {
     const volunteerColumns = React.useMemo(
         () => [
@@ -40,7 +43,7 @@ export function useVolunteersTableData(
             {
                 Header: "Name",
                 accessor: "fullName",
-                Cell: (props) => {
+                Cell: (props: CellProps<VolunteerDataType>) => {
                     return (
                         <Link
                             href={`/admin/registrant/volunteer/${props.row.original.id}`}
@@ -68,7 +71,7 @@ export function useVolunteersTableData(
             {
                 Header: "Background Check",
                 accessor: "criminalCheckApproved",
-                Cell: (props) => {
+                Cell: (props: CellProps<VolunteerDataType>) => {
                     return props.row.original.criminalCheckApproved ===
                         "Complete" ? (
                         <SDCBadge>Complete</SDCBadge>
@@ -87,7 +90,12 @@ export function useVolunteersTableData(
                     id: user.volunteer.id,
                     fullName: `${user.firstName} ${user.lastName}`,
                     email: user.email,
-                    cityProvince: `${user.volunteer.cityName}, ${user.volunteer.province}`,
+                    cityProvince:
+                        user.volunteer.cityName && user.volunteer.province
+                            ? `${user.volunteer.cityName}, ${user.volunteer.province}`
+                            : user.volunteer.cityName
+                            ? user.volunteer.cityName
+                            : "N/A",
                     age: convertToAge(new Date(user.volunteer.dateOfBirth)),
                     criminalCheckApproved: user.volunteer.criminalCheckApproved
                         ? "Complete"
