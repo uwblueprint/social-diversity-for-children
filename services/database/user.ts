@@ -58,7 +58,15 @@ async function getUserFromEmail(email: string) {
 async function getUsers() {
     const users = await prisma.user.findMany({
         include: {
-            teacher: true,
+            teacher: {
+                include: {
+                    _count: {
+                        select: {
+                            teacherRegs: true,
+                        },
+                    },
+                },
+            },
             parent: {
                 include: {
                     students: true,
@@ -136,7 +144,10 @@ async function createUser(userInput: UserInput): Promise<User> {
                 ...createRole(userInput.role),
             },
         })
-        .catch((err) => null);
+        .catch((err) => {
+            console.log(err);
+            return null;
+        });
 
     return userAndRole;
 }
@@ -488,6 +499,44 @@ async function updateParentProofOfIncomeLink(email: string, link: string) {
     return user;
 }
 
+/**
+ * deleteUser deletes a user given
+ * @param  {string} id
+ */
+async function deleteUser(id: string): Promise<User> {
+    const user = await prisma.user
+        .delete({
+            where: {
+                id: parseInt(id),
+            },
+            include: {
+                programAdmin: true,
+                teacher: {
+                    include: {
+                        teacherRegs: true,
+                    },
+                },
+                parent: {
+                    include: {
+                        students: true,
+                        parentRegs: true,
+                        waitlists: true,
+                    },
+                },
+                volunteer: {
+                    include: {
+                        volunteerRegs: true,
+                    },
+                },
+            },
+        })
+        .catch((err) => {
+            console.log(err);
+            return null;
+        });
+    return user;
+}
+
 export {
     getUser,
     getUserFromEmail,
@@ -498,4 +547,5 @@ export {
     updateUser,
     updateVolunteerCriminalCheckLink,
     updateParentProofOfIncomeLink,
+    deleteUser,
 };

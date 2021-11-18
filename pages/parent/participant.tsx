@@ -1,24 +1,16 @@
-import {
-    Button,
-    Box,
-    Input,
-    FormControl,
-    FormLabel,
-    Stack,
-} from "@chakra-ui/react";
-import dynamic from "next/dynamic";
-import { useState } from "react";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession } from "next-auth/client";
-import useLocalStorage from "@utils/hooks/useLocalStorage";
-import { province } from "@models/User";
-import colourTheme from "@styles/colours";
-import { mutate } from "swr";
-import { therapy, difficulties } from ".prisma/client";
-import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "react-i18next";
+import { difficulties, therapy } from ".prisma/client";
+import { Box, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import { CreateStudentInput } from "@models/Student";
+import { province } from "@models/User";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
+import { GetServerSideProps } from "next"; // Get server side props
+import { Session } from "next-auth";
+import { getSession } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { mutate } from "swr";
 
 /*
 Dynamic import is a next.js feature. 
@@ -356,12 +348,10 @@ export default function ParticipantInfo({
             difficultiesArray.push(difficulties.SENSORY);
         if (hasOtherDifficulties) difficultiesArray.push(difficulties.OTHER);
 
-        console.log(session);
-
         const createStudentInput: CreateStudentInput = {
             firstName: participantFirstName,
             lastName: participantLastName,
-            parentId: (session as any).id as number,
+            parentId: (session as Session).id,
             dateOfBirth: new Date(dateOfBirth),
             addressLine1: address1,
             addressLine2: address2,

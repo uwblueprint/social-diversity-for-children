@@ -19,7 +19,11 @@ export type UseUsersResponse = {
         volunteer: Volunteer;
     })[];
     teachers: (User & {
-        teacher: Teacher;
+        teacher: Teacher & {
+            _count: {
+                teacherRegs: number;
+            };
+        };
     })[];
     programAdmins: (User & {
         programAdmins: ProgramAdmin;

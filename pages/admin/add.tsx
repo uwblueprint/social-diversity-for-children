@@ -1,18 +1,18 @@
 import {
-    Button,
     Box,
-    Text,
+    BoxProps,
+    Button,
     HStack,
-    useToast,
-    Tabs,
+    List,
+    ListIcon,
+    ListItem,
     Tab,
     TabList,
     TabPanel,
     TabPanels,
-    ListItem,
-    ListIcon,
-    List,
-    BoxProps,
+    Tabs,
+    Text,
+    useToast,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
@@ -24,6 +24,7 @@ import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
 import { createAdminUser, createTeacherUser } from "@utils/createUser";
 import { MdCheckCircle } from "react-icons/md";
+import { isAdmin } from "@utils/session/authorization";
 
 /**
  * Internal page for admins to add/invite teachers via email
@@ -302,7 +303,7 @@ export const getServerSideProps: GetServerSideProps = async (
                 permanent: false,
             },
         };
-    } else if (![roles.PROGRAM_ADMIN].includes((session as any).role)) {
+    } else if (!isAdmin(session)) {
         return {
             redirect: {
                 destination: "/no-access",

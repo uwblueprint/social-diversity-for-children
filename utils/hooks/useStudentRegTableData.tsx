@@ -3,13 +3,23 @@ import parsePhoneNumber from "@utils/parsePhoneNumber";
 import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { CellProps } from "react-table";
+
+export type StudentDataType = {
+    parentId: number;
+    fullName: string;
+    emergFullName: string;
+    emergNumber: string;
+    grade: string;
+    cityProvince: string;
+};
 
 /**
  * use student table data hook to format all the data needed for an admin table
  * @param  studentRegs student registrations - from parent regs
  * @returns header columns, row data, csv data for table
  */
-export function useStudentRegTableData(
+export default function useStudentRegTableData(
     studentRegs: (ParentReg & {
         student: Student;
     })[],
@@ -18,14 +28,9 @@ export function useStudentRegTableData(
         Header: string;
         accessor: string;
         isNumeric?: boolean;
+        Cell?: (props: CellProps<StudentDataType>) => JSX.Element;
     }[];
-    studentData: {
-        fullName: string;
-        emergFullName: string;
-        emergNumber: string;
-        grade: number;
-        cityProvince: string;
-    }[];
+    studentData: StudentDataType[];
 } {
     const studentColumns = React.useMemo(
         () => [
@@ -36,7 +41,7 @@ export function useStudentRegTableData(
             {
                 Header: "Name",
                 accessor: "fullName",
-                Cell: (props) => {
+                Cell: (props: CellProps<StudentDataType>) => {
                     return (
                         <Link
                             href={`/admin/registrant/parent/${props.row.original.parentId}`}
@@ -76,8 +81,15 @@ export function useStudentRegTableData(
                     fullName: `${reg.student.firstName} ${reg.student.lastName}`,
                     emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
                     emergNumber: parsePhoneNumber(reg.student.emergNumber),
-                    grade: reg.student.grade,
-                    cityProvince: `${reg.student.cityName}, ${reg.student.province}`,
+                    grade: reg.student.grade
+                        ? reg.student.grade.toString()
+                        : "-",
+                    cityProvince:
+                        reg.student.cityName && reg.student.province
+                            ? `${reg.student.cityName}, ${reg.student.province}`
+                            : reg.student.cityName
+                            ? reg.student.cityName
+                            : "N/A",
                 };
             }),
         [studentRegs],
