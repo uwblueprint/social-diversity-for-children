@@ -52,11 +52,12 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                         toast({
                             title: "Registration failed.",
                             description:
-                                "The class is not available for registration at this time",
+                                "The class is not available for registration at this time.",
                             status: "error",
                             duration: 9000,
                             isClosable: true,
                             position: "top-right",
+                            variant: "left-accent",
                         });
                     }
                 });
@@ -77,8 +78,8 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                         {t("form.registered")}
                     </Text>
                     <Text maxW={512} textAlign="center" py={3}>
-                        We look forward to see you at our program. Look out for
-                        an email from us shortly with more information!
+                        We look forward to seeing you at our program. Look out
+                        for an email from us shortly with more information!
                     </Text>
                     <Link href="/class">
                         <Button
