@@ -24,3 +24,6 @@ yarn-error.log
 
 # Directories
 .terraform/
+
+**/cronMailing/*
+!**/cronMailing/*.py
