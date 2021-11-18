@@ -30,7 +30,6 @@ import useSWR from "swr";
 import { Loading } from "@components/Loading";
 import CardInfoUtil from "utils/cardInfoUtil";
 import { locale } from "@prisma/client";
-import { ProgramDescriptionCard } from "@components/ProgramDescriptionCard";
 
 type BrowseClassesProps = {
     session: Record<string, unknown>;
@@ -59,7 +58,7 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
         </HStack>
     </Link>
 );
-
+// TODO: Complete page
 export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
     const router = useRouter();
     const { pid } = router.query;

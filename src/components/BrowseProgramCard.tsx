@@ -9,13 +9,13 @@ import {
     Spacer,
 } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
-import { SDCBadge } from "./SDCBadge";
 import { useTranslation } from "react-i18next";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { locale } from "@prisma/client";
 import { useRouter } from "next/router";
 import { IoEllipsisVertical } from "react-icons/io5";
+import { AdminBadge } from "@components/AdminBadge";
 
 type BrowseProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -80,21 +80,10 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                             {cardInfo.description}
                         </Box>
                         <Box mt={6}>
-                            <SDCBadge
-                                backgroundColor={
-                                    colourTheme.colors.CatskillWhite
-                                }
-                                color={colourTheme.colors.Blue}
-                                children={cardInfo.tag}
-                            />
-                            <SDCBadge
-                                ml="2"
-                                backgroundColor={
-                                    colourTheme.colors.CatskillWhite
-                                }
-                                color={colourTheme.colors.Blue}
-                                children={cardInfo.onlineFormat}
-                            />
+                            <AdminBadge>{cardInfo.tag}</AdminBadge>
+                            <AdminBadge ml={2}>
+                                {cardInfo.onlineFormat}
+                            </AdminBadge>
                         </Box>
                     </Box>
                 </Box>

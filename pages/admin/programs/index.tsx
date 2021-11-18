@@ -3,7 +3,6 @@ import {
     Flex,
     HStack,
     Link,
-    useColorModeValue,
     Text,
     Button,
     Divider,
@@ -25,11 +24,13 @@ import { locale } from "@prisma/client";
 import usePrograms from "@utils/hooks/usePrograms";
 import { useRouter } from "next/router";
 import { Loading } from "@components/Loading";
-import { GetServerSideProps } from "next"; // Get server side props
+import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { useState } from "react";
+import { roles } from ".prisma/client";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type BrowseProgramsProps = {
     session: Record<string, unknown>;
@@ -51,8 +52,8 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
                 py={"8px"}
                 border-radius="6px"
                 border="1px solid #0C53A0"
+                leftIcon={<SmallAddIcon />}
             >
-                <SmallAddIcon mr="11px" />
                 {children}
             </Button>
         </HStack>
@@ -75,49 +76,23 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
         return <Box>An Error has occurred</Box>;
     }
 
-    const filteredCards = programCardInfos.filter((val) => {
-        if (searchTerm == "") {
-            return val;
+    const filteredCards = programCardInfos.filter((prog) => {
+        const term = searchTerm.toLowerCase();
+        if (term == "") {
+            return prog;
         } else if (
-            val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            val.description.toLowerCase().includes(searchTerm.toLowerCase())
+            prog.name.toLowerCase().includes(term) ||
+            prog.description.toLowerCase().includes(term) ||
+            prog.onlineFormat.toLowerCase().includes(term) ||
+            prog.tag.toLowerCase().includes(term)
         ) {
-            return val;
+            return prog;
         }
     });
     return (
         <Wrapper session={props.session}>
             <Box>
-                <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
-                    <Flex h={"94px"}>
-                        <HStack spacing={8}>
-                            <Text
-                                fontSize="22px"
-                                fontWeight="bold"
-                                color={colourTheme.colors.Blue}
-                            >
-                                Programs
-                            </Text>
-                        </HStack>
-                        <Spacer />
-                        <HStack spacing={4}>
-                            {Links.map((linkInfo) => (
-                                <NavLink
-                                    key={linkInfo.name}
-                                    href={linkInfo.url}
-                                >
-                                    {linkInfo.name}
-                                </NavLink>
-                            ))}
-                        </HStack>
-                    </Flex>
-                </Box>
-                <Divider
-                    orientation="horizontal"
-                    marginTop="25px"
-                    marginBottom="30px"
-                    border="2px"
-                />
+                <AdminHeader>Programs</AdminHeader>
 
                 <Box px="50px">
                     <Text fontSize="16px">Browse Programs</Text>
@@ -139,7 +114,6 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                 <Box ml="50px" mt="25px">
                     {filteredCards && filteredCards.length > 0 ? (
                         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                            {" "}
                             {filteredCards.map((item, idx) => {
                                 return (
                                     <GridItem key={idx}>
@@ -173,8 +147,25 @@ export default BrowsePrograms;
 export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
-    // TODO : check session for admin/volunteer , if not redirect to no access
-    // refer to github
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    } else if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
+        return {
+            redirect: {
+                destination: "/no-access",
+                permanent: false,
+            },
+        };
+    }
+
     return {
         props: {
             ...(await serverSideTranslations(context.locale, ["common"])),

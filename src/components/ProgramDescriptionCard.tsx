@@ -23,11 +23,12 @@ type ProgramDescriptionCardProps = {
 };
 
 /**
- *
+ * TODO: Complete page
  * @param cardInfo info for the program cards on the home page
  * @param onClick method that is called when card is clicked
  * @returns a component that displays the class card info
  */
+
 export const ProgramDescriptionCard: React.FC<ProgramDescriptionCardProps> = ({
     cardInfo,
 }) => {
