@@ -1,6 +1,6 @@
 import json
 import os
-from botocore.vendored import requests
+import requests
 
 def lambda_handler(event, context):
     print("*** START MAILING CRON JOB ***")

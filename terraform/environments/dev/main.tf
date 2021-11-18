@@ -56,7 +56,6 @@ module "cronMailing" {
   function_name                     = "cronMailing"
   runtime                           = var.lambda_runtime
   cloudwatch_lambda_logs_policy_arn = module.iam.cloudwatch_lambda_logs_policy_arn
-  layers                            = var.lambda_layers
   environment_variables = {
     API_ENDPOINT      = var.api_endpoint
     LAMBDA_SECRET_KEY = module.parameter_store.lambda_secret_key

@@ -74,13 +74,6 @@ variable "lambda_runtime" {
   type        = string
 }
 
-# TODO create own layer and stop using this aws one
-variable "lambda_layers" {
-  description = "List of layers"
-  default     = ["arn:aws:lambda:us-east-1:668099181075:layer:AWSLambda-Python-AWS-SDK:4"]
-  type        = list(any)
-}
-
 variable "cronMailing_rule_name" {
   description = "Name of cronMailing eventbridge rule"
   default     = "hourly-cron-mailing"

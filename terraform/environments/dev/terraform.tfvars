@@ -20,7 +20,6 @@ zoom_class_link_type        = "String"
 # ------------------------------------------------------------------
 # Lambda
 lambda_runtime = "python3.8"
-lambda_layers  = ["arn:aws:lambda:us-east-1:668099181075:layer:AWSLambda-Python-AWS-SDK:4"]
 # cronMailing
 cronMailing_rule_name           = "hourly-cron-mailing"
 cronMailing_schedule_expression = "cron(0 * ? * * *)"
