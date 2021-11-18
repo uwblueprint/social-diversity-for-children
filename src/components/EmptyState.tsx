@@ -17,7 +17,6 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             py={"40px"}
             px={"64px"}
             mt={5}
-            display="flex"
             alignItems="center"
             justifyContent="center"
             textAlign="center"

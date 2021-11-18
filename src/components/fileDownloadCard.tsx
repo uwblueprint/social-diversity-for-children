@@ -16,9 +16,10 @@ import {
 import { MdDescription } from "react-icons/md";
 import colourTheme from "@styles/colours";
 import { updateFileApproval } from "@utils/updateFileApproval";
+import { FileType } from "@utils/enum/filetype";
 
 type FileDownloadCardProps = {
-    filePath: string;
+    filePath: FileType;
     docName: string;
     docApproved: boolean | null;
     participantId: number;
@@ -104,8 +105,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                                     setApprovalState(true);
                                 }}
                             >
-                                {" "}
-                                Approved{" "}
+                                Approved
                             </MenuItem>
                             <MenuDivider alignSelf="center" w="90%" />
                             <MenuItem
@@ -113,8 +113,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                                     setApprovalState(null);
                                 }}
                             >
-                                {" "}
-                                Pending{" "}
+                                Pending
                             </MenuItem>
                             <MenuDivider alignSelf="center" w="90%" />
                             <MenuItem
@@ -122,8 +121,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                                     setApprovalState(false);
                                 }}
                             >
-                                {" "}
-                                Declined{" "}
+                                Declined
                             </MenuItem>
                         </MenuList>
                     </Menu>

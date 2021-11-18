@@ -6,15 +6,28 @@ import { useRouter } from "next/router";
 import useUser from "@utils/hooks/useUser";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Loading } from "@components/Loading";
+import { FileType } from "@utils/enum/filetype";
 
-import { Button, VStack, Icon, Link, Text, HStack } from "@chakra-ui/react";
+import {
+    Button,
+    VStack,
+    Icon,
+    Link,
+    Text,
+    HStack,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+} from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+
 import colourTheme from "@styles/colours";
 import { MdPerson, MdDescription } from "react-icons/md";
 import FileDownloadCard from "@components/fileDownloadCard";
 import { Volunteer } from ".prisma/client";
 import EmptyState from "@components/EmptyState";
 
-const FILE_PATH = "criminal-check";
+const FILE_PATH = FileType.CRIMINAL_CHECK;
 
 type AdminProps = {
     volunteerName: string;
@@ -67,13 +80,28 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                             Add New Registrant
                         </Button>
                     </HStack>
-                    <HStack width="full" spacing="18px">
-                        <Link marginLeft="40px">Browse Registrants</Link>
-                        <Text> {">"} </Text>
-                        <Link>volunteerName</Link>
-                        <Text> {">"} </Text>
-                        <Link fontWeight="bold"> Criminal Record Check </Link>
-                    </HStack>
+                    <Breadcrumb
+                        alignSelf="flex-start"
+                        display="flex"
+                        paddingLeft="40px"
+                        separator={<ChevronRightIcon color="gray.500" />}
+                    >
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="#">
+                                Browse Registrants
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="#">
+                                {volunteerName}
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem isCurrentPage>
+                            <BreadcrumbLink href="#">
+                                Criminal Record Check
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                    </Breadcrumb>
                     <HStack
                         width="full"
                         display="flex"
