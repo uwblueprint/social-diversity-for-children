@@ -19,7 +19,7 @@ export default async function mailHandler(
 ): Promise<void> {
     // AWS_LAMBDA_KEY is needed as an environment variable
     // to restrict this endpoint to only the AWS Lambda requests
-    if (req.method == "POST" && req.body.key == process.env.AWS_LAMBDA_KEY) {
+    if (req.method == "POST" && req.body.key == process.env.LAMBDA_SECRET_KEY) {
         const firstIntervalHours = 3;
         const secondIntervalHours = 48;
         // finds all classes starting in 3 hours and 48 hours from now
