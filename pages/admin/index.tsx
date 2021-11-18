@@ -15,11 +15,12 @@ import { LiveClassCard } from "@components/admin/LiveClassCard";
 import { UpcomingClassCard } from "@components/admin/UpcomingClassCard";
 import Wrapper from "@components/AdminWrapper";
 import LiveIcon from "@components/icons/LiveIcon";
-import { locale, roles } from "@prisma/client";
+import { locale } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 import useStats from "@utils/hooks/useStats";
 import useUpcomingClasses from "@utils/hooks/useUpcomingClasses";
+import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import Link from "next/link";
@@ -81,7 +82,7 @@ export default function Admin(props: AdminProps): JSX.Element {
                 <Heading size="sm" alignSelf="flex-start" fontWeight="normal">
                     Overview and Analytics
                 </Heading>
-                <HStack spacing={4}>
+                <HStack spacing={4} alignSelf="start">
                     <AdminStatBox
                         amount={totalRegistrants}
                         isLoading={isStatLoading}
@@ -185,9 +186,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",

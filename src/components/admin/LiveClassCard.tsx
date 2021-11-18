@@ -4,6 +4,7 @@ import { SDCButton } from "@components/SDCButton";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { useRouter } from "next/router";
 import React from "react";
 
 export type LiveClassCardProps = {
@@ -15,6 +16,8 @@ export const LiveClassCard: React.FC<LiveClassCardProps> = ({
     cardInfo,
     link,
 }) => {
+    const router = useRouter();
+
     return (
         <Center
             w="100%"
@@ -28,7 +31,12 @@ export const LiveClassCard: React.FC<LiveClassCardProps> = ({
                     borderAge={cardInfo.borderAge}
                     isAdminTheme
                 />
-                <Heading size="md">
+                <Heading
+                    size="md"
+                    cursor={"pointer"}
+                    _hover={{ borderColor: colourTheme.colors.Gray }}
+                    onClick={() => router.push(`/admin/class/${cardInfo.id}`)}
+                >
                     {cardInfo.programName} ({cardInfo.name})
                 </Heading>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">

@@ -48,7 +48,8 @@ export type ProgramAdminInput = Record<string, never>;
 
 /* Input type for User endpoints */
 export type UserInput = {
-    id: string;
+    id?: string;
+    email?: string;
     firstName?: string;
     lastName?: string;
     role?: roles;

@@ -37,7 +37,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
 
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
-        ["/api/class/" + classId, classId, router.locale],
+        ["/api/class/" + classId],
         fetcherWithId,
     );
 
@@ -87,11 +87,12 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                         toast({
                             title: "Registration failed.",
                             description:
-                                "The class is not available for registration at this time",
+                                "The class is not available for registration at this time.",
                             status: "error",
                             duration: 9000,
                             isClosable: true,
                             position: "top-right",
+                            variant: "left-accent",
                         });
                     }
                 });

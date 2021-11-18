@@ -35,6 +35,9 @@ async function getClass(id: number) {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function getClasses() {
     const classes = await prisma.class.findMany({
+        where: {
+            isArchived: false,
+        },
         include: {
             _count: {
                 select: {
@@ -53,6 +56,9 @@ async function getClasses() {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function getWeeklySortedClasses() {
     const classes = await prisma.class.findMany({
+        where: {
+            isArchived: false,
+        },
         include: {
             program: { include: { programTranslation: true } },
             classTranslation: true,
@@ -83,7 +89,43 @@ async function getWeeklySortedClasses() {
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function getClassCount() {
-    return await prisma.class.count();
+    return await prisma.class.count({
+        where: {
+            isArchived: false,
+        },
+    });
+}
+
+/**
+ * getClassRegistrants takes the classId parameter and returns the class registrants (students + volunteer)
+ * @param {string} classId - classId
+ *
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getClassRegistrants(classId: number) {
+    const classSection = await prisma.class.findUnique({
+        where: {
+            id: classId,
+        },
+        select: {
+            id: true,
+            parentRegs: {
+                include: {
+                    student: true,
+                },
+            },
+            volunteerRegs: {
+                include: {
+                    volunteer: {
+                        include: {
+                            user: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+    return classSection;
 }
 
 /**
@@ -142,13 +184,35 @@ async function updateClass(
     });
     return updatedClass;
 }
+/**
+ * updateArchiveClass takes in id of the class and boolean of whether to archive the class and performs update
+ * @param  {number} id - classId of the class to be updated
+ * @param  {boolean} isArchive whether or not to archive the class
+ * @returns Promise<Class> - Promise with the updated class
+ */
+async function updateClassArchive(
+    id: number,
+    isArchive: boolean,
+): Promise<Class> {
+    const updatedClass = await prisma.class.update({
+        where: {
+            id,
+        },
+        data: {
+            isArchived: isArchive,
+        },
+    });
+    return updatedClass;
+}
 
 export {
     getClass,
     getClasses,
     getWeeklySortedClasses,
+    getClassRegistrants,
     getClassCount,
     createClass,
     deleteClass,
     updateClass,
+    updateClassArchive,
 };

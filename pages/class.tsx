@@ -6,6 +6,7 @@ import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { EnrollmentList } from "@components/EnrollmentList";
 import { VolunteeringList } from "@components/VolunteeringList";
+import { WaitlistList } from "@components/WaitlistList";
 import { roles } from ".prisma/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useMe from "@utils/hooks/useMe";
@@ -44,6 +45,12 @@ function Class({ session }: ClassProps): JSX.Element {
                 </Flex>
                 {me.role === roles.PARENT ? <EnrollmentList /> : null}
                 {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
+            </Flex>
+            <Flex direction="column" pt={4} pb={8}>
+                <Flex align="center">
+                    <Heading mb={8}>My Waitlist</Heading>
+                </Flex>
+                {me.role === roles.PARENT ? <WaitlistList /> : null}
             </Flex>
         </Wrapper>
     );
