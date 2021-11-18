@@ -1,11 +1,11 @@
-import { getClassCount } from "@database/class";
-import { getProgramCount } from "@database/program";
-import { getStudentCount } from "@database/student";
-import { getRegistrantCount, getTeacherCount } from "@database/user";
-import { ResponseUtil } from "@utils/responseUtil";
-import { isInternal } from "@utils/session/authorization";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ResponseUtil } from "@utils/responseUtil";
+import { getRegistrantCount, getTeacherCount } from "@database/user";
+import { getStudentCount } from "@database/student";
+import { getProgramCount } from "@database/program";
+import { getClassCount } from "@database/class";
 import { getSession } from "next-auth/client";
+import { roles } from ".prisma/client";
 
 /**
  * handle controls the request made to the admin stats resources
@@ -19,7 +19,11 @@ export default async function handle(
     const session = await getSession({ req });
 
     // If there is no session or the user is not a internal user, not authorized
-    if (!isInternal(session)) {
+    if (
+        !session ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
 

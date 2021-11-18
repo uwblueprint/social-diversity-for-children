@@ -13,14 +13,14 @@ import {
 import { AdminTable } from "@components/admin/table/AdminTable";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
-import useParentsTableData from "@utils/hooks/useParentsTableData";
-import useStudentsTableData from "@utils/hooks/useStudentsTableData";
-import useUsers from "@utils/hooks/useUsers";
-import useVolunteersTableData from "@utils/hooks/useVolunteersTableData";
-import { isInternal } from "@utils/session/authorization";
+import { roles } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
+import useUsers from "@utils/hooks/useUsers";
+import { useVolunteersTableData } from "@utils/hooks/useVolunteersTableData";
+import { useStudentsTableData } from "@utils/hooks/useStudentsTableData";
+import { useParentsTableData } from "@utils/hooks/useParentsTableData";
 
 type RegistrantViewProps = {
     session: Record<string, unknown>;
@@ -128,7 +128,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (!isInternal(session)) {
+    } else if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
         return {
             redirect: {
                 destination: "/no-access",

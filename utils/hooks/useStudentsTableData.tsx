@@ -3,30 +3,27 @@ import parsePhoneNumber from "@utils/parsePhoneNumber";
 import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { CellProps } from "react-table";
-
-export type StudentDataType = {
-    parentId: number;
-    fullName: string;
-    emergFullName: string;
-    emergNumber: string;
-    grade: string;
-    cityProvince: string;
-};
 
 /**
  * use students table data hook to format all the data needed for an admin table
  * @param  students students - from parent users
  * @returns header columns, row data, csv data for table
  */
-export default function useStudentsTableData(students: Student[]): {
+export function useStudentsTableData(students: Student[]): {
     studentColumns: {
         Header: string;
         accessor: string;
         isNumeric?: boolean;
-        Cell?: (props: CellProps<StudentDataType>) => JSX.Element;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Cell?: (props: any) => JSX.Element;
     }[];
-    studentData: StudentDataType[];
+    studentData: {
+        fullName: string;
+        emergFullName: string;
+        emergNumber: string;
+        grade: number;
+        cityProvince: string;
+    }[];
 } {
     const studentColumns = React.useMemo(
         () => [
@@ -37,7 +34,7 @@ export default function useStudentsTableData(students: Student[]): {
             {
                 Header: "Name",
                 accessor: "fullName",
-                Cell: (props: CellProps<StudentDataType>) => {
+                Cell: (props) => {
                     return (
                         <Link
                             href={`/admin/registrant/parent/${props.row.original.parentId}`}
@@ -77,13 +74,8 @@ export default function useStudentsTableData(students: Student[]): {
                     fullName: `${student.firstName} ${student.lastName}`,
                     emergFullName: `${student.emergFirstName} ${student.emergLastName}`,
                     emergNumber: parsePhoneNumber(student.emergNumber),
-                    grade: student.grade ? student.grade.toString() : "-",
-                    cityProvince:
-                        student.cityName && student.province
-                            ? `${student.cityName}, ${student.province}`
-                            : student.cityName
-                            ? student.cityName
-                            : "N/A",
+                    grade: student.grade,
+                    cityProvince: `${student.cityName}, ${student.province}`,
                 };
             }),
         [students],

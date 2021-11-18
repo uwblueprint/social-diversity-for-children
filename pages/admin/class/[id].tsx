@@ -14,16 +14,15 @@ import { ClassViewInfoCard } from "@components/admin/ClassViewInfoCard";
 import { AdminTable } from "@components/admin/table/AdminTable";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
-import { locale } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 import useClass from "@utils/hooks/useClass";
 import useClassRegistrant from "@utils/hooks/useClassRegistrants";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import useVolunteerRegTableData from "../../../utils/hooks/useVolunteerRegTableData";
-import useStudentRegTableData from "../../../utils/hooks/useStudentRegTableData";
+import { useVolunteerRegTableData } from "../../../utils/hooks/useVolunteerRegTableData";
+import { useStudentRegTableData } from "../../../utils/hooks/useStudentRegTableData";
 import React from "react";
-import { isInternal } from "@utils/session/authorization";
 
 type ClassViewProps = {
     session: Record<string, unknown>;
@@ -144,7 +143,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (!isInternal(session)) {
+    } else if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
         return {
             redirect: {
                 destination: "/no-access",

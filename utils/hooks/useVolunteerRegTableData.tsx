@@ -5,23 +5,13 @@ import convertToAge from "@utils/convertToAge";
 import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { CellProps } from "react-table";
-
-export type VolunteerDataType = {
-    id: number;
-    fullName: string;
-    email: string;
-    cityProvince: string;
-    age: number;
-    criminalCheckApproved: string;
-};
 
 /**
  * use volunteer table data hook to format all the data needed for an admin table
  * @param  volunteerRegs volunteer registrations
  * @returns header columns, row data, csv data for table
  */
-export default function useVolunteerRegTableData(
+export function useVolunteerRegTableData(
     volunteerRegs: (VolunteerReg & {
         volunteer: Volunteer & {
             user: User;
@@ -32,9 +22,14 @@ export default function useVolunteerRegTableData(
         Header: string;
         accessor: string;
         isNumeric?: boolean;
-        Cell?: (props: CellProps<VolunteerDataType>) => JSX.Element;
     }[];
-    volunteerData: VolunteerDataType[];
+    volunteerData: {
+        fullName: string;
+        email: string;
+        cityProvince: string;
+        age: number;
+        criminalCheckApproved: string;
+    }[];
 } {
     const volunteerColumns = React.useMemo(
         () => [
@@ -45,7 +40,7 @@ export default function useVolunteerRegTableData(
             {
                 Header: "Name",
                 accessor: "fullName",
-                Cell: (props: CellProps<VolunteerDataType>) => {
+                Cell: (props) => {
                     return (
                         <Link
                             href={`/admin/registrant/volunteer/${props.row.original.id}`}
@@ -73,7 +68,7 @@ export default function useVolunteerRegTableData(
             {
                 Header: "Background Check",
                 accessor: "criminalCheckApproved",
-                Cell: (props: CellProps<VolunteerDataType>) => {
+                Cell: (props) => {
                     return props.row.original.criminalCheckApproved ===
                         "Complete" ? (
                         <SDCBadge>Complete</SDCBadge>
@@ -92,12 +87,7 @@ export default function useVolunteerRegTableData(
                     id: reg.volunteerId,
                     fullName: `${reg.volunteer.user.firstName} ${reg.volunteer.user.lastName}`,
                     email: reg.volunteer.user.email,
-                    cityProvince:
-                        reg.volunteer.cityName && reg.volunteer.province
-                            ? `${reg.volunteer.cityName}, ${reg.volunteer.province}`
-                            : reg.volunteer.cityName
-                            ? reg.volunteer.cityName
-                            : "N/A",
+                    cityProvince: `${reg.volunteer.cityName}, ${reg.volunteer.province}`,
                     age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
                     criminalCheckApproved: reg.volunteer.criminalCheckApproved
                         ? "Complete"

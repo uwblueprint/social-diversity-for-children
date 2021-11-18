@@ -1,10 +1,10 @@
-import { deleteClass, getClass, updateClass } from "@database/class";
-import { ResponseUtil } from "@utils/responseUtil";
-import { isAdmin } from "@utils/session/authorization";
-import { validateClassData } from "@utils/validation/class";
-import { ClassInput } from "models/Class";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ResponseUtil } from "@utils/responseUtil";
+import { getClass, deleteClass, updateClass } from "@database/class";
+import { ClassInput } from "models/Class";
+import { validateClassData } from "@utils/validation/class";
 import { getSession } from "next-auth/client";
+import { roles } from "@models/User";
 
 /**
  * handle takes the classId parameter and returns
@@ -44,7 +44,11 @@ export default async function handle(
         return;
     } else if (req.method == "DELETE") {
         // If there is no session or the user is not a internal user, not authorized
-        if (!isAdmin(session)) {
+        if (
+            !session ||
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ![roles.PROGRAM_ADMIN].includes((session as any).role)
+        ) {
             return ResponseUtil.returnUnauthorized(res, "Unauthorized");
         }
         const deletedClass = await deleteClass(classId);
@@ -59,7 +63,11 @@ export default async function handle(
         ResponseUtil.returnOK(res, deletedClass);
         return;
     } else if (req.method == "PUT") {
-        if (!isAdmin(session)) {
+        if (
+            !session ||
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ![roles.PROGRAM_ADMIN].includes((session as any).role)
+        ) {
             return ResponseUtil.returnUnauthorized(res, "Unauthorized");
         }
 

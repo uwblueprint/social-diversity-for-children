@@ -183,7 +183,7 @@ CREATE TABLE parent_regs (
 -- create program admin users table
 CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY(id) REFERENCES users(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );

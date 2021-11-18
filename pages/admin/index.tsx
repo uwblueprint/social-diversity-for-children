@@ -15,12 +15,11 @@ import { LiveClassCard } from "@components/admin/LiveClassCard";
 import { UpcomingClassCard } from "@components/admin/UpcomingClassCard";
 import Wrapper from "@components/AdminWrapper";
 import LiveIcon from "@components/icons/LiveIcon";
-import { locale } from "@prisma/client";
+import { locale, roles } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 import useStats from "@utils/hooks/useStats";
 import useUpcomingClasses from "@utils/hooks/useUpcomingClasses";
-import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import Link from "next/link";
@@ -186,7 +185,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (!isInternal(session)) {
+    } else if (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
+    ) {
         return {
             redirect: {
                 destination: "/no-access",

@@ -1,10 +1,10 @@
-import { createUser, getUsers, updateUser } from "@database/user";
-import { UserInput } from "@models/User";
-import { ResponseUtil } from "@utils/responseUtil";
-import { isAdmin } from "@utils/session/authorization";
-import { getUserValidationErrors } from "@utils/validation/user";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ResponseUtil } from "@utils/responseUtil";
+import { createUser, getUsers } from "@database/user";
 import { getSession } from "next-auth/client";
+import { roles, UserInput } from "@models/User";
+import { updateUser } from "@database/user";
+import { getUserValidationErrors } from "@utils/validation/user";
 import isEmail from "validator/lib/isEmail";
 
 /**
@@ -25,7 +25,10 @@ export default async function handle(
         case "POST": {
             // Creation of users should only be done for teachers and admins explicitly
             const session = await getSession({ req });
-            if (!isAdmin(session)) {
+            if (
+                !session ||
+                ![roles.PROGRAM_ADMIN].includes((session as any).role)
+            ) {
                 return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
             const createUserData: UserInput = {
@@ -49,7 +52,7 @@ export default async function handle(
         }
         case "PUT": {
             const session = await getSession({ req });
-            const userId = session.id.toString();
+            const userId = session.id as string;
             const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
