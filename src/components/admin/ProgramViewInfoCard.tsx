@@ -1,56 +1,62 @@
 import { locale } from ".prisma/client";
 import {
+    AspectRatio,
+    Box,
+    Flex,
     Grid,
     GridItem,
-    AspectRatio,
-    VStack,
-    Flex,
     Heading,
-    Spacer,
-    Box,
+    IconButton,
     Image,
-    Text,
     Menu,
     MenuButton,
     MenuDivider,
     MenuItem,
     MenuList,
-    IconButton,
+    Spacer,
+    Text,
+    Tooltip,
     useToast,
+    VStack,
 } from "@chakra-ui/react";
-import { ClassCardInfo } from "@models/Class";
+import { AdminBadge } from "@components/AdminBadge";
+import { ProgramCardInfo } from "@models/Program";
 import colourTheme from "@styles/colours";
-import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { deleteClass } from "@utils/deleteClass";
-import { weekdayToString } from "@utils/enum/weekday";
 import { updateClassArchive } from "@utils/updateClassArchive";
 import { useRouter } from "next/router";
 import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 
-export type ClassViewInfoCard = {
-    cardInfo: ClassCardInfo;
+export type ProgramViewInfoCard = {
+    cardInfo: ProgramCardInfo;
 };
 
 /**
  * Admin view class card component used in the admin class details page
  */
-export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
+export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
     cardInfo,
 }) => {
     const router = useRouter();
     const toast = useToast();
+    const { start, end } = convertToShortDateRange(
+        cardInfo.startDate,
+        cardInfo.endDate,
+        locale.en,
+    );
 
     return (
         <Grid
             templateColumns="repeat(5, 1fr)"
-            gap={6}
+            gap={4}
             minH={165}
             borderColor={colourTheme.colors.Sliver}
             borderWidth={1}
         >
-            <GridItem alignSelf="center" maxW={200}>
-                <AspectRatio width="100%" ratio={1}>
+            <GridItem alignSelf="center" colSpan={2} h="100%">
+                <AspectRatio ratio={2} h="inherit">
                     <Image
                         src={cardInfo.image}
                         fit="cover"
@@ -58,10 +64,12 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={4}>
-                <VStack align="left" justify="center" height="100%" spacing={3}>
+            <GridItem colSpan={3} p={5}>
+                <VStack align="left" justify="center" height="100%">
                     <Flex mr="3" alignItems="baseline">
-                        <Heading size="md">{cardInfo.name}</Heading>
+                        <Heading size="md" fontSize={22}>
+                            {cardInfo.name}
+                        </Heading>
                         <Spacer />
                         <Menu>
                             <MenuButton
@@ -129,18 +137,17 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                             color={colourTheme.colors.Gray}
                             fontSize="sm"
                         >
-                            {weekdayToString(cardInfo.weekday, locale.en)}{" "}
-                            {convertToShortTimeRange(
-                                cardInfo.startTimeMinutes,
-                                cardInfo.durationMinutes,
-                            )}
-                        </Box>
-                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
-                            {" with Teacher " + cardInfo.teacherName}
+                            {`${start} to ${end}`}
                         </Box>
                     </Flex>
-                    <Flex fontSize="sm" pr={20}>
-                        <Text>{cardInfo.description}</Text>
+                    <Flex fontSize="sm" pr={20} pb={2}>
+                        <Tooltip label={cardInfo.description}>
+                            <Text noOfLines={3}>{cardInfo.description}</Text>
+                        </Tooltip>
+                    </Flex>
+                    <Flex>
+                        <AdminBadge>{cardInfo.tag}</AdminBadge>
+                        <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
                     </Flex>
                 </VStack>
             </GridItem>
