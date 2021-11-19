@@ -1,23 +1,14 @@
 import {
     Box,
-    Flex,
-    HStack,
-    Link,
     Text,
-    Button,
-    Divider,
     InputGroup,
     InputLeftElement,
     Input,
     Grid,
     GridItem,
-    Spacer,
 } from "@chakra-ui/react";
 import Wrapper from "@components/AdminWrapper";
 import React from "react";
-import { ReactNode } from "react";
-import colourTheme from "@styles/colours";
-import { SmallAddIcon } from "@chakra-ui/icons";
 import { SearchIcon } from "@chakra-ui/icons";
 import { BrowseProgramCard } from "@components/BrowseProgramCard";
 import { locale } from "@prisma/client";
@@ -36,29 +27,10 @@ type BrowseProgramsProps = {
     session: Record<string, unknown>;
 };
 
-const Links = [
+const headerLinks = [
     { name: "Add Program", url: "/admin/program/create" },
     { name: "Add Class", url: "/admin/class/create" },
 ];
-
-const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
-    <Link href={href}>
-        <HStack>
-            <Button
-                fontSize="16px"
-                backgroundColor="white"
-                fontWeight="400"
-                px={"16px"}
-                py={"8px"}
-                border-radius="6px"
-                border="1px solid #0C53A0"
-                leftIcon={<SmallAddIcon />}
-            >
-                {children}
-            </Button>
-        </HStack>
-    </Link>
-);
 
 export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
@@ -92,7 +64,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     return (
         <Wrapper session={props.session}>
             <Box>
-                <AdminHeader>Programs</AdminHeader>
+                <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
 
                 <Box px="50px">
                     <Text fontSize="16px">Browse Programs</Text>

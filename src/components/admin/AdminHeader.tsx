@@ -13,14 +13,15 @@ import {
 import { SmallAddIcon } from "@chakra-ui/icons";
 import colourTheme from "@styles/colours";
 
-type AdminHeaderProps = {
-    styleProps?: Record<string, unknown>;
+type HeaderLinks = {
+    name: string;
+    url: string;
 };
 
-const Links = [
-    { name: "Add Program", url: "/admin/program/create" },
-    { name: "Add Class", url: "/admin/class/create" },
-];
+type AdminHeaderProps = {
+    styleProps?: Record<string, unknown>;
+    headerLinks?: HeaderLinks[];
+};
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     <Link href={href}>
@@ -44,7 +45,10 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
 /**
  * Displays the Header for admin
  */
-export const AdminHeader: React.FC<AdminHeaderProps> = ({ children }) => {
+export const AdminHeader: React.FC<AdminHeaderProps> = ({
+    headerLinks,
+    children,
+}) => {
     return (
         <>
             <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
@@ -60,11 +64,16 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ children }) => {
                     </HStack>
                     <Spacer />
                     <HStack spacing={4}>
-                        {Links.map((linkInfo) => (
-                            <NavLink key={linkInfo.name} href={linkInfo.url}>
-                                {linkInfo.name}
-                            </NavLink>
-                        ))}
+                        {!headerLinks
+                            ? null
+                            : headerLinks.map((linkInfo) => (
+                                  <NavLink
+                                      key={linkInfo.name}
+                                      href={linkInfo.url}
+                                  >
+                                      {linkInfo.name}
+                                  </NavLink>
+                              ))}
                     </HStack>
                 </Flex>
             </Box>
