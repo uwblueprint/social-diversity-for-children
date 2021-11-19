@@ -4,32 +4,39 @@ import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
+    Grid,
+    GridItem,
     Input,
     InputGroup,
     InputLeftElement,
     VStack,
 } from "@chakra-ui/react";
+import { AdminEmptyState } from "@components/admin/AdminEmptyState";
+import { ProgramClassInfoCard } from "@components/admin/ProgramClassInfoCard";
 import { ProgramViewInfoCard } from "@components/admin/ProgramViewInfoCard";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
 import { locale, roles } from "@prisma/client";
+import { weekdayToString } from "@utils/enum/weekday";
+import useClassesByProgram from "@utils/hooks/UseClassesByProgram";
 import useProgram from "@utils/hooks/useProgram";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 type ClassViewProps = {
     session: Record<string, unknown>;
 };
 
 /**
- * Admin class view page that displays the information about the class given a class id
- * @returns Admin class view page component
+ * Admin program class view page that displays the classes of a program
+ * @returns Admin program class view page component
  */
-export default function ClassView(props: ClassViewProps): JSX.Element {
+export default function ProgramClassView(props: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
+    const [searchTerm, setSearchTerm] = useState("");
 
     const {
         program,
@@ -37,19 +44,39 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
         error: programError,
     } = useProgram(parseInt(pid as string), locale.en);
 
-    if (isProgramLoading) {
+    const {
+        classCards,
+        isLoading: isClassLoading,
+        error: classError,
+    } = useClassesByProgram(pid as string, locale.en);
+
+    if (isProgramLoading || isClassLoading) {
         return <Loading />;
-    } else if (programError) {
+    } else if (programError || classError) {
         return (
-            <Box>
-                {"An error has occurred. Class/registrants could not be loaded"}
-            </Box>
+            <Box>{"An error has occurred. Program could not be loaded"}</Box>
         );
     }
 
+    const filteredClasses = classCards.filter((classCard) => {
+        const term = searchTerm.toLowerCase();
+        if (term == "") {
+            return classCard;
+        } else if (
+            classCard.name.toLowerCase().includes(term) ||
+            classCard.borderAge.toString().includes(term) ||
+            classCard.teacherName.toLowerCase().includes(term) ||
+            weekdayToString(classCard.weekday, locale.en)
+                .toLowerCase()
+                .includes(term)
+        ) {
+            return classCard;
+        }
+    });
+
     return (
         <Wrapper session={props.session}>
-            <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
+            <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/program">
@@ -71,12 +98,29 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                     />
                     <Input
                         pl={8}
-                        placeholder={"Search Programs"}
+                        placeholder={"Search Classes"}
                         onChange={(e) => {
-                            console.log(e);
+                            setSearchTerm(e.target.value);
                         }}
                     />
                 </InputGroup>
+                {filteredClasses && filteredClasses.length > 0 ? (
+                    <Grid templateColumns="repeat(2, 1fr)" gap={4} w="100%">
+                        {filteredClasses.map((classCard, idx) => {
+                            return (
+                                <GridItem key={idx}>
+                                    <ProgramClassInfoCard
+                                        cardInfo={classCard}
+                                    />
+                                </GridItem>
+                            );
+                        })}
+                    </Grid>
+                ) : (
+                    <AdminEmptyState isLoading={isClassLoading} minH={250}>
+                        No Classes available
+                    </AdminEmptyState>
+                )}
             </VStack>
         </Wrapper>
     );

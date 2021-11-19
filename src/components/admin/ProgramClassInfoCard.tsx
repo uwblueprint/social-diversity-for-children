@@ -17,7 +17,9 @@ import {
     MenuList,
     IconButton,
     useToast,
+    Tooltip,
 } from "@chakra-ui/react";
+import { AgeBadge } from "@components/AgeBadge";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
@@ -28,14 +30,14 @@ import { useRouter } from "next/router";
 import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 
-export type ClassViewInfoCard = {
+export type ProgramClassInfoCard = {
     cardInfo: ClassCardInfo;
 };
 
 /**
  * Admin view class card component used in the admin class details page
  */
-export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
+export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
     cardInfo,
 }) => {
     const router = useRouter();
@@ -44,9 +46,8 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
     return (
         <Grid
             templateColumns="repeat(5, 1fr)"
-            gap={6}
             minH={165}
-            borderColor={colourTheme.colors.Sliver}
+            borderColor={colourTheme.colors.gray}
             borderWidth={1}
         >
             <GridItem alignSelf="center" maxW={200}>
@@ -58,8 +59,8 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={4} p={5}>
-                <VStack align="left" justify="center" height="100%" spacing={3}>
+            <GridItem colSpan={4} p={1}>
+                <VStack align="left" justify="center" height="100%">
                     <Flex mr="3" alignItems="baseline">
                         <Heading size="md">{cardInfo.name}</Heading>
                         <Spacer />
@@ -123,24 +124,44 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                             </MenuList>
                         </Menu>
                     </Flex>
-                    <Flex>
+                    <Tooltip
+                        label={cardInfo.teacherName}
+                        hasArrow
+                        placement="bottom-end"
+                    >
                         <Box
                             as="span"
                             color={colourTheme.colors.Gray}
                             fontSize="sm"
+                            noOfLines={1}
                         >
                             {weekdayToString(cardInfo.weekday, locale.en)}{" "}
                             {convertToShortTimeRange(
                                 cardInfo.startTimeMinutes,
                                 cardInfo.durationMinutes,
                             )}
-                        </Box>
-                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {" with Teacher " + cardInfo.teacherName}
                         </Box>
+                    </Tooltip>
+                    <Flex color={colourTheme.colors.Gray} fontSize="sm">
+                        <Text>
+                            {cardInfo.spaceTaken} participant
+                            {cardInfo.spaceTaken > 1 ? "s" : ""} registered
+                        </Text>
+                        <Text ml={5}>
+                            {cardInfo.volunteerSpaceTaken} volunteer
+                            {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""}{" "}
+                            registered
+                        </Text>
                     </Flex>
-                    <Flex fontSize="sm" pr={20}>
-                        <Text>{cardInfo.description}</Text>
+                    <Flex py={2}>
+                        {cardInfo.borderAge == null ? null : (
+                            <AgeBadge
+                                isAgeMinimal={cardInfo.isAgeMinimal}
+                                borderAge={cardInfo.borderAge}
+                                isAdminTheme
+                            />
+                        )}
                     </Flex>
                 </VStack>
             </GridItem>

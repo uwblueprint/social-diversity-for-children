@@ -23,8 +23,8 @@ import { AdminBadge } from "@components/AdminBadge";
 import { ProgramCardInfo } from "@models/Program";
 import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
-import { deleteClass } from "@utils/deleteClass";
-import { updateClassArchive } from "@utils/updateClassArchive";
+import { deleteProgram } from "@utils/deleteProgram";
+import { updateProgramArchive } from "@utils/updateProgramArchive";
 import { useRouter } from "next/router";
 import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -52,7 +52,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
             templateColumns="repeat(5, 1fr)"
             gap={4}
             minH={165}
-            borderColor={colourTheme.colors.Sliver}
+            borderColor={colourTheme.colors.gray}
             borderWidth={1}
         >
             <GridItem alignSelf="center" colSpan={2} h="100%">
@@ -86,7 +86,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                 <MenuItem
                                     onClick={() =>
                                         router.push(
-                                            `/admin/edit/class/${cardInfo.id}`,
+                                            `/admin/edit/program/${cardInfo.id}`,
                                         )
                                     }
                                 >
@@ -95,9 +95,9 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                 <MenuDivider />
                                 <MenuItem
                                     onClick={() => {
-                                        deleteClass(cardInfo.id);
+                                        deleteProgram(cardInfo.id);
                                         toast({
-                                            title: "Class deleted.",
+                                            title: "Program deleted.",
                                             description: `${cardInfo.name} has been deleted.`,
                                             status: "info",
                                             duration: 9000,
@@ -113,10 +113,10 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                 <MenuDivider />
                                 <MenuItem
                                     onClick={() => {
-                                        updateClassArchive(cardInfo.id, true);
+                                        updateProgramArchive(cardInfo.id, true);
                                         toast({
-                                            title: "Class archived.",
-                                            description: `${cardInfo.name} has been archived.`,
+                                            title: "Program archived.",
+                                            description: `${cardInfo.name} and its classes has been archived.`,
                                             status: "info",
                                             duration: 9000,
                                             isClosable: true,
@@ -141,7 +141,11 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                         </Box>
                     </Flex>
                     <Flex fontSize="sm" pr={20} pb={2}>
-                        <Tooltip label={cardInfo.description}>
+                        <Tooltip
+                            label={cardInfo.description}
+                            hasArrow
+                            placement="bottom-end"
+                        >
                             <Text noOfLines={3}>{cardInfo.description}</Text>
                         </Tooltip>
                     </Flex>
