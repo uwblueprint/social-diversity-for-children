@@ -22,7 +22,7 @@ zoom_class_link_type        = "String"
 lambda_runtime = "python3.8"
 # cronMailing
 cronMailing_rule_name           = "hourly-cron-mailing"
-cronMailing_schedule_expression = "cron(0 * ? * * *)"
+cronMailing_schedule_expression = "cron(0 * * * *)"
 
 # ------------------------------------------------------------------
 # environment variables
