@@ -97,11 +97,11 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                     ) : (
                         <Box pr="50px">
                             <AdminEmptyState
-                                w="100"
+                                w="100%"
                                 h="100%"
                                 isLoading={isLoading}
                             >
-                                No filtered classes available
+                                There are no programs available!
                             </AdminEmptyState>
                         </Box>
                     )}
