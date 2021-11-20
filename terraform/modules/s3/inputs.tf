@@ -23,4 +23,3 @@ variable "other_folder" {
   description = "Name of the other folder (folder where files are uploaded when type isn't specified)"
   type        = string
 }
-
