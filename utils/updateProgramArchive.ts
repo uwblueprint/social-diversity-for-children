@@ -9,7 +9,6 @@ import { mutate } from "swr";
 export async function updateProgramArchive(
     id: number,
     isArchive: boolean,
-    /* eslint-disable @typescript-eslint/no-explicit-any */
 ): Promise<Response> {
     const request = {
         method: "PUT",

@@ -3,6 +3,7 @@ import Wrapper from "@components/SDCWrapper";
 import { Error } from "@components/Error";
 
 export type CommonErrorProps = {
+    // Cause of error
     cause: string;
     session?: Record<string, unknown>;
 };

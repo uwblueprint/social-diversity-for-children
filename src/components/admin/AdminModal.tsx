@@ -12,10 +12,15 @@ import { PrimaryButton, SecondaryButton } from "@components/SDCButton";
 import React from "react";
 
 export type AdminModalProps = ModalContentProps & {
+    // Whether or not modal is open
     isOpen: boolean;
+    // Action on close
     onClose: () => void;
+    // Action on click proceed button
     onProceed: () => void;
+    // Modal header text
     header: string;
+    // Modal body text
     body: string;
 };
 
