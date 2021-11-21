@@ -17,12 +17,13 @@ import useStudentsTableData from "@utils/hooks/useStudentsTableData";
 import useUsers from "@utils/hooks/useUsers";
 import useVolunteersTableData from "@utils/hooks/useVolunteersTableData";
 import { isInternal } from "@utils/session/authorization";
+import { Session } from "next-auth";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
 
 type RegistrantViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -131,6 +132,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+        },
     };
 };

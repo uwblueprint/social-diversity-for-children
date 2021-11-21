@@ -32,7 +32,7 @@ import { Session } from "next-auth";
 import { AdminError } from "@components/AdminError";
 
 type UserViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
