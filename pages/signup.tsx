@@ -5,8 +5,9 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Loading } from "@components/Loading";
 import useMe from "@utils/hooks/useMe";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
 
 type SignupFormProps = {
     session: Record<string, unknown>;
@@ -30,10 +31,12 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
     };
 
     // Redirect user if user already signed up
-    const { me, isLoading } = useMe();
+    const { me, isLoading, error } = useMe();
 
-    if (isLoading) {
-        return <Loading />;
+    if (error) {
+        return <CommonError cause="cannot fetch user" session={session} />;
+    } else if (isLoading) {
+        return <CommonLoading session={session} />;
     }
 
     if (me && me.role) {

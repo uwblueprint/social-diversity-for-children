@@ -54,7 +54,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
         useVolunteerRegTableData(volunteerRegs);
 
     if (classError || registrantError) {
-        return <AdminError cause={"class could not be loaded"} />;
+        return <AdminError cause="class could not be loaded" />;
     }
     if (isClassLoading || isRegistrantLoading) {
         return <AdminLoading />;

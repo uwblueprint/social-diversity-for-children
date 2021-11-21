@@ -48,7 +48,7 @@ export default function RegistrantView(
     const { parentColumns, parentData } = useParentsTableData(parents);
 
     if (usersError) {
-        return <AdminError cause={"registrants could not be loaded"} />;
+        return <AdminError cause="registrants could not be loaded" />;
     }
 
     return (

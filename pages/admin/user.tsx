@@ -69,7 +69,7 @@ export default function UserView(props: UserViewProps): JSX.Element {
     const toast = useToast();
 
     if (usersError) {
-        return <AdminError cause={"users could not be loaded"} />;
+        return <AdminError cause="users could not be loaded" />;
     }
 
     return (

@@ -1,17 +1,19 @@
-import React from "react";
-import { Box, Flex, Heading } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/client";
-import Wrapper from "@components/SDCWrapper";
+import { roles } from ".prisma/client";
+import { Flex, Heading } from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
 import { EnrollmentList } from "@components/EnrollmentList";
+import { Loading } from "@components/Loading";
+import Wrapper from "@components/SDCWrapper";
 import { VolunteeringList } from "@components/VolunteeringList";
 import { WaitlistList } from "@components/WaitlistList";
-import { roles } from ".prisma/client";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useMe from "@utils/hooks/useMe";
-import { Loading } from "@components/Loading";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
+import React from "react";
 
 type ClassProps = {
     session: Record<string, unknown>;
@@ -25,9 +27,9 @@ function Class({ session }: ClassProps): JSX.Element {
     const router = useRouter();
 
     if (meError) {
-        return <Box>{"An error has occurred"}</Box>;
+        return <CommonError session={session} cause="cannot fetch user" />;
     } else if (isMeLoading) {
-        return <Loading />;
+        return <CommonLoading session={session} />;
     }
 
     // Stop and inform user to fill out information

@@ -50,7 +50,7 @@ export default function ProgramClassView(props: ClassViewProps): JSX.Element {
     );
 
     if (programError) {
-        return <AdminError cause={"program not found"} />;
+        return <AdminError cause="program not found" />;
     } else if (isProgramLoading || isClassLoading) {
         return <AdminLoading />;
     }
