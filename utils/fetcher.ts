@@ -12,7 +12,7 @@ export function fetcher(url: string): Promise<any> {
                 .then((data) => data.error)}`;
             throw error;
         }
-        await r.json();
+        return await r.json();
     });
 }
 

@@ -11,6 +11,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { AdminTable } from "@components/admin/table/AdminTable";
+import { AdminError } from "@components/AdminError";
 import Wrapper from "@components/AdminWrapper";
 import { Loading } from "@components/Loading";
 import useParentsTableData from "@utils/hooks/useParentsTableData";
@@ -46,14 +47,8 @@ export default function RegistrantView(
         useVolunteersTableData(volunteers);
     const { parentColumns, parentData } = useParentsTableData(parents);
 
-    if (isUsersLoading) {
-        return <Loading />;
-    } else if (usersError) {
-        return (
-            <Box>
-                {"An error has occurred. Registrants could not be loaded"}
-            </Box>
-        );
+    if (usersError) {
+        return <AdminError cause={"registrants could not be loaded"} />;
     }
 
     return (
