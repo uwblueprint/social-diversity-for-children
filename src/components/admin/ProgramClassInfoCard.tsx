@@ -38,11 +38,12 @@ import { AdminModal } from "./AdminModal";
 export type ProgramClassInfoCard = {
     cardInfo: ClassCardInfo;
     role: roles;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutateClasses: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
- * Admin view class card component used in the admin class details page
+ * Admin view program class card component used in the admin program details page
  */
 export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
     cardInfo,

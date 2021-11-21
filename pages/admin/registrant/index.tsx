@@ -1,5 +1,4 @@
 import {
-    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -13,7 +12,6 @@ import {
 import { AdminTable } from "@components/admin/table/AdminTable";
 import { AdminError } from "@components/AdminError";
 import Wrapper from "@components/AdminWrapper";
-import { Loading } from "@components/Loading";
 import useParentsTableData from "@utils/hooks/useParentsTableData";
 import useStudentsTableData from "@utils/hooks/useStudentsTableData";
 import useUsers from "@utils/hooks/useUsers";

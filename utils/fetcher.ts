@@ -3,6 +3,7 @@
  * @param url route to call fetch
  * @returns the promise corresponding to the response of the route
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function fetcher(url: string): Promise<any> {
     return fetch(url).then(async (r) => {
         if (!r.ok) {
@@ -27,6 +28,7 @@ export function fetcherWithId(
     url: string,
     id: string,
     label = "id",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
     return fetcher(`${url}?${label}=${id}`);
 }
@@ -42,6 +44,7 @@ export function fetcherWithPathFile(
     url: string,
     path?: string,
     file?: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
     let endpoint = `${url}`;
 

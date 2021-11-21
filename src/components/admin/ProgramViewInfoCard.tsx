@@ -38,7 +38,7 @@ export type ProgramViewInfoCard = {
 };
 
 /**
- * Admin view class card component used in the admin class details page
+ * Admin program view card component used in the admin program page
  */
 export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
     cardInfo,
