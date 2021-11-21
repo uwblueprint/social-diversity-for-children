@@ -8,6 +8,7 @@ export type UseClassesByProgramResponse = {
     classCards: ClassCardInfo[];
     isLoading: boolean;
     error: any;
+    mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
@@ -20,7 +21,7 @@ export default function useClassesByProgram(
     pid: string,
     language: locale,
 ): UseClassesByProgramResponse {
-    const { data, error } = useSWR(["/api/class", pid], fetcherWithId);
+    const { data, error, mutate } = useSWR(["/api/class", pid], fetcherWithId);
     const classCards = data
         ? CardInfoUtil.getClassCardInfos(data.data, language)
         : [];
@@ -28,5 +29,6 @@ export default function useClassesByProgram(
         classCards,
         isLoading: !error && !data,
         error: error,
+        mutate,
     };
 }

@@ -1,6 +1,6 @@
 import { Center, VStack, Heading, Text, Link } from "@chakra-ui/layout";
 import { AgeBadge } from "@components/AgeBadge";
-import { SDCButton } from "@components/SDCButton";
+import { PrimaryButton } from "@components/SDCButton";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
@@ -54,9 +54,9 @@ export const LiveClassCard: React.FC<LiveClassCardProps> = ({
                     {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""} registered
                 </Text>
                 <Link href={link} width="100%" isExternal _hover={{}}>
-                    <SDCButton py={4} width="100%">
+                    <PrimaryButton py={4} width="100%">
                         Join Class
-                    </SDCButton>
+                    </PrimaryButton>
                 </Link>
             </VStack>
         </Center>

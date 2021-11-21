@@ -24,16 +24,17 @@ import React from "react";
 import { isInternal } from "@utils/session/authorization";
 import { AdminError } from "@components/AdminError";
 import { AdminLoading } from "@components/AdminLoading";
+import { Session } from "next-auth";
 
 type ClassViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
  * Admin class view page that displays the information about the class given a class id
  * @returns Admin class view page component
  */
-export default function ClassView(props: ClassViewProps): JSX.Element {
+export default function ClassView({ session }: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { id } = router.query;
 
@@ -61,7 +62,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
     }
 
     return (
-        <Wrapper session={props.session}>
+        <Wrapper session={session}>
             <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
@@ -84,7 +85,7 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
-                <ClassViewInfoCard cardInfo={classCard} />
+                <ClassViewInfoCard cardInfo={classCard} role={session.role} />
                 <Tabs w="100%">
                     <TabList>
                         <Tab>
@@ -151,6 +152,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: { session },
     };
 };

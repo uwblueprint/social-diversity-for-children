@@ -14,7 +14,7 @@ import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { ProgramClassInfoCard } from "@components/admin/ProgramClassInfoCard";
 import { ProgramViewInfoCard } from "@components/admin/ProgramViewInfoCard";
 import Wrapper from "@components/AdminWrapper";
-import { locale, roles } from "@prisma/client";
+import { locale } from "@prisma/client";
 import { weekdayToString } from "@utils/enum/weekday";
 import useClassesByProgram from "@utils/hooks/UseClassesByProgram";
 import useProgram from "@utils/hooks/useProgram";
@@ -24,16 +24,20 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { AdminError } from "@components/AdminError";
 import { AdminLoading } from "@components/AdminLoading";
+import { Session } from "next-auth";
+import { isInternal } from "@utils/session/authorization";
 
 type ClassViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
  * Admin program class view page that displays the classes of a program
  * @returns Admin program class view page component
  */
-export default function ProgramClassView(props: ClassViewProps): JSX.Element {
+export default function ProgramClassView({
+    session,
+}: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
     const [searchTerm, setSearchTerm] = useState("");
@@ -44,10 +48,11 @@ export default function ProgramClassView(props: ClassViewProps): JSX.Element {
         error: programError,
     } = useProgram(parseInt(pid as string), locale.en);
 
-    const { classCards, isLoading: isClassLoading } = useClassesByProgram(
-        pid as string,
-        locale.en,
-    );
+    const {
+        classCards,
+        isLoading: isClassLoading,
+        mutate: mutateClasses,
+    } = useClassesByProgram(pid as string, locale.en);
 
     if (programError) {
         return <AdminError cause="program not found" />;
@@ -72,7 +77,7 @@ export default function ProgramClassView(props: ClassViewProps): JSX.Element {
     });
 
     return (
-        <Wrapper session={props.session}>
+        <Wrapper session={session}>
             <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
@@ -87,7 +92,7 @@ export default function ProgramClassView(props: ClassViewProps): JSX.Element {
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
-                <ProgramViewInfoCard cardInfo={program} />
+                <ProgramViewInfoCard cardInfo={program} role={session.role} />
                 <InputGroup mt="25px">
                     <InputLeftElement
                         pointerEvents="none"
@@ -108,6 +113,8 @@ export default function ProgramClassView(props: ClassViewProps): JSX.Element {
                                 <GridItem key={idx}>
                                     <ProgramClassInfoCard
                                         cardInfo={classCard}
+                                        role={session.role}
+                                        mutateClasses={mutateClasses}
                                     />
                                 </GridItem>
                             );
@@ -137,10 +144,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",
@@ -150,6 +154,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+        },
     };
 };
