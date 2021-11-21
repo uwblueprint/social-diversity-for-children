@@ -1,5 +1,4 @@
 import {
-    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -13,7 +12,6 @@ import {
 import { ClassViewInfoCard } from "@components/admin/ClassViewInfoCard";
 import { AdminTable } from "@components/admin/table/AdminTable";
 import Wrapper from "@components/AdminWrapper";
-import { Loading } from "@components/Loading";
 import { locale } from "@prisma/client";
 import useClass from "@utils/hooks/useClass";
 import useClassRegistrant from "@utils/hooks/useClassRegistrants";
@@ -24,6 +22,8 @@ import useVolunteerRegTableData from "../../../utils/hooks/useVolunteerRegTableD
 import useStudentRegTableData from "../../../utils/hooks/useStudentRegTableData";
 import React from "react";
 import { isInternal } from "@utils/session/authorization";
+import { AdminError } from "@components/AdminError";
+import { AdminLoading } from "@components/AdminLoading";
 
 type ClassViewProps = {
     session: Record<string, unknown>;
@@ -53,14 +53,11 @@ export default function ClassView(props: ClassViewProps): JSX.Element {
     const { volunteerColumns, volunteerData } =
         useVolunteerRegTableData(volunteerRegs);
 
-    if (isClassLoading) {
-        return <Loading />;
-    } else if (classError || registrantError) {
-        return (
-            <Box>
-                {"An error has occurred. Class/registrants could not be loaded"}
-            </Box>
-        );
+    if (classError || registrantError) {
+        return <AdminError cause={"class could not be loaded"} />;
+    }
+    if (isClassLoading || isRegistrantLoading) {
+        return <AdminLoading />;
     }
 
     return (

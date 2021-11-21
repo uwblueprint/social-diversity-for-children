@@ -1,6 +1,6 @@
+import { updateProgramArchive } from "@database/program";
 import { ResponseUtil } from "@utils/responseUtil";
 import { isAdmin } from "@utils/session/authorization";
-import { updateProgramArchive } from "@utils/updateProgramArchive";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
 
@@ -14,7 +14,7 @@ export default async function handle(
     res: NextApiResponse,
 ): Promise<void> {
     // Obtain program id
-    const { pid } = req.query;
+    const { id } = req.query;
     const { isArchive }: { isArchive: boolean } = req.body;
     const session = await getSession({ req });
 
@@ -24,8 +24,8 @@ export default async function handle(
     }
 
     //parse query parameters from string to number and validate that id is a number
-    const id = parseInt(pid as string);
-    if (isNaN(id)) {
+    const pid = parseInt(id as string);
+    if (isNaN(pid)) {
         return ResponseUtil.returnBadRequest(
             res,
             "classId should be passed in as numbers",
@@ -34,12 +34,12 @@ export default async function handle(
 
     switch (req.method) {
         case "PUT": {
-            const program = await updateProgramArchive(id, isArchive);
+            const program = await updateProgramArchive(pid, isArchive);
 
             if (!program) {
                 return ResponseUtil.returnNotFound(
                     res,
-                    `Program with id ${pid} not found.`,
+                    `Program with id ${id} not found.`,
                 );
             }
             ResponseUtil.returnOK(res, program);

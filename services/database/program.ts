@@ -76,10 +76,25 @@ async function updateProgramArchive(
         },
         data: {
             isArchived: isArchive,
-            // TODO: archive all children classes
+            classes: {
+                updateMany: {
+                    data: {
+                        isArchived: isArchive,
+                    },
+                    where: {
+                        isArchived: !isArchive,
+                    },
+                },
+            },
         },
     });
     return updatedProgram;
 }
 
-export { getProgramCount, createProgram, deleteProgram, updateProgram };
+export {
+    getProgramCount,
+    createProgram,
+    deleteProgram,
+    updateProgram,
+    updateProgramArchive,
+};

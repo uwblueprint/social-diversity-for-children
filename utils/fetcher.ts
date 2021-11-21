@@ -4,7 +4,16 @@
  * @returns the promise corresponding to the response of the route
  */
 export function fetcher(url: string): Promise<any> {
-    return fetch(url).then((r) => r.json());
+    return fetch(url).then(async (r) => {
+        if (!r.ok) {
+            const error = new Error();
+            error.message = `${r.status}: ${await r
+                .json()
+                .then((data) => data.error)}`;
+            throw error;
+        }
+        await r.json();
+    });
 }
 
 /**

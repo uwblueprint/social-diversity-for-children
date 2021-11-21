@@ -1,6 +1,5 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import {
-    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -15,7 +14,6 @@ import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { ProgramClassInfoCard } from "@components/admin/ProgramClassInfoCard";
 import { ProgramViewInfoCard } from "@components/admin/ProgramViewInfoCard";
 import Wrapper from "@components/AdminWrapper";
-import { Loading } from "@components/Loading";
 import { locale, roles } from "@prisma/client";
 import { weekdayToString } from "@utils/enum/weekday";
 import useClassesByProgram from "@utils/hooks/UseClassesByProgram";
@@ -24,6 +22,8 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { AdminError } from "@components/AdminError";
+import { AdminLoading } from "@components/AdminLoading";
 
 type ClassViewProps = {
     session: Record<string, unknown>;
@@ -44,18 +44,15 @@ export default function ProgramClassView(props: ClassViewProps): JSX.Element {
         error: programError,
     } = useProgram(parseInt(pid as string), locale.en);
 
-    const {
-        classCards,
-        isLoading: isClassLoading,
-        error: classError,
-    } = useClassesByProgram(pid as string, locale.en);
+    const { classCards, isLoading: isClassLoading } = useClassesByProgram(
+        pid as string,
+        locale.en,
+    );
 
-    if (isProgramLoading || isClassLoading) {
-        return <Loading />;
-    } else if (programError || classError) {
-        return (
-            <Box>{"An error has occurred. Program could not be loaded"}</Box>
-        );
+    if (programError) {
+        return <AdminError cause={"program not found"} />;
+    } else if (isProgramLoading || isClassLoading) {
+        return <AdminLoading />;
     }
 
     const filteredClasses = classCards.filter((classCard) => {

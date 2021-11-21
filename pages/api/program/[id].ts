@@ -36,8 +36,10 @@ export default async function handle(
 
             const result = await getProgramCardInfo(programId as string);
             if (!result) {
-                ResponseUtil.returnNotFound(res, `Program info not found.`);
-                break;
+                return ResponseUtil.returnNotFound(
+                    res,
+                    `Program info not found.`,
+                );
             }
             ResponseUtil.returnOK(res, result);
             break;
