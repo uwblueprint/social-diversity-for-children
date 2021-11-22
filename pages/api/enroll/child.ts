@@ -15,7 +15,6 @@ import { getClass } from "@database/class";
 import { getWaitlistRecordsByClassId } from "@database/waitlist";
 import send from "services/nodemailer/mail";
 import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
-import { IoRecordingOutline } from "react-icons/io5";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -167,23 +166,6 @@ export default async function handle(
                 return;
             }
 
-            // check if the class is full, prior to deletion
-            let notifyWaitlist = true;
-            const waitlistClass = await getClass(
-                parentRegistrationInput.classId,
-            );
-            if (!waitlistClass) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Class information could not be found`,
-                );
-                return;
-            }
-            // if class wasn't originally full, do not notify waitlist
-            if (waitlistClass._count.parentRegs < waitlistClass.spaceTotal) {
-                notifyWaitlist = false;
-            }
-
             const deletedRegistration = await deleteParentRegistration(
                 parentRegistrationInput,
             );
@@ -195,6 +177,15 @@ export default async function handle(
                 return;
             }
 
+            let notifyWaitlist = true;
+            // if class wasn't originally full, do not notify waitlist
+            if (
+                deletedRegistration.class._count.parentRegs <
+                deletedRegistration.class.spaceTotal
+            ) {
+                notifyWaitlist = false;
+            }
+
             // check if there exists waitlist records for this class
             const waitlistRecords = await getWaitlistRecordsByClassId(
                 parentRegistrationInput.classId,
@@ -203,20 +194,20 @@ export default async function handle(
             if (notifyWaitlist && waitlistRecords.length > 0) {
                 await Promise.all(
                     waitlistRecords.map((record) => {
-                        const emailSubject = `Spot Available for Waitlisted Class: ${waitlistClass.name}`;
+                        const emailSubject = `Spot Available for Waitlisted Class: ${deletedRegistration.class.name}`;
                         return send(
                             process.env.EMAIL_FROM,
                             record.parent.user.email,
                             emailSubject,
                             openSpotWaitlistTemplate(
                                 req.body.classId,
-                                waitlistClass.imageLink,
-                                waitlistClass.name,
-                                waitlistClass.weekday,
-                                waitlistClass.startDate,
-                                waitlistClass.endDate,
-                                waitlistClass.startTimeMinutes,
-                                waitlistClass.durationMinutes,
+                                deletedRegistration.class.imageLink,
+                                deletedRegistration.class.name,
+                                deletedRegistration.class.weekday,
+                                deletedRegistration.class.startDate,
+                                deletedRegistration.class.endDate,
+                                deletedRegistration.class.startTimeMinutes,
+                                deletedRegistration.class.durationMinutes,
                                 record.parent.preferredLanguage,
                             ),
                         );
