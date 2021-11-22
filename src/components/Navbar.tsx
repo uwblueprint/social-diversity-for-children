@@ -12,9 +12,10 @@ import { ReactNode } from "react";
 import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Session } from "next-auth";
 
 type NavbarProps = {
-    session?: Record<string, unknown>;
+    session?: Session;
     height?: number | string;
 };
 

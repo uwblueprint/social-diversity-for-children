@@ -24,9 +24,10 @@ import Link from "next/link";
 import { isInternal } from "@utils/session/authorization";
 import { CommonLoading } from "@components/CommonLoading";
 import { CommonError } from "@components/CommonError";
+import { Session } from "next-auth";
 
 type MyAccountProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;

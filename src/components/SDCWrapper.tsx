@@ -2,9 +2,10 @@ import React from "react";
 import { Navbar } from "./Navbar";
 import { Footer, DEFAULT_FOOTER_HEIGHT } from "./Footer";
 import { Box } from "@chakra-ui/react";
+import { Session } from "next-auth";
 
 type SDCWrapperProps = {
-    session?: Record<string, unknown>;
+    session?: Session;
 };
 
 const SDCWrapper: React.FC<SDCWrapperProps> = (props): JSX.Element => {
