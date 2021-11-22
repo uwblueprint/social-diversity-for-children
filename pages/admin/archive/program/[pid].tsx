@@ -46,24 +46,13 @@ export default function ArchivedProgramClassView({
         program,
         isLoading: isProgramLoading,
         error: programError,
-    } = useProgram(parseInt(pid as string), locale.en);
+    } = useProgram(parseInt(pid as string), locale.en, true);
 
     const {
         classCards,
         isLoading: isClassLoading,
         mutate: mutateClasses,
-    } = useClassesByProgram(pid as string, locale.en);
-    // const {
-    //     program,
-    //     isLoading: isProgramLoading,
-    //     error: programError,
-    // } = useArchivedProgram(parseInt(pid as string), locale.en);
-
-    // const {
-    //     classCards,
-    //     isLoading: isClassLoading,
-    //     mutate: mutateClasses,
-    // } = useArchivedClassesByProgram(pid as string, locale.en);
+    } = useClassesByProgram(pid as string, locale.en, true);
 
     if (programError) {
         return <AdminError cause="program not found" />;

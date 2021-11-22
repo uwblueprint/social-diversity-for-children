@@ -2,7 +2,7 @@ import { ProgramCardInfo } from "@models/Program";
 import { locale } from "@prisma/client";
 import useSWR from "swr";
 import CardInfoUtil from "../cardInfoUtil";
-import { fetcher } from "../fetcher";
+import { fetcherWithQuery } from "../fetcher";
 
 export type UseProgramResponse = {
     program: ProgramCardInfo;
@@ -20,11 +20,16 @@ export type UseProgramResponse = {
 export default function useProgram(
     id: number,
     language: locale,
+    isArchived = false,
 ): UseProgramResponse {
-    const { data, error, mutate } = useSWR(`/api/program/${id}`, fetcher);
+    const { data, error, mutate } = useSWR(
+        [`/api/program/${id}`, isArchived, "archived"],
+        fetcherWithQuery,
+    );
     const result = data
         ? CardInfoUtil.getProgramCardInfo(data.data, language)
         : null;
+
     return {
         program: result,
         isLoading: !error && !data,

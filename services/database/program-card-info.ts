@@ -2,13 +2,14 @@ import prisma from "@database";
 
 /**
  * @param {string} id - programId
+ * @param {boolean} isArchived - whether to search for archived classes
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function getClassInfoWithProgramId(id: string) {
+async function getClassInfoWithProgramId(id: string, isArchived: boolean) {
     const findResults = await prisma.class.findMany({
         where: {
             programId: parseInt(id),
-            isArchived: false,
+            isArchived: isArchived,
         },
         include: {
             program: { include: { programTranslation: true } },
@@ -36,6 +37,7 @@ async function getClassInfoWithProgramId(id: string) {
 /**
  * Get every program's card info
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function getProgramCardInfos() {
     const findResult = await prisma.program.findMany({
         where: {
@@ -51,11 +53,14 @@ async function getProgramCardInfos() {
 /**
  * Get the card info for one program with given id
  * @param {string} id - programId
+ * @param {boolean} isArchived - whether to search for archived program
  */
-async function getProgramCardInfo(id: string) {
-    const findResult = await prisma.program.findUnique({
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getProgramCardInfo(id: string, isArchived: boolean) {
+    const findResult = await prisma.program.findFirst({
         where: {
             id: parseInt(id),
+            isArchived: isArchived,
         },
         include: {
             programTranslation: true,

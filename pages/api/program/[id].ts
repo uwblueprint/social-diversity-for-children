@@ -17,7 +17,7 @@ export default async function handle(
 ): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId } = req.query;
+            const { id: programId, archived } = req.query;
 
             if (!programId) {
                 return ResponseUtil.returnBadRequest(
@@ -34,7 +34,10 @@ export default async function handle(
                 );
             }
 
-            const result = await getProgramCardInfo(programId as string);
+            const result = await getProgramCardInfo(
+                programId as string,
+                Boolean(JSON.parse(archived as string)),
+            );
             if (!result) {
                 return ResponseUtil.returnNotFound(
                     res,
