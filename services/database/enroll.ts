@@ -100,13 +100,25 @@ async function createParentRegistration(
  */
 async function deleteParentRegistration(
     parentRegistrationData: ParentRegistrationInput,
-): Promise<ParentReg> {
+) {
     const parentRegistration = await prisma.parentReg.delete({
         where: {
             parentId_studentId_classId: {
                 parentId: parentRegistrationData.parentId,
                 studentId: parentRegistrationData.studentId,
                 classId: parentRegistrationData.classId,
+            },
+        },
+        include: {
+            class: {
+                include: {
+                    _count: {
+                        select: {
+                            parentRegs: true,
+                            volunteerRegs: true,
+                        },
+                    },
+                },
             },
         },
     });
