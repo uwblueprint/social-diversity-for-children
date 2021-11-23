@@ -26,6 +26,7 @@ import { useTranslation } from "next-i18next";
 import { EmptyState } from "./EmptyState";
 import Participants from "@utils/containers/Participants";
 import { UseMeResponse } from "@utils/hooks/useMe";
+import { Session } from "next-auth";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -36,7 +37,7 @@ type ProgramDetailsProps = {
     styleProps?: Record<string, unknown>;
     programInfo: ProgramCardInfo;
     classInfo: ClassCardInfo[];
-    session: Record<string, unknown>;
+    session: Session;
     me: UseMeResponse["me"];
 };
 

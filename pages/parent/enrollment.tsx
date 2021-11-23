@@ -22,9 +22,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
+import { Session } from "next-auth";
 
 type ParentEnrollClassProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -35,7 +36,7 @@ export default function ParentEnrollClass({
 }: ParentEnrollClassProps): JSX.Element {
     const router = useRouter();
     const { classId, page, child, stripe } = router.query;
-    const { user, isLoading, error } = useUser(session.id as string);
+    const { user, isLoading, error } = useUser(session.id.toString());
     const numberClassId = classId ? parseInt(classId as string, 10) : null;
     const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);

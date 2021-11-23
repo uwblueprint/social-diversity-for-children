@@ -13,9 +13,10 @@ import useMe from "@utils/hooks/useMe";
 import { fetcherWithId } from "@utils/fetcher";
 import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
+import { Session } from "next-auth";
 
 type ProgramDetailsProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export const ProgramDetails: React.FC<ProgramDetailsProps> = ({

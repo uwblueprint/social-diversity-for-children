@@ -1,9 +1,10 @@
 import React from "react";
 import Wrapper from "@components/SDCWrapper";
 import { Loading } from "./Loading";
+import { Session } from "next-auth";
 
 export type CommonLoadingProps = {
-    session?: Record<string, unknown>;
+    session?: Session;
 };
 
 /**

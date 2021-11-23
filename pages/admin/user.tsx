@@ -32,7 +32,7 @@ import { Session } from "next-auth";
 import { AdminError } from "@components/AdminError";
 
 type UserViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -57,14 +57,14 @@ export default function UserView(props: UserViewProps): JSX.Element {
         onOpen,
         setRevokeName,
         setRevokeUserId,
-        (props.session as Session).id,
+        props.session.id,
     );
     const { teacherColumns, teacherData } = useTeachersTableData(
         teachers,
         onOpen,
         setRevokeName,
         setRevokeUserId,
-        (props.session as Session).id,
+        props.session.id,
     );
     const toast = useToast();
 

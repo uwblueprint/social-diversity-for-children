@@ -1,11 +1,12 @@
 import React from "react";
 import Wrapper from "@components/SDCWrapper";
 import { Error } from "@components/Error";
+import { Session } from "next-auth";
 
 export type CommonErrorProps = {
     // Cause of error
     cause: string;
-    session?: Record<string, unknown>;
+    session?: Session;
 };
 
 /**
