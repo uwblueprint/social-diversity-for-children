@@ -9,6 +9,7 @@ import React from "react";
 
 export type LiveClassCardProps = {
     cardInfo: ClassCardInfo;
+    // Link to open live class
     link: string;
 };
 

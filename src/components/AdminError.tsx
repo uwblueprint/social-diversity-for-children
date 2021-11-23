@@ -5,6 +5,7 @@ import { Session } from "next-auth";
 
 export type AdminErrorProps = {
     session?: Session;
+    // Cause of error
     cause: string;
 };
 

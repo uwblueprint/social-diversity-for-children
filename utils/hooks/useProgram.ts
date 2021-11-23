@@ -7,7 +7,9 @@ import { fetcher } from "../fetcher";
 export type UseProgramResponse = {
     program: ProgramCardInfo;
     isLoading: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 

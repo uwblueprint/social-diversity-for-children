@@ -37,6 +37,7 @@ import { AdminModal } from "./AdminModal";
 
 export type ProgramClassInfoCard = {
     cardInfo: ClassCardInfo;
+    // Role of user, determines whether to show admin options
     role: roles;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutateClasses: (data?: any, shouldRevalidate?: boolean) => Promise<any>;

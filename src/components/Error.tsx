@@ -5,6 +5,7 @@ import React from "react";
 import SvgErrorIcon from "./icons/ErrorIcon";
 
 export type ErrorProps = {
+    // cause of error
     cause: string;
 };
 

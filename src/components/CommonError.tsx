@@ -4,6 +4,7 @@ import { Error } from "@components/Error";
 import { Session } from "next-auth";
 
 export type CommonErrorProps = {
+    // Cause of error
     cause: string;
     session?: Session;
 };

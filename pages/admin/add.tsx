@@ -14,17 +14,17 @@ import {
     Text,
     useToast,
 } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions, signIn } from "next-auth/client";
 import Wrapper from "@components/AdminWrapper";
-import isEmail from "validator/lib/isEmail";
 import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
 import { createAdminUser, createTeacherUser } from "@utils/createUser";
-import { MdCheckCircle } from "react-icons/md";
 import { isAdmin } from "@utils/session/authorization";
+import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
+import { getSession, GetSessionOptions, signIn } from "next-auth/client";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { MdCheckCircle } from "react-icons/md";
+import isEmail from "validator/lib/isEmail";
 
 type AddInternalUserProps = {
     session: Session;

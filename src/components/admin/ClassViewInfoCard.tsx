@@ -32,6 +32,7 @@ import { AdminModal } from "./AdminModal";
 
 export type ClassViewInfoCard = {
     cardInfo: ClassCardInfo;
+    // Role of user, determines to show admin options
     role: roles;
 };
 
