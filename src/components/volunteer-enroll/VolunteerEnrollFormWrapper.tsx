@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
     Center,
     Box,
@@ -13,12 +13,13 @@ import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 import { useTranslation } from "react-i18next";
+import { Session } from "next-auth";
 
 type VolunteerEnrolledPageProps = {
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
-    setPageNum: any;
+    setPageNum: Dispatch<SetStateAction<number>>;
     formPages: JSX.Element[];
 };
 

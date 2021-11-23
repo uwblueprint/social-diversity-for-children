@@ -32,6 +32,7 @@ import { AdminModal } from "./AdminModal";
 
 export type ClassViewInfoCard = {
     cardInfo: ClassCardInfo;
+    // Role of user, determines to show admin options
     role: roles;
 };
 
@@ -67,6 +68,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
             position: "top-right",
             variant: "left-accent",
         });
+        // TODO: change to /admin/program/${cardInfo.programId}
         router.push("/admin");
     };
     const onDelete = () => {
@@ -80,6 +82,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
             position: "top-right",
             variant: "left-accent",
         });
+        // TODO: change to /admin/program/${cardInfo.programId}
         router.push("/admin");
     };
 

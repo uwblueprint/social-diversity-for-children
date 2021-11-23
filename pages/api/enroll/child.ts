@@ -12,6 +12,9 @@ import { ParentRegistrationInput } from "models/Enroll";
 import { roles } from "@prisma/client";
 import { getUserFromEmail } from "@database/user";
 import { getClass } from "@database/class";
+import { getWaitlistRecordsByClassId } from "@database/waitlist";
+import send from "services/nodemailer/mail";
+import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -172,6 +175,44 @@ export default async function handle(
                     `Registration could not be created`,
                 );
                 return;
+            }
+
+            let notifyWaitlist = true;
+            // if class wasn't originally full, do not notify waitlist
+            if (
+                deletedRegistration.class._count.parentRegs <
+                deletedRegistration.class.spaceTotal
+            ) {
+                notifyWaitlist = false;
+            }
+
+            // check if there exists waitlist records for this class
+            const waitlistRecords = await getWaitlistRecordsByClassId(
+                parentRegistrationInput.classId,
+            );
+            // if there are, get class information & send email to all on waitlist
+            if (notifyWaitlist && waitlistRecords.length > 0) {
+                await Promise.all(
+                    waitlistRecords.map((record) => {
+                        const emailSubject = `Spot Available for Waitlisted Class: ${deletedRegistration.class.name}`;
+                        return send(
+                            process.env.EMAIL_FROM,
+                            record.parent.user.email,
+                            emailSubject,
+                            openSpotWaitlistTemplate(
+                                req.body.classId,
+                                deletedRegistration.class.imageLink,
+                                deletedRegistration.class.name,
+                                deletedRegistration.class.weekday,
+                                deletedRegistration.class.startDate,
+                                deletedRegistration.class.endDate,
+                                deletedRegistration.class.startTimeMinutes,
+                                deletedRegistration.class.durationMinutes,
+                                record.parent.preferredLanguage,
+                            ),
+                        );
+                    }),
+                );
             }
 
             ResponseUtil.returnOK(res, deletedRegistration);

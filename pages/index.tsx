@@ -22,9 +22,10 @@ import useMe from "@utils/hooks/useMe";
 import { MissingDocAlert } from "@components/MissingDocAlert";
 import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
+import { Session } from "next-auth";
 
 type ComponentProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export default function Component(props: ComponentProps): JSX.Element {

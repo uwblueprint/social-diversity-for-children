@@ -34,6 +34,7 @@ import { roles } from "@prisma/client";
 
 export type ProgramViewInfoCard = {
     cardInfo: ProgramCardInfo;
+    // Role of user, determines whether to show admin options
     role: roles;
 };
 

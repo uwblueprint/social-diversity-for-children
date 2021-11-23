@@ -10,12 +10,13 @@ import { locale } from "@prisma/client";
 import { Loading } from "@components/Loading";
 import Participants from "@utils/containers/Participants";
 import useMe from "@utils/hooks/useMe";
-import { fetcherWithId } from "@utils/fetcher";
+import { fetcherWithQuery } from "@utils/fetcher";
 import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
+import { Session } from "next-auth";
 
 type ProgramDetailsProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
@@ -29,12 +30,12 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
 
     const { data: classListResponse, error: classListError } = useSWR(
         ["/api/class", pid],
-        fetcherWithId,
+        fetcherWithQuery,
     );
     const isClassListLoading = !classListResponse && !classListError;
     const { data: programInfoResponse, error: programInfoError } = useSWR(
         ["/api/program/" + pid],
-        fetcherWithId,
+        fetcherWithQuery,
     );
     const isProgramInfoLoading = !programInfoResponse && !programInfoError;
 

@@ -71,6 +71,7 @@ export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> 
                 position: "top-right",
                 variant: "left-accent",
             });
+            // TODO: on unarchive, we should go to the overall program archive /admin/archive
             router.push("/admin");
         };
 
@@ -85,6 +86,7 @@ export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> 
                 position: "top-right",
                 variant: "left-accent",
             });
+            // TODO: on unarchive, we should go to the overall program archive /admin/archive
             router.push("/admin");
         };
 

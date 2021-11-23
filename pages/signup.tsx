@@ -8,9 +8,10 @@ import { useState } from "react";
 import useMe from "@utils/hooks/useMe";
 import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
+import { Session } from "next-auth";
 
 type SignupFormProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**

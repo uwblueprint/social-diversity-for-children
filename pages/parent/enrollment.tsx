@@ -13,7 +13,7 @@ import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePa
 import SelectChildForClass from "@components/SelectChildForClass";
 import { locale, roles, Student } from "@prisma/client";
 import CardInfoUtil from "@utils/cardInfoUtil";
-import { fetcherWithId } from "@utils/fetcher";
+import { fetcherWithQuery } from "@utils/fetcher";
 import useUser from "@utils/hooks/useUser";
 import { pathWithQueries } from "@utils/request/query";
 import { GetServerSideProps } from "next";
@@ -22,9 +22,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
+import { Session } from "next-auth";
 
 type ParentEnrollClassProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -35,7 +36,7 @@ export default function ParentEnrollClass({
 }: ParentEnrollClassProps): JSX.Element {
     const router = useRouter();
     const { classId, page, child, stripe } = router.query;
-    const { user, isLoading, error } = useUser(session.id as string);
+    const { user, isLoading, error } = useUser(session.id.toString());
     const numberClassId = classId ? parseInt(classId as string, 10) : null;
     const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
@@ -46,7 +47,7 @@ export default function ParentEnrollClass({
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId],
-        fetcherWithId,
+        fetcherWithQuery,
     );
 
     const isClassInfoLoading = !classInfoResponse && !classInfoError;

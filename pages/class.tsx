@@ -14,9 +14,10 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import React from "react";
+import { Session } from "next-auth";
 
 type ClassProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**

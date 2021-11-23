@@ -61,7 +61,7 @@ export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard
         } = useDisclosure();
 
         const onUnarchive = async () => {
-            await updateClassArchive(cardInfo.id, true);
+            await updateClassArchive(cardInfo.id, false);
             toast({
                 title: "Class is active.",
                 description: `${cardInfo.name} is no longer archived.`,
@@ -71,7 +71,7 @@ export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard
                 position: "top-right",
                 variant: "left-accent",
             });
-            mutateClasses();
+            router.push(`/admin/program/${cardInfo.programId}`);
         };
         const onDelete = async () => {
             await deleteClass(cardInfo.id);

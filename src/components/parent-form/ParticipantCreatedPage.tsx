@@ -1,27 +1,28 @@
-import React from "react";
 import {
-    Center,
-    Stack,
     Box,
+    Button,
+    Center,
     Flex,
     Progress,
+    Stack,
     Text,
-    Button,
     VStack,
 } from "@chakra-ui/react";
-import Wrapper from "@components/SDCWrapper";
-import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
-import colourTheme from "@styles/colours";
-import Link from "next/link";
+import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { Loading } from "@components/Loading";
+import Wrapper from "@components/SDCWrapper";
+import colourTheme from "@styles/colours";
+import { Session } from "next-auth";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
 
 type ParticipantCreatedPageProps = {
     successful: string;
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
     setPageNum: any;
     totalPages: number;

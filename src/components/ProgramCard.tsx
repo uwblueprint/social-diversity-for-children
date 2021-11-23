@@ -15,11 +15,12 @@ import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import { Session } from "next-auth";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
     cardInfo: ProgramCardInfo[];
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**

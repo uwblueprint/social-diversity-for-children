@@ -201,6 +201,17 @@ async function updateClassArchive(
         },
         data: {
             isArchived: isArchive,
+            ...(() => {
+                if (!isArchive) {
+                    return {
+                        program: {
+                            update: {
+                                isArchived: isArchive,
+                            },
+                        },
+                    };
+                }
+            })(),
         },
     });
     return updatedClass;

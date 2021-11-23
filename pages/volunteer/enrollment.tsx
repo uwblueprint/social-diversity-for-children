@@ -15,10 +15,11 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
-import { fetcherWithId } from "@utils/fetcher";
+import { fetcherWithQuery } from "@utils/fetcher";
+import { Session } from "next-auth";
 
 type VolunteerEnrollmentProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -38,7 +39,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId],
-        fetcherWithId,
+        fetcherWithQuery,
     );
 
     const isClassInfoLoading = !classInfoResponse && !classInfoError;
