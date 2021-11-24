@@ -52,6 +52,5 @@ export function fetcherWithPathFile(
     if (path) endpoint += `path=${path}&`;
     if (file) endpoint += `file=${file}&`;
     if (email) endpoint += `email=${encodeURIComponent(email)}&`;
-    console.log(encodeURIComponent(email));
     return fetcher(endpoint.slice(0, -1));
 }

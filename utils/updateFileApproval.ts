@@ -1,4 +1,3 @@
-import { Student } from "@prisma/client";
 import { mutate } from "swr";
 
 /**

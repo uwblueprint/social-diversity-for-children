@@ -40,11 +40,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
         updateFileApproval(filePath, participantId, approvalState);
     }, [approvalState, participantId]);
 
-    const {
-        url: docLink,
-        isLoading: criminalRecordIsLoading,
-        error: criminalRecordError,
-    } = useFileRetrieve(filePath, docName, userEmail);
+    const { url: docLink } = useFileRetrieve(filePath, docName, userEmail);
 
     return (
         <Box

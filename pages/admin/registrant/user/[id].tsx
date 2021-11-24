@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Wrapper from "@components/AdminWrapper";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import useUser from "@utils/hooks/useUser";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Loading } from "@components/Loading";
 import { FileType } from "@utils/enum/filetype";
 import { isAdmin } from "@utils/session/authorization";
 
 import {
-    Button,
     VStack,
     Icon,
     Link,
@@ -29,6 +26,8 @@ import { Volunteer } from ".prisma/client";
 import { Parent } from ".prisma/client";
 import EmptyState from "@components/EmptyState";
 import { Session } from "next-auth";
+import { AdminLoading } from "@components/AdminLoading";
+import { AdminError } from "@components/AdminError";
 
 type AdminProps = {
     session: Session;
@@ -44,9 +43,9 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
     } = useUser(userId as string);
 
     if (userIsLoading) {
-        return <Loading />;
+        return <AdminLoading />;
     } else if (userError) {
-        router.push("/404").then(() => window.scrollTo(0, 0));
+        return <AdminError cause="registrants could not be loaded" />;
     }
 
     const userRole = user.role as string;
