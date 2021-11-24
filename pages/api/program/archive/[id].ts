@@ -1,11 +1,11 @@
-import { updateClassArchive } from "@database/class";
+import { updateProgramArchive } from "@database/program";
 import { ResponseUtil } from "@utils/responseUtil";
 import { isAdmin } from "@utils/session/authorization";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
 
 /**
- * handle takes the classId query and a isArchive param and returns updates class archive column
+ * handle takes the program Id query and a isArchive param and return updated program along with classes
  * @param req API request object
  * @param res API response object
  */
@@ -13,8 +13,8 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    // Obtain class id
-    const { classId } = req.query;
+    // Obtain program id
+    const { id } = req.query;
     const { isArchive }: { isArchive: boolean } = req.body;
     const session = await getSession({ req });
 
@@ -24,8 +24,8 @@ export default async function handle(
     }
 
     //parse query parameters from string to number and validate that id is a number
-    const id = parseInt(classId as string);
-    if (isNaN(id)) {
+    const pid = parseInt(id as string);
+    if (isNaN(pid)) {
         return ResponseUtil.returnBadRequest(
             res,
             "classId should be passed in as numbers",
@@ -34,16 +34,15 @@ export default async function handle(
 
     switch (req.method) {
         case "PUT": {
-            // obtain class with provided classId after updating archive column
-            const classSection = await updateClassArchive(id, isArchive);
+            const program = await updateProgramArchive(pid, isArchive);
 
-            if (!classSection) {
+            if (!program) {
                 return ResponseUtil.returnNotFound(
                     res,
-                    `Class with id ${classId} not found.`,
+                    `Program with id ${id} not found.`,
                 );
             }
-            ResponseUtil.returnOK(res, classSection);
+            ResponseUtil.returnOK(res, program);
             break;
         }
         default: {

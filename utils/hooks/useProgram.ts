@@ -4,8 +4,8 @@ import useSWR from "swr";
 import CardInfoUtil from "../cardInfoUtil";
 import { fetcher } from "../fetcher";
 
-export type UseProgramsResponse = {
-    programs: ProgramCardInfo[];
+export type UseProgramResponse = {
+    program: ProgramCardInfo;
     isLoading: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
@@ -15,16 +15,20 @@ export type UseProgramsResponse = {
 
 /**
  * Programs hook to get all programs in the platform
+ * @param  {number} id id of class
  * @param  {locale} language locale used
  * @returns UseProgramsResponse
  */
-export default function usePrograms(language: locale): UseProgramsResponse {
-    const { data, error, mutate } = useSWR("/api/program", fetcher);
+export default function useProgram(
+    id: number,
+    language: locale,
+): UseProgramResponse {
+    const { data, error, mutate } = useSWR(`/api/program/${id}`, fetcher);
     const result = data
-        ? CardInfoUtil.getProgramCardInfos(data.data, language)
-        : [];
+        ? CardInfoUtil.getProgramCardInfo(data.data, language)
+        : null;
     return {
-        programs: result,
+        program: result,
         isLoading: !error && !data,
         error,
         mutate,

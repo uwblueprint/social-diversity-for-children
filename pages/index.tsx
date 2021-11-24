@@ -16,14 +16,16 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
 import { useTranslation } from "next-i18next";
 import usePrograms from "@utils/hooks/usePrograms";
-import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import useMe from "@utils/hooks/useMe";
 import { MissingDocAlert } from "@components/MissingDocAlert";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
+import { Session } from "next-auth";
 
 type ComponentProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export default function Component(props: ComponentProps): JSX.Element {
@@ -36,11 +38,16 @@ export default function Component(props: ComponentProps): JSX.Element {
         isLoading,
         error,
     } = usePrograms(router.locale as locale);
+
     if (error) {
-        return <Box>{"An error has occurred: " + error.toString()}</Box>;
-    }
-    if (isLoading) {
-        return <Loading />;
+        return (
+            <CommonError
+                cause="cannot fetch programs"
+                session={props.session}
+            />
+        );
+    } else if (isLoading) {
+        return <CommonLoading session={props.session} />;
     }
 
     return (

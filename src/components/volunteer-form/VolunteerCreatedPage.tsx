@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
     Center,
     Stack,
@@ -18,13 +18,14 @@ import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { Loading } from "@components/Loading";
 import { useTranslation } from "react-i18next";
+import { Session } from "next-auth";
 
 type VolunteerCreatedPageProps = {
     successful: string;
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
-    setPageNum: any;
+    setPageNum: Dispatch<SetStateAction<number>>;
     totalPages: number;
     formPages: JSX.Element[];
 };

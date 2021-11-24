@@ -66,7 +66,7 @@ const FormPage = (props) => {
 export default function ParticipantInfo({
     session,
 }: {
-    session: Record<string, unknown>;
+    session: Session;
 }): JSX.Element {
     const router = useRouter();
     const { page } = router.query;
@@ -351,7 +351,7 @@ export default function ParticipantInfo({
         const createStudentInput: CreateStudentInput = {
             firstName: participantFirstName,
             lastName: participantLastName,
-            parentId: (session as Session).id,
+            parentId: session.id,
             dateOfBirth: new Date(dateOfBirth),
             addressLine1: address1,
             addressLine2: address2,

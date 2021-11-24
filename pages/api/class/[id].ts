@@ -64,7 +64,6 @@ export default async function handle(
         }
 
         // validate updated class body
-
         const classInput = req.body as ClassInput;
         const validationError = validateClassData(classInput);
         if (validationError.length !== 0) {

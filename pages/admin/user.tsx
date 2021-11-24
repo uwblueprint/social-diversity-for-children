@@ -5,7 +5,6 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogOverlay,
-    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -21,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { AdminTable } from "@components/admin/table/AdminTable";
 import Wrapper from "@components/AdminWrapper";
-import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React, { useState } from "react";
@@ -31,9 +29,10 @@ import { isAdmin } from "@utils/session/authorization";
 import useTeachersTableData from "@utils/hooks/useTeachersTableData";
 import { deleteUser } from "@utils/deleteUser";
 import { Session } from "next-auth";
+import { AdminError } from "@components/AdminError";
 
 type UserViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -58,25 +57,19 @@ export default function UserView(props: UserViewProps): JSX.Element {
         onOpen,
         setRevokeName,
         setRevokeUserId,
-        (props.session as Session).id,
+        props.session.id,
     );
     const { teacherColumns, teacherData } = useTeachersTableData(
         teachers,
         onOpen,
         setRevokeName,
         setRevokeUserId,
-        (props.session as Session).id,
+        props.session.id,
     );
     const toast = useToast();
 
-    if (isUsersLoading) {
-        return <Loading />;
-    } else if (usersError) {
-        return (
-            <Box>
-                {"An error has occurred. Registrants could not be loaded"}
-            </Box>
-        );
+    if (usersError) {
+        return <AdminError cause="users could not be loaded" />;
     }
 
     return (

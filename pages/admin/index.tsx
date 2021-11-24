@@ -22,6 +22,7 @@ import useStats from "@utils/hooks/useStats";
 import useUpcomingClasses from "@utils/hooks/useUpcomingClasses";
 import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next";
+import { Session } from "next-auth";
 import { getSession } from "next-auth/client";
 import Link from "next/link";
 import React from "react";
@@ -29,7 +30,7 @@ import { MdClass, MdCreate, MdPeople } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 
 type AdminProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -196,6 +197,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+        },
     };
 };
