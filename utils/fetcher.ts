@@ -38,23 +38,20 @@ export function fetcherWithId(
  * @param  {string} url
  * @param  {string} path
  * @param  {string} file
+ * @param  {string} email
  * @returns the promise corresponding to the response of the route
  */
 export function fetcherWithPathFile(
     url: string,
     path?: string,
     file?: string,
+    email?: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-    let endpoint = `${url}`;
-
-    if (path && file) {
-        endpoint += `?path=${path}&file=${file}`;
-    } else if (path) {
-        endpoint += `?path=${path}`;
-    } else if (file) {
-        endpoint += `?file=${file}`;
-    }
-
-    return fetcher(endpoint);
+    let endpoint = `${url}?`;
+    if (path) endpoint += `path=${path}&`;
+    if (file) endpoint += `file=${file}&`;
+    if (email) endpoint += `email=${encodeURIComponent(email)}&`;
+    console.log(encodeURIComponent(email));
+    return fetcher(endpoint.slice(0, -1));
 }

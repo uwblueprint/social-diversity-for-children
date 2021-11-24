@@ -23,6 +23,7 @@ type FileDownloadCardProps = {
     docName: string;
     docApproved: boolean | null;
     participantId: number;
+    userEmail: string;
 };
 
 const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
@@ -30,11 +31,11 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
     docName,
     docApproved,
     participantId,
+    userEmail,
 }): JSX.Element => {
     const [approvalState, setApprovalState] = useState<boolean | null>(
         docApproved,
     );
-
     useEffect(() => {
         updateFileApproval(filePath, participantId, approvalState);
     }, [approvalState, participantId]);
@@ -43,7 +44,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
         url: docLink,
         isLoading: criminalRecordIsLoading,
         error: criminalRecordError,
-    } = useFileRetrieve(filePath, docName);
+    } = useFileRetrieve(filePath, docName, userEmail);
 
     return (
         <Box

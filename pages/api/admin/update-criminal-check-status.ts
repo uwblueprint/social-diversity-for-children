@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { updateVolunteerCriminalCheckApproval } from "@database/user";
 import { getSession } from "next-auth/client";
-import { roles } from ".prisma/client";
+import { isAdmin } from "@utils/session/authorization";
 
 /**
  * handle controls the request made to the api/admin/criminal-check-update endpoint
@@ -16,10 +16,7 @@ export default async function handle(
     const session = await getSession({ req });
 
     // If there is no session or the user is not a parent, not authorized
-    if (
-        !session ||
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    if (!session || !isAdmin(session)) {
         return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
 

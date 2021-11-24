@@ -92,6 +92,7 @@ CREATE TABLE parents (
   is_low_income BOOLEAN DEFAULT false,
   preferred_language locales NOT NULL,
   proof_of_income_link TEXT,
+  proof_of_income_approval BOOLEAN DEFAULT null,
   heard_from heard_from[],
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
