@@ -28,9 +28,10 @@ import FileDownloadCard from "@components/fileDownloadCard";
 import { Volunteer } from ".prisma/client";
 import { Parent } from ".prisma/client";
 import EmptyState from "@components/EmptyState";
+import { Session } from "next-auth";
 
 type AdminProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export default function CriminalCheck(props: AdminProps): JSX.Element {
@@ -49,11 +50,12 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
     }
 
     const userRole = user.role as string;
-    const userData =
-        userRole === "VOLUNTEER"
-            ? (user?.volunteer as Volunteer)
-            : (user?.parent as Parent);
-    console.log(userData);
+    let volunteerData, parentData;
+    if (userRole == "VOLUNTEER") {
+        volunteerData = user?.volunteer as Volunteer;
+    } else if (userRole == "PARENT") {
+        parentData = user?.parent as Parent;
+    }
     const userName = user.firstName + " " + user.lastName;
 
     return (
@@ -143,11 +145,13 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                         </HStack>
                     </VStack>
                     {userRole === "VOLUNTEER" ? (
-                        userData.criminalRecordCheckLink !== null ? (
+                        volunteerData.criminalRecordCheckLink !== null ? (
                             <FileDownloadCard
                                 filePath={FileType.CRIMINAL_CHECK}
-                                docName={userData.criminalRecordCheckLink}
-                                docApproved={userData.criminalCheckApproved}
+                                docName={volunteerData.criminalRecordCheckLink}
+                                docApproved={
+                                    volunteerData.criminalCheckApproved
+                                }
                                 participantId={user.id}
                                 userEmail={user.email}
                             />
@@ -157,11 +161,11 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                                 record check at this time.
                             </EmptyState>
                         )
-                    ) : userData.proofOfIncomeLink !== null ? (
+                    ) : parentData.proofOfIncomeLink !== null ? (
                         <FileDownloadCard
                             filePath={FileType.INCOME_PROOF}
-                            docName={userData.proofOfIncomeLink}
-                            docApproved={userData.proofOfIncomeApproved}
+                            docName={parentData.proofOfIncomeLink}
+                            docApproved={parentData.proofOfIncomeApproved}
                             participantId={user.id}
                             userEmail={user.email}
                         />
