@@ -4,6 +4,7 @@ import { getSession } from "next-auth/client"; // Session handling
 import { NextApiRequest, NextApiResponse } from "next";
 import { roles } from ".prisma/client";
 import { getUserFromEmail } from "@database/user";
+import { isAdmin } from "@utils/session/authorization";
 
 export default async function handle(
     req: NextApiRequest,
@@ -24,6 +25,7 @@ export default async function handle(
 
     // Attempt to retrieve file requested in user namespace if possible
     let { file, path } = req.query;
+    const email = req.query.email;
 
     if (path && !accepted_type_paths.includes(path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");
@@ -59,7 +61,15 @@ export default async function handle(
                 }
             }
 
-            const uploadFilePath = `${path}/${user.email}/${file}`;
+            if (email && email !== user.email) {
+                if (!isAdmin(user)) {
+                    return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+                }
+            }
+
+            const uploadFilePath = email
+                ? `${path}/${email}/${file}`
+                : `${path}/${user.email}/${file}`;
 
             const url = getSignedUrlForRetrieve(
                 process.env.S3_UPLOAD_BUCKET,
