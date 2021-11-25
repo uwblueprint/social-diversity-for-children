@@ -25,7 +25,7 @@ type VolunteerEnrolledPageProps = {
 
 export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> =
     ({ session, pageNum, setPageNum, formPages }): JSX.Element => {
-        const { t } = useTranslation("form");
+        const { t } = useTranslation(["form", "common"]);
 
         return (
             <Wrapper session={session}>
@@ -101,7 +101,9 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                         fontWeight={"200"}
                                         borderRadius={"6px"}
                                     >
-                                        {t("form.viewUpcoming")}
+                                        {t("nav.viewUpcoming", {
+                                            ns: "common",
+                                        })}
                                     </Button>
                                 </Link>
                             </Center>
@@ -125,7 +127,9 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                         fontWeight={"400"}
                                         borderRadius={"6px"}
                                     >
-                                        {t("form.browseClasses")}
+                                        {t("nav.browseClasses", {
+                                            ns: "common",
+                                        })}
                                     </Button>
                                 </Link>
                             </Center>

@@ -5,12 +5,7 @@
         "welcome": "欢迎来到 SDC",
         "registration": "2021暑期课程将于6月31日开始接受报名！",
         "parentBrowse": "请浏览以下的课程，然后选择适合您的日期和时间。我们确保我们会百分百符合参加者的需求。",
-        "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
-        "registerNow": "立即注册",
-        "browseProgram": "浏览课程",
-        "signIn": "登录",
-        "myClasses": "我的课程",
-        "myAccount": "我的账户"
+        "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。"
     },
     "program": {
         "signInToRegister": "登录完成课程/义工注册",
@@ -27,6 +22,13 @@
         "weekday_many": "{{day}}"
     },
     "nav": {
-        "back": "返回"
+        "registerNow": "立即注册",
+        "browseProgram": "浏览课程",
+        "signIn": "登录",
+        "back": "返回",
+        "myClasses": "我的课程",
+        "myAccount": "我的账户",
+        "viewUpcoming": "查看即将开始的课程",
+        "browseClasses": "浏览课程"
     }
 }

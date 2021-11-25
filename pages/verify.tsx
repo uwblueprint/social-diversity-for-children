@@ -64,7 +64,7 @@ export default function Verify(): JSX.Element {
                             Didn’t get an email? Return to the{" "}
                             <Link href="/login">
                                 <ChakraLink _hover={{ textDecoration: "none" }}>
-                                    <Text as="u">{t("home.signIn")}</Text>{" "}
+                                    <Text as="u">{t("nav.signIn")}</Text>{" "}
                                 </ChakraLink>
                             </Link>
                             page and re-enter a valid email.

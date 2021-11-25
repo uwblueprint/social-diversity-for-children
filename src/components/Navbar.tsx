@@ -41,14 +41,14 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
     const { t } = useTranslation("common");
 
     const accountButton = props.session ? (
-        <NavLink href="/myaccounts">{t("home.myAccount")}</NavLink>
+        <NavLink href="/myaccounts">{t("nav.myAccount")}</NavLink>
     ) : (
         <SignInButton />
     );
 
     const Links = [
-        { name: t("home.browseProgram"), url: "/" },
-        { name: t("home.myClasses"), url: "/class" },
+        { name: t("nav.browseProgram"), url: "/" },
+        { name: t("nav.myClasses"), url: "/class" },
     ];
 
     return (

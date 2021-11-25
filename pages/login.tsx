@@ -44,7 +44,7 @@ export default function Login(): JSX.Element {
                 <Box width="700px">
                     <Center>
                         <Text fontWeight="700" fontSize="36px">
-                            {t("home.signIn")}
+                            {t("nav.signIn")}
                         </Text>
                     </Center>
                     <Center>

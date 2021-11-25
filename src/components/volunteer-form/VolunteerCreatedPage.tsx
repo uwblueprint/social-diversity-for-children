@@ -38,7 +38,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
     formPages,
     successful,
 }): JSX.Element => {
-    const { t } = useTranslation("form");
+    const { t } = useTranslation(["form", "common"]);
     const progressBarIncrement = Math.ceil(100 / totalPages);
     const getProgressBarValue = (pageNum) =>
         progressBarIncrement * (pageNum + 1);
@@ -127,7 +127,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                                     fontWeight={"200"}
                                     borderRadius="6px"
                                 >
-                                    {t("form.browseClasses")}
+                                    {t("nav.browseClasses", { ns: "common" })}
                                 </Button>
                             </ChakraLink>
                         </Link>

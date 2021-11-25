@@ -23,7 +23,7 @@ export const SignInButton: React.FC = () => {
                     fontWeight={"200"}
                     borderRadius="6px"
                 >
-                    {t("home.signIn")}
+                    {t("nav.signIn")}
                 </Button>
             </ChakraLink>
         </Link>

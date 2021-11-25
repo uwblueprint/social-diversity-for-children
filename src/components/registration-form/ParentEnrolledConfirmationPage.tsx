@@ -26,7 +26,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
         const [enrolled, setEnrolled] = useState(false);
         const toast = useToast();
         const router = useRouter();
-        const { t } = useTranslation("form");
+        const { t } = useTranslation(["form", "common"]);
 
         useEffect(() => {
             // Only create registration if stripe session is successful & product matches current class
@@ -93,7 +93,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             w="350px"
                             color={colourTheme.colors.Blue}
                         >
-                            {t("form.viewUpcoming")}
+                            {t("nav.viewUpcoming", { ns: "common" })}
                         </Button>
                     </Link>
                     <Box pt={1} />
@@ -109,7 +109,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             fontWeight={"200"}
                             w="350px"
                         >
-                            {t("form.browseClasses")}
+                            {t("nav.browseClasses", { ns: "common" })}
                         </Button>
                     </Link>
                 </VStack>

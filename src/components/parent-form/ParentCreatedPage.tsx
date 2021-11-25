@@ -38,7 +38,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
     formPages,
     successful,
 }): JSX.Element => {
-    const { t } = useTranslation("form");
+    const { t } = useTranslation(["form", "common"]);
 
     const progressBarIncrement = Math.ceil(100 / totalPages);
     const getProgressBarValue = (pageNum) =>
@@ -132,7 +132,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                     fontWeight={"200"}
                                     borderRadius="6px"
                                 >
-                                    {t("form.browseClasses")}
+                                    {t("nav.browseClasses", { ns: "common" })}
                                 </Button>
                             </ChakraLink>
                         </Link>
