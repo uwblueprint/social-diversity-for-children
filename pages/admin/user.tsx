@@ -30,6 +30,7 @@ import useTeachersTableData from "@utils/hooks/useTeachersTableData";
 import { deleteUser } from "@utils/deleteUser";
 import { Session } from "next-auth";
 import { AdminError } from "@components/AdminError";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type UserViewProps = {
     session: Session;
@@ -200,6 +201,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

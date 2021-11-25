@@ -7,8 +7,10 @@
         "parentBrowse": "Browse through programs below and then select a class with the date and time of your choice! We make sure that 100% of our participants’ demonstrated needs are met.",
         "volunteerBrowse": "Volunteering with SDC is simple and easy! Get started with volunteering with SDC by creating an account to volunteer and then selecting the program you want to volunteer for.",
         "registerNow": "Register now",
-        "browseProgram": "Browse programs",
-        "signIn": "Sign In"
+        "browseProgram": "Browse Programs",
+        "signIn": "Sign In",
+        "myClasses": "My Classes",
+        "myAccount": "My Account"
     },
     "program": {
         "signInToRegister": "Sign in to register/volunteer",
@@ -23,5 +25,8 @@
     "time": {
         "range": "{{start}} to {{end}}",
         "weekday_many": "{{day}}s"
+    },
+    "nav": {
+        "back": "Back"
     }
 }

@@ -21,6 +21,7 @@ import { Session } from "next-auth";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type RegistrantViewProps = {
     session: Session;
@@ -134,6 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

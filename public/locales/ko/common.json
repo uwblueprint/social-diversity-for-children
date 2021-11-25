@@ -8,7 +8,9 @@
         "volunteerBrowse": "SDC에서의 자원봉사는 간단하고 쉽습니다. 자원봉사자 용 계정을 만들고 지원하고 싶은 프로그램을 선택하여 SDC 자원봉사를 시작하세요.",
         "registerNow": "지금 등록하세요",
         "browseProgram": "프로그램 보기",
-        "signIn": "로그인"
+        "signIn": "로그인",
+        "myClasses": "나의 수업",
+        "myAccount": "나의 계정"
     },
     "program": {
         "signInToRegister": "프로그램 / 자원봉사 신청하기 ",
@@ -23,5 +25,8 @@
     "time": {
         "range": "{{start}}부터{{end}}까지",
         "weekday_many": "{{day}}"
+    },
+    "nav": {
+        "back": "뒤로"
     }
 }

@@ -21,7 +21,8 @@ import { createAdminUser, createTeacherUser } from "@utils/createUser";
 import { isAdmin } from "@utils/session/authorization";
 import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
-import { getSession, GetSessionOptions, signIn } from "next-auth/client";
+import { getSession, signIn } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import isEmail from "validator/lib/isEmail";
@@ -296,9 +297,7 @@ const InviteForm = ({
  * getServerSideProps runs before this page is rendered to check to see if a
  * user has already been authenticated.
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
@@ -322,6 +321,7 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

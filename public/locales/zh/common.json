@@ -8,7 +8,9 @@
         "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
         "registerNow": "立即注册",
         "browseProgram": "浏览课程",
-        "signIn": "登录"
+        "signIn": "登录",
+        "myClasses": "我的课程",
+        "myAccount": "我的账户"
     },
     "program": {
         "signInToRegister": "登录完成课程/义工注册",
@@ -23,5 +25,8 @@
     "time": {
         "range": "{{start}}至{{end}}",
         "weekday_many": "{{day}}"
+    },
+    "nav": {
+        "back": "返回"
     }
 }
