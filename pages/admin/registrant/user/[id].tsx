@@ -22,7 +22,7 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import colourTheme from "@styles/colours";
 import { MdPerson, MdDescription } from "react-icons/md";
 import FileDownloadCard from "@components/fileDownloadCard";
-import { Volunteer } from ".prisma/client";
+import { roles, Volunteer } from ".prisma/client";
 import { Parent } from ".prisma/client";
 import EmptyState from "@components/EmptyState";
 import { Session } from "next-auth";
@@ -50,10 +50,12 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
 
     const userRole = user.role as string;
     let volunteerData, parentData;
-    if (userRole == "VOLUNTEER") {
+    if (userRole == roles.VOLUNTEER) {
         volunteerData = user?.volunteer as Volunteer;
-    } else if (userRole == "PARENT") {
+    } else if (userRole == roles.PARENT) {
         parentData = user?.parent as Parent;
+    } else {
+        return <AdminError cause="registrant not found" />;
     }
     const userName = user.firstName + " " + user.lastName;
 
@@ -95,7 +97,7 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                     </BreadcrumbItem>
                     <BreadcrumbItem isCurrentPage>
                         <BreadcrumbLink href="#">
-                            {userRole === "VOLUNTEER"
+                            {userRole === roles.VOLUNTEER
                                 ? "Criminal Record"
                                 : "Proof Of Income"}
                         </BreadcrumbLink>
@@ -137,13 +139,13 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                             <Icon as={MdDescription} w={8} h={8} />
                             <Link>
                                 {" "}
-                                {userRole === "VOLUNTEER"
+                                {userRole === roles.VOLUNTEER
                                     ? "Criminal Record Check"
                                     : "Proof of Income"}
                             </Link>
                         </HStack>
                     </VStack>
-                    {userRole === "VOLUNTEER" ? (
+                    {userRole === roles.VOLUNTEER ? (
                         volunteerData.criminalRecordCheckLink !== null ? (
                             <FileDownloadCard
                                 filePath={FileType.CRIMINAL_CHECK}
