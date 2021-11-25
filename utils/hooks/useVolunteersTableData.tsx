@@ -72,11 +72,11 @@ export default function useVolunteersTableData(
                 Header: "Background Check",
                 accessor: "criminalCheckApproved",
                 Cell: (props: CellProps<VolunteerDataType>) => {
-                    return props.row.original.criminalCheckApproved ===
-                        "Complete" ? (
-                        <SDCBadge>Complete</SDCBadge>
+                    const status = props.row.original.criminalCheckApproved;
+                    return status === "Complete" ? (
+                        <SDCBadge>{status}</SDCBadge>
                     ) : (
-                        <AdminBadge>Incomplete</AdminBadge>
+                        <AdminBadge>{status}</AdminBadge>
                     );
                 },
             },
@@ -99,6 +99,8 @@ export default function useVolunteersTableData(
                     age: convertToAge(new Date(user.volunteer.dateOfBirth)),
                     criminalCheckApproved: user.volunteer.criminalCheckApproved
                         ? "Complete"
+                        : user.volunteer.criminalRecordCheckLink
+                        ? "Pending"
                         : "Incomplete",
                 };
             }),

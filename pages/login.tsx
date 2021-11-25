@@ -102,7 +102,7 @@ export default function Login(): JSX.Element {
                                 onClick={() => {
                                     setValue(!value);
                                     setLocalStorageEmail(email);
-                                    signIn("email", { email });
+                                    signInWithEmail();
                                 }}
                                 _active={{}}
                             >

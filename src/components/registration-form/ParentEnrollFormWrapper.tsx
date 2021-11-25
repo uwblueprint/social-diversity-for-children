@@ -1,16 +1,17 @@
-import React from "react";
-import { Center, Box, Flex } from "@chakra-ui/react";
-import Wrapper from "@components/SDCWrapper";
+import { Box, Center, Flex } from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import { ParentEnrolledConfirmationPage } from "@components/registration-form/ParentEnrolledConfirmationPage";
+import Wrapper from "@components/SDCWrapper";
 import { Student } from "@prisma/client";
+import { Session } from "next-auth";
+import React, { Dispatch, SetStateAction } from "react";
 
 type ParentEnrolledPageProps = {
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
-    setPageNum: any;
+    setPageNum: Dispatch<SetStateAction<number>>;
     formPages: JSX.Element[];
     student: Student;
     classId: number;

@@ -184,6 +184,7 @@ async function updateClass(
     });
     return updatedClass;
 }
+
 /**
  * updateArchiveClass takes in id of the class and boolean of whether to archive the class and performs update
  * @param  {number} id - classId of the class to be updated

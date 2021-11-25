@@ -10,6 +10,7 @@ import { mutate } from "swr";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
+import { Session } from "next-auth";
 
 /*
 Dynamic import is a next.js feature. 
@@ -85,7 +86,7 @@ const FormPage = (props) => {
 export default function VolunteerInfo({
     session,
 }: {
-    session: Record<string, unknown>;
+    session: Session;
 }): JSX.Element {
     const router = useRouter();
     const { page } = router.query;

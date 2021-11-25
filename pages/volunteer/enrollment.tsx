@@ -16,9 +16,10 @@ import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
 import { fetcherWithId } from "@utils/fetcher";
+import { Session } from "next-auth";
 
 type VolunteerEnrollmentProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**

@@ -14,9 +14,10 @@ export type UseFileRetrieveResponse = {
 export default function useFileRetrieve(
     path?: string,
     file?: string,
+    email?: string,
 ): UseFileRetrieveResponse {
     const { data, error, mutate } = useSWR(
-        ["/api/file/retrieve", path, file],
+        ["/api/file/retrieve", path, file, email],
         fetcherWithPathFile,
     );
     return {

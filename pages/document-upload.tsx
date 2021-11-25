@@ -8,9 +8,10 @@ import DragAndDrop from "@components/DragAndDrop";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import { ApprovedIcon } from "@components/icons";
+import { Session } from "next-auth";
 
 type DocumentUploadProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 export default function DocumentUpload({
     session,

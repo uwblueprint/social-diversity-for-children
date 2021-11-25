@@ -22,9 +22,10 @@ import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { useState } from "react";
 import { roles } from ".prisma/client";
 import { AdminHeader } from "@components/admin/AdminHeader";
+import { Session } from "next-auth";
 
 type BrowseProgramsProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 const headerLinks = [
