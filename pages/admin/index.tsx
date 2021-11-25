@@ -59,17 +59,17 @@ export default function Admin(props: AdminProps): JSX.Element {
                     <AdminOptionButton
                         icon={MdCreate}
                         label="Create new Class"
-                        href="/admin/class"
+                        href="/admin/create-class"
                     />
                     <AdminOptionButton
                         icon={MdClass}
                         label="Create new Program"
-                        href="/admin/program"
+                        href="/admin/create-program"
                     />
                     <AdminOptionButton
                         icon={MdPeople}
                         label="Add Registrant"
-                        href="/admin/registrant"
+                        href="/admin/add-registrant"
                     />
                     <AdminOptionButton
                         icon={RiCouponFill}
