@@ -27,7 +27,7 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
     return (
         <>
             <Box maxW="55rem">
-                <Text noOfLines={2} fontSize="16px" fontWeight="200">
+                <Text fontSize="16px" fontWeight="200">
                     The information on this form will be used at the discretion
                     of the activity instructor/coordinator to ensure care and
                     attention is given to the safety and health of your child.

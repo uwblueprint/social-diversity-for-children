@@ -21,7 +21,6 @@ const Languages = [
     { locale: "en", label: "English" },
     { locale: "zh", label: "中文" },
     { locale: "ko", label: "한국어" },
-    { locale: "ja", label: "日本語" },
 ];
 
 export const LanguageModal: React.FC<LanguageModalProps> = ({

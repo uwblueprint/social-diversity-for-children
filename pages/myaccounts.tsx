@@ -25,6 +25,7 @@ import { isInternal } from "@utils/session/authorization";
 import { CommonLoading } from "@components/CommonLoading";
 import { CommonError } from "@components/CommonError";
 import { Session } from "next-auth";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type MyAccountProps = {
     session: Session;
@@ -340,6 +341,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

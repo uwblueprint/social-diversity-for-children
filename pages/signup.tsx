@@ -9,6 +9,7 @@ import useMe from "@utils/hooks/useMe";
 import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
 import { Session } from "next-auth";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type SignupFormProps = {
     session: Session;
@@ -151,6 +152,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

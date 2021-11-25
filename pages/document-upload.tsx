@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Button, Box, Center, Text, VStack, Spinner } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import Wrapper from "@components/SDCWrapper";
 import DragAndDrop from "@components/DragAndDrop";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import { ApprovedIcon } from "@components/icons";
 import { Session } from "next-auth";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type DocumentUploadProps = {
     session: Session;
@@ -219,9 +220,7 @@ export default function DocumentUpload({
     }
 }
 
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
     if (!session) {
@@ -234,6 +233,9 @@ export const getServerSideProps: GetServerSideProps = async (
     }
 
     return {
-        props: { session },
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

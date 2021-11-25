@@ -7,7 +7,8 @@
         "parentBrowse": "请浏览以下的课程，然后选择适合您的日期和时间。我们确保我们会百分百符合参加者的需求。",
         "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
         "registerNow": "立即注册",
-        "browseProgram": "浏览课程"
+        "browseProgram": "浏览课程",
+        "signIn": "登录"
     },
     "program": {
         "signInToRegister": "登录完成课程/义工注册",
@@ -15,6 +16,9 @@
         "ageGroupUnder": "{{age}}岁或以下",
         "ageGroupAbove": "{{age}}岁或以上",
         "teacherName": "{{name}}老师"
+    },
+    "signIn": {
+        "firstTime": "第一次参加吗？我们会给您发一个注册代码，让您立即注册。"
     },
     "time": {
         "range": "{{start}}至{{end}}",

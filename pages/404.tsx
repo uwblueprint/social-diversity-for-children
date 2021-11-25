@@ -4,6 +4,9 @@ import colourTheme from "@styles/colours";
 import { Button, Box, Center, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { Session } from "next-auth";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getSession } from "next-auth/client";
 
 type ComponentProps = {
     session: Session;
@@ -43,3 +46,18 @@ export default function Custom404(props: ComponentProps): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets props before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    return {
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
+    };
+};

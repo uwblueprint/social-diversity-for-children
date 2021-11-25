@@ -4,9 +4,14 @@ import Wrapper from "@components/SDCWrapper";
 import MailSentIcon from "@components/icons/MailSentIcon";
 import { BackButton } from "@components/BackButton";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export default function Verify(): JSX.Element {
     const [localStorageEmail] = useLocalStorage("sdc-email-verification", "");
+    const { t } = useTranslation("common");
+
     return (
         <Wrapper>
             <BackButton />
@@ -59,7 +64,7 @@ export default function Verify(): JSX.Element {
                             Didn’t get an email? Return to the{" "}
                             <Link href="/login">
                                 <ChakraLink _hover={{ textDecoration: "none" }}>
-                                    <Text as="u">Sign In</Text>{" "}
+                                    <Text as="u">{t("home.signIn")}</Text>{" "}
                                 </ChakraLink>
                             </Link>
                             page and re-enter a valid email.
@@ -70,3 +75,14 @@ export default function Verify(): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets props before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return {
+        props: {
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
+    };
+};

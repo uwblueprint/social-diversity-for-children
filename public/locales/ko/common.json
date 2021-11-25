@@ -7,7 +7,8 @@
         "parentBrowse": "이번 학기에 제공되는 프로그램들을 확인하시고 원하시는 시간과 날짜를 선택하세요. 경제적인 도움이 필요한경우, 저희 SDC가 도와드릴것을 보장합니다.",
         "volunteerBrowse": "SDC에서의 자원봉사는 간단하고 쉽습니다. 자원봉사자 용 계정을 만들고 지원하고 싶은 프로그램을 선택하여 SDC 자원봉사를 시작하세요.",
         "registerNow": "지금 등록하세요",
-        "browseProgram": "프로그램 보기"
+        "browseProgram": "프로그램 보기",
+        "signIn": "로그인"
     },
     "program": {
         "signInToRegister": "프로그램 / 자원봉사 신청하기 ",
@@ -15,6 +16,9 @@
         "ageGroupUnder": "{{age}}세 이하",
         "ageGroupAbove": "{{age}}세 이상",
         "teacherName": "선생님: {{name}}"
+    },
+    "signIn": {
+        "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요."
     },
     "time": {
         "range": "{{start}}부터{{end}}까지",
