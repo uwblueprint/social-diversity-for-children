@@ -224,7 +224,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                 minW={"100%"}
                             >
                                 {me
-                                    ? "Register"
+                                    ? t("nav.register")
                                     : t("program.signInToRegister")}
                             </Button>
                         </Link>

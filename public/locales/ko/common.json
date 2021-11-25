@@ -12,7 +12,9 @@
         "classDetails": "프로그램 상세 정보",
         "ageGroupUnder": "{{age}}세 이하",
         "ageGroupAbove": "{{age}}세 이상",
-        "teacherName": "선생님: {{name}}"
+        "teacherName": "선생님: {{name}}",
+        "participantSpot": "남은 참가자 정원: {{spot}}",
+        "volunteerSpot": "남은 봉사자 정원: {{spot}}"
     },
     "signIn": {
         "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요."
@@ -22,6 +24,7 @@
         "weekday_many": "{{day}}"
     },
     "nav": {
+        "register": "등록하세요",
         "registerNow": "지금 등록하세요",
         "browseProgram": "프로그램 보기",
         "signIn": "로그인",
@@ -29,6 +32,7 @@
         "myClasses": "나의 수업",
         "myAccount": "나의 계정",
         "viewUpcoming": "예정 프로그램 보기",
-        "browseClasses": "프로그램 보기"
+        "browseClasses": "프로그램 보기",
+        "viewDetails": "더 보기"
     }
 }

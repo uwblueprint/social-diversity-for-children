@@ -12,7 +12,9 @@
         "classDetails": "课堂详情",
         "ageGroupUnder": "{{age}}岁或以下",
         "ageGroupAbove": "{{age}}岁或以上",
-        "teacherName": "{{name}}老师"
+        "teacherName": "{{name}}老师",
+        "participantSpot": "剩余{{spot}}个参与者名额",
+        "volunteerSpot": "剩余{{spot}}个义工名额"
     },
     "signIn": {
         "firstTime": "第一次参加吗？我们会给您发一个注册代码，让您立即注册。"
@@ -22,6 +24,7 @@
         "weekday_many": "{{day}}"
     },
     "nav": {
+        "register": "注册",
         "registerNow": "立即注册",
         "browseProgram": "浏览课程",
         "signIn": "登录",
@@ -29,6 +32,7 @@
         "myClasses": "我的课程",
         "myAccount": "我的账户",
         "viewUpcoming": "查看即将开始的课程",
-        "browseClasses": "浏览课程"
+        "browseClasses": "浏览课程",
+        "viewDetails": "浏览详情"
     }
 }

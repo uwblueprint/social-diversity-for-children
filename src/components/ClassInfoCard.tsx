@@ -41,7 +41,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     isFull,
 }) => {
     const router = useRouter();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
     const { me } = useMe();
 
     return (
@@ -102,10 +102,13 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                       ? "s"
                                       : "") +
                                   " available"
-                                : cardInfo.spaceAvailable +
-                                  " participant spot" +
-                                  (cardInfo.spaceAvailable != 1 ? "s" : "") +
-                                  " available"}
+                                : t("program.participantSpot", {
+                                      spot: cardInfo.spaceAvailable,
+                                      context:
+                                          cardInfo.spaceAvailable !== 1
+                                              ? "plural"
+                                              : "",
+                                  })}
                         </Box>
                     </Flex>
                     {isFull && (

@@ -12,7 +12,11 @@
         "classDetails": "Class Details",
         "ageGroupUnder": "Ages {{age}} and under",
         "ageGroupAbove": "Ages {{age}} and above",
-        "teacherName": "Teacher {{name}}"
+        "teacherName": "Teacher {{name}}",
+        "participantSpot": "{{spot}} participant spot available",
+        "participantSpot_plural": "{{spot}} participant spots available",
+        "volunteerSpot": "{{spot}} volunteer spot available",
+        "volunteerSpot_plural": "{{spot}} volunteer spots available"
     },
     "signIn": {
         "firstTime": "First time? We’ll email you a magic code to sign up instantly."
@@ -22,6 +26,7 @@
         "weekday_many": "{{day}}s"
     },
     "nav": {
+        "register": "Register",
         "registerNow": "Register now",
         "browseProgram": "Browse Programs",
         "signIn": "Sign In",
@@ -29,6 +34,7 @@
         "myClasses": "My Classes",
         "myAccount": "My Account",
         "viewUpcoming": "View upcoming classes",
-        "browseClasses": "Browse Classes"
+        "browseClasses": "Browse Classes",
+        "viewDetails": "View Details"
     }
 }
