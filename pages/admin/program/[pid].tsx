@@ -78,9 +78,9 @@ export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
 
     const programCardInfo = programInfoResponse
         ? CardInfoUtil.getProgramCardInfo(
-              programInfoResponse.data,
-              router.locale as locale,
-          )
+            programInfoResponse.data,
+            router.locale as locale,
+        )
         : null;
 
     if (!programCardInfo) {
