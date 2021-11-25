@@ -24,7 +24,7 @@ export default async function handle(
     }
 
     //parse query parameters from string to number and validate that id is a number
-    const id = parseInt(classId as string, 10);
+    const id = parseInt(classId as string);
     if (isNaN(id)) {
         return ResponseUtil.returnBadRequest(
             res,

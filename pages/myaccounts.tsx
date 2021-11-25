@@ -22,9 +22,12 @@ import { CriminalCheck } from "@components/myAccounts/CriminalCheck";
 import router from "next/router";
 import Link from "next/link";
 import { isInternal } from "@utils/session/authorization";
+import { CommonLoading } from "@components/CommonLoading";
+import { CommonError } from "@components/CommonError";
+import { Session } from "next-auth";
 
 type MyAccountProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
@@ -34,7 +37,7 @@ type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
  */
 export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     // Redirect user if user already signed up
-    const { me, isLoading, mutate } = useMe();
+    const { me, error, isLoading, mutate } = useMe();
 
     const [sideBarPage, setSideBarPage] = useState(0);
     const [editing, setEditing] = useState(false);
@@ -204,8 +207,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     }, [me, editing]);
 
     //Wait for the user to load
-    if (isLoading) {
-        return <Loading />;
+    if (error) {
+        return <CommonError session={session} cause="could not load user" />;
+    } else if (isLoading) {
+        return <CommonLoading session={session} />;
     }
 
     return (

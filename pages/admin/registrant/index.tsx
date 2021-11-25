@@ -1,5 +1,4 @@
 import {
-    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -11,19 +10,20 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { AdminTable } from "@components/admin/table/AdminTable";
+import { AdminError } from "@components/AdminError";
 import Wrapper from "@components/AdminWrapper";
-import { Loading } from "@components/Loading";
 import useParentsTableData from "@utils/hooks/useParentsTableData";
 import useStudentsTableData from "@utils/hooks/useStudentsTableData";
 import useUsers from "@utils/hooks/useUsers";
 import useVolunteersTableData from "@utils/hooks/useVolunteersTableData";
 import { isInternal } from "@utils/session/authorization";
+import { Session } from "next-auth";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
 
 type RegistrantViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -46,14 +46,8 @@ export default function RegistrantView(
         useVolunteersTableData(volunteers);
     const { parentColumns, parentData } = useParentsTableData(parents);
 
-    if (isUsersLoading) {
-        return <Loading />;
-    } else if (usersError) {
-        return (
-            <Box>
-                {"An error has occurred. Registrants could not be loaded"}
-            </Box>
-        );
+    if (usersError) {
+        return <AdminError cause="registrants could not be loaded" />;
     }
 
     return (
@@ -138,6 +132,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+        },
     };
 };

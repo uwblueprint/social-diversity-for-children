@@ -1,142 +1,134 @@
+import { SearchIcon } from "@chakra-ui/icons";
 import {
-    Box,
-    Flex,
-    HStack,
-    Link,
-    useColorModeValue,
-    Text,
-    Button,
-    Divider,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    List,
-    ListItem,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
     Grid,
     GridItem,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    VStack,
 } from "@chakra-ui/react";
-import React from "react";
-import colourTheme from "@styles/colours";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession } from "next-auth/client";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { AdminEmptyState } from "@components/admin/AdminEmptyState";
+import { ProgramClassInfoCard } from "@components/admin/ProgramClassInfoCard";
+import { ProgramViewInfoCard } from "@components/admin/ProgramViewInfoCard";
 import Wrapper from "@components/AdminWrapper";
-import { useRouter } from "next/router";
-import { SmallAddIcon } from "@chakra-ui/icons";
-import { ReactNode } from "react";
-import { ClassCardInfo } from "@models/Class";
-import { fetcherWithId } from "@utils/fetcher";
-import useSWR from "swr";
-import { Loading } from "@components/Loading";
-import CardInfoUtil from "utils/cardInfoUtil";
 import { locale } from "@prisma/client";
+import { weekdayToString } from "@utils/enum/weekday";
+import useClassesByProgram from "@utils/hooks/UseClassesByProgram";
+import useProgram from "@utils/hooks/useProgram";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { AdminError } from "@components/AdminError";
+import { AdminLoading } from "@components/AdminLoading";
+import { Session } from "next-auth";
+import { isInternal } from "@utils/session/authorization";
 
-type BrowseClassesProps = {
-    session: Record<string, unknown>;
+type ClassViewProps = {
+    session: Session;
 };
 
-const Links = [
-    { name: "Add Program", url: "/" },
-    { name: "Add Class", url: "/" },
-];
-
-const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
-    <Link href={href}>
-        <HStack>
-            <Button
-                fontSize="16px"
-                backgroundColor="white"
-                fontWeight="400"
-                px={"16px"}
-                py={"8px"}
-                border-radius="6px"
-                border="1px solid #0C53A0"
-            >
-                <SmallAddIcon mr="11px" />
-                {children}
-            </Button>
-        </HStack>
-    </Link>
-);
-// TODO: Complete page
-export const BrowseClasses: React.FC<BrowseClassesProps> = (props) => {
+/**
+ * Admin program class view page that displays the classes of a program
+ * @returns Admin program class view page component
+ */
+export default function ProgramClassView({
+    session,
+}: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // refetch program data
-    const { data: programInfoResponse, error: programInfoError } = useSWR(
-        ["/api/program/" + pid, pid, router.locale],
-        fetcherWithId,
-    );
-    const isProgramInfoLoading = !programInfoResponse && !programInfoError;
+    const {
+        program,
+        isLoading: isProgramLoading,
+        error: programError,
+    } = useProgram(parseInt(pid as string), locale.en);
 
-    if (isProgramInfoLoading) {
-        return <Loading />;
-    } else if (programInfoError) {
-        return <Box>An Error has occured</Box>;
+    const {
+        classCards,
+        isLoading: isClassLoading,
+        mutate: mutateClasses,
+    } = useClassesByProgram(pid as string, locale.en);
+
+    if (programError) {
+        return <AdminError cause="program not found" />;
+    } else if (isProgramLoading || isClassLoading) {
+        return <AdminLoading />;
     }
 
-    const programCardInfo = programInfoResponse
-        ? CardInfoUtil.getProgramCardInfo(
-              programInfoResponse.data,
-              router.locale as locale,
-          )
-        : null;
-
-    if (!programCardInfo) {
-        return <Loading />;
-    }
+    const filteredClasses = classCards.filter((classCard) => {
+        const term = searchTerm.toLowerCase();
+        if (term == "") {
+            return classCard;
+        } else if (
+            classCard.name.toLowerCase().includes(term) ||
+            classCard.borderAge.toString().includes(term) ||
+            classCard.teacherName.toLowerCase().includes(term) ||
+            weekdayToString(classCard.weekday, locale.en)
+                .toLowerCase()
+                .includes(term)
+        ) {
+            return classCard;
+        }
+    });
 
     return (
-        <Wrapper session={props.session}>
-            <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
-                <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
-                    <Flex
-                        h={"94px"}
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                    >
-                        <HStack spacing={8} alignItems={"center"}>
-                            <Text
-                                fontSize="22px"
-                                fontWeight="bold"
-                                color={colourTheme.colors.Blue}
-                            >
-                                Dashboard
-                            </Text>
-                        </HStack>
-                        <Flex alignItems={"center"}>
-                            <HStack
-                                spacing={4}
-                                display={{ base: "none", md: "flex" }}
-                            >
-                                {Links.map((linkInfo) => (
-                                    <NavLink
-                                        key={linkInfo.name}
-                                        href={linkInfo.url}
-                                    >
-                                        {linkInfo.name}
-                                    </NavLink>
-                                ))}
-                            </HStack>
-                        </Flex>
-                    </Flex>
-                </Box>
-            </Box>
-            <Divider
-                orientation="horizontal"
-                marginTop="25px"
-                marginBottom="30px"
-                border="2px"
-            />
-            <Text px="50px" fontSize="16px">
-                {"Browse Programs >"} <b>{programCardInfo.name}</b>
-            </Text>
+        <Wrapper session={session}>
+            <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
+                <Breadcrumb separator={">"}>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/admin/program">
+                            Browse Programs
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="#" fontWeight="bold">
+                            {program.name}
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <ProgramViewInfoCard cardInfo={program} role={session.role} />
+                <InputGroup mt="25px">
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<SearchIcon color="gray.300" />}
+                    />
+                    <Input
+                        pl={8}
+                        placeholder={"Search Classes"}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                        }}
+                    />
+                </InputGroup>
+                {filteredClasses && filteredClasses.length > 0 ? (
+                    <Grid templateColumns="repeat(2, 1fr)" gap={4} w="100%">
+                        {filteredClasses.map((classCard, idx) => {
+                            return (
+                                <GridItem key={idx}>
+                                    <ProgramClassInfoCard
+                                        cardInfo={classCard}
+                                        role={session.role}
+                                        mutateClasses={mutateClasses}
+                                    />
+                                </GridItem>
+                            );
+                        })}
+                    </Grid>
+                ) : (
+                    <AdminEmptyState isLoading={isClassLoading} minH={250}>
+                        No Classes available
+                    </AdminEmptyState>
+                )}
+            </VStack>
         </Wrapper>
     );
-};
-
-export default BrowseClasses;
+}
 
 /**
  * getServerSideProps gets the session before this page is rendered
@@ -144,11 +136,27 @@ export default BrowseClasses;
 export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
-    // TODO : check session for admin/volunteer , if not redirect to no access
-    // refer to github
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    } else if (!isInternal(session)) {
+        return {
+            redirect: {
+                destination: "/no-access",
+                permanent: false,
+            },
+        };
+    }
+
     return {
         props: {
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            session,
+
         },
     };
 };
