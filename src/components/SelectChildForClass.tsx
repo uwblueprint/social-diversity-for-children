@@ -28,6 +28,7 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
                 </Text>
             </Center>
             <Center>
+                {/* change? */}
                 <Text pb="55px" align="center" mt="30px">
                     {/* // TODO: Fix replace hardcode */}
                     Who would you like to register for{" "}
@@ -37,6 +38,7 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
                     </b>
                     (select one)
                 </Text>
+                {/* change? */}
             </Center>
 
             <Center>
