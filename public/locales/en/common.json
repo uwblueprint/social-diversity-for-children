@@ -16,22 +16,41 @@
         "participantSpot": "{{spot}} participant spot available",
         "participantSpot_plural": "{{spot}} participant spots available",
         "volunteerSpot": "{{spot}} volunteer spot available",
-        "volunteerSpot_plural": "{{spot}} volunteer spots available"
+        "volunteerSpot_plural": "{{spot}} volunteer spots available",
+        "notEligible": "Your child is not eligible for this age group. Please select a different class.",
+        "understood": "I understand",
+        "waitlist": "Add to Waitlist",
+        "waitlistNotify": "We'll notify you once space becomes available",
+        "learnMore": "Learn More",
+        "selectClass": "Select a class",
+        "fullClasses": "Full classes"
     },
     "class": {
         "joinClass": "Join class",
+        "unregister": "Unregister",
         "unregisterFor": "Unregister for {{name}}",
-        "unregisterForAll": "Unregister for all"
+        "unregisterForAll": "Unregister for all",
+        "upcomingClasses": "Upcoming classes",
+        "waitlistedClasses": "Waitlisted classes",
+        "waitlistedInfo": "An email will be sent to you when a spot opens"
     },
     "account": {
         "addParticipant": "Add participant",
+        "participantInformation": "Participant Information",
         "personalInformation": "Personal Information",
         "guardianInformation": "Guardian Information",
         "generalInformation": "General Information",
         "edit": "Edit",
         "cancel": "Cancel",
-        "status": "Status: {{status}}",
-        "dateSubmitted": "Date submitted: {{status}}",
+        "save": "Save Changes",
+        "status_approved": "Status: Approved",
+        "status_pending": "Status: Pending",
+        "status_declined": "Status: Declined",
+        "dateSubmitted": "Date submitted: {{date}}",
+        "poi_approved": "Your income statement has been approved. You might be eligible for discounts, please be on the look out for coupon from us.",
+        "poi_pending": "Your income statement is under review.",
+        "bgc_approved": "Your criminal record check has been approved.",
+        "bgc_pending": "Your criminal record check is under review.",
         "logOut": "Log out"
     },
     "signIn": {

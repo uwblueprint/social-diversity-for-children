@@ -43,7 +43,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
     volunteeringInfo,
 }) => {
     const router = useRouter();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const { link } = useGetZoomLink();
 
@@ -121,7 +121,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                                         boxShadow: "lightgrey",
                                     }}
                                 >
-                                    Join class
+                                    {t("class.joinClass")}
                                 </Button>
                             </Link>
                             <Menu>
@@ -145,7 +145,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                                                     )
                                                 }
                                             >
-                                                Unregister
+                                                {t("class.unregister")}
                                             </MenuItem>
                                         </>
                                     }

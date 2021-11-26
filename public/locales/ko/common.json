@@ -14,20 +14,41 @@
         "ageGroupAbove": "{{age}}세 이상",
         "teacherName": "선생님: {{name}}",
         "participantSpot": "남은 참가자 정원: {{spot}}",
-        "volunteerSpot": "남은 봉사자 정원: {{spot}}"
+        "volunteerSpot": "남은 봉사자 정원: {{spot}}",
+        "notEligible": "당신의 자녀는 이 수업의 연령대에 속하지 않습니다. 다른 수업을 선택하십시오.",
+        "understood": "이해했다",
+        "waitlist": "대기자 명단에 추가",
+        "waitlistNotify": "자리가 생기면 알려드리겠습니다",
+        "learnMore": "더 알아보기",
+        "selectClass": "수업을 선택",
+        "fullClasses": "전체 수업"
     },
     "class": {
         "joinClass": "수강 신청",
+        "unregister": "등록 취소",
         "unregisterFor": "등록 취소: {{name}}",
-        "unregisterForAll": "모두 등록 취소"
+        "unregisterForAll": "모두 등록 취소",
+        "upcomingClasses": "다가오는 수업",
+        "waitlistedClasses": "대기자 클래스",
+        "waitlistedInfo": "자리가 열리면 이메일이 전송됩니다."
     },
     "account": {
         "addParticipant": "참가 아동 추가",
+        "participantInformation": "학생 정보",
         "personalInformation": "개인 정보",
         "guardianInformation": "보호자 정보",
         "generalInformation": "정보",
         "edit": "편집하다",
         "cancel": "취소",
+        "save": "정보 저장",
+        "status_approved": "상태: 승인",
+        "status_pending": "상태: 보류 중",
+        "status_declined": "상태: 거절",
+        "dateSubmitted": "제출 날짜: {{date}}",
+        "poi_approved": "소득증명서가 확인되었습니다.",
+        "poi_pending": "귀하의 손익 계산서를 검토 중입니다.",
+        "bgc_approved": "귀하의 범죄 없는 조사 서신이 검토되었습니다.",
+        "bgc_pending": "범죄기록증명서가 확인 중에 있습니다.",
         "logOut": "로그아웃"
     },
     "signIn": {

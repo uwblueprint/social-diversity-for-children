@@ -14,20 +14,41 @@
         "ageGroupAbove": "{{age}}岁或以上",
         "teacherName": "{{name}}老师",
         "participantSpot": "剩余{{spot}}个参与者名额",
-        "volunteerSpot": "剩余{{spot}}个义工名额"
+        "volunteerSpot": "剩余{{spot}}个义工名额",
+        "notEligible": "你的孩子不符合这个年龄组的条件。请选择一个不同的班级",
+        "understood": "明白了",
+        "waitlist": "添加到候补名单",
+        "waitlistNotify": "一旦有可用空间，我们会通知您",
+        "learnMore": "了解更多",
+        "selectClass": "选择一个班级",
+        "fullClasses": "满的班级"
     },
     "class": {
         "joinClass": "加入课程",
+        "unregister": "取消注册",
         "unregisterFor": "取消注册: {{name}}",
-        "unregisterForAll": "全部注销"
+        "unregisterForAll": "全部注销",
+        "upcomingClasses": "即将开始的课程",
+        "waitlistedClasses": "候补课程",
+        "waitlistedInfo": "当一个位置开放时，将向您发送一封电子邮件"
     },
     "account": {
         "addParticipant": "添加参与者",
+        "participantInformation": "学生信息",
         "personalInformation": "个人信息",
         "guardianInformation": "监护人信息",
         "generalInformation": "信息",
         "edit": "编辑",
         "cancel": "取消",
+        "save": "保存更改",
+        "status_approved": "状态：批准",
+        "status_pending": "状态：待定",
+        "status_declined": "状态：被拒",
+        "dateSubmitted": "提交日期: {{date}}",
+        "poi_approved": "您的收入报告已通过审核。",
+        "poi_pending": "您的损益表正在审核中。",
+        "bgc_approved": "您的无犯罪调查信已通过审核。",
+        "bgc_pending": "您的无犯罪调查信正在被审查。",
         "logOut": "登出"
     },
     "signIn": {

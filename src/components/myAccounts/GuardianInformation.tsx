@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
+import { useTranslation } from "react-i18next";
 
 type GuardianPageProps = {
     styleProps?: Record<string, unknown>;
@@ -18,6 +19,7 @@ type GuardianInfo = {
 export const GuardianInfo: React.FC<GuardianPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation("common");
     const [firstName, setFirstName] = useState(props.me.firstName);
     const [lastName, setLastName] = useState(props.me.lastName);
     const [phoneNumber, setPhoneNumber] = useState(props.me.parent.phoneNumber);
@@ -75,7 +77,7 @@ export const GuardianInfo: React.FC<GuardianPageProps> = ({
                         }
                         onClick={save}
                     >
-                        Save Changes
+                        {t("account.save")}
                     </Button>
                 ) : null}
             </Box>

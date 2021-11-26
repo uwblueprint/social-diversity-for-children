@@ -7,6 +7,7 @@ import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import { EmptyState } from "./EmptyState";
+import { useTranslation } from "react-i18next";
 
 /**
  * VolunteeringList is a list containing volunteering cards
@@ -14,6 +15,7 @@ import { EmptyState } from "./EmptyState";
  */
 export const VolunteeringList: React.FC = () => {
     const router = useRouter();
+    const { t } = useTranslation("common");
     const { volunteering, error, isLoading } = useVolunteerRegistrations(
         router.locale as locale,
     );
@@ -32,7 +34,7 @@ export const VolunteeringList: React.FC = () => {
     return (
         <>
             <Heading mb={2} size="sm">
-                Upcoming classes
+                {t("class.upcomingClasses")}
             </Heading>
             <Center width="100%">
                 {volunteering.length === 0 ? (

@@ -7,6 +7,7 @@ import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
 import { PostalCodeField } from "@components/formFields/PostalCodeField";
 import { ProvinceField } from "@components/formFields/ProvinceField";
 import { DateField } from "@components/formFields/DateField";
+import { useTranslation } from "react-i18next";
 
 type VolunteerPageProps = {
     styleProps?: Record<string, unknown>;
@@ -21,6 +22,8 @@ type VolunteerInfo = {
 export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation("common");
+
     const [firstName, setFirstName] = useState(props.me.firstName);
     const [lastName, setLastName] = useState(props.me.lastName);
 
@@ -176,7 +179,7 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
                         }
                         onClick={save}
                     >
-                        Save Changes
+                        {t("account.save")}
                     </Button>
                 ) : null}
             </Box>

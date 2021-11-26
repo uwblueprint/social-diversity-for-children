@@ -117,8 +117,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     name: student.firstName + " " + student.lastName,
                     icon: MdPerson,
                     type: "PARTICIPANT",
-                    title: t("account.personalInformation"),
-                    header: t("account.generalInformation"),
+                    title: t("account.participantInformation"),
+                    header: t("account.participantInformation"),
                     canEdit: true,
                     component: (
                         <ParticipantInfo
@@ -174,8 +174,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             SideBar.push({
                 name: "",
                 icon: MdPerson,
-                title: "Participant Information",
-                header: "Personal Information",
+                title: t("account.personalInformation"),
+                header: t("account.personalInformation"),
                 canEdit: true,
                 component: (
                     <VolunteerInfo
@@ -193,8 +193,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             SideBar.push({
                 name: "",
                 icon: MdDescription,
-                title: "Criminal Record Check",
-                header: "Criminal Record Check",
+                title: t("bgc.title", { ns: "form" }),
+                header: t("bgc.title", { ns: "form" }),
                 canEdit: false,
                 component: (
                     <CriminalCheck

@@ -52,9 +52,6 @@ function Class({ session }: ClassProps): JSX.Element {
                 {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
             </Flex>
             <Flex direction="column" pt={4} pb={8}>
-                <Flex align="center">
-                    <Heading mb={8}>My Waitlist</Heading>
-                </Flex>
                 {me.role === roles.PARENT ? <WaitlistList /> : null}
             </Flex>
         </Wrapper>

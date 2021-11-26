@@ -100,7 +100,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                 {isTagsBesideHeading ? null : programTags}
                 <Flex mt={{ base: 5, xl: 0 }} align="center">
                     <Text fontSize="sm" fontWeight="semibold">
-                        Select a class
+                        {t("program.selectClass")}
                     </Text>
                     <Spacer />
                     {/* TODO what is the filter button supposed to do? */}
@@ -139,7 +139,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                                 justifyContent="space-between"
                             >
                                 <Text fontSize="sm" fontWeight="semibold">
-                                    Full classes
+                                    {t("program.fullClasses")}
                                 </Text>
                                 <AccordionButton w="min">
                                     <AccordionIcon />

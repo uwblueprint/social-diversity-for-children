@@ -10,6 +10,7 @@ import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
 import "react-datepicker/dist/react-datepicker.css";
 import { therapy, difficulties } from ".prisma/client";
+import { useTranslation } from "next-i18next";
 
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
@@ -24,6 +25,8 @@ type ParticipantInfo = {
 export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation("common");
+
     const [dateOfBirth, setDateOfBirth] = useState(props.student.dateOfBirth);
     const [address1, setAddress1] = useState(props.student.addressLine1);
     const [address2, setAddress2] = useState(props.student.addressLine2);
@@ -423,7 +426,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                             }
                             onClick={save}
                         >
-                            Save Changes
+                            {t("account.save")}
                         </Button>
                     ) : null}
                 </Box>

@@ -9,6 +9,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 type IneligibleClassModalProps = {
     isOpen: boolean;
@@ -25,15 +26,14 @@ export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
     isOpen,
     onClose,
 }) => {
+    const { t } = useTranslation("common");
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent p={5}>
                 <ModalBody>
-                    <Text>
-                        Your child is not eligible for this age group. Please
-                        select a different class.
-                    </Text>
+                    <Text>{t("program.notEligible")}</Text>
                 </ModalBody>
 
                 <ModalFooter>
@@ -61,7 +61,7 @@ export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
                         }}
                         minW={"100%"}
                     >
-                        I understand
+                        {t("program.understood")}
                     </Button>
                 </ModalFooter>
             </ModalContent>
