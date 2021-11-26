@@ -24,6 +24,7 @@ import React, { useState } from "react";
 import useSWR from "swr";
 import { Session } from "next-auth";
 import convertToAge from "@utils/convertToAge";
+import { useTranslation } from "next-i18next";
 
 type ParentEnrollClassProps = {
     session: Session;
@@ -43,6 +44,8 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
         child ? parseInt(child as string, 10) : 0,
     );
     const [couponId, setCouponId] = useState<string>();
+
+    const { t } = useTranslation("common");
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId],
@@ -102,12 +105,23 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
             : convertToAge(s.dateOfBirth) <= classInfo.borderAge;
     });
 
+    const ageRange = t(
+        classInfo.isAgeMinimal
+            ? "program.ageGroupAbove"
+            : "program.ageGroupUnder",
+        {
+            age: classInfo.borderAge,
+        },
+    );
+    const className = `${classInfo.programName} - ${classInfo.name} (${ageRange})? `;
+
     if (studentData.length < 1) {
         router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if there are no children, this should be updated to a toast in a future sprint
     }
 
     const pageElements = [
         <SelectChildForClass
+            className={className}
             children={studentNames}
             eligible={studentEligible}
             selectedChild={selectedChild}

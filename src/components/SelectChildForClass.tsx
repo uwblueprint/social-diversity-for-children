@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 import { useTranslation } from "next-i18next";
 
 type SelectChildForClassProps = {
+    className: string;
     children: string[];
     eligible: boolean[];
     selectedChild: number;
@@ -28,17 +29,10 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
                 </Text>
             </Center>
             <Center>
-                {/* change? */}
-                <Text pb="55px" align="center" mt="30px">
-                    {/* // TODO: Fix replace hardcode */}
-                    Who would you like to register for{" "}
-                    <b>
-                        Building Bridges with Music - <br />
-                        Singing Monkeys (Ages 9 and under)?{" "}
-                    </b>
+                <Text pb="55px" align="center" mt="30px" width="60%">
+                    Who would you like to register for <b>{props.className}</b>
                     (select one)
                 </Text>
-                {/* change? */}
             </Center>
 
             <Center>
