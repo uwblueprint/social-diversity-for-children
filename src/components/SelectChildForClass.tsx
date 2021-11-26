@@ -27,6 +27,7 @@ export default function SelectChildForClass(
                 </Text>
             </Center>
             <Center>
+                {/* change? */}
                 <Text pb="55px" align="center" mt="30px">
                     Who would you like to register for{" "}
                     <b>
@@ -35,6 +36,7 @@ export default function SelectChildForClass(
                     </b>
                     (select one)
                 </Text>
+                {/* change? */}
             </Center>
 
             <Center>
