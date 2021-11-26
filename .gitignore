@@ -14,16 +14,20 @@ yarn-error.log
 # DS _store
 .DS_Store
 
-# unnecessary terraform files
+# Terraform
+
+# .tfstate files
 *.tfstate
-*.tfstate.backup
-*.tfstate.lock.info
+*.tfstate.*
 
 # logs
 *.log
 
+# vars
+*.tfvars
+
 # Directories
-.terraform/
+**/.terraform/*
 
 # lambda
 **/cronMailing/*
