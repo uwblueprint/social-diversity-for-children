@@ -13,6 +13,12 @@ type SelectChildForClassProps = {
 export default function SelectChildForClass(
     props: SelectChildForClassProps,
 ): JSX.Element {
+    if (!props.eligible[props.selectedChild]) {
+        let index = 0;
+        while (!props.eligible[index] && index < props.eligible.length) index++;
+        props.setSelectedChild(index);
+    }
+
     return (
         <Box>
             <Center>
