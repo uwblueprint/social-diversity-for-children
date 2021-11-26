@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 
 type SelectChildForClassProps = {
     children: string[];
+    eligible: boolean[];
     selectedChild: number;
     setSelectedChild: React.Dispatch<SetStateAction<number>>;
     onNext: () => void;
@@ -56,7 +57,12 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
                             onClick={() => {
                                 props.setSelectedChild(index);
                             }}
-                            border={props.selectedChild === index ? null : "2px solid #E1E1E1"}
+                            border={
+                                props.selectedChild === index
+                                    ? null
+                                    : "2px solid #E1E1E1"
+                            }
+                            isDisabled={!props.eligible[index]}
                         >
                             {childName}
                         </Button>
