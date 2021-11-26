@@ -1,3 +1,4 @@
+.vscode
 # npm
 node_modules
 # next.js build files
@@ -12,4 +13,22 @@ node_modules
 yarn-error.log
 # DS _store
 .DS_Store
-.vscode
+
+# Terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# logs
+*.log
+
+# vars
+*.tfvars
+
+# Directories
+**/.terraform/*
+
+# lambda
+**/cronMailing/*
+!**/cronMailing/*.py
