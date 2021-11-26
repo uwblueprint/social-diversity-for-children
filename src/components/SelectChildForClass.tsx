@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 
 type SelectChildForClassProps = {
     children: string[];
+    eligible: boolean[];
     selectedChild: number;
     setSelectedChild: React.Dispatch<SetStateAction<number>>;
     onNext: () => void;
@@ -59,6 +60,7 @@ export default function SelectChildForClass(
                                     ? null
                                     : "2px solid #E1E1E1"
                             }
+                            isDisabled={!props.eligible[index]}
                         >
                             {childName}
                         </Button>

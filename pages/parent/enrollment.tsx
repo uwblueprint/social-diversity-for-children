@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
 import { Session } from "next-auth";
+import convertToAge from "@utils/convertToAge";
 
 type ParentEnrollClassProps = {
     session: Session;
@@ -100,6 +101,12 @@ export default function ParentEnrollClass({
         return `${s.firstName} ${s.lastName}`;
     });
 
+    const studentEligible = studentData.map((s) => {
+        return classInfo.isAgeMinimal
+            ? convertToAge(s.dateOfBirth) >= classInfo.borderAge
+            : convertToAge(s.dateOfBirth) <= classInfo.borderAge;
+    });
+
     if (studentData.length < 1) {
         router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if there are no children, this should be updated to a toast in a future sprint
     }
@@ -107,6 +114,7 @@ export default function ParentEnrollClass({
     const pageElements = [
         <SelectChildForClass
             children={studentNames}
+            eligible={studentEligible}
             selectedChild={selectedChild}
             setSelectedChild={setSelectedChild}
             onNext={nextPage}
