@@ -3,6 +3,7 @@ import React, { SetStateAction } from "react";
 import colourTheme from "@styles/colours";
 
 type SelectChildForClassProps = {
+    className: string;
     children: string[];
     eligible: boolean[];
     selectedChild: number;
@@ -27,16 +28,10 @@ export default function SelectChildForClass(
                 </Text>
             </Center>
             <Center>
-                {/* change? */}
-                <Text pb="55px" align="center" mt="30px">
-                    Who would you like to register for{" "}
-                    <b>
-                        Building Bridges with Music - <br />
-                        Singing Monkeys (Ages 9 and under)?{" "}
-                    </b>
+                <Text pb="55px" align="center" mt="30px" width="60%">
+                    Who would you like to register for <b>{props.className}</b>
                     (select one)
                 </Text>
-                {/* change? */}
             </Center>
 
             <Center>
