@@ -68,6 +68,8 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 │   └── definitions # Chakra
 │   └── styles # CSS and Colours
 │
+├── types # Depdendencies types
+│
 ├── utils # Utility functions
 │   └── validation # Data/Input Validators
 │
