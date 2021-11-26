@@ -25,13 +25,18 @@ module "iam" {
 }
 
 module "s3" {
-  source = "../../modules/s3"
-  # s3 uploads bucket inputs
-  s3_bucket_name          = var.s3_bucket_name
+  source          = "../../modules/s3"
+  allowed_origins = ["http://localhost:3000", var.sdc_domain]
+
+  # uploads bucket 
+  s3_uploads_bucket_name  = var.s3_uploads_bucket_name
   criminal_check_folder   = var.criminal_check_folder
   income_proof_folder     = var.income_proof_folder
   curriculum_plans_folder = var.curriculum_plans_folder
   other_folder            = var.other_folder
+
+  # images bucket
+  s3_images_bucket_name = var.s3_images_bucket_name
 }
 
 module "parameter_store" {

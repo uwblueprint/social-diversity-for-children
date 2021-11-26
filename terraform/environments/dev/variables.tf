@@ -1,3 +1,20 @@
+# NOTE
+# Variables without a default are inputted secretly. Generally only define variables with a default for non-secrets
+
+# ------------------------------------------------------------------
+# app
+variable "sdc_domain" {
+  description = "full domain name"
+  default     = "https://staging.socialdiversity.org"
+  type        = string
+}
+
+variable "sdc_pr_domain" {
+  description = "domain of pr deploys"
+  default     = "https://social-diversity-for-children-pr-*.up.railway.app/"
+  type        = string
+}
+
 # should add variable condition checks to limit configuration discrepencies
 # ------------------------------------------------------------------
 # IAM
@@ -9,7 +26,14 @@ variable "cloudwatch_lambda_logs_policy_name" {
 
 # ------------------------------------------------------------------
 # s3
-variable "s3_bucket_name" {
+
+variable "s3_images_bucket_name" {
+  description = "Name of the document uploads s3 bucket"
+  default     = "sdc-public-images"
+  type        = string
+}
+
+variable "s3_uploads_bucket_name" {
   description = "Name of the document uploads s3 bucket"
   default     = "sdc-uploads"
   type        = string
@@ -17,19 +41,19 @@ variable "s3_bucket_name" {
 
 variable "criminal_check_folder" {
   description = "Name of the criminal check folder"
-  default     = "criminal_checks"
+  default     = "criminal-check"
   type        = string
 }
 
 variable "income_proof_folder" {
   description = "Name of the income proof folder"
-  default     = "criminal_checks"
+  default     = "income-proof"
   type        = string
 }
 
 variable "curriculum_plans_folder" {
   description = "Name of the curriculum plans folder"
-  default     = "curriculum_plans"
+  default     = "curriculum-plans"
   type        = string
 }
 
@@ -56,7 +80,6 @@ variable "zoom_class_link_name" {
 
 variable "zoom_class_link_value" {
   description = "Zoom class link parameter value"
-  default     = "https://us06web.zoom.us/j/8391781258?pwd=NHBlMVh5SHc5UE10K2dsMFFvTzdmUT09"
   type        = string
 }
 
@@ -91,6 +114,7 @@ variable "cronMailing_schedule_expression" {
 
 variable "api_endpoint" {
   description = "Domain api endpoint"
+  default     = "https://staging.socialdiversity.org/api"
   type        = string
 }
 

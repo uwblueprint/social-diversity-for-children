@@ -5,6 +5,7 @@ variable "function_name" {
 
 variable "runtime" {
   description = "Runtime of lambda function. botocore.vendored.requests is depreciated and gone in python 3.8"
+  default     = "python3.8"
   type        = string
 }
 
