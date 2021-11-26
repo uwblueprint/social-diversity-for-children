@@ -21,6 +21,7 @@ export default function SelectChildForClass(
             </Center>
             <Center>
                 <Text pb="55px" align="center" mt="30px">
+                    {/* // TODO: Fix replace hardcode */}
                     Who would you like to register for{" "}
                     <b>
                         Building Bridges with Music - <br />

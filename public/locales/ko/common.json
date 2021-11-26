@@ -16,12 +16,30 @@
         "participantSpot": "남은 참가자 정원: {{spot}}",
         "volunteerSpot": "남은 봉사자 정원: {{spot}}"
     },
+    "class": {
+        "joinClass": "수강 신청",
+        "unregisterFor": "등록 취소: {{name}}",
+        "unregisterForAll": "모두 등록 취소"
+    },
+    "account": {
+        "addParticipant": "참가 아동 추가",
+        "personalInformation": "개인 정보",
+        "guardianInformation": "보호자 정보",
+        "generalInformation": "정보",
+        "edit": "편집하다",
+        "cancel": "취소",
+        "logOut": "로그아웃"
+    },
     "signIn": {
         "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요."
     },
     "time": {
         "range": "{{start}}부터{{end}}까지",
         "weekday_many": "{{day}}"
+    },
+    "language": {
+        "select": "언어 선택",
+        "apply": "계속하다"
     },
     "nav": {
         "register": "등록하세요",

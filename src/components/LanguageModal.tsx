@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 type LanguageModalProps = { currentLanguage: string };
 
@@ -27,6 +28,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
     currentLanguage,
 }) => {
     const router = useRouter();
+    const { t } = useTranslation("common");
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [language, setLanguage] = useState(currentLanguage);
     return (
@@ -47,7 +49,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                 <ModalContent w={56} minH={80}>
                     <ModalBody>
                         <Text py={4} textAlign={"center"} fontWeight={"700"}>
-                            Select a language
+                            {t("language.select")}
                         </Text>
                         <RadioGroup value={language} onChange={setLanguage}>
                             <Stack>
@@ -94,7 +96,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                             }}
                             w="100%"
                         >
-                            Apply
+                            {t("language.apply")}
                         </Button>
                     </ModalFooter>
                 </ModalContent>

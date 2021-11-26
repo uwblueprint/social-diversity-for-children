@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ApprovedIcon, InfoIcon, PendingIcon } from "@components/icons";
 import convertToShortDateString from "@utils/convertToShortDateString";
 import { locale } from "@prisma/client";
+import { useTranslation } from "react-i18next";
 
 type ProofOfIncomeProps = {
     link: string;
@@ -17,6 +18,8 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
     approved,
     submitDate,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     let description;
     let status;
     let icon;
@@ -27,7 +30,7 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
         status = "Approved";
         icon = <ApprovedIcon />;
     } else if (link == null) {
-        description = "You have not uploaded an income statement at this time.";
+        description = t("poi.missing");
         icon = <InfoIcon />;
     } else {
         description = "Your income statement is under review.";
@@ -72,7 +75,7 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
                     border="1px"
                     mt="20px"
                 >
-                    Upload income statement
+                    {t("poi.upload")}
                 </Button>
             </Link>
         </Box>

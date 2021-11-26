@@ -18,12 +18,32 @@
         "volunteerSpot": "{{spot}} volunteer spot available",
         "volunteerSpot_plural": "{{spot}} volunteer spots available"
     },
+    "class": {
+        "joinClass": "Join class",
+        "unregisterFor": "Unregister for {{name}}",
+        "unregisterForAll": "Unregister for all"
+    },
+    "account": {
+        "addParticipant": "Add participant",
+        "personalInformation": "Personal Information",
+        "guardianInformation": "Guardian Information",
+        "generalInformation": "General Information",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "status": "Status: {{status}}",
+        "dateSubmitted": "Date submitted: {{status}}",
+        "logOut": "Log out"
+    },
     "signIn": {
         "firstTime": "First time? We’ll email you a magic code to sign up instantly."
     },
     "time": {
         "range": "{{start}} to {{end}}",
         "weekday_many": "{{day}}s"
+    },
+    "language": {
+        "select": "Select a language",
+        "apply": "Apply"
     },
     "nav": {
         "register": "Register",

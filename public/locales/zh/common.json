@@ -16,12 +16,30 @@
         "participantSpot": "剩余{{spot}}个参与者名额",
         "volunteerSpot": "剩余{{spot}}个义工名额"
     },
+    "class": {
+        "joinClass": "加入课程",
+        "unregisterFor": "取消注册: {{name}}",
+        "unregisterForAll": "全部注销"
+    },
+    "account": {
+        "addParticipant": "添加参与者",
+        "personalInformation": "个人信息",
+        "guardianInformation": "监护人信息",
+        "generalInformation": "信息",
+        "edit": "编辑",
+        "cancel": "取消",
+        "logOut": "登出"
+    },
     "signIn": {
         "firstTime": "第一次参加吗？我们会给您发一个注册代码，让您立即注册。"
     },
     "time": {
         "range": "{{start}}至{{end}}",
         "weekday_many": "{{day}}"
+    },
+    "language": {
+        "select": "选择语言",
+        "apply": "继续"
     },
     "nav": {
         "register": "注册",
