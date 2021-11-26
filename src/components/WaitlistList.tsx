@@ -15,13 +15,11 @@ type WaitlistCardsProps = {
 };
 
 const WaitlistCards: React.FC<WaitlistCardsProps> = ({ waitlistInfo }) => {
+    const { t } = useTranslation("common");
     return (
         <Center width="100%">
             {waitlistInfo.length === 0 ? (
-                <EmptyState>
-                    Currently you are not waitlisted in any classes. <br />
-                    Any classes you waitlist for will show up here!
-                </EmptyState>
+                <EmptyState>{t("class.emptyWaitlist")}</EmptyState>
             ) : (
                 <List spacing="5" width="100%">
                     {waitlistInfo.map((item) => {

@@ -5,7 +5,8 @@
         "welcome": "欢迎来到 SDC",
         "registration": "2021暑期课程将于6月31日开始接受报名！",
         "parentBrowse": "请浏览以下的课程，然后选择适合您的日期和时间。我们确保我们会百分百符合参加者的需求。",
-        "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。"
+        "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
+        "emptyPrograms": "目前没有可供注册的计划。很快回来看看我们下学期必须提供的课程！"
     },
     "program": {
         "signInToRegister": "登录完成课程/义工注册",
@@ -21,7 +22,8 @@
         "waitlistNotify": "一旦有可用空间，我们会通知您",
         "learnMore": "了解更多",
         "selectClass": "选择一个班级",
-        "fullClasses": "满的班级"
+        "fullClasses": "满的班级",
+        "emptyProgram": "目前没有适用于{{program}}的课程。注册下面的候补课程或查看其他程序"
     },
     "class": {
         "joinClass": "加入课程",
@@ -30,7 +32,9 @@
         "unregisterForAll": "全部注销",
         "upcomingClasses": "即将开始的课程",
         "waitlistedClasses": "候补课程",
-        "waitlistedInfo": "当一个位置开放时，将向您发送一封电子邮件"
+        "waitlistedInfo": "当一个位置开放时，将向您发送一封电子邮件",
+        "emptyWaitlist": "目前您没有被列入任何课程的候补名单。您候补名单上的任何课程都会显示在这里！",
+        "emptyClass": "目前您还没有注册任何课程。您注册的任何课程都会显示在这里！"
     },
     "account": {
         "addParticipant": "添加参与者",

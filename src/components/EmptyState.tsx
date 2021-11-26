@@ -23,7 +23,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             color={colourTheme.colors.Gray}
             {...props}
         >
-            <Box>
+            <Box w="75%">
                 <Center whiteSpace="pre-line" textAlign="center">
                     {children}
                 </Center>

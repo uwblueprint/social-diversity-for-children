@@ -5,7 +5,8 @@
         "welcome": "Welcome to SDC",
         "registration": "Registration for Summer 2021 classes begins June 31, 2021!",
         "parentBrowse": "Browse through programs below and then select a class with the date and time of your choice! We make sure that 100% of our participants’ demonstrated needs are met.",
-        "volunteerBrowse": "Volunteering with SDC is simple and easy! Get started with volunteering with SDC by creating an account to volunteer and then selecting the program you want to volunteer for."
+        "volunteerBrowse": "Volunteering with SDC is simple and easy! Get started with volunteering with SDC by creating an account to volunteer and then selecting the program you want to volunteer for.",
+        "emptyPrograms": "There are currently no programs available to register for. Come back shortly to see the programs we have to offer for the next term!"
     },
     "program": {
         "signInToRegister": "Sign in to register/volunteer",
@@ -23,7 +24,8 @@
         "waitlistNotify": "We'll notify you once space becomes available",
         "learnMore": "Learn More",
         "selectClass": "Select a class",
-        "fullClasses": "Full classes"
+        "fullClasses": "Full classes",
+        "emptyProgram": "There are currently no available classes for {{program}}. Register for a waitlisted class below or check out another program"
     },
     "class": {
         "joinClass": "Join class",
@@ -32,7 +34,9 @@
         "unregisterForAll": "Unregister for all",
         "upcomingClasses": "Upcoming classes",
         "waitlistedClasses": "Waitlisted classes",
-        "waitlistedInfo": "An email will be sent to you when a spot opens"
+        "waitlistedInfo": "An email will be sent to you when a spot opens",
+        "emptyWaitlist": "Currently you are not waitlisted in any classes. Any classes you waitlist for will show up here!",
+        "emptyClass": "Currently you have not registered in any classes. Any classes you registered for will show up here!"
     },
     "account": {
         "addParticipant": "Add participant",

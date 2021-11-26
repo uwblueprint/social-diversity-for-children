@@ -70,11 +70,7 @@ export default function Component(props: ComponentProps): JSX.Element {
 
                 <Box>
                     {programCardInfos.length === 0 ? (
-                        <EmptyState>
-                            {
-                                "There are currently no programs available to register for.\nCome back shortly to see the programs we have to offer for the next term!"
-                            }
-                        </EmptyState>
+                        <EmptyState>{t("home.emptyPrograms")}</EmptyState>
                     ) : programCardInfos ? (
                         <ProgramList cardInfo={programCardInfos} />
                     ) : (

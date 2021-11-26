@@ -31,13 +31,12 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
     enrollmentInfo,
     isOnlyStudent,
 }) => {
+    const { t } = useTranslation("common");
+
     return (
         <Center width="100%">
             {enrollmentInfo.length === 0 ? (
-                <EmptyState>
-                    Currently you have not registered in any classes. <br />
-                    Any classes you registered for will show up here!
-                </EmptyState>
+                <EmptyState>{t("class.emptyClass")}</EmptyState>
             ) : (
                 <List spacing="5" width="100%">
                     {combineStudentEnrollment(enrollmentInfo).map((item) => {

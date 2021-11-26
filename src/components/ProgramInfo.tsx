@@ -115,11 +115,9 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                 </Flex>
                 {availableClassInfo.length === 0 ? (
                     <EmptyState>
-                        There are currently no available classes for{" "}
-                        {programInfo.name}.
-                        <br />
-                        Register for a waitlisted class below or check out
-                        another program
+                        {t("program.emptyProgram", {
+                            program: programInfo.name,
+                        })}
                     </EmptyState>
                 ) : (
                     <ClassList
