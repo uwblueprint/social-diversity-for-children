@@ -1,28 +1,29 @@
-import React from "react";
 import {
-    Center,
-    Stack,
     Box,
-    Flex,
-    Progress,
-    Text,
-    Link as ChakraLink,
     Button,
+    Center,
+    Flex,
+    Link as ChakraLink,
+    Progress,
+    Stack,
+    Text,
     VStack,
 } from "@chakra-ui/react";
-import Wrapper from "@components/SDCWrapper";
-import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
-import colourTheme from "@styles/colours";
-import Link from "next/link";
+import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { Loading } from "@components/Loading";
+import Wrapper from "@components/SDCWrapper";
+import colourTheme from "@styles/colours";
+import { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import React from "react";
 
 type ParentCreatedPageProps = {
     successful: string;
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
     setPageNum: any;
     totalPages: number;
@@ -112,7 +113,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                         </Text>
                         <Text maxW={512} textAlign="center">
                             {successful === "success"
-                                ? "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!"
+                                ? "Your account has been successfully created. Click the button below to start browsing classes to register for!"
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">

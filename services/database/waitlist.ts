@@ -23,12 +23,18 @@ async function getWaitlistRecord(input: WaitlistInput): Promise<Waitlist> {
  * @param classId
  * @returns Promise<Waitlist[]> - Promise with list of waitlist records associated with the class
  */
-async function getWaitlistRecordsByClassId(
-    classId: number,
-): Promise<Waitlist[]> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getWaitlistRecordsByClassId(classId: number) {
     const waitlistRecords = await prisma.waitlist.findMany({
         where: {
             classId: classId,
+        },
+        include: {
+            parent: {
+                include: {
+                    user: true,
+                },
+            },
         },
         orderBy: {
             createdAt: "asc", // ascending order as the oldest createdAt date is the highest priority.
@@ -48,6 +54,28 @@ async function getWaitlistRecordsByParentId(
     const waitlistRecords = await prisma.waitlist.findMany({
         where: {
             parentId: parentId,
+        },
+        include: {
+            parent: true,
+            class: {
+                include: {
+                    classTranslation: true,
+                    teacherRegs: {
+                        include: {
+                            teacher: {
+                                include: {
+                                    user: true,
+                                },
+                            },
+                        },
+                    },
+                    program: {
+                        include: {
+                            programTranslation: true,
+                        },
+                    },
+                },
+            },
         },
         orderBy: {
             createdAt: "asc",

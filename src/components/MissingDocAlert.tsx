@@ -12,7 +12,7 @@ import {
 import colourTheme from "@styles/colours";
 import InfoIcon from "@components/icons/InfoIcon";
 import { roles } from "@prisma/client";
-import { UseMeResponse } from "@utils/useMe";
+import { UseMeResponse } from "@utils/hooks/useMe";
 import Link from "next/link";
 
 type MissingDocAlertProps = {

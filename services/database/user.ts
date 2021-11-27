@@ -58,7 +58,15 @@ async function getUserFromEmail(email: string) {
 async function getUsers() {
     const users = await prisma.user.findMany({
         include: {
-            teacher: true,
+            teacher: {
+                include: {
+                    _count: {
+                        select: {
+                            teacherRegs: true,
+                        },
+                    },
+                },
+            },
             parent: {
                 include: {
                     students: true,
@@ -69,6 +77,79 @@ async function getUsers() {
         },
     });
     return users;
+}
+
+/**
+ * getRegistrantCount returns count of all parents + volunteers
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getRegistrantCount() {
+    const count = await prisma.user.count({
+        where: {
+            OR: [{ role: "PARENT" }, { role: "VOLUNTEER" }],
+        },
+    });
+    return count;
+}
+
+/**
+ * getTeacherCount returns count of all teachers
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getTeacherCount() {
+    const count = await prisma.user.count({
+        where: {
+            role: "TEACHER",
+        },
+    });
+    return count;
+}
+
+/**
+ * createUser creates a new user, it is intended for creating internal users securely
+ * @param  {UserInput} userInput the input used to create the user
+ */
+async function createUser(userInput: UserInput): Promise<User> {
+    // No support for parent/volunteer creation, use next-auth instead
+    const createRole = (role: roles) => {
+        switch (role) {
+            case roles.TEACHER:
+                return {
+                    teacher: {
+                        create: {
+                            updatedAt: null,
+                        },
+                    },
+                };
+            case roles.PROGRAM_ADMIN:
+                return {
+                    programAdmin: {
+                        create: {
+                            updatedAt: null,
+                        },
+                    },
+                };
+            default:
+                return;
+        }
+    };
+
+    const userAndRole = await prisma.user
+        .create({
+            data: {
+                firstName: userInput.firstName,
+                email: userInput.email,
+                lastName: userInput.lastName,
+                role: userInput.role,
+                ...createRole(userInput.role),
+            },
+        })
+        .catch((err) => {
+            console.log(err);
+            return null;
+        });
+
+    return userAndRole;
 }
 
 /**
@@ -395,6 +476,33 @@ async function updateVolunteerCriminalCheckLink(email: string, link: string) {
 }
 
 /**
+ * update volunteer's criminal check approval in db when admin changes it
+ * @param  {number} id uid of volunteer
+ * @param  {boolean} approval criminal check approval status
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function updateVolunteerCriminalCheckApproval(
+    id: number,
+    approval: boolean,
+) {
+    const user = prisma.user.update({
+        data: {
+            volunteer: {
+                update: {
+                    criminalCheckApproved: approval,
+                },
+            },
+        },
+        where: { id },
+        include: {
+            volunteer: true,
+        },
+    });
+
+    return user;
+}
+
+/**
  * update parent's proof of income link in db to keep track of latest upload
  * @param  {string} email email of parent
  * @param  {string} link proof of income link name
@@ -418,11 +526,54 @@ async function updateParentProofOfIncomeLink(email: string, link: string) {
     return user;
 }
 
+/**
+ * deleteUser deletes a user given
+ * @param  {string} id
+ */
+async function deleteUser(id: string): Promise<User> {
+    const user = await prisma.user
+        .delete({
+            where: {
+                id: parseInt(id),
+            },
+            include: {
+                programAdmin: true,
+                teacher: {
+                    include: {
+                        teacherRegs: true,
+                    },
+                },
+                parent: {
+                    include: {
+                        students: true,
+                        parentRegs: true,
+                        waitlists: true,
+                    },
+                },
+                volunteer: {
+                    include: {
+                        volunteerRegs: true,
+                    },
+                },
+            },
+        })
+        .catch((err) => {
+            console.log(err);
+            return null;
+        });
+    return user;
+}
+
 export {
     getUser,
     getUserFromEmail,
     getUsers,
+    getRegistrantCount,
+    getTeacherCount,
+    createUser,
     updateUser,
     updateVolunteerCriminalCheckLink,
+    updateVolunteerCriminalCheckApproval,
     updateParentProofOfIncomeLink,
+    deleteUser,
 };

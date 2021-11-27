@@ -1,19 +1,23 @@
-import React from "react";
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { roles } from ".prisma/client";
+import { Flex, Heading } from "@chakra-ui/react";
+import { BackButton } from "@components/BackButton";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
+import { EnrollmentList } from "@components/EnrollmentList";
+import { Loading } from "@components/Loading";
+import Wrapper from "@components/SDCWrapper";
+import { VolunteeringList } from "@components/VolunteeringList";
+import { WaitlistList } from "@components/WaitlistList";
+import useMe from "@utils/hooks/useMe";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
-import Wrapper from "@components/SDCWrapper";
-import { BackButton } from "@components/BackButton";
-import { EnrollmentList } from "@components/EnrollmentList";
-import { VolunteeringList } from "@components/VolunteeringList";
-import { roles } from ".prisma/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import useMe from "@utils/useMe";
-import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
+import React from "react";
+import { Session } from "next-auth";
 
 type ClassProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -24,9 +28,9 @@ function Class({ session }: ClassProps): JSX.Element {
     const router = useRouter();
 
     if (meError) {
-        return <Box>{"An error has occurred"}</Box>;
+        return <CommonError session={session} cause="cannot fetch user" />;
     } else if (isMeLoading) {
-        return <Loading />;
+        return <CommonLoading session={session} />;
     }
 
     // Stop and inform user to fill out information
@@ -44,6 +48,12 @@ function Class({ session }: ClassProps): JSX.Element {
                 </Flex>
                 {me.role === roles.PARENT ? <EnrollmentList /> : null}
                 {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
+            </Flex>
+            <Flex direction="column" pt={4} pb={8}>
+                <Flex align="center">
+                    <Heading mb={8}>My Waitlist</Heading>
+                </Flex>
+                {me.role === roles.PARENT ? <WaitlistList /> : null}
             </Flex>
         </Wrapper>
     );

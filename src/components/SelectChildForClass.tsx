@@ -40,7 +40,7 @@ export default function SelectChildForClass(
                             }}
                             backgroundColor={
                                 props.selectedChild === index
-                                    ? colourTheme.colors.LightGrayBlue
+                                    ? colourTheme.colors.CatskillWhite
                                     : "white"
                             }
                             lineHeight="24px"

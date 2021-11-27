@@ -32,7 +32,7 @@ import { Session } from "next-auth";
 import { signOut } from "next-auth/client";
 
 type NavbarProps = {
-    session?: Record<string, unknown>;
+    session?: Session;
     height?: number | string;
 };
 

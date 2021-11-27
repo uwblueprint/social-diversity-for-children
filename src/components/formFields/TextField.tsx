@@ -5,9 +5,10 @@ import {
     Input,
     FormErrorMessage,
     Textarea,
+    FormControlProps,
 } from "@chakra-ui/react";
 
-type Props = {
+type Props = FormControlProps & {
     value: string;
     setValue: (text: string) => void;
     name: string;
@@ -25,14 +26,19 @@ export const TextField: React.FC<Props> = ({
     required = true,
     longAnswer = false,
     edit = true,
+    ...props
 }): JSX.Element => {
     const [interactedWith, setInteractedWith] = useState(false);
+    const formatInput = () => {
+        setValue(value.trim());
+    };
 
     return (
         <FormControl
             style={longAnswer ? { height: "160px" } : { height: "50px" }}
             isRequired={required && edit}
             isInvalid={!value && required && interactedWith && edit}
+            {...props}
         >
             <FormLabel>{name}</FormLabel>
             {!edit ? (
@@ -46,6 +52,7 @@ export const TextField: React.FC<Props> = ({
                         setInteractedWith(true);
                     }}
                     value={value}
+                    onBlur={formatInput}
                 ></Textarea>
             ) : (
                 <Input
@@ -54,6 +61,7 @@ export const TextField: React.FC<Props> = ({
                         setValue(e.target.value);
                         setInteractedWith(true);
                     }}
+                    onBlur={formatInput}
                     value={value}
                 />
             )}

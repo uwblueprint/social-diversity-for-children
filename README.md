@@ -1,4 +1,9 @@
-# Social Diversity for Children Foundation
+# 📚 Social Diversity for Children Foundation
+
+![Build](https://github.com/uwblueprint/social-diversity-for-children/actions/workflows/ci.yml/badge.svg)
+![License: MIT](https://img.shields.io/github/license/codeprentice-org/fanotify.svg)
+![active development](https://img.shields.io/badge/active%20dev-yes-brightgreen.svg)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/codeprentice-org/fanotify.svg)
 
 Program registration platform for [Social Diversity for Children Foundation](https://www.socialdiversity.org).
 
@@ -6,21 +11,21 @@ Currently in development!
 
 This project was generated with [superplate](https://github.com/pankod/superplate).
 
-## S21 Team
+## 😎 S21 Team
 
 Project Lead: Eric Feng\
 Product Manager: Raewyn Tsai\
 Designers: Stacy Kwok, Christina Ru\
 Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad Zaryab
 
-## F21 Team
+## 🍁 F21 Team
 
 Project Lead: Rickson Yang\
 Product Manager: Emily Nairn\
 Designers: Rebecca Ma, Vedant Patel\
 Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Zhang
 
-## Project Architecture
+## 🔨 Project Architecture
 
 1. [NodeJS](https://nodejs.org/en/) application powered by the [Next.JS](https://nextjs.org/)
    framework
@@ -30,11 +35,13 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 5. [NextAuth.js](https://next-auth.js.org/) for authentication
 6. Service: [Amazon S3](https://aws.amazon.com/s3/) for file storage
 7. Service: [Amazon SES](https://aws.amazon.com/ses/) for email service
-8. Service: [Railway](https://docs.railway.app/) for deployment and database hosting
-9. [Unstated Next](https://github.com/jamiebuilds/unstated-next) for state management
-10. [SWR](https://swr.vercel.app/) React Hook library for data fetching
+8. Service: [Amazon Lambda](https://aws.amazon.com/lambda/) and [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/) for notification mailing
+9. Service: [Amazon Systems Manager](https://aws.amazon.com/systems-manager/) for Storing one-time dynamic links
+10. Service: [Railway](https://docs.railway.app/) for deployment and database hosting
+11. [Unstated Next](https://github.com/jamiebuilds/unstated-next) for state management
+12. [SWR](https://swr.vercel.app/) React Hook library for data fetching
 
-### Project Structure
+### ⚙ Project Structure
 
 ```bash
 .
@@ -61,6 +68,8 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 │   └── definitions # Chakra
 │   └── styles # CSS and Colours
 │
+├── types # Depdendencies types
+│
 ├── utils # Utility functions
 │   └── validation # Data/Input Validators
 │
@@ -80,7 +89,7 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 ├── .prettierrc
 ├── LICENSE
 ├── README.md
-├── i18n.js
+├── next-i18next.config.js
 ├── next-env.d.ts
 ├── next.config.js
 ├── package.json
@@ -88,13 +97,13 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 └── yarn.lock
 ```
 
-## Local Dependencies
+## 🔗 Local Dependencies
 
 1. [Heroku Client](https://devcenter.heroku.com/articles/heroku-cli)
 2. [NPM](https://nodejs.org/en/download/)
 3. [Yarn](https://classic.yarnpkg.com/en/docs/install)
 
-## Run Locally
+## 💻 Run Locally
 
 Reset your database on Heroku and then deploy your database schema run (one-time):
 
@@ -123,7 +132,7 @@ yarn
 yarn dev
 ```
 
-## Development
+## 👨‍💻 Development
 
 Linters run automatically as a pre-commit hook on edited `.js, .jsx, .ts, .tsx` files you edit and commit
 
@@ -137,10 +146,10 @@ yarn lint
 yarn fix
 ```
 
-## Deployment
+## 🚢 Deployment
 
 Deployments occur automatically on push to main and staging branches through [Railway](https://docs.railway.app/).
 
 ## License
 
-MIT
+[MIT](LICENSE)

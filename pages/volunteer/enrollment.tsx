@@ -6,7 +6,7 @@ import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClas
 import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCriminalCheck";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import useMe from "@utils/useMe";
+import useMe from "@utils/hooks/useMe";
 import { Box } from "@chakra-ui/layout";
 import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next";
@@ -16,9 +16,10 @@ import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
 import { fetcherWithId } from "@utils/fetcher";
+import { Session } from "next-auth";
 
 type VolunteerEnrollmentProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -37,7 +38,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
 
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
-        ["/api/class/" + classId, classId, router.locale],
+        ["/api/class/" + classId],
         fetcherWithId,
     );
 
@@ -87,11 +88,12 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                         toast({
                             title: "Registration failed.",
                             description:
-                                "The class is not available for registration at this time",
+                                "The class is not available for registration at this time.",
                             status: "error",
                             duration: 9000,
                             isClosable: true,
                             position: "top-right",
+                            variant: "left-accent",
                         });
                     }
                 });

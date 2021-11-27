@@ -1,5 +1,5 @@
-import { Box, Center, Text, Image, Link as ChakraLink } from "@chakra-ui/react";
-import useLocalStorage from "@utils/useLocalStorage";
+import { Box, Center, Text, Link as ChakraLink } from "@chakra-ui/react";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
 import MailSentIcon from "@components/icons/MailSentIcon";
 import { BackButton } from "@components/BackButton";

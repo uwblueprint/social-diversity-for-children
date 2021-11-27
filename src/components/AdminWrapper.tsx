@@ -2,11 +2,10 @@ import React from "react";
 import {
     Link as ChakraLink,
     Box,
-    Button,
-    ButtonProps,
     Icon,
     VStack,
     LinkProps,
+    Flex,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import { SdcLogoWhite } from "./icons";
@@ -15,36 +14,40 @@ import {
     MdBook,
     MdLogout,
     MdPeople,
+    MdShield,
     MdSpaceDashboard,
 } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 import { IconType } from "react-icons";
 import Link from "next/link";
 import { signOut } from "next-auth/client";
+import { Session } from "next-auth";
+import { roles } from "@prisma/client";
 
-type SDCWrapperProps = {
-    session?: Record<string, unknown>;
+type AdminWrapperProps = {
+    session?: Session;
     children?: React.ReactNode;
 };
 
-const AdminWrapper: React.FC<SDCWrapperProps> = (props): JSX.Element => {
+const AdminWrapper: React.FC<AdminWrapperProps> = (props): JSX.Element => {
     return (
-        <Box minHeight={"100vh"} position={"relative"}>
-            <AdminNavBar />
-            <Box pl={275}>{props.children}</Box>
-        </Box>
+        <Flex h="100vh">
+            <AdminNavBar role={props.session?.role} />
+            <Box pl={250} w="full">
+                {props.children}
+            </Box>
+        </Flex>
     );
 };
 
-const AdminNavBar: React.FC = () => {
+const AdminNavBar: React.FC<{ role: roles }> = ({ role }) => {
     return (
         <Box
             position="fixed"
-            left={0}
             p={5}
-            w={275}
-            top={0}
-            h="100%"
+            w={250}
+            zIndex={1}
+            h="inherit"
             bg="#dfdfdf"
             bgColor={colourTheme.colors.Blue}
         >
@@ -70,17 +73,26 @@ const AdminNavBar: React.FC = () => {
                         icon={MdPeople}
                         text={"Registrants"}
                     />
-                    <AdminNavbarButton
-                        href="https://dashboard.stripe.com/coupons"
-                        isExternal
-                        icon={RiCouponFill}
-                        text={"Coupons"}
-                    />
-                    <AdminNavbarButton
-                        href="/admin/archived"
-                        icon={MdArchive}
-                        text={"Archived"}
-                    />
+                    {role !== roles.PROGRAM_ADMIN ? null : (
+                        <>
+                            <AdminNavbarButton
+                                href="/admin/user"
+                                icon={MdShield}
+                                text={"Internal Users"}
+                            />
+                            <AdminNavbarButton
+                                href="https://dashboard.stripe.com/coupons"
+                                isExternal
+                                icon={RiCouponFill}
+                                text={"Coupons"}
+                            />
+                            <AdminNavbarButton
+                                href="/admin/archived"
+                                icon={MdArchive}
+                                text={"Archived"}
+                            />
+                        </>
+                    )}
                 </VStack>
                 <Box position="absolute" bottom={8} alignItems="flex-start">
                     <AdminNavbarButton

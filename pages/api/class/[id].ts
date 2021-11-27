@@ -1,8 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { deleteClass, getClass, updateClass } from "@database/class";
 import { ResponseUtil } from "@utils/responseUtil";
-import { getClass, deleteClass, updateClass } from "@database/class";
-import { ClassInput } from "models/Class";
+import { isAdmin } from "@utils/session/authorization";
 import { validateClassData } from "@utils/validation/class";
+import { ClassInput } from "models/Class";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client";
 
 /**
  * handle takes the classId parameter and returns
@@ -16,6 +18,7 @@ export default async function handle(
 ): Promise<void> {
     // Obtain class id
     const { id } = req.query;
+    const session = await getSession({ req });
 
     //parse query parameters from string to number and validate that id is a number
     const classId = parseInt(id as string, 10);
@@ -40,6 +43,10 @@ export default async function handle(
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
+        // If there is no session or the user is not a internal user, not authorized
+        if (!isAdmin(session)) {
+            return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+        }
         const deletedClass = await deleteClass(classId);
 
         if (!deleteClass) {
@@ -52,6 +59,10 @@ export default async function handle(
         ResponseUtil.returnOK(res, deletedClass);
         return;
     } else if (req.method == "PUT") {
+        if (!isAdmin(session)) {
+            return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+        }
+
         // validate updated class body
         const classInput = req.body as ClassInput;
         const validationError = validateClassData(classInput);

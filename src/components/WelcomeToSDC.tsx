@@ -1,22 +1,27 @@
-import React from "react";
 import {
     Box,
-    HStack,
-    VStack,
-    Heading,
-    Text,
-    Image,
     Button,
     Flex,
     useBreakpointValue,
+    Heading,
+    HStack,
+    Image,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+    Text,
+    VStack,
 } from "@chakra-ui/react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import colourTheme from "@styles/colours";
+import { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import colourTheme from "@styles/colours";
+import React from "react";
 
 type WelcomeToSDCProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {

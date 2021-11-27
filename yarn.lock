@@ -1337,6 +1337,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-table@^7.7.8":
+  version "7.7.8"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.8.tgz#b1aa5fb7a54432969262d2306b87fdbb9a5ee647"
+  integrity sha512-OMhbPlf+uUGte3M1WdArEKeBkyQ1XJxKvFYs+o1dGGGyaSVIqxPPQmBZ6Skkw0V9y0F/kOY7rnTD8r9GbfpBOg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^17.0.0":
   version "17.0.11"
   resolved "https://registry.npmjs.org/@types/react/-/react-17.0.11.tgz"
@@ -4581,6 +4588,11 @@ react-clientside-effect@^1.2.2:
   dependencies:
     "@babel/runtime" "^7.12.13"
 
+react-csv@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-2.0.3.tgz#f5d17a3c71107d9bcbe580049350200debdc042a"
+  integrity sha512-exyAdFLAxtuM4wNwLYrlKyPYLiJ7e0mv9tqPAd3kq+k1CiJFtznevR3yP0icv5q/y200w+lzNgi7TQn1Wrhu0w==
+
 react-datepicker@^4.2.1:
   version "4.2.1"
   resolved "https://registry.npmjs.org/react-datepicker/-/react-datepicker-4.2.1.tgz"
@@ -4687,6 +4699,11 @@ react-style-singleton@^2.1.0:
     get-nonce "^1.0.0"
     invariant "^2.2.4"
     tslib "^1.0.0"
+
+react-table@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.7.0.tgz#e2ce14d7fe3a559f7444e9ecfe8231ea8373f912"
+  integrity sha512-jBlj70iBwOTvvImsU9t01LjFjy4sXEtclBovl3mTiqjz23Reu0DKnRza4zlLtOPACx6j2/7MrQIthIK1Wi+LIA==
 
 react@17.0.2:
   version "17.0.2"

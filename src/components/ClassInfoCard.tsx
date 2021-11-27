@@ -1,27 +1,31 @@
 import React from "react";
 import {
     Box,
+    Button,
     AspectRatio,
     Image,
     Flex,
+    Divider,
     Grid,
     GridItem,
     Spacer,
     VStack,
 } from "@chakra-ui/react";
-import { SDCBadge } from "./SDCBadge";
-import weekdayToString from "@utils/weekdayToString";
+import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { locale, roles } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import useMe from "@utils/useMe";
+import colourTheme from "@styles/colours";
+import useMe from "@utils/hooks/useMe";
+import { AgeBadge } from "./AgeBadge";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
     isEligible?: boolean;
     onClick: () => void;
+    isFull: boolean;
 };
 
 /**
@@ -34,6 +38,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     cardInfo,
     isEligible,
     onClick,
+    isFull,
 }) => {
     const router = useRouter();
     const { t } = useTranslation();
@@ -56,7 +61,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box fontWeight="bold" as="h2">
@@ -64,20 +69,15 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         </Box>
                         <Spacer />
                         {cardInfo.borderAge == null ? null : (
-                            <SDCBadge isOff={!isEligible}>
-                                {cardInfo.isAgeMinimal
-                                    ? cardInfo.borderAge + " and above"
-                                    : cardInfo.borderAge + " and under"}
-                            </SDCBadge>
+                            <AgeBadge
+                                isOff={!isEligible}
+                                isAgeMinimal={cardInfo.isAgeMinimal}
+                                borderAge={cardInfo.borderAge}
+                            />
                         )}
                     </Flex>
-                    <Flex>
-                        <Box
-                            as="span"
-                            color="gray.600"
-                            fontSize="sm"
-                            textTransform="capitalize"
-                        >
+                    <Flex direction={{ base: "column", xl: "row" }}>
+                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {t("time.weekday_many", {
                                 day: weekdayToString(
                                     cardInfo.weekday,
@@ -88,8 +88,6 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 cardInfo.startTimeMinutes,
                                 cardInfo.durationMinutes,
                             )}
-                        </Box>
-                        <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {" with " +
                                 t("program.teacherName", {
                                     name: cardInfo.teacherName,
@@ -100,16 +98,38 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             {me && me.role === roles.VOLUNTEER
                                 ? cardInfo.volunteerSpaceAvailable +
                                   " volunteer spot" +
-                                  (cardInfo.volunteerSpaceAvailable > 1
+                                  (cardInfo.volunteerSpaceAvailable != 1
                                       ? "s"
                                       : "") +
                                   " available"
                                 : cardInfo.spaceAvailable +
                                   " participant spot" +
-                                  (cardInfo.spaceAvailable > 1 ? "s" : "") +
+                                  (cardInfo.spaceAvailable != 1 ? "s" : "") +
                                   " available"}
                         </Box>
                     </Flex>
+                    {isFull && (
+                        <Box>
+                            <Divider mt={8} mb={8} mr="3" />
+                            <Flex mt={3}>
+                                <Box as="h2">
+                                    We'll notify you once space becomes
+                                    available
+                                </Box>
+                                <Spacer />
+                                <Button
+                                    border="1px"
+                                    borderColor={colourTheme.colors.Blue}
+                                    color={colourTheme.colors.Blue}
+                                    variant="outline"
+                                    mr="3"
+                                    width="30%"
+                                >
+                                    Learn More
+                                </Button>
+                            </Flex>
+                        </Box>
+                    )}
                 </VStack>
             </GridItem>
         </Grid>

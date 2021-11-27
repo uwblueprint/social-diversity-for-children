@@ -3,6 +3,7 @@ import classTranslationsUpsert from "./class-translation";
 import parentUpsert from "./parent";
 import parentRegUpsert from "./parent-reg";
 import programUpsert from "./program";
+import programAdminUpsert from "./program-admin";
 import programTranslationsUpsert from "./program-translation";
 import studentUpsert from "./student";
 import teacherUpsert from "./teacher";
@@ -27,4 +28,5 @@ export default async function seedDev(): Promise<void> {
     await parentUpsert();
     await studentUpsert();
     await parentRegUpsert();
+    await programAdminUpsert();
 }

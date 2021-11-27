@@ -1,31 +1,33 @@
-import React from "react";
 import {
-    Center,
-    Stack,
     Box,
+    Button,
+    Center,
     Flex,
     Progress,
+    Stack,
     Text,
-    Button,
     VStack,
 } from "@chakra-ui/react";
-import Wrapper from "@components/SDCWrapper";
-import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
-import colourTheme from "@styles/colours";
-import Link from "next/link";
+import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { Loading } from "@components/Loading";
+import Wrapper from "@components/SDCWrapper";
+import colourTheme from "@styles/colours";
+import { Session } from "next-auth";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
 
 type ParticipantCreatedPageProps = {
     successful: string;
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
     setPageNum: any;
     totalPages: number;
     formPages: JSX.Element[];
+    name: string;
 };
 
 export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
@@ -35,6 +37,7 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
     totalPages,
     formPages,
     successful,
+    name,
 }): JSX.Element => {
     const router = useRouter();
 
@@ -112,9 +115,15 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                                 : "Error: Participant not added successfully"}
                         </Text>
                         <Text maxW={400} textAlign="center" pt={3} pb={9}>
-                            {successful === "success"
-                                ? "Participant has been successfully added as a participant in your account"
-                                : "There was an error adding the participant. Please contact us"}
+                            {successful === "success" ? (
+                                <>
+                                    <strong>{name}</strong> has been
+                                    successfully added as a participant in your
+                                    account!
+                                </>
+                            ) : (
+                                "There was an error adding the participant. Please contact us"
+                            )}
                         </Text>
                         <Button
                             bg={"transparent"}

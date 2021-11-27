@@ -1,10 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { ResponseUtil } from "@utils/responseUtil";
-import { getUsers } from "@database/user";
-import { getSession } from "next-auth/client";
+import { createUser, getUsers, updateUser } from "@database/user";
 import { UserInput } from "@models/User";
-import { updateUser } from "@database/user";
+import { ResponseUtil } from "@utils/responseUtil";
+import { isAdmin } from "@utils/session/authorization";
 import { getUserValidationErrors } from "@utils/validation/user";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client";
+import isEmail from "validator/lib/isEmail";
 
 /**
  * handle controls the request made to the user resource
@@ -22,12 +23,33 @@ export default async function handle(
             break;
         }
         case "POST": {
-            // TODO
+            // Creation of users should only be done for teachers and admins explicitly
+            const session = await getSession({ req });
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+            const createUserData: UserInput = {
+                firstName: req.body.firstName,
+                email: req.body.email,
+                lastName: req.body.lastName,
+                role: req.body.role,
+            };
+
+            if (!isEmail(createUserData.email)) {
+                return ResponseUtil.returnBadRequest(res, "Invalid user email");
+            }
+
+            const createdUser = await createUser(createUserData);
+            if (!createdUser) {
+                ResponseUtil.returnBadRequest(res, `Error creating user.`);
+                return;
+            }
+            ResponseUtil.returnOK(res, createdUser);
             break;
         }
         case "PUT": {
             const session = await getSession({ req });
-            const userId = session.id as string;
+            const userId = session.id.toString();
             const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
