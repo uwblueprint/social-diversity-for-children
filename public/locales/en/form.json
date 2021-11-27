@@ -42,6 +42,8 @@
         "registered": "Thank you for registering!",
         "volunteerSignup": "Thank you for signing up to volunteer!",
         "skip": "Skip for now",
-        "next": "Next"
+        "next": "Next",
+        "yes": "Yes",
+        "no": "No"
     }
 }

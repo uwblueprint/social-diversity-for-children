@@ -55,6 +55,18 @@
         "bgc_pending": "您的无犯罪调查信正在被审查。",
         "logOut": "登出"
     },
+    "upload": {
+        "title": "上传文档",
+        "instruction": "将您的文件拖放到此处",
+        "alternative": "或者",
+        "browseFiles": "浏览文件",
+        "uploaded": "文件上传",
+        "submit": "提交",
+        "replace": "您想替换当前文件吗？",
+        "success": "文件提交成功",
+        "successInfo": "文档已成功发送到SDC。",
+        "successHint": "请在接下来的几周内密切关注你的背景调查状况"
+    },
     "signIn": {
         "firstTime": "第一次参加吗？我们会给您发一个注册代码，让您立即注册。"
     },
@@ -76,6 +88,7 @@
         "myAccount": "我的账户",
         "viewUpcoming": "查看即将开始的课程",
         "browseClasses": "浏览课程",
-        "viewDetails": "浏览详情"
+        "viewDetails": "浏览详情",
+        "viewAccount": "浏览账户"
     }
 }

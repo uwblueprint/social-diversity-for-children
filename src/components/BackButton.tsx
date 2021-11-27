@@ -12,6 +12,7 @@ type BackButtonProps = {
 export const BackButton: React.FC<BackButtonProps> = (props) => {
     const router = useRouter();
     const { t } = useTranslation("common");
+
     const onClick = props.onClick ? props.onClick : () => router.back();
 
     return (

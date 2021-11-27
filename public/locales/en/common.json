@@ -57,6 +57,18 @@
         "bgc_pending": "Your criminal record check is under review.",
         "logOut": "Log out"
     },
+    "upload": {
+        "title": "Upload Document",
+        "instruction": "Drag and drop your file here",
+        "alternative": "or",
+        "browseFiles": "Browse Files",
+        "uploaded": "Document uploaded",
+        "submit": "Submit",
+        "replace": "Would you like to replace the current file?",
+        "success": "File submitted successfully",
+        "successInfo": "Document was successfully sent to SDC.",
+        "successHint": "Keep an eye out on the status of your background check within the next few weeks."
+    },
     "signIn": {
         "firstTime": "First time? We’ll email you a magic code to sign up instantly."
     },
@@ -78,6 +90,7 @@
         "myAccount": "My Account",
         "viewUpcoming": "View upcoming classes",
         "browseClasses": "Browse Classes",
-        "viewDetails": "View Details"
+        "viewDetails": "View Details",
+        "viewAccount": "View Account"
     }
 }

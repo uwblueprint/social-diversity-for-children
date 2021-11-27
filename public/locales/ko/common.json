@@ -55,6 +55,18 @@
         "bgc_pending": "범죄기록증명서가 확인 중에 있습니다.",
         "logOut": "로그아웃"
     },
+    "upload": {
+        "title": "업로드...",
+        "instruction": "여기에 파일을 끌어다 놓습니다.",
+        "alternative": "또는",
+        "browseFiles": "파일 보기",
+        "uploaded": "문서 업로드됨",
+        "submit": "제출",
+        "replace": "현재 파일을 바꾸시겠습니까?",
+        "success": "서류 제출이 성공적으로 완료되었습니다.",
+        "successInfo": "서류가 성공적으로 SDC에 제출되었습니다.",
+        "successHint": "다음 몇 주간 범죄기록증명서 상태를 확인하세요"
+    },
     "signIn": {
         "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요."
     },
@@ -76,6 +88,7 @@
         "myAccount": "나의 계정",
         "viewUpcoming": "예정 프로그램 보기",
         "browseClasses": "프로그램 보기",
-        "viewDetails": "더 보기"
+        "viewDetails": "더 보기",
+        "viewAccount": "계정 보기"
     }
 }

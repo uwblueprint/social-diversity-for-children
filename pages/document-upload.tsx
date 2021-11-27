@@ -10,6 +10,7 @@ import { CloseButton } from "@components/CloseButton";
 import { ApprovedIcon } from "@components/icons";
 import { Session } from "next-auth";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 type DocumentUploadProps = {
     session: Session;
@@ -18,6 +19,7 @@ export default function DocumentUpload({
     session,
 }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
+    const { t } = useTranslation("common");
 
     let { type } = router.query;
     const { redirect } = router.query;
@@ -73,7 +75,7 @@ export default function DocumentUpload({
                         <Box width="700px" mb="40px">
                             <Center>
                                 <Text fontWeight="700" fontSize="36px" m="40px">
-                                    Upload Document
+                                    {t("upload.title")}
                                 </Text>
                             </Center>
                             <Center>
@@ -83,7 +85,7 @@ export default function DocumentUpload({
                     </Center>
                     {files.map((file: File) => (
                         <Text key={file.name}>
-                            Document uploaded: <u> {file.name} </u>
+                            {t("upload.uploaded")}: <u> {file.name} </u>
                         </Text>
                     ))}
                     <Center paddingBottom="40px">
@@ -100,7 +102,7 @@ export default function DocumentUpload({
                                 mt="20px"
                                 onClick={upload}
                             >
-                                Submit
+                                {t("upload.submit")}
                             </Button>
                         )}
                         {isUploading && (
@@ -144,7 +146,7 @@ export default function DocumentUpload({
                             </Center>
                             <Center>
                                 <Text fontWeight="700" fontSize="25px" m="20px">
-                                    File submitted successfully
+                                    {t("upload.success")}
                                 </Text>
                             </Center>
                             <Center>
@@ -153,7 +155,7 @@ export default function DocumentUpload({
                                     fontSize="15px"
                                     mb="20px"
                                 >
-                                    Document was successfully sent to SDC.
+                                    {t("upload.successInfo")}
                                 </Text>
                             </Center>
                             <Center>
@@ -163,8 +165,7 @@ export default function DocumentUpload({
                                     mb="20px"
                                     textAlign={["center"]}
                                 >
-                                    Keep and eye out on the status of your
-                                    background check within the next few weeks.
+                                    {t("upload.successHint")}
                                 </Text>
                             </Center>
                             <Center>
@@ -184,7 +185,7 @@ export default function DocumentUpload({
                                         })
                                     }
                                 >
-                                    View Account
+                                    {t("nav.viewAccount")}
                                 </Button>
                             </Center>
                             <Center>
@@ -204,7 +205,7 @@ export default function DocumentUpload({
                                         })
                                     }
                                 >
-                                    Browse programs
+                                    {t("nav.browseProgram")}
                                 </Button>
                             </Center>
                         </Box>
