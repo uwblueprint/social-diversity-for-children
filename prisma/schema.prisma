@@ -13,7 +13,6 @@ model Parent {
   isLowIncome           Boolean?    @default(false) @map("is_low_income")
   preferredLanguage     locale      @map("preferred_language")
   proofOfIncomeLink     String?     @map("proof_of_income_link")
-  proofOfIncomeApproval Boolean?    @map("proof_of_income_approval")
   heardFrom             heardFrom[] @map("heard_from")
   createdAt             DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt             DateTime?   @map("updated_at") @db.Timestamptz(6)
