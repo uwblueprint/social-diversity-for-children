@@ -21,9 +21,7 @@ type ParentInfo = {
     setParentRelationship: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const ParentInfoPage: React.FC<ParentPageProps> = ({
-    props,
-}): JSX.Element => {
+export const ParentInfoPage: React.FC<ParentPageProps> = ({ props }): JSX.Element => {
     return (
         <>
             <HStack spacing="24px" style={{ height: 100 }}>

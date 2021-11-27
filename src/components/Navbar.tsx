@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Flex,
-    HStack,
-    Link as ChakraLink,
-    useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Link as ChakraLink, useColorModeValue } from "@chakra-ui/react";
 import { SignInButton } from "@components/SignInButton";
 import { LanguageModal } from "@components/LanguageModal";
 import { ReactNode } from "react";
@@ -26,13 +20,7 @@ const Links = [
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     <Link href={href}>
-        <ChakraLink
-            px={8}
-            py={1}
-            rounded={"md"}
-            _focus={{}}
-            textUnderlineOffset={"0.5em"}
-        >
+        <ChakraLink px={8} py={1} rounded={"md"} _focus={{}} textUnderlineOffset={"0.5em"}>
             {children}
         </ChakraLink>
     </Link>
@@ -64,16 +52,9 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                     </ChakraLink>
                                 </Link>
                             </Box>
-                            <HStack
-                                as={"nav"}
-                                spacing={4}
-                                display={{ base: "none", md: "flex" }}
-                            >
+                            <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
                                 {Links.map((linkInfo) => (
-                                    <NavLink
-                                        key={linkInfo.name}
-                                        href={linkInfo.url}
-                                    >
+                                    <NavLink key={linkInfo.name} href={linkInfo.url}>
                                         {linkInfo.name}
                                     </NavLink>
                                 ))}

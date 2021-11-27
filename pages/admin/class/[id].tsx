@@ -51,8 +51,7 @@ export default function ClassView({ session }: ClassViewProps): JSX.Element {
     } = useClassRegistrant(parseInt(id as string, 10));
 
     const { studentColumns, studentData } = useStudentRegTableData(studentRegs);
-    const { volunteerColumns, volunteerData } =
-        useVolunteerRegTableData(volunteerRegs);
+    const { volunteerColumns, volunteerData } = useVolunteerRegTableData(volunteerRegs);
 
     if (classError || registrantError) {
         return <AdminError cause="class could not be loaded" />;
@@ -66,15 +65,11 @@ export default function ClassView({ session }: ClassViewProps): JSX.Element {
             <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/program">
-                            Browse Programs
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>
                     </BreadcrumbItem>
 
                     <BreadcrumbItem>
-                        <BreadcrumbLink
-                            href={`/admin/program/${classCard.programId}`}
-                        >
+                        <BreadcrumbLink href={`/admin/program/${classCard.programId}`}>
                             {classCard.programName}
                         </BreadcrumbLink>
                     </BreadcrumbItem>

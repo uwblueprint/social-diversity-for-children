@@ -23,11 +23,7 @@ const getDiscountUnit = (unit: number, coupon: Stripe.Coupon) => {
     }
 };
 
-export const Checkout = ({
-    classInfo,
-    couponId,
-    successPath,
-}: CheckoutProps): JSX.Element => {
+export const Checkout = ({ classInfo, couponId, successPath }: CheckoutProps): JSX.Element => {
     const { stripePrice: price, isLoading: isPriceLoading } = useStripePrice(
         classInfo.stripePriceId,
     );
@@ -44,9 +40,8 @@ export const Checkout = ({
                 Redeem Coupon
             </Text>
             <Text mb="30px" fontWeight="100" fontSize="14px">
-                To redeem a coupon, add the desired coupon code upon proceeding
-                to checkout. <br /> There will be an option to add the coupon
-                code before having to provide payment.
+                To redeem a coupon, add the desired coupon code upon proceeding to checkout. <br />{" "}
+                There will be an option to add the coupon code before having to provide payment.
             </Text>
 
             <Text mb="30px" fontWeight="700" fontSize="22px">
@@ -55,48 +50,27 @@ export const Checkout = ({
             {classInfo && (
                 <>
                     {/* divide by 100 since data is stored in cents */}
-                    <Flex
-                        mb="20px"
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                    >
+                    <Flex mb="20px" alignItems={"center"} justifyContent={"space-between"}>
                         <Text>Course Fee:</Text>
-                        <Text>{`$${(isPriceLoading
-                            ? 0
-                            : price.unit_amount / 100
-                        ).toFixed(2)}`}</Text>
+                        <Text>{`$${(isPriceLoading ? 0 : price.unit_amount / 100).toFixed(
+                            2,
+                        )}`}</Text>
                     </Flex>
                     {couponId && coupon && price ? (
-                        <Flex
-                            mb="20px"
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
+                        <Flex mb="20px" alignItems={"center"} justifyContent={"space-between"}>
                             <Text>Coupon Applied ({couponId}):</Text>
-                            <Text>{`-$${(
-                                getDiscountUnit(price.unit_amount, coupon) / 100
-                            ).toFixed(2)}`}</Text>
+                            <Text>{`-$${(getDiscountUnit(price.unit_amount, coupon) / 100).toFixed(
+                                2,
+                            )}`}</Text>
                         </Flex>
                     ) : null}
-                    <Divider
-                        mb="20px"
-                        borderColor={colourTheme.colors.MildGray}
-                    />
-                    <Flex
-                        mb="20px"
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                    >
+                    <Divider mb="20px" borderColor={colourTheme.colors.MildGray} />
+                    <Flex mb="20px" alignItems={"center"} justifyContent={"space-between"}>
                         <Text>Estimated Total:</Text>
                         <Text>{`$${(isPriceLoading
                             ? 0
                             : (price.unit_amount -
-                                  (coupon
-                                      ? getDiscountUnit(
-                                            price.unit_amount,
-                                            coupon,
-                                        )
-                                      : 0)) /
+                                  (coupon ? getDiscountUnit(price.unit_amount, coupon) : 0)) /
                               100
                         ).toFixed(2)}`}</Text>
                     </Flex>

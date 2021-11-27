@@ -4,9 +4,7 @@ import { Button } from "@chakra-ui/react";
 
 // stripePromise object which is resolved in the component
 // for redirecting to checkout
-const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 type CheckoutButtonProps = {
     priceId: string;

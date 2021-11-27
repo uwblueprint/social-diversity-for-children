@@ -39,9 +39,7 @@ type VolunteeringCardProps = {
  * @param volunteeringInfo info of volunteering card
  * @returns a component that displays the volunteering card info
  */
-export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
-    volunteeringInfo,
-}) => {
+export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ volunteeringInfo }) => {
     const router = useRouter();
     const { t } = useTranslation();
 
@@ -63,8 +61,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                     <Flex mr="3">
                         <Box>
                             <Heading size="md" pb={4} pr={2}>
-                                {volunteeringInfo.program.name} (
-                                {volunteeringInfo.class.name})
+                                {volunteeringInfo.program.name} ({volunteeringInfo.class.name})
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
@@ -80,8 +77,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                                     )}
                                     {" with " +
                                         t("program.teacherName", {
-                                            name: volunteeringInfo.class
-                                                .teacherName,
+                                            name: volunteeringInfo.class.teacherName,
                                         })}
                                 </Text>
                                 <Text>

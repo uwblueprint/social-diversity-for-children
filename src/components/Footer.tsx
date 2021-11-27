@@ -19,14 +19,7 @@ export const DEFAULT_FOOTER_HEIGHT = 364;
 
 export const Footer: React.FC<FooterProps> = (props) => {
     return (
-        <Box
-            bg={"#0C53A0"}
-            color={"white"}
-            px={48}
-            position={"absolute"}
-            bottom={0}
-            width={"100%"}
-        >
+        <Box bg={"#0C53A0"} color={"white"} px={48} position={"absolute"} bottom={0} width={"100%"}>
             <Container
                 as={Stack}
                 maxW={"100%"}

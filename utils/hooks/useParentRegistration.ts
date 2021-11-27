@@ -15,13 +15,9 @@ export type UseParentRegistrationsResponse = {
  * Parent registrations hook to get all of current parent registrations
  * @param language locale used
  */
-export default function useParentRegistrations(
-    language: locale,
-): UseParentRegistrationsResponse {
+export default function useParentRegistrations(language: locale): UseParentRegistrationsResponse {
     const { data, error, mutate } = useSWR("/api/enroll/child", fetcher);
-    const result = data
-        ? CardInfoUtil.getEnrollmentCardInfos(data.data, language)
-        : [];
+    const result = data ? CardInfoUtil.getEnrollmentCardInfos(data.data, language) : [];
     return {
         enrollments: result,
         isLoading: !error && !data,
