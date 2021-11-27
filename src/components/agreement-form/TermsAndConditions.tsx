@@ -1,5 +1,6 @@
 import { Text, Checkbox, Box, Button } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
 
 type TermsAndConditionsProps = {
@@ -14,6 +15,8 @@ type TermsAndConditionsProps = {
 export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
     onNext,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration
     const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
@@ -22,48 +25,27 @@ export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
         <>
             <Box>
                 <Text align="left" mt="35px" fontWeight="700" fontSize="36px">
-                    Terms {"&"} Conditions
+                    {t("enroll.conditions")}
                 </Text>
             </Box>
             <Box>
                 <Text pb="5px" align="left" mt="30px">
-                    All programs will be 8 weeks long (1 session per week) for a
-                    total of $130 ($16.25/session). If any financial assistance
-                    is required, there are subsidies offered by the government
-                    to ensure that children with disabilities have the
-                    opportunity to participate in these programs. Please
-                    checkout our Financial Support document at
-                    sdcprogramming.org for more information.
+                    {t("enroll.conditions1")}
                 </Text>
             </Box>
             <Box>
                 <Text pb="5px" align="left" mt="30px">
-                    However, if you are not eligible for any government-based
-                    disability funding, you are eligible for the SDC Subsidy,
-                    which brings the program feed to $80/8 sessions
-                    ($10/session). The SDC subsidy is provided by the efforts of
-                    our youth team, who fundraise throughout their term.
+                    {t("enroll.conditions2")}
                 </Text>
             </Box>
             <Box>
                 <Text pb="5px" align="left" mt="30px">
-                    Applicants will be required to fill out all forms on the
-                    Registration Form to receive the SDC Subsidy. Please check
-                    out our Financial Support document at sdcprogramming.org for
-                    more information on the SDC Subsidy and the Low-Income
-                    Subsidy offered by SDC. Participants wishing to apply for
-                    the low-income subsidy will be asked to pay the SDC
-                    subsidized fee first ($80), and then will be refunded by SDC
-                    later after the confirmation of eligibility.
+                    {t("enroll.conditions3")}
                 </Text>
             </Box>
             <Box>
                 <Text pb="60px" align="left" mt="30px">
-                    Upon registering, the payment will be asked for up-front in
-                    order to ensure the participants' spot in the program. If
-                    after the first session, there are any uncertainties about
-                    attending the program, please refer to the SDC Program
-                    Refund Policy at sdcprogramming.org
+                    {t("enroll.conditions4")}
                 </Text>
             </Box>
             <Box>
@@ -71,7 +53,7 @@ export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
                     mb="80px"
                     onChange={() => setAcceptedTerms(!acceptedTerms)}
                 >
-                    I have read and agree to the terms above
+                    {t("form.agreed")}
                 </Checkbox>
             </Box>
             <Box pb="50px">
@@ -88,7 +70,7 @@ export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
                     color="white"
                     onClick={onNext}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>

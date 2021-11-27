@@ -78,8 +78,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                         {t("form.registered")}
                     </Text>
                     <Text maxW={512} textAlign="center" py={3}>
-                        We look forward to seeing you at our program. Look out
-                        for an email from us shortly with more information!
+                        {t("form.registeredInfo")}
                     </Text>
                     <Link href="/class">
                         <Button

@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Box, Text } from "@chakra-ui/react";
 import { ClassCardInfo } from "@models/Class";
 import { FormClassCard } from "@components/FormClass";
+import { useTranslation } from "next-i18next";
 
 type ConfirmClassEnrollmentProps = {
     styleProps?: Record<string, unknown>;
@@ -14,6 +15,8 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
     onNext,
     classInfo,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <>
             <Box>
@@ -24,7 +27,7 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
                     fontWeight="700"
                     fontSize="36px"
                 >
-                    Confirm Volunteer Registration
+                    {t("enroll.confirmVolunteerRegister")}
                 </Text>
             </Box>
             <Box>
@@ -45,7 +48,7 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
                     onNext();
                 }}
             >
-                Finish
+                {t("form.finish")}
             </Button>
         </>
     );

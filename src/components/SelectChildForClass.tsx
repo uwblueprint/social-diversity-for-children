@@ -1,6 +1,7 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { SetStateAction } from "react";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 type SelectChildForClassProps = {
     children: string[];
@@ -12,11 +13,13 @@ type SelectChildForClassProps = {
 export default function SelectChildForClass(
     props: SelectChildForClassProps,
 ): JSX.Element {
+    const { t } = useTranslation("form");
+
     return (
         <Box>
             <Center>
                 <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
-                    Program Registration
+                    {t("enroll.register")}
                 </Text>
             </Center>
             <Center>
@@ -77,7 +80,7 @@ export default function SelectChildForClass(
                     fontSize="16px"
                     onClick={props.onNext}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Center>
         </Box>
