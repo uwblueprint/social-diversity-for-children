@@ -26,7 +26,7 @@ type WelcomeToSDCProps = {
 
 export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const { t } = useTranslation("common");
-    const variant = useBreakpointValue({ base: "mobile", lg: "computer" });
+    const isMobileLayout = useBreakpointValue({ base: true, lg: false });
 
     // TODO remove test data and get new images
     const title = t("home.welcome");
@@ -51,7 +51,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
             <TabPanels>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w={variant === "computer" ? "50%" : "100%"}>
+                        <Box w={!isMobileLayout ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
                                 <Text fontSize={{ base: "lg", lg: "2xl" }}>
@@ -72,7 +72,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                                     colourTheme.colors
                                                         .LightBlue,
                                             }}
-                                            width="50%"
+                                            width={{ base: "100%", md: "50%" }}
                                             borderRadius="6px"
                                             fontWeight={"200"}
                                         >
@@ -82,7 +82,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 )}
                             </VStack>
                         </Box>
-                        {variant === "computer" && (
+                        {!isMobileLayout && (
                             <Box width="50%">
                                 <Flex direction="column" align="flex-end">
                                     <Box maxWidth="sm" maxHeight="sm">
@@ -95,7 +95,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                 </TabPanel>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w={variant === "computer" ? "50%" : "100%"}>
+                        <Box w={!isMobileLayout ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
                                 <Text fontSize={{ base: "lg", lg: "2xl" }}>
@@ -126,7 +126,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                 )}
                             </VStack>
                         </Box>
-                        {variant === "computer" && (
+                        {!isMobileLayout && (
                             <Box width="50%">
                                 <Flex direction="column" align="flex-end">
                                     <Box maxWidth="sm" maxHeight="sm">

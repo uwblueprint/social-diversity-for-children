@@ -155,7 +155,7 @@ export const DEFAULT_NAVBAR_HEIGHT = 16;
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const router = useRouter();
-    const variant = useBreakpointValue({ base: "sidebar", lg: "navbar" });
+    const isSidebar = useBreakpointValue({ base: true, lg: false });
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const accountButton = props.session ? (
@@ -185,7 +185,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                         justifyContent={"space-between"}
                     >
                         <HStack spacing={4} alignItems={"center"}>
-                            {variant === "sidebar" && (
+                            {isSidebar && (
                                 <Button bgColor={"white"} onClick={onOpen}>
                                     <HamburgerIcon w={6} h={6} />
                                 </Button>
@@ -213,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                             </HStack>
                         </HStack>
                         <Flex alignItems={"center"}>
-                            {variant === "navbar" && accountButton}
+                            {!isSidebar && accountButton}
                             <LanguageModal currentLanguage={router.locale} />
                         </Flex>
                     </Flex>

@@ -49,7 +49,12 @@ export default function Login(): JSX.Element {
                         </Text>
                     </Center>
                     <Center>
-                        <Text fontWeight="400" fontSize="16px" mt="20px">
+                        <Text
+                            fontWeight="400"
+                            fontSize="16px"
+                            mt="20px"
+                            textAlign="center"
+                        >
                             Registration for Summer 2021 classes begin June 31,
                             2021
                         </Text>
@@ -132,6 +137,7 @@ export default function Login(): JSX.Element {
                             fontWeight="400"
                             fontSize="14px"
                             mt="50px"
+                            textAlign="center"
                             color="brand.300"
                         >
                             First time? We'll email you a magic code to sign up
