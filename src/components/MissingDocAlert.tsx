@@ -49,51 +49,56 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                 <Alert
                     display="flex"
                     alignItems="center"
+                    flexDirection={{ base: "column", lg: "row" }}
                     mt={4}
                     mb={10}
-                    padding="30px"
+                    padding={{ base: "10px", md: "20px", lg: "30px" }}
                     border="2px"
                     borderRadius="3px"
                     borderColor={colourTheme.colors.Blue}
                     backgroundColor="transparent"
                     status="info"
                 >
-                    <InfoIcon height="70px" />
-                    <Box w="60%">
-                        {missingPOI && (
-                            <Box ml={4}>
-                                <Heading
-                                    mb={2}
-                                    size="md"
-                                    color={colourTheme.colors.Blue}
-                                >
-                                    {InfoCaption[0].heading}
-                                </Heading>
-                                <Text
-                                    display="block"
-                                    color={colourTheme.colors.Gray}
-                                >
-                                    {InfoCaption[0].desc}
-                                </Text>
-                            </Box>
-                        )}
-                        {missingCriminalCheck && (
-                            <Box ml={4}>
-                                <Heading
-                                    mb={2}
-                                    size="md"
-                                    color={colourTheme.colors.Blue}
-                                >
-                                    {InfoCaption[1].heading}
-                                </Heading>
-                                <Text
-                                    display="block"
-                                    color={colourTheme.colors.Gray}
-                                >
-                                    {InfoCaption[1].desc}
-                                </Text>
-                            </Box>
-                        )}
+                    <Box display="flex" flexDirection="row" alignItems="center">
+                        <Box height={{ base: "35px", md: "50px", lg: "70px" }}>
+                            <InfoIcon />
+                        </Box>
+                        <Box w="60%">
+                            {missingPOI && (
+                                <Box ml={4}>
+                                    <Heading
+                                        mb={2}
+                                        size="md"
+                                        color={colourTheme.colors.Blue}
+                                    >
+                                        {InfoCaption[0].heading}
+                                    </Heading>
+                                    <Text
+                                        display="block"
+                                        color={colourTheme.colors.Gray}
+                                    >
+                                        {InfoCaption[0].desc}
+                                    </Text>
+                                </Box>
+                            )}
+                            {missingCriminalCheck && (
+                                <Box ml={4}>
+                                    <Heading
+                                        mb={2}
+                                        size="md"
+                                        color={colourTheme.colors.Blue}
+                                    >
+                                        {InfoCaption[1].heading}
+                                    </Heading>
+                                    <Text
+                                        display="block"
+                                        color={colourTheme.colors.Gray}
+                                    >
+                                        {InfoCaption[1].desc}
+                                    </Text>
+                                </Box>
+                            )}
+                        </Box>
                     </Box>
                     <Spacer />
                     <Box pr={16}>
