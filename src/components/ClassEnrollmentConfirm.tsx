@@ -160,7 +160,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            {t("label.disabilities")}
+                            {t("label.difficulties")}
                         </Text>
                         <Text>
                             {props.studentData.difficulties.length === 0

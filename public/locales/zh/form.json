@@ -39,6 +39,8 @@
     },
     "form": {
         "accountCreated": "成功创建帐户",
+        "accountCreatedInfo": "您的账户已成功创建。点击下面的按钮开始浏览课程！",
+        "volunteerCreatedInfo": "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!",
         "registered": "感謝您的註冊！",
         "registeredInfo": "We look forward to see you at our program. Look out for an email from us shortly with more information!",
         "volunteerSignup": "感谢您报名成为义工！",
@@ -48,7 +50,8 @@
         "finish": "完成",
         "yes": "是",
         "no": "不",
-        "agreed": "我已阅读并同意上述条款"
+        "agreed": "我已阅读并同意上述条款",
+        "continue": "继续"
     },
     "enroll": {
         "register": "课程注册",
@@ -80,6 +83,26 @@
         "total": "预计总金额:",
         "proceed": "进行结账"
     },
+    "signUp": {
+        "title": "注册",
+        "iAm": "我是一个...",
+        "parent": "家长",
+        "volunteer": "义工",
+        "participantFormInfo": "请提供在课程中注册的参与者的信息。要添加其他参与者，您可以在创建了您的账户后，通过进入我的账户部分来完成。",
+        "participantHaveDifficulties": "参与者有没有：",
+        "specialEducation": "参与者目前是否参与学校的特殊教育项目?",
+        "therapy": "参与者是否在接受其他形式的治疗?",
+        "emergencyFormInfo": "此表单上的信息将由活动导师/协调人谨慎使用，以确保您的孩子的安全及健康。本表单上的所有信息均属个人及保密信息。紧急联系表单上列出的联系人不能与上面列出的家长联系人相同。",
+        "healthFormInfo": "此表单上的信息将由活动导师/协调人谨慎使用，以确保您的孩子的安全及健康。本表单上的所有信息均属个人及保密信息。",
+        "medication": "您的孩子在使用药物吗？",
+        "allergies": "您的孩子有任何食物过敏吗",
+        "hearAboutUsTitle": "您是怎么听说我们的？",
+        "hearAboutUs": "您是怎么听说我们的课程的？",
+        "certifyVolunteerAge": "I certify that I am over the age of 15 in order to volunteer with SDC",
+        "certifyVolunteerAttendance": "I certify that I will commit to attending all volunteer sessions I sign up for",
+        "skillsAndExperience": "技能/经验",
+        "hearAboutVolunteer": "您是怎么听说这次义工的机会的"
+    },
     "label": {
         "participantName": "参与者姓名",
         "dateOfBirth": "出生日期",
@@ -90,7 +113,7 @@
         "postalCode": "邮政编码",
         "school": "学校",
         "grade": "年级",
-        "disabilities": "参与者有",
+        "difficulties": "参与者有",
         "specialEducation": "Special education at school",
         "therapy": "治疗种类",
         "guardianExpectations": "家长/监护人的期望",
@@ -98,12 +121,22 @@
         "phone": "Phone",
         "relation": "与参与者的关系",
         "emergencyName": "紧急联系人姓名",
+        "emergencyFirstName": "Emergency Contact First Name",
+        "emergencyLastName": "Emergency Contact Last Name",
         "emergencyPhone": "紧急联系人电话号码",
         "medication": "Medication",
         "allergies": "Food allergies",
         "generalParticipantInformation": "参与者信息",
         "guardianInformation": "家长/监护人信息",
+        "emergencyForm": "参与者紧急联系表单",
         "emergencyContact": "Emergency Contact",
-        "healthInformation": "健康信息"
+        "healthForm": "参与者的健康表单",
+        "healthInformation": "健康信息",
+        "email": "邮件",
+        "details": "如有需要，请提供详细资料",
+        "volunteerInformation": "Volunteer Information",
+        "volunteerPersonalDetails": "Volunteer Personal Details",
+        "firstName": "名",
+        "lastName": "姓"
     }
 }

@@ -10,6 +10,7 @@ import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
 import { Session } from "next-auth";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 type SignupFormProps = {
     session: Session;
@@ -20,6 +21,8 @@ type SignupFormProps = {
  * to the SDC platform as a parent of volunteer
  */
 export default function SignupForm({ session }: SignupFormProps): JSX.Element {
+    const { t } = useTranslation("form");
+
     const router = useRouter();
     // hook to hold the url to redirect to
     const [url, setUrl] = useState("");
@@ -51,12 +54,12 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                 <Box width="700px">
                     <Center>
                         <Text fontWeight="700" fontSize="36px" margin="13px">
-                            Sign Up
+                            {t("signUp.title")}
                         </Text>
                     </Center>
                     <Center>
                         <Text fontWeight="400" fontSize="18px" mt="18px">
-                            I am a ...
+                            {t("signUp.iAm")}
                         </Text>
                     </Center>
                     <Center>
@@ -77,7 +80,9 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             mt="20px"
                             onClick={() => setUrl("/parent/signup")}
                         >
-                            <Text color={colourTheme.colors.Blue}>Parent</Text>
+                            <Text color={colourTheme.colors.Blue}>
+                                {t("signUp.parent")}
+                            </Text>
                         </Button>
                     </Center>
                     <Center>
@@ -102,7 +107,7 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             onClick={() => setUrl("/volunteer/signup")}
                         >
                             <Text color={colourTheme.colors.Blue}>
-                                Volunteer
+                                {t("signUp.volunteer")}
                             </Text>
                         </Button>
                     </Center>
@@ -126,7 +131,7 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             padding="5px"
                             onClick={() => router.push(url)}
                         >
-                            Next
+                            {t("form.next")}
                         </Button>
                     </Center>
                 </Box>
@@ -154,7 +159,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            ...(await serverSideTranslations(context.locale, [
+                "form",
+                "common",
+            ])),
         },
     };
 };

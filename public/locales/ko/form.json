@@ -39,6 +39,8 @@
     },
     "form": {
         "accountCreated": "계정이 성공적으로 생성되었습니다.",
+        "accountCreatedInfo": "계정이 성공적으로 생성되었습니다. 아래를 버튼을 눌러 수업들을 찾아보세요!",
+        "volunteerCreatedInfo": "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!",
         "registered": "등록해주셔서 감사합니다!",
         "registeredInfo": "We look forward to see you at our program. Look out for an email from us shortly with more information!",
         "volunteerSignup": "자원봉사를 지원해 주셔서 감사합니다!",
@@ -48,7 +50,8 @@
         "finish": "완료",
         "yes": "예",
         "no": "아니요",
-        "agreed": "위의 조항을 읽었으며 이에 동의합니다."
+        "agreed": "위의 조항을 읽었으며 이에 동의합니다.",
+        "continue": "계속하다"
     },
     "enroll": {
         "register": "수강 신청",
@@ -80,6 +83,26 @@
         "total": "총 예상 :",
         "proceed": "결제하기"
     },
+    "signUp": {
+        "title": "로그인",
+        "iAm": "나는...",
+        "parent": "부모",
+        "volunteer": "봉사자",
+        "participantFormInfo": "Please provide information on the participant that is being registered in the program. To add additional participants, you can do so by going to the My Account page once your account has been created.",
+        "participantHaveDifficulties": "다음 중 자녀에게 해당되는 사항을 선택하세요.",
+        "specialEducation": "현재 참가 아동은 학교에서 특수 교육 프로그램에 참여하고 있습니까?",
+        "therapy": "참가 아동은 다른 치료(물리, 언어, 심리, 음악/미술 등)를 받고 있습니까?",
+        "emergencyFormInfo": "이 문서에 있는 정보는 담당 선생님이 볼 수 있으며 참가 아동이 충분한 도움을 받을 수 있게 활용됩니다. SDC는 제공되는 모든 정보를 개인 및 기밀 정보로 간주합니다. 비상 양식에 제공하는 연락처는 위 부모의 연락처와 같을 수 없습니다.",
+        "healthFormInfo": "이 문서에 있는 정보는 담당 선생님이 볼 수 있으며 참가 아동이 충분한 도움을 받을 수 있게 활용됩니다. SDC는 제공되는 모든 정보를 개인 및 기밀 정보로 간주합니다.",
+        "medication": "참가 아동은 약을 복용중인가요?",
+        "allergies": "참가 아동은 음식 알러지가 있나요?",
+        "hearAboutUsTitle": "SDC를 어떻게 알게 되었나요?",
+        "hearAboutUs": "SDC 프로그램에 대하여 어떻게 알게 되었나요?",
+        "certifyVolunteerAge": "I certify that I am over the age of 15 in order to volunteer with SDC",
+        "certifyVolunteerAttendance": "I certify that I will commit to attending all volunteer sessions I sign up for",
+        "skillsAndExperience": "기술/경험",
+        "hearAboutVolunteer": "봉사 기회에 대해서 어떻게 알게 되었나요?"
+    },
     "label": {
         "participantName": "Participant Name",
         "dateOfBirth": "생년월일",
@@ -90,7 +113,7 @@
         "postalCode": "우편번호",
         "school": "학교",
         "grade": "학년 ",
-        "disabilities": "참가아동은",
+        "difficulties": "참가아동은",
         "specialEducation": "Special education at school",
         "therapy": "치료 종류",
         "guardianExpectations": "보호자에 대한 기대",
@@ -98,12 +121,22 @@
         "phone": "Phone",
         "relation": "참가 아동과의 관계",
         "emergencyName": "비상연락처 (이름)",
+        "emergencyFirstName": "Emergency Contact First Name",
+        "emergencyLastName": "Emergency Contact Last Name",
         "emergencyPhone": "비상연락처 전화번호 ",
         "medication": "Medication",
         "allergies": "Food allergies",
         "generalParticipantInformation": "참가 아동 정보",
         "guardianInformation": "보호자 정보",
+        "emergencyForm": "비상 정보 ",
         "emergencyContact": "Emergency Contact",
-        "healthInformation": "건강 정보"
+        "healthForm": "건강 증명서",
+        "healthInformation": "건강 정보",
+        "email": "이메일",
+        "details": "추가적인 정보가 있으면 제공하십시오.",
+        "volunteerInformation": "Volunteer Information",
+        "volunteerPersonalDetails": "Volunteer Personal Details",
+        "firstName": "이름",
+        "lastName": "성"
     }
 }

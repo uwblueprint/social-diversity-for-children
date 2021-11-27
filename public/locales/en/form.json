@@ -39,6 +39,8 @@
     },
     "form": {
         "accountCreated": "Account created successfully",
+        "accountCreatedInfo": "Your account has been successfully created. Click the button below to start browsing classes!",
+        "volunteerCreatedInfo": "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!",
         "registered": "Thank you for registering!",
         "registeredInfo": "We look forward to see you at our program. Look out for an email from us shortly with more information!",
         "volunteerSignup": "Thank you for signing up to volunteer!",
@@ -48,7 +50,8 @@
         "finish": "Finish",
         "yes": "Yes",
         "no": "No",
-        "agreed": "I have read and agree to the terms above"
+        "agreed": "I have read and agree to the terms above",
+        "continue": "Continue"
     },
     "enroll": {
         "register": "Program Registration",
@@ -80,6 +83,26 @@
         "total": "Estimated Total:",
         "proceed": "Proceed to Checkout"
     },
+    "signUp": {
+        "title": "Sign Up",
+        "iAm": "I am a...",
+        "parent": "Parent",
+        "volunteer": "Volunteer",
+        "participantFormInfo": "Please provide information on the participant that is being registered in the program. To add additional participants, you can do so by going to the My Account page once your account has been created.",
+        "participantHaveDifficulties": "Does the participant have:",
+        "specialEducation": "Is the participant currently involved in a special education program at their school?",
+        "therapy": "Is the participant receiving any other form of therapy?",
+        "emergencyFormInfo": "The information on this form will be used at the discretion of the activity instructor/coordinator to ensure care and attention is given to the safety and health of your child. All information on this form is considered Personal and Confidential. The contact listed on the emergency form cannot be the same contact listed as the parent above.",
+        "healthFormInfo": "The information on this form will be used at the discretion of the activity instructor/coordinator to ensure care and attention is given to the safety and health of your child. All information on this form is considered Personal and Confidential.",
+        "medication": "Is your child on medication?",
+        "allergies": "Does your child have any food allergies?",
+        "hearAboutUsTitle": "How did you hear about us?",
+        "hearAboutUs": "How did you hear about our programs?",
+        "certifyVolunteerAge": "I certify that I am over the age of 15 in order to volunteer with SDC",
+        "certifyVolunteerAttendance": "I certify that I will commit to attending all volunteer sessions I sign up for",
+        "skillsAndExperience": "Skills/Experience (ex. Arts & Crafts, Music, First-Aid Certificates, Teaching or Volunteering Experience, Experience with Children with Special Needs)",
+        "hearAboutVolunteer": "How Did You Hear About this Volunteer Opportunity?"
+    },
     "label": {
         "participantName": "Participant Name",
         "dateOfBirth": "Date of Birth",
@@ -90,20 +113,30 @@
         "postalCode": "Postal Code",
         "school": "School",
         "grade": "Grade",
-        "disabilities": "The participant has",
+        "difficulties": "The participant has",
         "specialEducation": "Special education at school",
         "therapy": "Forms of therapy",
         "guardianExpectations": "Parent/Guardian Expectations",
         "guardianName": "Parent/Guardian Name",
         "phone": "Phone",
-        "relation": "Relationship to participant",
+        "relation": "Relationship to Participant",
         "emergencyName": "Emergency Contact Name",
+        "emergencyFirstName": "Emergency Contact First Name",
+        "emergencyLastName": "Emergency Contact Last Name",
         "emergencyPhone": "Emergency Contact Cell Number",
         "medication": "Medication",
         "allergies": "Food allergies",
         "generalParticipantInformation": "General Participant Information",
         "guardianInformation": "Parent/Guardian Information",
+        "emergencyForm": "Participant Emergency Form",
         "emergencyContact": "Emergency Contact",
-        "healthInformation": "Health Information"
+        "healthForm": "Participant Health Form",
+        "healthInformation": "Health Information",
+        "email": "Email Address",
+        "details": "If yes, please provide any details if necessary",
+        "volunteerInformation": "Volunteer Information",
+        "volunteerPersonalDetails": "Volunteer Personal Details",
+        "firstName": "First Name",
+        "lastName": "Last Name"
     }
 }

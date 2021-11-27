@@ -70,7 +70,12 @@
         "successHint": "Keep an eye out on the status of your background check within the next few weeks."
     },
     "signIn": {
-        "firstTime": "First time? We’ll email you a magic code to sign up instantly."
+        "firstTime": "First time? We’ll email you a magic code to sign up instantly.",
+        "sentTitle": "A verification email has been sent. Check your email!",
+        "sentInfo": "To confirm your email address, click on the link in the email we sent to {{email}}.",
+        "sentHint": "Didn’t get an email? Return to the Sign In page and re-enter a valid email.",
+        "successEmail": "Email successfully confirmed!",
+        "successInfo": "You’ve confirmed {{email}}. You’re all ready to start filling in your account information!"
     },
     "time": {
         "range": "{{start}} to {{end}}",
@@ -79,6 +84,27 @@
     "language": {
         "select": "Select a language",
         "apply": "Apply"
+    },
+    "difficulties": {
+        "learning": "Learning difficulties",
+        "physical": "Physical difficulties",
+        "sensory": "Sensory difficulties",
+        "other": "Other"
+    },
+    "therapy": {
+        "physiotherapy": "Physiotherapy",
+        "language": "Speech & Language Therapy",
+        "occupational": "Occupational Therapy",
+        "psychotherapy": "Psychotherapy/Counseling",
+        "art": "Music or Art Therapy",
+        "other": "Other"
+    },
+    "hearAboutUs": {
+        "friendsAndFamily": "Friends & Family",
+        "flyers": "Flyers",
+        "email": "Email",
+        "social": "Social Media",
+        "other": "Other"
     },
     "nav": {
         "register": "Register",

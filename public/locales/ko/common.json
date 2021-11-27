@@ -68,7 +68,12 @@
         "successHint": "다음 몇 주간 범죄기록증명서 상태를 확인하세요"
     },
     "signIn": {
-        "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요."
+        "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요.",
+        "sentTitle": "인증번호가 전송되었습니다. 이메일 확인하세요.",
+        "sentInfo": "To confirm your email address, click on the link in the email we sent to {{email}}.",
+        "sentHint": "Didn’t get an email? Return to the Sign In page and re-enter a valid email.",
+        "successEmail": "이메일 인증 성공",
+        "successInfo": "You’ve confirmed {{email}}. You’re all ready to start filling in your account information!"
     },
     "time": {
         "range": "{{start}}부터{{end}}까지",
@@ -77,6 +82,27 @@
     "language": {
         "select": "언어 선택",
         "apply": "계속하다"
+    },
+    "difficulties": {
+        "learning": "학습 장애",
+        "physical": "신체 장애",
+        "sensory": "감각처리 장애",
+        "other": "그 외의 장애"
+    },
+    "therapy": {
+        "physiotherapy": "물리치료",
+        "language": "언어 치료",
+        "occupational": "Occupational Therapy",
+        "psychotherapy": "심리치료 / 상담",
+        "art": "음악 또는 미술 치료",
+        "other": "그 외"
+    },
+    "hearAboutUs": {
+        "friendsAndFamily": "친구와 가족",
+        "flyers": "인쇄 광고",
+        "email": "이메일",
+        "social": "SNS (페이스북 등)",
+        "other": "기타"
     },
     "nav": {
         "register": "등록하세요",

@@ -45,13 +45,13 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
         progressBarIncrement * (pageNum + 1);
 
     const formPageHeaders = [
-        "Participant Information",
-        "Participant Information",
-        "Participant Emergency Form",
-        "Participant Health Form",
-        "Parent Guardian Information",
+        t("account.participantInformation", { ns: "common" }),
+        t("account.participantInformation", { ns: "common" }),
+        t("label.emergencyForm"),
+        t("label.healthForm"),
+        t("label.guardianInformation"),
         t("poi.title"),
-        "How did you hear about us?",
+        t("signUp.hearAboutUsTitle"),
     ];
     return (
         <Wrapper session={session}>
@@ -113,7 +113,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                         </Text>
                         <Text maxW={512} textAlign="center">
                             {successful === "success"
-                                ? "Your account has been successfully created. Click the button below to start browsing classes to register for!"
+                                ? t("form.accountCreatedInfo")
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">

@@ -44,10 +44,10 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
         progressBarIncrement * (pageNum + 1);
 
     const formPageHeaders = [
-        "Volunteer Information",
-        "Volunteer Personal Details",
+        t("label.volunteerInformation"),
+        t("label.volunteerPersonalDetails"),
         t("bgc.title"),
-        "Volunteer Personal Details",
+        t("label.volunteerPersonalDetails"),
     ];
     return (
         <Wrapper session={session}>
@@ -108,7 +108,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                         </Text>
                         <Text maxW={512} textAlign="center">
                             {successful === "success"
-                                ? "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!"
+                                ? t("form.volunteerCreatedInfo")
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">
