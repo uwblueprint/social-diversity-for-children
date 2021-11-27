@@ -1,6 +1,6 @@
 import {
     Button,
-    Box,
+    Flex,
     Center,
     Text,
     Input,
@@ -36,15 +36,25 @@ export default function Login(): JSX.Element {
 
     return (
         <Wrapper>
-            <Center h="500px">
-                <Box width="700px">
+            <Center>
+                <Flex
+                    h={{ base: "700px", lg: "500px" }}
+                    width={{ base: "90%", lg: "700px" }}
+                    justify={"center"}
+                    direction={"column"}
+                >
                     <Center>
                         <Text fontWeight="700" fontSize="36px">
                             Sign In
                         </Text>
                     </Center>
                     <Center>
-                        <Text fontWeight="400" fontSize="16px" mt="20px">
+                        <Text
+                            fontWeight="400"
+                            fontSize="16px"
+                            mt="20px"
+                            textAlign="center"
+                        >
                             Registration for Summer 2021 classes begin June 31,
                             2021
                         </Text>
@@ -57,7 +67,7 @@ export default function Login(): JSX.Element {
                     <FormControl id="email">
                         <Center>
                             <Input
-                                width="366px"
+                                width={{ base: "366px", lg: "366px" }}
                                 type="email"
                                 placeholder="Enter email"
                                 textAlign="center"
@@ -126,14 +136,15 @@ export default function Login(): JSX.Element {
                         <Text
                             fontWeight="400"
                             fontSize="14px"
-                            mt="70px"
+                            mt="50px"
+                            textAlign="center"
                             color="brand.300"
                         >
                             First time? We'll email you a magic code to sign up
                             instantly.
                         </Text>
                     </Center>
-                </Box>
+                </Flex>
             </Center>
         </Wrapper>
     );

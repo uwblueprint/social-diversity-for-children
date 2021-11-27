@@ -69,7 +69,7 @@ export default function DocumentUpload({
                 <BackButton />
                 <VStack>
                     <Center>
-                        <Box width="700px" mb="40px">
+                        <Box width={{ base: "90%", lg: "700px" }} mb="40px">
                             <Center>
                                 <Text fontWeight="700" fontSize="36px" m="40px">
                                     Upload Document
