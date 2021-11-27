@@ -9,4 +9,3 @@ def lambda_handler(event, context):
     print(res.text)
 
     print("*** END MAILING CRON JOB ***")
-    
