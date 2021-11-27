@@ -11,8 +11,7 @@
         }
     ],
     "rules": {
-        // "prettier/prettier": 0
-        "prettier/prettier": "error"
+        "prettier/prettier": 0
     },
     "env": {
         "node": true,
