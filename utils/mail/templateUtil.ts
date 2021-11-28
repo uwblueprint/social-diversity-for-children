@@ -66,10 +66,7 @@ export const classStartingSoonTemplate = (
                             >${name}</span
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
-                            >${weekdayToString(
-                                classWeekday,
-                                language,
-                            )} ${convertToShortTimeRange(
+                            >${weekdayToString(classWeekday, language)} ${convertToShortTimeRange(
         startTimeMinutes,
         durationMinutes,
     )}</span
@@ -81,9 +78,7 @@ export const classStartingSoonTemplate = (
                 </div>
                 <br></br>
                 <p>Use this link to join the class:</p>
-                <a href="${process.env.NEXTAUTH_URL}/class">${
-        process.env.NEXTAUTH_URL
-    }/class</a>
+                <a href="${process.env.NEXTAUTH_URL}/class">${process.env.NEXTAUTH_URL}/class</a>
                 <br></br>
                 <p>Regards, Social Diversity for Children</p>
             </body>
@@ -153,10 +148,7 @@ export const openSpotWaitlistTemplate = (
                             >${name}</span
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
-                            >${weekdayToString(
-                                classWeekday,
-                                language,
-                            )} ${convertToShortTimeRange(
+                            >${weekdayToString(classWeekday, language)} ${convertToShortTimeRange(
         startTimeMinutes,
         durationMinutes,
     )}</span
@@ -178,9 +170,7 @@ export const openSpotWaitlistTemplate = (
                 <br></br>
                 <br></br>
                 <p>Use this link to remove yourself from the class waitlist:</p>
-                <a href="${process.env.NEXTAUTH_URL}/class">${
-        process.env.NEXTAUTH_URL
-    }/class</a>
+                <a href="${process.env.NEXTAUTH_URL}/class">${process.env.NEXTAUTH_URL}/class</a>
                 <br></br>
                 <br></br>
                 <p>Regards, Social Diversity for Children</p>

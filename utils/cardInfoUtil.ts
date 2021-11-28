@@ -1,10 +1,6 @@
 import { ProgramCardInfo } from "models/Program";
 import { ClassCardInfo } from "models/Class";
-import {
-    EnrollmentCardInfo,
-    VolunteeringCardInfo,
-    WaitlistCardInfo,
-} from "@models/Enroll";
+import { EnrollmentCardInfo, VolunteeringCardInfo, WaitlistCardInfo } from "@models/Enroll";
 import { ClassTranslation, locale, ProgramTranslation } from "@prisma/client";
 import { TranslationUtil } from "./translationUtil";
 
@@ -29,13 +25,12 @@ export class CardInfoUtil {
      * @returns ClassCardInfo
      */
     static getClassCardInfo(result: any, language: locale): ClassCardInfo {
-        const mainClassTranslation: ClassTranslation =
-            TranslationUtil.getMainClassTranslation(result.classTranslation, language);
+        const mainClassTranslation: ClassTranslation = TranslationUtil.getMainClassTranslation(
+            result.classTranslation,
+            language,
+        );
         const mainProgramTranslation: ProgramTranslation =
-            TranslationUtil.getMainProgramTranslation(
-                result.program.programTranslation,
-                language,
-            );
+            TranslationUtil.getMainProgramTranslation(result.program.programTranslation, language);
         return {
             borderAge: result.borderAge,
             isAgeMinimal: result.isAgeMinimal,
@@ -46,8 +41,7 @@ export class CardInfoUtil {
             spaceAvailable: result.spaceTotal - result._count?.parentRegs,
             spaceTaken: result._count?.parentRegs,
             volunteerSpaceTotal: result.volunteerSpaceTotal,
-            volunteerSpaceAvailable:
-                result.volunteerSpaceTotal - result._count?.volunteerRegs,
+            volunteerSpaceAvailable: result.volunteerSpaceTotal - result._count?.volunteerRegs,
             volunteerSpaceTaken: result._count?.volunteerRegs,
             startDate: result.startDate,
             endDate: result.endDate,
@@ -65,13 +59,9 @@ export class CardInfoUtil {
                       result.teacherRegs[0].teacher.user.lastName
                     : "",
             teacherEmail:
-                result.teacherRegs.length > 0
-                    ? result.teacherRegs[0].teacher.user.email
-                    : "",
+                result.teacherRegs.length > 0 ? result.teacherRegs[0].teacher.user.email : "",
             teacherImage:
-                result.teacherRegs.length > 0
-                    ? result.teacherRegs[0].teacher.user.image
-                    : "",
+                result.teacherRegs.length > 0 ? result.teacherRegs[0].teacher.user.image : "",
         };
     }
 
@@ -96,10 +86,7 @@ export class CardInfoUtil {
         if (!result) return null;
 
         const mainProgramTranslation: ProgramTranslation =
-            TranslationUtil.getMainProgramTranslation(
-                result.programTranslation,
-                language,
-            );
+            TranslationUtil.getMainProgramTranslation(result.programTranslation, language);
         return {
             id: result.id,
             image: result.imageLink,
@@ -117,10 +104,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns EnrollmentCardInfo[]
      */
-    static getEnrollmentCardInfos(
-        findResults: any[],
-        language: locale,
-    ): EnrollmentCardInfo[] {
+    static getEnrollmentCardInfos(findResults: any[], language: locale): EnrollmentCardInfo[] {
         if (!findResults) return [];
         return findResults.map((result) => {
             return this.getEnrollmentCardInfo(result, language);
@@ -147,10 +131,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns WaitlistCardInfo[]
      */
-    static getWaitlistCardInfos(
-        findResults: any[],
-        language: locale,
-    ): WaitlistCardInfo[] {
+    static getWaitlistCardInfos(findResults: any[], language: locale): WaitlistCardInfo[] {
         if (!findResults) return [];
         return findResults.map((result) => {
             return this.getWaitlistCardInfo(result, language);
@@ -177,10 +158,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns VolunteeringCardInfo[]
      */
-    static getVolunteeringCardInfos(
-        findResults: any[],
-        language: locale,
-    ): VolunteeringCardInfo[] {
+    static getVolunteeringCardInfos(findResults: any[], language: locale): VolunteeringCardInfo[] {
         if (!findResults) return [];
         return findResults.map((result) => {
             return this.getVolunteeringCardInfo(result, language);

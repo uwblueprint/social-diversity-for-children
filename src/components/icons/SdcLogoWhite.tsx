@@ -171,12 +171,7 @@ function SvgSdcLogoWhite(props: React.SVGProps<SVGSVGElement>) {
                 />
             </g>
             <defs>
-                <pattern
-                    id="pattern0"
-                    patternContentUnits="objectBoundingBox"
-                    width="1"
-                    height="1"
-                >
+                <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
                     <use xlinkHref="#image0_286:9118" transform="scale(0.00111111)" />
                 </pattern>
                 <image

@@ -39,13 +39,7 @@ type NavbarProps = {
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     <Link href={href}>
-        <ChakraLink
-            px={8}
-            py={1}
-            rounded={"md"}
-            _focus={{}}
-            textUnderlineOffset={"0.5em"}
-        >
+        <ChakraLink px={8} py={1} rounded={"md"} _focus={{}} textUnderlineOffset={"0.5em"}>
             {children}
         </ChakraLink>
     </Link>
@@ -121,11 +115,7 @@ const SideBar = ({
                             <Divider mt="15" mb="15" />
                             <Flex alignItems="center">
                                 <Icon as={MdLogout} width={6} height={6} />
-                                <Text
-                                    marginLeft="5"
-                                    cursor="pointer"
-                                    onClick={() => signOut()}
-                                >
+                                <Text marginLeft="5" cursor="pointer" onClick={() => signOut()}>
                                     Log Out
                                 </Text>
                             </Flex>
@@ -185,11 +175,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                     </ChakraLink>
                                 </Link>
                             </Box>
-                            <HStack
-                                as={"nav"}
-                                spacing={4}
-                                display={{ base: "none", md: "flex" }}
-                            >
+                            <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
                                 {Links.map((linkInfo) => (
                                     <NavLink key={linkInfo.name} href={linkInfo.url}>
                                         {linkInfo.name}

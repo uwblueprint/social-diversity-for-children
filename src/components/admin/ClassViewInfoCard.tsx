@@ -48,11 +48,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
         onOpen: onArchiveOpen,
         onClose: onArchiveClose,
     } = useDisclosure();
-    const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
-    } = useDisclosure();
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
     const onArchive = () => {
         updateClassArchive(cardInfo.id, true);
@@ -115,9 +111,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(
-                                                    `/admin/edit/class/${cardInfo.id}`,
-                                                )
+                                                router.push(`/admin/edit/class/${cardInfo.id}`)
                                             }
                                         >
                                             Edit
@@ -125,9 +119,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
                                         <MenuDivider />
                                         <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>
-                                            Archive
-                                        </MenuItem>
+                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}

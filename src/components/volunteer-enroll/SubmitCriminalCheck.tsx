@@ -1,13 +1,4 @@
-import {
-    OrderedList,
-    ListItem,
-    Flex,
-    Text,
-    Checkbox,
-    Box,
-    Button,
-    Link,
-} from "@chakra-ui/react";
+import { OrderedList, ListItem, Flex, Text, Checkbox, Box, Button, Link } from "@chakra-ui/react";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import React, { useState } from "react";

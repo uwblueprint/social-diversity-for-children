@@ -24,8 +24,7 @@ const programTranslations: ProgramTranslation[] = [
     {
         programId: 10000,
         name: "Building Bridges with Music",
-        description:
-            "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
+        description: "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
         language: locale.ko,
         createdAt: new Date(),
         updatedAt: null,
@@ -51,8 +50,7 @@ const programTranslations: ProgramTranslation[] = [
     {
         programId: 10001,
         name: "Education Through Creativity",
-        description:
-            "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
+        description: "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
         language: locale.ko,
         createdAt: new Date(),
         updatedAt: null,

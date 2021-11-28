@@ -61,12 +61,7 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Eleme
                             key={idx}
                         ></WrapItem>
                     ) : (
-                        <WrapItem
-                            flexBasis="300px"
-                            key={idx}
-                            flexGrow={1}
-                            cursor={"pointer"}
-                        >
+                        <WrapItem flexBasis="300px" key={idx} flexGrow={1} cursor={"pointer"}>
                             <Link href={`program-details/${item.id}`}>
                                 <Box
                                     borderWidth="1px"
@@ -113,10 +108,7 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Eleme
                                         </Box>
                                         <Box mt="2">
                                             <SDCBadge children={item.tag} />
-                                            <SDCBadge
-                                                ml="2"
-                                                children={item.onlineFormat}
-                                            />
+                                            <SDCBadge ml="2" children={item.onlineFormat} />
                                         </Box>
                                     </Box>
                                 </Box>

@@ -66,9 +66,7 @@ export default function ClassView({ session }: ClassViewProps): JSX.Element {
             <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/program">
-                            Browse Programs
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>
                     </BreadcrumbItem>
 
                     <BreadcrumbItem>

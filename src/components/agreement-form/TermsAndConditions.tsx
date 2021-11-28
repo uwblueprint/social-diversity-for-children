@@ -12,9 +12,7 @@ type TermsAndConditionsProps = {
  * Terms and conditions page within the class registration process
  * @returns a page component detailing SDC's terms and conditions and offering an option to accept it
  */
-export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
-    onNext,
-}): JSX.Element => {
+export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ onNext }): JSX.Element => {
     const { t } = useTranslation("form");
 
     // Next button is disabled by default, activates when a child is selected

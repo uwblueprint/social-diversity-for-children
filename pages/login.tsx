@@ -50,12 +50,7 @@ export default function Login(): JSX.Element {
                         </Text>
                     </Center>
                     <Center>
-                        <Text
-                            fontWeight="400"
-                            fontSize="16px"
-                            mt="20px"
-                            textAlign="center"
-                        >
+                        <Text fontWeight="400" fontSize="16px" mt="20px" textAlign="center">
                             Registration for Summer 2021 classes begin June 31, 2021
                         </Text>
                     </Center>

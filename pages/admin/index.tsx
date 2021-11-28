@@ -1,12 +1,5 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import {
-    Box,
-    Heading,
-    HStack,
-    Link as ChakraLink,
-    Text,
-    VStack,
-} from "@chakra-ui/layout";
+import { Box, Heading, HStack, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
 import { Flex, List, ListItem, Spacer } from "@chakra-ui/react";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { AdminOptionButton } from "@components/admin/AdminOptionButton";
@@ -149,11 +142,7 @@ export default function Admin(props: AdminProps): JSX.Element {
                                     })}
                                 </List>
                             ) : (
-                                <AdminEmptyState
-                                    w={625}
-                                    h="100%"
-                                    isLoading={isUpcomingLoading}
-                                >
+                                <AdminEmptyState w={625} h="100%" isLoading={isUpcomingLoading}>
                                     No upcoming classes this week
                                 </AdminEmptyState>
                             )}

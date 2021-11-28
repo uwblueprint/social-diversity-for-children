@@ -32,17 +32,11 @@ const LearningInfoPage = dynamic(
     { ssr: false },
 );
 const EmergInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/EmergInfoPage").then(
-            (module) => module.EmergInfoPage,
-        ),
+    () => import("@components/parent-form/EmergInfoPage").then((module) => module.EmergInfoPage),
     { ssr: false },
 );
 const HealthInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/HealthInfoPage").then(
-            (module) => module.HealthInfoPage,
-        ),
+    () => import("@components/parent-form/HealthInfoPage").then((module) => module.HealthInfoPage),
     { ssr: false },
 );
 const ParticipantCreatedPage = dynamic(
@@ -67,9 +61,7 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
     const router = useRouter();
     const { page } = router.query;
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState<number>(
-        page ? parseInt(page as string, 10) : 0,
-    );
+    const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
 
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
@@ -117,10 +109,7 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
         "physical",
         false,
     );
-    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
-        "sensory",
-        false,
-    );
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage("sensory", false);
     const [participantDifficulties, setParticipantDifficulties] = useLocalStorage(
         "participantDifficulties",
         [],
@@ -129,27 +118,18 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
         "hasOtherDifficulties",
         false,
     );
-    const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
-        "otherDifficulties",
-        "",
-    );
+    const [otherDifficulties, setOtherDifficulties] = useLocalStorage("otherDifficulties", "");
     const [specialEd, setSpecialEd] = useLocalStorage("involvedInSpecialEd", false);
     const [physiotherapy, setPhysiotherapy] = useLocalStorage("physio", false);
     const [speechTherapy, setSpeechTherapy] = useLocalStorage("speech", false);
-    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
-        "occupational",
-        false,
-    );
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage("occupational", false);
     const [counseling, setCounseling] = useLocalStorage("conseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("art", false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         false,
     );
-    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
-        "hasOtherTherapy",
-        false,
-    );
+    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage("hasOtherTherapy", false);
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     // Parent/guardian expectations
@@ -162,10 +142,7 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
     const [emergFirstName, setEmergFirstName] = useLocalStorage("emergFirstName", "");
     const [emergLastName, setEmergLastName] = useLocalStorage("emergLastName", "");
     const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage("emergNumber", "");
-    const [emergRelationship, setEmergRelationship] = useLocalStorage(
-        "emergRelationship",
-        "",
-    );
+    const [emergRelationship, setEmergRelationship] = useLocalStorage("emergRelationship", "");
 
     const [addParticipantSuccess, setAddParticipantSuccess] = useState("pending");
 

@@ -22,10 +22,7 @@ type IneligibleClassModalProps = {
  * @param onClose a method from the useDisclosure hook
  * @returns a modal component informing user they cannot register in class
  */
-export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
-    isOpen,
-    onClose,
-}) => {
+export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({ isOpen, onClose }) => {
     const { t } = useTranslation("common");
 
     return (

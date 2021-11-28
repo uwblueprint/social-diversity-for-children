@@ -4,10 +4,7 @@
  * @param  {{param:string;value:string}[]} queries
  * @returns string of new path
  */
-export function pathWithQueries(
-    path: string,
-    queries: { param: string; value: string }[],
-): string {
+export function pathWithQueries(path: string, queries: { param: string; value: string }[]): string {
     let result = path;
     queries.forEach(({ param, value }) => {
         result = pathWithQuery(result, param, value);

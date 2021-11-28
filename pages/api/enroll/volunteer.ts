@@ -19,10 +19,7 @@ import { getClass } from "@database/class";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
 
     // If there is no session or the user is not a volunteer
@@ -53,9 +50,7 @@ export default async function handle(
 
             // Get all volunteer registrations if no class query
             if (!classId) {
-                const volunteerRegistrationRecords = await getVolunteerRegistrations(
-                    volunteerId,
-                );
+                const volunteerRegistrationRecords = await getVolunteerRegistrations(volunteerId);
 
                 // verify that the volunteer registration record could be obtained
                 if (!volunteerRegistrationRecords) {
@@ -120,9 +115,7 @@ export default async function handle(
             }
 
             // create volunteer registration record and return if it could not be created
-            const newRegistration = createVolunteerRegistration(
-                volunteerRegistrationInput,
-            );
+            const newRegistration = createVolunteerRegistration(volunteerRegistrationInput);
             if (!newRegistration) {
                 ResponseUtil.returnBadRequest(res, `Registration could not be created`);
                 return;

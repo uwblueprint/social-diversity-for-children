@@ -8,10 +8,7 @@ import { deleteUser, getUser } from "@database/user";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     // Obtain user id
     const { id } = req.query;
 

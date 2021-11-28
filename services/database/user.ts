@@ -209,44 +209,31 @@ async function updateUser(userInput: UserInput) {
                                   create: {
                                       firstName: parentData.createStudentInput.firstName,
                                       lastName: parentData.createStudentInput.lastName,
-                                      dateOfBirth:
-                                          parentData.createStudentInput.dateOfBirth,
-                                      addressLine1:
-                                          parentData.createStudentInput.addressLine1,
-                                      addressLine2:
-                                          parentData.createStudentInput.addressLine2,
-                                      postalCode:
-                                          parentData.createStudentInput.postalCode,
+                                      dateOfBirth: parentData.createStudentInput.dateOfBirth,
+                                      addressLine1: parentData.createStudentInput.addressLine1,
+                                      addressLine2: parentData.createStudentInput.addressLine2,
+                                      postalCode: parentData.createStudentInput.postalCode,
                                       cityName: parentData.createStudentInput.cityName,
                                       province: parentData.createStudentInput.province,
                                       school: parentData.createStudentInput.school,
                                       grade: parentData.createStudentInput.grade,
-                                      difficulties:
-                                          parentData.createStudentInput.difficulties,
+                                      difficulties: parentData.createStudentInput.difficulties,
                                       otherDifficulties:
                                           parentData.createStudentInput.otherDifficulties,
                                       specialEducation:
                                           parentData.createStudentInput.specialEducation,
                                       therapy: parentData.createStudentInput.therapy,
-                                      otherTherapy:
-                                          parentData.createStudentInput.otherTherapy,
+                                      otherTherapy: parentData.createStudentInput.otherTherapy,
                                       guardianExpectations:
-                                          parentData.createStudentInput
-                                              .guardianExpectations,
-                                      medication:
-                                          parentData.createStudentInput.medication,
+                                          parentData.createStudentInput.guardianExpectations,
+                                      medication: parentData.createStudentInput.medication,
                                       allergies: parentData.createStudentInput.allergies,
-                                      additionalInfo:
-                                          parentData.createStudentInput.additionalInfo,
-                                      emergFirstName:
-                                          parentData.createStudentInput.emergFirstName,
-                                      emergLastName:
-                                          parentData.createStudentInput.emergLastName,
-                                      emergNumber:
-                                          parentData.createStudentInput.emergNumber,
+                                      additionalInfo: parentData.createStudentInput.additionalInfo,
+                                      emergFirstName: parentData.createStudentInput.emergFirstName,
+                                      emergLastName: parentData.createStudentInput.emergLastName,
+                                      emergNumber: parentData.createStudentInput.emergNumber,
                                       emergRelationToStudent:
-                                          parentData.createStudentInput
-                                              .emergRelationToStudent,
+                                          parentData.createStudentInput.emergRelationToStudent,
                                   },
                               },
                           },
@@ -260,44 +247,31 @@ async function updateUser(userInput: UserInput) {
                                   create: {
                                       firstName: parentData.createStudentInput.firstName,
                                       lastName: parentData.createStudentInput.lastName,
-                                      dateOfBirth:
-                                          parentData.createStudentInput.dateOfBirth,
-                                      addressLine1:
-                                          parentData.createStudentInput.addressLine1,
-                                      addressLine2:
-                                          parentData.createStudentInput.addressLine2,
-                                      postalCode:
-                                          parentData.createStudentInput.postalCode,
+                                      dateOfBirth: parentData.createStudentInput.dateOfBirth,
+                                      addressLine1: parentData.createStudentInput.addressLine1,
+                                      addressLine2: parentData.createStudentInput.addressLine2,
+                                      postalCode: parentData.createStudentInput.postalCode,
                                       cityName: parentData.createStudentInput.cityName,
                                       province: parentData.createStudentInput.province,
                                       school: parentData.createStudentInput.school,
                                       grade: parentData.createStudentInput.grade,
-                                      difficulties:
-                                          parentData.createStudentInput.difficulties,
+                                      difficulties: parentData.createStudentInput.difficulties,
                                       otherDifficulties:
                                           parentData.createStudentInput.otherDifficulties,
                                       specialEducation:
                                           parentData.createStudentInput.specialEducation,
                                       therapy: parentData.createStudentInput.therapy,
-                                      otherTherapy:
-                                          parentData.createStudentInput.otherTherapy,
+                                      otherTherapy: parentData.createStudentInput.otherTherapy,
                                       guardianExpectations:
-                                          parentData.createStudentInput
-                                              .guardianExpectations,
-                                      medication:
-                                          parentData.createStudentInput.medication,
+                                          parentData.createStudentInput.guardianExpectations,
+                                      medication: parentData.createStudentInput.medication,
                                       allergies: parentData.createStudentInput.allergies,
-                                      additionalInfo:
-                                          parentData.createStudentInput.additionalInfo,
-                                      emergFirstName:
-                                          parentData.createStudentInput.emergFirstName,
-                                      emergLastName:
-                                          parentData.createStudentInput.emergLastName,
-                                      emergNumber:
-                                          parentData.createStudentInput.emergNumber,
+                                      additionalInfo: parentData.createStudentInput.additionalInfo,
+                                      emergFirstName: parentData.createStudentInput.emergFirstName,
+                                      emergLastName: parentData.createStudentInput.emergLastName,
+                                      emergNumber: parentData.createStudentInput.emergNumber,
                                       emergRelationToStudent:
-                                          parentData.createStudentInput
-                                              .emergRelationToStudent,
+                                          parentData.createStudentInput.emergRelationToStudent,
                                   },
                               },
                           },

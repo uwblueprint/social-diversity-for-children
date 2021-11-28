@@ -25,11 +25,7 @@ export default function Component(props: ComponentProps): JSX.Element {
     const router = useRouter();
     const { me } = useMe();
 
-    const {
-        programs: programCardInfos,
-        isLoading,
-        error,
-    } = usePrograms(router.locale as locale);
+    const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
 
     if (error) {
         return <CommonError cause="cannot fetch programs" session={props.session} />;

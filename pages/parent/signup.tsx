@@ -1,13 +1,4 @@
-import {
-    Button,
-    Box,
-    Input,
-    FormControl,
-    FormLabel,
-    Stack,
-    Text,
-    HStack,
-} from "@chakra-ui/react";
+import { Button, Box, Input, FormControl, FormLabel, Stack, Text, HStack } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { GetServerSideProps } from "next"; // Get server side props
@@ -42,36 +33,23 @@ const LearningInfoPage = dynamic(
     { ssr: false },
 );
 const ParentInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/ParentInfoPage").then(
-            (module) => module.ParentInfoPage,
-        ),
+    () => import("@components/parent-form/ParentInfoPage").then((module) => module.ParentInfoPage),
     { ssr: false },
 );
 const EmergInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/EmergInfoPage").then(
-            (module) => module.EmergInfoPage,
-        ),
+    () => import("@components/parent-form/EmergInfoPage").then((module) => module.EmergInfoPage),
     { ssr: false },
 );
 const HealthInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/HealthInfoPage").then(
-            (module) => module.HealthInfoPage,
-        ),
+    () => import("@components/parent-form/HealthInfoPage").then((module) => module.HealthInfoPage),
     { ssr: false },
 );
 const HeardFromPage = dynamic(
-    () =>
-        import("@components/parent-form/HeardFromPage").then(
-            (module) => module.HeardFromPage,
-        ),
+    () => import("@components/parent-form/HeardFromPage").then((module) => module.HeardFromPage),
     { ssr: false },
 );
 const IncomePage = dynamic(
-    () =>
-        import("@components/parent-form/IncomePage").then((module) => module.IncomePage),
+    () => import("@components/parent-form/IncomePage").then((module) => module.IncomePage),
     { ssr: false },
 );
 
@@ -114,9 +92,7 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
     const { page } = router.query;
     const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState<number>(
-        page ? parseInt(page as string, 10) : 0,
-    );
+    const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
 
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
@@ -164,10 +140,7 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
         "physical",
         false,
     );
-    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
-        "sensory",
-        false,
-    );
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage("sensory", false);
     const [participantDifficulties, setParticipantDifficulties] = useLocalStorage(
         "participantDifficulties",
         [],
@@ -176,27 +149,18 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
         "hasOtherDifficulties",
         false,
     );
-    const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
-        "otherDifficulties",
-        "",
-    );
+    const [otherDifficulties, setOtherDifficulties] = useLocalStorage("otherDifficulties", "");
     const [specialEd, setSpecialEd] = useLocalStorage("involvedInSpecialEd", false);
     const [physiotherapy, setPhysiotherapy] = useLocalStorage("physio", false);
     const [speechTherapy, setSpeechTherapy] = useLocalStorage("speech", false);
-    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
-        "occupational",
-        false,
-    );
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage("occupational", false);
     const [counseling, setCounseling] = useLocalStorage("conseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("art", false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         false,
     );
-    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
-        "hasOtherTherapy",
-        false,
-    );
+    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage("hasOtherTherapy", false);
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     // Parent/guardian expectations
@@ -208,40 +172,22 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
     // Parent info
     const [parentFirstName, setParentFirstName] = useLocalStorage("parentFirstName", "");
     const [parentLastName, setParentLastName] = useLocalStorage("parentLastName", "");
-    const [parentPhoneNumber, setParentPhoneNumber] = useLocalStorage(
-        "parentPhoneNumber",
-        "",
-    );
-    const [parentRelationship, setParentRelationship] = useLocalStorage(
-        "parentRelationship",
-        "",
-    );
+    const [parentPhoneNumber, setParentPhoneNumber] = useLocalStorage("parentPhoneNumber", "");
+    const [parentRelationship, setParentRelationship] = useLocalStorage("parentRelationship", "");
 
     // Emergency contact info
     const [emergFirstName, setEmergFirstName] = useLocalStorage("emergFirstName", "");
     const [emergLastName, setEmergLastName] = useLocalStorage("emergLastName", "");
     const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage("emergNumber", "");
-    const [emergRelationship, setEmergRelationship] = useLocalStorage(
-        "emergRelationship",
-        "",
-    );
+    const [emergRelationship, setEmergRelationship] = useLocalStorage("emergRelationship", "");
 
     // Heard from
-    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useLocalStorage(
-        "friends",
-        false,
-    );
+    const [heardFromFriendsAndFam, setHeardFromFriendsAndFam] = useLocalStorage("friends", false);
     const [heardFromFlyers, setHeardFromFlyers] = useLocalStorage("flyers", false);
     const [heardFromEmail, setHeardFromEmail] = useLocalStorage("email", false);
-    const [heardFromSocialMedia, setHeardFromSocialMedia] = useLocalStorage(
-        "socialmedia",
-        false,
-    );
+    const [heardFromSocialMedia, setHeardFromSocialMedia] = useLocalStorage("socialmedia", false);
     const [heardFromOther, setHeardFromOther] = useLocalStorage("other", false);
-    const [heardFromOptions, setHeardFromOptions] = useLocalStorage(
-        "heardFromOptions",
-        null,
-    );
+    const [heardFromOptions, setHeardFromOptions] = useLocalStorage("heardFromOptions", null);
 
     const [successfulAccountCreation, setSuccessfulAccountCreation] = useState("pending");
 

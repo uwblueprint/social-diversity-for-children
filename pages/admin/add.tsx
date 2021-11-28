@@ -61,11 +61,7 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
     }, [adminFirstName, adminLastName, adminEmail]);
 
     const InviteEmailForTeacher = async () => {
-        const res = await createTeacherUser(
-            teacherEmail,
-            teacherFirstName,
-            teacherLastName,
-        );
+        const res = await createTeacherUser(teacherEmail, teacherFirstName, teacherLastName);
         if (res.ok) {
             signIn("email", {
                 email: teacherEmail,
@@ -275,8 +271,8 @@ const InviteForm = ({
                     Invite
                 </Button>
                 <Text fontWeight="400" fontSize="14px" mt={6} color="brand.300">
-                    Invitee will be sent a magic link or they can choose to login with the
-                    email on a later date.
+                    Invitee will be sent a magic link or they can choose to login with the email on
+                    a later date.
                 </Text>
             </Box>
         </Box>

@@ -30,9 +30,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
 }: VolunteerEnrollmentProps) => {
     const router = useRouter();
     const { classId, page } = router.query;
-    const [pageNum, setPageNum] = useState<number>(
-        page ? parseInt(page as string, 10) : 0,
-    );
+    const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
     const { me, isLoading: isMeLoading } = useMe();
     const toast = useToast();
 
@@ -101,13 +99,9 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     // render submit page if criminal record not submitted
     // render update criminal check form if expired
     !me.volunteer.criminalRecordCheckLink
-        ? pageElements.unshift(
-              <SubmitCriminalCheckForm classInfo={classInfo} onNext={nextPage} />,
-          )
+        ? pageElements.unshift(<SubmitCriminalCheckForm classInfo={classInfo} onNext={nextPage} />)
         : me.volunteer.criminalCheckExpired
-        ? pageElements.unshift(
-              <UpdateCriminalCheckForm classInfo={classInfo} onNext={nextPage} />,
-          )
+        ? pageElements.unshift(<UpdateCriminalCheckForm classInfo={classInfo} onNext={nextPage} />)
         : {};
 
     return (

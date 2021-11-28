@@ -33,10 +33,7 @@ export const LiveClassCard: React.FC<LiveClassCardProps> = ({ cardInfo, link }) 
                     {cardInfo.programName} ({cardInfo.name})
                 </Heading>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">
-                    {convertToShortTimeRange(
-                        cardInfo.startTimeMinutes,
-                        cardInfo.durationMinutes,
-                    )}
+                    {convertToShortTimeRange(cardInfo.startTimeMinutes, cardInfo.durationMinutes)}
                     {" with Teacher " + cardInfo.teacherName}
                 </Text>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">

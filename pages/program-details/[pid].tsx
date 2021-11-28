@@ -19,9 +19,7 @@ type ProgramDetailsProps = {
     session: Session;
 };
 
-export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
-    session,
-}: ProgramDetailsProps) => {
+export const ProgramDetails: React.FC<ProgramDetailsProps> = ({ session }: ProgramDetailsProps) => {
     const router = useRouter();
     const { pid } = router.query;
 
@@ -46,10 +44,7 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
     }
 
     const programCardInfo = programInfoResponse
-        ? CardInfoUtil.getProgramCardInfo(
-              programInfoResponse.data,
-              router.locale as locale,
-          )
+        ? CardInfoUtil.getProgramCardInfo(programInfoResponse.data, router.locale as locale)
         : null;
     const classCardInfos = classListResponse
         ? CardInfoUtil.getClassCardInfos(classListResponse.data, router.locale as locale)

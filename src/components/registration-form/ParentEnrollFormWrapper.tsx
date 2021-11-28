@@ -38,10 +38,7 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () =>
-                                              setPageNum((prevPage) =>
-                                                  Math.max(prevPage - 1, 0),
-                                              )
+                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
                                         : null
                                 }
                             />

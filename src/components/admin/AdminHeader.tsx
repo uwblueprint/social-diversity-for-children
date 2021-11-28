@@ -42,11 +42,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ headerLinks, children 
             <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
                 <Flex>
                     <HStack spacing={8}>
-                        <Text
-                            fontSize="22px"
-                            fontWeight="bold"
-                            color={colourTheme.colors.Blue}
-                        >
+                        <Text fontSize="22px" fontWeight="bold" color={colourTheme.colors.Blue}>
                             {children}
                         </Text>
                     </HStack>

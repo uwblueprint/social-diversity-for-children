@@ -31,9 +31,7 @@ type ParentEnrollClassProps = {
 /**
  * This is the page that directs a user to register a student for a class
  */
-export default function ParentEnrollClass({
-    session,
-}: ParentEnrollClassProps): JSX.Element {
+export default function ParentEnrollClass({ session }: ParentEnrollClassProps): JSX.Element {
     const router = useRouter();
     const { classId, page, child, stripe } = router.query;
     const { user, isLoading, error } = useUser(session.id.toString());
@@ -126,11 +124,7 @@ export default function ParentEnrollClass({
         }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
-            <ProofOfIncomePage
-                pageNum={pageNum}
-                classId={numberClassId}
-                onNext={nextPage}
-            />,
+            <ProofOfIncomePage pageNum={pageNum} classId={numberClassId} onNext={nextPage} />,
         );
     }
     pageElements.push(

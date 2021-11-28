@@ -20,9 +20,7 @@ type VolunteerSkillsInfo = {
     formButtonOnClick: () => void;
 };
 
-export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({
-    props,
-}): JSX.Element => {
+export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation("form");
 
     return (

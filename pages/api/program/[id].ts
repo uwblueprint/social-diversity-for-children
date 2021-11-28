@@ -11,10 +11,7 @@ import { getProgramCardInfo } from "@database/program-card-info";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
             const { id: programId } = req.query;
@@ -62,10 +59,7 @@ export default async function handle(
             const program = await deleteProgram(programId as string);
 
             if (!program) {
-                ResponseUtil.returnNotFound(
-                    res,
-                    `Program with id ${programId} not found.`,
-                );
+                ResponseUtil.returnNotFound(res, `Program with id ${programId} not found.`);
                 break;
             }
             ResponseUtil.returnOK(res, program);

@@ -45,12 +45,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     const { me } = useMe();
 
     return (
-        <Grid
-            templateColumns="repeat(4, 1fr)"
-            gap={6}
-            onClick={onClick}
-            cursor={"pointer"}
-        >
+        <Grid templateColumns="repeat(4, 1fr)" gap={6} onClick={onClick} cursor={"pointer"}>
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
                     <Image
@@ -79,10 +74,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                     <Flex direction={{ base: "column", xl: "row" }}>
                         <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {t("time.weekday_many", {
-                                day: weekdayToString(
-                                    cardInfo.weekday,
-                                    router.locale as locale,
-                                ),
+                                day: weekdayToString(cardInfo.weekday, router.locale as locale),
                             })}{" "}
                             {convertToShortTimeRange(
                                 cardInfo.startTimeMinutes,
@@ -98,13 +90,11 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             {me && me.role === roles.VOLUNTEER
                                 ? t("program.volunteerSpot", {
                                       spot: cardInfo.spaceAvailable,
-                                      context:
-                                          cardInfo.spaceAvailable !== 1 ? "plural" : "",
+                                      context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
                                   })
                                 : t("program.participantSpot", {
                                       spot: cardInfo.spaceAvailable,
-                                      context:
-                                          cardInfo.spaceAvailable !== 1 ? "plural" : "",
+                                      context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
                                   })}
                         </Box>
                     </Flex>

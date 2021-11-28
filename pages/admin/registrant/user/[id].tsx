@@ -36,11 +36,7 @@ type AdminProps = {
 export default function CriminalCheck(props: AdminProps): JSX.Element {
     const router = useRouter();
     const { id: userId } = router.query;
-    const {
-        user,
-        isLoading: userIsLoading,
-        error: userError,
-    } = useUser(userId as string);
+    const { user, isLoading: userIsLoading, error: userError } = useUser(userId as string);
 
     if (userIsLoading) {
         return <AdminLoading />;
@@ -95,9 +91,7 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                     </BreadcrumbItem>
                     <BreadcrumbItem isCurrentPage>
                         <BreadcrumbLink href="#">
-                            {userRole === roles.VOLUNTEER
-                                ? "Criminal Record"
-                                : "Proof Of Income"}
+                            {userRole === roles.VOLUNTEER ? "Criminal Record" : "Proof Of Income"}
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
@@ -108,25 +102,14 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                     paddingRight="20px"
                     spacing="100px"
                 >
-                    <VStack
-                        width="400px"
-                        spacing="32px"
-                        marginLeft="40px"
-                        alignSelf="flex-start"
-                    >
+                    <VStack width="400px" spacing="32px" marginLeft="40px" alignSelf="flex-start">
                         <HStack color={colourTheme.colors.Gray} width="full">
                             <Icon as={MdPerson} w={8} h={8} />
                             <VStack alignItems="flex-start" spacing="-3px" w="200px">
-                                <Link>
-                                    {"Participant Information" + " (" + userName + ")"}
-                                </Link>
+                                <Link>{"Participant Information" + " (" + userName + ")"}</Link>
                             </VStack>
                         </HStack>
-                        <HStack
-                            fontWeight={700}
-                            color={colourTheme.colors.Blue}
-                            width="full"
-                        >
+                        <HStack fontWeight={700} color={colourTheme.colors.Blue} width="full">
                             <Icon as={MdDescription} w={8} h={8} />
                             <Link>
                                 {" "}
@@ -147,8 +130,8 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                             />
                         ) : (
                             <EmptyState height="200px">
-                                The participant has not uploaded a criminal record check
-                                at this time.
+                                The participant has not uploaded a criminal record check at this
+                                time.
                             </EmptyState>
                         )
                     ) : parentData.proofOfIncomeLink !== null ? (
@@ -161,8 +144,7 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                         />
                     ) : (
                         <EmptyState height="200px">
-                            The participant has not uploaded a criminal record check at
-                            this time.
+                            The participant has not uploaded a criminal record check at this time.
                         </EmptyState>
                     )}
                 </HStack>

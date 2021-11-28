@@ -59,9 +59,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     let availableClassInfo;
     if (me && me.role === roles.VOLUNTEER) {
         fullClassInfo = classInfo.filter((info) => info.volunteerSpaceAvailable === 0);
-        availableClassInfo = classInfo.filter(
-            (info) => info.volunteerSpaceAvailable !== 0,
-        );
+        availableClassInfo = classInfo.filter((info) => info.volunteerSpaceAvailable !== 0);
     } else {
         fullClassInfo = classInfo.filter((info) => info.spaceAvailable === 0);
         availableClassInfo = classInfo.filter((info) => info.spaceAvailable !== 0);

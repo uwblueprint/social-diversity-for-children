@@ -11,9 +11,7 @@ type MediaReleaseFormProps = {
  * Media release page within the class registration process
  * @returns a page component explaining SDC's media release policy and offering an option to accept it
  */
-export const MediaReleaseForm: React.FC<MediaReleaseFormProps> = ({
-    onNext,
-}): JSX.Element => {
+export const MediaReleaseForm: React.FC<MediaReleaseFormProps> = ({ onNext }): JSX.Element => {
     // Next button is disabled by default, activates when a child is selected
     // Test data to be replaced with children associated with parent during integration
     const { t } = useTranslation("form");

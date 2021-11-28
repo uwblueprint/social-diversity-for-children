@@ -6,9 +6,7 @@ import { ParentRegistrationInput, VolunteerRegistrationInput } from "@models/Enr
  * @param {ParentRegistrationInput} input the data containing the details of the enrollment
  * @returns {string[]} a list of validation errors
  */
-export function validateParentRegistrationRecord(
-    input: ParentRegistrationInput,
-): string[] {
+export function validateParentRegistrationRecord(input: ParentRegistrationInput): string[] {
     const validationErrors: string[] = [];
     if (!input.parentId) {
         validationErrors.push("parentId is not provided");
@@ -29,9 +27,7 @@ export function validateParentRegistrationRecord(
  * @param {VolunteerRegistrationInput} input the data containing the details of the enrollment
  * @returns {string[]} a list of validation errors
  */
-export function validateVolunteerRegistrationRecord(
-    input: VolunteerRegistrationInput,
-): string[] {
+export function validateVolunteerRegistrationRecord(input: VolunteerRegistrationInput): string[] {
     const validationErrors: string[] = [];
     if (!input.volunteerId) {
         validationErrors.push("volunteerId is not provided");

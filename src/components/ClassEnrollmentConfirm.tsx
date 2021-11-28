@@ -50,11 +50,7 @@ export const ClassEnrollmentConfirmation = (
                         {t("label.generalParticipantInformation")}
                     </Text>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.participantName")}
                         </Text>
                         <Text>
@@ -62,11 +58,7 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.dateOfBirth")} (YYYY-MM-DD)
                         </Text>
                         <Text>{parseDate(props.studentData.dateOfBirth)}</Text>
@@ -136,11 +128,7 @@ export const ClassEnrollmentConfirmation = (
                         </Box>
                     </Stack>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.difficulties")}
                         </Text>
                         <Text>
@@ -158,21 +146,13 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.specialEducation")}
                         </Text>
                         <Text>{props.studentData.specialEducation ? "Yes" : "No"}</Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.therapy")}
                         </Text>
                         <Text>
@@ -186,11 +166,7 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.guardianExpectations")}
                         </Text>
                         <Text>
@@ -205,21 +181,13 @@ export const ClassEnrollmentConfirmation = (
                         {t("label.guardianInformation")}
                     </Text>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.guardianName")}
                         </Text>
                         <Text>{props.parentData.name}</Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.phone")}
                         </Text>
                         <Text>{parsePhoneNumber(props.parentData.phone)}</Text>
@@ -230,11 +198,7 @@ export const ClassEnrollmentConfirmation = (
                         {t("label.emergencyContact")}
                     </Text>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.emergencyName")}
                         </Text>
                         <Text>
@@ -244,21 +208,13 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.emergencyPhone")}
                         </Text>
                         <Text>{parsePhoneNumber(props.studentData.emergNumber)}</Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.relation")}
                         </Text>
                         <Text>{props.studentData.emergRelationToStudent}</Text>
@@ -269,31 +225,19 @@ export const ClassEnrollmentConfirmation = (
                         {t("label.healthInformation")}
                     </Text>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.medication")}
                         </Text>
                         <Text>
-                            {props.studentData.medication
-                                ? props.studentData.medication
-                                : "N/A"}
+                            {props.studentData.medication ? props.studentData.medication : "N/A"}
                         </Text>
                     </Box>
                     <Box>
-                        <Text
-                            color={colourTheme.colors.Gray}
-                            fontSize="14px"
-                            marginBottom="6px"
-                        >
+                        <Text color={colourTheme.colors.Gray} fontSize="14px" marginBottom="6px">
                             {t("label.allergies")}
                         </Text>
                         <Text>
-                            {props.studentData.allergies
-                                ? props.studentData.allergies
-                                : "N/A"}
+                            {props.studentData.allergies ? props.studentData.allergies : "N/A"}
                         </Text>
                     </Box>
                 </VStack>

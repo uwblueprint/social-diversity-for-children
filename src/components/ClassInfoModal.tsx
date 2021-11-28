@@ -88,11 +88,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                     <Grid templateColumns="repeat(5, 1fr)" gap={6} pt={30} pb={5}>
                         <GridItem colSpan={2}>
                             <AspectRatio width="100%" ratio={1}>
-                                <Image
-                                    src={classInfo.image}
-                                    fit="cover"
-                                    alt={classInfo.name}
-                                />
+                                <Image src={classInfo.image} fit="cover" alt={classInfo.name} />
                             </AspectRatio>
                         </GridItem>
                         <GridItem colSpan={3}>

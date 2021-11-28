@@ -1,12 +1,4 @@
-import {
-    Box,
-    Text,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Grid,
-    GridItem,
-} from "@chakra-ui/react";
+import { Box, Text, InputGroup, InputLeftElement, Input, Grid, GridItem } from "@chakra-ui/react";
 import Wrapper from "@components/AdminWrapper";
 import React from "react";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -37,11 +29,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState("");
 
-    const {
-        programs: programCardInfos,
-        isLoading,
-        error,
-    } = usePrograms(router.locale as locale);
+    const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
 
     if (isLoading) {
         return <Loading />;

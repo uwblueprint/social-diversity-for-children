@@ -10,10 +10,7 @@ import { getProgramCardInfos } from "@database/program-card-info";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
             const result = await getProgramCardInfos();

@@ -16,10 +16,7 @@ import { validateWaitlistRecord } from "@utils/validation/waitlist";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
 
     const parentId = session.id as number;
@@ -38,15 +35,11 @@ export default async function handle(
                 ResponseUtil.returnOK(res, waitlistRecord);
             } else if (input.classId) {
                 // If only classId was passed in, retrieve all waitlist records for the class
-                const waitlistRecordsForClass = await getWaitlistRecordsByClassId(
-                    input.classId,
-                );
+                const waitlistRecordsForClass = await getWaitlistRecordsByClassId(input.classId);
                 ResponseUtil.returnOK(res, waitlistRecordsForClass);
             } else if (parentId) {
                 // If only the parentId was passed in, retrieve all waitlist records for the parent
-                const waitlistRecordsForParent = await getWaitlistRecordsByParentId(
-                    input.parentId,
-                );
+                const waitlistRecordsForParent = await getWaitlistRecordsByParentId(input.parentId);
                 ResponseUtil.returnOK(res, waitlistRecordsForParent);
             } else {
                 // If neither the classId or the parentId are passed in
@@ -66,10 +59,7 @@ export default async function handle(
             }
             const newWaitlistRecord = await createWaitlistRecord(input);
             if (!newWaitlistRecord) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Waitlist record could not be created`,
-                );
+                ResponseUtil.returnBadRequest(res, `Waitlist record could not be created`);
                 return;
             }
             ResponseUtil.returnOK(res, newWaitlistRecord);

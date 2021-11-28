@@ -41,27 +41,16 @@ export type ProgramViewInfoCard = {
 /**
  * Admin program view card component used in the admin program page
  */
-export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
-    cardInfo,
-    role,
-}) => {
+export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, role }) => {
     const router = useRouter();
     const toast = useToast();
-    const { start, end } = convertToShortDateRange(
-        cardInfo.startDate,
-        cardInfo.endDate,
-        locale.en,
-    );
+    const { start, end } = convertToShortDateRange(cardInfo.startDate, cardInfo.endDate, locale.en);
     const {
         isOpen: isArchiveOpen,
         onOpen: onArchiveOpen,
         onClose: onArchiveClose,
     } = useDisclosure();
-    const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
-    } = useDisclosure();
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
     const onArchive = () => {
         updateProgramArchive(cardInfo.id, true);
@@ -127,9 +116,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(
-                                                    `/admin/edit/program/${cardInfo.id}`,
-                                                )
+                                                router.push(`/admin/edit/program/${cardInfo.id}`)
                                             }
                                         >
                                             Edit
@@ -137,9 +124,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                         <MenuDivider />
                                         <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>
-                                            Archive
-                                        </MenuItem>
+                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}
@@ -150,11 +135,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                             </Box>
                         </Flex>
                         <Flex fontSize="sm" pr={20} pb={2}>
-                            <Tooltip
-                                label={cardInfo.description}
-                                hasArrow
-                                placement="bottom-end"
-                            >
+                            <Tooltip label={cardInfo.description} hasArrow placement="bottom-end">
                                 <Text noOfLines={3}>{cardInfo.description}</Text>
                             </Tooltip>
                         </Flex>

@@ -25,12 +25,9 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
     const [read, setRead] = useState(false);
     const { t } = useTranslation(["form", "common"]);
 
-    const missingPOI =
-        me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
+    const missingPOI = me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
     const missingCriminalCheck =
-        me &&
-        me.role === roles.VOLUNTEER &&
-        me.volunteer.criminalRecordCheckLink === null;
+        me && me.role === roles.VOLUNTEER && me.volunteer.criminalRecordCheckLink === null;
 
     const InfoCaption = [
         {
@@ -66,11 +63,7 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                         <Box w="60%">
                             {missingPOI && (
                                 <Box ml={4}>
-                                    <Heading
-                                        mb={2}
-                                        size="md"
-                                        color={colourTheme.colors.Blue}
-                                    >
+                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
                                         {InfoCaption[0].heading}
                                     </Heading>
                                     <Text display="block" color={colourTheme.colors.Gray}>
@@ -80,11 +73,7 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                             )}
                             {missingCriminalCheck && (
                                 <Box ml={4}>
-                                    <Heading
-                                        mb={2}
-                                        size="md"
-                                        color={colourTheme.colors.Blue}
-                                    >
+                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
                                         {InfoCaption[1].heading}
                                     </Heading>
                                     <Text display="block" color={colourTheme.colors.Gray}>

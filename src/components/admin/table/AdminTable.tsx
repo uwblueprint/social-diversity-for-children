@@ -101,9 +101,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                             <Tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
                                     <Th
-                                        {...column.getHeaderProps(
-                                            column.getSortByToggleProps(),
-                                        )}
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
                                         isNumeric={(column as any).isNumeric}
                                     >
                                         {column.render("Header")}
@@ -170,11 +168,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                 >
                     <ArrowBackIcon />
                 </Button>
-                <Button
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                    variant="ghost"
-                >
+                <Button onClick={() => nextPage()} disabled={!canNextPage} variant="ghost">
                     <ArrowForwardIcon />
                 </Button>
             </Flex>

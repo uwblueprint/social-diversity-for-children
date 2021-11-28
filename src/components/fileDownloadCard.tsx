@@ -86,11 +86,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                                 ? "Pending"
                                 : "Declined"}
                         </MenuButton>
-                        <MenuList
-                            flexDirection="column"
-                            display="flex"
-                            borderRadius="0px"
-                        >
+                        <MenuList flexDirection="column" display="flex" borderRadius="0px">
                             <MenuItem
                                 onClick={() => {
                                     setApprovalState(true);

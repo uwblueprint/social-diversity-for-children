@@ -1,12 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Text,
-    Heading,
-    UnorderedList,
-    ListItem,
-    OrderedList,
-} from "@chakra-ui/react";
+import { Box, Text, Heading, UnorderedList, ListItem, OrderedList } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
 type IncomePageProps = {

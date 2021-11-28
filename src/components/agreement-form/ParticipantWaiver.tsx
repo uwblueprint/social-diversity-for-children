@@ -12,9 +12,7 @@ type ParticipantWaiverProps = {
  * Participant waiver page within the class registration process
  * @returns a page component providing SDC's participant waiver and offering an option to accept it
  */
-export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({
-    onNext,
-}): JSX.Element => {
+export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({ onNext }): JSX.Element => {
     const { t } = useTranslation("form");
 
     // Next button is disabled by default, activates when a child is selected
