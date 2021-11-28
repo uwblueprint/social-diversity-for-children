@@ -37,17 +37,14 @@ type ParticipantInfo = {
     setGrade: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
-    props,
-}): JSX.Element => {
+export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({ props }): JSX.Element => {
     return (
         <>
             <Box maxW="55rem">
                 <Text noOfLines={2} fontSize="16px" fontWeight="200">
-                    Please provide information on the participant that is being
-                    registered in the program. An opportunity to add information
-                    of additional participants you would like to register will
-                    be provided afterwards.
+                    Please provide information on the participant that is being registered in the
+                    program. An opportunity to add information of additional participants you would
+                    like to register will be provided afterwards.
                 </Text>
             </Box>
             <>

@@ -44,9 +44,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
             />
             <CheckBoxField
                 value={props.certifyAge15}
-                name={
-                    " I certify that I am over the age of 15 in order to volunteer with SDC"
-                }
+                name={" I certify that I am over the age of 15 in order to volunteer with SDC"}
                 setValue={props.setCertifyAge15}
             ></CheckBoxField>
             <TextField

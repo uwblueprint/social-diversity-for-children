@@ -26,8 +26,7 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
         status = "Approved";
         icon = <ApprovedIcon />;
     } else if (link == null) {
-        description =
-            "You have not uploaded a criminal record check at this time.";
+        description = "You have not uploaded a criminal record check at this time.";
         icon = <InfoIcon />;
     } else {
         description = "Your criminal record check is under review.";
@@ -50,12 +49,7 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
                     <>
                         <Text>Status: {status}</Text>
                         <Text>
-                            Date submitted:{" "}
-                            {convertToShortDateString(
-                                submitDate,
-                                locale.en,
-                                true,
-                            )}
+                            Date submitted: {convertToShortDateString(submitDate, locale.en, true)}
                         </Text>
                     </>
                 )}

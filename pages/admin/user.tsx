@@ -43,12 +43,7 @@ export default function UserView(props: UserViewProps): JSX.Element {
     const [revokeName, setRevokeName] = useState("");
     const [revokeUserId, setRevokeUserId] = useState(-1);
 
-    const {
-        programAdmins,
-        teachers,
-        isLoading: isUsersLoading,
-        error: usersError,
-    } = useUsers();
+    const { programAdmins, teachers, isLoading: isUsersLoading, error: usersError } = useUsers();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
@@ -115,11 +110,7 @@ export default function UserView(props: UserViewProps): JSX.Element {
                 </Tabs>
             </VStack>
 
-            <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-            >
+            <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -137,9 +128,7 @@ export default function UserView(props: UserViewProps): JSX.Element {
                             <Button
                                 colorScheme="red"
                                 onClick={async () => {
-                                    const res = await deleteUser(
-                                        revokeUserId,
-                                    ).finally(onClose);
+                                    const res = await deleteUser(revokeUserId).finally(onClose);
                                     if (res.ok) {
                                         toast({
                                             title: "Internal user has been revoked.",

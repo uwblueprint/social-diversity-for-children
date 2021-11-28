@@ -13,9 +13,7 @@ import { Session } from "next-auth";
 type DocumentUploadProps = {
     session: Session;
 };
-export default function DocumentUpload({
-    session,
-}: DocumentUploadProps): JSX.Element {
+export default function DocumentUpload({ session }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
 
     let { type } = router.query;
@@ -34,9 +32,7 @@ export default function DocumentUpload({
         try {
             // TODO don't prefix file name, instead put random file name into database eventually
             // TODO randomize filename
-            const res = await fetch(
-                `/api/file/upload?path=${type}&file=${file.name}`,
-            );
+            const res = await fetch(`/api/file/upload?path=${type}&file=${file.name}`);
             const data = await res.json();
             const { url, fields } = data.data;
             const formData = new FormData();
@@ -132,9 +128,7 @@ export default function DocumentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton
-                    href={redirect ? (redirect as string) : undefined}
-                />
+                <CloseButton href={redirect ? (redirect as string) : undefined} />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">
@@ -147,11 +141,7 @@ export default function DocumentUpload({
                                 </Text>
                             </Center>
                             <Center>
-                                <Text
-                                    fontWeight="200"
-                                    fontSize="15px"
-                                    mb="20px"
-                                >
+                                <Text fontWeight="200" fontSize="15px" mb="20px">
                                     Document was successfully sent to SDC.
                                 </Text>
                             </Center>
@@ -162,8 +152,8 @@ export default function DocumentUpload({
                                     mb="20px"
                                     textAlign={["center"]}
                                 >
-                                    Keep and eye out on the status of your
-                                    background check within the next few weeks.
+                                    Keep and eye out on the status of your background check within
+                                    the next few weeks.
                                 </Text>
                             </Center>
                             <Center>
@@ -219,9 +209,7 @@ export default function DocumentUpload({
     }
 }
 
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context: GetSessionOptions) => {
     // obtain the next auth session
     const session = await getSession(context);
     if (!session) {

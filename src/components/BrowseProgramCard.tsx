@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Wrap,
-    WrapItem,
-    Link,
-    Button,
-    HStack,
-    Spacer,
-} from "@chakra-ui/react";
+import { Box, Wrap, WrapItem, Link, Button, HStack, Spacer } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 import { useTranslation } from "react-i18next";
 import colourTheme from "@styles/colours";
@@ -22,9 +14,7 @@ type BrowseProgramCardProps = {
     cardInfo: ProgramCardInfo;
 };
 
-export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
-    cardInfo,
-}): JSX.Element => {
+export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({ cardInfo }): JSX.Element => {
     const { t } = useTranslation("common");
     const router = useRouter();
 
@@ -45,12 +35,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                                 params={{ cardInfo: cardInfo }}
                                 href={`/admin/classes?programId=${cardInfo.id}`}
                             >
-                                <Box
-                                    mt="1"
-                                    fontWeight="600"
-                                    fontSize="18px"
-                                    width="218px"
-                                >
+                                <Box mt="1" fontWeight="600" fontSize="18px" width="218px">
                                     {cardInfo.name}
                                 </Box>
                             </Link>
@@ -81,9 +66,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                         </Box>
                         <Box mt={6}>
                             <AdminBadge>{cardInfo.tag}</AdminBadge>
-                            <AdminBadge ml={2}>
-                                {cardInfo.onlineFormat}
-                            </AdminBadge>
+                            <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
                         </Box>
                     </Box>
                 </Box>

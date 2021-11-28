@@ -19,9 +19,7 @@ type VolunteerInfo = {
     setPhoneNumber: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
-    props,
-}): JSX.Element => {
+export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({ props }): JSX.Element => {
     return (
         <>
             <HStack spacing="24px" style={{ height: 100 }}>

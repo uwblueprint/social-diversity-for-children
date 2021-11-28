@@ -60,13 +60,9 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor={
-                                                colourTheme.colors.Blue
-                                            }
+                                            backgroundColor={colourTheme.colors.Blue}
                                             _hover={{
-                                                backgroundColor:
-                                                    colourTheme.colors
-                                                        .LightBlue,
+                                                backgroundColor: colourTheme.colors.LightBlue,
                                             }}
                                             width="50%"
                                             borderRadius="6px"
@@ -100,13 +96,9 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor={
-                                                colourTheme.colors.Blue
-                                            }
+                                            backgroundColor={colourTheme.colors.Blue}
                                             _hover={{
-                                                backgroundColor:
-                                                    colourTheme.colors
-                                                        .LightBlue,
+                                                backgroundColor: colourTheme.colors.LightBlue,
                                             }}
                                             width="50%"
                                             borderRadius="6px"
