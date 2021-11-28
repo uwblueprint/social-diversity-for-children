@@ -42,27 +42,16 @@ export type ProgramViewInfoCard = {
 /**
  * Admin program view card component used in the admin program page
  */
-export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
-    cardInfo,
-    role,
-}) => {
+export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, role }) => {
     const router = useRouter();
     const toast = useToast();
-    const { start, end } = convertToShortDateRange(
-        cardInfo.startDate,
-        cardInfo.endDate,
-        locale.en,
-    );
+    const { start, end } = convertToShortDateRange(cardInfo.startDate, cardInfo.endDate, locale.en);
     const {
         isOpen: isArchiveOpen,
         onOpen: onArchiveOpen,
         onClose: onArchiveClose,
     } = useDisclosure();
-    const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
-    } = useDisclosure();
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
     const onArchive = () => {
         updateProgramArchive(cardInfo.id, true);
@@ -77,12 +66,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
 
     const onDelete = () => {
         deleteProgram(cardInfo.id);
-        toast(
-            infoToastOptions(
-                "Program deleted.",
-                `${cardInfo.name} has been deleted.`,
-            ),
-        );
+        toast(infoToastOptions("Program deleted.", `${cardInfo.name} has been deleted.`));
         router.push("/admin/program");
     };
 
@@ -97,11 +81,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
             >
                 <GridItem alignSelf="center" colSpan={2} h="100%">
                     <AspectRatio ratio={2} h="inherit">
-                        <Image
-                            src={cardInfo.image}
-                            fit="cover"
-                            alt={cardInfo.name}
-                        />
+                        <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
                     </AspectRatio>
                 </GridItem>
                 <GridItem colSpan={3} p={5}>
@@ -126,50 +106,32 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(
-                                                    `/admin/edit/program/${cardInfo.id}`,
-                                                )
+                                                router.push(`/admin/edit/program/${cardInfo.id}`)
                                             }
                                         >
                                             Edit
                                         </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onDeleteOpen}>
-                                            Delete
-                                        </MenuItem>
+                                        <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>
-                                            Archive
-                                        </MenuItem>
+                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}
                         </Flex>
                         <Flex>
-                            <Box
-                                as="span"
-                                color={colourTheme.colors.Gray}
-                                fontSize="sm"
-                            >
+                            <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
                                 {`${start} to ${end}`}
                             </Box>
                         </Flex>
                         <Flex fontSize="sm" pr={20} pb={2}>
-                            <Tooltip
-                                label={cardInfo.description}
-                                hasArrow
-                                placement="bottom-end"
-                            >
-                                <Text noOfLines={3}>
-                                    {cardInfo.description}
-                                </Text>
+                            <Tooltip label={cardInfo.description} hasArrow placement="bottom-end">
+                                <Text noOfLines={3}>{cardInfo.description}</Text>
                             </Tooltip>
                         </Flex>
                         <Flex>
                             <AdminBadge>{cardInfo.tag}</AdminBadge>
-                            <AdminBadge ml={2}>
-                                {cardInfo.onlineFormat}
-                            </AdminBadge>
+                            <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
                         </Flex>
                     </VStack>
                 </GridItem>

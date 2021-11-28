@@ -10,9 +10,7 @@ type SelectChildForClassProps = {
     onNext: () => void;
 };
 
-export default function SelectChildForClass(
-    props: SelectChildForClassProps,
-): JSX.Element {
+export default function SelectChildForClass(props: SelectChildForClassProps): JSX.Element {
     const { t } = useTranslation("form");
 
     return (
@@ -58,11 +56,7 @@ export default function SelectChildForClass(
                             onClick={() => {
                                 props.setSelectedChild(index);
                             }}
-                            border={
-                                props.selectedChild === index
-                                    ? null
-                                    : "2px solid #E1E1E1"
-                            }
+                            border={props.selectedChild === index ? null : "2px solid #E1E1E1"}
                         >
                             {childName}
                         </Button>

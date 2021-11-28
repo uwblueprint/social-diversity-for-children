@@ -19,17 +19,12 @@ export type UseProgramsResponse = {
  * @param  {boolean} isArchived to get archived items instead
  * @returns UseProgramsResponse
  */
-export default function usePrograms(
-    language: locale,
-    isArchived = false,
-): UseProgramsResponse {
+export default function usePrograms(language: locale, isArchived = false): UseProgramsResponse {
     const { data, error, mutate } = useSWR(
         ["/api/program/", isArchived, "archived"],
         fetcherWithQuery,
     );
-    const result = data
-        ? CardInfoUtil.getProgramCardInfos(data.data, language)
-        : [];
+    const result = data ? CardInfoUtil.getProgramCardInfos(data.data, language) : [];
     return {
         programs: result,
         isLoading: !error && !data,

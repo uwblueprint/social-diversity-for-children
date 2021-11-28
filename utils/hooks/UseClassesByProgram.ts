@@ -35,9 +35,7 @@ export default function useClassesByProgram(
         ],
         fetcher,
     );
-    const classCards = data
-        ? CardInfoUtil.getClassCardInfos(data.data, language)
-        : [];
+    const classCards = data ? CardInfoUtil.getClassCardInfos(data.data, language) : [];
     return {
         classCards,
         isLoading: !error && !data,

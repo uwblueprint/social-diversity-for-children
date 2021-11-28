@@ -22,9 +22,7 @@ type HeardFromInfo = {
     heardFromOptions: boolean;
     setHeardFromOptions: (value: boolean) => void;
 };
-export const HeardFromPage: React.FC<HeardFromPageProps> = ({
-    props,
-}): JSX.Element => {
+export const HeardFromPage: React.FC<HeardFromPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
 
     return (
@@ -32,9 +30,7 @@ export const HeardFromPage: React.FC<HeardFromPageProps> = ({
             <FormControl id="hear-about-us">
                 <FormLabel>{t("signUp.hearAboutUs")}</FormLabel>
                 <Stack direction="column">
-                    <FormLabel>
-                        {t("signUp.participantHaveDifficulties")}
-                    </FormLabel>
+                    <FormLabel>{t("signUp.participantHaveDifficulties")}</FormLabel>
                     <CheckBoxField
                         value={props.heardFromFriendsAndFam}
                         name={t("hearAboutUs.friendsAndFamily", {

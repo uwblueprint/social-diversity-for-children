@@ -25,10 +25,7 @@ export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
 
     // save the email into localstorage for email verification page
-    const [, setLocalStorageEmail] = useLocalStorage(
-        "sdc-email-verification",
-        "",
-    );
+    const [, setLocalStorageEmail] = useLocalStorage("sdc-email-verification", "");
     const [value, setValue] = useControllableState({ defaultValue: false });
 
     // signInWithEmail sends a login request to the user's email
@@ -53,14 +50,8 @@ export default function Login(): JSX.Element {
                         </Text>
                     </Center>
                     <Center>
-                        <Text
-                            fontWeight="400"
-                            fontSize="16px"
-                            mt="20px"
-                            textAlign="center"
-                        >
-                            Registration for Summer 2021 classes begin June 31,
-                            2021
+                        <Text fontWeight="400" fontSize="16px" mt="20px" textAlign="center">
+                            Registration for Summer 2021 classes begin June 31, 2021
                         </Text>
                     </Center>
                     <Center>

@@ -20,9 +20,7 @@ type VolunteerSkillsInfo = {
     formButtonOnClick: () => void;
 };
 
-export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({
-    props,
-}): JSX.Element => {
+export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation("form");
 
     return (
@@ -59,11 +57,7 @@ export const VolunteerSkillsPage: React.FC<VolunteerSkillsPageProps> = ({
                     px={12}
                     borderRadius={100}
                     mt={8}
-                    disabled={
-                        !props.heardFrom ||
-                        !props.certifyCommit ||
-                        !props.skills
-                    }
+                    disabled={!props.heardFrom || !props.certifyCommit || !props.skills}
                     onClick={props.formButtonOnClick}
                 >
                     {t("form.next")}

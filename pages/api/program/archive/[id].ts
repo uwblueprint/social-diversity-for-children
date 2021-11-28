@@ -9,10 +9,7 @@ import { getSession } from "next-auth/client";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     // Obtain program id
     const { id } = req.query;
     const { isArchive }: { isArchive: boolean } = req.body;
@@ -26,10 +23,7 @@ export default async function handle(
     //parse query parameters from string to number and validate that id is a number
     const pid = parseInt(id as string);
     if (isNaN(pid)) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "classId should be passed in as numbers",
-        );
+        return ResponseUtil.returnBadRequest(res, "classId should be passed in as numbers");
     }
 
     switch (req.method) {
@@ -37,10 +31,7 @@ export default async function handle(
             const program = await updateProgramArchive(pid, isArchive);
 
             if (!program) {
-                return ResponseUtil.returnNotFound(
-                    res,
-                    `Program with id ${id} not found.`,
-                );
+                return ResponseUtil.returnNotFound(res, `Program with id ${id} not found.`);
             }
             ResponseUtil.returnOK(res, program);
             break;

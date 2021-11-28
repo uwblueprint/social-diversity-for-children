@@ -29,9 +29,7 @@ export default function useProgram(
         [`/api/program/${id}`, isArchived, "archived"],
         fetcherWithQuery,
     );
-    const result = data
-        ? CardInfoUtil.getProgramCardInfo(data.data, language)
-        : null;
+    const result = data ? CardInfoUtil.getProgramCardInfo(data.data, language) : null;
 
     return {
         program: result,

@@ -27,10 +27,7 @@ type EnrollmentCardsProps = {
     isOnlyStudent?: boolean;
 };
 
-const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
-    enrollmentInfo,
-    isOnlyStudent,
-}) => {
+const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({ enrollmentInfo, isOnlyStudent }) => {
     const { t } = useTranslation("common");
 
     return (
@@ -71,9 +68,7 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
 export const EnrollmentList: React.FC = () => {
     const router = useRouter();
     const { t } = useTranslation("common");
-    const { enrollments, error, isLoading } = useParentRegistrations(
-        router.locale as locale,
-    );
+    const { enrollments, error, isLoading } = useParentRegistrations(router.locale as locale);
 
     if (error) {
         return (
@@ -88,10 +83,7 @@ export const EnrollmentList: React.FC = () => {
 
     const students: Array<Student> = [];
     enrollments.forEach((info) => {
-        if (
-            students.findIndex((student) => student.id === info.student.id) ===
-            -1
-        ) {
+        if (students.findIndex((student) => student.id === info.student.id) === -1) {
             students.push(info.student);
         }
     });

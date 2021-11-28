@@ -65,11 +65,7 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
                         <Text>
                             {t("account.dateSubmitted", {
                                 ns: "common",
-                                date: convertToShortDateString(
-                                    submitDate,
-                                    locale.en,
-                                    true,
-                                ),
+                                date: convertToShortDateString(submitDate, locale.en, true),
                             })}
                         </Text>
                     </>

@@ -8,10 +8,7 @@ import { mutate } from "swr";
  * @param classId id of class to delete from
  * @returns deleted records
  */
-export async function deleteVolunteerRegistration(
-    volunteer: User,
-    classId: number,
-) {
+export async function deleteVolunteerRegistration(volunteer: User, classId: number) {
     const registrationData: VolunteerRegistrationInput = {
         classId,
         volunteerId: volunteer.id,

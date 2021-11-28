@@ -10,18 +10,13 @@ import { getClassInfoWithProgramId } from "@database/program-card-info";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
             const { id: programId, archived } = req.query;
 
             if (!programId) {
-                const classes = await getClasses(
-                    Boolean(JSON.parse(archived as string)),
-                );
+                const classes = await getClasses(Boolean(JSON.parse(archived as string)));
                 ResponseUtil.returnOK(res, classes);
             } else {
                 const programIdNumber = parseInt(programId as string, 10);
@@ -47,10 +42,7 @@ export default async function handle(
             } else {
                 const newClass = await createClass(classInput);
                 if (!newClass) {
-                    ResponseUtil.returnBadRequest(
-                        res,
-                        `Class could not be created`,
-                    );
+                    ResponseUtil.returnBadRequest(res, `Class could not be created`);
                     break;
                 }
                 ResponseUtil.returnOK(res, newClass);

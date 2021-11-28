@@ -7,10 +7,7 @@ import getParams from "services/aws/ssm";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const zoomLinkParamsStoreKeyName = "zoom-class-link";
 
     switch (req.method) {

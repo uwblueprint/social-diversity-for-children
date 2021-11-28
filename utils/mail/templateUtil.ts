@@ -26,11 +26,7 @@ export const classStartingSoonTemplate = (
     durationMinutes: number,
     language: locale = locale.en,
 ): string => {
-    const { start, end } = convertToShortDateRange(
-        startDate,
-        endDate,
-        language,
-    );
+    const { start, end } = convertToShortDateRange(startDate, endDate, language);
 
     return `
             <head>
@@ -70,10 +66,7 @@ export const classStartingSoonTemplate = (
                             >${name}</span
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
-                            >${weekdayToString(
-                                classWeekday,
-                                language,
-                            )} ${convertToShortTimeRange(
+                            >${weekdayToString(classWeekday, language)} ${convertToShortTimeRange(
         startTimeMinutes,
         durationMinutes,
     )}</span
@@ -85,9 +78,7 @@ export const classStartingSoonTemplate = (
                 </div>
                 <br></br>
                 <p>Use this link to join the class:</p>
-                <a href="${process.env.NEXTAUTH_URL}/class">${
-        process.env.NEXTAUTH_URL
-    }/class</a>
+                <a href="${process.env.NEXTAUTH_URL}/class">${process.env.NEXTAUTH_URL}/class</a>
                 <br></br>
                 <p>Regards, Social Diversity for Children</p>
             </body>
@@ -117,11 +108,7 @@ export const openSpotWaitlistTemplate = (
     durationMinutes: number,
     language: locale = locale.en,
 ): string => {
-    const { start, end } = convertToShortDateRange(
-        startDate,
-        endDate,
-        language,
-    );
+    const { start, end } = convertToShortDateRange(startDate, endDate, language);
 
     return `
             <head>
@@ -161,10 +148,7 @@ export const openSpotWaitlistTemplate = (
                             >${name}</span
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
-                            >${weekdayToString(
-                                classWeekday,
-                                language,
-                            )} ${convertToShortTimeRange(
+                            >${weekdayToString(classWeekday, language)} ${convertToShortTimeRange(
         startTimeMinutes,
         durationMinutes,
     )}</span
@@ -180,17 +164,13 @@ export const openSpotWaitlistTemplate = (
                     line-height: 24px;">Please note that registration is first come, first serve.</p>
                 <br></br>
                 <p>Use this link to register for the class:</p>
-                <a href="${
-                    process.env.NEXTAUTH_URL
-                }/program-details/${classId}">${
+                <a href="${process.env.NEXTAUTH_URL}/program-details/${classId}">${
         process.env.NEXTAUTH_URL
     }/program-details/${classId}</a>
                 <br></br>
                 <br></br>
                 <p>Use this link to remove yourself from the class waitlist:</p>
-                <a href="${process.env.NEXTAUTH_URL}/class">${
-        process.env.NEXTAUTH_URL
-    }/class</a>
+                <a href="${process.env.NEXTAUTH_URL}/class">${process.env.NEXTAUTH_URL}/class</a>
                 <br></br>
                 <br></br>
                 <p>Regards, Social Diversity for Children</p>

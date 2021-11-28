@@ -47,18 +47,14 @@ type LearningInfo = {
     otherTherapyDetails: JSX.Element | null;
     formButtonOnClick: () => void;
 };
-export const LearningInfoPage: React.FC<LearningPageProps> = ({
-    props,
-}): JSX.Element => {
+export const LearningInfoPage: React.FC<LearningPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
 
     return (
         <>
             <FormControl id="participant-have">
                 <Stack direction="column">
-                    <FormLabel>
-                        {t("signUp.participantHaveDifficulties")}
-                    </FormLabel>
+                    <FormLabel>{t("signUp.participantHaveDifficulties")}</FormLabel>
                     <CheckBoxField
                         value={props.hasLearningDifficulties}
                         name={t("difficulties.learning", { ns: "common" })}

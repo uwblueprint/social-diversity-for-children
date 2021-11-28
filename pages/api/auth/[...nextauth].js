@@ -60,8 +60,7 @@ export default NextAuth({
         },
         jwt: async (token, user) => {
             // If user exists, collect user id and assign to token
-            user ? ((token.id = user.id), (token.role = user.role)) : null,
-                null;
+            user ? ((token.id = user.id), (token.role = user.role)) : null, null;
 
             // Return altered token
             return Promise.resolve(token);

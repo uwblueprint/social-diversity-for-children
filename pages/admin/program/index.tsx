@@ -1,12 +1,4 @@
-import {
-    Box,
-    Text,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Grid,
-    GridItem,
-} from "@chakra-ui/react";
+import { Box, Text, InputGroup, InputLeftElement, Input, Grid, GridItem } from "@chakra-ui/react";
 import Wrapper from "@components/AdminWrapper";
 import React from "react";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -38,11 +30,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState("");
 
-    const {
-        programs: programCardInfos,
-        isLoading,
-        error,
-    } = usePrograms(router.locale as locale);
+    const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
 
     if (error) {
         return <AdminError cause="could not fetch programs" />;
@@ -90,21 +78,14 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                         {filteredCards.map((item, idx) => {
                             return (
                                 <GridItem key={idx}>
-                                    <BrowseProgramCard
-                                        cardInfo={item}
-                                        role={props.session.role}
-                                    />
+                                    <BrowseProgramCard cardInfo={item} role={props.session.role} />
                                 </GridItem>
                             );
                         })}
                     </Grid>
                 ) : (
                     <Box>
-                        <AdminEmptyState
-                            w="100%"
-                            h="250px"
-                            isLoading={isLoading}
-                        >
+                        <AdminEmptyState w="100%" h="250px" isLoading={isLoading}>
                             There are no programs available!
                         </AdminEmptyState>
                     </Box>
