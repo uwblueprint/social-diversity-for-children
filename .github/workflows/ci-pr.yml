@@ -41,24 +41,20 @@ jobs:
               run: yarn
 
             - name: Fetch target pr branch for diff
-              if: github.event_name == 'pull_request'
               run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
             - name: Linting modified files Prettier
-              if: github.event_name == 'pull_request'
               id: prettier-pr
-
               run: yarn lint:prettier-modified-files
               continue-on-error: true
 
             - name: Linting modified files ESlint
               id: eslint-pr
-              if: github.event_name == 'pull_request'
               run: yarn lint:eslint-modified-files
               continue-on-error: true
 
             - name: Create linting comment on error
-              if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure')
+              if: steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure'
               uses: actions/github-script@v5
               with:
                   script: |
