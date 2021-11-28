@@ -17,6 +17,7 @@ import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
 import { fetcherWithQuery } from "@utils/fetcher";
 import { Session } from "next-auth";
+import { errorToastOptions } from "@utils/toast/options";
 
 type VolunteerEnrollmentProps = {
     session: Session;
@@ -85,16 +86,12 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                         nextPage();
                     } else if (res.ok === false) {
                         router.push("/");
-                        toast({
-                            title: "Registration failed.",
-                            description:
+                        toast(
+                            errorToastOptions(
+                                "Registration failed.",
                                 "The class is not available for registration at this time.",
-                            status: "error",
-                            duration: 9000,
-                            isClosable: true,
-                            position: "top-right",
-                            variant: "left-accent",
-                        });
+                            ),
+                        );
                     }
                 });
             }}

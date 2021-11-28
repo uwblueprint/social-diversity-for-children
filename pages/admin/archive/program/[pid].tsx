@@ -26,6 +26,7 @@ import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
 import { ArchivedProgramViewInfoCard } from "@components/admin/ArchivedProgramViewInfoCard";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ArchiveProgramClassViewProps = {
     session: Session;
@@ -159,6 +160,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

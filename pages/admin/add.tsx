@@ -19,6 +19,7 @@ import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
 import { createAdminUser, createTeacherUser } from "@utils/createUser";
 import { isAdmin } from "@utils/session/authorization";
+import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
 import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
 import { getSession, signIn } from "next-auth/client";
@@ -73,25 +74,19 @@ export default function AddInternalUser(
                 email: teacherEmail,
                 redirect: false,
             });
-            toast({
-                title: "Teacher invited!",
-                description: `Invite has been sent to ${teacherEmail}.`,
-                status: "info",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                infoToastOptions(
+                    "Teacher invited!",
+                    `Invite has been sent to ${teacherEmail}.`,
+                ),
+            );
         } else {
-            toast({
-                title: "Teacher invitation failed.",
-                description: "Cannot invite existing users.",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                errorToastOptions(
+                    "Teacher invitation failed.",
+                    "Cannot invite existing users.",
+                ),
+            );
         }
     };
     const InviteEmailForAdmin = async () => {
@@ -105,25 +100,19 @@ export default function AddInternalUser(
                 email: adminEmail,
                 redirect: false,
             });
-            toast({
-                title: "Program admin invited!",
-                description: `Invite has been sent to ${adminEmail}.`,
-                status: "info",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                infoToastOptions(
+                    "Program admin invited!",
+                    `Invite has been sent to ${adminEmail}.`,
+                ),
+            );
         } else {
-            toast({
-                title: "Program admin invitation failed.",
-                description: "Cannot invite existing users.",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                infoToastOptions(
+                    "Program admin invitation failed.",
+                    "Cannot invite existing users.",
+                ),
+            );
         }
     };
 

@@ -28,6 +28,7 @@ import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { deleteClass } from "@utils/deleteClass";
 import { weekdayToString } from "@utils/enum/weekday";
+import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
 import { updateClassArchive } from "@utils/updateClassArchive";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -62,28 +63,22 @@ export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard
 
         const onUnarchive = async () => {
             await updateClassArchive(cardInfo.id, false);
-            toast({
-                title: "Class is active.",
-                description: `${cardInfo.name} is no longer archived.`,
-                status: "info",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                infoToastOptions(
+                    "Class is active.",
+                    `${cardInfo.name} is no longer archived.`,
+                ),
+            );
             router.push(`/admin/program/${cardInfo.programId}`);
         };
         const onDelete = async () => {
             await deleteClass(cardInfo.id);
-            toast({
-                title: "Class deleted.",
-                description: `${cardInfo.name} has been deleted.`,
-                status: "info",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                errorToastOptions(
+                    "Class deleted.",
+                    `${cardInfo.name} has been deleted.`,
+                ),
+            );
             mutateClasses();
         };
 

@@ -10,7 +10,7 @@ import {
 import Wrapper from "@components/AdminWrapper";
 import React from "react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { BrowseProgramCard } from "@components/BrowseProgramCard";
+import { BrowseProgramCard } from "@components/admin/BrowseProgramCard";
 import { locale } from "@prisma/client";
 import usePrograms from "@utils/hooks/usePrograms";
 import { useRouter } from "next/router";
@@ -64,49 +64,50 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     });
     return (
         <Wrapper session={props.session}>
-            <Box>
-                <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
 
-                <Box px="50px">
-                    <Text fontSize="16px">Browse Programs</Text>
-                    <InputGroup mt="25px">
-                        <InputLeftElement
-                            pointerEvents="none"
-                            children={<SearchIcon color="gray.300" />}
-                        />
-                        <Input
-                            pl={8}
-                            placeholder={"Search Programs"}
-                            onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                            }}
-                        />
-                    </InputGroup>
-                </Box>
+            <Box mx={8}>
+                <Text fontSize="16px">Browse Programs</Text>
+                <InputGroup mt="25px">
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<SearchIcon color="gray.300" />}
+                    />
+                    <Input
+                        pl={8}
+                        placeholder={"Search Programs"}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                        }}
+                    />
+                </InputGroup>
+            </Box>
 
-                <Box ml="50px" mt="25px">
-                    {filteredCards && filteredCards.length > 0 ? (
-                        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                            {filteredCards.map((item, idx) => {
-                                return (
-                                    <GridItem key={idx}>
-                                        <BrowseProgramCard cardInfo={item} />
-                                    </GridItem>
-                                );
-                            })}
-                        </Grid>
-                    ) : (
-                        <Box pr="50px">
-                            <AdminEmptyState
-                                w="100%"
-                                h="250px"
-                                isLoading={isLoading}
-                            >
-                                There are no programs available!
-                            </AdminEmptyState>
-                        </Box>
-                    )}
-                </Box>
+            <Box mx={8} mt="25px">
+                {filteredCards && filteredCards.length > 0 ? (
+                    <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                        {filteredCards.map((item, idx) => {
+                            return (
+                                <GridItem key={idx}>
+                                    <BrowseProgramCard
+                                        cardInfo={item}
+                                        role={props.session.role}
+                                    />
+                                </GridItem>
+                            );
+                        })}
+                    </Grid>
+                ) : (
+                    <Box pr={16}>
+                        <AdminEmptyState
+                            w="100%"
+                            h="250px"
+                            isLoading={isLoading}
+                        >
+                            There are no programs available!
+                        </AdminEmptyState>
+                    </Box>
+                )}
             </Box>
         </Wrapper>
     );
@@ -141,6 +142,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         props: {
+            session,
             ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };

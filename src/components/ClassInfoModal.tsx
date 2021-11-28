@@ -28,6 +28,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { locale, roles } from "@prisma/client";
 import { UseMeResponse } from "@utils/hooks/useMe";
+import { infoToastOptions } from "@utils/toast/options";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -171,16 +172,12 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                         me.parent,
                                         classInfo.id,
                                     );
-                                    toast({
-                                        title: "Waitlist record added!",
-                                        description:
+                                    toast(
+                                        infoToastOptions(
+                                            "Waitlist record added!",
                                             "You will receive an email when a spot opens up.",
-                                        status: "info",
-                                        duration: 9000,
-                                        isClosable: true,
-                                        position: "top-right",
-                                        variant: "left-accent",
-                                    });
+                                        ),
+                                    );
                                     onClose();
                                 }}
                             >

@@ -31,6 +31,7 @@ import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { AdminModal } from "./AdminModal";
 import { roles } from "@prisma/client";
+import { infoToastOptions } from "@utils/toast/options";
 
 export type ProgramViewInfoCard = {
     cardInfo: ProgramCardInfo;
@@ -65,29 +66,23 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
 
     const onArchive = () => {
         updateProgramArchive(cardInfo.id, true);
-        toast({
-            title: "Program archived.",
-            description: `${cardInfo.name} and its classes has been archived.`,
-            status: "info",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right",
-            variant: "left-accent",
-        });
+        toast(
+            infoToastOptions(
+                "Program archived.",
+                `${cardInfo.name} and its classes has been archived.`,
+            ),
+        );
         router.push("/admin");
     };
 
     const onDelete = () => {
         deleteProgram(cardInfo.id);
-        toast({
-            title: "Program deleted.",
-            description: `${cardInfo.name} has been deleted.`,
-            status: "info",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right",
-            variant: "left-accent",
-        });
+        toast(
+            infoToastOptions(
+                "Program deleted.",
+                `${cardInfo.name} has been deleted.`,
+            ),
+        );
         router.push("/admin");
     };
 

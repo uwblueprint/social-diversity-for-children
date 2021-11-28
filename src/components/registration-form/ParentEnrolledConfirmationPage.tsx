@@ -11,6 +11,7 @@ import { Stripe } from "services/stripe";
 import { useRouter } from "next/router";
 import { createStripeRefund } from "@utils/createStripeRefund";
 import { useTranslation } from "react-i18next";
+import { errorToastOptions } from "@utils/toast/options";
 
 type ParentEnrolledConfirmationPageProps = {
     student: Student;
@@ -49,16 +50,12 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                             ).id,
                         );
                         router.push("/");
-                        toast({
-                            title: "Registration failed.",
-                            description:
+                        toast(
+                            errorToastOptions(
+                                "Registration failed.",
                                 "The class is not available for registration at this time.",
-                            status: "error",
-                            duration: 9000,
-                            isClosable: true,
-                            position: "top-right",
-                            variant: "left-accent",
-                        });
+                            ),
+                        );
                     }
                 });
             }
