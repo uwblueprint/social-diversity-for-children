@@ -22,9 +22,7 @@ type HealthInfo = {
     setAllergies: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const HealthInfoPage: React.FC<HealthPageProps> = ({
-    props,
-}): JSX.Element => {
+export const HealthInfoPage: React.FC<HealthPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation("form");
 
     return (

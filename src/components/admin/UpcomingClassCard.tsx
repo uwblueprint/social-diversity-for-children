@@ -23,9 +23,7 @@ export type UpcomingClassCardProps = {
     cardInfo: ClassCardInfo;
 };
 
-export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({
-    cardInfo,
-}) => {
+export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({ cardInfo }) => {
     const router = useRouter();
 
     return (
@@ -41,11 +39,7 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({
         >
             <GridItem alignSelf="center">
                 <AspectRatio width="100%" ratio={1}>
-                    <Image
-                        src={cardInfo.image}
-                        fit="cover"
-                        alt={cardInfo.name}
-                    />
+                    <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
                 </AspectRatio>
             </GridItem>
             <GridItem colSpan={3}>
@@ -62,11 +56,7 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({
                         )}
                     </Flex>
                     <Flex>
-                        <Box
-                            as="span"
-                            color={colourTheme.colors.Gray}
-                            fontSize="sm"
-                        >
+                        <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
                             {weekdayToString(cardInfo.weekday, locale.en)}{" "}
                             {convertToShortTimeRange(
                                 cardInfo.startTimeMinutes,
@@ -77,19 +67,14 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({
                             {" with Teacher " + cardInfo.teacherName}
                         </Box>
                     </Flex>
-                    <Flex
-                        color={colourTheme.colors.Gray}
-                        fontSize="sm"
-                        align=""
-                    >
+                    <Flex color={colourTheme.colors.Gray} fontSize="sm" align="">
                         <Text>
                             {cardInfo.spaceTaken} participant
                             {cardInfo.spaceTaken > 1 ? "s" : ""} registered
                         </Text>
                         <Text ml={10}>
                             {cardInfo.volunteerSpaceTaken} volunteer
-                            {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""}{" "}
-                            registered
+                            {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""} registered
                         </Text>
                     </Flex>
                 </VStack>

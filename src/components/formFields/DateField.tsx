@@ -40,10 +40,7 @@ export const DateField: React.FC<Props> = ({
                         yearDropdownItemNumber={10}
                         scrollableYearDropdown
                         dateFormat="yyyy-MM-dd"
-                        selected={
-                            Date.parse(value) ||
-                            moment().subtract(15, "year").toDate()
-                        }
+                        selected={Date.parse(value) || moment().subtract(15, "year").toDate()}
                         onChange={(date) => setValue(date)}
                     />
                 </Box>

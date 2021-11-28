@@ -67,8 +67,7 @@ export default async function programTranslationsUpsert(
     data?: ProgramTranslation[],
 ): Promise<void> {
     for (const translation of data || programTranslations) {
-        const { programId, language, createdAt, updatedAt, ...rest } =
-            translation;
+        const { programId, language, createdAt, updatedAt, ...rest } = translation;
         await prisma.programTranslation
             .upsert({
                 where: {

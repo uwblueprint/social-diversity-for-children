@@ -22,9 +22,7 @@ type ParentInfo = {
     setParentRelationship: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const ParentInfoPage: React.FC<ParentPageProps> = ({
-    props,
-}): JSX.Element => {
+export const ParentInfoPage: React.FC<ParentPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation("form");
 
     return (

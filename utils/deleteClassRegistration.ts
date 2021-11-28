@@ -8,10 +8,7 @@ import { mutate } from "swr";
  * @param classId id of class to delete from
  * @returns list of deleted records
  */
-export async function deleteClassRegistrations(
-    students: Student[],
-    classId: number,
-) {
+export async function deleteClassRegistrations(students: Student[], classId: number) {
     return students.map((student) => deleteClassRegistration(student, classId));
 }
 
@@ -21,10 +18,7 @@ export async function deleteClassRegistrations(
  * @param classId id of class to delete from
  * @returns deleted records
  */
-export async function deleteClassRegistration(
-    student: Student,
-    classId: number,
-) {
+export async function deleteClassRegistration(student: Student, classId: number) {
     const registrationData: ParentRegistrationInput = {
         classId,
         studentId: student.id,

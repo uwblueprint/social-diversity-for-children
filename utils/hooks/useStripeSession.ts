@@ -14,9 +14,7 @@ export type UseStripeSessionResponse = {
  * @param  {string} id
  * @returns UseStripeSessionResponse
  */
-export default function useStripeSession(
-    sessionId: string,
-): UseStripeSessionResponse {
+export default function useStripeSession(sessionId: string): UseStripeSessionResponse {
     const { data, error } = useSWR(`/api/checkout/${sessionId}`, fetcher);
     return {
         stripeSession: data ? data.session : null,

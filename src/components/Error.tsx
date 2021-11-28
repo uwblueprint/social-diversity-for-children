@@ -23,8 +23,8 @@ export const Error: React.FC<ErrorProps> = ({ cause }) => {
                     Oh no! An Error has occurred.
                 </Heading>
                 <Text size="md" my={9}>
-                    Sorry, but looks like the page ran into an error: {cause}.
-                    Try refreshing the page or hit the button below.
+                    Sorry, but looks like the page ran into an error: {cause}. Try refreshing the
+                    page or hit the button below.
                 </Text>
                 <Button
                     color="white"

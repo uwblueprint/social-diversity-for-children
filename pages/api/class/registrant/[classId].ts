@@ -9,10 +9,7 @@ import { isInternal } from "@utils/session/authorization";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     // Obtain class id
     const { classId } = req.query;
     const session = await getSession({ req });
@@ -25,10 +22,7 @@ export default async function handle(
     //parse query parameters from string to number and validate that id is a number
     const id = parseInt(classId as string, 10);
     if (isNaN(id)) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "classId should be passed in as numbers",
-        );
+        return ResponseUtil.returnBadRequest(res, "classId should be passed in as numbers");
     }
 
     switch (req.method) {
@@ -37,10 +31,7 @@ export default async function handle(
             const classSection = await getClassRegistrants(id);
 
             if (!classSection) {
-                return ResponseUtil.returnNotFound(
-                    res,
-                    `Class with id ${classId} not found.`,
-                );
+                return ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             }
             ResponseUtil.returnOK(res, classSection);
             break;

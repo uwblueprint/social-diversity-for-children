@@ -22,9 +22,7 @@ type EmergInfo = {
     setEmergRelationship: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const EmergInfoPage: React.FC<EmergPageProps> = ({
-    props,
-}): JSX.Element => {
+export const EmergInfoPage: React.FC<EmergPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation("form");
 
     return (

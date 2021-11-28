@@ -12,14 +12,8 @@ export type UseFileUploadResponse = {
 /**
  * File upload presigned url hook to upload file
  */
-export default function useFileUpload(
-    path?: string,
-    file?: string,
-): UseFileUploadResponse {
-    const { data, error, mutate } = useSWR(
-        ["/api/file", path, file],
-        fetcherWithPathFile,
-    );
+export default function useFileUpload(path?: string, file?: string): UseFileUploadResponse {
+    const { data, error, mutate } = useSWR(["/api/file", path, file], fetcherWithPathFile);
     return {
         post: data ? data.data : null,
         isLoading: !error && !data,
