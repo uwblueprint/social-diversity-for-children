@@ -46,29 +46,15 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
         onOpen: onArchiveOpen,
         onClose: onArchiveClose,
     } = useDisclosure();
-    const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
-    } = useDisclosure();
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
     const onArchive = async () => {
         await updateProgramArchive(cardInfo.id, true);
-        toast(
-            infoToastOptions(
-                "Program archived.",
-                `${cardInfo.name} has been archived.`,
-            ),
-        );
+        toast(infoToastOptions("Program archived.", `${cardInfo.name} has been archived.`));
     };
     const onDelete = async () => {
         await deleteProgram(cardInfo.id);
-        toast(
-            infoToastOptions(
-                "Program deleted.",
-                `${cardInfo.name} has been deleted.`,
-            ),
-        );
+        toast(infoToastOptions("Program deleted.", `${cardInfo.name} has been deleted.`));
     };
 
     return (
@@ -107,21 +93,15 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                                 <MenuList>
                                     <MenuItem
                                         onClick={() =>
-                                            router.push(
-                                                `/admin/edit/program/${cardInfo.id}`,
-                                            )
+                                            router.push(`/admin/edit/program/${cardInfo.id}`)
                                         }
                                     >
                                         Edit
                                     </MenuItem>
                                     <MenuDivider />
-                                    <MenuItem onClick={onDeleteOpen}>
-                                        Delete
-                                    </MenuItem>
+                                    <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                     <MenuDivider />
-                                    <MenuItem onClick={onArchiveOpen}>
-                                        Archive
-                                    </MenuItem>
+                                    <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
                                 </MenuList>
                             </Menu>
                         )}

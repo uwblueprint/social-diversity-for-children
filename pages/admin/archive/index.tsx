@@ -37,9 +37,7 @@ type ArchiveBrowseProgramsProps = {
     session: Session;
 };
 
-export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (
-    props,
-) => {
+export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (props) => {
     const router = useRouter();
     const [searchProgramTerm, setSearchProgramTerm] = useState("");
     const [searchClassTerm, setSearchClassTerm] = useState("");
@@ -84,9 +82,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (
             classCard.name.toLowerCase().includes(term) ||
             classCard.description.toLowerCase().includes(term) ||
             classCard.teacherName.toLowerCase().includes(term) ||
-            weekdayToString(classCard.weekday, locale.en)
-                .toLowerCase()
-                .includes(term)
+            weekdayToString(classCard.weekday, locale.en).toLowerCase().includes(term)
         ) {
             return classCard;
         }
@@ -121,8 +117,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (
                         </Box>
 
                         <Box mt="25px">
-                            {filteredClassCards &&
-                            filteredClassCards.length > 0 ? (
+                            {filteredClassCards && filteredClassCards.length > 0 ? (
                                 <Grid templateColumns="repeat(2, 1fr)" gap={4}>
                                     {filteredClassCards.map((item, idx) => {
                                         return (
@@ -131,11 +126,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (
                                                     cardInfo={item}
                                                     role={props.session.role}
                                                     mutateClasses={() =>
-                                                        mutate([
-                                                            "/api/class",
-                                                            true,
-                                                            "archived",
-                                                        ])
+                                                        mutate(["/api/class", true, "archived"])
                                                     }
                                                 />
                                             </GridItem>
@@ -173,8 +164,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (
                         </Box>
 
                         <Box mt="25px">
-                            {filteredProgramCards &&
-                            filteredProgramCards.length > 0 ? (
+                            {filteredProgramCards && filteredProgramCards.length > 0 ? (
                                 <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                                     {filteredProgramCards.map((item, idx) => {
                                         return (

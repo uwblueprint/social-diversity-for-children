@@ -6,10 +6,7 @@ import { UseToastOptions } from "@chakra-ui/react";
  * @param  {string} description desc of toast
  * @returns UseToastOptions
  */
-export function infoToastOptions(
-    title: string,
-    description: string,
-): UseToastOptions {
+export function infoToastOptions(title: string, description: string): UseToastOptions {
     return simpleToastOptions(title, description, "info");
 }
 
@@ -19,10 +16,7 @@ export function infoToastOptions(
  * @param  {string} description desc of toast
  * @returns UseToastOptions
  */
-export function errorToastOptions(
-    title: string,
-    description: string,
-): UseToastOptions {
+export function errorToastOptions(title: string, description: string): UseToastOptions {
     return simpleToastOptions(title, description, "error");
 }
 

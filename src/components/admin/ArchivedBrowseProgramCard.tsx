@@ -33,140 +33,125 @@ type ArchivedBrowseProgramCardProps = {
     role?: roles;
 };
 
-export const ArchivedBrowseProgramCard: React.FC<ArchivedBrowseProgramCardProps> =
-    ({ cardInfo, role }): JSX.Element => {
-        const { t } = useTranslation("common");
-        const router = useRouter();
-        const toast = useToast();
+export const ArchivedBrowseProgramCard: React.FC<ArchivedBrowseProgramCardProps> = ({
+    cardInfo,
+    role,
+}): JSX.Element => {
+    const { t } = useTranslation("common");
+    const router = useRouter();
+    const toast = useToast();
 
-        const {
-            isOpen: isArchiveOpen,
-            onOpen: onArchiveOpen,
-            onClose: onArchiveClose,
-        } = useDisclosure();
-        const {
-            isOpen: isDeleteOpen,
-            onOpen: onDeleteOpen,
-            onClose: onDeleteClose,
-        } = useDisclosure();
+    const {
+        isOpen: isArchiveOpen,
+        onOpen: onArchiveOpen,
+        onClose: onArchiveClose,
+    } = useDisclosure();
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
-        const onArchive = async () => {
-            await updateProgramArchive(cardInfo.id, false);
-            toast(
-                infoToastOptions(
-                    "Program active.",
-                    `${cardInfo.name} and its classes are no longer archived.`,
-                ),
-            );
-        };
-        const onDelete = async () => {
-            await deleteProgram(cardInfo.id);
-            toast(
-                infoToastOptions(
-                    "Program deleted.",
-                    `${cardInfo.name} has been deleted.`,
-                ),
-            );
-        };
-
-        return (
-            <>
-                <Box
-                    borderWidth="1px"
-                    width="100%"
-                    _hover={{
-                        borderColor: colourTheme.colors.Blue,
-                        borderWidth: 1,
-                    }}
-                >
-                    <Box p="25px">
-                        <HStack>
-                            <Link
-                                params={{ cardInfo: cardInfo }}
-                                href={`/admin/archive/program/${cardInfo.id}`}
-                            >
-                                <Box mt="1" fontWeight="600" fontSize="18px">
-                                    {cardInfo.name}
-                                </Box>
-                            </Link>
-                            <Spacer />
-                            {role !== roles.PROGRAM_ADMIN ? null : (
-                                <Menu>
-                                    <MenuButton
-                                        px={4}
-                                        py={2}
-                                        transition="all 0.2s"
-                                        borderRadius="full"
-                                        borderWidth="1px"
-                                        as={IconButton}
-                                        aria-label="Options"
-                                        icon={<IoEllipsisVertical />}
-                                    />
-                                    <MenuList>
-                                        <MenuItem
-                                            onClick={() =>
-                                                router.push(
-                                                    `/admin/edit/program/${cardInfo.id}`,
-                                                )
-                                            }
-                                        >
-                                            Edit
-                                        </MenuItem>
-                                        <MenuDivider />
-                                        <MenuItem onClick={onDeleteOpen}>
-                                            Delete
-                                        </MenuItem>
-                                        <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>
-                                            Unarchive
-                                        </MenuItem>
-                                    </MenuList>
-                                </Menu>
-                            )}
-                        </HStack>
-                        <Box as="span" color="gray.600" fontSize="sm">
-                            {t("time.range", {
-                                ...convertToShortDateRange(
-                                    cardInfo.startDate,
-                                    cardInfo.endDate,
-                                    router.locale as locale,
-                                ),
-                            })}
-                        </Box>
-                        <Tooltip label={cardInfo.description} hasArrow>
-                            <Box
-                                whiteSpace="pre-wrap"
-                                noOfLines={2}
-                                overflow="hidden"
-                                height={9}
-                                mt="2"
-                                fontSize="12px"
-                            >
-                                {cardInfo.description}
-                            </Box>
-                        </Tooltip>
-                        <Box mt={6}>
-                            <AdminBadge>{cardInfo.tag}</AdminBadge>
-                            <AdminBadge ml={2}>
-                                {cardInfo.onlineFormat}
-                            </AdminBadge>
-                        </Box>
-                    </Box>
-                </Box>
-                <AdminModal
-                    isOpen={isArchiveOpen}
-                    onClose={onArchiveClose}
-                    onProceed={onArchive}
-                    header={`Are you sure you want to unarchive ${cardInfo.name} and its classes?`}
-                    body="You can always archive programs in the Programs page."
-                />
-                <AdminModal
-                    isOpen={isDeleteOpen}
-                    onClose={onDeleteClose}
-                    onProceed={onDelete}
-                    header={`Are you sure you want to delete ${cardInfo.name} and its classes?`}
-                    body="WARNING: You cannot undo this action."
-                />
-            </>
+    const onArchive = async () => {
+        await updateProgramArchive(cardInfo.id, false);
+        toast(
+            infoToastOptions(
+                "Program active.",
+                `${cardInfo.name} and its classes are no longer archived.`,
+            ),
         );
     };
+    const onDelete = async () => {
+        await deleteProgram(cardInfo.id);
+        toast(infoToastOptions("Program deleted.", `${cardInfo.name} has been deleted.`));
+    };
+
+    return (
+        <>
+            <Box
+                borderWidth="1px"
+                width="100%"
+                _hover={{
+                    borderColor: colourTheme.colors.Blue,
+                    borderWidth: 1,
+                }}
+            >
+                <Box p="25px">
+                    <HStack>
+                        <Link
+                            params={{ cardInfo: cardInfo }}
+                            href={`/admin/archive/program/${cardInfo.id}`}
+                        >
+                            <Box mt="1" fontWeight="600" fontSize="18px">
+                                {cardInfo.name}
+                            </Box>
+                        </Link>
+                        <Spacer />
+                        {role !== roles.PROGRAM_ADMIN ? null : (
+                            <Menu>
+                                <MenuButton
+                                    px={4}
+                                    py={2}
+                                    transition="all 0.2s"
+                                    borderRadius="full"
+                                    borderWidth="1px"
+                                    as={IconButton}
+                                    aria-label="Options"
+                                    icon={<IoEllipsisVertical />}
+                                />
+                                <MenuList>
+                                    <MenuItem
+                                        onClick={() =>
+                                            router.push(`/admin/edit/program/${cardInfo.id}`)
+                                        }
+                                    >
+                                        Edit
+                                    </MenuItem>
+                                    <MenuDivider />
+                                    <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
+                                    <MenuDivider />
+                                    <MenuItem onClick={onArchiveOpen}>Unarchive</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        )}
+                    </HStack>
+                    <Box as="span" color="gray.600" fontSize="sm">
+                        {t("time.range", {
+                            ...convertToShortDateRange(
+                                cardInfo.startDate,
+                                cardInfo.endDate,
+                                router.locale as locale,
+                            ),
+                        })}
+                    </Box>
+                    <Tooltip label={cardInfo.description} hasArrow>
+                        <Box
+                            whiteSpace="pre-wrap"
+                            noOfLines={2}
+                            overflow="hidden"
+                            height={9}
+                            mt="2"
+                            fontSize="12px"
+                        >
+                            {cardInfo.description}
+                        </Box>
+                    </Tooltip>
+                    <Box mt={6}>
+                        <AdminBadge>{cardInfo.tag}</AdminBadge>
+                        <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
+                    </Box>
+                </Box>
+            </Box>
+            <AdminModal
+                isOpen={isArchiveOpen}
+                onClose={onArchiveClose}
+                onProceed={onArchive}
+                header={`Are you sure you want to unarchive ${cardInfo.name} and its classes?`}
+                body="You can always archive programs in the Programs page."
+            />
+            <AdminModal
+                isOpen={isDeleteOpen}
+                onClose={onDeleteClose}
+                onProceed={onDelete}
+                header={`Are you sure you want to delete ${cardInfo.name} and its classes?`}
+                body="WARNING: You cannot undo this action."
+            />
+        </>
+    );
+};

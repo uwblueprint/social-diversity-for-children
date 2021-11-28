@@ -70,9 +70,7 @@ export default function ArchivedProgramClassView({
             classCard.name.toLowerCase().includes(term) ||
             classCard.borderAge.toString().includes(term) ||
             classCard.teacherName.toLowerCase().includes(term) ||
-            weekdayToString(classCard.weekday, locale.en)
-                .toLowerCase()
-                .includes(term)
+            weekdayToString(classCard.weekday, locale.en).toLowerCase().includes(term)
         ) {
             return classCard;
         }
@@ -84,9 +82,7 @@ export default function ArchivedProgramClassView({
             <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/program">
-                            Browse Programs
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/archive">Browse Archived</BreadcrumbLink>
                     </BreadcrumbItem>
 
                     <BreadcrumbItem>
@@ -95,10 +91,7 @@ export default function ArchivedProgramClassView({
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
-                <ArchivedProgramViewInfoCard
-                    cardInfo={program}
-                    role={session.role}
-                />
+                <ArchivedProgramViewInfoCard cardInfo={program} role={session.role} />
                 <InputGroup mt="25px">
                     <InputLeftElement
                         pointerEvents="none"

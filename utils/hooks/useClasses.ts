@@ -19,17 +19,12 @@ export type UseClassesResponse = {
  * @param {boolean} isArchived - whether to search for archived classes
  * @returns UseClassesByProgramResponse
  */
-export default function useClasses(
-    language: locale,
-    isArchived = false,
-): UseClassesResponse {
+export default function useClasses(language: locale, isArchived = false): UseClassesResponse {
     const { data, error, mutate } = useSWR(
         ["/api/class", isArchived, "archived"],
         fetcherWithQuery,
     );
-    const classCards = data
-        ? CardInfoUtil.getClassCardInfos(data.data, language)
-        : [];
+    const classCards = data ? CardInfoUtil.getClassCardInfos(data.data, language) : [];
     return {
         classCards,
         isLoading: !error && !data,
