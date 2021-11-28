@@ -1,17 +1,13 @@
-name: ci
+name: ci-pr
 
 on:
-    push:
-        branches:
-            - main
-            - staging
     pull_request:
         branches:
             - main
             - staging
 
 jobs:
-    ci:
+    ci-pr:
         runs-on: ${{ matrix.os }}
 
         strategy:
@@ -44,32 +40,24 @@ jobs:
             - name: Install dependencies
               run: yarn
 
-            - name: Linting all Prettier on push
-              if: github.event_name != 'pull_request'
-              run: yarn lint:prettier
-
-            - name: Linting all ESlint on push
-              if: github.event_name != 'pull_request'
-              run: yarn lint:eslint
-
-            - name: PR - Fetch target pr branch for diff
+            - name: Fetch target pr branch for diff
               if: github.event_name == 'pull_request'
               run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
-            - name: PR - Linting modified files Prettier on pull request
+            - name: Linting modified files Prettier
               if: github.event_name == 'pull_request'
               id: prettier-pr
 
               run: yarn lint:prettier-modified-files
               continue-on-error: true
 
-            - name: PR - Linting modified files ESlint on pull request
+            - name: Linting modified files ESlint
               id: eslint-pr
               if: github.event_name == 'pull_request'
               run: yarn lint:eslint-modified-files
               continue-on-error: true
 
-            - name: PR - Create linting comment on error
+            - name: Create linting comment on error
               if: github.event_name == 'pull_request' && (steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure')
               uses: actions/github-script@v5
               with:
