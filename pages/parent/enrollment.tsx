@@ -119,6 +119,14 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
         router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if there are no children, this should be updated to a toast in a future sprint
     }
 
+    // if no children are elible for program, parent will be redirected back
+    const checkEligible = studentEligible.includes(true);
+
+    if (!checkEligible) {
+        router.back();
+        return <CommonLoading />;
+    }
+
     const pageElements = [
         <SelectChildForClass
             className={className}
