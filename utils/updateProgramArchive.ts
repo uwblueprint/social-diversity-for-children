@@ -18,8 +18,10 @@ export async function updateProgramArchive(
     const response = await fetch(`/api/program/archive/${id}`, request);
 
     mutate("/api/class/upcoming");
-    mutate("/api/class");
-    mutate("/api/program");
+    mutate(["/api/program/", false, "archived"]);
+    mutate(["/api/program/", true, "archived"]);
+    mutate(["/api/class", true, "archived"]);
+    mutate(["/api/class", false, "archived"]);
 
     return response;
 }

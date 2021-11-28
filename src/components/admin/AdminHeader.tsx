@@ -51,7 +51,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 }) => {
     return (
         <>
-            <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
+            <Box bg={"transparent"} px={8} pt={"20px"} mx={"auto"}>
                 <Flex>
                     <HStack spacing={8}>
                         <Text

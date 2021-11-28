@@ -17,6 +17,7 @@ export type UseProgramResponse = {
  * Programs hook to get all programs in the platform
  * @param  {number} id id of class
  * @param  {locale} language locale used
+ * @param  {boolean} isArchived to get archived items instead
  * @returns UseProgramsResponse
  */
 export default function useProgram(

@@ -27,6 +27,7 @@ import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
 import { ArchivedProgramViewInfoCard } from "@components/admin/ArchivedProgramViewInfoCard";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type ArchiveProgramClassViewProps = {
     session: Session;
@@ -79,7 +80,8 @@ export default function ArchivedProgramClassView({
 
     return (
         <Wrapper session={session}>
-            <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
+            <AdminHeader>Archive</AdminHeader>
+            <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/program">

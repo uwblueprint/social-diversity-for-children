@@ -69,12 +69,13 @@ export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard
                     `${cardInfo.name} is no longer archived.`,
                 ),
             );
-            router.push(`/admin/program/${cardInfo.programId}`);
+            router.push("/admin/archive");
+            mutateClasses();
         };
         const onDelete = async () => {
             await deleteClass(cardInfo.id);
             toast(
-                errorToastOptions(
+                infoToastOptions(
                     "Class deleted.",
                     `${cardInfo.name} has been deleted.`,
                 ),

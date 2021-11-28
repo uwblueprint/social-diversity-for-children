@@ -14,15 +14,16 @@ import { BrowseProgramCard } from "@components/admin/BrowseProgramCard";
 import { locale } from "@prisma/client";
 import usePrograms from "@utils/hooks/usePrograms";
 import { useRouter } from "next/router";
-import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { useState } from "react";
-import { roles } from ".prisma/client";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import { Session } from "next-auth";
+import { AdminLoading } from "@components/AdminLoading";
+import { AdminError } from "@components/AdminError";
+import { isInternal } from "@utils/session/authorization";
 
 type BrowseProgramsProps = {
     session: Session;
@@ -43,10 +44,10 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
         error,
     } = usePrograms(router.locale as locale);
 
-    if (isLoading) {
-        return <Loading />;
-    } else if (error) {
-        return <Box>An Error has occurred</Box>;
+    if (error) {
+        return <AdminError cause="could not fetch programs" />;
+    } else if (isLoading) {
+        return <AdminLoading />;
     }
 
     const filteredCards = programCardInfos.filter((prog) => {
@@ -98,7 +99,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                         })}
                     </Grid>
                 ) : (
-                    <Box pr={16}>
+                    <Box>
                         <AdminEmptyState
                             w="100%"
                             h="250px"
@@ -128,10 +129,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",

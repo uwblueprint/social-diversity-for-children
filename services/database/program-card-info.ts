@@ -36,12 +36,13 @@ async function getClassInfoWithProgramId(id: string, isArchived: boolean) {
 
 /**
  * Get every program's card info
+ * @param {boolean} isArchived - whether to search for archived programs
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function getProgramCardInfos() {
+async function getProgramCardInfos(isArchived: boolean) {
     const findResult = await prisma.program.findMany({
         where: {
-            isArchived: false,
+            isArchived: isArchived,
         },
         include: {
             programTranslation: true,

@@ -66,8 +66,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                 `${cardInfo.name} has been archived.`,
             ),
         );
-        // TODO: change to /admin/program/${cardInfo.programId}
-        router.push("/admin");
+        router.push(`/admin/program/${cardInfo.programId}`);
     };
     const onDelete = () => {
         deleteClass(cardInfo.id);
@@ -77,8 +76,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
                 `${cardInfo.name} has been deleted.`,
             ),
         );
-        // TODO: change to /admin/program/${cardInfo.programId}
-        router.push("/admin");
+        router.push(`/admin/program/${cardInfo.programId}`);
     };
 
     return (

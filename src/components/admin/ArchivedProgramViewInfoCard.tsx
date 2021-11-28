@@ -66,11 +66,10 @@ export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> 
             toast(
                 infoToastOptions(
                     "Program active.",
-                    `${cardInfo.name} and its classes is no longer archived.`,
+                    `${cardInfo.name} and its classes are no longer archived.`,
                 ),
             );
-            // TODO: on unarchive, we should go to the overall program archive /admin/archive
-            router.push("/admin");
+            router.push("/admin/archive");
         };
 
         const onDelete = () => {
@@ -81,8 +80,7 @@ export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> 
                     `${cardInfo.name} and its classes has been deleted.`,
                 ),
             );
-            // TODO: on unarchive, we should go to the overall program archive /admin/archive
-            router.push("/admin");
+            router.push("/admin/archive");
         };
 
         return (
@@ -179,7 +177,7 @@ export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> 
                     onClose={onUnarchiveClose}
                     onProceed={onUnarchive}
                     header="Are you sure you want to unarchive this program and its classes?"
-                    body="You can always archive programs and classes in the Programs page."
+                    body="You can always archive programs in the Programs page."
                 />
                 <AdminModal
                     isOpen={isDeleteOpen}

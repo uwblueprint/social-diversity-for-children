@@ -16,8 +16,10 @@ export async function deleteProgram(programId: number): Promise<any> {
     const deletedProgram = await response.json();
 
     mutate("/api/class/upcoming");
-    mutate("/api/class");
-    mutate("/api/program");
+    mutate(["/api/program/", false, "archived"]);
+    mutate(["/api/program/", true, "archived"]);
+    mutate(["/api/class", true, "archived"]);
+    mutate(["/api/class", false, "archived"]);
 
     return deletedProgram;
 }

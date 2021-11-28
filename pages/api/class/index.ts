@@ -19,7 +19,9 @@ export default async function handle(
             const { id: programId, archived } = req.query;
 
             if (!programId) {
-                const classes = await getClasses();
+                const classes = await getClasses(
+                    Boolean(JSON.parse(archived as string)),
+                );
                 ResponseUtil.returnOK(res, classes);
             } else {
                 const programIdNumber = parseInt(programId as string, 10);

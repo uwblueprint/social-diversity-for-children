@@ -72,7 +72,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                 `${cardInfo.name} and its classes has been archived.`,
             ),
         );
-        router.push("/admin");
+        router.push("/admin/program");
     };
 
     const onDelete = () => {
@@ -83,7 +83,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                 `${cardInfo.name} has been deleted.`,
             ),
         );
-        router.push("/admin");
+        router.push("/admin/program");
     };
 
     return (

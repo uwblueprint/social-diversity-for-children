@@ -81,7 +81,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                     borderWidth: 1,
                 }}
             >
-                <Box height="250px" p="25px">
+                <Box p="25px">
                     <HStack>
                         <Link
                             params={{ cardInfo: cardInfo }}
