@@ -48,8 +48,8 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
                     router.push("/");
                     toast(
                         errorToastOptions(
-                            "Registration failed.",
-                            "The class is not available for registration at this time.",
+                            t("toast.registrationFailed", { ns: "common" }),
+                            t("toast.registrationFailedDesc", { ns: "common" }),
                         ),
                     );
                 }
