@@ -54,9 +54,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                         <Box w={!isMobileLayout ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
-                                <Text fontSize={{ base: "lg", lg: "2xl" }}>
-                                    {desc1}
-                                </Text>
+                                <Text fontSize={{ base: "lg", lg: "2xl" }}>{desc1}</Text>
                                 <Text>{text1}</Text>
                                 {session ? (
                                     <span />
@@ -64,13 +62,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor={
-                                                colourTheme.colors.Blue
-                                            }
+                                            backgroundColor={colourTheme.colors.Blue}
                                             _hover={{
                                                 backgroundColor:
-                                                    colourTheme.colors
-                                                        .LightBlue,
+                                                    colourTheme.colors.LightBlue,
                                             }}
                                             width={{ base: "100%", md: "50%" }}
                                             borderRadius="6px"
@@ -98,9 +93,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                         <Box w={!isMobileLayout ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
-                                <Text fontSize={{ base: "lg", lg: "2xl" }}>
-                                    {desc1}
-                                </Text>
+                                <Text fontSize={{ base: "lg", lg: "2xl" }}>{desc1}</Text>
                                 <Text>{text2}</Text>
                                 {session ? (
                                     <span />
@@ -108,13 +101,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor={
-                                                colourTheme.colors.Blue
-                                            }
+                                            backgroundColor={colourTheme.colors.Blue}
                                             _hover={{
                                                 backgroundColor:
-                                                    colourTheme.colors
-                                                        .LightBlue,
+                                                    colourTheme.colors.LightBlue,
                                             }}
                                             width="50%"
                                             borderRadius="6px"

@@ -52,9 +52,7 @@ function validatePreferredLanguage(userLanguage) {
 function getUserValidationErrors(user: UserInput): Array<string> {
     // validate base user fields
     const validationErrors = [];
-    if (
-        !validator.isAlphanumeric(user.firstName, undefined, { ignore: " -" })
-    ) {
+    if (!validator.isAlphanumeric(user.firstName, undefined, { ignore: " -" })) {
         validationErrors.push("User first name is not alphanumeric");
     }
     if (!validator.isAlphanumeric(user.lastName, undefined, { ignore: " -" })) {
@@ -90,12 +88,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
             ) {
                 validationErrors.push("Child last name is not alphanumeric");
             }
-            if (
-                !validator.isPostalCode(
-                    roleData.createStudentInput.postalCode,
-                    "CA",
-                )
-            ) {
+            if (!validator.isPostalCode(roleData.createStudentInput.postalCode, "CA")) {
                 validationErrors.push(
                     `Invalid postal code provided: ${roleData.createStudentInput.postalCode}`,
                 );
@@ -105,11 +98,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                     `Invalid province provided: ${roleData.createStudentInput.province}`,
                 );
             }
-            if (
-                !validator.isMobilePhone(
-                    roleData.createStudentInput.emergNumber,
-                )
-            ) {
+            if (!validator.isMobilePhone(roleData.createStudentInput.emergNumber)) {
                 validationErrors.push(
                     `Invalid emergency contact number provided: ${roleData.createStudentInput.emergNumber}`,
                 );
@@ -123,9 +112,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                     },
                 )
             ) {
-                validationErrors.push(
-                    "Emergency contact first name is not alphanumeric",
-                );
+                validationErrors.push("Emergency contact first name is not alphanumeric");
             }
             if (
                 !validator.isAlphanumeric(
@@ -136,9 +123,7 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                     },
                 )
             ) {
-                validationErrors.push(
-                    "Emergency contact last name is not alphanumeric",
-                );
+                validationErrors.push("Emergency contact last name is not alphanumeric");
             }
         }
         if (!validator.isMobilePhone(roleData.phoneNumber)) {
@@ -157,26 +142,16 @@ function getUserValidationErrors(user: UserInput): Array<string> {
         // pass - since teacher role is not currently supported
     } else if (user.role === roles.VOLUNTEER) {
         const roleData = user.roleData as VolunteerInput;
-        if (
-            roleData.phoneNumber &&
-            !validator.isMobilePhone(roleData.phoneNumber)
-        ) {
+        if (roleData.phoneNumber && !validator.isMobilePhone(roleData.phoneNumber)) {
             validationErrors.push(
                 `Invalid phone number provided: ${roleData.phoneNumber}`,
             );
         }
-        if (
-            roleData.postalCode &&
-            !validator.isPostalCode(roleData.postalCode, "CA")
-        ) {
-            validationErrors.push(
-                `Invalid postal code provided: ${roleData.postalCode}`,
-            );
+        if (roleData.postalCode && !validator.isPostalCode(roleData.postalCode, "CA")) {
+            validationErrors.push(`Invalid postal code provided: ${roleData.postalCode}`);
         }
         if (roleData.province && !validateProvince(roleData.province)) {
-            validationErrors.push(
-                `Invalid province provided: ${roleData.province}`,
-            );
+            validationErrors.push(`Invalid province provided: ${roleData.province}`);
         }
         if (
             roleData.preferredLanguage &&

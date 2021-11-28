@@ -29,9 +29,7 @@ export default async function handle(
                         "programId should be passed in as numbers",
                     );
                 }
-                const classes = await getClassInfoWithProgramId(
-                    programId as string,
-                );
+                const classes = await getClassInfoWithProgramId(programId as string);
                 ResponseUtil.returnOK(res, classes);
             }
             break;
@@ -44,10 +42,7 @@ export default async function handle(
             } else {
                 const newClass = await createClass(classInput);
                 if (!newClass) {
-                    ResponseUtil.returnBadRequest(
-                        res,
-                        `Class could not be created`,
-                    );
+                    ResponseUtil.returnBadRequest(res, `Class could not be created`);
                     break;
                 }
                 ResponseUtil.returnOK(res, newClass);

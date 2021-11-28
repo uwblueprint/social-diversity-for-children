@@ -68,8 +68,7 @@ export default async function classTranslationsUpsert(
     data?: ClassTranslation[],
 ): Promise<void> {
     for (const translation of data || classTranslations) {
-        const { classId, language, createdAt, updatedAt, ...rest } =
-            translation;
+        const { classId, language, createdAt, updatedAt, ...rest } = translation;
         await prisma.classTranslation
             .upsert({
                 where: {

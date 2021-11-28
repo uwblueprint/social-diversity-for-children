@@ -34,9 +34,7 @@ type AddInternalUserProps = {
 /**
  * Internal page for admins to add/invite teachers via email
  */
-export default function AddInternalUser(
-    props: AddInternalUserProps,
-): JSX.Element {
+export default function AddInternalUser(props: AddInternalUserProps): JSX.Element {
     const [teacherFirstName, setTeacherFirstName] = useState("");
     const [teacherLastName, setTeacherLastName] = useState("");
     const [teacherEmail, setTeacherEmail] = useState("");
@@ -95,11 +93,7 @@ export default function AddInternalUser(
         }
     };
     const InviteEmailForAdmin = async () => {
-        const res = await createAdminUser(
-            adminEmail,
-            adminFirstName,
-            adminLastName,
-        );
+        const res = await createAdminUser(adminEmail, adminFirstName, adminLastName);
         if (res.ok) {
             signIn("email", {
                 email: adminEmail,
@@ -261,11 +255,7 @@ const InviteForm = ({
             <Box position="absolute" bottom={12}>
                 <Button
                     disabled={!valid}
-                    bg={
-                        valid
-                            ? colourTheme.colors.Blue
-                            : colourTheme.colors.DarkGray
-                    }
+                    bg={valid ? colourTheme.colors.Blue : colourTheme.colors.DarkGray}
                     color="brand.200"
                     px={16}
                     fontSize="12px"
@@ -285,8 +275,8 @@ const InviteForm = ({
                     Invite
                 </Button>
                 <Text fontWeight="400" fontSize="14px" mt={6} color="brand.300">
-                    Invitee will be sent a magic link or they can choose to
-                    login with the email on a later date.
+                    Invitee will be sent a magic link or they can choose to login with the
+                    email on a later date.
                 </Text>
             </Box>
         </Box>

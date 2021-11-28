@@ -23,26 +23,16 @@ export default function Verify(): JSX.Element {
                         </Box>
                     </Center>
                     <Center>
-                        <Text
-                            fontWeight="700"
-                            fontSize="24px"
-                            align="center"
-                            mt="10px"
-                        >
+                        <Text fontWeight="700" fontSize="24px" align="center" mt="10px">
                             A verification email has been sent.
                             <br></br>
                             Check your email!
                         </Text>
                     </Center>
                     <Center>
-                        <Text
-                            fontWeight="400"
-                            fontSize="16px"
-                            align="center"
-                            mt="40px"
-                        >
-                            To confirm your email address, click on the link in
-                            the email we sent to{" "}
+                        <Text fontWeight="400" fontSize="16px" align="center" mt="40px">
+                            To confirm your email address, click on the link in the email
+                            we sent to{" "}
                             <ChakraLink
                                 textDecoration={"underline"}
                                 href={`mailto:${localStorageEmail}`}

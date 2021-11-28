@@ -138,9 +138,9 @@ export default function UserView(props: UserViewProps): JSX.Element {
                             <Button
                                 colorScheme="red"
                                 onClick={async () => {
-                                    const res = await deleteUser(
-                                        revokeUserId,
-                                    ).finally(onClose);
+                                    const res = await deleteUser(revokeUserId).finally(
+                                        onClose,
+                                    );
                                     if (res.ok) {
                                         toast({
                                             title: "Internal user has been revoked.",

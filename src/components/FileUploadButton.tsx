@@ -37,12 +37,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
                 >
                     {children}
                 </Button>
-                <Input
-                    ref={fileInput}
-                    onInput={onFileInput}
-                    type="file"
-                    hidden
-                />
+                <Input ref={fileInput} onInput={onFileInput} type="file" hidden />
             </Center>
         </FormControl>
     );

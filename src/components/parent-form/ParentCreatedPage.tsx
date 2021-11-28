@@ -41,8 +41,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
     const { t } = useTranslation(["form", "common"]);
 
     const progressBarIncrement = Math.ceil(100 / totalPages);
-    const getProgressBarValue = (pageNum) =>
-        progressBarIncrement * (pageNum + 1);
+    const getProgressBarValue = (pageNum) => progressBarIncrement * (pageNum + 1);
 
     const formPageHeaders = [
         t("account.participantInformation", { ns: "common" }),
@@ -58,10 +57,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
             {pageNum < totalPages ? (
                 <Center>
                     <Box w={912}>
-                        <Flex
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
+                        <Flex alignItems={"center"} justifyContent={"space-between"}>
                             <BackButton
                                 onClick={
                                     pageNum > 0
@@ -89,9 +85,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                 return (
                                     <Box
                                         key={idx}
-                                        display={
-                                            pageNum === idx ? null : "none"
-                                        }
+                                        display={pageNum === idx ? null : "none"}
                                     >
                                         {formPage}
                                     </Box>
@@ -117,10 +111,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">
-                            <ChakraLink
-                                _hover={{ textDecoration: "none" }}
-                                _focus={{}}
-                            >
+                            <ChakraLink _hover={{ textDecoration: "none" }} _focus={{}}>
                                 <Button
                                     color={"white"}
                                     bg={"#0C53A0"}

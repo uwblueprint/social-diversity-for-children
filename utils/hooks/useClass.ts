@@ -16,10 +16,7 @@ export type UseClassResponse = {
  * @param  {locale} language language of class translation to get
  * @returns UseClassResponse
  */
-export default function useClass(
-    id: string,
-    language: locale,
-): UseClassResponse {
+export default function useClass(id: string, language: locale): UseClassResponse {
     const { data, error } = useSWR(`/api/class/${id}`, fetcher);
     const classCard = data?.data
         ? CardInfoUtil.getClassCardInfo(data.data, language)

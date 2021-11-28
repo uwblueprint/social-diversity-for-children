@@ -15,9 +15,7 @@ import { useTranslation } from "next-i18next";
 type DocumentUploadProps = {
     session: Session;
 };
-export default function DocumentUpload({
-    session,
-}: DocumentUploadProps): JSX.Element {
+export default function DocumentUpload({ session }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
     const { t } = useTranslation("common");
 
@@ -37,9 +35,7 @@ export default function DocumentUpload({
         try {
             // TODO don't prefix file name, instead put random file name into database eventually
             // TODO randomize filename
-            const res = await fetch(
-                `/api/file/upload?path=${type}&file=${file.name}`,
-            );
+            const res = await fetch(`/api/file/upload?path=${type}&file=${file.name}`);
             const data = await res.json();
             const { url, fields } = data.data;
             const formData = new FormData();
@@ -135,9 +131,7 @@ export default function DocumentUpload({
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton
-                    href={redirect ? (redirect as string) : undefined}
-                />
+                <CloseButton href={redirect ? (redirect as string) : undefined} />
                 <VStack>
                     <Center>
                         <Box width="400px" mb="40px">
@@ -150,11 +144,7 @@ export default function DocumentUpload({
                                 </Text>
                             </Center>
                             <Center>
-                                <Text
-                                    fontWeight="200"
-                                    fontSize="15px"
-                                    mb="20px"
-                                >
+                                <Text fontWeight="200" fontSize="15px" mb="20px">
                                     {t("upload.successInfo")}
                                 </Text>
                             </Center>

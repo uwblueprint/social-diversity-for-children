@@ -59,10 +59,7 @@ export default function ParentEnrollClass({
     }
 
     const classInfo = classInfoResponse
-        ? CardInfoUtil.getClassCardInfo(
-              classInfoResponse.data,
-              router.locale as locale,
-          )
+        ? CardInfoUtil.getClassCardInfo(classInfoResponse.data, router.locale as locale)
         : null;
 
     const nextPage = () => {
@@ -183,10 +180,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "common",
-                "form",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

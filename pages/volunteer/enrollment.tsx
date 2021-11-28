@@ -51,10 +51,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     }
 
     const classInfo = classInfoResponse
-        ? CardInfoUtil.getClassCardInfo(
-              classInfoResponse.data,
-              router.locale as locale,
-          )
+        ? CardInfoUtil.getClassCardInfo(classInfoResponse.data, router.locale as locale)
         : null;
 
     const nextPage = () => {
@@ -105,17 +102,11 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     // render update criminal check form if expired
     !me.volunteer.criminalRecordCheckLink
         ? pageElements.unshift(
-              <SubmitCriminalCheckForm
-                  classInfo={classInfo}
-                  onNext={nextPage}
-              />,
+              <SubmitCriminalCheckForm classInfo={classInfo} onNext={nextPage} />,
           )
         : me.volunteer.criminalCheckExpired
         ? pageElements.unshift(
-              <UpdateCriminalCheckForm
-                  classInfo={classInfo}
-                  onNext={nextPage}
-              />,
+              <UpdateCriminalCheckForm classInfo={classInfo} onNext={nextPage} />,
           )
         : {};
 
@@ -141,10 +132,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "common",
-                "form",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

@@ -1,11 +1,4 @@
-import {
-    Parent,
-    ProgramAdmin,
-    Student,
-    Teacher,
-    User,
-    Volunteer,
-} from "@prisma/client";
+import { Parent, ProgramAdmin, Student, Teacher, User, Volunteer } from "@prisma/client";
 import useSWR from "swr";
 import { fetcher } from "../fetcher";
 

@@ -66,10 +66,7 @@ async function updateProgram(
  * @param  {boolean} isArchive whether or not to archive the class
  * @returns Promise<Program> Promise with the updated program
  */
-async function updateProgramArchive(
-    id: number,
-    isArchive: boolean,
-): Promise<Program> {
+async function updateProgramArchive(id: number, isArchive: boolean): Promise<Program> {
     const updatedProgram = await prisma.program.update({
         where: {
             id,

@@ -33,9 +33,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
     participantId,
     userEmail,
 }): JSX.Element => {
-    const [approvalState, setApprovalState] = useState<boolean | null>(
-        docApproved,
-    );
+    const [approvalState, setApprovalState] = useState<boolean | null>(docApproved);
     useEffect(() => {
         updateFileApproval(filePath, participantId, approvalState);
     }, [approvalState, participantId]);
@@ -63,11 +61,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                 />
                 <VStack alignItems="flex-start" w="300px" h="full">
                     <Text fontSize="18px" marginTop="75px" as="u">
-                        <Link
-                            href={docLink}
-                            color={colourTheme.colors.Blue}
-                            isExternal
-                        >
+                        <Link href={docLink} color={colourTheme.colors.Blue} isExternal>
                             {docName}
                         </Link>
                     </Text>

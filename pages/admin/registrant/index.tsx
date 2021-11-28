@@ -31,9 +31,7 @@ type RegistrantViewProps = {
  * Admin registrant view page that displays all the registrants in the platform
  * @returns Admin class view page component
  */
-export default function RegistrantView(
-    props: RegistrantViewProps,
-): JSX.Element {
+export default function RegistrantView(props: RegistrantViewProps): JSX.Element {
     const {
         parents,
         students,
@@ -43,8 +41,7 @@ export default function RegistrantView(
     } = useUsers();
 
     const { studentColumns, studentData } = useStudentsTableData(students);
-    const { volunteerColumns, volunteerData } =
-        useVolunteersTableData(volunteers);
+    const { volunteerColumns, volunteerData } = useVolunteersTableData(volunteers);
     const { parentColumns, parentData } = useParentsTableData(parents);
 
     if (usersError) {

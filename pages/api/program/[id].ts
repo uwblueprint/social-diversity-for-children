@@ -36,10 +36,7 @@ export default async function handle(
 
             const result = await getProgramCardInfo(programId as string);
             if (!result) {
-                return ResponseUtil.returnNotFound(
-                    res,
-                    `Program info not found.`,
-                );
+                return ResponseUtil.returnNotFound(res, `Program info not found.`);
             }
             ResponseUtil.returnOK(res, result);
             break;
@@ -76,9 +73,7 @@ export default async function handle(
         }
         case "PUT": {
             // validate new body
-            const validationError = validateProgramData(
-                req.body as ProgramInput,
-            );
+            const validationError = validateProgramData(req.body as ProgramInput);
             if (validationError.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
                 break;
@@ -86,16 +81,10 @@ export default async function handle(
             // Obtain program id
             const { id } = req.query;
             // Obtain the entire update body
-            const program = await updateProgram(
-                id as string,
-                req.body as ProgramInput,
-            );
+            const program = await updateProgram(id as string, req.body as ProgramInput);
 
             if (!program) {
-                ResponseUtil.returnNotFound(
-                    res,
-                    `Program with id ${id} not found.`,
-                );
+                ResponseUtil.returnNotFound(res, `Program with id ${id} not found.`);
                 break;
             }
             ResponseUtil.returnOK(res, program);

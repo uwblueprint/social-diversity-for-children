@@ -11,9 +11,7 @@ export default function Result(): JSX.Element {
 
     // obtain session details once the session_id query parameter has been obtained
     const { data } = useSWR(
-        router.query.session_id
-            ? `/api/checkout/${router.query.session_id}`
-            : null,
+        router.query.session_id ? `/api/checkout/${router.query.session_id}` : null,
         (url) => fetch(url).then((res) => res.json()),
     );
 

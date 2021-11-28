@@ -22,11 +22,7 @@ export function pathWithQueries(
  * @param  {string} value
  * @returns string of new path
  */
-export function pathWithQuery(
-    path: string,
-    param: string,
-    value: string,
-): string {
+export function pathWithQuery(path: string, param: string, value: string): string {
     const re = new RegExp("([?&])" + param + "=.*?(&|$)", "i");
     const separator = path.indexOf("?") !== -1 ? "&" : "?";
     if (path.match(re)) {

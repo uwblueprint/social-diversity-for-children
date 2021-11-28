@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Button,
-    HStack,
-    VStack,
-    Heading,
-    Text,
-    Stack,
-} from "@chakra-ui/react";
+import { Box, Button, HStack, VStack, Heading, Text, Stack } from "@chakra-ui/react";
 import { Student } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import parsePhoneNumber from "@utils/parsePhoneNumber";
@@ -42,28 +34,18 @@ export const ClassEnrollmentConfirmation = (
     return (
         <Box>
             <VStack spacing="45px" alignItems="flex-start">
-                <HStack
-                    alignSelf="flex-start"
-                    mt="15px"
-                    fontWeight="700"
-                    fontSize="36px"
-                >
+                <HStack alignSelf="flex-start" mt="15px" fontWeight="700" fontSize="36px">
                     <Heading>
                         {t("enroll.confirmPersonalInformation")}{" "}
                         <Heading color={colourTheme.colors.Blue} as="span">
-                            ({props.studentData.firstName}{" "}
-                            {props.studentData.lastName})
+                            ({props.studentData.firstName} {props.studentData.lastName})
                         </Heading>
                     </Heading>
                 </HStack>
                 <Text fontWeight="300" fontSize="22px">
                     {t("enroll.hasChange")}
                 </Text>
-                <VStack
-                    alignItems="flex-start"
-                    spacing="32px"
-                    marginBottom="80px"
-                >
+                <VStack alignItems="flex-start" spacing="32px" marginBottom="80px">
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
                         {t("label.generalParticipantInformation")}
                     </Text>
@@ -76,8 +58,7 @@ export const ClassEnrollmentConfirmation = (
                             {t("label.participantName")}
                         </Text>
                         <Text>
-                            {props.studentData.firstName}{" "}
-                            {props.studentData.lastName}
+                            {props.studentData.firstName} {props.studentData.lastName}
                         </Text>
                     </Box>
                     <Box>
@@ -184,9 +165,7 @@ export const ClassEnrollmentConfirmation = (
                         >
                             {t("label.specialEducation")}
                         </Text>
-                        <Text>
-                            {props.studentData.specialEducation ? "Yes" : "No"}
-                        </Text>
+                        <Text>{props.studentData.specialEducation ? "Yes" : "No"}</Text>
                     </Box>
                     <Box>
                         <Text
@@ -221,11 +200,7 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                 </VStack>
-                <VStack
-                    alignItems="flex-start"
-                    spacing="32px"
-                    marginBottom="80px"
-                >
+                <VStack alignItems="flex-start" spacing="32px" marginBottom="80px">
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
                         {t("label.guardianInformation")}
                     </Text>
@@ -250,11 +225,7 @@ export const ClassEnrollmentConfirmation = (
                         <Text>{parsePhoneNumber(props.parentData.phone)}</Text>
                     </Box>
                 </VStack>
-                <VStack
-                    alignItems="flex-start"
-                    spacing="32px"
-                    marginBottom="80px"
-                >
+                <VStack alignItems="flex-start" spacing="32px" marginBottom="80px">
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
                         {t("label.emergencyContact")}
                     </Text>
@@ -280,9 +251,7 @@ export const ClassEnrollmentConfirmation = (
                         >
                             {t("label.emergencyPhone")}
                         </Text>
-                        <Text>
-                            {parsePhoneNumber(props.studentData.emergNumber)}
-                        </Text>
+                        <Text>{parsePhoneNumber(props.studentData.emergNumber)}</Text>
                     </Box>
                     <Box>
                         <Text
@@ -295,11 +264,7 @@ export const ClassEnrollmentConfirmation = (
                         <Text>{props.studentData.emergRelationToStudent}</Text>
                     </Box>
                 </VStack>
-                <VStack
-                    alignItems="flex-start"
-                    spacing="32px"
-                    marginBottom="80px"
-                >
+                <VStack alignItems="flex-start" spacing="32px" marginBottom="80px">
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
                         {t("label.healthInformation")}
                     </Text>
@@ -332,11 +297,7 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                 </VStack>
-                <Stack
-                    direction={["column", "row"]}
-                    spacing="50px"
-                    paddingBottom="100px"
-                >
+                <Stack direction={["column", "row"]} spacing="50px" paddingBottom="100px">
                     <Button
                         height="49px"
                         width="205px"

@@ -61,10 +61,9 @@ export const Checkout = ({
                         justifyContent={"space-between"}
                     >
                         <Text>{t("enroll.fee")}</Text>
-                        <Text>{`$${(isPriceLoading
-                            ? 0
-                            : price.unit_amount / 100
-                        ).toFixed(2)}`}</Text>
+                        <Text>{`$${(isPriceLoading ? 0 : price.unit_amount / 100).toFixed(
+                            2,
+                        )}`}</Text>
                     </Flex>
                     {couponId && coupon && price ? (
                         <Flex
@@ -72,18 +71,13 @@ export const Checkout = ({
                             alignItems={"center"}
                             justifyContent={"space-between"}
                         >
-                            <Text>
-                                {t("enroll.coupon", { coupon: couponId })}
-                            </Text>
+                            <Text>{t("enroll.coupon", { coupon: couponId })}</Text>
                             <Text>{`-$${(
                                 getDiscountUnit(price.unit_amount, coupon) / 100
                             ).toFixed(2)}`}</Text>
                         </Flex>
                     ) : null}
-                    <Divider
-                        mb="20px"
-                        borderColor={colourTheme.colors.MildGray}
-                    />
+                    <Divider mb="20px" borderColor={colourTheme.colors.MildGray} />
                     <Flex
                         mb="20px"
                         alignItems={"center"}
@@ -94,10 +88,7 @@ export const Checkout = ({
                             ? 0
                             : (price.unit_amount -
                                   (coupon
-                                      ? getDiscountUnit(
-                                            price.unit_amount,
-                                            coupon,
-                                        )
+                                      ? getDiscountUnit(price.unit_amount, coupon)
                                       : 0)) /
                               100
                         ).toFixed(2)}`}</Text>

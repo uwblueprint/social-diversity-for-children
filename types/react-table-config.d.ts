@@ -67,9 +67,8 @@ declare module "react-table" {
             // feature set, this is a safe default.
             Record<string, any> {}
 
-    export interface Hooks<
-        D extends Record<string, unknown> = Record<string, unknown>,
-    > extends UseExpandedHooks<D>,
+    export interface Hooks<D extends Record<string, unknown> = Record<string, unknown>>
+        extends UseExpandedHooks<D>,
             UseGroupByHooks<D>,
             UseRowSelectHooks<D>,
             UseSortByHooks<D> {}
@@ -120,9 +119,8 @@ declare module "react-table" {
     > extends UseGroupByCellProps<D>,
             UseRowStateCellProps<D> {}
 
-    export interface Row<
-        D extends Record<string, unknown> = Record<string, unknown>,
-    > extends UseExpandedRowProps<D>,
+    export interface Row<D extends Record<string, unknown> = Record<string, unknown>>
+        extends UseExpandedRowProps<D>,
             UseGroupByRowProps<D>,
             UseRowSelectRowProps<D>,
             UseRowStateRowProps<D> {}

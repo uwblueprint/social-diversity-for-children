@@ -16,10 +16,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns ClassCardInfo[]
      */
-    static getClassCardInfos(
-        findResults: any[],
-        language: locale,
-    ): ClassCardInfo[] {
+    static getClassCardInfos(findResults: any[], language: locale): ClassCardInfo[] {
         if (!findResults) return [];
         return findResults.map((result) => {
             return this.getClassCardInfo(result, language);
@@ -33,10 +30,7 @@ export class CardInfoUtil {
      */
     static getClassCardInfo(result: any, language: locale): ClassCardInfo {
         const mainClassTranslation: ClassTranslation =
-            TranslationUtil.getMainClassTranslation(
-                result.classTranslation,
-                language,
-            );
+            TranslationUtil.getMainClassTranslation(result.classTranslation, language);
         const mainProgramTranslation: ProgramTranslation =
             TranslationUtil.getMainProgramTranslation(
                 result.program.programTranslation,
@@ -61,15 +55,9 @@ export class CardInfoUtil {
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,
             programId: result.program.id,
-            programName: mainProgramTranslation
-                ? mainProgramTranslation.name
-                : "",
-            name: mainClassTranslation
-                ? mainClassTranslation.name
-                : result.name,
-            description: mainClassTranslation
-                ? mainClassTranslation.description
-                : "",
+            programName: mainProgramTranslation ? mainProgramTranslation.name : "",
+            name: mainClassTranslation ? mainClassTranslation.name : result.name,
+            description: mainClassTranslation ? mainClassTranslation.description : "",
             teacherName:
                 result.teacherRegs.length > 0
                     ? result.teacherRegs[0].teacher.user.firstName +
@@ -92,10 +80,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns ProgramCardInfo[]
      */
-    static getProgramCardInfos(
-        findResults: any[],
-        language: locale,
-    ): ProgramCardInfo[] {
+    static getProgramCardInfos(findResults: any[], language: locale): ProgramCardInfo[] {
         if (!findResults) return [];
         return findResults.map((p) => {
             return this.getProgramCardInfo(p, language);
@@ -119,9 +104,7 @@ export class CardInfoUtil {
             id: result.id,
             image: result.imageLink,
             name: mainProgramTranslation ? mainProgramTranslation.name : "",
-            description: mainProgramTranslation
-                ? mainProgramTranslation.description
-                : "",
+            description: mainProgramTranslation ? mainProgramTranslation.description : "",
             startDate: result.startDate,
             endDate: result.endDate,
             tag: result.tag,
@@ -149,10 +132,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns EnrollmentCardInfo
      */
-    static getEnrollmentCardInfo(
-        result: any,
-        language: locale,
-    ): EnrollmentCardInfo {
+    static getEnrollmentCardInfo(result: any, language: locale): EnrollmentCardInfo {
         return {
             classId: result.classId,
             createdAt: result.createdAt,
@@ -182,10 +162,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns WaitlistCardInfo
      */
-    static getWaitlistCardInfo(
-        result: any,
-        language: locale,
-    ): WaitlistCardInfo {
+    static getWaitlistCardInfo(result: any, language: locale): WaitlistCardInfo {
         return {
             classId: result.classId,
             createdAt: result.createdAt,
@@ -215,10 +192,7 @@ export class CardInfoUtil {
      * @param  {locale} language locale used
      * @returns VolunteeringCardInfo
      */
-    static getVolunteeringCardInfo(
-        result: any,
-        language: locale,
-    ): VolunteeringCardInfo {
+    static getVolunteeringCardInfo(result: any, language: locale): VolunteeringCardInfo {
         return {
             classId: result.classId,
             createdAt: result.createdAt,

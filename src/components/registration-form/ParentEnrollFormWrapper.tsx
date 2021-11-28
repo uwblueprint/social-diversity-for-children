@@ -34,10 +34,7 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
             {pageNum < formPages.length ? (
                 <Center>
                     <Box w={912}>
-                        <Flex
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
+                        <Flex alignItems={"center"} justifyContent={"space-between"}>
                             <BackButton
                                 onClick={
                                     pageNum > 0
@@ -52,10 +49,7 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
                         </Flex>
                         {formPages.map((formPage, idx) => {
                             return (
-                                <Box
-                                    key={idx}
-                                    display={pageNum === idx ? null : "none"}
-                                >
+                                <Box key={idx} display={pageNum === idx ? null : "none"}>
                                     {formPage}
                                 </Box>
                             );

@@ -1,7 +1,4 @@
-import {
-    ParentRegistrationInput,
-    VolunteerRegistrationInput,
-} from "@models/Enroll";
+import { ParentRegistrationInput, VolunteerRegistrationInput } from "@models/Enroll";
 
 /**
  * validateParentRegistrationRecord validates the request body which contains the details

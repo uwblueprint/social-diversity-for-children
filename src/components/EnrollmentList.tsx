@@ -88,10 +88,7 @@ export const EnrollmentList: React.FC = () => {
 
     const students: Array<Student> = [];
     enrollments.forEach((info) => {
-        if (
-            students.findIndex((student) => student.id === info.student.id) ===
-            -1
-        ) {
+        if (students.findIndex((student) => student.id === info.student.id) === -1) {
             students.push(info.student);
         }
     });

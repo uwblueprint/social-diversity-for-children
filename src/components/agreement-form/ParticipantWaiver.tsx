@@ -34,10 +34,7 @@ export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({
                 </Text>
             </Box>
             <Box>
-                <Checkbox
-                    mb="80px"
-                    onChange={() => setAcceptedTerms(!acceptedTerms)}
-                >
+                <Checkbox mb="80px" onChange={() => setAcceptedTerms(!acceptedTerms)}>
                     {t("form.agreed")}
                 </Checkbox>
             </Box>
@@ -46,9 +43,7 @@ export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({
                     height="50px"
                     width="200px"
                     borderRadius="6px"
-                    background={
-                        !acceptedTerms ? "darkgray" : colourTheme.colors.Blue
-                    }
+                    background={!acceptedTerms ? "darkgray" : colourTheme.colors.Blue}
                     fontWeight="normal"
                     fontSize="16px"
                     isDisabled={!acceptedTerms}

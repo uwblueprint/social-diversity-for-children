@@ -97,11 +97,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
                         </Grid>
                     ) : (
                         <Box pr="50px">
-                            <AdminEmptyState
-                                w="100%"
-                                h="250px"
-                                isLoading={isLoading}
-                            >
+                            <AdminEmptyState w="100%" h="250px" isLoading={isLoading}>
                                 There are no programs available!
                             </AdminEmptyState>
                         </Box>

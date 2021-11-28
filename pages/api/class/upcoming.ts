@@ -17,8 +17,7 @@ export default async function handle(
             let classes = await getWeeklySortedClasses();
             const today = new Date();
             const todayWeekday = dateToWeekday(today);
-            const currentTimeInMinute =
-                today.getHours() * 60 + today.getMinutes();
+            const currentTimeInMinute = today.getHours() * 60 + today.getMinutes();
             const todayDay = weekdayToDay(todayWeekday);
             let hasLive = false;
 
@@ -52,8 +51,7 @@ export default async function handle(
                     if (
                         classDay > todayDay ||
                         (classDay === todayDay &&
-                            currentTimeInMinute <
-                                c.startTimeMinutes + c.durationMinutes)
+                            currentTimeInMinute < c.startTimeMinutes + c.durationMinutes)
                     ) {
                         index = i;
                         return true;

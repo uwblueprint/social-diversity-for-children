@@ -90,9 +90,7 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             _focus={{ boxShadow: null }}
                             backgroundColor="transparent"
                             borderColor="brand.400"
-                            opacity={
-                                isUrlPath("/volunteer/signup") ? null : "50%"
-                            }
+                            opacity={isUrlPath("/volunteer/signup") ? null : "50%"}
                             color={
                                 isUrlPath("/volunteer/signup")
                                     ? colourTheme.colors.Blue
@@ -159,10 +157,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "form",
-                "common",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["form", "common"])),
         },
     };
 };

@@ -14,12 +14,7 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
     const { t } = useTranslation("common");
 
     return (
-        <Box
-            width="500px"
-            border="2px"
-            borderStyle="dashed"
-            borderColor="gray.500"
-        >
+        <Box width="500px" border="2px" borderStyle="dashed" borderColor="gray.500">
             <Center>
                 <Box mt="30px">
                     <UploadIcon />

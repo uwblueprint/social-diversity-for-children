@@ -25,20 +25,13 @@ export default async function handle(
             break;
         }
         case "POST": {
-            const validationError = validateProgramData(
-                req.body as ProgramInput,
-            );
+            const validationError = validateProgramData(req.body as ProgramInput);
             if (validationError.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
             } else {
-                const newProgram = await createProgram(
-                    req.body as ProgramInput,
-                );
+                const newProgram = await createProgram(req.body as ProgramInput);
                 if (!newProgram) {
-                    ResponseUtil.returnBadRequest(
-                        res,
-                        `Program could not be created`,
-                    );
+                    ResponseUtil.returnBadRequest(res, `Program could not be created`);
                     break;
                 }
                 ResponseUtil.returnOK(res, newProgram);

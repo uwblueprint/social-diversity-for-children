@@ -101,11 +101,7 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
             >
                 <GridItem alignSelf="center" maxW={200}>
                     <AspectRatio width="100%" ratio={1}>
-                        <Image
-                            src={cardInfo.image}
-                            fit="cover"
-                            alt={cardInfo.name}
-                        />
+                        <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
                     </AspectRatio>
                 </GridItem>
                 <GridItem colSpan={4} p={1}>
@@ -140,9 +136,7 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
                                             Edit
                                         </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onDeleteOpen}>
-                                            Delete
-                                        </MenuItem>
+                                        <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
                                         <MenuItem onClick={onArchiveOpen}>
                                             Archive
@@ -177,10 +171,7 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
                             </Text>
                             <Text ml={5}>
                                 {cardInfo.volunteerSpaceTaken} volunteer
-                                {cardInfo.volunteerSpaceTaken > 1
-                                    ? "s"
-                                    : ""}{" "}
-                                registered
+                                {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""} registered
                             </Text>
                         </Flex>
                         <Flex py={2}>

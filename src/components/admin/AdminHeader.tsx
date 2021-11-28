@@ -1,15 +1,6 @@
 import React from "react";
 import { ReactNode } from "react";
-import {
-    Box,
-    Flex,
-    HStack,
-    Link,
-    Text,
-    Button,
-    Divider,
-    Spacer,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Link, Text, Button, Divider, Spacer } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import colourTheme from "@styles/colours";
 
@@ -45,10 +36,7 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
 /**
  * Displays the Header for admin
  */
-export const AdminHeader: React.FC<AdminHeaderProps> = ({
-    headerLinks,
-    children,
-}) => {
+export const AdminHeader: React.FC<AdminHeaderProps> = ({ headerLinks, children }) => {
     return (
         <>
             <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
@@ -67,10 +55,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
                         {!headerLinks
                             ? null
                             : headerLinks.map((linkInfo) => (
-                                  <NavLink
-                                      key={linkInfo.name}
-                                      href={linkInfo.url}
-                                  >
+                                  <NavLink key={linkInfo.name} href={linkInfo.url}>
                                       {linkInfo.name}
                                   </NavLink>
                               ))}

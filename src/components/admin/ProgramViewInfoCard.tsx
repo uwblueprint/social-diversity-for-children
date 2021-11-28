@@ -102,11 +102,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
             >
                 <GridItem alignSelf="center" colSpan={2} h="100%">
                     <AspectRatio ratio={2} h="inherit">
-                        <Image
-                            src={cardInfo.image}
-                            fit="cover"
-                            alt={cardInfo.name}
-                        />
+                        <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
                     </AspectRatio>
                 </GridItem>
                 <GridItem colSpan={3} p={5}>
@@ -139,9 +135,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                             Edit
                                         </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onDeleteOpen}>
-                                            Delete
-                                        </MenuItem>
+                                        <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
                                         <MenuItem onClick={onArchiveOpen}>
                                             Archive
@@ -151,11 +145,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                             )}
                         </Flex>
                         <Flex>
-                            <Box
-                                as="span"
-                                color={colourTheme.colors.Gray}
-                                fontSize="sm"
-                            >
+                            <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
                                 {`${start} to ${end}`}
                             </Box>
                         </Flex>
@@ -165,16 +155,12 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({
                                 hasArrow
                                 placement="bottom-end"
                             >
-                                <Text noOfLines={3}>
-                                    {cardInfo.description}
-                                </Text>
+                                <Text noOfLines={3}>{cardInfo.description}</Text>
                             </Tooltip>
                         </Flex>
                         <Flex>
                             <AdminBadge>{cardInfo.tag}</AdminBadge>
-                            <AdminBadge ml={2}>
-                                {cardInfo.onlineFormat}
-                            </AdminBadge>
+                            <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
                         </Flex>
                     </VStack>
                 </GridItem>

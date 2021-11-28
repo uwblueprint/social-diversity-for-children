@@ -45,15 +45,9 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
     );
 
     // Emergency contact info
-    const [emergFirstName, setEmergFirstName] = useState(
-        props.student.emergFirstName,
-    );
-    const [emergLastName, setEmergLastName] = useState(
-        props.student.emergLastName,
-    );
-    const [emergPhoneNumber, setEmergPhoneNumber] = useState(
-        props.student.emergNumber,
-    );
+    const [emergFirstName, setEmergFirstName] = useState(props.student.emergFirstName);
+    const [emergLastName, setEmergLastName] = useState(props.student.emergLastName);
+    const [emergPhoneNumber, setEmergPhoneNumber] = useState(props.student.emergNumber);
     const [emergRelationship, setEmergRelationship] = useState(
         props.student.emergRelationToStudent,
     );
@@ -111,12 +105,9 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
 
         //Save Difficulties
         const difficultiesArray = [];
-        if (hasLearningDifficulties)
-            difficultiesArray.push(difficulties.LEARNING);
-        if (hasPhysicalDifficulties)
-            difficultiesArray.push(difficulties.PHYSICAL);
-        if (hasSensoryDifficulties)
-            difficultiesArray.push(difficulties.SENSORY);
+        if (hasLearningDifficulties) difficultiesArray.push(difficulties.LEARNING);
+        if (hasPhysicalDifficulties) difficultiesArray.push(difficulties.PHYSICAL);
+        if (hasSensoryDifficulties) difficultiesArray.push(difficulties.SENSORY);
         if (hasOtherDifficulties) difficultiesArray.push(difficulties.OTHER);
 
         const data = {
@@ -238,9 +229,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <Stack direction="column">
-                    <FormLabel>
-                        {t("label.difficulties", { ns: "form" })}
-                    </FormLabel>
+                    <FormLabel>{t("label.difficulties", { ns: "form" })}</FormLabel>
                     <CheckBoxField
                         value={hasLearningDifficulties}
                         name={t("difficulties.learning")}

@@ -52,10 +52,7 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
           )
         : null;
     const classCardInfos = classListResponse
-        ? CardInfoUtil.getClassCardInfos(
-              classListResponse.data,
-              router.locale as locale,
-          )
+        ? CardInfoUtil.getClassCardInfos(classListResponse.data, router.locale as locale)
         : [];
 
     if (!programCardInfo || !classCardInfos) {
@@ -63,9 +60,7 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
     }
 
     return (
-        <Participants.Provider
-            initialState={me && me.parent ? me.parent.students : null}
-        >
+        <Participants.Provider initialState={me && me.parent ? me.parent.students : null}>
             <ProgramInfo
                 session={session}
                 programInfo={programCardInfo}

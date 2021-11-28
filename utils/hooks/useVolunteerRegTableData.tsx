@@ -50,9 +50,7 @@ export default function useVolunteerRegTableData(
                         <Link
                             href={`/admin/registrant/volunteer/${props.row.original.id}`}
                         >
-                            <ChakraLink>
-                                {props.row.original.fullName}
-                            </ChakraLink>
+                            <ChakraLink>{props.row.original.fullName}</ChakraLink>
                         </Link>
                     );
                 },

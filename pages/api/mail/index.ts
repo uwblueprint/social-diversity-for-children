@@ -29,16 +29,8 @@ export default async function mailHandler(
         // stores all promises for the nodemailer transport
         const mailerPromises = [];
         // storing all emails that need to be sent in mailerPromises (3h and 48h)
-        pushMailPromises(
-            classesInThreeHours,
-            firstIntervalHours,
-            mailerPromises,
-        );
-        pushMailPromises(
-            classesInFortyEightHours,
-            secondIntervalHours,
-            mailerPromises,
-        );
+        pushMailPromises(classesInThreeHours, firstIntervalHours, mailerPromises);
+        pushMailPromises(classesInFortyEightHours, secondIntervalHours, mailerPromises);
 
         // send all the reminder emails to the respective users
         await Promise.all(mailerPromises);

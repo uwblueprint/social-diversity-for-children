@@ -23,10 +23,7 @@ export async function updateFileApproval(
         body: JSON.stringify(updateData),
     };
 
-    const response = await fetch(
-        `/api/admin/update-${filePath}-status`,
-        request,
-    );
+    const response = await fetch(`/api/admin/update-${filePath}-status`, request);
 
     mutate(`/api/user/${id}`);
 

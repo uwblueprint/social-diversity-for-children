@@ -103,8 +103,8 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <Flex mr="3">
                         <Box>
                             <Heading size="md" pb={4} pr={2}>
-                                {enrollmentInfo.program.name} (
-                                {enrollmentInfo.class.name})
+                                {enrollmentInfo.program.name} ({enrollmentInfo.class.name}
+                                )
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
@@ -120,8 +120,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                     )}
                                     {" with " +
                                         t("program.teacherName", {
-                                            name: enrollmentInfo.class
-                                                .teacherName,
+                                            name: enrollmentInfo.class.teacherName,
                                         })}
                                 </Text>
                                 <Text>
@@ -175,14 +174,12 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                                     name: student.firstName,
                                                 })}
                                             </MenuItem>
-                                            {enrollmentInfo.students.length <
-                                            2 ? null : (
+                                            {enrollmentInfo.students.length < 2 ? null : (
                                                 <MenuDivider />
                                             )}
                                         </Box>
                                     ))}
-                                    {enrollmentInfo.students.length <
-                                    2 ? null : (
+                                    {enrollmentInfo.students.length < 2 ? null : (
                                         <MenuItem
                                             onClick={() =>
                                                 deleteClassRegistrations(

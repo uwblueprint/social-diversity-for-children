@@ -34,10 +34,7 @@ export default async function handle(
         const classSection = await getClass(classId);
 
         if (!classSection) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, classSection);
@@ -50,10 +47,7 @@ export default async function handle(
         const deletedClass = await deleteClass(classId);
 
         if (!deleteClass) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, deletedClass);
@@ -74,10 +68,7 @@ export default async function handle(
         const updatedClass = await updateClass(classId, classInput);
 
         if (!updatedClass) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, updatedClass);

@@ -21,8 +21,7 @@ type ParentEnrolledConfirmationPageProps = {
 
 export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmationPageProps> =
     ({ student, classId, stripeSessionId, classPriceId }): JSX.Element => {
-        const { stripeSession, stripeSessionItems } =
-            useStripeSession(stripeSessionId);
+        const { stripeSession, stripeSessionItems } = useStripeSession(stripeSessionId);
         const [enrolled, setEnrolled] = useState(false);
         const toast = useToast();
         const router = useRouter();
@@ -33,20 +32,16 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
             if (
                 !enrolled &&
                 stripeSession &&
-                (stripeSession.payment_intent as Stripe.PaymentIntent)
-                    .status === "succeeded" &&
-                stripeSessionItems.some(
-                    (item) => item.price.id === classPriceId,
-                )
+                (stripeSession.payment_intent as Stripe.PaymentIntent).status ===
+                    "succeeded" &&
+                stripeSessionItems.some((item) => item.price.id === classPriceId)
             ) {
                 createClassRegistration(student, classId).then((res) => {
                     if (res.ok === true) {
                         setEnrolled(true);
                     } else if (res.ok === false) {
                         createStripeRefund(
-                            (
-                                stripeSession.payment_intent as Stripe.PaymentIntent
-                            ).id,
+                            (stripeSession.payment_intent as Stripe.PaymentIntent).id,
                         );
                         router.push("/");
                         toast({
@@ -69,12 +64,7 @@ export const ParentEnrolledConfirmationPage: React.FC<ParentEnrolledConfirmation
             <Center>
                 <VStack mt={120} mb={180}>
                     <ApprovedIcon />
-                    <Text
-                        fontWeight="700"
-                        fontSize="24px"
-                        align="center"
-                        pt={5}
-                    >
+                    <Text fontWeight="700" fontSize="24px" align="center" pt={5}>
                         {t("form.registered")}
                     </Text>
                     <Text maxW={512} textAlign="center" py={3}>

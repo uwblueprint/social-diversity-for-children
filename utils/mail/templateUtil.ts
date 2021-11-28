@@ -26,11 +26,7 @@ export const classStartingSoonTemplate = (
     durationMinutes: number,
     language: locale = locale.en,
 ): string => {
-    const { start, end } = convertToShortDateRange(
-        startDate,
-        endDate,
-        language,
-    );
+    const { start, end } = convertToShortDateRange(startDate, endDate, language);
 
     return `
             <head>
@@ -117,11 +113,7 @@ export const openSpotWaitlistTemplate = (
     durationMinutes: number,
     language: locale = locale.en,
 ): string => {
-    const { start, end } = convertToShortDateRange(
-        startDate,
-        endDate,
-        language,
-    );
+    const { start, end } = convertToShortDateRange(startDate, endDate, language);
 
     return `
             <head>
@@ -180,9 +172,7 @@ export const openSpotWaitlistTemplate = (
                     line-height: 24px;">Please note that registration is first come, first serve.</p>
                 <br></br>
                 <p>Use this link to register for the class:</p>
-                <a href="${
-                    process.env.NEXTAUTH_URL
-                }/program-details/${classId}">${
+                <a href="${process.env.NEXTAUTH_URL}/program-details/${classId}">${
         process.env.NEXTAUTH_URL
     }/program-details/${classId}</a>
                 <br></br>

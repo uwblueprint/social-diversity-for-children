@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Container,
-    Flex,
-    Link,
-    Spacer,
-    Stack,
-    Text,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, Link, Spacer, Stack, Text } from "@chakra-ui/react";
 
 type FooterProps = {
     height?: number | string;

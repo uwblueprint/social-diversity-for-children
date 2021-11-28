@@ -47,10 +47,7 @@ export default async function handle(
 
     const parentId = session.id as number;
     if (!parentId) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "No user id stored in session",
-        );
+        return ResponseUtil.returnBadRequest(res, "No user id stored in session");
     }
 
     switch (req.method) {
@@ -60,9 +57,7 @@ export default async function handle(
 
             // if no student or class query, we get all enrollments
             if (!studentId && !classId) {
-                const parentRegistrationRecords = await getParentRegistrations(
-                    parentId,
-                );
+                const parentRegistrationRecords = await getParentRegistrations(parentId);
 
                 // verify that the parent registration record could be obtained
                 if (!parentRegistrationRecords) {
@@ -140,10 +135,7 @@ export default async function handle(
                 parentRegistrationInput,
             );
             if (!newRegistration) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Registration could not be created`,
-                );
+                ResponseUtil.returnBadRequest(res, `Registration could not be created`);
                 return;
             }
 
@@ -170,10 +162,7 @@ export default async function handle(
                 parentRegistrationInput,
             );
             if (!deletedRegistration) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Registration could not be created`,
-                );
+                ResponseUtil.returnBadRequest(res, `Registration could not be created`);
                 return;
             }
 

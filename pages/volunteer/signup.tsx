@@ -83,11 +83,7 @@ const FormPage = (props) => {
  * This is the page that a volunteer will use to enter the volunteers personal information
  * onto the SDC platform as a volunteer
  */
-export default function VolunteerInfo({
-    session,
-}: {
-    session: Session;
-}): JSX.Element {
+export default function VolunteerInfo({ session }: { session: Session }): JSX.Element {
     const router = useRouter();
     const { page } = router.query;
     const { t } = useTranslation("form");
@@ -119,8 +115,7 @@ export default function VolunteerInfo({
     const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [participantProvince, setParticipantProvince] =
-        useState(DEFAULT_PROVINCE);
+    const [participantProvince, setParticipantProvince] = useState(DEFAULT_PROVINCE);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [certifyAge15, setCertifyAge15] = useLocalStorage("age15", false);
@@ -128,13 +123,9 @@ export default function VolunteerInfo({
     //volunteer personal details - Page 3
     const [skills, setSkills] = useLocalStorage("skills", "");
     const [heardFrom, setHeardFrom] = useLocalStorage("heardFrom", "");
-    const [certifyCommit, setCertifyCommit] = useLocalStorage(
-        "certifyCommit",
-        false,
-    );
+    const [certifyCommit, setCertifyCommit] = useLocalStorage("certifyCommit", false);
 
-    const [successfulAccountCreation, setSuccessfulAccountCreation] =
-        useState("pending");
+    const [successfulAccountCreation, setSuccessfulAccountCreation] = useState("pending");
 
     // JSON object with volunteer registration info
     const volunteerRegistrationInfo = {
@@ -299,10 +290,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "form",
-                "common",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["form", "common"])),
         },
     };
 };

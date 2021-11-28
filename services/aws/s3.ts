@@ -19,16 +19,13 @@ const getFileFromS3 = (
             Key: fileKey,
         };
 
-        s3.getObject(
-            retrieveParams,
-            function (err: AWSError, data: S3.GetObjectOutput) {
-                if (err) {
-                    return reject(err);
-                }
+        s3.getObject(retrieveParams, function (err: AWSError, data: S3.GetObjectOutput) {
+            if (err) {
+                return reject(err);
+            }
 
-                return resolve(data);
-            },
-        );
+            return resolve(data);
+        });
     });
 };
 
@@ -55,18 +52,15 @@ const uploadFileToS3 = (
         };
 
         // upload file
-        s3.upload(
-            uploadParams,
-            function (err: Error, data: ManagedUpload.SendData) {
-                // reject errors if there are any
-                if (err) {
-                    return reject(err);
-                }
+        s3.upload(uploadParams, function (err: Error, data: ManagedUpload.SendData) {
+            // reject errors if there are any
+            if (err) {
+                return reject(err);
+            }
 
-                // resolve the data object if there are no errors
-                return resolve(data);
-            },
-        );
+            // resolve the data object if there are no errors
+            return resolve(data);
+        });
     });
 };
 
@@ -126,10 +120,7 @@ const getPresignedPostForUpload = (
  * @param  {string} fileKey
  * @returns string the url to retrieve the requested file
  */
-const getSignedUrlForRetrieve = (
-    bucketName: string,
-    fileKey: string,
-): string => {
+const getSignedUrlForRetrieve = (bucketName: string, fileKey: string): string => {
     const secIn5Min = 60 * 5;
 
     return s3.getSignedUrl("getObject", {

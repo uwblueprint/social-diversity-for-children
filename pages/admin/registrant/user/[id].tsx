@@ -88,9 +88,7 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                     separator={<ChevronRightIcon color="gray.500" />}
                 >
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="#">
-                            Browse Registrants
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="#">Browse Registrants</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="#">{userName}</BreadcrumbLink>
@@ -118,16 +116,9 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                     >
                         <HStack color={colourTheme.colors.Gray} width="full">
                             <Icon as={MdPerson} w={8} h={8} />
-                            <VStack
-                                alignItems="flex-start"
-                                spacing="-3px"
-                                w="200px"
-                            >
+                            <VStack alignItems="flex-start" spacing="-3px" w="200px">
                                 <Link>
-                                    {"Participant Information" +
-                                        " (" +
-                                        userName +
-                                        ")"}
+                                    {"Participant Information" + " (" + userName + ")"}
                                 </Link>
                             </VStack>
                         </HStack>
@@ -150,16 +141,14 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                             <FileDownloadCard
                                 filePath={FileType.CRIMINAL_CHECK}
                                 docName={volunteerData.criminalRecordCheckLink}
-                                docApproved={
-                                    volunteerData.criminalCheckApproved
-                                }
+                                docApproved={volunteerData.criminalCheckApproved}
                                 participantId={user.id}
                                 userEmail={user.email}
                             />
                         ) : (
                             <EmptyState height="200px">
-                                The participant has not uploaded a criminal
-                                record check at this time.
+                                The participant has not uploaded a criminal record check
+                                at this time.
                             </EmptyState>
                         )
                     ) : parentData.proofOfIncomeLink !== null ? (
@@ -172,8 +161,8 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                         />
                     ) : (
                         <EmptyState height="200px">
-                            The participant has not uploaded a criminal record
-                            check at this time.
+                            The participant has not uploaded a criminal record check at
+                            this time.
                         </EmptyState>
                     )}
                 </HStack>

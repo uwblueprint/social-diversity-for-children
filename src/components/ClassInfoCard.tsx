@@ -99,16 +99,12 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 ? t("program.volunteerSpot", {
                                       spot: cardInfo.spaceAvailable,
                                       context:
-                                          cardInfo.spaceAvailable !== 1
-                                              ? "plural"
-                                              : "",
+                                          cardInfo.spaceAvailable !== 1 ? "plural" : "",
                                   })
                                 : t("program.participantSpot", {
                                       spot: cardInfo.spaceAvailable,
                                       context:
-                                          cardInfo.spaceAvailable !== 1
-                                              ? "plural"
-                                              : "",
+                                          cardInfo.spaceAvailable !== 1 ? "plural" : "",
                                   })}
                         </Box>
                     </Flex>

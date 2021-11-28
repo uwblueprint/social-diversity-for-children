@@ -72,12 +72,7 @@ const SideBar = ({
                             <Text fontSize="2xl" fontWeight="bold">
                                 Welcome
                             </Text>
-                            <Text
-                                fontSize="md"
-                                fontWeight="normal"
-                                mt="5"
-                                mb="15"
-                            >
+                            <Text fontSize="md" fontWeight="normal" mt="5" mb="15">
                                 {session.user.email}
                             </Text>
                             <Divider mt="15" mb="15" />
@@ -114,12 +109,7 @@ const SideBar = ({
                         <NavLink href="/class">View My Classes</NavLink>
                     </Flex>
                     {loggedIn && (
-                        <Flex
-                            flexDirection="row"
-                            mt="5"
-                            mb="5"
-                            alignItems="center"
-                        >
+                        <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                             <Icon as={BiUserCircle} width={6} height={6} />
                             <NavLink href="/myaccounts">Account</NavLink>
                         </Flex>
@@ -168,11 +158,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
 
     return (
         <>
-            <SideBar
-                isOpen={isOpen}
-                onClose={onClose}
-                session={props.session}
-            />
+            <SideBar isOpen={isOpen} onClose={onClose} session={props.session} />
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
                 <Box
                     bg={"transparent"}
@@ -205,10 +191,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                 display={{ base: "none", md: "flex" }}
                             >
                                 {Links.map((linkInfo) => (
-                                    <NavLink
-                                        key={linkInfo.name}
-                                        href={linkInfo.url}
-                                    >
+                                    <NavLink key={linkInfo.name} href={linkInfo.url}>
                                         {linkInfo.name}
                                     </NavLink>
                                 ))}

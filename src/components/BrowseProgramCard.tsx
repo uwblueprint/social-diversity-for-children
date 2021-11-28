@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Wrap,
-    WrapItem,
-    Link,
-    Button,
-    HStack,
-    Spacer,
-} from "@chakra-ui/react";
+import { Box, Wrap, WrapItem, Link, Button, HStack, Spacer } from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 import { useTranslation } from "react-i18next";
 import colourTheme from "@styles/colours";
@@ -81,9 +73,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                         </Box>
                         <Box mt={6}>
                             <AdminBadge>{cardInfo.tag}</AdminBadge>
-                            <AdminBadge ml={2}>
-                                {cardInfo.onlineFormat}
-                            </AdminBadge>
+                            <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
                         </Box>
                     </Box>
                 </Box>

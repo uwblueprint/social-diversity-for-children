@@ -42,9 +42,7 @@ export default function useStudentsTableData(students: Student[]): {
                         <Link
                             href={`/admin/registrant/parent/${props.row.original.parentId}`}
                         >
-                            <ChakraLink>
-                                {props.row.original.fullName}
-                            </ChakraLink>
+                            <ChakraLink>{props.row.original.fullName}</ChakraLink>
                         </Link>
                     );
                 },

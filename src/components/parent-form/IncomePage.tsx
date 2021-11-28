@@ -15,11 +15,7 @@ type IncomePageProps = {
 
 export const IncomePage: React.FC<IncomePageProps> = (): JSX.Element => {
     const { t } = useTranslation("form");
-    const PROOF_OF_INCOME_EXAMPLES = [
-        t("poi.taxNotice"),
-        t("poi.paystub"),
-        t("poi.etc"),
-    ];
+    const PROOF_OF_INCOME_EXAMPLES = [t("poi.taxNotice"), t("poi.paystub"), t("poi.etc")];
 
     const UPLOADING_PROOF_OF_INCOME = [
         t("poi.instruction1"),

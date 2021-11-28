@@ -59,9 +59,7 @@ export default function SelectChildForClass(
                                 props.setSelectedChild(index);
                             }}
                             border={
-                                props.selectedChild === index
-                                    ? null
-                                    : "2px solid #E1E1E1"
+                                props.selectedChild === index ? null : "2px solid #E1E1E1"
                             }
                         >
                             {childName}

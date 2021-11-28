@@ -17,11 +17,7 @@ export default async function handle(
     }
 
     // TODO make this more robost/better
-    const accepted_type_paths = [
-        "criminal-check",
-        "income-proof",
-        "curriculum-plans",
-    ];
+    const accepted_type_paths = ["criminal-check", "income-proof", "curriculum-plans"];
 
     // Attempt to retrieve file requested in user namespace if possible
     let { file, path } = req.query;

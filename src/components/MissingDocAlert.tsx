@@ -73,10 +73,7 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                                     >
                                         {InfoCaption[0].heading}
                                     </Heading>
-                                    <Text
-                                        display="block"
-                                        color={colourTheme.colors.Gray}
-                                    >
+                                    <Text display="block" color={colourTheme.colors.Gray}>
                                         {InfoCaption[0].desc}
                                     </Text>
                                 </Box>
@@ -90,10 +87,7 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                                     >
                                         {InfoCaption[1].heading}
                                     </Heading>
-                                    <Text
-                                        display="block"
-                                        color={colourTheme.colors.Gray}
-                                    >
+                                    <Text display="block" color={colourTheme.colors.Gray}>
                                         {InfoCaption[1].desc}
                                     </Text>
                                 </Box>
@@ -107,12 +101,9 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                                 <ChakraLink _hover={{ textDecoration: "none" }}>
                                     <Button
                                         color="white"
-                                        backgroundColor={
-                                            colourTheme.colors.Blue
-                                        }
+                                        backgroundColor={colourTheme.colors.Blue}
                                         _hover={{
-                                            backgroundColor:
-                                                colourTheme.colors.LightBlue,
+                                            backgroundColor: colourTheme.colors.LightBlue,
                                         }}
                                         size="sm"
                                         py={5}

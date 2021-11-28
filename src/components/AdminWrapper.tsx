@@ -1,12 +1,5 @@
 import React from "react";
-import {
-    Link as ChakraLink,
-    Box,
-    Icon,
-    VStack,
-    LinkProps,
-    Flex,
-} from "@chakra-ui/react";
+import { Link as ChakraLink, Box, Icon, VStack, LinkProps, Flex } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import { SdcLogoWhite } from "./icons";
 import {

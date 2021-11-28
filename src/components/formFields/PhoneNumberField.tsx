@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-    FormLabel,
-    FormControl,
-    Input,
-    FormErrorMessage,
-    Box,
-} from "@chakra-ui/react";
+import { FormLabel, FormControl, Input, FormErrorMessage, Box } from "@chakra-ui/react";
 import validator from "validator";
 
 type Props = {

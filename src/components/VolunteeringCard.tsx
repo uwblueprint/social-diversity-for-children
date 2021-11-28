@@ -80,8 +80,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({
                                     )}
                                     {" with " +
                                         t("program.teacherName", {
-                                            name: volunteeringInfo.class
-                                                .teacherName,
+                                            name: volunteeringInfo.class.teacherName,
                                         })}
                                 </Text>
                                 <Text>

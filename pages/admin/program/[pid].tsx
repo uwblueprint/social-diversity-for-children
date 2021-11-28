@@ -36,9 +36,7 @@ type ClassViewProps = {
  * Admin program class view page that displays the classes of a program
  * @returns Admin program class view page component
  */
-export default function ProgramClassView({
-    session,
-}: ClassViewProps): JSX.Element {
+export default function ProgramClassView({ session }: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
     const [searchTerm, setSearchTerm] = useState("");
@@ -69,9 +67,7 @@ export default function ProgramClassView({
             classCard.name.toLowerCase().includes(term) ||
             classCard.borderAge.toString().includes(term) ||
             classCard.teacherName.toLowerCase().includes(term) ||
-            weekdayToString(classCard.weekday, locale.en)
-                .toLowerCase()
-                .includes(term)
+            weekdayToString(classCard.weekday, locale.en).toLowerCase().includes(term)
         ) {
             return classCard;
         }
