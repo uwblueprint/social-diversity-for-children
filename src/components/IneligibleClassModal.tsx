@@ -21,15 +21,18 @@ type IneligibleClassModalProps = {
  * @param onClose a method from the useDisclosure hook
  * @returns a modal component informing user they cannot register in class
  */
-export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({ isOpen, onClose }) => {
+export const IneligibleClassModal: React.FC<IneligibleClassModalProps> = ({
+    isOpen,
+    onClose,
+}) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent p={5}>
                 <ModalBody>
                     <Text>
-                        Your child is not eligible for this age group. Please select a different
-                        class.
+                        Your child is not eligible for this age group. Please
+                        select a different class.
                     </Text>
                 </ModalBody>
 

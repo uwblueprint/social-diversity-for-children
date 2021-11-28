@@ -21,7 +21,9 @@ const teacherRegs: TeacherReg[] = [
  * Upsert teachers registrations
  * @param data custom data to upsert
  */
-export default async function teacherRegUpsert(data?: TeacherReg[]): Promise<void> {
+export default async function teacherRegUpsert(
+    data?: TeacherReg[],
+): Promise<void> {
     for (const teacherReg of data || teacherRegs) {
         const { teacherId, classId, updatedAt, ...rest } = teacherReg;
         await prisma.teacherReg

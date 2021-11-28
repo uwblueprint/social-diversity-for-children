@@ -1,4 +1,10 @@
-import { ParentReg, Student, User, Volunteer, VolunteerReg } from "@prisma/client";
+import {
+    ParentReg,
+    Student,
+    User,
+    Volunteer,
+    VolunteerReg,
+} from "@prisma/client";
 import useSWR from "swr";
 import { fetcher } from "../fetcher";
 
@@ -14,7 +20,9 @@ export type UseClassRegistrantResponse = {
  * @param  {string} classId class id
  * @returns UseClassRegistrantResponse
  */
-export default function useClassRegistrant(classId: number): UseClassRegistrantResponse {
+export default function useClassRegistrant(
+    classId: number,
+): UseClassRegistrantResponse {
     const { data, error } = useSWR(`/api/class/registrant/${classId}`, fetcher);
     return {
         studentRegs: data?.data?.parentRegs,

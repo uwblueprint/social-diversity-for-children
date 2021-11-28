@@ -6,7 +6,10 @@ import { roles } from ".prisma/client";
 import { getUserFromEmail } from "@database/user";
 import { isAdmin } from "@utils/session/authorization";
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     const session = await getSession({ req });
     // If there is no session
     if (!session) {
@@ -14,7 +17,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     }
 
     // TODO make this more robost/better
-    const accepted_type_paths = ["criminal-check", "income-proof", "curriculum-plans"];
+    const accepted_type_paths = [
+        "criminal-check",
+        "income-proof",
+        "curriculum-plans",
+    ];
 
     // Attempt to retrieve file requested in user namespace if possible
     let { file, path } = req.query;
@@ -64,7 +71,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 ? `${path}/${email}/${file}`
                 : `${path}/${user.email}/${file}`;
 
-            const url = getSignedUrlForRetrieve(process.env.S3_UPLOAD_BUCKET, uploadFilePath);
+            const url = getSignedUrlForRetrieve(
+                process.env.S3_UPLOAD_BUCKET,
+                uploadFilePath,
+            );
 
             ResponseUtil.returnOK(res, url);
             break;

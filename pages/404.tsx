@@ -19,8 +19,8 @@ export default function Custom404(props: ComponentProps): JSX.Element {
                         Oh no! Page not found.
                     </Heading>
                     <Text size="md" my={9}>
-                        Sorry, but the page you are looking for does not exist. Try refreshing the
-                        page or hit the button below.
+                        Sorry, but the page you are looking for does not exist.
+                        Try refreshing the page or hit the button below.
                     </Text>
                     <Link href="/">
                         <Button

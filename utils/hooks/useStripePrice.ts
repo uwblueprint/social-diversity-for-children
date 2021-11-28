@@ -13,7 +13,9 @@ export type UseStripePriceResponse = {
  * @param  {string} id
  * @returns UseStripeSessionResponse
  */
-export default function useStripePrice(priceId: string): UseStripePriceResponse {
+export default function useStripePrice(
+    priceId: string,
+): UseStripePriceResponse {
     const { data, error } = useSWR(`/api/price/${priceId}`, fetcher);
     return {
         stripePrice: data ? data.price : null,

@@ -19,7 +19,9 @@ type ProgramDetailsProps = {
     session: Session;
 };
 
-export const ProgramDetails: React.FC<ProgramDetailsProps> = ({ session }: ProgramDetailsProps) => {
+export const ProgramDetails: React.FC<ProgramDetailsProps> = ({
+    session,
+}: ProgramDetailsProps) => {
     const router = useRouter();
     const { pid } = router.query;
 
@@ -44,10 +46,16 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({ session }: Progr
     }
 
     const programCardInfo = programInfoResponse
-        ? CardInfoUtil.getProgramCardInfo(programInfoResponse.data, router.locale as locale)
+        ? CardInfoUtil.getProgramCardInfo(
+              programInfoResponse.data,
+              router.locale as locale,
+          )
         : null;
     const classCardInfos = classListResponse
-        ? CardInfoUtil.getClassCardInfos(classListResponse.data, router.locale as locale)
+        ? CardInfoUtil.getClassCardInfos(
+              classListResponse.data,
+              router.locale as locale,
+          )
         : [];
 
     if (!programCardInfo || !classCardInfos) {
@@ -55,7 +63,9 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({ session }: Progr
     }
 
     return (
-        <Participants.Provider initialState={me && me.parent ? me.parent.students : null}>
+        <Participants.Provider
+            initialState={me && me.parent ? me.parent.students : null}
+        >
             <ProgramInfo
                 session={session}
                 programInfo={programCardInfo}

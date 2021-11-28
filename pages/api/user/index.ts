@@ -12,7 +12,10 @@ import isEmail from "validator/lib/isEmail";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     switch (req.method) {
         case "GET": {
             const users = await getUsers();
@@ -61,7 +64,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             }
             const updatedUser = await updateUser(updatedUserData);
             if (!updatedUser) {
-                ResponseUtil.returnBadRequest(res, `Error updating user with id ${userId}.`);
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Error updating user with id ${userId}.`,
+                );
                 return;
             }
             ResponseUtil.returnOK(res, updatedUser);

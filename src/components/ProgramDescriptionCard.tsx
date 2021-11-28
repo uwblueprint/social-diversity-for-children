@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, AspectRatio, Image, Flex, Grid, GridItem, Spacer, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    AspectRatio,
+    Image,
+    Flex,
+    Grid,
+    GridItem,
+    Spacer,
+    VStack,
+} from "@chakra-ui/react";
 import { SDCBadge } from "./SDCBadge";
 import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
@@ -20,7 +29,9 @@ type ProgramDescriptionCardProps = {
  * @returns a component that displays the class card info
  */
 
-export const ProgramDescriptionCard: React.FC<ProgramDescriptionCardProps> = ({ cardInfo }) => {
+export const ProgramDescriptionCard: React.FC<ProgramDescriptionCardProps> = ({
+    cardInfo,
+}) => {
     const router = useRouter();
     const { t } = useTranslation();
     const { me } = useMe();
@@ -29,7 +40,11 @@ export const ProgramDescriptionCard: React.FC<ProgramDescriptionCardProps> = ({ 
         <Grid templateColumns="repeat(4, 1fr)" gap={6} cursor={"pointer"}>
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
-                    <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
+                    <Image
+                        src={cardInfo.image}
+                        fit="cover"
+                        alt={cardInfo.name}
+                    />
                 </AspectRatio>
             </GridItem>
             <GridItem colSpan={3}>
@@ -48,9 +63,17 @@ export const ProgramDescriptionCard: React.FC<ProgramDescriptionCardProps> = ({ 
                         )}
                     </Flex>
                     <Flex>
-                        <Box as="span" color="gray.600" fontSize="sm" textTransform="capitalize">
+                        <Box
+                            as="span"
+                            color="gray.600"
+                            fontSize="sm"
+                            textTransform="capitalize"
+                        >
                             {t("time.weekday_many", {
-                                day: weekdayToString(cardInfo.weekday, router.locale as locale),
+                                day: weekdayToString(
+                                    cardInfo.weekday,
+                                    router.locale as locale,
+                                ),
                             })}{" "}
                             {convertToShortTimeRange(
                                 cardInfo.startTimeMinutes,
@@ -68,7 +91,9 @@ export const ProgramDescriptionCard: React.FC<ProgramDescriptionCardProps> = ({ 
                             {me && me.role === roles.VOLUNTEER
                                 ? cardInfo.volunteerSpaceAvailable +
                                   " volunteer spot" +
-                                  (cardInfo.volunteerSpaceAvailable > 1 ? "s" : "") +
+                                  (cardInfo.volunteerSpaceAvailable > 1
+                                      ? "s"
+                                      : "") +
                                   " available"
                                 : cardInfo.spaceAvailable +
                                   " participant spot" +

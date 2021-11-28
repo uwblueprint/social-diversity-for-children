@@ -8,7 +8,10 @@ import { deleteUser, getUser } from "@database/user";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     // Obtain user id
     const { id } = req.query;
 
@@ -18,7 +21,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             const user = await getUser(id as string);
 
             if (!user) {
-                ResponseUtil.returnNotFound(res, `User with id ${id} not found.`);
+                ResponseUtil.returnNotFound(
+                    res,
+                    `User with id ${id} not found.`,
+                );
                 return;
             }
             ResponseUtil.returnOK(res, user);
@@ -29,7 +35,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             const user = await deleteUser(id as string);
 
             if (!user) {
-                ResponseUtil.returnConflict(res, `User with id ${id} cannot be deleted.`);
+                ResponseUtil.returnConflict(
+                    res,
+                    `User with id ${id} cannot be deleted.`,
+                );
                 return;
             }
             ResponseUtil.returnOK(res, user);

@@ -29,10 +29,18 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
     const { t } = useTranslation();
 
     return (
-        <Grid border="1px solid #C5C5C5" templateColumns="repeat(4, 1fr)" gap={6}>
+        <Grid
+            border="1px solid #C5C5C5"
+            templateColumns="repeat(4, 1fr)"
+            gap={6}
+        >
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
-                    <Image src={classInfo.image} fit="cover" alt={classInfo.name} />
+                    <Image
+                        src={classInfo.image}
+                        fit="cover"
+                        alt={classInfo.name}
+                    />
                 </AspectRatio>
             </GridItem>
             <GridItem colSpan={3}>

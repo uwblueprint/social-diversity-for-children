@@ -10,7 +10,10 @@ import { getProgramCardInfos } from "@database/program-card-info";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     switch (req.method) {
         case "GET": {
             const result = await getProgramCardInfos();
@@ -22,13 +25,20 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "POST": {
-            const validationError = validateProgramData(req.body as ProgramInput);
+            const validationError = validateProgramData(
+                req.body as ProgramInput,
+            );
             if (validationError.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
             } else {
-                const newProgram = await createProgram(req.body as ProgramInput);
+                const newProgram = await createProgram(
+                    req.body as ProgramInput,
+                );
                 if (!newProgram) {
-                    ResponseUtil.returnBadRequest(res, `Program could not be created`);
+                    ResponseUtil.returnBadRequest(
+                        res,
+                        `Program could not be created`,
+                    );
                     break;
                 }
                 ResponseUtil.returnOK(res, newProgram);

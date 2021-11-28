@@ -8,7 +8,10 @@ import { stripe } from "services/stripe";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     switch (req.method) {
         case "GET": {
             // obtain the coupondId

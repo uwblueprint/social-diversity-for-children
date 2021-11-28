@@ -26,7 +26,9 @@ type DiscountPageProps = {
     onNext: () => void;
 };
 
-export const DiscountPage: React.FC<DiscountPageProps> = ({ onNext }): JSX.Element => {
+export const DiscountPage: React.FC<DiscountPageProps> = ({
+    onNext,
+}): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation("form");
 

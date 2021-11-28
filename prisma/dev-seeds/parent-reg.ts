@@ -30,7 +30,9 @@ const parentRegs: ParentReg[] = [
  * Upsert parent registrations
  * @param data custom data to upsert
  */
-export default async function parentRegUpsert(data?: ParentReg[]): Promise<void> {
+export default async function parentRegUpsert(
+    data?: ParentReg[],
+): Promise<void> {
     for (const parentReg of data || parentRegs) {
         const { parentId, studentId, classId, updatedAt, ...rest } = parentReg;
         await prisma.parentReg

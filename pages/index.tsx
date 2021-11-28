@@ -1,7 +1,15 @@
 import Wrapper from "@components/SDCWrapper";
 import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
-import { Center, Box, Flex, Divider, Spacer, Heading, Spinner } from "@chakra-ui/react";
+import {
+    Center,
+    Box,
+    Flex,
+    Divider,
+    Spacer,
+    Heading,
+    Spinner,
+} from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -25,10 +33,19 @@ export default function Component(props: ComponentProps): JSX.Element {
     const router = useRouter();
     const { me } = useMe();
 
-    const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
+    const {
+        programs: programCardInfos,
+        isLoading,
+        error,
+    } = usePrograms(router.locale as locale);
 
     if (error) {
-        return <CommonError cause="cannot fetch programs" session={props.session} />;
+        return (
+            <CommonError
+                cause="cannot fetch programs"
+                session={props.session}
+            />
+        );
     } else if (isLoading) {
         return <CommonLoading session={props.session} />;
     }
@@ -42,7 +59,11 @@ export default function Component(props: ComponentProps): JSX.Element {
                 </Box>
                 <Spacer />
 
-                <Divider orientation="horizontal" marginTop="5%" marginBottom="5%" />
+                <Divider
+                    orientation="horizontal"
+                    marginTop="5%"
+                    marginBottom="5%"
+                />
                 <Heading fontSize="3xl" marginBottom="5%">
                     {t("home.browseProgram")}
                 </Heading>

@@ -10,7 +10,10 @@ import { getClassInfoWithProgramId } from "@database/program-card-info";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     switch (req.method) {
         case "GET": {
             const { id: programId } = req.query;
@@ -26,7 +29,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                         "programId should be passed in as numbers",
                     );
                 }
-                const classes = await getClassInfoWithProgramId(programId as string);
+                const classes = await getClassInfoWithProgramId(
+                    programId as string,
+                );
                 ResponseUtil.returnOK(res, classes);
             }
             break;
@@ -39,7 +44,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             } else {
                 const newClass = await createClass(classInput);
                 if (!newClass) {
-                    ResponseUtil.returnBadRequest(res, `Class could not be created`);
+                    ResponseUtil.returnBadRequest(
+                        res,
+                        `Class could not be created`,
+                    );
                     break;
                 }
                 ResponseUtil.returnOK(res, newClass);

@@ -1,4 +1,13 @@
-import { Box, Button, Center, Flex, Progress, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    Progress,
+    Stack,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
@@ -33,7 +42,8 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
     const router = useRouter();
 
     const progressBarIncrement = Math.ceil(100 / totalPages);
-    const getProgressBarValue = (pageNum) => progressBarIncrement * (pageNum + 1);
+    const getProgressBarValue = (pageNum) =>
+        progressBarIncrement * (pageNum + 1);
 
     const formPageHeaders = [
         "Participant Information",
@@ -46,11 +56,17 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
             {pageNum < totalPages ? (
                 <Center>
                     <Box w={912}>
-                        <Flex alignItems={"center"} justifyContent={"space-between"}>
+                        <Flex
+                            alignItems={"center"}
+                            justifyContent={"space-between"}
+                        >
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
+                                        ? () =>
+                                              setPageNum((prevPage) =>
+                                                  Math.max(prevPage - 1, 0),
+                                              )
                                         : null
                                 }
                             />
@@ -69,7 +85,12 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                             />
                             {formPages.map((formPage, idx) => {
                                 return (
-                                    <Box key={idx} display={pageNum === idx ? null : "none"}>
+                                    <Box
+                                        key={idx}
+                                        display={
+                                            pageNum === idx ? null : "none"
+                                        }
+                                    >
                                         {formPage}
                                     </Box>
                                 );
@@ -83,7 +104,12 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                 <Center>
                     <VStack mt={120} mb={180}>
                         <ApprovedIcon />
-                        <Text fontWeight="700" fontSize="24px" align="center" pt={5}>
+                        <Text
+                            fontWeight="700"
+                            fontSize="24px"
+                            align="center"
+                            pt={5}
+                        >
                             {successful === "success"
                                 ? "Participant added successfully"
                                 : "Error: Participant not added successfully"}
@@ -91,8 +117,9 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                         <Text maxW={400} textAlign="center" pt={3} pb={9}>
                             {successful === "success" ? (
                                 <>
-                                    <strong>{name}</strong> has been successfully added as a
-                                    participant in your account!
+                                    <strong>{name}</strong> has been
+                                    successfully added as a participant in your
+                                    account!
                                 </>
                             ) : (
                                 "There was an error adding the participant. Please contact us"

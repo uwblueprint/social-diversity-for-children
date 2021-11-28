@@ -19,7 +19,10 @@ import { getClass } from "@database/class";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     const session = await getSession({ req });
 
     // If there is no session or the user is not a volunteer
@@ -41,7 +44,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
     const volunteerId = session.id as number;
     if (!volunteerId) {
-        return ResponseUtil.returnBadRequest(res, "No user id stored in session");
+        return ResponseUtil.returnBadRequest(
+            res,
+            "No user id stored in session",
+        );
     }
     switch (req.method) {
         case "GET": {
@@ -50,7 +56,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
             // Get all volunteer registrations if no class query
             if (!classId) {
-                const volunteerRegistrationRecords = await getVolunteerRegistrations(volunteerId);
+                const volunteerRegistrationRecords =
+                    await getVolunteerRegistrations(volunteerId);
 
                 // verify that the volunteer registration record could be obtained
                 if (!volunteerRegistrationRecords) {
@@ -109,15 +116,25 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             }
 
             // First, check if there is still space, if not, return conflict
-            const enrollClass = await getClass(volunteerRegistrationInput.classId);
-            if (enrollClass._count.volunteerRegs >= enrollClass.volunteerSpaceTotal) {
+            const enrollClass = await getClass(
+                volunteerRegistrationInput.classId,
+            );
+            if (
+                enrollClass._count.volunteerRegs >=
+                enrollClass.volunteerSpaceTotal
+            ) {
                 return ResponseUtil.returnConflict(res, "Class is full");
             }
 
             // create volunteer registration record and return if it could not be created
-            const newRegistration = createVolunteerRegistration(volunteerRegistrationInput);
+            const newRegistration = createVolunteerRegistration(
+                volunteerRegistrationInput,
+            );
             if (!newRegistration) {
-                ResponseUtil.returnBadRequest(res, `Registration could not be created`);
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Registration could not be created`,
+                );
                 return;
             }
 
@@ -143,7 +160,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 volunteerRegistrationInput,
             );
             if (!deletedRegistration) {
-                ResponseUtil.returnBadRequest(res, `Registration could not be created`);
+                ResponseUtil.returnBadRequest(
+                    res,
+                    `Registration could not be created`,
+                );
                 return;
             }
 

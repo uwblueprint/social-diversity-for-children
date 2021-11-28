@@ -11,7 +11,12 @@ type DrapAndDropProps = {
 // TODO detect mobile users and don't show d&d
 const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
     return (
-        <Box width="500px" border="2px" borderStyle="dashed" borderColor="gray.500">
+        <Box
+            width="500px"
+            border="2px"
+            borderStyle="dashed"
+            borderColor="gray.500"
+        >
             <Center>
                 <Box mt="30px">
                     <UploadIcon />
@@ -29,7 +34,9 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
             </Center>
 
             <Center mb="40px">
-                <FileUploadButton setFiles={setFiles}>Browse Files</FileUploadButton>
+                <FileUploadButton setFiles={setFiles}>
+                    Browse Files
+                </FileUploadButton>
             </Center>
         </Box>
     );

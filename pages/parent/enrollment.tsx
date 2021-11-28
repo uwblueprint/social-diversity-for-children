@@ -31,7 +31,9 @@ type ParentEnrollClassProps = {
 /**
  * This is the page that directs a user to register a student for a class
  */
-export default function ParentEnrollClass({ session }: ParentEnrollClassProps): JSX.Element {
+export default function ParentEnrollClass({
+    session,
+}: ParentEnrollClassProps): JSX.Element {
     const router = useRouter();
     const { classId, page, child, stripe } = router.query;
     const { user, isLoading, error } = useUser(session.id.toString());
@@ -57,7 +59,10 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
     }
 
     const classInfo = classInfoResponse
-        ? CardInfoUtil.getClassCardInfo(classInfoResponse.data, router.locale as locale)
+        ? CardInfoUtil.getClassCardInfo(
+              classInfoResponse.data,
+              router.locale as locale,
+          )
         : null;
 
     const nextPage = () => {
@@ -124,7 +129,11 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
         }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
-            <ProofOfIncomePage pageNum={pageNum} classId={numberClassId} onNext={nextPage} />,
+            <ProofOfIncomePage
+                pageNum={pageNum}
+                classId={numberClassId}
+                onNext={nextPage}
+            />,
         );
     }
     pageElements.push(
@@ -174,7 +183,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["common", "form"])),
+            ...(await serverSideTranslations(context.locale, [
+                "common",
+                "form",
+            ])),
         },
     };
 };

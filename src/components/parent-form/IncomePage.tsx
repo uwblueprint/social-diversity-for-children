@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Text, Heading, UnorderedList, ListItem, OrderedList } from "@chakra-ui/react";
+import {
+    Box,
+    Text,
+    Heading,
+    UnorderedList,
+    ListItem,
+    OrderedList,
+} from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
 type IncomePageProps = {
@@ -8,7 +15,11 @@ type IncomePageProps = {
 
 export const IncomePage: React.FC<IncomePageProps> = (): JSX.Element => {
     const { t } = useTranslation("form");
-    const PROOF_OF_INCOME_EXAMPLES = [t("poi.taxNotice"), t("poi.paystub"), t("poi.etc")];
+    const PROOF_OF_INCOME_EXAMPLES = [
+        t("poi.taxNotice"),
+        t("poi.paystub"),
+        t("poi.etc"),
+    ];
 
     const UPLOADING_PROOF_OF_INCOME = [
         t("poi.instruction1"),

@@ -27,7 +27,9 @@ const volunteerRegs: VolunteerReg[] = [
  * Upsert volunteer registrations
  * @param data custom data to upsert
  */
-export default async function volunteerRegUpsert(data?: VolunteerReg[]): Promise<void> {
+export default async function volunteerRegUpsert(
+    data?: VolunteerReg[],
+): Promise<void> {
     for (const volunteerReg of data || volunteerRegs) {
         const { volunteerId, classId, updatedAt, ...rest } = volunteerReg;
         await prisma.volunteerReg

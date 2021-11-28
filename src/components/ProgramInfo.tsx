@@ -58,11 +58,17 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
     let fullClassInfo;
     let availableClassInfo;
     if (me && me.role === roles.VOLUNTEER) {
-        fullClassInfo = classInfo.filter((info) => info.volunteerSpaceAvailable === 0);
-        availableClassInfo = classInfo.filter((info) => info.volunteerSpaceAvailable !== 0);
+        fullClassInfo = classInfo.filter(
+            (info) => info.volunteerSpaceAvailable === 0,
+        );
+        availableClassInfo = classInfo.filter(
+            (info) => info.volunteerSpaceAvailable !== 0,
+        );
     } else {
         fullClassInfo = classInfo.filter((info) => info.spaceAvailable === 0);
-        availableClassInfo = classInfo.filter((info) => info.spaceAvailable !== 0);
+        availableClassInfo = classInfo.filter(
+            (info) => info.spaceAvailable !== 0,
+        );
     }
 
     const programTags = (
@@ -109,9 +115,11 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                 </Flex>
                 {availableClassInfo.length === 0 ? (
                     <EmptyState>
-                        There are currently no available classes for {programInfo.name}.
+                        There are currently no available classes for{" "}
+                        {programInfo.name}.
                         <br />
-                        Register for a waitlisted class below or check out another program
+                        Register for a waitlisted class below or check out
+                        another program
                     </EmptyState>
                 ) : (
                     <ClassList
@@ -125,7 +133,11 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                 {fullClassInfo.length < 1 ? null : (
                     <Accordion allowToggle defaultIndex={0}>
                         <AccordionItem>
-                            <Flex pt="70px" align="center" justifyContent="space-between">
+                            <Flex
+                                pt="70px"
+                                align="center"
+                                justifyContent="space-between"
+                            >
                                 <Text fontSize="sm" fontWeight="semibold">
                                     Full classes
                                 </Text>

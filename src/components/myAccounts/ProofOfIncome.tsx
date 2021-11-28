@@ -50,7 +50,12 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
                     <>
                         <Text>Status: {status}</Text>
                         <Text>
-                            Date submitted: {convertToShortDateString(submitDate, locale.en, true)}
+                            Date submitted:{" "}
+                            {convertToShortDateString(
+                                submitDate,
+                                locale.en,
+                                true,
+                            )}
                         </Text>
                     </>
                 )}

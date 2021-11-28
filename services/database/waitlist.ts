@@ -48,7 +48,9 @@ async function getWaitlistRecordsByClassId(classId: number) {
  * @param parentId
  * @returns Promise<Waitlist[]> - Promise with list of waitlist records associated with the parent
  */
-async function getWaitlistRecordsByParentId(parentId: number): Promise<Waitlist[]> {
+async function getWaitlistRecordsByParentId(
+    parentId: number,
+): Promise<Waitlist[]> {
     const waitlistRecords = await prisma.waitlist.findMany({
         where: {
             parentId: parentId,

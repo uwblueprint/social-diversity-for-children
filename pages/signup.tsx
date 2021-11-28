@@ -64,7 +64,9 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             backgroundColor="transparent"
                             opacity={isUrlPath("/parent/signup") ? null : "50%"}
                             color={
-                                isUrlPath("/parent/signup") ? colourTheme.colors.Blue : "darkgray"
+                                isUrlPath("/parent/signup")
+                                    ? colourTheme.colors.Blue
+                                    : "darkgray"
                             }
                             width="366px"
                             height="54px"
@@ -82,7 +84,9 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             _focus={{ boxShadow: null }}
                             backgroundColor="transparent"
                             borderColor="brand.400"
-                            opacity={isUrlPath("/volunteer/signup") ? null : "50%"}
+                            opacity={
+                                isUrlPath("/volunteer/signup") ? null : "50%"
+                            }
                             color={
                                 isUrlPath("/volunteer/signup")
                                     ? colourTheme.colors.Blue
@@ -96,15 +100,21 @@ export default function SignupForm({ session }: SignupFormProps): JSX.Element {
                             mt="20px"
                             onClick={() => setUrl("/volunteer/signup")}
                         >
-                            <Text color={colourTheme.colors.Blue}>Volunteer</Text>
+                            <Text color={colourTheme.colors.Blue}>
+                                Volunteer
+                            </Text>
                         </Button>
                     </Center>
                     <Center>
                         <Button
                             _hover={{
-                                backgroundColor: isUrlEmpty() ? null : colourTheme.colors.LightBlue,
+                                backgroundColor: isUrlEmpty()
+                                    ? null
+                                    : colourTheme.colors.LightBlue,
                             }}
-                            backgroundColor={isUrlEmpty() ? "black" : colourTheme.colors.Blue}
+                            backgroundColor={
+                                isUrlEmpty() ? "black" : colourTheme.colors.Blue
+                            }
                             disabled={isUrlEmpty()}
                             color="white"
                             width="366px"

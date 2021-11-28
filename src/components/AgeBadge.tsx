@@ -21,7 +21,9 @@ export const AgeBadge: React.FC<AgeBadgeProps> = ({
     borderAge,
     ...restProps
 }) => {
-    const text = isAgeMinimal ? borderAge + " and above" : borderAge + " and under";
+    const text = isAgeMinimal
+        ? borderAge + " and above"
+        : borderAge + " and under";
 
     return isAdminTheme ? (
         <AdminBadge isOff={isOff} {...restProps}>

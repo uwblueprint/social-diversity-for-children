@@ -10,7 +10,9 @@ import theme from "@definitions/chakra/theme";
 import { ColorModeScript } from "@chakra-ui/color-mode";
 
 class CustomDocument extends NextDocument {
-    static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
+    static async getInitialProps(
+        ctx: DocumentContext,
+    ): Promise<DocumentInitialProps> {
         const initialProps = await NextDocument.getInitialProps(ctx);
 
         return initialProps;
@@ -21,7 +23,9 @@ class CustomDocument extends NextDocument {
             <Html>
                 <Head />
                 <body>
-                    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+                    <ColorModeScript
+                        initialColorMode={theme.config.initialColorMode}
+                    />
                     <Main />
                     <NextScript />
                 </body>

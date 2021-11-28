@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Wrap, WrapItem, Center, AspectRatio, Image } from "@chakra-ui/react";
+import {
+    Box,
+    Wrap,
+    WrapItem,
+    Center,
+    AspectRatio,
+    Image,
+} from "@chakra-ui/react";
 import type { ProgramCardInfo } from "models/Program";
 import { locale, programFormat } from "@prisma/client";
 import { SDCBadge } from "./SDCBadge";
@@ -21,7 +28,9 @@ type ProgramCardProps = {
  * @param cardInfo info for the program cards on the home page
  * @returns a component with all the cards for each of the programs in the database
  */
-export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Element => {
+export const ProgramCard: React.FC<ProgramCardProps> = ({
+    cardInfo,
+}): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation();
 
@@ -61,7 +70,12 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Eleme
                             key={idx}
                         ></WrapItem>
                     ) : (
-                        <WrapItem flexBasis="300px" key={idx} flexGrow={1} cursor={"pointer"}>
+                        <WrapItem
+                            flexBasis="300px"
+                            key={idx}
+                            flexGrow={1}
+                            cursor={"pointer"}
+                        >
                             <Link href={`program-details/${item.id}`}>
                                 <Box
                                     borderWidth="1px"
@@ -94,7 +108,11 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Eleme
                                             {item.name}
                                         </Box>
 
-                                        <Box as="span" color="gray.600" fontSize="sm">
+                                        <Box
+                                            as="span"
+                                            color="gray.600"
+                                            fontSize="sm"
+                                        >
                                             {t("time.range", {
                                                 ...convertToShortDateRange(
                                                     item.startDate,
@@ -108,7 +126,10 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Eleme
                                         </Box>
                                         <Box mt="2">
                                             <SDCBadge children={item.tag} />
-                                            <SDCBadge ml="2" children={item.onlineFormat} />
+                                            <SDCBadge
+                                                ml="2"
+                                                children={item.onlineFormat}
+                                            />
                                         </Box>
                                     </Box>
                                 </Box>

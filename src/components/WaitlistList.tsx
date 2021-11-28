@@ -50,7 +50,9 @@ const WaitlistCards: React.FC<WaitlistCardsProps> = ({ waitlistInfo }) => {
  */
 export const WaitlistList: React.FC = () => {
     const router = useRouter();
-    const { waitlist, error, isLoading } = useParentWaitlist(router.locale as locale);
+    const { waitlist, error, isLoading } = useParentWaitlist(
+        router.locale as locale,
+    );
 
     if (error) {
         return (

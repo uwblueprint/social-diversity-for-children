@@ -14,7 +14,9 @@ import { EmptyState } from "./EmptyState";
  */
 export const VolunteeringList: React.FC = () => {
     const router = useRouter();
-    const { volunteering, error, isLoading } = useVolunteerRegistrations(router.locale as locale);
+    const { volunteering, error, isLoading } = useVolunteerRegistrations(
+        router.locale as locale,
+    );
 
     if (error) {
         return (

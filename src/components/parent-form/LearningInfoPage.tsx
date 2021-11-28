@@ -46,7 +46,9 @@ type LearningInfo = {
     otherTherapyDetails: JSX.Element | null;
     formButtonOnClick: () => void;
 };
-export const LearningInfoPage: React.FC<LearningPageProps> = ({ props }): JSX.Element => {
+export const LearningInfoPage: React.FC<LearningPageProps> = ({
+    props,
+}): JSX.Element => {
     return (
         <>
             <FormControl id="participant-have">
@@ -92,7 +94,9 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({ props }): JSX.El
             ></CheckBoxField>
             <br />
             <FormControl id="therapy">
-                <FormLabel>Is the participant revieving any other form of therapy?</FormLabel>
+                <FormLabel>
+                    Is the participant revieving any other form of therapy?
+                </FormLabel>
                 <Stack direction="column">
                     <CheckBoxField
                         value={props.physiotherapy}

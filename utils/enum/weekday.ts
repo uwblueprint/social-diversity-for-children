@@ -6,9 +6,15 @@ import moment from "moment";
  * @param wd the Weekday enum value
  * @param language locale used
  */
-export function weekdayToString(wd: weekday, language: locale = locale.en): string {
+export function weekdayToString(
+    wd: weekday,
+    language: locale = locale.en,
+): string {
     const getLocaleWeekday = (day: number) =>
-        moment().day(day).toDate().toLocaleDateString(language, { weekday: "long" });
+        moment()
+            .day(day)
+            .toDate()
+            .toLocaleDateString(language, { weekday: "long" });
 
     switch (wd) {
         case weekday.MON:

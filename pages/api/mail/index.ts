@@ -29,8 +29,16 @@ export default async function mailHandler(
         // stores all promises for the nodemailer transport
         const mailerPromises = [];
         // storing all emails that need to be sent in mailerPromises (3h and 48h)
-        pushMailPromises(classesInThreeHours, firstIntervalHours, mailerPromises);
-        pushMailPromises(classesInFortyEightHours, secondIntervalHours, mailerPromises);
+        pushMailPromises(
+            classesInThreeHours,
+            firstIntervalHours,
+            mailerPromises,
+        );
+        pushMailPromises(
+            classesInFortyEightHours,
+            secondIntervalHours,
+            mailerPromises,
+        );
 
         // send all the reminder emails to the respective users
         await Promise.all(mailerPromises);
@@ -55,13 +63,24 @@ export default async function mailHandler(
  * @param mailerPromises array that stores promises of emails that need to be sent
  * @returns void, doesn't return anything
  */
-function pushMailPromises(classes, intervalHours: number, mailerPromises: Promise<void>[]): void {
+function pushMailPromises(
+    classes,
+    intervalHours: number,
+    mailerPromises: Promise<void>[],
+): void {
     for (let i = 0; i < classes.length; ++i) {
         // looping through parents that are registered to EACH class
         const parentRegs = classes[i].parentRegs;
         const volunteerRegs = classes[i].volunteerRegs;
-        const { name, imageLink, weekday, startDate, endDate, startTimeMinutes, durationMinutes } =
-            classes[i];
+        const {
+            name,
+            imageLink,
+            weekday,
+            startDate,
+            endDate,
+            startTimeMinutes,
+            durationMinutes,
+        } = classes[i];
         const getEmailSubject = (language: locale = locale.en) =>
             `Class Reminder: ${name} ${weekdayToString(
                 weekday,

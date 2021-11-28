@@ -23,7 +23,10 @@ export default function Login(): JSX.Element {
     const [email, setEmail] = useState("");
 
     // save the email into localstorage for email verification page
-    const [, setLocalStorageEmail] = useLocalStorage("sdc-email-verification", "");
+    const [, setLocalStorageEmail] = useLocalStorage(
+        "sdc-email-verification",
+        "",
+    );
     const [value, setValue] = useControllableState({ defaultValue: false });
 
     // signInWithEmail sends a login request to the user's email
@@ -42,7 +45,8 @@ export default function Login(): JSX.Element {
                     </Center>
                     <Center>
                         <Text fontWeight="400" fontSize="16px" mt="20px">
-                            Registration for Summer 2021 classes begin June 31, 2021
+                            Registration for Summer 2021 classes begin June 31,
+                            2021
                         </Text>
                     </Center>
                     <Center>
@@ -119,8 +123,14 @@ export default function Login(): JSX.Element {
                         )}
                     </Center>
                     <Center>
-                        <Text fontWeight="400" fontSize="14px" mt="70px" color="brand.300">
-                            First time? We'll email you a magic code to sign up instantly.
+                        <Text
+                            fontWeight="400"
+                            fontSize="14px"
+                            mt="70px"
+                            color="brand.300"
+                        >
+                            First time? We'll email you a magic code to sign up
+                            instantly.
                         </Text>
                     </Center>
                 </Box>
@@ -133,7 +143,9 @@ export default function Login(): JSX.Element {
  * getServerSideProps runs before this page is rendered to check to see if a
  * user has already been authenticated.
  */
-export const getServerSideProps: GetServerSideProps = async (context: GetSessionOptions) => {
+export const getServerSideProps: GetServerSideProps = async (
+    context: GetSessionOptions,
+) => {
     // obtain the next auth session
     const session = await getSession(context);
 

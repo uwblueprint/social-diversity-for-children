@@ -25,7 +25,8 @@ const classTranslations: ClassTranslation[] = [
     {
         classId: 10000,
         name: "Singing Monkeys",
-        description: "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
+        description:
+            "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
         language: locale.ko,
         createdAt: new Date(),
         updatedAt: null,
@@ -51,7 +52,8 @@ const classTranslations: ClassTranslation[] = [
     {
         classId: 10001,
         name: "Singing Giraffes",
-        description: "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
+        description:
+            "아이들은 영상 통화로 음악을 배우며 선생님과 대화하고 즐길 수 있습니다.",
         language: locale.ko,
         createdAt: new Date(),
         updatedAt: null,
@@ -71,9 +73,12 @@ const classTranslations: ClassTranslation[] = [
  * Upsert class translations
  * @param data custom data to upsert
  */
-export default async function classTranslationsUpsert(data?: ClassTranslation[]): Promise<void> {
+export default async function classTranslationsUpsert(
+    data?: ClassTranslation[],
+): Promise<void> {
     for (const translation of data || classTranslations) {
-        const { classId, language, createdAt, updatedAt, ...rest } = translation;
+        const { classId, language, createdAt, updatedAt, ...rest } =
+            translation;
         await prisma.classTranslation
             .upsert({
                 where: {

@@ -15,7 +15,9 @@ type GuardianInfo = {
     save: (parent: any) => void;
     edit: boolean;
 };
-export const GuardianInfo: React.FC<GuardianPageProps> = ({ props }): JSX.Element => {
+export const GuardianInfo: React.FC<GuardianPageProps> = ({
+    props,
+}): JSX.Element => {
     const [firstName, setFirstName] = useState(props.me.firstName);
     const [lastName, setLastName] = useState(props.me.lastName);
     const [phoneNumber, setPhoneNumber] = useState(props.me.parent.phoneNumber);

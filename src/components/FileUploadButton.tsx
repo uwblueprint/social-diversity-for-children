@@ -5,7 +5,10 @@ type FileUploadButtonProps = {
     setFiles: (files: File[]) => void;
 };
 
-const FileUploadButton: React.FC<FileUploadButtonProps> = ({ children, setFiles }): JSX.Element => {
+const FileUploadButton: React.FC<FileUploadButtonProps> = ({
+    children,
+    setFiles,
+}): JSX.Element => {
     const fileInput = useRef<HTMLInputElement>(null);
     const handleClick = (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,7 +37,12 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({ children, setFiles 
                 >
                     {children}
                 </Button>
-                <Input ref={fileInput} onInput={onFileInput} type="file" hidden />
+                <Input
+                    ref={fileInput}
+                    onInput={onFileInput}
+                    type="file"
+                    hidden
+                />
             </Center>
         </FormControl>
     );
