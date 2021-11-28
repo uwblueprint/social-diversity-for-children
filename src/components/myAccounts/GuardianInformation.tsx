@@ -16,9 +16,7 @@ type GuardianInfo = {
     save: (parent: any) => void;
     edit: boolean;
 };
-export const GuardianInfo: React.FC<GuardianPageProps> = ({
-    props,
-}): JSX.Element => {
+export const GuardianInfo: React.FC<GuardianPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation(["common", "form"]);
     const [firstName, setFirstName] = useState(props.me.firstName);
     const [lastName, setLastName] = useState(props.me.lastName);

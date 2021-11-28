@@ -24,9 +24,7 @@ const Languages = [
     { locale: "ko", label: "한국어" },
 ];
 
-export const LanguageModal: React.FC<LanguageModalProps> = ({
-    currentLanguage,
-}) => {
+export const LanguageModal: React.FC<LanguageModalProps> = ({ currentLanguage }) => {
     const router = useRouter();
     const { t } = useTranslation("common");
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,11 +52,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                         <RadioGroup value={language} onChange={setLanguage}>
                             <Stack>
                                 {Languages.map((language) => (
-                                    <Radio
-                                        key={language.locale}
-                                        py={2}
-                                        value={language.locale}
-                                    >
+                                    <Radio key={language.locale} py={2} value={language.locale}>
                                         {language.label}
                                     </Radio>
                                 ))}

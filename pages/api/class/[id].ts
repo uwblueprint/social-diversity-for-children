@@ -12,10 +12,7 @@ import { getSession } from "next-auth/client";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     // Obtain class id
     const { id } = req.query;
     const session = await getSession({ req });
@@ -23,10 +20,7 @@ export default async function handle(
     //parse query parameters from string to number and validate that id is a number
     const classId = parseInt(id as string, 10);
     if (isNaN(classId)) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "classId should be passed in as numbers",
-        );
+        return ResponseUtil.returnBadRequest(res, "classId should be passed in as numbers");
     }
 
     if (req.method == "GET") {
@@ -34,10 +28,7 @@ export default async function handle(
         const classSection = await getClass(classId);
 
         if (!classSection) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, classSection);
@@ -50,10 +41,7 @@ export default async function handle(
         const deletedClass = await deleteClass(classId);
 
         if (!deleteClass) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, deletedClass);
@@ -74,10 +62,7 @@ export default async function handle(
         const updatedClass = await updateClass(classId, classInput);
 
         if (!updatedClass) {
-            ResponseUtil.returnNotFound(
-                res,
-                `Class with id ${classId} not found.`,
-            );
+            ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
             return;
         }
         ResponseUtil.returnOK(res, updatedClass);

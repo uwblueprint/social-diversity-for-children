@@ -8,10 +8,7 @@ import { mutate } from "swr";
  * @param classId id of class to delete from
  * @returns deleted records
  */
-export async function deleteWaitlistRegistration(
-    parent: Parent,
-    classId: number,
-) {
+export async function deleteWaitlistRegistration(parent: Parent, classId: number) {
     const registrationData: ParentWaitlistInput = {
         classId,
         parentId: parent.id,

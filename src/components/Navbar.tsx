@@ -39,13 +39,7 @@ type NavbarProps = {
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     <Link href={href}>
-        <ChakraLink
-            px={8}
-            py={1}
-            rounded={"md"}
-            _focus={{}}
-            textUnderlineOffset={"0.5em"}
-        >
+        <ChakraLink px={8} py={1} rounded={"md"} _focus={{}} textUnderlineOffset={"0.5em"}>
             {children}
         </ChakraLink>
     </Link>
@@ -72,12 +66,7 @@ const SideBar = ({
                             <Text fontSize="2xl" fontWeight="bold">
                                 Welcome
                             </Text>
-                            <Text
-                                fontSize="md"
-                                fontWeight="normal"
-                                mt="5"
-                                mb="15"
-                            >
+                            <Text fontSize="md" fontWeight="normal" mt="5" mb="15">
                                 {session.user.email}
                             </Text>
                             <Divider mt="15" mb="15" />
@@ -114,12 +103,7 @@ const SideBar = ({
                         <NavLink href="/class">View My Classes</NavLink>
                     </Flex>
                     {loggedIn && (
-                        <Flex
-                            flexDirection="row"
-                            mt="5"
-                            mb="5"
-                            alignItems="center"
-                        >
+                        <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                             <Icon as={BiUserCircle} width={6} height={6} />
                             <NavLink href="/myaccounts">Account</NavLink>
                         </Flex>
@@ -131,11 +115,7 @@ const SideBar = ({
                             <Divider mt="15" mb="15" />
                             <Flex alignItems="center">
                                 <Icon as={MdLogout} width={6} height={6} />
-                                <Text
-                                    marginLeft="5"
-                                    cursor="pointer"
-                                    onClick={() => signOut()}
-                                >
+                                <Text marginLeft="5" cursor="pointer" onClick={() => signOut()}>
                                     Log Out
                                 </Text>
                             </Flex>
@@ -168,11 +148,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
 
     return (
         <>
-            <SideBar
-                isOpen={isOpen}
-                onClose={onClose}
-                session={props.session}
-            />
+            <SideBar isOpen={isOpen} onClose={onClose} session={props.session} />
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
                 <Box
                     bg={"transparent"}
@@ -199,16 +175,9 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                     </ChakraLink>
                                 </Link>
                             </Box>
-                            <HStack
-                                as={"nav"}
-                                spacing={4}
-                                display={{ base: "none", md: "flex" }}
-                            >
+                            <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
                                 {Links.map((linkInfo) => (
-                                    <NavLink
-                                        key={linkInfo.name}
-                                        href={linkInfo.url}
-                                    >
+                                    <NavLink key={linkInfo.name} href={linkInfo.url}>
                                         {linkInfo.name}
                                     </NavLink>
                                 ))}

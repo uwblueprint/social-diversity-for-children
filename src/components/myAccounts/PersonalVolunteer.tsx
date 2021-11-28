@@ -19,31 +19,21 @@ type VolunteerInfo = {
     save: (volunteer: any) => void;
     edit: boolean;
 };
-export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
-    props,
-}): JSX.Element => {
+export const VolunteerInfo: React.FC<VolunteerPageProps> = ({ props }): JSX.Element => {
     const { t } = useTranslation("common");
 
     const [firstName, setFirstName] = useState(props.me.firstName);
     const [lastName, setLastName] = useState(props.me.lastName);
 
-    const [phoneNumber, setPhoneNumber] = useState(
-        props.me.volunteer.phoneNumber,
-    );
-    const [dateOfBirth, setDateOfBirth] = useState(
-        props.me.volunteer.dateOfBirth,
-    );
-    const [addressLine1, setAddressLine1] = useState(
-        props.me.volunteer.addressLine1,
-    );
+    const [phoneNumber, setPhoneNumber] = useState(props.me.volunteer.phoneNumber);
+    const [dateOfBirth, setDateOfBirth] = useState(props.me.volunteer.dateOfBirth);
+    const [addressLine1, setAddressLine1] = useState(props.me.volunteer.addressLine1);
     const [cityName, setCityName] = useState(props.me.volunteer.cityName);
     const [province, setProvince] = useState(props.me.volunteer.province);
     const [postalCode, setPostalCode] = useState(props.me.volunteer.postalCode);
     const [school, setSchool] = useState(props.me.volunteer.school);
     const [skills, setSkills] = useState(props.me.volunteer.skills);
-    const [hearAboutUs, setHearAboutUs] = useState(
-        props.me.volunteer.hearAboutUs,
-    );
+    const [hearAboutUs, setHearAboutUs] = useState(props.me.volunteer.hearAboutUs);
 
     const save = () => {
         //Put into proper format
