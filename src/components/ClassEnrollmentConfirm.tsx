@@ -13,6 +13,7 @@ import colourTheme from "@styles/colours";
 import parsePhoneNumber from "@utils/parsePhoneNumber";
 import parseDate from "@utils/parseDate";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 type parentDataType = {
     name: string;
@@ -36,6 +37,8 @@ const therapyMapping = {
 export const ClassEnrollmentConfirmation = (
     props: ClassEnrollmentConfirmationProps,
 ): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <Box>
             <VStack spacing="45px" alignItems="flex-start">
@@ -46,7 +49,7 @@ export const ClassEnrollmentConfirmation = (
                     fontSize="36px"
                 >
                     <Heading>
-                        Confirm Personal Information{" "}
+                        {t("enroll.confirmPersonalInformation")}{" "}
                         <Heading color={colourTheme.colors.Blue} as="span">
                             ({props.studentData.firstName}{" "}
                             {props.studentData.lastName})
@@ -54,8 +57,7 @@ export const ClassEnrollmentConfirmation = (
                     </Heading>
                 </HStack>
                 <Text fontWeight="300" fontSize="22px">
-                    Has any of the following information changed? Please confirm
-                    that none of the following information has changed.
+                    {t("enroll.hasChange")}
                 </Text>
                 <VStack
                     alignItems="flex-start"
@@ -63,7 +65,7 @@ export const ClassEnrollmentConfirmation = (
                     marginBottom="80px"
                 >
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
-                        General Participant Information
+                        {t("label.generalParticipantInformation")}
                     </Text>
                     <Box>
                         <Text
@@ -71,7 +73,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Participant Name
+                            {t("label.participantName")}
                         </Text>
                         <Text>
                             {props.studentData.firstName}{" "}
@@ -84,7 +86,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Date of Birth (YYYY-MM-DD)
+                            {t("label.dateOfBirth")} (YYYY-MM-DD)
                         </Text>
                         <Text>{parseDate(props.studentData.dateOfBirth)}</Text>
                     </Box>
@@ -95,7 +97,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                Street Address 1
+                                {t("label.address1")}
                             </Text>
                             <Text>{props.studentData.addressLine1}</Text>
                         </Box>
@@ -105,7 +107,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                City
+                                {t("label.city")}
                             </Text>
                             <Text>{props.studentData.cityName}</Text>
                         </Box>
@@ -115,7 +117,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                Province
+                                {t("label.province")}
                             </Text>
                             <Text>{props.studentData.province}</Text>
                         </Box>
@@ -125,7 +127,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                Postal Code
+                                {t("label.postalCode")}
                             </Text>
                             <Text>{props.studentData.postalCode}</Text>
                         </Box>
@@ -137,7 +139,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                School
+                                {t("label.school")}
                             </Text>
                             <Text>{props.studentData.school}</Text>
                         </Box>
@@ -147,7 +149,7 @@ export const ClassEnrollmentConfirmation = (
                                 fontSize="14px"
                                 marginBottom="6px"
                             >
-                                Grade
+                                {t("label.grade")}
                             </Text>
                             <Text>{props.studentData.grade}</Text>
                         </Box>
@@ -158,7 +160,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            The participant has
+                            {t("label.difficulties")}
                         </Text>
                         <Text>
                             {props.studentData.difficulties.length === 0
@@ -180,7 +182,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Special education at school
+                            {t("label.specialEducation")}
                         </Text>
                         <Text>
                             {props.studentData.specialEducation ? "Yes" : "No"}
@@ -192,7 +194,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Forms of therapy
+                            {t("label.therapy")}
                         </Text>
                         <Text>
                             {props.studentData.therapy.length === 0
@@ -210,7 +212,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Parent/Guardian Expectations
+                            {t("label.guardianExpectations")}
                         </Text>
                         <Text>
                             {props.studentData.guardianExpectations
@@ -225,7 +227,7 @@ export const ClassEnrollmentConfirmation = (
                     marginBottom="80px"
                 >
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
-                        Parent/Guardian Information
+                        {t("label.guardianInformation")}
                     </Text>
                     <Box>
                         <Text
@@ -233,7 +235,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Parent/Guardian Name
+                            {t("label.guardianName")}
                         </Text>
                         <Text>{props.parentData.name}</Text>
                     </Box>
@@ -243,7 +245,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Phone
+                            {t("label.phone")}
                         </Text>
                         <Text>{parsePhoneNumber(props.parentData.phone)}</Text>
                     </Box>
@@ -254,7 +256,7 @@ export const ClassEnrollmentConfirmation = (
                     marginBottom="80px"
                 >
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
-                        Emergency Contact
+                        {t("label.emergencyContact")}
                     </Text>
                     <Box>
                         <Text
@@ -262,7 +264,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Emergency Contact Name
+                            {t("label.emergencyName")}
                         </Text>
                         <Text>
                             {props.studentData.emergFirstName +
@@ -276,7 +278,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Emergency Contact Cell Number
+                            {t("label.emergencyPhone")}
                         </Text>
                         <Text>
                             {parsePhoneNumber(props.studentData.emergNumber)}
@@ -288,7 +290,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Relationship to participant
+                            {t("label.relation")}
                         </Text>
                         <Text>{props.studentData.emergRelationToStudent}</Text>
                     </Box>
@@ -299,7 +301,7 @@ export const ClassEnrollmentConfirmation = (
                     marginBottom="80px"
                 >
                     <Text fontWeight={700} fontSize="24px" marginBottom="-16px">
-                        Health Information
+                        {t("label.healthInformation")}
                     </Text>
                     <Box>
                         <Text
@@ -307,7 +309,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Medication
+                            {t("label.medication")}
                         </Text>
                         <Text>
                             {props.studentData.medication
@@ -321,7 +323,7 @@ export const ClassEnrollmentConfirmation = (
                             fontSize="14px"
                             marginBottom="6px"
                         >
-                            Allergies
+                            {t("label.allergies")}
                         </Text>
                         <Text>
                             {props.studentData.allergies
@@ -345,7 +347,7 @@ export const ClassEnrollmentConfirmation = (
                         fontSize="16px"
                         onClick={props.onNext}
                     >
-                        Next
+                        {t("form.next")}
                     </Button>
                     <Link href="/myaccounts">
                         <Button
@@ -359,7 +361,7 @@ export const ClassEnrollmentConfirmation = (
                             textColor={colourTheme.colors.Blue}
                             fontSize="16px"
                         >
-                            Update Account Information
+                            {t("enroll.updateInfo")}
                         </Button>
                     </Link>
                 </Stack>

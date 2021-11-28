@@ -2,16 +2,18 @@ import {
     Button,
     Flex,
     Center,
-    Text,
-    Input,
     FormControl,
+    Input,
+    Text,
     useControllableState,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions, signIn } from "next-auth/client";
-import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
+import useLocalStorage from "@utils/hooks/useLocalStorage";
+import { GetServerSideProps } from "next"; // Get server side props
+import { getSession, signIn } from "next-auth/client";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useState } from "react";
 import isEmail from "validator/lib/isEmail";
 
 /**
@@ -34,6 +36,8 @@ export default function Login(): JSX.Element {
         signIn("email", { email });
     };
 
+    const { t } = useTranslation("common");
+
     return (
         <Wrapper>
             <Center>
@@ -45,7 +49,7 @@ export default function Login(): JSX.Element {
                 >
                     <Center>
                         <Text fontWeight="700" fontSize="36px">
-                            Sign In
+                            {t("nav.signIn")}
                         </Text>
                     </Center>
                     <Center>
@@ -140,8 +144,7 @@ export default function Login(): JSX.Element {
                             textAlign="center"
                             color="brand.300"
                         >
-                            First time? We'll email you a magic code to sign up
-                            instantly.
+                            {t("signIn.firstTime")}
                         </Text>
                     </Center>
                 </Flex>
@@ -154,9 +157,7 @@ export default function Login(): JSX.Element {
  * getServerSideProps runs before this page is rendered to check to see if a
  * user has already been authenticated.
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
@@ -172,6 +173,8 @@ export const getServerSideProps: GetServerSideProps = async (
 
     // if the user is not authenticated - continue to the page as normal
     return {
-        props: {},
+        props: {
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

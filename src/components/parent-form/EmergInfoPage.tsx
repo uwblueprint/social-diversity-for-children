@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
+import { useTranslation } from "react-i18next";
 
 type EmergPageProps = {
     styleProps?: Record<string, unknown>;
@@ -24,41 +25,38 @@ type EmergInfo = {
 export const EmergInfoPage: React.FC<EmergPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <>
             <Box maxW="55rem">
-                <Text noOfLines={2} fontSize="16px" fontWeight="200">
-                    The information on this form will be used at the discretion
-                    of the activity instructor/coordinator to ensure care and
-                    attention is given to the safety and health of your child.
-                    All information on this form is considered Personal and
-                    Confidential. The contact listed on the emergency form
-                    cannot be the same contact listed as the parent above.
+                <Text fontSize="16px" fontWeight="200">
+                    {t("signUp.emergencyFormInfo")}
                 </Text>
             </Box>
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
-                    name="Emergency Contact First Name"
+                    name={t("label.emergencyFirstName")}
                     placeholder="John"
                     value={props.emergFirstName}
                     setValue={props.setEmergFirstName}
                 ></TextField>
                 <TextField
-                    name="Emergency Contact Last Name"
+                    name={t("label.emergencyLastName")}
                     placeholder="Doe"
                     value={props.emergLastName}
                     setValue={props.setEmergLastName}
                 ></TextField>
             </HStack>
             <PhoneNumberField
-                name="Emergency Contact Phone Number"
+                name={t("label.emergencyPhone")}
                 placeholder="2893491048"
                 value={props.emergPhoneNumber}
                 setValue={props.setEmergPhoneNumber}
             ></PhoneNumberField>
             <br />
             <TextField
-                name="Emergency Contact Relationship to Participant"
+                name={t("label.relation")}
                 placeholder="Mother"
                 value={props.emergRelationship}
                 setValue={props.setEmergRelationship}
@@ -81,7 +79,7 @@ export const EmergInfoPage: React.FC<EmergPageProps> = ({
                     }
                     onClick={props.formButtonOnClick}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>

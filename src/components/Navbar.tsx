@@ -29,17 +29,13 @@ import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Session } from "next-auth";
+import { useTranslation } from "next-i18next";
 import { signOut } from "next-auth/client";
 
 type NavbarProps = {
     session?: Session;
     height?: number | string;
 };
-
-const Links = [
-    { name: "Browse Programs", url: "/" },
-    { name: "My Classes", url: "/class" },
-];
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     <Link href={href}>
@@ -155,14 +151,20 @@ export const DEFAULT_NAVBAR_HEIGHT = 16;
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const router = useRouter();
+    const { t } = useTranslation("common");
     const isSidebar = useBreakpointValue({ base: true, lg: false });
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const accountButton = props.session ? (
-        <NavLink href="/myaccounts">My Account</NavLink>
+        <NavLink href="/myaccounts">{t("nav.myAccount")}</NavLink>
     ) : (
         <SignInButton />
     );
+
+    const Links = [
+        { name: t("nav.browseProgram"), url: "/" },
+        { name: t("nav.myClasses"), url: "/class" },
+    ];
 
     return (
         <>

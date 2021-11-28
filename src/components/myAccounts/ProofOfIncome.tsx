@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ApprovedIcon, InfoIcon, PendingIcon } from "@components/icons";
 import convertToShortDateString from "@utils/convertToShortDateString";
 import { locale } from "@prisma/client";
+import { useTranslation } from "react-i18next";
 
 type ProofOfIncomeProps = {
     link: string;
@@ -17,21 +18,28 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
     approved,
     submitDate,
 }): JSX.Element => {
+    const { t } = useTranslation(["form", "common"]);
+
     let description;
     let status;
     let icon;
 
     if (approved) {
-        description =
-            "Your income statement has been approved. You are eligible for 50% off your future registrations.";
-        status = "Approved";
+        status = "approved";
+        description = t("account.poi", {
+            ns: "common",
+            context: status,
+        });
         icon = <ApprovedIcon />;
     } else if (link == null) {
-        description = "You have not uploaded an income statement at this time.";
+        description = t("poi.missing");
         icon = <InfoIcon />;
     } else {
-        description = "Your income statement is under review.";
-        status = "Pending";
+        status = "pending";
+        description = t("account.poi", {
+            ns: "common",
+            context: status,
+        });
         icon = <PendingIcon />;
     }
 
@@ -48,14 +56,21 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
             <Box pl={120} my={5} color={colourTheme.colors.Gray}>
                 {link == null ? null : (
                     <>
-                        <Text>Status: {status}</Text>
                         <Text>
-                            Date submitted:{" "}
-                            {convertToShortDateString(
-                                submitDate,
-                                locale.en,
-                                true,
-                            )}
+                            {t("account.status", {
+                                ns: "common",
+                                context: status,
+                            })}
+                        </Text>
+                        <Text>
+                            {t("account.dateSubmitted", {
+                                ns: "common",
+                                date: convertToShortDateString(
+                                    submitDate,
+                                    locale.en,
+                                    true,
+                                ),
+                            })}
                         </Text>
                     </>
                 )}
@@ -72,7 +87,7 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
                     border="1px"
                     mt="20px"
                 >
-                    Upload income statement
+                    {t("poi.upload")}
                 </Button>
             </Link>
         </Box>

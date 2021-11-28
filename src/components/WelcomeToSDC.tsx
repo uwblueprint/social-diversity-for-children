@@ -76,7 +76,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                             borderRadius="6px"
                                             fontWeight={"200"}
                                         >
-                                            {t("home.registerNow")}
+                                            {t("nav.registerNow")}
                                         </Button>
                                     </Link>
                                 )}
@@ -120,7 +120,7 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                             borderRadius="6px"
                                             fontWeight={"200"}
                                         >
-                                            {t("home.registerNow")}
+                                            {t("nav.registerNow")}
                                         </Button>
                                     </Link>
                                 )}

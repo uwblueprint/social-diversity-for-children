@@ -4,7 +4,7 @@ import {
     Box,
     Flex,
     Text,
-    Link,
+    Link as ChakraLink,
     Button,
     VStack,
 } from "@chakra-ui/react";
@@ -14,6 +14,7 @@ import { CloseButton } from "@components/CloseButton";
 import colourTheme from "@styles/colours";
 import { useTranslation } from "react-i18next";
 import { Session } from "next-auth";
+import Link from "next/link";
 
 type VolunteerEnrolledPageProps = {
     styleProps?: Record<string, unknown>;
@@ -25,7 +26,7 @@ type VolunteerEnrolledPageProps = {
 
 export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> =
     ({ session, pageNum, setPageNum, formPages }): JSX.Element => {
-        const { t } = useTranslation("form");
+        const { t } = useTranslation(["form", "common"]);
 
         return (
             <Wrapper session={session}>
@@ -76,57 +77,64 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                                 {t("form.volunteerSignup")}
                             </Text>
                             <Text maxW={512} textAlign="center">
-                                We're really excited that you want to volunteer
-                                for us. Look out for an email from us shortly
-                                with more information!
+                                {t("form.volunteerSignupInfo")}
                             </Text>
                             <Center>
-                                <Link
-                                    _hover={{ textDecoration: "none" }}
-                                    _focus={{}}
-                                    href="/class"
-                                >
-                                    <Button
-                                        mt={"55px"}
-                                        borderColor={colourTheme.colors.Blue}
-                                        border="2px"
-                                        width={"364px"}
-                                        height={"49px"}
-                                        color={colourTheme.colors.Blue}
-                                        backgroundColor={
-                                            colourTheme.colors.white
-                                        }
-                                        px={10}
-                                        _active={{}}
-                                        fontWeight={"200"}
-                                        borderRadius={"6px"}
+                                <Link href="/class">
+                                    <ChakraLink
+                                        _hover={{ textDecoration: "none" }}
+                                        _focus={{}}
                                     >
-                                        {t("form.viewUpcoming")}
-                                    </Button>
+                                        <Button
+                                            mt={"55px"}
+                                            borderColor={
+                                                colourTheme.colors.Blue
+                                            }
+                                            border="2px"
+                                            width={"364px"}
+                                            height={"49px"}
+                                            color={colourTheme.colors.Blue}
+                                            backgroundColor={
+                                                colourTheme.colors.white
+                                            }
+                                            px={10}
+                                            _active={{}}
+                                            fontWeight={"200"}
+                                            borderRadius={"6px"}
+                                        >
+                                            {t("nav.viewUpcoming", {
+                                                ns: "common",
+                                            })}
+                                        </Button>
+                                    </ChakraLink>
                                 </Link>
                             </Center>
                             <Center>
-                                <Link
-                                    _hover={{ textDecoration: "none" }}
-                                    _focus={{}}
-                                    href="/"
-                                >
-                                    <Button
-                                        mt="13px"
-                                        width={"364px"}
-                                        height={"49px"}
-                                        color={"white"}
-                                        bg={colourTheme.colors.Blue}
-                                        px={10}
-                                        _hover={{
-                                            bg: colourTheme.colors.LightBlue,
-                                        }}
-                                        _active={{}}
-                                        fontWeight={"400"}
-                                        borderRadius={"6px"}
+                                <Link href="/">
+                                    <ChakraLink
+                                        _hover={{ textDecoration: "none" }}
+                                        _focus={{}}
                                     >
-                                        {t("form.browseClasses")}
-                                    </Button>
+                                        <Button
+                                            mt="13px"
+                                            width={"364px"}
+                                            height={"49px"}
+                                            color={"white"}
+                                            bg={colourTheme.colors.Blue}
+                                            px={10}
+                                            _hover={{
+                                                bg: colourTheme.colors
+                                                    .LightBlue,
+                                            }}
+                                            _active={{}}
+                                            fontWeight={"400"}
+                                            borderRadius={"6px"}
+                                        >
+                                            {t("nav.browseClasses", {
+                                                ns: "common",
+                                            })}
+                                        </Button>
+                                    </ChakraLink>
                                 </Link>
                             </Center>
                         </VStack>

@@ -6,18 +6,117 @@
         "registration": "Registration for Summer 2021 classes begins June 31, 2021!",
         "parentBrowse": "Browse through programs below and then select a class with the date and time of your choice! We make sure that 100% of our participants’ demonstrated needs are met.",
         "volunteerBrowse": "Volunteering with SDC is simple and easy! Get started with volunteering with SDC by creating an account to volunteer and then selecting the program you want to volunteer for.",
-        "registerNow": "Register now",
-        "browseProgram": "Browse programs"
+        "emptyPrograms": "There are currently no programs available to register for. Come back shortly to see the programs we have to offer for the next term!"
     },
     "program": {
         "signInToRegister": "Sign in to register/volunteer",
         "classDetails": "Class Details",
         "ageGroupUnder": "Ages {{age}} and under",
         "ageGroupAbove": "Ages {{age}} and above",
-        "teacherName": "Teacher {{name}}"
+        "teacherName": "Teacher {{name}}",
+        "participantSpot": "{{spot}} participant spot available",
+        "participantSpot_plural": "{{spot}} participant spots available",
+        "volunteerSpot": "{{spot}} volunteer spot available",
+        "volunteerSpot_plural": "{{spot}} volunteer spots available",
+        "notEligible": "Your child is not eligible for this age group. Please select a different class.",
+        "understood": "I understand",
+        "waitlist": "Add to Waitlist",
+        "waitlistNotify": "We'll notify you once space becomes available",
+        "learnMore": "Learn More",
+        "selectClass": "Select a class",
+        "fullClasses": "Full classes",
+        "emptyProgram": "There are currently no available classes for {{program}}. Register for a waitlisted class below or check out another program"
+    },
+    "class": {
+        "joinClass": "Join class",
+        "unregister": "Unregister",
+        "unregisterFor": "Unregister for {{name}}",
+        "unregisterForAll": "Unregister for all",
+        "upcomingClasses": "Upcoming classes",
+        "waitlistedClasses": "Waitlisted classes",
+        "waitlistedInfo": "An email will be sent to you when a spot opens",
+        "emptyWaitlist": "Currently you are not waitlisted in any classes. Any classes you waitlist for will show up here!",
+        "emptyClass": "Currently you have not registered in any classes. Any classes you registered for will show up here!"
+    },
+    "account": {
+        "addParticipant": "Add participant",
+        "participantInformation": "Participant Information",
+        "personalInformation": "Personal Information",
+        "guardianInformation": "Guardian Information",
+        "generalInformation": "General Information",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "status_approved": "Status: Approved",
+        "status_pending": "Status: Pending",
+        "status_declined": "Status: Declined",
+        "dateSubmitted": "Date submitted: {{date}}",
+        "poi_approved": "Your income statement has been approved. You might be eligible for discounts, please be on the look out for coupon from us.",
+        "poi_pending": "Your income statement is under review.",
+        "bgc_approved": "Your criminal record check has been approved.",
+        "bgc_pending": "Your criminal record check is under review.",
+        "logOut": "Log out"
+    },
+    "upload": {
+        "title": "Upload Document",
+        "instruction": "Drag and drop your file here",
+        "alternative": "or",
+        "browseFiles": "Browse Files",
+        "uploaded": "Document uploaded",
+        "submit": "Submit",
+        "replace": "Would you like to replace the current file?",
+        "success": "File submitted successfully",
+        "successInfo": "Document was successfully sent to SDC.",
+        "successHint": "Keep an eye out on the status of your background check within the next few weeks."
+    },
+    "signIn": {
+        "firstTime": "First time? We’ll email you a magic code to sign up instantly.",
+        "sentTitle": "A verification email has been sent. Check your email!",
+        "sentInfo": "To confirm your email address, click on the link in the email we sent to {{email}}.",
+        "sentHint": "Didn’t get an email? Return to the Sign In page and re-enter a valid email.",
+        "successEmail": "Email successfully confirmed!",
+        "successInfo": "You’ve confirmed {{email}}. You’re all ready to start filling in your account information!"
     },
     "time": {
         "range": "{{start}} to {{end}}",
         "weekday_many": "{{day}}s"
+    },
+    "language": {
+        "select": "Select a language",
+        "apply": "Apply"
+    },
+    "difficulties": {
+        "learning": "Learning difficulties",
+        "physical": "Physical difficulties",
+        "sensory": "Sensory difficulties",
+        "other": "Other"
+    },
+    "therapy": {
+        "physiotherapy": "Physiotherapy",
+        "language": "Speech & Language Therapy",
+        "occupational": "Occupational Therapy",
+        "psychotherapy": "Psychotherapy/Counseling",
+        "art": "Music or Art Therapy",
+        "other": "Other"
+    },
+    "hearAboutUs": {
+        "friendsAndFamily": "Friends & Family",
+        "flyers": "Flyers",
+        "email": "Email",
+        "social": "Social Media",
+        "other": "Other"
+    },
+    "nav": {
+        "register": "Register",
+        "registerNow": "Register now",
+        "browseProgram": "Browse Programs",
+        "signIn": "Sign In",
+        "back": "Back",
+        "myClasses": "My Classes",
+        "myAccount": "My Account",
+        "viewUpcoming": "View upcoming classes",
+        "browseClasses": "Browse Classes",
+        "viewDetails": "View Details",
+        "viewAccount": "View Account"
     }
 }

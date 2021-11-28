@@ -7,6 +7,7 @@ import { ClassCardInfo } from "@models/Class";
 import useStripePrice from "@utils/hooks/useStripePrice";
 import useStripeCoupon from "@utils/hooks/useStripeCoupon";
 import { Stripe } from "services/stripe";
+import { useTranslation } from "react-i18next";
 
 type CheckoutProps = {
     classInfo: ClassCardInfo;
@@ -28,6 +29,7 @@ export const Checkout = ({
     couponId,
     successPath,
 }: CheckoutProps): JSX.Element => {
+    const { t } = useTranslation("form");
     const { stripePrice: price, isLoading: isPriceLoading } = useStripePrice(
         classInfo.stripePriceId,
     );
@@ -36,21 +38,19 @@ export const Checkout = ({
     return (
         <>
             <Text mb="30px" fontWeight="700" fontSize="36px" mt="39px">
-                Confirm and Pay
+                {t("enroll.pay")}
             </Text>
             {classInfo && <FormClassCard classInfo={classInfo}></FormClassCard>}
 
             <Text mt="40px" mb="10px" fontWeight="700" fontSize="22px">
-                Redeem Coupon
+                {t("enroll.redeemCoupon")}
             </Text>
             <Text mb="30px" fontWeight="100" fontSize="14px">
-                To redeem a coupon, add the desired coupon code upon proceeding
-                to checkout. <br /> There will be an option to add the coupon
-                code before having to provide payment.
+                {t("enroll.redeemInfo")}
             </Text>
 
             <Text mb="30px" fontWeight="700" fontSize="22px">
-                Order Summary
+                {t("enroll.order")}
             </Text>
             {classInfo && (
                 <>
@@ -60,7 +60,7 @@ export const Checkout = ({
                         alignItems={"center"}
                         justifyContent={"space-between"}
                     >
-                        <Text>Course Fee:</Text>
+                        <Text>{t("enroll.fee")}</Text>
                         <Text>{`$${(isPriceLoading
                             ? 0
                             : price.unit_amount / 100
@@ -72,7 +72,9 @@ export const Checkout = ({
                             alignItems={"center"}
                             justifyContent={"space-between"}
                         >
-                            <Text>Coupon Applied ({couponId}):</Text>
+                            <Text>
+                                {t("enroll.coupon", { coupon: couponId })}
+                            </Text>
                             <Text>{`-$${(
                                 getDiscountUnit(price.unit_amount, coupon) / 100
                             ).toFixed(2)}`}</Text>
@@ -87,7 +89,7 @@ export const Checkout = ({
                         alignItems={"center"}
                         justifyContent={"space-between"}
                     >
-                        <Text>Estimated Total:</Text>
+                        <Text>{t("enroll.total")}</Text>
                         <Text>{`$${(isPriceLoading
                             ? 0
                             : (price.unit_amount -

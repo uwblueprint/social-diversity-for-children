@@ -434,7 +434,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["form"])),
+            ...(await serverSideTranslations(context.locale, [
+                "common",
+                "form",
+            ])),
         },
     };
 };

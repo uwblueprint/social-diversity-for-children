@@ -20,6 +20,7 @@ import { locale, Student } from "@prisma/client";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { EmptyState } from "./EmptyState";
+import { useTranslation } from "react-i18next";
 
 type EnrollmentCardsProps = {
     enrollmentInfo: EnrollmentCardInfo[];
@@ -30,13 +31,12 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
     enrollmentInfo,
     isOnlyStudent,
 }) => {
+    const { t } = useTranslation("common");
+
     return (
         <Center width="100%">
             {enrollmentInfo.length === 0 ? (
-                <EmptyState>
-                    Currently you have not registered in any classes. <br />
-                    Any classes you registered for will show up here!
-                </EmptyState>
+                <EmptyState>{t("class.emptyClass")}</EmptyState>
             ) : (
                 <List spacing="5" width="100%">
                     {combineStudentEnrollment(enrollmentInfo).map((item) => {
@@ -70,6 +70,7 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
  */
 export const EnrollmentList: React.FC = () => {
     const router = useRouter();
+    const { t } = useTranslation("common");
     const { enrollments, error, isLoading } = useParentRegistrations(
         router.locale as locale,
     );
@@ -105,7 +106,7 @@ export const EnrollmentList: React.FC = () => {
                     })}
                 </TabList>
                 <Heading mb={2} size="sm">
-                    Upcoming classes
+                    {t("class.upcomingClasses")}
                 </Heading>
 
                 <TabPanels>
@@ -130,7 +131,7 @@ export const EnrollmentList: React.FC = () => {
         return (
             <>
                 <Heading mb={2} size="sm">
-                    Upcoming classes
+                    {t("class.upcomingClasses")}
                 </Heading>
                 <EnrollmentCards isOnlyStudent enrollmentInfo={enrollments} />
             </>

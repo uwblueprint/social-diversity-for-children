@@ -52,7 +52,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     isOnlyStudent,
 }) => {
     const router = useRouter();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
     const isJoinBesideTitle = useBreakpointValue({ base: false, md: true });
 
     const { link } = useGetZoomLink();
@@ -82,7 +82,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     boxShadow: "lightgrey",
                 }}
             >
-                Join class
+                {t("class.joinClass")}
             </Button>
         </Link>
     );
@@ -171,8 +171,9 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                                     )
                                                 }
                                             >
-                                                Unregister for{" "}
-                                                {student.firstName}
+                                                {t("class.unregisterFor", {
+                                                    name: student.firstName,
+                                                })}
                                             </MenuItem>
                                             {enrollmentInfo.students.length <
                                             2 ? null : (
@@ -191,7 +192,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             }
                                         >
                                             <Text fontWeight="bold">
-                                                Unregister for all
+                                                {t("class.unregisterForAll")}
                                             </Text>
                                         </MenuItem>
                                     )}
