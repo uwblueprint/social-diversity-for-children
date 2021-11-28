@@ -1,4 +1,13 @@
-import { OrderedList, ListItem, Flex, Text, Checkbox, Box, Button, Link } from "@chakra-ui/react";
+import {
+    OrderedList,
+    ListItem,
+    Flex,
+    Text,
+    Checkbox,
+    Box,
+    Button,
+    Link,
+} from "@chakra-ui/react";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import React, { useState } from "react";
@@ -30,7 +39,13 @@ export const SubmitCriminalCheckForm: React.FC<SubmitCriminalCheckFormProps> = (
                 </Text>
             </Box>
             <Box>
-                <Text pb="5px" align="left" fontWeight="700" mt="50px" fontSize="22px">
+                <Text
+                    pb="5px"
+                    align="left"
+                    fontWeight="700"
+                    mt="50px"
+                    fontSize="22px"
+                >
                     {t("bgc.missing")}
                 </Text>
                 <Text pb="5px" align="left" mt="30px">
@@ -41,7 +56,13 @@ export const SubmitCriminalCheckForm: React.FC<SubmitCriminalCheckFormProps> = (
                 </Text>
             </Box>
             <Box>
-                <Text pb="5px" align="left" fontWeight="700" mt="50px" fontSize="22px">
+                <Text
+                    pb="5px"
+                    align="left"
+                    fontWeight="700"
+                    mt="50px"
+                    fontSize="22px"
+                >
                     {t("bgc.instruction")}
                 </Text>
                 <OrderedList pb="5px" align="left" mt="30px">
@@ -71,7 +92,10 @@ export const SubmitCriminalCheckForm: React.FC<SubmitCriminalCheckFormProps> = (
                 </Link>
             </Box>
             <Box>
-                <Checkbox mt="75px" onChange={() => setCriminalCheck(!criminalCheck)}>
+                <Checkbox
+                    mt="75px"
+                    onChange={() => setCriminalCheck(!criminalCheck)}
+                >
                     {t("bgc.skip")}
                 </Checkbox>
             </Box>
@@ -81,7 +105,9 @@ export const SubmitCriminalCheckForm: React.FC<SubmitCriminalCheckFormProps> = (
                     height="50px"
                     width="200px"
                     borderRadius="6px"
-                    background={!criminalCheck ? "darkgray" : colourTheme.colors.Blue}
+                    background={
+                        !criminalCheck ? "darkgray" : colourTheme.colors.Blue
+                    }
                     fontWeight="normal"
                     fontSize="16px"
                     isDisabled={!criminalCheck}

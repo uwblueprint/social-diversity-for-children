@@ -38,7 +38,9 @@ type ParticipantInfo = {
     setGrade: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({ props }): JSX.Element => {
+export const ParticipantInfoPage: React.FC<ParticipantPageProps> = ({
+    props,
+}): JSX.Element => {
     const { t } = useTranslation("form");
 
     return (

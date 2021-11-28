@@ -6,7 +6,10 @@ import { mutate } from "swr";
  * @param isArchive whether or not the program should be archived
  * @returns updated program
  */
-export async function updateProgramArchive(id: number, isArchive: boolean): Promise<Response> {
+export async function updateProgramArchive(
+    id: number,
+    isArchive: boolean,
+): Promise<Response> {
     const request = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

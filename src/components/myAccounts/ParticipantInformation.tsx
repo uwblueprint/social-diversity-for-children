@@ -22,24 +22,36 @@ type ParticipantInfo = {
     save: (participant: any) => void;
     edit: boolean;
 };
-export const ParticipantInfo: React.FC<ParticipantPageProps> = ({ props }): JSX.Element => {
+export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
+    props,
+}): JSX.Element => {
     const { t } = useTranslation(["common", "form"]);
 
     const [dateOfBirth, setDateOfBirth] = useState(props.student.dateOfBirth);
     const [address1, setAddress1] = useState(props.student.addressLine1);
     const [address2, setAddress2] = useState(props.student.addressLine2);
     const [city, setCity] = useState(props.student.cityName);
-    const [participantProvince, setParticipantProvince] = useState(props.student.province);
+    const [participantProvince, setParticipantProvince] = useState(
+        props.student.province,
+    );
     const [postalCode, setPostalCode] = useState(props.student.postalCode);
     const [school, setSchool] = useState(props.student.school);
     const [grade, setGrade] = useState(props.student.grade);
-    const [participantFirstName, setParticipantFirstName] = useState(props.student.firstName);
-    const [participantLastName, setParticipantLastName] = useState(props.student.lastName);
+    const [participantFirstName, setParticipantFirstName] = useState(
+        props.student.firstName,
+    );
+    const [participantLastName, setParticipantLastName] = useState(
+        props.student.lastName,
+    );
 
     // Emergency contact info
-    const [emergFirstName, setEmergFirstName] = useState(props.student.emergFirstName);
+    const [emergFirstName, setEmergFirstName] = useState(
+        props.student.emergFirstName,
+    );
     const [emergLastName, setEmergLastName] = useState(props.student.emergLastName);
-    const [emergPhoneNumber, setEmergPhoneNumber] = useState(props.student.emergNumber);
+    const [emergPhoneNumber, setEmergPhoneNumber] = useState(
+        props.student.emergNumber,
+    );
     const [emergRelationship, setEmergRelationship] = useState(
         props.student.emergRelationToStudent,
     );
@@ -57,8 +69,12 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({ props }): JSX.
     const [counseling, setCounseling] = useState(
         props.student.therapy.includes(therapy.COUNSELING),
     );
-    const [artTherapy, setArtTherapy] = useState(props.student.therapy.includes(therapy.ART));
-    const [otherTherapy, setOtherTherapy] = useState(props.student.therapy.includes(therapy.OTHER));
+    const [artTherapy, setArtTherapy] = useState(
+        props.student.therapy.includes(therapy.ART),
+    );
+    const [otherTherapy, setOtherTherapy] = useState(
+        props.student.therapy.includes(therapy.OTHER),
+    );
 
     // Participant difficulties
     const [hasLearningDifficulties, setHasLearningDifficulties] = useState(

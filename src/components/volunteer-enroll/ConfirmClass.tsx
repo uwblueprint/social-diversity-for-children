@@ -20,7 +20,13 @@ export const ConfirmClassEnrollment: React.FC<ConfirmClassEnrollmentProps> = ({
     return (
         <>
             <Box>
-                <Text align="left" mt="40px" mb="30px" fontWeight="700" fontSize="36px">
+                <Text
+                    align="left"
+                    mt="40px"
+                    mb="30px"
+                    fontWeight="700"
+                    fontSize="36px"
+                >
                     {t("enroll.confirmVolunteerRegister")}
                 </Text>
             </Box>

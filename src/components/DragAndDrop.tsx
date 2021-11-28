@@ -32,7 +32,9 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
             </Center>
 
             <Center mb="40px">
-                <FileUploadButton setFiles={setFiles}>{t("upload.browseFiles")}</FileUploadButton>
+                <FileUploadButton setFiles={setFiles}>
+                    {t("upload.browseFiles")}
+                </FileUploadButton>
             </Center>
         </Box>
     );

@@ -19,7 +19,9 @@ type VolunteerInfo = {
     save: (volunteer: any) => void;
     edit: boolean;
 };
-export const VolunteerInfo: React.FC<VolunteerPageProps> = ({ props }): JSX.Element => {
+export const VolunteerInfo: React.FC<VolunteerPageProps> = ({
+    props,
+}): JSX.Element => {
     const { t } = useTranslation("common");
 
     const [firstName, setFirstName] = useState(props.me.firstName);
@@ -27,7 +29,9 @@ export const VolunteerInfo: React.FC<VolunteerPageProps> = ({ props }): JSX.Elem
 
     const [phoneNumber, setPhoneNumber] = useState(props.me.volunteer.phoneNumber);
     const [dateOfBirth, setDateOfBirth] = useState(props.me.volunteer.dateOfBirth);
-    const [addressLine1, setAddressLine1] = useState(props.me.volunteer.addressLine1);
+    const [addressLine1, setAddressLine1] = useState(
+        props.me.volunteer.addressLine1,
+    );
     const [cityName, setCityName] = useState(props.me.volunteer.cityName);
     const [province, setProvince] = useState(props.me.volunteer.province);
     const [postalCode, setPostalCode] = useState(props.me.volunteer.postalCode);

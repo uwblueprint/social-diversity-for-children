@@ -15,7 +15,9 @@ import { useTranslation } from "next-i18next";
 type DocumentUploadProps = {
     session: Session;
 };
-export default function DocumentUpload({ session }: DocumentUploadProps): JSX.Element {
+export default function DocumentUpload({
+    session,
+}: DocumentUploadProps): JSX.Element {
     const router = useRouter();
     const { t } = useTranslation("common");
 
@@ -35,7 +37,9 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
         try {
             // TODO don't prefix file name, instead put random file name into database eventually
             // TODO randomize filename
-            const res = await fetch(`/api/file/upload?path=${type}&file=${file.name}`);
+            const res = await fetch(
+                `/api/file/upload?path=${type}&file=${file.name}`,
+            );
             const data = await res.json();
             const { url, fields } = data.data;
             const formData = new FormData();

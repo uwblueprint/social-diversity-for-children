@@ -27,7 +27,10 @@ import colourTheme from "@styles/colours";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import convertToListDisplay from "@utils/convertToListDisplay";
-import { deleteClassRegistration, deleteClassRegistrations } from "@utils/deleteClassRegistration";
+import {
+    deleteClassRegistration,
+    deleteClassRegistrations,
+} from "@utils/deleteClassRegistration";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
@@ -100,7 +103,8 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <Flex mr="3">
                         <Box>
                             <Heading size="md" pb={4} pr={2}>
-                                {enrollmentInfo.program.name} ({enrollmentInfo.class.name})
+                                {enrollmentInfo.program.name} (
+                                {enrollmentInfo.class.name})
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
@@ -133,7 +137,9 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 <Text pt={4}>
                                     Participants:{" "}
                                     {convertToListDisplay(
-                                        enrollmentInfo.students.map((student) => student.firstName),
+                                        enrollmentInfo.students.map(
+                                            (student) => student.firstName,
+                                        ),
                                     )}
                                 </Text>
                             )}
@@ -153,7 +159,9 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                 />
                                 <MenuList>
                                     {enrollmentInfo.students.map((student) => (
-                                        <Box key={`${enrollmentInfo.classId}-${student.id}`}>
+                                        <Box
+                                            key={`${enrollmentInfo.classId}-${student.id}`}
+                                        >
                                             <MenuItem
                                                 onClick={() =>
                                                     deleteClassRegistration(
@@ -166,7 +174,8 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                                     name: student.firstName,
                                                 })}
                                             </MenuItem>
-                                            {enrollmentInfo.students.length < 2 ? null : (
+                                            {enrollmentInfo.students.length <
+                                            2 ? null : (
                                                 <MenuDivider />
                                             )}
                                         </Box>

@@ -65,7 +65,11 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent minH={80} minW={{ base: 0, md: 550 }} p={{ base: 2, md: 10 }}>
+            <ModalContent
+                minH={80}
+                minW={{ base: 0, md: 550 }}
+                p={{ base: 2, md: 10 }}
+            >
                 <ModalBody>
                     <ModalHeader textAlign={"left"} px={0}>
                         {classInfo.name}
@@ -88,7 +92,11 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                     <Grid templateColumns="repeat(5, 1fr)" gap={6} pt={30} pb={5}>
                         <GridItem colSpan={2}>
                             <AspectRatio width="100%" ratio={1}>
-                                <Image src={classInfo.image} fit="cover" alt={classInfo.name} />
+                                <Image
+                                    src={classInfo.image}
+                                    fit="cover"
+                                    alt={classInfo.name}
+                                />
                             </AspectRatio>
                         </GridItem>
                         <GridItem colSpan={3}>
@@ -154,7 +162,10 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                 }}
                                 minW={"100%"}
                                 onClick={() => {
-                                    createWaitlistRegistration(me.parent, classInfo.id);
+                                    createWaitlistRegistration(
+                                        me.parent,
+                                        classInfo.id,
+                                    );
                                     toast({
                                         title: "Waitlist record added!",
                                         description:
@@ -207,7 +218,9 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                 }}
                                 minW={"100%"}
                             >
-                                {me ? t("nav.register") : t("program.signInToRegister")}
+                                {me
+                                    ? t("nav.register")
+                                    : t("program.signInToRegister")}
                             </Button>
                         </Link>
                     )}

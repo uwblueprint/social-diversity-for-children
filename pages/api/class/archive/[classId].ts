@@ -9,7 +9,10 @@ import { getSession } from "next-auth/client";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     // Obtain class id
     const { classId } = req.query;
     const { isArchive }: { isArchive: boolean } = req.body;
@@ -23,7 +26,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     //parse query parameters from string to number and validate that id is a number
     const id = parseInt(classId as string);
     if (isNaN(id)) {
-        return ResponseUtil.returnBadRequest(res, "classId should be passed in as numbers");
+        return ResponseUtil.returnBadRequest(
+            res,
+            "classId should be passed in as numbers",
+        );
     }
 
     switch (req.method) {
@@ -32,7 +38,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             const classSection = await updateClassArchive(id, isArchive);
 
             if (!classSection) {
-                return ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
+                return ResponseUtil.returnNotFound(
+                    res,
+                    `Class with id ${classId} not found.`,
+                );
             }
             ResponseUtil.returnOK(res, classSection);
             break;

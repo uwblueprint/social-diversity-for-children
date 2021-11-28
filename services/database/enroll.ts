@@ -95,7 +95,9 @@ async function createParentRegistration(
  * @param {ParentRegistrationInput} parentRegistrationData the data containing the details of the enrollment
  * @returns {Promise<ParentReg>} the deleted parent registration
  */
-async function deleteParentRegistration(parentRegistrationData: ParentRegistrationInput) {
+async function deleteParentRegistration(
+    parentRegistrationData: ParentRegistrationInput,
+) {
     const parentRegistration = await prisma.parentReg.delete({
         where: {
             parentId_studentId_classId: {
@@ -127,7 +129,9 @@ async function deleteParentRegistration(parentRegistrationData: ParentRegistrati
  * @param {number} volunteerId  unique identifier of the enrolled volunteer
  * @returns {Promise<VolunteerReg>[]} records of the registration
  */
-async function getVolunteerRegistrations(volunteerId: number): Promise<VolunteerReg[]> {
+async function getVolunteerRegistrations(
+    volunteerId: number,
+): Promise<VolunteerReg[]> {
     const volunteerRegistrations = await prisma.volunteerReg.findMany({
         where: {
             volunteerId,

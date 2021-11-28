@@ -38,7 +38,10 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
+                                        ? () =>
+                                              setPageNum((prevPage) =>
+                                                  Math.max(prevPage - 1, 0),
+                                              )
                                         : null
                                 }
                             />
@@ -46,7 +49,10 @@ export const ParentEnrolledFormWrapper: React.FC<ParentEnrolledPageProps> = ({
                         </Flex>
                         {formPages.map((formPage, idx) => {
                             return (
-                                <Box key={idx} display={pageNum === idx ? null : "none"}>
+                                <Box
+                                    key={idx}
+                                    display={pageNum === idx ? null : "none"}
+                                >
                                     {formPage}
                                 </Box>
                             );

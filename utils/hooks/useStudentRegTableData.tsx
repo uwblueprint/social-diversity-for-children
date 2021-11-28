@@ -43,7 +43,9 @@ export default function useStudentRegTableData(
                 accessor: "fullName",
                 Cell: (props: CellProps<StudentDataType>) => {
                     return (
-                        <Link href={`/admin/registrant/parent/${props.row.original.parentId}`}>
+                        <Link
+                            href={`/admin/registrant/parent/${props.row.original.parentId}`}
+                        >
                             <ChakraLink>{props.row.original.fullName}</ChakraLink>
                         </Link>
                     );

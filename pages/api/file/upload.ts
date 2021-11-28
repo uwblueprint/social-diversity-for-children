@@ -9,7 +9,10 @@ import {
 } from "@database/user";
 import { getPresignedPostForUpload } from "@aws/s3";
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     const session = await getSession({ req });
     // If there is no session
     if (!session) {
@@ -17,7 +20,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     }
 
     // TODO make this more robost/better
-    const accepted_type_paths = ["criminal-check", "income-proof", "curriculum-plans"];
+    const accepted_type_paths = [
+        "criminal-check",
+        "income-proof",
+        "curriculum-plans",
+    ];
 
     const { path, file } = req.query;
 
@@ -35,17 +42,32 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
             const uploadFilePath = `${path}/${user.email}/${file}`;
 
-            const post = getPresignedPostForUpload(process.env.S3_UPLOAD_BUCKET, uploadFilePath);
+            const post = getPresignedPostForUpload(
+                process.env.S3_UPLOAD_BUCKET,
+                uploadFilePath,
+            );
             if (!post) {
-                return ResponseUtil.returnBadRequest(res, "Could not get link for upload");
+                return ResponseUtil.returnBadRequest(
+                    res,
+                    "Could not get link for upload",
+                );
             }
 
             // Assume that the presigned url is used immediately and save the path to records
             // Depending on whether or not it's criminal check or poi, we do a vol or parent write
             if (user.role === roles.VOLUNTEER && path === accepted_type_paths[0]) {
-                await updateVolunteerCriminalCheckLink(session.user.email, file as string);
-            } else if (user.role === roles.PARENT && path === accepted_type_paths[1]) {
-                await updateParentProofOfIncomeLink(session.user.email, file as string);
+                await updateVolunteerCriminalCheckLink(
+                    session.user.email,
+                    file as string,
+                );
+            } else if (
+                user.role === roles.PARENT &&
+                path === accepted_type_paths[1]
+            ) {
+                await updateParentProofOfIncomeLink(
+                    session.user.email,
+                    file as string,
+                );
             }
 
             ResponseUtil.returnOK(res, post);

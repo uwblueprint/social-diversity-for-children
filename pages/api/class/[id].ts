@@ -12,7 +12,10 @@ import { getSession } from "next-auth/client";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
     // Obtain class id
     const { id } = req.query;
     const session = await getSession({ req });
@@ -20,7 +23,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     //parse query parameters from string to number and validate that id is a number
     const classId = parseInt(id as string, 10);
     if (isNaN(classId)) {
-        return ResponseUtil.returnBadRequest(res, "classId should be passed in as numbers");
+        return ResponseUtil.returnBadRequest(
+            res,
+            "classId should be passed in as numbers",
+        );
     }
 
     if (req.method == "GET") {

@@ -19,7 +19,9 @@ export default function useVolunteerRegistrations(
     language: locale,
 ): UseVolunteerRegistrationsResponse {
     const { data, error, mutate } = useSWR("/api/enroll/volunteer", fetcher);
-    const result = data ? CardInfoUtil.getVolunteeringCardInfos(data.data, language) : [];
+    const result = data
+        ? CardInfoUtil.getVolunteeringCardInfos(data.data, language)
+        : [];
     return {
         volunteering: result,
         isLoading: !error && !data,

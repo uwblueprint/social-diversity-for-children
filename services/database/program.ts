@@ -47,7 +47,10 @@ async function deleteProgram(id: string): Promise<Program> {
  * @param  {ProgramInput} updatedProgramData update input
  * @returns Promise<Program>
  */
-async function updateProgram(id: string, updatedProgramData: ProgramInput): Promise<Program> {
+async function updateProgram(
+    id: string,
+    updatedProgramData: ProgramInput,
+): Promise<Program> {
     const program = await prisma.program.update({
         where: {
             id: parseInt(id),
@@ -63,7 +66,10 @@ async function updateProgram(id: string, updatedProgramData: ProgramInput): Prom
  * @param  {boolean} isArchive whether or not to archive the class
  * @returns Promise<Program> Promise with the updated program
  */
-async function updateProgramArchive(id: number, isArchive: boolean): Promise<Program> {
+async function updateProgramArchive(
+    id: number,
+    isArchive: boolean,
+): Promise<Program> {
     const updatedProgram = await prisma.program.update({
         where: {
             id,
@@ -85,4 +91,10 @@ async function updateProgramArchive(id: number, isArchive: boolean): Promise<Pro
     return updatedProgram;
 }
 
-export { getProgramCount, createProgram, deleteProgram, updateProgram, updateProgramArchive };
+export {
+    getProgramCount,
+    createProgram,
+    deleteProgram,
+    updateProgram,
+    updateProgramArchive,
+};

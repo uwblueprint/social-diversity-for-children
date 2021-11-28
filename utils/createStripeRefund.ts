@@ -3,7 +3,9 @@
  * @param  {string} paymentIntentId
  * @returns Promise of refund response
  */
-export async function createStripeRefund(paymentIntentId: string): Promise<Response> {
+export async function createStripeRefund(
+    paymentIntentId: string,
+): Promise<Response> {
     const request = {
         method: "POST",
         headers: { "Content-Type": "application/json" },

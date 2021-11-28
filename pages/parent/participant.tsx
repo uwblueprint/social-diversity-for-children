@@ -32,11 +32,17 @@ const LearningInfoPage = dynamic(
     { ssr: false },
 );
 const EmergInfoPage = dynamic(
-    () => import("@components/parent-form/EmergInfoPage").then((module) => module.EmergInfoPage),
+    () =>
+        import("@components/parent-form/EmergInfoPage").then(
+            (module) => module.EmergInfoPage,
+        ),
     { ssr: false },
 );
 const HealthInfoPage = dynamic(
-    () => import("@components/parent-form/HealthInfoPage").then((module) => module.HealthInfoPage),
+    () =>
+        import("@components/parent-form/HealthInfoPage").then(
+            (module) => module.HealthInfoPage,
+        ),
     { ssr: false },
 );
 const ParticipantCreatedPage = dynamic(
@@ -57,11 +63,17 @@ const FormPage = (props) => {
  * This is the page that a user will use to enter the participants personal information
  * onto the SDC platform as a parent of volunteer
  */
-export default function ParticipantInfo({ session }: { session: Session }): JSX.Element {
+export default function ParticipantInfo({
+    session,
+}: {
+    session: Session;
+}): JSX.Element {
     const router = useRouter();
     const { page } = router.query;
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
+    const [pageNum, setPageNum] = useState<number>(
+        page ? parseInt(page as string, 10) : 0,
+    );
 
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
@@ -95,7 +107,10 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
     const [grade, setGrade] = useLocalStorage("grade", "");
 
     //Health
-    const [hasMedication, setHasMedication] = useLocalStorage("hasMedication", false);
+    const [hasMedication, setHasMedication] = useLocalStorage(
+        "hasMedication",
+        false,
+    );
     const [hasAllergies, setHasAllergies] = useLocalStorage("hasAllergies", false);
     const [medication, setMedication] = useLocalStorage("medication", "");
     const [allergies, setAllergies] = useLocalStorage("allergies", "");
@@ -109,7 +124,10 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
         "physical",
         false,
     );
-    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage("sensory", false);
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
+        "sensory",
+        false,
+    );
     const [participantDifficulties, setParticipantDifficulties] = useLocalStorage(
         "participantDifficulties",
         [],
@@ -118,18 +136,27 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
         "hasOtherDifficulties",
         false,
     );
-    const [otherDifficulties, setOtherDifficulties] = useLocalStorage("otherDifficulties", "");
+    const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
+        "otherDifficulties",
+        "",
+    );
     const [specialEd, setSpecialEd] = useLocalStorage("involvedInSpecialEd", false);
     const [physiotherapy, setPhysiotherapy] = useLocalStorage("physio", false);
     const [speechTherapy, setSpeechTherapy] = useLocalStorage("speech", false);
-    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage("occupational", false);
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
+        "occupational",
+        false,
+    );
     const [counseling, setCounseling] = useLocalStorage("conseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("art", false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         false,
     );
-    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage("hasOtherTherapy", false);
+    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
+        "hasOtherTherapy",
+        false,
+    );
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     // Parent/guardian expectations
@@ -139,10 +166,19 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
     );
 
     // Emergency contact info
-    const [emergFirstName, setEmergFirstName] = useLocalStorage("emergFirstName", "");
+    const [emergFirstName, setEmergFirstName] = useLocalStorage(
+        "emergFirstName",
+        "",
+    );
     const [emergLastName, setEmergLastName] = useLocalStorage("emergLastName", "");
-    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage("emergNumber", "");
-    const [emergRelationship, setEmergRelationship] = useLocalStorage("emergRelationship", "");
+    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage(
+        "emergNumber",
+        "",
+    );
+    const [emergRelationship, setEmergRelationship] = useLocalStorage(
+        "emergRelationship",
+        "",
+    );
 
     const [addParticipantSuccess, setAddParticipantSuccess] = useState("pending");
 

@@ -1,4 +1,13 @@
-import { Box, Button, Center, Flex, Progress, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    Progress,
+    Stack,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import ApprovedIcon from "@components/icons/ApprovedIcon";
@@ -50,7 +59,10 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
+                                        ? () =>
+                                              setPageNum((prevPage) =>
+                                                  Math.max(prevPage - 1, 0),
+                                              )
                                         : null
                                 }
                             />
@@ -69,7 +81,10 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                             />
                             {formPages.map((formPage, idx) => {
                                 return (
-                                    <Box key={idx} display={pageNum === idx ? null : "none"}>
+                                    <Box
+                                        key={idx}
+                                        display={pageNum === idx ? null : "none"}
+                                    >
                                         {formPage}
                                     </Box>
                                 );
@@ -91,8 +106,8 @@ export const ParticipantCreatedPage: React.FC<ParticipantCreatedPageProps> = ({
                         <Text maxW={400} textAlign="center" pt={3} pb={9}>
                             {successful === "success" ? (
                                 <>
-                                    <strong>{name}</strong> has been successfully added as a
-                                    participant in your account!
+                                    <strong>{name}</strong> has been successfully
+                                    added as a participant in your account!
                                 </>
                             ) : (
                                 "There was an error adding the participant. Please contact us"

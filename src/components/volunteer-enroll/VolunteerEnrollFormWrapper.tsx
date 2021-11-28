@@ -1,5 +1,13 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { Center, Box, Flex, Text, Link as ChakraLink, Button, VStack } from "@chakra-ui/react";
+import {
+    Center,
+    Box,
+    Flex,
+    Text,
+    Link as ChakraLink,
+    Button,
+    VStack,
+} from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
@@ -33,7 +41,10 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
+                                        ? () =>
+                                              setPageNum((prevPage) =>
+                                                  Math.max(prevPage - 1, 0),
+                                              )
                                         : null
                                 }
                             />
@@ -41,7 +52,10 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                         </Flex>
                         {formPages.map((formPage, idx) => {
                             return (
-                                <Box key={idx} display={pageNum === idx ? null : "none"}>
+                                <Box
+                                    key={idx}
+                                    display={pageNum === idx ? null : "none"}
+                                >
                                     {formPage}
                                 </Box>
                             );
@@ -66,7 +80,10 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                         </Text>
                         <Center>
                             <Link href="/class">
-                                <ChakraLink _hover={{ textDecoration: "none" }} _focus={{}}>
+                                <ChakraLink
+                                    _hover={{ textDecoration: "none" }}
+                                    _focus={{}}
+                                >
                                     <Button
                                         mt={"55px"}
                                         borderColor={colourTheme.colors.Blue}
@@ -89,7 +106,10 @@ export const VolunteerEnrolledFormWrapper: React.FC<VolunteerEnrolledPageProps> 
                         </Center>
                         <Center>
                             <Link href="/">
-                                <ChakraLink _hover={{ textDecoration: "none" }} _focus={{}}>
+                                <ChakraLink
+                                    _hover={{ textDecoration: "none" }}
+                                    _focus={{}}
+                                >
                                     <Button
                                         mt="13px"
                                         width={"364px"}

@@ -6,7 +6,10 @@ type EmptyStateProps = FlexProps & {
     styleProps?: Record<string, unknown>;
 };
 
-export const EmptyState: React.FC<EmptyStateProps> = ({ children, ...props }): JSX.Element => {
+export const EmptyState: React.FC<EmptyStateProps> = ({
+    children,
+    ...props
+}): JSX.Element => {
     return (
         <Flex
             bg={colourTheme.colors.LightGray}

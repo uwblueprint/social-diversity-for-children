@@ -67,7 +67,9 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
             classCard.name.toLowerCase().includes(term) ||
             classCard.borderAge.toString().includes(term) ||
             classCard.teacherName.toLowerCase().includes(term) ||
-            weekdayToString(classCard.weekday, locale.en).toLowerCase().includes(term)
+            weekdayToString(classCard.weekday, locale.en)
+                .toLowerCase()
+                .includes(term)
         ) {
             return classCard;
         }
@@ -78,7 +80,9 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
             <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/program">
+                            Browse Programs
+                        </BreadcrumbLink>
                     </BreadcrumbItem>
 
                     <BreadcrumbItem>

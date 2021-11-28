@@ -61,7 +61,11 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                 />
                 <VStack alignItems="flex-start" w="300px" h="full">
                     <Text fontSize="18px" marginTop="75px" as="u">
-                        <Link href={docLink} color={colourTheme.colors.Blue} isExternal>
+                        <Link
+                            href={docLink}
+                            color={colourTheme.colors.Blue}
+                            isExternal
+                        >
                             {docName}
                         </Link>
                     </Text>
@@ -86,7 +90,11 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                                 ? "Pending"
                                 : "Declined"}
                         </MenuButton>
-                        <MenuList flexDirection="column" display="flex" borderRadius="0px">
+                        <MenuList
+                            flexDirection="column"
+                            display="flex"
+                            borderRadius="0px"
+                        >
                             <MenuItem
                                 onClick={() => {
                                     setApprovalState(true);

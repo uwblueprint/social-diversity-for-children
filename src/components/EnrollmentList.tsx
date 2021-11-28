@@ -27,7 +27,10 @@ type EnrollmentCardsProps = {
     isOnlyStudent?: boolean;
 };
 
-const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({ enrollmentInfo, isOnlyStudent }) => {
+const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({
+    enrollmentInfo,
+    isOnlyStudent,
+}) => {
     const { t } = useTranslation("common");
 
     return (
@@ -68,7 +71,9 @@ const EnrollmentCards: React.FC<EnrollmentCardsProps> = ({ enrollmentInfo, isOnl
 export const EnrollmentList: React.FC = () => {
     const router = useRouter();
     const { t } = useTranslation("common");
-    const { enrollments, error, isLoading } = useParentRegistrations(router.locale as locale);
+    const { enrollments, error, isLoading } = useParentRegistrations(
+        router.locale as locale,
+    );
 
     if (error) {
         return (

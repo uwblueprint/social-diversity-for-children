@@ -47,7 +47,9 @@ type LearningInfo = {
     otherTherapyDetails: JSX.Element | null;
     formButtonOnClick: () => void;
 };
-export const LearningInfoPage: React.FC<LearningPageProps> = ({ props }): JSX.Element => {
+export const LearningInfoPage: React.FC<LearningPageProps> = ({
+    props,
+}): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
 
     return (

@@ -19,9 +19,14 @@ export type UseProgramResponse = {
  * @param  {locale} language locale used
  * @returns UseProgramsResponse
  */
-export default function useProgram(id: number, language: locale): UseProgramResponse {
+export default function useProgram(
+    id: number,
+    language: locale,
+): UseProgramResponse {
     const { data, error, mutate } = useSWR(`/api/program/${id}`, fetcher);
-    const result = data ? CardInfoUtil.getProgramCardInfo(data.data, language) : null;
+    const result = data
+        ? CardInfoUtil.getProgramCardInfo(data.data, language)
+        : null;
     return {
         program: result,
         isLoading: !error && !data,

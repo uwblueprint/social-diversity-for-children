@@ -1,4 +1,11 @@
-import { Parent, ProgramAdmin, Student, Teacher, User, Volunteer } from "@prisma/client";
+import {
+    Parent,
+    ProgramAdmin,
+    Student,
+    Teacher,
+    User,
+    Volunteer,
+} from "@prisma/client";
 import useSWR from "swr";
 import { fetcher } from "../fetcher";
 
@@ -38,7 +45,9 @@ export default function useUsers(): UseUsersResponse {
     const volunteers = data?.data?.filter((user) => user.volunteer !== null);
     const teachers = data?.data?.filter((user) => user.teacher !== null);
     const programAdmins = data?.data?.filter((user) => user.programAdmin !== null);
-    const students = [].concat(...(parents?.map((user) => user.parent.students) || []));
+    const students = [].concat(
+        ...(parents?.map((user) => user.parent.students) || []),
+    );
 
     return {
         parents,

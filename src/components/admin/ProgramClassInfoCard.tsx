@@ -58,7 +58,11 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
         onOpen: onArchiveOpen,
         onClose: onArchiveClose,
     } = useDisclosure();
-    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
+    const {
+        isOpen: isDeleteOpen,
+        onOpen: onDeleteOpen,
+        onClose: onDeleteClose,
+    } = useDisclosure();
 
     const onArchive = async () => {
         await updateClassArchive(cardInfo.id, true);
@@ -97,7 +101,11 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
             >
                 <GridItem alignSelf="center" maxW={200}>
                     <AspectRatio width="100%" ratio={1}>
-                        <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
+                        <Image
+                            src={cardInfo.image}
+                            fit="cover"
+                            alt={cardInfo.name}
+                        />
                     </AspectRatio>
                 </GridItem>
                 <GridItem colSpan={4} p={1}>
@@ -124,20 +132,30 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/class/${cardInfo.id}`)
+                                                router.push(
+                                                    `/admin/edit/class/${cardInfo.id}`,
+                                                )
                                             }
                                         >
                                             Edit
                                         </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
+                                        <MenuItem onClick={onDeleteOpen}>
+                                            Delete
+                                        </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
+                                        <MenuItem onClick={onArchiveOpen}>
+                                            Archive
+                                        </MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}
                         </Flex>
-                        <Tooltip label={cardInfo.teacherName} hasArrow placement="bottom-end">
+                        <Tooltip
+                            label={cardInfo.teacherName}
+                            hasArrow
+                            placement="bottom-end"
+                        >
                             <Box
                                 as="span"
                                 color={colourTheme.colors.Gray}
@@ -159,7 +177,8 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
                             </Text>
                             <Text ml={5}>
                                 {cardInfo.volunteerSpaceTaken} volunteer
-                                {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""} registered
+                                {cardInfo.volunteerSpaceTaken > 1 ? "s" : ""}{" "}
+                                registered
                             </Text>
                         </Flex>
                         <Flex py={2}>

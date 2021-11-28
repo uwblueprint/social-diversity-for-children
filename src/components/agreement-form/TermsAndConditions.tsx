@@ -12,7 +12,9 @@ type TermsAndConditionsProps = {
  * Terms and conditions page within the class registration process
  * @returns a page component detailing SDC's terms and conditions and offering an option to accept it
  */
-export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ onNext }): JSX.Element => {
+export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
+    onNext,
+}): JSX.Element => {
     const { t } = useTranslation("form");
 
     // Next button is disabled by default, activates when a child is selected
@@ -47,7 +49,10 @@ export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ onNext }
                 </Text>
             </Box>
             <Box>
-                <Checkbox mb="80px" onChange={() => setAcceptedTerms(!acceptedTerms)}>
+                <Checkbox
+                    mb="80px"
+                    onChange={() => setAcceptedTerms(!acceptedTerms)}
+                >
                     {t("form.agreed")}
                 </Checkbox>
             </Box>
@@ -56,7 +61,9 @@ export const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ onNext }
                     height="50px"
                     width="200px"
                     borderRadius="6px"
-                    background={!acceptedTerms ? "darkgray" : colourTheme.colors.Blue}
+                    background={
+                        !acceptedTerms ? "darkgray" : colourTheme.colors.Blue
+                    }
                     fontWeight="normal"
                     fontSize="16px"
                     isDisabled={!acceptedTerms}

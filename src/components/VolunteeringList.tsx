@@ -16,7 +16,9 @@ import { useTranslation } from "react-i18next";
 export const VolunteeringList: React.FC = () => {
     const router = useRouter();
     const { t } = useTranslation("common");
-    const { volunteering, error, isLoading } = useVolunteerRegistrations(router.locale as locale);
+    const { volunteering, error, isLoading } = useVolunteerRegistrations(
+        router.locale as locale,
+    );
 
     if (error) {
         return (

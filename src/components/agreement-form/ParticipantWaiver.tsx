@@ -12,7 +12,9 @@ type ParticipantWaiverProps = {
  * Participant waiver page within the class registration process
  * @returns a page component providing SDC's participant waiver and offering an option to accept it
  */
-export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({ onNext }): JSX.Element => {
+export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({
+    onNext,
+}): JSX.Element => {
     const { t } = useTranslation("form");
 
     // Next button is disabled by default, activates when a child is selected
@@ -32,7 +34,10 @@ export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({ onNext }):
                 </Text>
             </Box>
             <Box>
-                <Checkbox mb="80px" onChange={() => setAcceptedTerms(!acceptedTerms)}>
+                <Checkbox
+                    mb="80px"
+                    onChange={() => setAcceptedTerms(!acceptedTerms)}
+                >
                     {t("form.agreed")}
                 </Checkbox>
             </Box>
@@ -41,7 +46,9 @@ export const ParticipantWaiver: React.FC<ParticipantWaiverProps> = ({ onNext }):
                     height="50px"
                     width="200px"
                     borderRadius="6px"
-                    background={!acceptedTerms ? "darkgray" : colourTheme.colors.Blue}
+                    background={
+                        !acceptedTerms ? "darkgray" : colourTheme.colors.Blue
+                    }
                     fontWeight="normal"
                     fontSize="16px"
                     isDisabled={!acceptedTerms}

@@ -14,7 +14,9 @@ type BrowseProgramCardProps = {
     cardInfo: ProgramCardInfo;
 };
 
-export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({ cardInfo }): JSX.Element => {
+export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
+    cardInfo,
+}): JSX.Element => {
     const { t } = useTranslation("common");
     const router = useRouter();
 
@@ -35,7 +37,12 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({ cardInfo }
                                 params={{ cardInfo: cardInfo }}
                                 href={`/admin/classes?programId=${cardInfo.id}`}
                             >
-                                <Box mt="1" fontWeight="600" fontSize="18px" width="218px">
+                                <Box
+                                    mt="1"
+                                    fontWeight="600"
+                                    fontSize="18px"
+                                    width="218px"
+                                >
                                     {cardInfo.name}
                                 </Box>
                             </Link>

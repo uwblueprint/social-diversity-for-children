@@ -22,7 +22,9 @@ type HeardFromInfo = {
     heardFromOptions: boolean;
     setHeardFromOptions: (value: boolean) => void;
 };
-export const HeardFromPage: React.FC<HeardFromPageProps> = ({ props }): JSX.Element => {
+export const HeardFromPage: React.FC<HeardFromPageProps> = ({
+    props,
+}): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
 
     return (

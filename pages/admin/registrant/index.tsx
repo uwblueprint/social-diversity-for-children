@@ -53,7 +53,9 @@ export default function RegistrantView(props: RegistrantViewProps): JSX.Element 
             <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/registrant">Browse Registrants</BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/registrant">
+                            Browse Registrants
+                        </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
                 <Tabs w="100%">

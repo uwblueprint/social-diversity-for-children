@@ -1,4 +1,11 @@
-import { roles, province, locale, difficulties, therapy, heardFrom } from "@prisma/client";
+import {
+    roles,
+    province,
+    locale,
+    difficulties,
+    therapy,
+    heardFrom,
+} from "@prisma/client";
 import { CreateStudentInput } from "@models/Student";
 
 export { roles, province, locale, difficulties, therapy, heardFrom };

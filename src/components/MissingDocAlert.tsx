@@ -25,9 +25,12 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
     const [read, setRead] = useState(false);
     const { t } = useTranslation(["form", "common"]);
 
-    const missingPOI = me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
+    const missingPOI =
+        me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
     const missingCriminalCheck =
-        me && me.role === roles.VOLUNTEER && me.volunteer.criminalRecordCheckLink === null;
+        me &&
+        me.role === roles.VOLUNTEER &&
+        me.volunteer.criminalRecordCheckLink === null;
 
     const InfoCaption = [
         {
@@ -63,20 +66,34 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                         <Box w="60%">
                             {missingPOI && (
                                 <Box ml={4}>
-                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
+                                    <Heading
+                                        mb={2}
+                                        size="md"
+                                        color={colourTheme.colors.Blue}
+                                    >
                                         {InfoCaption[0].heading}
                                     </Heading>
-                                    <Text display="block" color={colourTheme.colors.Gray}>
+                                    <Text
+                                        display="block"
+                                        color={colourTheme.colors.Gray}
+                                    >
                                         {InfoCaption[0].desc}
                                     </Text>
                                 </Box>
                             )}
                             {missingCriminalCheck && (
                                 <Box ml={4}>
-                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
+                                    <Heading
+                                        mb={2}
+                                        size="md"
+                                        color={colourTheme.colors.Blue}
+                                    >
                                         {InfoCaption[1].heading}
                                     </Heading>
-                                    <Text display="block" color={colourTheme.colors.Gray}>
+                                    <Text
+                                        display="block"
+                                        color={colourTheme.colors.Gray}
+                                    >
                                         {InfoCaption[1].desc}
                                     </Text>
                                 </Box>
@@ -92,7 +109,8 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                                         color="white"
                                         backgroundColor={colourTheme.colors.Blue}
                                         _hover={{
-                                            backgroundColor: colourTheme.colors.LightBlue,
+                                            backgroundColor:
+                                                colourTheme.colors.LightBlue,
                                         }}
                                         size="sm"
                                         py={5}

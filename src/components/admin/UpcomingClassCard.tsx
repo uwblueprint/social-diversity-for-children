@@ -23,7 +23,9 @@ export type UpcomingClassCardProps = {
     cardInfo: ClassCardInfo;
 };
 
-export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({ cardInfo }) => {
+export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({
+    cardInfo,
+}) => {
     const router = useRouter();
 
     return (

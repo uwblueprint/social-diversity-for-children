@@ -21,7 +21,11 @@ export const CheckBoxField: React.FC<Props> = ({
 }): JSX.Element => {
     return (
         <FormControl
-            style={spacing ? { height: "50px", paddingTop: 25, paddingBottom: 25 } : null}
+            style={
+                spacing
+                    ? { height: "50px", paddingTop: 25, paddingBottom: 25 }
+                    : null
+            }
             isRequired={required && edit}
             isInvalid={!value && required && edit}
         >

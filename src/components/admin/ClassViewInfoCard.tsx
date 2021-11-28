@@ -39,7 +39,10 @@ export type ClassViewInfoCard = {
 /**
  * Admin view class card component used in the admin class details page
  */
-export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role }) => {
+export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({
+    cardInfo,
+    role,
+}) => {
     const router = useRouter();
     const toast = useToast();
 
@@ -48,7 +51,11 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
         onOpen: onArchiveOpen,
         onClose: onArchiveClose,
     } = useDisclosure();
-    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
+    const {
+        isOpen: isDeleteOpen,
+        onOpen: onDeleteOpen,
+        onClose: onDeleteClose,
+    } = useDisclosure();
 
     const onArchive = () => {
         updateClassArchive(cardInfo.id, true);
@@ -88,7 +95,11 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
             >
                 <GridItem alignSelf="center" maxW={200}>
                     <AspectRatio width="100%" ratio={1}>
-                        <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
+                        <Image
+                            src={cardInfo.image}
+                            fit="cover"
+                            alt={cardInfo.name}
+                        />
                     </AspectRatio>
                 </GridItem>
                 <GridItem colSpan={4} p={5}>
@@ -111,21 +122,31 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/class/${cardInfo.id}`)
+                                                router.push(
+                                                    `/admin/edit/class/${cardInfo.id}`,
+                                                )
                                             }
                                         >
                                             Edit
                                         </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
+                                        <MenuItem onClick={onDeleteOpen}>
+                                            Delete
+                                        </MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
+                                        <MenuItem onClick={onArchiveOpen}>
+                                            Archive
+                                        </MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}
                         </Flex>
                         <Flex>
-                            <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
+                            <Box
+                                as="span"
+                                color={colourTheme.colors.Gray}
+                                fontSize="sm"
+                            >
                                 {weekdayToString(cardInfo.weekday, locale.en)}{" "}
                                 {convertToShortTimeRange(
                                     cardInfo.startTimeMinutes,

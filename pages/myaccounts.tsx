@@ -1,6 +1,11 @@
 import Wrapper from "@components/SDCWrapper";
 import { useEffect, useState } from "react";
-import { MdLogout, MdPerson, MdSupervisorAccount, MdDescription } from "react-icons/md";
+import {
+    MdLogout,
+    MdPerson,
+    MdSupervisorAccount,
+    MdDescription,
+} from "react-icons/md";
 import { Spacer, Box, Icon, Button, Flex, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
 import useMe from "@utils/hooks/useMe";
@@ -283,7 +288,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                         borderWidth={{ base: "0", lg: "1px" }}
                         borderColor="#C1C1C1"
                     >
-                        <Box style={{ display: "flex", alignItems: "center" }} pb={8}>
+                        <Box
+                            style={{ display: "flex", alignItems: "center" }}
+                            pb={8}
+                        >
                             {" "}
                             <Text fontWeight={700} fontSize={24}>
                                 {sideBar[sideBarPage]?.header}

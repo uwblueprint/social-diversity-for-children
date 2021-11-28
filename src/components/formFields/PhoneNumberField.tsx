@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { FormLabel, FormControl, Input, FormErrorMessage, Box } from "@chakra-ui/react";
+import {
+    FormLabel,
+    FormControl,
+    Input,
+    FormErrorMessage,
+    Box,
+} from "@chakra-ui/react";
 import validator from "validator";
 
 type Props = {
@@ -24,7 +30,12 @@ export const PhoneNumberField: React.FC<Props> = ({
         <FormControl
             style={{ height: "50px" }}
             isRequired={required && edit}
-            isInvalid={!validator.isMobilePhone(value || "") && required && interactedWith && edit}
+            isInvalid={
+                !validator.isMobilePhone(value || "") &&
+                required &&
+                interactedWith &&
+                edit
+            }
         >
             {" "}
             <FormLabel>{name}</FormLabel>

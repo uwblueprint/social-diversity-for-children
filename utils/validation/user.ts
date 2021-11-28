@@ -67,20 +67,30 @@ function getUserValidationErrors(user: UserInput): Array<string> {
         const roleData = user.roleData as ParentInput;
         if (roleData.createStudentInput) {
             if (
-                !validator.isAlphanumeric(roleData.createStudentInput.firstName, undefined, {
-                    ignore: " -",
-                })
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.firstName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
             ) {
                 validationErrors.push("Child first name is not alphanumeric");
             }
             if (
-                !validator.isAlphanumeric(roleData.createStudentInput.lastName, undefined, {
-                    ignore: " -",
-                })
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.lastName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
             ) {
                 validationErrors.push("Child last name is not alphanumeric");
             }
-            if (!validator.isPostalCode(roleData.createStudentInput.postalCode, "CA")) {
+            if (
+                !validator.isPostalCode(roleData.createStudentInput.postalCode, "CA")
+            ) {
                 validationErrors.push(
                     `Invalid postal code provided: ${roleData.createStudentInput.postalCode}`,
                 );
@@ -96,25 +106,41 @@ function getUserValidationErrors(user: UserInput): Array<string> {
                 );
             }
             if (
-                !validator.isAlphanumeric(roleData.createStudentInput.emergFirstName, undefined, {
-                    ignore: " -",
-                })
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.emergFirstName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
             ) {
-                validationErrors.push("Emergency contact first name is not alphanumeric");
+                validationErrors.push(
+                    "Emergency contact first name is not alphanumeric",
+                );
             }
             if (
-                !validator.isAlphanumeric(roleData.createStudentInput.emergLastName, undefined, {
-                    ignore: " -",
-                })
+                !validator.isAlphanumeric(
+                    roleData.createStudentInput.emergLastName,
+                    undefined,
+                    {
+                        ignore: " -",
+                    },
+                )
             ) {
-                validationErrors.push("Emergency contact last name is not alphanumeric");
+                validationErrors.push(
+                    "Emergency contact last name is not alphanumeric",
+                );
             }
         }
         if (!validator.isMobilePhone(roleData.phoneNumber)) {
-            validationErrors.push(`Invalid phone number provided: ${roleData.phoneNumber}`);
+            validationErrors.push(
+                `Invalid phone number provided: ${roleData.phoneNumber}`,
+            );
         }
         if (!validatePreferredLanguage(roleData.preferredLanguage)) {
-            validationErrors.push(`Invalid preferred language: ${roleData.preferredLanguage}`);
+            validationErrors.push(
+                `Invalid preferred language: ${roleData.preferredLanguage}`,
+            );
         }
     } else if (user.role === roles.PROGRAM_ADMIN) {
         // pass - since program admin has no unique fields
@@ -123,15 +149,25 @@ function getUserValidationErrors(user: UserInput): Array<string> {
     } else if (user.role === roles.VOLUNTEER) {
         const roleData = user.roleData as VolunteerInput;
         if (roleData.phoneNumber && !validator.isMobilePhone(roleData.phoneNumber)) {
-            validationErrors.push(`Invalid phone number provided: ${roleData.phoneNumber}`);
+            validationErrors.push(
+                `Invalid phone number provided: ${roleData.phoneNumber}`,
+            );
         }
-        if (roleData.postalCode && !validator.isPostalCode(roleData.postalCode, "CA")) {
-            validationErrors.push(`Invalid postal code provided: ${roleData.postalCode}`);
+        if (
+            roleData.postalCode &&
+            !validator.isPostalCode(roleData.postalCode, "CA")
+        ) {
+            validationErrors.push(
+                `Invalid postal code provided: ${roleData.postalCode}`,
+            );
         }
         if (roleData.province && !validateProvince(roleData.province)) {
             validationErrors.push(`Invalid province provided: ${roleData.province}`);
         }
-        if (roleData.preferredLanguage && !validatePreferredLanguage(roleData.preferredLanguage)) {
+        if (
+            roleData.preferredLanguage &&
+            !validatePreferredLanguage(roleData.preferredLanguage)
+        ) {
             validationErrors.push(
                 `Invalid preferred language provided: ${roleData.preferredLanguage}`,
             );
