@@ -14,7 +14,7 @@ import { getUserFromEmail } from "@database/user";
 import { getClass } from "@database/class";
 import { getWaitlistRecordsByClassId } from "@database/waitlist";
 import send from "services/nodemailer/mail";
-import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
+import { openSpotWaitlistTemplate } from "@utils/mail/templateUtil";
 
 /**
  * handle controls the request made to the enroll/child resource.

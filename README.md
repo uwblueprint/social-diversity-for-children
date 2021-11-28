@@ -68,6 +68,8 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 │   └── definitions # Chakra
 │   └── styles # CSS and Colours
 │
+├── types # Depdendencies types
+│
 ├── utils # Utility functions
 │   └── validation # Data/Input Validators
 │
@@ -87,7 +89,7 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 ├── .prettierrc
 ├── LICENSE
 ├── README.md
-├── i18n.js
+├── next-i18next.config.js
 ├── next-env.d.ts
 ├── next.config.js
 ├── package.json

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Center, Text } from "@chakra-ui/react";
 import FileUploadButton from "./FileUploadButton";
 import { UploadIcon } from "./icons";
+import { useTranslation } from "next-i18next";
 
 type DrapAndDropProps = {
     setFiles: (files: File[]) => void;
@@ -10,6 +11,8 @@ type DrapAndDropProps = {
 // TODO could be a lot of refactor for actual drag and drop
 // TODO detect mobile users and don't show d&d
 const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
+    const { t } = useTranslation("common");
+
     return (
         <Box
             width="500px"
@@ -24,18 +27,18 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({ setFiles }): JSX.Element => {
             </Center>
             <Center>
                 <Text fontWeight="bold" fontSize="18px" mt="18px">
-                    Drag and drop your file here
+                    {t("upload.instruction")}
                 </Text>
             </Center>
             <Center>
                 <Text fontWeight="400" fontSize="18px" mt="18px">
-                    or
+                    {t("upload.alternative")}
                 </Text>
             </Center>
 
             <Center mb="40px">
                 <FileUploadButton setFiles={setFiles}>
-                    Browse Files
+                    {t("upload.browseFiles")}
                 </FileUploadButton>
             </Center>
         </Box>

@@ -184,10 +184,10 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                     onClose();
                                 }}
                             >
-                                Add to Waitlist
+                                {t("program.waitlist")}
                             </Button>
                             <Text fontSize="sm" align="center">
-                                We'll notify you once space becomes available
+                                {t("program.waitlistNotify")}
                             </Text>
                         </Box>
                     ) : (
@@ -224,7 +224,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                 minW={"100%"}
                             >
                                 {me
-                                    ? "Register"
+                                    ? t("nav.register")
                                     : t("program.signInToRegister")}
                             </Button>
                         </Link>

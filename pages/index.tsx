@@ -65,16 +65,12 @@ export default function Component(props: ComponentProps): JSX.Element {
                     marginBottom="5%"
                 />
                 <Heading fontSize="3xl" marginBottom="5%">
-                    {t("home.browseProgram")}
+                    {t("nav.browseProgram")}
                 </Heading>
 
                 <Box>
                     {programCardInfos.length === 0 ? (
-                        <EmptyState>
-                            {
-                                "There are currently no programs available to register for.\nCome back shortly to see the programs we have to offer for the next term!"
-                            }
-                        </EmptyState>
+                        <EmptyState>{t("home.emptyPrograms")}</EmptyState>
                     ) : programCardInfos ? (
                         <ProgramList cardInfo={programCardInfos} />
                     ) : (
@@ -98,7 +94,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            ...(await serverSideTranslations(context.locale, [
+                "common",
+                "form",
+            ])),
         },
     };
 };

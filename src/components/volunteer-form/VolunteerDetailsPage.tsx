@@ -8,6 +8,7 @@ import { TextField } from "@components/formFields/TextField";
 import { ProvinceField } from "@components/formFields/ProvinceField";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { DateField } from "@components/formFields/DateField";
+import { useTranslation } from "next-i18next";
 
 type VolunteerDetailsPageProps = {
     styleProps?: Record<string, unknown>;
@@ -35,46 +36,46 @@ type VolunteerDetailsInfo = {
 export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <>
             <DateField
-                name={"Date Of Birth"}
+                name={t("label.dateOfBirth")}
                 value={props.dateOfBirth}
                 setValue={props.setDateOfBirth}
             />
             <CheckBoxField
                 value={props.certifyAge15}
-                name={
-                    " I certify that I am over the age of 15 in order to volunteer with SDC"
-                }
+                name={t("signUp.certifyVolunteerAge")}
                 setValue={props.setCertifyAge15}
             ></CheckBoxField>
             <TextField
-                name="Street Address"
+                name={t("label.address1")}
                 value={props.address1}
                 setValue={props.setAddress1}
                 placeholder="815 Hornby St."
             ></TextField>
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
-                    name="City"
+                    name={t("label.city")}
                     value={props.city}
                     setValue={props.setCity}
                     placeholder="Vancouver"
                 ></TextField>
                 <ProvinceField
-                    name="Province"
+                    name={t("label.province")}
                     value={props.participantProvince}
                     setValue={props.setParticipantProvince}
                 ></ProvinceField>
                 <PostalCodeField
                     value={props.postalCode}
                     setValue={props.setPostalCode}
-                    name="Postal Code"
+                    name={t("label.postalCode")}
                 ></PostalCodeField>
             </HStack>
             <TextField
-                name="School (if applicable)"
+                name={t("label.school")}
                 value={props.school}
                 setValue={props.setSchool}
                 placeholder="Westmount Secondary School"
@@ -100,7 +101,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                     }
                     onClick={props.formButtonOnClick}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>

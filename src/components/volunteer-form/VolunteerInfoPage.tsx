@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
+import { useTranslation } from "next-i18next";
 
 type VolunteerInfoPageProps = {
     styleProps?: Record<string, unknown>;
@@ -22,22 +23,24 @@ type VolunteerInfo = {
 export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <>
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
-                    name="First Name"
+                    name={t("label.firstName")}
                     value={props.volunteerFirstName}
                     setValue={props.setVolunteerFirstName}
                 ></TextField>
                 <TextField
-                    name="Last Name"
+                    name={t("label.lastName")}
                     value={props.volunteerLastName}
                     setValue={props.setVolunteerLastName}
                 ></TextField>
             </HStack>
             <PhoneNumberField
-                name="Phone Number"
+                name={t("label.phone")}
                 value={props.phoneNumber}
                 setValue={props.setPhoneNumber}
             ></PhoneNumberField>
@@ -58,7 +61,7 @@ export const VolunteerInfoPage: React.FC<VolunteerInfoPageProps> = ({
                     }
                     onClick={props.formButtonOnClick}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>

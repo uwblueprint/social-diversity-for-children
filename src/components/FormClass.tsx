@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
 import { ClassCardInfo } from "@models/Class";
-import { SDCBadge } from "./SDCBadge";
+import { AgeBadge } from "./AgeBadge";
 
 type FormClassCardProps = {
     classInfo: ClassCardInfo;
@@ -81,16 +81,10 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
-                            <SDCBadge>
-                                {t(
-                                    classInfo.isAgeMinimal
-                                        ? "program.ageGroupAbove"
-                                        : "program.ageGroupUnder",
-                                    {
-                                        age: classInfo.borderAge,
-                                    },
-                                )}
-                            </SDCBadge>
+                            <AgeBadge
+                                borderAge={classInfo.borderAge}
+                                isAgeMinimal={classInfo.isAgeMinimal}
+                            />
                         </Flex>
                     </Flex>
                 </VStack>

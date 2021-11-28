@@ -1,6 +1,7 @@
 import React from "react";
 import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
+import { useTranslation } from "next-i18next";
 
 type HeardFromPageProps = {
     styleProps?: Record<string, unknown>;
@@ -24,43 +25,57 @@ type HeardFromInfo = {
 export const HeardFromPage: React.FC<HeardFromPageProps> = ({
     props,
 }): JSX.Element => {
+    const { t } = useTranslation(["form", "common"]);
+
     return (
         <>
             <FormControl id="hear-about-us">
-                <FormLabel>How did you hear about our programs?</FormLabel>
+                <FormLabel>{t("signUp.hearAboutUs")}</FormLabel>
                 <Stack direction="column">
-                    <FormLabel>Does the participant have:</FormLabel>
+                    <FormLabel>
+                        {t("signUp.participantHaveDifficulties")}
+                    </FormLabel>
                     <CheckBoxField
                         value={props.heardFromFriendsAndFam}
-                        name={"Friends and Family"}
+                        name={t("hearAboutUs.friendsAndFamily", {
+                            ns: "common",
+                        })}
                         setValue={props.setHeardFromFriendsAndFam}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.heardFromFlyers}
-                        name={"Flyers"}
+                        name={t("hearAboutUs.flyers", {
+                            ns: "common",
+                        })}
                         setValue={props.setHeardFromFlyers}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.heardFromEmail}
-                        name={"Email"}
+                        name={t("hearAboutUs.email", {
+                            ns: "common",
+                        })}
                         setValue={props.setHeardFromEmail}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.heardFromSocialMedia}
-                        name={"Social Media"}
+                        name={t("hearAboutUs.social", {
+                            ns: "common",
+                        })}
                         setValue={props.setHeardFromSocialMedia}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.heardFromOther}
-                        name={"Other"}
+                        name={t("hearAboutUs.other", {
+                            ns: "common",
+                        })}
                         setValue={props.setHeardFromOther}
                         required={false}
                         spacing={false}

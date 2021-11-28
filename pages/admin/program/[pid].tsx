@@ -26,6 +26,7 @@ import { AdminError } from "@components/AdminError";
 import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ClassViewProps = {
     session: Session;
@@ -156,6 +157,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };
