@@ -4,7 +4,9 @@ import colourTheme from "@styles/colours";
 import { useTranslation } from "next-i18next";
 
 type SelectChildForClassProps = {
+    className: string;
     children: string[];
+    eligible: boolean[];
     selectedChild: number;
     setSelectedChild: React.Dispatch<SetStateAction<number>>;
     onNext: () => void;
@@ -12,6 +14,11 @@ type SelectChildForClassProps = {
 
 export default function SelectChildForClass(props: SelectChildForClassProps): JSX.Element {
     const { t } = useTranslation("form");
+    if (!props.eligible[props.selectedChild]) {
+        let index = 0;
+        while (!props.eligible[index] && index < props.eligible.length) index++;
+        props.setSelectedChild(index);
+    }
 
     return (
         <Box>
@@ -21,14 +28,8 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
                 </Text>
             </Center>
             <Center>
-                <Text pb="55px" align="center" mt="30px">
-                    {/* // TODO: Fix replace hardcode */}
-                    Who would you like to register for{" "}
-                    <b>
-                        Building Bridges with Music - <br />
-                        Singing Monkeys (Ages 9 and under)?{" "}
-                    </b>
-                    (select one)
+                <Text pb="55px" align="center" mt="30px" width="60%">
+                    {t("enroll.selectChild")} <b>{props.className}</b>
                 </Text>
             </Center>
 
@@ -57,6 +58,7 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
                                 props.setSelectedChild(index);
                             }}
                             border={props.selectedChild === index ? null : "2px solid #E1E1E1"}
+                            isDisabled={!props.eligible[index]}
                         >
                             {childName}
                         </Button>
