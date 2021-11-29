@@ -27,11 +27,13 @@ model Parent {
 
 model Program {
   id                 Int                  @id @default(autoincrement())
-  onlineFormat       programFormat        @map("online_format")
+  name               String
   tag                String
   imageLink          String?              @map("image_link")
   startDate          DateTime             @map("start_date") @db.Timestamptz(6)
+  availableDate      DateTime             @map("availableDate") @db.Timestamptz(6)
   endDate            DateTime             @map("end_date") @db.Timestamptz(6)
+  description        String               
   isArchived         Boolean              @default(false) @map("is_archived")
   createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime?            @map("updated_at") @db.Timestamptz(6)
@@ -328,4 +330,11 @@ enum therapy {
   COUNSELING
   ART
   OTHER
+}
+
+enum programTags {
+  MUSIC
+  ARTS
+  VIRTUAL_RELAITY
+  DRAMA
 }

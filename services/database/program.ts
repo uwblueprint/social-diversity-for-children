@@ -18,12 +18,7 @@ async function getProgramCount() {
  */
 async function createProgram(newProgramData: ProgramInput): Promise<Program> {
     const program = await prisma.program.create({
-        data: {
-            onlineFormat: newProgramData.onlineFormat,
-            tag: newProgramData.tag,
-            startDate: newProgramData.startDate,
-            endDate: newProgramData.endDate,
-        },
+        data: newProgramData,
     });
     return program;
 }
