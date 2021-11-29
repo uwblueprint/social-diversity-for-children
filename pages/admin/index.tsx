@@ -1,12 +1,5 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import {
-    Box,
-    Heading,
-    HStack,
-    Link as ChakraLink,
-    Text,
-    VStack,
-} from "@chakra-ui/layout";
+import { Box, Heading, HStack, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
 import { Flex, List, ListItem, Spacer } from "@chakra-ui/react";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { AdminOptionButton } from "@components/admin/AdminOptionButton";
@@ -15,20 +8,23 @@ import { LiveClassCard } from "@components/admin/LiveClassCard";
 import { UpcomingClassCard } from "@components/admin/UpcomingClassCard";
 import Wrapper from "@components/AdminWrapper";
 import LiveIcon from "@components/icons/LiveIcon";
-import { locale, roles } from "@prisma/client";
+import { locale } from "@prisma/client";
 import colourTheme from "@styles/colours";
 import useGetZoomLink from "@utils/hooks/useGetZoomLink";
 import useStats from "@utils/hooks/useStats";
 import useUpcomingClasses from "@utils/hooks/useUpcomingClasses";
+import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next";
+import { Session } from "next-auth";
 import { getSession } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import React from "react";
 import { MdClass, MdCreate, MdPeople } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 
 type AdminProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
@@ -112,15 +108,10 @@ export default function Admin(props: AdminProps): JSX.Element {
                         <Box h={350} w={380}>
                             {/* Here, we either show loading, empty, or box */}
                             {liveClass && link ? (
-                                <LiveClassCard
-                                    cardInfo={liveClass}
-                                    link={link}
-                                />
+                                <LiveClassCard cardInfo={liveClass} link={link} />
                             ) : (
                                 <AdminEmptyState
-                                    isLoading={
-                                        isUpcomingLoading || isZoomLoading
-                                    }
+                                    isLoading={isUpcomingLoading || isZoomLoading}
                                     h="100%"
                                 >
                                     No classes are live
@@ -142,24 +133,16 @@ export default function Admin(props: AdminProps): JSX.Element {
                         <VStack h={350}>
                             {upcomingClasses && upcomingClasses.length > 0 ? (
                                 <List spacing={5} w={625}>
-                                    {upcomingClasses
-                                        .slice(0, 2)
-                                        .map((item, idx) => {
-                                            return (
-                                                <ListItem key={idx}>
-                                                    <UpcomingClassCard
-                                                        cardInfo={item}
-                                                    />
-                                                </ListItem>
-                                            );
-                                        })}
+                                    {upcomingClasses.slice(0, 2).map((item, idx) => {
+                                        return (
+                                            <ListItem key={idx}>
+                                                <UpcomingClassCard cardInfo={item} />
+                                            </ListItem>
+                                        );
+                                    })}
                                 </List>
                             ) : (
-                                <AdminEmptyState
-                                    w={625}
-                                    h="100%"
-                                    isLoading={isUpcomingLoading}
-                                >
+                                <AdminEmptyState w={625} h="100%" isLoading={isUpcomingLoading}>
                                     No upcoming classes this week
                                 </AdminEmptyState>
                             )}
@@ -185,10 +168,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",
@@ -198,6 +178,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

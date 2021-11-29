@@ -5,7 +5,6 @@
 ![active development](https://img.shields.io/badge/active%20dev-yes-brightgreen.svg)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/codeprentice-org/fanotify.svg)
 
-
 Program registration platform for [Social Diversity for Children Foundation](https://www.socialdiversity.org).
 
 Currently in development!
@@ -69,6 +68,8 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 │   └── definitions # Chakra
 │   └── styles # CSS and Colours
 │
+├── types # Depdendencies types
+│
 ├── utils # Utility functions
 │   └── validation # Data/Input Validators
 │
@@ -88,7 +89,7 @@ Developers: Matthew Geng, Neel Ismail, Amy Li, Greg Maxin, Brandon Wong, Kevin Z
 ├── .prettierrc
 ├── LICENSE
 ├── README.md
-├── i18n.js
+├── next-i18next.config.js
 ├── next-env.d.ts
 ├── next.config.js
 ├── package.json

@@ -1,39 +1,40 @@
-import React, { useState } from "react";
-import SelectChildForClass from "@components/SelectChildForClass";
-import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
 import { Box } from "@chakra-ui/layout";
-import { GetServerSideProps } from "next";
-import useUser from "@utils/hooks/useUser";
-import { useRouter } from "next/router";
-import { getSession } from "next-auth/client";
-import { Loading } from "@components/Loading";
-import { locale, roles, Student } from "@prisma/client";
-import { ParentEnrolledFormWrapper } from "@components/registration-form/ParentEnrollFormWrapper";
 import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
 import { ParticipantWaiver } from "@components/agreement-form/ParticipantWaiver";
 import { TermsAndConditions } from "@components/agreement-form/TermsAndConditions";
-import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePage";
+import { ClassEnrollmentConfirmation } from "@components/ClassEnrollmentConfirm";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
+import { Loading } from "@components/Loading";
 import { Checkout } from "@components/registration-form/Checkout";
 import { DiscountPage } from "@components/registration-form/DiscountPage";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { fetcherWithId } from "@utils/fetcher";
-import useSWR from "swr";
+import { ParentEnrolledFormWrapper } from "@components/registration-form/ParentEnrollFormWrapper";
+import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePage";
+import SelectChildForClass from "@components/SelectChildForClass";
+import { locale, roles, Student } from "@prisma/client";
 import CardInfoUtil from "@utils/cardInfoUtil";
+import { fetcherWithId } from "@utils/fetcher";
+import useUser from "@utils/hooks/useUser";
 import { pathWithQueries } from "@utils/request/query";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import useSWR from "swr";
+import { Session } from "next-auth";
 
 type ParentEnrollClassProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
  * This is the page that directs a user to register a student for a class
  */
-export default function ParentEnrollClass({
-    session,
-}: ParentEnrollClassProps): JSX.Element {
+export default function ParentEnrollClass({ session }: ParentEnrollClassProps): JSX.Element {
     const router = useRouter();
     const { classId, page, child, stripe } = router.query;
-    const { user, isLoading, error } = useUser(session.id as string);
+    const { user, isLoading, error } = useUser(session.id.toString());
     const numberClassId = classId ? parseInt(classId as string, 10) : null;
     const numberPage = page ? parseInt(page as string, 10) : null;
     const [pageNum, setPageNum] = useState<number>(page ? numberPage : 0);
@@ -49,17 +50,14 @@ export default function ParentEnrollClass({
 
     const isClassInfoLoading = !classInfoResponse && !classInfoError;
 
-    if (isClassInfoLoading) {
-        return <Loading />;
-    } else if (classInfoError) {
-        return <Box>An Error has occured</Box>;
+    if (classInfoError) {
+        return <CommonError session={session} cause="cannot fetch class" />;
+    } else if (isClassInfoLoading) {
+        return <CommonLoading session={session} />;
     }
 
     const classInfo = classInfoResponse
-        ? CardInfoUtil.getClassCardInfo(
-              classInfoResponse.data,
-              router.locale as locale,
-          )
+        ? CardInfoUtil.getClassCardInfo(classInfoResponse.data, router.locale as locale)
         : null;
 
     const nextPage = () => {
@@ -126,11 +124,7 @@ export default function ParentEnrollClass({
         }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
-            <ProofOfIncomePage
-                pageNum={pageNum}
-                classId={numberClassId}
-                onNext={nextPage}
-            />,
+            <ProofOfIncomePage pageNum={pageNum} classId={numberClassId} onNext={nextPage} />,
         );
     }
     pageElements.push(
@@ -180,10 +174,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "common",
-                "form",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

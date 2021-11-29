@@ -92,6 +92,7 @@ CREATE TABLE parents (
   is_low_income BOOLEAN DEFAULT false,
   preferred_language locales NOT NULL,
   proof_of_income_link TEXT,
+  proof_of_income_approval BOOLEAN,
   heard_from heard_from[],
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -105,7 +106,7 @@ CREATE TABLE volunteers (
   date_of_birth TIMESTAMPTZ NOT NULL,
   address_line1 TEXT,
   criminal_record_check_link TEXT,
-  criminal_check_approved BOOLEAN DEFAULT false,
+  criminal_check_approved BOOLEAN,
   criminal_check_expired BOOLEAN DEFAULT false,
   postal_code VARCHAR(10),
   city_name TEXT,
@@ -183,7 +184,7 @@ CREATE TABLE parent_regs (
 -- create program admin users table
 CREATE TABLE program_admins (
   id SERIAL PRIMARY KEY NOT NULL,
-  FOREIGN KEY(id) REFERENCES users(id),
+  FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
 );

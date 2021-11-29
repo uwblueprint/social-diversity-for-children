@@ -1,29 +1,23 @@
 import Wrapper from "@components/SDCWrapper";
 import { WelcomeToSDC } from "@components/WelcomeToSDC";
 import { ProgramList } from "@components/ProgramList";
-import {
-    Center,
-    Box,
-    Flex,
-    Divider,
-    Spacer,
-    Heading,
-    Spinner,
-} from "@chakra-ui/react";
+import { Center, Box, Flex, Divider, Spacer, Heading, Spinner } from "@chakra-ui/react";
 import { GetServerSideProps } from "next"; // Get server side props
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { EmptyState } from "@components/EmptyState";
 import { useTranslation } from "next-i18next";
 import usePrograms from "@utils/hooks/usePrograms";
-import { Loading } from "@components/Loading";
 import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import useMe from "@utils/hooks/useMe";
 import { MissingDocAlert } from "@components/MissingDocAlert";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
+import { Session } from "next-auth";
 
 type ComponentProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 export default function Component(props: ComponentProps): JSX.Element {
@@ -31,16 +25,12 @@ export default function Component(props: ComponentProps): JSX.Element {
     const router = useRouter();
     const { me } = useMe();
 
-    const {
-        programs: programCardInfos,
-        isLoading,
-        error,
-    } = usePrograms(router.locale as locale);
+    const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
+
     if (error) {
-        return <Box>{"An error has occurred: " + error.toString()}</Box>;
-    }
-    if (isLoading) {
-        return <Loading />;
+        return <CommonError cause="cannot fetch programs" session={props.session} />;
+    } else if (isLoading) {
+        return <CommonLoading session={props.session} />;
     }
 
     return (
@@ -52,22 +42,14 @@ export default function Component(props: ComponentProps): JSX.Element {
                 </Box>
                 <Spacer />
 
-                <Divider
-                    orientation="horizontal"
-                    marginTop="5%"
-                    marginBottom="5%"
-                />
+                <Divider orientation="horizontal" marginTop="5%" marginBottom="5%" />
                 <Heading fontSize="3xl" marginBottom="5%">
-                    {t("home.browseProgram")}
+                    {t("nav.browseProgram")}
                 </Heading>
 
                 <Box>
                     {programCardInfos.length === 0 ? (
-                        <EmptyState>
-                            {
-                                "There are currently no programs available to register for.\nCome back shortly to see the programs we have to offer for the next term!"
-                            }
-                        </EmptyState>
+                        <EmptyState>{t("home.emptyPrograms")}</EmptyState>
                     ) : programCardInfos ? (
                         <ProgramList cardInfo={programCardInfos} />
                     ) : (
@@ -91,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ApprovedIcon, InfoIcon, PendingIcon } from "@components/icons";
 import convertToShortDateString from "@utils/convertToShortDateString";
 import { locale } from "@prisma/client";
+import { useTranslation } from "next-i18next";
 
 type CriminalCheckProps = {
     link: string;
@@ -17,21 +18,28 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
     approved,
     submitDate,
 }): JSX.Element => {
+    const { t } = useTranslation(["form", "common"]);
+
     let description;
     let status;
     let icon;
 
     if (approved) {
-        description = "Your criminal record check has been approved.";
-        status = "Approved";
+        status = "approved";
+        description = t("account.bgc", {
+            ns: "common",
+            context: status,
+        });
         icon = <ApprovedIcon />;
     } else if (link == null) {
-        description =
-            "You have not uploaded a criminal record check at this time.";
+        description = t("bgc.missing");
         icon = <InfoIcon />;
     } else {
-        description = "Your criminal record check is under review.";
-        status = "Pending";
+        status = "pending";
+        description = t("account.bgc", {
+            ns: "common",
+            context: status,
+        });
         icon = <PendingIcon />;
     }
 
@@ -48,14 +56,17 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
             <Box pl={120} my={5} color={colourTheme.colors.Gray}>
                 {link == null ? null : (
                     <>
-                        <Text>Status: {status}</Text>
                         <Text>
-                            Date submitted:{" "}
-                            {convertToShortDateString(
-                                submitDate,
-                                locale.en,
-                                true,
-                            )}
+                            {t("account.status", {
+                                ns: "common",
+                                context: status,
+                            })}
+                        </Text>
+                        <Text>
+                            {t("account.dateSubmitted", {
+                                ns: "common",
+                                date: convertToShortDateString(submitDate, locale.en, true),
+                            })}
                         </Text>
                     </>
                 )}
@@ -72,7 +83,7 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
                     border="1px"
                     mt="20px"
                 >
-                    Upload criminal record check
+                    {t("bgc.upload")}
                 </Button>
             </Link>
         </Box>

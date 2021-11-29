@@ -3,13 +3,22 @@ import parsePhoneNumber from "@utils/parsePhoneNumber";
 import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { CellProps } from "react-table";
+
+export type ParentDataType = {
+    id: number;
+    fullName: string;
+    email: string;
+    phone: string;
+    numberChildren: number;
+};
 
 /**
  * use parents table data hook to format all the data needed for an admin table
  * @param  parents - parent users
  * @returns header columns, row data, csv data for table
  */
-export function useParentsTableData(
+export default function useParentsTableData(
     parents: (User & {
         parent: Parent & {
             students: Student[];
@@ -20,15 +29,9 @@ export function useParentsTableData(
         Header: string;
         accessor: string;
         isNumeric?: boolean;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        Cell?: (props: any) => JSX.Element;
+        Cell?: (props: CellProps<ParentDataType>) => JSX.Element;
     }[];
-    parentData: {
-        fullName: string;
-        email: string;
-        phone: string;
-        numberChildren: number;
-    }[];
+    parentData: ParentDataType[];
 } {
     const parentColumns = React.useMemo(
         () => [
@@ -39,14 +42,10 @@ export function useParentsTableData(
             {
                 Header: "Name",
                 accessor: "fullName",
-                Cell: (props) => {
+                Cell: (props: CellProps<ParentDataType>) => {
                     return (
-                        <Link
-                            href={`/admin/registrant/parent/${props.row.original.parentId}`}
-                        >
-                            <ChakraLink>
-                                {props.row.original.fullName}
-                            </ChakraLink>
+                        <Link href={`/admin/registrant/parent/${props.row.original.id}`}>
+                            <ChakraLink>{props.row.original.fullName}</ChakraLink>
                         </Link>
                     );
                 },

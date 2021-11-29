@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
 import { ClassCardInfo } from "@models/Class";
-import { SDCBadge } from "./SDCBadge";
+import { AgeBadge } from "./AgeBadge";
 
 type FormClassCardProps = {
     classInfo: ClassCardInfo;
@@ -29,18 +29,10 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
     const { t } = useTranslation();
 
     return (
-        <Grid
-            border="1px solid #C5C5C5"
-            templateColumns="repeat(4, 1fr)"
-            gap={6}
-        >
+        <Grid border="1px solid #C5C5C5" templateColumns="repeat(4, 1fr)" gap={6}>
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
-                    <Image
-                        src={classInfo.image}
-                        fit="cover"
-                        alt={classInfo.name}
-                    />
+                    <Image src={classInfo.image} fit="cover" alt={classInfo.name} />
                 </AspectRatio>
             </GridItem>
             <GridItem colSpan={3}>
@@ -81,16 +73,10 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
                         </Box>
                         <Spacer />
                         <Flex alignItems={"baseline"}>
-                            <SDCBadge>
-                                {t(
-                                    classInfo.isAgeMinimal
-                                        ? "program.ageGroupAbove"
-                                        : "program.ageGroupUnder",
-                                    {
-                                        age: classInfo.borderAge,
-                                    },
-                                )}
-                            </SDCBadge>
+                            <AgeBadge
+                                borderAge={classInfo.borderAge}
+                                isAgeMinimal={classInfo.isAgeMinimal}
+                            />
                         </Flex>
                     </Flex>
                 </VStack>

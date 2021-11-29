@@ -1,5 +1,4 @@
 import {
-    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -11,28 +10,28 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { AdminTable } from "@components/admin/table/AdminTable";
+import { AdminError } from "@components/AdminError";
 import Wrapper from "@components/AdminWrapper";
-import { Loading } from "@components/Loading";
-import { roles } from "@prisma/client";
+import useParentsTableData from "@utils/hooks/useParentsTableData";
+import useStudentsTableData from "@utils/hooks/useStudentsTableData";
+import useUsers from "@utils/hooks/useUsers";
+import useVolunteersTableData from "@utils/hooks/useVolunteersTableData";
+import { isInternal } from "@utils/session/authorization";
+import { Session } from "next-auth";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
-import useUsers from "@utils/hooks/useUsers";
-import { useVolunteersTableData } from "@utils/hooks/useVolunteersTableData";
-import { useStudentsTableData } from "@utils/hooks/useStudentsTableData";
-import { useParentsTableData } from "@utils/hooks/useParentsTableData";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type RegistrantViewProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 /**
  * Admin registrant view page that displays all the registrants in the platform
  * @returns Admin class view page component
  */
-export default function RegistrantView(
-    props: RegistrantViewProps,
-): JSX.Element {
+export default function RegistrantView(props: RegistrantViewProps): JSX.Element {
     const {
         parents,
         students,
@@ -42,18 +41,11 @@ export default function RegistrantView(
     } = useUsers();
 
     const { studentColumns, studentData } = useStudentsTableData(students);
-    const { volunteerColumns, volunteerData } =
-        useVolunteersTableData(volunteers);
+    const { volunteerColumns, volunteerData } = useVolunteersTableData(volunteers);
     const { parentColumns, parentData } = useParentsTableData(parents);
 
-    if (isUsersLoading) {
-        return <Loading />;
-    } else if (usersError) {
-        return (
-            <Box>
-                {"An error has occurred. Registrants could not be loaded"}
-            </Box>
-        );
+    if (usersError) {
+        return <AdminError cause="registrants could not be loaded" />;
     }
 
     return (
@@ -61,9 +53,7 @@ export default function RegistrantView(
             <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/registrant">
-                            Browse Registrants
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/registrant">Browse Registrants</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
                 <Tabs w="100%">
@@ -128,10 +118,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",
@@ -141,6 +128,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {},
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

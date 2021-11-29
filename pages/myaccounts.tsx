@@ -1,11 +1,6 @@
 import Wrapper from "@components/SDCWrapper";
 import { useEffect, useState } from "react";
-import {
-    MdLogout,
-    MdPerson,
-    MdSupervisorAccount,
-    MdDescription,
-} from "react-icons/md";
+import { MdLogout, MdPerson, MdSupervisorAccount, MdDescription } from "react-icons/md";
 import { Spacer, Box, Icon, Button, Flex, Text } from "@chakra-ui/react";
 import { Loading } from "@components/Loading";
 import useMe from "@utils/hooks/useMe";
@@ -21,9 +16,15 @@ import { UpdateStudentInput } from "@models/Student";
 import { CriminalCheck } from "@components/myAccounts/CriminalCheck";
 import router from "next/router";
 import Link from "next/link";
+import { isInternal } from "@utils/session/authorization";
+import { CommonLoading } from "@components/CommonLoading";
+import { CommonError } from "@components/CommonError";
+import { Session } from "next-auth";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 type MyAccountProps = {
-    session: Record<string, unknown>;
+    session: Session;
 };
 
 type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
@@ -32,8 +33,10 @@ type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
  * This is the page that a user will use to edit their account information
  */
 export default function MyAccount({ session }: MyAccountProps): JSX.Element {
+    const { t } = useTranslation(["common", "form"]);
+
     // Redirect user if user already signed up
-    const { me, isLoading, mutate } = useMe();
+    const { me, error, isLoading, mutate } = useMe();
 
     const [sideBarPage, setSideBarPage] = useState(0);
     const [editing, setEditing] = useState(false);
@@ -109,8 +112,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     name: student.firstName + " " + student.lastName,
                     icon: MdPerson,
                     type: "PARTICIPANT",
-                    title: "Personal Information",
-                    header: "General Information",
+                    title: t("account.participantInformation"),
+                    header: t("account.participantInformation"),
                     canEdit: true,
                     component: (
                         <ParticipantInfo
@@ -131,8 +134,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             SideBar.push({
                 name: "",
                 icon: MdSupervisorAccount,
-                title: "Guardian Information",
-                header: "Guardian Information",
+                title: t("account.guardianInformation"),
+                header: t("account.guardianInformation"),
                 canEdit: true,
                 component: (
                     <GuardianInfo
@@ -150,8 +153,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             SideBar.push({
                 name: "",
                 icon: MdDescription,
-                title: "Proof of Income",
-                header: "Proof of Income",
+                title: t("poi.title", { ns: "form" }),
+                header: t("poi.title", { ns: "form" }),
                 canEdit: false,
                 component: (
                     <ProofOfIncome
@@ -166,8 +169,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             SideBar.push({
                 name: "",
                 icon: MdPerson,
-                title: "Participant Information",
-                header: "Personal Information",
+                title: t("account.personalInformation"),
+                header: t("account.personalInformation"),
                 canEdit: true,
                 component: (
                     <VolunteerInfo
@@ -185,8 +188,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
             SideBar.push({
                 name: "",
                 icon: MdDescription,
-                title: "Criminal Record Check",
-                header: "Criminal Record Check",
+                title: t("bgc.title", { ns: "form" }),
+                header: t("bgc.title", { ns: "form" }),
                 canEdit: false,
                 component: (
                     <CriminalCheck
@@ -203,8 +206,10 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
     }, [me, editing]);
 
     //Wait for the user to load
-    if (isLoading) {
-        return <Loading />;
+    if (error) {
+        return <CommonError session={session} cause="could not load user" />;
+    } else if (isLoading) {
+        return <CommonLoading session={session} />;
     }
 
     return (
@@ -216,7 +221,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     w={{ base: "100%", lg: 312 }}
                 >
                     <Text fontWeight={700} fontSize={36}>
-                        {"My Account"}
+                        {t("nav.myAccount")}
                     </Text>
                     {me && me.role === "PARENT" ? (
                         <Link href="/parent/participant">
@@ -231,7 +236,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                                 color="white"
                                 border="1px"
                             >
-                                Add participant
+                                {t("account.addParticipant")}
                             </Button>
                         </Link>
                     ) : null}
@@ -266,7 +271,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                             _hover={{ color: colourTheme.colors.Blue }}
                         >
                             <Icon as={MdLogout} w={8} h={8} />
-                            Log out
+                            {t("account.logOut")}
                         </Button>
                     </Flex>
                 </Box>
@@ -278,10 +283,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                         borderWidth={{ base: "0", lg: "1px" }}
                         borderColor="#C1C1C1"
                     >
-                        <Box
-                            style={{ display: "flex", alignItems: "center" }}
-                            pb={8}
-                        >
+                        <Box style={{ display: "flex", alignItems: "center" }} pb={8}>
                             {" "}
                             <Text fontWeight={700} fontSize={24}>
                                 {sideBar[sideBarPage]?.header}
@@ -294,8 +296,8 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                             >
                                 {sideBar[sideBarPage]?.canEdit
                                     ? editing
-                                        ? "Cancel"
-                                        : "Edit"
+                                        ? t("account.cancel")
+                                        : t("account.edit")
                                     : undefined}
                             </Button>
                         </Box>
@@ -322,7 +324,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     }
-    if ([roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)) {
+    if (isInternal(session)) {
         return {
             redirect: {
                 destination: "/admin",
@@ -334,6 +336,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

@@ -1,34 +1,40 @@
 import {
-    Button,
     Box,
-    Text,
+    BoxProps,
+    Button,
     HStack,
-    useToast,
-    Tabs,
+    List,
+    ListIcon,
+    ListItem,
     Tab,
     TabList,
     TabPanel,
     TabPanels,
-    ListItem,
-    ListIcon,
-    List,
-    BoxProps,
+    Tabs,
+    Text,
+    useToast,
 } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession, GetSessionOptions, signIn } from "next-auth/client";
 import Wrapper from "@components/AdminWrapper";
-import isEmail from "validator/lib/isEmail";
-import { roles } from "@prisma/client";
 import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
 import { createAdminUser, createTeacherUser } from "@utils/createUser";
+import { isAdmin } from "@utils/session/authorization";
+import { GetServerSideProps } from "next"; // Get server side props
+import { Session } from "next-auth";
+import { getSession, signIn } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
+import isEmail from "validator/lib/isEmail";
+
+type AddInternalUserProps = {
+    session: Session;
+};
 
 /**
  * Internal page for admins to add/invite teachers via email
  */
-export default function AddInternalUser(): JSX.Element {
+export default function AddInternalUser(props: AddInternalUserProps): JSX.Element {
     const [teacherFirstName, setTeacherFirstName] = useState("");
     const [teacherLastName, setTeacherLastName] = useState("");
     const [teacherEmail, setTeacherEmail] = useState("");
@@ -55,11 +61,7 @@ export default function AddInternalUser(): JSX.Element {
     }, [adminFirstName, adminLastName, adminEmail]);
 
     const InviteEmailForTeacher = async () => {
-        const res = await createTeacherUser(
-            teacherEmail,
-            teacherFirstName,
-            teacherLastName,
-        );
+        const res = await createTeacherUser(teacherEmail, teacherFirstName, teacherLastName);
         if (res.ok) {
             signIn("email", {
                 email: teacherEmail,
@@ -87,11 +89,7 @@ export default function AddInternalUser(): JSX.Element {
         }
     };
     const InviteEmailForAdmin = async () => {
-        const res = await createAdminUser(
-            adminEmail,
-            adminFirstName,
-            adminLastName,
-        );
+        const res = await createAdminUser(adminEmail, adminFirstName, adminLastName);
         if (res.ok) {
             signIn("email", {
                 email: adminEmail,
@@ -138,7 +136,7 @@ export default function AddInternalUser(): JSX.Element {
     ];
 
     return (
-        <Wrapper>
+        <Wrapper session={props.session}>
             <Tabs mx={8} mt={8}>
                 <TabList>
                     <Tab>Admin</Tab>
@@ -253,11 +251,7 @@ const InviteForm = ({
             <Box position="absolute" bottom={12}>
                 <Button
                     disabled={!valid}
-                    bg={
-                        valid
-                            ? colourTheme.colors.Blue
-                            : colourTheme.colors.DarkGray
-                    }
+                    bg={valid ? colourTheme.colors.Blue : colourTheme.colors.DarkGray}
                     color="brand.200"
                     px={16}
                     fontSize="12px"
@@ -277,8 +271,8 @@ const InviteForm = ({
                     Invite
                 </Button>
                 <Text fontWeight="400" fontSize="14px" mt={6} color="brand.300">
-                    Invitee will be sent a magic link or they can choose to
-                    login with the email on a later date.
+                    Invitee will be sent a magic link or they can choose to login with the email on
+                    a later date.
                 </Text>
             </Box>
         </Box>
@@ -289,9 +283,7 @@ const InviteForm = ({
  * getServerSideProps runs before this page is rendered to check to see if a
  * user has already been authenticated.
  */
-export const getServerSideProps: GetServerSideProps = async (
-    context: GetSessionOptions,
-) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // obtain the next auth session
     const session = await getSession(context);
 
@@ -302,7 +294,7 @@ export const getServerSideProps: GetServerSideProps = async (
                 permanent: false,
             },
         };
-    } else if (![roles.PROGRAM_ADMIN].includes((session as any).role)) {
+    } else if (!isAdmin(session)) {
         return {
             redirect: {
                 destination: "/no-access",
@@ -313,6 +305,9 @@ export const getServerSideProps: GetServerSideProps = async (
 
     // if the user is not authenticated - continue to the page as normal
     return {
-        props: {},
+        props: {
+            session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
+        },
     };
 };

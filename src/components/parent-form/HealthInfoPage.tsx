@@ -1,9 +1,9 @@
-import React from "react";
-import { HStack, Button, Box, Text } from "@chakra-ui/react";
-import colourTheme from "@styles/colours";
-import validator from "validator";
-import { TextField } from "@components/formFields/TextField";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
+import { TextField } from "@components/formFields/TextField";
+import colourTheme from "@styles/colours";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 type HealthPageProps = {
     styleProps?: Record<string, unknown>;
@@ -22,29 +22,24 @@ type HealthInfo = {
     setAllergies: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const HealthInfoPage: React.FC<HealthPageProps> = ({
-    props,
-}): JSX.Element => {
+export const HealthInfoPage: React.FC<HealthPageProps> = ({ props }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <>
             <Box maxW="55rem">
-                <Text noOfLines={2} fontSize="16px" fontWeight="200">
-                    The information on this form will be used at the discretion
-                    of the activity instructor/coordinator to ensure care and
-                    attention is given to the safety and health of your child.
-                    All information on this form is considered Personal and
-                    Confidential. The contact listed on the emergency form
-                    cannot be the same contact listed as the parent above.
+                <Text fontSize="16px" fontWeight="200">
+                    {t("signUp.healthFormInfo")}
                 </Text>
             </Box>
             <CheckBoxField
                 value={props.hasMedication}
-                name={"Is your child on medication?"}
+                name={t("signUp.medication")}
                 setValue={props.setHasMedication}
                 required={false}
             ></CheckBoxField>
             <TextField
-                name="If yes, please provide any details if necessary"
+                name={t("label.details")}
                 value={props.medication}
                 setValue={props.setMedication}
                 placeholder="Details"
@@ -52,12 +47,12 @@ export const HealthInfoPage: React.FC<HealthPageProps> = ({
             ></TextField>
             <CheckBoxField
                 value={props.hasAllergies}
-                name={"Does your child have any food allergies?"}
+                name={t("signUp.allergies")}
                 setValue={props.setHasAllergies}
                 required={false}
             ></CheckBoxField>
             <TextField
-                name="If yes, please provide any details if necessary"
+                name={t("label.details")}
                 value={props.allergies}
                 setValue={props.setAllergies}
                 placeholder="Details"
@@ -76,7 +71,7 @@ export const HealthInfoPage: React.FC<HealthPageProps> = ({
                     disabled={false}
                     onClick={props.formButtonOnClick}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>
