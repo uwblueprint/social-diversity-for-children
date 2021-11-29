@@ -44,9 +44,7 @@ export default async function sessionHandler(
                 ];
             }
 
-            const session = await stripe.checkout.sessions.create(
-                stripeSession,
-            );
+            const session = await stripe.checkout.sessions.create(stripeSession);
 
             res.status(200).json({ sessionId: session.id });
             break;

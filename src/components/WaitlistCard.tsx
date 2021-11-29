@@ -51,8 +51,7 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
                     <Flex mr="3">
                         <Box>
                             <Heading size="md" pb={4} pr={2}>
-                                {waitlistInfo.program.name} (
-                                {waitlistInfo.class.name})
+                                {waitlistInfo.program.name} ({waitlistInfo.class.name})
                             </Heading>
                             <Box as="span" color="gray.600" fontSize="sm">
                                 <Text>
@@ -68,8 +67,7 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
                                     )}
                                     {" with " +
                                         t("program.teacherName", {
-                                            name: waitlistInfo.class
-                                                .teacherName,
+                                            name: waitlistInfo.class.teacherName,
                                         })}
                                 </Text>
                                 <Text>

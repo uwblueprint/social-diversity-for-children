@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     Flex,
+    useBreakpointValue,
     Heading,
     HStack,
     Image,
@@ -25,6 +26,7 @@ type WelcomeToSDCProps = {
 
 export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
     const { t } = useTranslation("common");
+    const isMobileLayout = useBreakpointValue({ base: true, lg: false });
 
     // TODO remove test data and get new images
     const title = t("home.welcome");
@@ -49,10 +51,10 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
             <TabPanels>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w="50%">
+                        <Box w={!isMobileLayout ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
-                                <Text fontSize="2xl">{desc1}</Text>
+                                <Text fontSize={{ base: "lg", lg: "2xl" }}>{desc1}</Text>
                                 <Text>{text1}</Text>
                                 {session ? (
                                     <span />
@@ -60,39 +62,37 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor={
-                                                colourTheme.colors.Blue
-                                            }
+                                            backgroundColor={colourTheme.colors.Blue}
                                             _hover={{
-                                                backgroundColor:
-                                                    colourTheme.colors
-                                                        .LightBlue,
+                                                backgroundColor: colourTheme.colors.LightBlue,
                                             }}
-                                            width="50%"
+                                            width={{ base: "100%", md: "50%" }}
                                             borderRadius="6px"
                                             fontWeight={"200"}
                                         >
-                                            {t("home.registerNow")}
+                                            {t("nav.registerNow")}
                                         </Button>
                                     </Link>
                                 )}
                             </VStack>
                         </Box>
-                        <Box width="50%">
-                            <Flex direction="column" align="flex-end">
-                                <Box maxWidth="sm" maxHeight="sm">
-                                    <Image src={img1} objectFit="cover" />
-                                </Box>
-                            </Flex>
-                        </Box>
+                        {!isMobileLayout && (
+                            <Box width="50%">
+                                <Flex direction="column" align="flex-end">
+                                    <Box maxWidth="sm" maxHeight="sm">
+                                        <Image src={img1} objectFit="cover" />
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        )}
                     </HStack>
                 </TabPanel>
                 <TabPanel>
                     <HStack spacing="24px">
-                        <Box w="50%">
+                        <Box w={!isMobileLayout ? "50%" : "100%"}>
                             <VStack spacing="20px" alignItems="left">
                                 <Heading fontSize="3xl">{title}</Heading>
-                                <Text fontSize="2xl">{desc1}</Text>
+                                <Text fontSize={{ base: "lg", lg: "2xl" }}>{desc1}</Text>
                                 <Text>{text2}</Text>
                                 {session ? (
                                     <span />
@@ -100,31 +100,29 @@ export const WelcomeToSDC: React.FC<WelcomeToSDCProps> = ({ session }) => {
                                     <Link href="/login">
                                         <Button
                                             color="white"
-                                            backgroundColor={
-                                                colourTheme.colors.Blue
-                                            }
+                                            backgroundColor={colourTheme.colors.Blue}
                                             _hover={{
-                                                backgroundColor:
-                                                    colourTheme.colors
-                                                        .LightBlue,
+                                                backgroundColor: colourTheme.colors.LightBlue,
                                             }}
                                             width="50%"
                                             borderRadius="6px"
                                             fontWeight={"200"}
                                         >
-                                            {t("home.registerNow")}
+                                            {t("nav.registerNow")}
                                         </Button>
                                     </Link>
                                 )}
                             </VStack>
                         </Box>
-                        <Box width="50%">
-                            <Flex direction="column" align="flex-end">
-                                <Box maxWidth="sm" maxHeight="sm">
-                                    <Image src={img2} objectFit="cover" />
-                                </Box>
-                            </Flex>
-                        </Box>
+                        {!isMobileLayout && (
+                            <Box width="50%">
+                                <Flex direction="column" align="flex-end">
+                                    <Box maxWidth="sm" maxHeight="sm">
+                                        <Image src={img2} objectFit="cover" />
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        )}
                     </HStack>
                 </TabPanel>
             </TabPanels>

@@ -32,17 +32,11 @@ const LearningInfoPage = dynamic(
     { ssr: false },
 );
 const EmergInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/EmergInfoPage").then(
-            (module) => module.EmergInfoPage,
-        ),
+    () => import("@components/parent-form/EmergInfoPage").then((module) => module.EmergInfoPage),
     { ssr: false },
 );
 const HealthInfoPage = dynamic(
-    () =>
-        import("@components/parent-form/HealthInfoPage").then(
-            (module) => module.HealthInfoPage,
-        ),
+    () => import("@components/parent-form/HealthInfoPage").then((module) => module.HealthInfoPage),
     { ssr: false },
 );
 const ParticipantCreatedPage = dynamic(
@@ -63,17 +57,11 @@ const FormPage = (props) => {
  * This is the page that a user will use to enter the participants personal information
  * onto the SDC platform as a parent of volunteer
  */
-export default function ParticipantInfo({
-    session,
-}: {
-    session: Session;
-}): JSX.Element {
+export default function ParticipantInfo({ session }: { session: Session }): JSX.Element {
     const router = useRouter();
     const { page } = router.query;
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState<number>(
-        page ? parseInt(page as string, 10) : 0,
-    );
+    const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
 
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
@@ -101,63 +89,47 @@ export default function ParticipantInfo({
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [address2, setAddress2] = useLocalStorage("address2", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [participantProvince, setParticipantProvince] =
-        useState(DEFAULT_PROVINCE);
+    const [participantProvince, setParticipantProvince] = useState(DEFAULT_PROVINCE);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [grade, setGrade] = useLocalStorage("grade", "");
 
     //Health
-    const [hasMedication, setHasMedication] = useLocalStorage(
-        "hasMedication",
-        false,
-    );
-    const [hasAllergies, setHasAllergies] = useLocalStorage(
-        "hasAllergies",
-        false,
-    );
+    const [hasMedication, setHasMedication] = useLocalStorage("hasMedication", false);
+    const [hasAllergies, setHasAllergies] = useLocalStorage("hasAllergies", false);
     const [medication, setMedication] = useLocalStorage("medication", "");
     const [allergies, setAllergies] = useLocalStorage("allergies", "");
 
     // Participant difficulties & therapy
-    const [hasLearningDifficulties, setHasLearningDifficulties] =
-        useLocalStorage("learning", false);
-    const [hasPhysicalDifficulties, setHasPhysicalDifficulties] =
-        useLocalStorage("physical", false);
-    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage(
-        "sensory",
+    const [hasLearningDifficulties, setHasLearningDifficulties] = useLocalStorage(
+        "learning",
         false,
     );
-    const [participantDifficulties, setParticipantDifficulties] =
-        useLocalStorage("participantDifficulties", []);
+    const [hasPhysicalDifficulties, setHasPhysicalDifficulties] = useLocalStorage(
+        "physical",
+        false,
+    );
+    const [hasSensoryDifficulties, setHasSensoryDifficulties] = useLocalStorage("sensory", false);
+    const [participantDifficulties, setParticipantDifficulties] = useLocalStorage(
+        "participantDifficulties",
+        [],
+    );
     const [hasOtherDifficulties, setHasOtherDifficulties] = useLocalStorage(
         "hasOtherDifficulties",
         false,
     );
-    const [otherDifficulties, setOtherDifficulties] = useLocalStorage(
-        "otherDifficulties",
-        "",
-    );
-    const [specialEd, setSpecialEd] = useLocalStorage(
-        "involvedInSpecialEd",
-        false,
-    );
+    const [otherDifficulties, setOtherDifficulties] = useLocalStorage("otherDifficulties", "");
+    const [specialEd, setSpecialEd] = useLocalStorage("involvedInSpecialEd", false);
     const [physiotherapy, setPhysiotherapy] = useLocalStorage("physio", false);
     const [speechTherapy, setSpeechTherapy] = useLocalStorage("speech", false);
-    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage(
-        "occupational",
-        false,
-    );
+    const [occupationalTherapy, setOccupationalTherapy] = useLocalStorage("occupational", false);
     const [counseling, setCounseling] = useLocalStorage("conseling", false);
     const [artTherapy, setArtTherapy] = useLocalStorage("art", false);
     const [participantTherapy, setParticipantTherapy] = useLocalStorage(
         "participantTherapy",
         false,
     );
-    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage(
-        "hasOtherTherapy",
-        false,
-    );
+    const [hasOtherTherapy, setHasOtherTherapy] = useLocalStorage("hasOtherTherapy", false);
     const [otherTherapy, setOtherTherapy] = useLocalStorage("otherTherapy", "");
 
     // Parent/guardian expectations
@@ -167,25 +139,12 @@ export default function ParticipantInfo({
     );
 
     // Emergency contact info
-    const [emergFirstName, setEmergFirstName] = useLocalStorage(
-        "emergFirstName",
-        "",
-    );
-    const [emergLastName, setEmergLastName] = useLocalStorage(
-        "emergLastName",
-        "",
-    );
-    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage(
-        "emergNumber",
-        "",
-    );
-    const [emergRelationship, setEmergRelationship] = useLocalStorage(
-        "emergRelationship",
-        "",
-    );
+    const [emergFirstName, setEmergFirstName] = useLocalStorage("emergFirstName", "");
+    const [emergLastName, setEmergLastName] = useLocalStorage("emergLastName", "");
+    const [emergPhoneNumber, setEmergPhoneNumber] = useLocalStorage("emergNumber", "");
+    const [emergRelationship, setEmergRelationship] = useLocalStorage("emergRelationship", "");
 
-    const [addParticipantSuccess, setAddParticipantSuccess] =
-        useState("pending");
+    const [addParticipantSuccess, setAddParticipantSuccess] = useState("pending");
 
     const otherDifficultyDetails = hasOtherDifficulties ? (
         <Box mt={4}>
@@ -340,12 +299,9 @@ export default function ParticipantInfo({
 
         //Save Difficulties
         const difficultiesArray = [];
-        if (hasLearningDifficulties)
-            difficultiesArray.push(difficulties.LEARNING);
-        if (hasPhysicalDifficulties)
-            difficultiesArray.push(difficulties.PHYSICAL);
-        if (hasSensoryDifficulties)
-            difficultiesArray.push(difficulties.SENSORY);
+        if (hasLearningDifficulties) difficultiesArray.push(difficulties.LEARNING);
+        if (hasPhysicalDifficulties) difficultiesArray.push(difficulties.PHYSICAL);
+        if (hasSensoryDifficulties) difficultiesArray.push(difficulties.SENSORY);
         if (hasOtherDifficulties) difficultiesArray.push(difficulties.OTHER);
 
         const createStudentInput: CreateStudentInput = {
@@ -434,7 +390,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["form"])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

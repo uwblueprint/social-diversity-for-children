@@ -1,6 +1,7 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { SetStateAction } from "react";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 type SelectChildForClassProps = {
     className: string;
@@ -11,9 +12,8 @@ type SelectChildForClassProps = {
     onNext: () => void;
 };
 
-export default function SelectChildForClass(
-    props: SelectChildForClassProps,
-): JSX.Element {
+export default function SelectChildForClass(props: SelectChildForClassProps): JSX.Element {
+    const { t } = useTranslation("form");
     if (!props.eligible[props.selectedChild]) {
         let index = 0;
         while (!props.eligible[index] && index < props.eligible.length) index++;
@@ -24,7 +24,7 @@ export default function SelectChildForClass(
         <Box>
             <Center>
                 <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
-                    Program Registration
+                    {t("enroll.register")}
                 </Text>
             </Center>
             <Center>
@@ -58,11 +58,7 @@ export default function SelectChildForClass(
                             onClick={() => {
                                 props.setSelectedChild(index);
                             }}
-                            border={
-                                props.selectedChild === index
-                                    ? null
-                                    : "2px solid #E1E1E1"
-                            }
+                            border={props.selectedChild === index ? null : "2px solid #E1E1E1"}
                             isDisabled={!props.eligible[index]}
                         >
                             {childName}
@@ -81,7 +77,7 @@ export default function SelectChildForClass(
                     fontSize="16px"
                     onClick={props.onNext}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Center>
         </Box>

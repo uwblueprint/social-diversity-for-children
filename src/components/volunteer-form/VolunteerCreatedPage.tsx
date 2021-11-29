@@ -38,33 +38,26 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
     formPages,
     successful,
 }): JSX.Element => {
-    const { t } = useTranslation("form");
+    const { t } = useTranslation(["form", "common"]);
     const progressBarIncrement = Math.ceil(100 / totalPages);
-    const getProgressBarValue = (pageNum) =>
-        progressBarIncrement * (pageNum + 1);
+    const getProgressBarValue = (pageNum) => progressBarIncrement * (pageNum + 1);
 
     const formPageHeaders = [
-        "Volunteer Information",
-        "Volunteer Personal Details",
+        t("label.volunteerInformation"),
+        t("label.volunteerPersonalDetails"),
         t("bgc.title"),
-        "Volunteer Personal Details",
+        t("label.volunteerPersonalDetails"),
     ];
     return (
         <Wrapper session={session}>
             {pageNum < totalPages ? (
                 <Center>
                     <Box w={912}>
-                        <Flex
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
+                        <Flex alignItems={"center"} justifyContent={"space-between"}>
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () =>
-                                              setPageNum((prevPage) =>
-                                                  Math.max(prevPage - 1, 0),
-                                              )
+                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
                                         : null
                                 }
                             />
@@ -82,12 +75,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                             />
                             {formPages.map((formPage, idx) => {
                                 return (
-                                    <Box
-                                        key={idx}
-                                        display={
-                                            pageNum === idx ? null : "none"
-                                        }
-                                    >
+                                    <Box key={idx} display={pageNum === idx ? null : "none"}>
                                         {formPage}
                                     </Box>
                                 );
@@ -108,14 +96,11 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                         </Text>
                         <Text maxW={512} textAlign="center">
                             {successful === "success"
-                                ? "Your account has been successfully created. Click the button below to start browsing classes to volunteer for!"
+                                ? t("form.volunteerCreatedInfo")
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">
-                            <ChakraLink
-                                _hover={{ textDecoration: "none" }}
-                                _focus={{}}
-                            >
+                            <ChakraLink _hover={{ textDecoration: "none" }} _focus={{}}>
                                 <Button
                                     color={"white"}
                                     bg={colourTheme.colors.Blue}
@@ -127,7 +112,7 @@ export const VolunteerCreatedPage: React.FC<VolunteerCreatedPageProps> = ({
                                     fontWeight={"200"}
                                     borderRadius="6px"
                                 >
-                                    {t("form.browseClasses")}
+                                    {t("nav.browseClasses", { ns: "common" })}
                                 </Button>
                             </ChakraLink>
                         </Link>

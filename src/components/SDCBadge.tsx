@@ -14,9 +14,7 @@ export const SDCBadge: React.FC<SDCBadgeProps> = ({ isOff, ...restProps }) => {
             fontWeight="medium"
             letterSpacing="wide"
             textTransform="none"
-            backgroundColor={
-                isOff ? colourTheme.colors.DarkGray : colourTheme.colors.Blue
-            }
+            backgroundColor={isOff ? colourTheme.colors.DarkGray : colourTheme.colors.Blue}
             textAlign="center"
             color="white"
             pb="1"

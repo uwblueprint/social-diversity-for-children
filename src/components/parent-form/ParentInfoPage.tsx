@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
+import { useTranslation } from "next-i18next";
 
 type ParentPageProps = {
     styleProps?: Record<string, unknown>;
@@ -21,34 +22,34 @@ type ParentInfo = {
     setParentRelationship: (text: string) => void;
     formButtonOnClick: () => void;
 };
-export const ParentInfoPage: React.FC<ParentPageProps> = ({
-    props,
-}): JSX.Element => {
+export const ParentInfoPage: React.FC<ParentPageProps> = ({ props }): JSX.Element => {
+    const { t } = useTranslation("form");
+
     return (
         <>
             <HStack spacing="24px" style={{ height: 100 }}>
                 <TextField
-                    name="Parent/Guardian First Name"
+                    name={t("label.firstName")}
                     placeholder="John"
                     value={props.parentFirstName}
                     setValue={props.setParentFirstName}
                 ></TextField>
                 <TextField
-                    name="Parent/Guardian Last Name"
+                    name={t("label.lastName")}
                     placeholder="Doe"
                     value={props.parentLastName}
                     setValue={props.setParentLastName}
                 ></TextField>
             </HStack>
             <PhoneNumberField
-                name="Phone Number"
+                name={t("label.phone")}
                 placeholder="2893491048"
                 value={props.parentPhoneNumber}
                 setValue={props.setParentPhoneNumber}
             ></PhoneNumberField>
             <br />
             <TextField
-                name="Relationship to Participant"
+                name={t("label.relation")}
                 placeholder="Mother"
                 value={props.parentRelationship}
                 setValue={props.setParentRelationship}
@@ -71,7 +72,7 @@ export const ParentInfoPage: React.FC<ParentPageProps> = ({
                     }
                     onClick={props.formButtonOnClick}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>

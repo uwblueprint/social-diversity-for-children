@@ -14,7 +14,7 @@ import { getUserFromEmail } from "@database/user";
 import { getClass } from "@database/class";
 import { getWaitlistRecordsByClassId } from "@database/waitlist";
 import send from "services/nodemailer/mail";
-import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
+import { openSpotWaitlistTemplate } from "@utils/mail/templateUtil";
 
 /**
  * handle controls the request made to the enroll/child resource.
@@ -22,10 +22,7 @@ import { openSpotWaitlistTemplate } from "@utils/mail/templateWaitlist";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
 
     // If there is no session or the user is not a parent, not authorized
@@ -47,10 +44,7 @@ export default async function handle(
 
     const parentId = session.id as number;
     if (!parentId) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "No user id stored in session",
-        );
+        return ResponseUtil.returnBadRequest(res, "No user id stored in session");
     }
 
     switch (req.method) {
@@ -60,9 +54,7 @@ export default async function handle(
 
             // if no student or class query, we get all enrollments
             if (!studentId && !classId) {
-                const parentRegistrationRecords = await getParentRegistrations(
-                    parentId,
-                );
+                const parentRegistrationRecords = await getParentRegistrations(parentId);
 
                 // verify that the parent registration record could be obtained
                 if (!parentRegistrationRecords) {
@@ -121,9 +113,7 @@ export default async function handle(
                 classId: req.body.classId,
             };
             // validate the request body and return if not validated
-            const validationErrors = validateParentRegistrationRecord(
-                parentRegistrationInput,
-            );
+            const validationErrors = validateParentRegistrationRecord(parentRegistrationInput);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
                 return;
@@ -136,14 +126,9 @@ export default async function handle(
             }
 
             // create parent registration record and return if it could not be created
-            const newRegistration = await createParentRegistration(
-                parentRegistrationInput,
-            );
+            const newRegistration = await createParentRegistration(parentRegistrationInput);
             if (!newRegistration) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Registration could not be created`,
-                );
+                ResponseUtil.returnBadRequest(res, `Registration could not be created`);
                 return;
             }
 
@@ -158,30 +143,22 @@ export default async function handle(
             };
 
             // validate the request body and return if not validated
-            const validationErrors = validateParentRegistrationRecord(
-                parentRegistrationInput,
-            );
+            const validationErrors = validateParentRegistrationRecord(parentRegistrationInput);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
                 return;
             }
 
-            const deletedRegistration = await deleteParentRegistration(
-                parentRegistrationInput,
-            );
+            const deletedRegistration = await deleteParentRegistration(parentRegistrationInput);
             if (!deletedRegistration) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Registration could not be created`,
-                );
+                ResponseUtil.returnBadRequest(res, `Registration could not be created`);
                 return;
             }
 
             let notifyWaitlist = true;
             // if class wasn't originally full, do not notify waitlist
             if (
-                deletedRegistration.class._count.parentRegs <
-                deletedRegistration.class.spaceTotal
+                deletedRegistration.class._count.parentRegs < deletedRegistration.class.spaceTotal
             ) {
                 notifyWaitlist = false;
             }

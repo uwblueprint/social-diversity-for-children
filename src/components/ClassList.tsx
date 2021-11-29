@@ -28,24 +28,16 @@ export const ClassList: React.FC<ClassListProps> = ({
         <Center width="100%" pt={4}>
             <List spacing="5" width="100%">
                 {classInfo.map((item, idx) => {
-                    const isFull =
-                        me &&
-                        me.role === roles.PARENT &&
-                        item.spaceAvailable < 1;
+                    const isFull = me && me.role === roles.PARENT && item.spaceAvailable < 1;
                     const { isOpen, onOpen, onClose } = useDisclosure();
                     let eligible = true;
                     if (me && me.role === roles.PARENT && students !== null) {
                         eligible = false;
                         eligible = students.some((student) => {
-                            const age = convertToAge(
-                                new Date(student.dateOfBirth),
-                            );
+                            const age = convertToAge(new Date(student.dateOfBirth));
                             if (item.isAgeMinimal && age >= item.borderAge) {
                                 return true;
-                            } else if (
-                                !item.isAgeMinimal &&
-                                age <= item.borderAge
-                            ) {
+                            } else if (!item.isAgeMinimal && age <= item.borderAge) {
                                 return true;
                             }
                             return false;
@@ -76,10 +68,7 @@ export const ClassList: React.FC<ClassListProps> = ({
                                     isFull={isFull}
                                 />
                             ) : (
-                                <IneligibleClassModal
-                                    isOpen={isOpen}
-                                    onClose={onClose}
-                                />
+                                <IneligibleClassModal isOpen={isOpen} onClose={onClose} />
                             )}
                         </ListItem>
                     );

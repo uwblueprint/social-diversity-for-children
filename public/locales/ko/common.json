@@ -6,18 +6,115 @@
         "registration": "2021년 여름학기 프로그램 접수는 6월 31부터 시작합니다.",
         "parentBrowse": "이번 학기에 제공되는 프로그램들을 확인하시고 원하시는 시간과 날짜를 선택하세요. 경제적인 도움이 필요한경우, 저희 SDC가 도와드릴것을 보장합니다.",
         "volunteerBrowse": "SDC에서의 자원봉사는 간단하고 쉽습니다. 자원봉사자 용 계정을 만들고 지원하고 싶은 프로그램을 선택하여 SDC 자원봉사를 시작하세요.",
-        "registerNow": "지금 등록하세요",
-        "browseProgram": "프로그램 보기"
+        "emptyPrograms": "현재 등록할 수 있는 프로그램이 없습니다. 다음 학기에 제공해야 하는 프로그램을 보려면 곧 다시 오십시오!"
     },
     "program": {
         "signInToRegister": "프로그램 / 자원봉사 신청하기 ",
         "classDetails": "프로그램 상세 정보",
         "ageGroupUnder": "{{age}}세 이하",
         "ageGroupAbove": "{{age}}세 이상",
-        "teacherName": "선생님: {{name}}"
+        "teacherName": "선생님: {{name}}",
+        "participantSpot": "남은 참가자 정원: {{spot}}",
+        "volunteerSpot": "남은 봉사자 정원: {{spot}}",
+        "notEligible": "당신의 자녀는 이 수업의 연령대에 속하지 않습니다. 다른 수업을 선택하십시오.",
+        "understood": "이해했다",
+        "waitlist": "대기자 명단에 추가",
+        "waitlistNotify": "자리가 생기면 알려드리겠습니다",
+        "learnMore": "더 알아보기",
+        "selectClass": "수업을 선택",
+        "fullClasses": "전체 수업",
+        "emptyProgram": "현재 {{program}}에 사용할 수 있는 수업이 없습니다. 아래에서 대기자 명단에 등록된 클래스에 등록하거나 다른 프로그램을 확인하십시오."
+    },
+    "class": {
+        "joinClass": "수강 신청",
+        "unregister": "등록 취소",
+        "unregisterFor": "등록 취소: {{name}}",
+        "unregisterForAll": "모두 등록 취소",
+        "upcomingClasses": "다가오는 수업",
+        "waitlistedClasses": "대기자 클래스",
+        "waitlistedInfo": "자리가 열리면 이메일이 전송됩니다.",
+        "emptyWaitlist": "현재 귀하는 어떤 수업에서도 대기자 명단에 오르지 않았습니다. 대기자 명단에 있는 모든 수업이 여기에 표시됩니다!",
+        "emptyClass": "현재 등록된 수업이 없습니다. 등록한 모든 수업이 여기에 표시됩니다!"
+    },
+    "account": {
+        "addParticipant": "참가 아동 추가",
+        "participantInformation": "학생 정보",
+        "personalInformation": "개인 정보",
+        "guardianInformation": "보호자 정보",
+        "generalInformation": "정보",
+        "edit": "편집하다",
+        "cancel": "취소",
+        "save": "정보 저장",
+        "status_approved": "상태: 승인",
+        "status_pending": "상태: 보류 중",
+        "status_declined": "상태: 거절",
+        "dateSubmitted": "제출 날짜: {{date}}",
+        "poi_approved": "소득증명서가 확인되었습니다.",
+        "poi_pending": "귀하의 손익 계산서를 검토 중입니다.",
+        "bgc_approved": "귀하의 범죄 없는 조사 서신이 검토되었습니다.",
+        "bgc_pending": "범죄기록증명서가 확인 중에 있습니다.",
+        "logOut": "로그아웃"
+    },
+    "upload": {
+        "title": "업로드...",
+        "instruction": "여기에 파일을 끌어다 놓습니다.",
+        "alternative": "또는",
+        "browseFiles": "파일 보기",
+        "uploaded": "문서 업로드됨",
+        "submit": "제출",
+        "replace": "현재 파일을 바꾸시겠습니까?",
+        "success": "서류 제출이 성공적으로 완료되었습니다.",
+        "successInfo": "서류가 성공적으로 SDC에 제출되었습니다.",
+        "successHint": "다음 몇 주간 범죄기록증명서 상태를 확인하세요"
+    },
+    "signIn": {
+        "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요.",
+        "sentTitle": "인증번호가 전송되었습니다. 이메일 확인하세요.",
+        "sentInfo": "To confirm your email address, click on the link in the email we sent to {{email}}.",
+        "sentHint": "Didn’t get an email? Return to the Sign In page and re-enter a valid email.",
+        "successEmail": "이메일 인증 성공",
+        "successInfo": "You’ve confirmed {{email}}. You’re all ready to start filling in your account information!"
     },
     "time": {
         "range": "{{start}}부터{{end}}까지",
         "weekday_many": "{{day}}"
+    },
+    "language": {
+        "select": "언어 선택",
+        "apply": "계속하다"
+    },
+    "difficulties": {
+        "learning": "학습 장애",
+        "physical": "신체 장애",
+        "sensory": "감각처리 장애",
+        "other": "그 외의 장애"
+    },
+    "therapy": {
+        "physiotherapy": "물리치료",
+        "language": "언어 치료",
+        "occupational": "Occupational Therapy",
+        "psychotherapy": "심리치료 / 상담",
+        "art": "음악 또는 미술 치료",
+        "other": "그 외"
+    },
+    "hearAboutUs": {
+        "friendsAndFamily": "친구와 가족",
+        "flyers": "인쇄 광고",
+        "email": "이메일",
+        "social": "SNS (페이스북 등)",
+        "other": "기타"
+    },
+    "nav": {
+        "register": "등록하세요",
+        "registerNow": "지금 등록하세요",
+        "browseProgram": "프로그램 보기",
+        "signIn": "로그인",
+        "back": "뒤로",
+        "myClasses": "나의 수업",
+        "myAccount": "나의 계정",
+        "viewUpcoming": "예정 프로그램 보기",
+        "browseClasses": "프로그램 보기",
+        "viewDetails": "더 보기",
+        "viewAccount": "계정 보기"
     }
 }

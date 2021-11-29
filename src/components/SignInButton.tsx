@@ -2,8 +2,11 @@ import React from "react";
 import { Button, Link as ChakraLink } from "@chakra-ui/react";
 import Link from "next/link";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 export const SignInButton: React.FC = () => {
+    const { t } = useTranslation("common");
+
     return (
         <Link href="/login">
             <ChakraLink _hover={{ textDecoration: "none" }}>
@@ -20,7 +23,7 @@ export const SignInButton: React.FC = () => {
                     fontWeight={"200"}
                     borderRadius="6px"
                 >
-                    Sign In
+                    {t("nav.signIn")}
                 </Button>
             </ChakraLink>
         </Link>

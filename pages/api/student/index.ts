@@ -10,10 +10,7 @@ import { getSession } from "next-auth/client";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
 
     // If there is no session or the user is not a parent, not authorized
@@ -24,10 +21,7 @@ export default async function handle(
     // TODO: Allow admin access as well
     const parentId = session.id as number;
     if (!parentId) {
-        return ResponseUtil.returnBadRequest(
-            res,
-            "No user id stored in session",
-        );
+        return ResponseUtil.returnBadRequest(res, "No user id stored in session");
     }
 
     switch (req.method) {
@@ -39,10 +33,7 @@ export default async function handle(
             } else {
                 const student = await createStudent(input);
                 if (!student) {
-                    ResponseUtil.returnBadRequest(
-                        res,
-                        `Student could not be created`,
-                    );
+                    ResponseUtil.returnBadRequest(res, `Student could not be created`);
                     return;
                 }
                 ResponseUtil.returnOK(res, student);
@@ -63,10 +54,7 @@ export default async function handle(
             } else {
                 const student = await updateStudent(input);
                 if (!student) {
-                    ResponseUtil.returnBadRequest(
-                        res,
-                        `Student could not be created`,
-                    );
+                    ResponseUtil.returnBadRequest(res, `Student could not be created`);
                     return;
                 }
                 ResponseUtil.returnOK(res, student);
