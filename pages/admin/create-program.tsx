@@ -1,18 +1,22 @@
 import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
-import { Box, Heading, HStack, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
+import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
 import { Image, Button, Input } from "@chakra-ui/react";
 import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
 import { SelectField } from "@components/formFields/SelectField";
+import { UploadField } from "@components/formFields/UploadField";
 import "react-datepicker/dist/react-datepicker.css";
 import { getPresignedPostForUpload } from "@aws/s3";
 
 export default function CreateProgram(): JSX.Element {
     const EDIT = true;
 
-    const [image, setImage] = useLocalStorage("programImage", "");
+    const [image, setImage] = useLocalStorage(
+        "programImage",
+        "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
+    );
     const [programName, setProgramName] = useLocalStorage("programName", "");
     const [programTag, setProgramTag] = useLocalStorage("programTags", "");
     const [dateAvailable, setDateAvailable] = useLocalStorage("dateAvailable", "");
@@ -77,35 +81,7 @@ export default function CreateProgram(): JSX.Element {
             <br></br>
             <HStack spacing={4} alignSelf="start">
                 <VStack spacing={2} mx={8}>
-                    <p>Cover Photo</p>
-                    <Image
-                        boxSize="200px" //TODO: Figure out how to set width/length seperately
-                        htmlHeight="700px"
-                        objectFit="cover"
-                        src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
-                        alt="Segun Adebayo"
-                    />
-                    <Input
-                        id="upload"
-                        type="file"
-                        onChange={upload}
-                        hidden
-                        disabled={!EDIT}
-                    ></Input>
-                    <label
-                        for="upload"
-                        style={{
-                            cursor: "pointer",
-                            backgroundColor: "#E2E8F0",
-                            borderRadius: 6,
-                            padding: 5,
-                            marginTop: 15,
-                            width: 200,
-                            textAlign: "center",
-                        }}
-                    >
-                        Upload
-                    </label>
+                    <UploadField name="Cover Photo" value={image} setValue={setImage}></UploadField>
                 </VStack>
                 <Box>
                     <TextField

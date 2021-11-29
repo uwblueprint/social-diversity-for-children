@@ -2,22 +2,23 @@ import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
 import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
-import { Image, Button, Input } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
 import { SelectField } from "@components/formFields/SelectField";
+import { UploadField } from "@components/formFields/UploadField";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
-// import { ResponseUtil } from "@utils/responseUtil";
-import { getPresignedPostForUpload } from "@aws/s3";
-import { weekday } from ".prisma/client";
 import Stripe from "stripe";
 
 export default function CreateClass(): JSX.Element {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {});
     const EDIT = true;
 
-    const [image, setImage] = useLocalStorage("classImage", "");
+    const [image, setImage] = useLocalStorage(
+        "classImage",
+        "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
+    );
 
     const [className, setClassName] = useLocalStorage("className", "");
     const [associatedProgram, setAssociatedProgram] = useLocalStorage("associatedProgram", "");
@@ -43,14 +44,6 @@ export default function CreateClass(): JSX.Element {
     const [classDescription, setClassDescription] = useLocalStorage("classDescription", "");
 
     const [stripeLink, setStripeLink] = useState("");
-
-    const upload = (value) => {
-        console.log(value.target.files); //returns FILELIST array (will only be the first element)
-        console.log(process.env.S3_PUBLIC_IMAGES_BUCKET);
-        const post = getPresignedPostForUpload("sdc-public-images", "Test/image.jng");
-
-        //setImage(awsurl)
-    };
 
     async function save() {
         //Create Stripe product and price
@@ -118,35 +111,7 @@ export default function CreateClass(): JSX.Element {
             <br></br>
             <HStack spacing={4} alignSelf="start">
                 <VStack spacing={2} mx={8}>
-                    <p>Cover Photo</p>
-                    <Image
-                        boxSize="200px" //TODO: Figure out how to set width/length seperately
-                        htmlHeight="700px"
-                        objectFit="cover"
-                        src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
-                        alt="Segun Adebayo"
-                    />
-                    <Input
-                        id="upload"
-                        type="file"
-                        onChange={upload}
-                        hidden
-                        disabled={!EDIT}
-                    ></Input>
-                    <label
-                        for="upload"
-                        style={{
-                            cursor: "pointer",
-                            backgroundColor: "#E2E8F0",
-                            borderRadius: 6,
-                            padding: 5,
-                            marginTop: 15,
-                            width: 200,
-                            textAlign: "center",
-                        }}
-                    >
-                        Upload
-                    </label>
+                    <UploadField name="Cover Photo" value={image} setValue={setImage}></UploadField>
                 </VStack>
                 <Box>
                     <HStack spacing={8} alignSelf="start">
@@ -159,7 +124,7 @@ export default function CreateClass(): JSX.Element {
                         ></TextField>
                         <SelectField
                             name="Associated Program"
-                            type="programList"
+                            options={["Program 1", "Program 2"]}
                             value={associatedProgram}
                             setValue={setAssociatedProgram}
                             edit={EDIT}
@@ -279,7 +244,22 @@ export default function CreateClass(): JSX.Element {
                         px={12}
                         borderRadius={6}
                         mt={8}
-                        disabled={false}
+                        disabled={
+                            !className ||
+                            !associatedProgram ||
+                            !teacherName ||
+                            !dateAvailable ||
+                            !location ||
+                            !locationDescription ||
+                            !recurrence ||
+                            !repeatOn ||
+                            !endRecurrence ||
+                            !age ||
+                            !aboveUnder ||
+                            !maxCapacity ||
+                            !price ||
+                            !classDescription
+                        }
                         onClick={save}
                     >
                         {"Create Class"}
