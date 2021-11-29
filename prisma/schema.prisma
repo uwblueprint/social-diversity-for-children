@@ -10,7 +10,7 @@ datasource db {
 model Parent {
   id                    Int         @id @default(autoincrement())
   phoneNumber           String      @map("phone_number") @db.VarChar(50)
-  isLowIncome           Boolean?    @default(false) @map("is_low_income")
+  isLowIncome           Boolean?    @map("is_low_income")
   preferredLanguage     locale      @map("preferred_language")
   proofOfIncomeLink     String?     @map("proof_of_income_link")
   heardFrom             heardFrom[] @map("heard_from")

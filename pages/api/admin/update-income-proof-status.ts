@@ -5,7 +5,7 @@ import { getSession } from "next-auth/client";
 import { isAdmin } from "@utils/session/authorization";
 
 /**
- * handle controls the request made to the api/admin/criminal-check-update endpoint
+ * handle controls the request made to the api/admin/update-income-proof endpoint
  * @param req API request object
  * @param res API response object
  */

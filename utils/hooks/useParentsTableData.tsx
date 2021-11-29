@@ -45,7 +45,7 @@ export default function useParentsTableData(
                 Cell: (props: CellProps<ParentDataType>) => {
                     return (
                         <Link
-                            href={`/admin/registrant/parent/${props.row.original.id}`}
+                            href={`/admin/registrant/user/${props.row.original.id}`}
                         >
                             <ChakraLink>
                                 {props.row.original.fullName}
