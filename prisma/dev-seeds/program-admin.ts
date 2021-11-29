@@ -24,9 +24,7 @@ const programAdmins: ProgramAdmin[] = [
  * Upsert programAdmins
  * @param data custom data to upsert
  */
-export default async function programAdminUpsert(
-    data?: ProgramAdmin[],
-): Promise<void> {
+export default async function programAdminUpsert(data?: ProgramAdmin[]): Promise<void> {
     for (const programAdmin of data || programAdmins) {
         const { id, updatedAt, ...rest } = programAdmin;
         await prisma.programAdmin

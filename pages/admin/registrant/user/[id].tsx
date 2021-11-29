@@ -84,10 +84,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData),
         };
-        const response = await fetch(
-            `/api/user?id=${userId as string}`,
-            request,
-        );
+        const response = await fetch(`/api/user?id=${userId as string}`, request);
         mutate(`/api/user/${userId as string}`);
         const updatedUserData = await response.json();
         return updatedUserData;
@@ -172,8 +169,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                         />
                     ) : (
                         <EmptyState height="200px">
-                            The participant has not uploaded a criminal record
-                            check at this time.
+                            The participant has not uploaded a criminal record check at this time.
                         </EmptyState>
                     ),
             });
@@ -214,8 +210,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                         />
                     ) : (
                         <EmptyState height="200px">
-                            The participant has not uploaded a criminal record
-                            check at this time.
+                            The participant has not uploaded a criminal record check at this time.
                         </EmptyState>
                     ),
             });
@@ -232,16 +227,9 @@ export default function Registrant(props: AdminProps): JSX.Element {
     return (
         <Wrapper session={props.session}>
             <AdminHeader>Registrant</AdminHeader>
-            <Breadcrumb
-                alignSelf="flex-start"
-                display="flex"
-                paddingLeft="40px"
-                separator={">"}
-            >
+            <Breadcrumb alignSelf="flex-start" display="flex" paddingLeft="40px" separator={">"}>
                 <BreadcrumbItem>
-                    <BreadcrumbLink href="/admin/registrant">
-                        Browse Registrants
-                    </BreadcrumbLink>
+                    <BreadcrumbLink href="/admin/registrant">Browse Registrants</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                     <BreadcrumbLink
@@ -287,10 +275,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                         borderWidth={{ base: "0", lg: "1px" }}
                         borderColor="#C1C1C1"
                     >
-                        <Box
-                            style={{ display: "flex", alignItems: "center" }}
-                            pb={8}
-                        >
+                        <Box style={{ display: "flex", alignItems: "center" }} pb={8}>
                             {" "}
                             <Text fontWeight={700} fontSize={24}>
                                 {sideBar[sideBarPage]?.header}
@@ -342,10 +327,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "common",
-                "form",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

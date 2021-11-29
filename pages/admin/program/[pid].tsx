@@ -26,6 +26,7 @@ import { AdminError } from "@components/AdminError";
 import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type ClassViewProps = {
     session: Session;
@@ -35,9 +36,7 @@ type ClassViewProps = {
  * Admin program class view page that displays the classes of a program
  * @returns Admin program class view page component
  */
-export default function ProgramClassView({
-    session,
-}: ClassViewProps): JSX.Element {
+export default function ProgramClassView({ session }: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
     const [searchTerm, setSearchTerm] = useState("");
@@ -68,9 +67,7 @@ export default function ProgramClassView({
             classCard.name.toLowerCase().includes(term) ||
             classCard.borderAge.toString().includes(term) ||
             classCard.teacherName.toLowerCase().includes(term) ||
-            weekdayToString(classCard.weekday, locale.en)
-                .toLowerCase()
-                .includes(term)
+            weekdayToString(classCard.weekday, locale.en).toLowerCase().includes(term)
         ) {
             return classCard;
         }
@@ -81,9 +78,7 @@ export default function ProgramClassView({
             <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/program">
-                            Browse Programs
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>
                     </BreadcrumbItem>
 
                     <BreadcrumbItem>
@@ -156,6 +151,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

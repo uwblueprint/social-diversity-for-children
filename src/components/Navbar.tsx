@@ -29,6 +29,7 @@ import SdcLogoBlue from "@components/icons/SdcLogoBlue";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Session } from "next-auth";
+import { useTranslation } from "next-i18next";
 import { signOut } from "next-auth/client";
 
 type NavbarProps = {
@@ -36,20 +37,9 @@ type NavbarProps = {
     height?: number | string;
 };
 
-const Links = [
-    { name: "Browse Programs", url: "/" },
-    { name: "My Classes", url: "/class" },
-];
-
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
     <Link href={href}>
-        <ChakraLink
-            px={8}
-            py={1}
-            rounded={"md"}
-            _focus={{}}
-            textUnderlineOffset={"0.5em"}
-        >
+        <ChakraLink px={8} py={1} rounded={"md"} _focus={{}} textUnderlineOffset={"0.5em"}>
             {children}
         </ChakraLink>
     </Link>
@@ -76,12 +66,7 @@ const SideBar = ({
                             <Text fontSize="2xl" fontWeight="bold">
                                 Welcome
                             </Text>
-                            <Text
-                                fontSize="md"
-                                fontWeight="normal"
-                                mt="5"
-                                mb="15"
-                            >
+                            <Text fontSize="md" fontWeight="normal" mt="5" mb="15">
                                 {session.user.email}
                             </Text>
                             <Divider mt="15" mb="15" />
@@ -118,12 +103,7 @@ const SideBar = ({
                         <NavLink href="/class">View My Classes</NavLink>
                     </Flex>
                     {loggedIn && (
-                        <Flex
-                            flexDirection="row"
-                            mt="5"
-                            mb="5"
-                            alignItems="center"
-                        >
+                        <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                             <Icon as={BiUserCircle} width={6} height={6} />
                             <NavLink href="/myaccounts">Account</NavLink>
                         </Flex>
@@ -135,11 +115,7 @@ const SideBar = ({
                             <Divider mt="15" mb="15" />
                             <Flex alignItems="center">
                                 <Icon as={MdLogout} width={6} height={6} />
-                                <Text
-                                    marginLeft="5"
-                                    cursor="pointer"
-                                    onClick={() => signOut()}
-                                >
+                                <Text marginLeft="5" cursor="pointer" onClick={() => signOut()}>
                                     Log Out
                                 </Text>
                             </Flex>
@@ -155,22 +131,24 @@ export const DEFAULT_NAVBAR_HEIGHT = 16;
 
 export const Navbar: React.FC<NavbarProps> = (props) => {
     const router = useRouter();
+    const { t } = useTranslation("common");
     const isSidebar = useBreakpointValue({ base: true, lg: false });
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const accountButton = props.session ? (
-        <NavLink href="/myaccounts">My Account</NavLink>
+        <NavLink href="/myaccounts">{t("nav.myAccount")}</NavLink>
     ) : (
         <SignInButton />
     );
 
+    const Links = [
+        { name: t("nav.browseProgram"), url: "/" },
+        { name: t("nav.myClasses"), url: "/class" },
+    ];
+
     return (
         <>
-            <SideBar
-                isOpen={isOpen}
-                onClose={onClose}
-                session={props.session}
-            />
+            <SideBar isOpen={isOpen} onClose={onClose} session={props.session} />
             <Box bg={"transparent"} color={useColorModeValue("black", "white")}>
                 <Box
                     bg={"transparent"}
@@ -197,16 +175,9 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
                                     </ChakraLink>
                                 </Link>
                             </Box>
-                            <HStack
-                                as={"nav"}
-                                spacing={4}
-                                display={{ base: "none", md: "flex" }}
-                            >
+                            <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
                                 {Links.map((linkInfo) => (
-                                    <NavLink
-                                        key={linkInfo.name}
-                                        href={linkInfo.url}
-                                    >
+                                    <NavLink key={linkInfo.name} href={linkInfo.url}>
                                         {linkInfo.name}
                                     </NavLink>
                                 ))}

@@ -4,6 +4,7 @@ import colourTheme from "@styles/colours";
 import validator from "validator";
 import { TextField } from "@components/formFields/TextField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
+import { useTranslation } from "react-i18next";
 
 type GuardianPageProps = {
     styleProps?: Record<string, unknown>;
@@ -15,9 +16,8 @@ type GuardianInfo = {
     save: (parent: any) => void;
     edit: boolean;
 };
-export const GuardianInfo: React.FC<GuardianPageProps> = ({
-    props,
-}): JSX.Element => {
+export const GuardianInfo: React.FC<GuardianPageProps> = ({ props }): JSX.Element => {
+    const { t } = useTranslation(["common", "form"]);
     const [firstName, setFirstName] = useState(props.me.firstName);
     const [lastName, setLastName] = useState(props.me.lastName);
     const [phoneNumber, setPhoneNumber] = useState(props.me.parent.phoneNumber);
@@ -35,13 +35,13 @@ export const GuardianInfo: React.FC<GuardianPageProps> = ({
             <br />
             <HStack spacing="24px" style={{ height: "100px" }}>
                 <TextField
-                    name="Parent/Guardian First Name"
+                    name={t("label.firstName", { ns: "form" })}
                     value={firstName}
                     setValue={setFirstName}
                     edit={props.edit}
                 ></TextField>
                 <TextField
-                    name="Parent/GuardianLast Name"
+                    name={t("label.lastName", { ns: "form" })}
                     value={lastName}
                     setValue={setLastName}
                     edit={props.edit}
@@ -50,7 +50,7 @@ export const GuardianInfo: React.FC<GuardianPageProps> = ({
             <br />
             <br />
             <PhoneNumberField
-                name="Phone Number"
+                name={t("label.phone", { ns: "form" })}
                 value={phoneNumber}
                 setValue={setPhoneNumber}
                 edit={props.edit}
@@ -75,7 +75,7 @@ export const GuardianInfo: React.FC<GuardianPageProps> = ({
                         }
                         onClick={save}
                     >
-                        Save Changes
+                        {t("account.save")}
                     </Button>
                 ) : null}
             </Box>

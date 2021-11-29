@@ -23,6 +23,8 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
 import { Session } from "next-auth";
+import convertToAge from "@utils/convertToAge";
+import { useTranslation } from "next-i18next";
 
 type ParentEnrollClassProps = {
     session: Session;
@@ -31,9 +33,7 @@ type ParentEnrollClassProps = {
 /**
  * This is the page that directs a user to register a student for a class
  */
-export default function ParentEnrollClass({
-    session,
-}: ParentEnrollClassProps): JSX.Element {
+export default function ParentEnrollClass({ session }: ParentEnrollClassProps): JSX.Element {
     const router = useRouter();
     const { classId, page, child, stripe } = router.query;
     const { user, isLoading, error } = useUser(session.id.toString());
@@ -44,6 +44,8 @@ export default function ParentEnrollClass({
         child ? parseInt(child as string, 10) : 0,
     );
     const [couponId, setCouponId] = useState<string>();
+
+    const { t } = useTranslation("common");
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId],
@@ -59,10 +61,7 @@ export default function ParentEnrollClass({
     }
 
     const classInfo = classInfoResponse
-        ? CardInfoUtil.getClassCardInfo(
-              classInfoResponse.data,
-              router.locale as locale,
-          )
+        ? CardInfoUtil.getClassCardInfo(classInfoResponse.data, router.locale as locale)
         : null;
 
     const nextPage = () => {
@@ -100,13 +99,34 @@ export default function ParentEnrollClass({
         return `${s.firstName} ${s.lastName}`;
     });
 
+    const studentEligible = studentData.map((s) => {
+        return classInfo.isAgeMinimal
+            ? convertToAge(s.dateOfBirth) >= classInfo.borderAge
+            : convertToAge(s.dateOfBirth) <= classInfo.borderAge;
+    });
+
+    const ageRange = t(classInfo.isAgeMinimal ? "program.ageGroupAbove" : "program.ageGroupUnder", {
+        age: classInfo.borderAge,
+    });
+    const className = `${classInfo.programName} - ${classInfo.name} (${ageRange})? `;
+
     if (studentData.length < 1) {
         router.push("/").then(() => window.scrollTo(0, 0)); // Redirect to home if there are no children, this should be updated to a toast in a future sprint
     }
 
+    // if no children are elible for program, parent will be redirected back
+    const checkEligible = studentEligible.includes(true);
+
+    if (!checkEligible) {
+        router.back();
+        return <CommonLoading />;
+    }
+
     const pageElements = [
         <SelectChildForClass
+            className={className}
             children={studentNames}
+            eligible={studentEligible}
             selectedChild={selectedChild}
             setSelectedChild={setSelectedChild}
             onNext={nextPage}
@@ -129,11 +149,7 @@ export default function ParentEnrollClass({
         }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
-            <ProofOfIncomePage
-                pageNum={pageNum}
-                classId={numberClassId}
-                onNext={nextPage}
-            />,
+            <ProofOfIncomePage pageNum={pageNum} classId={numberClassId} onNext={nextPage} />,
         );
     }
     pageElements.push(
@@ -183,10 +199,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, [
-                "common",
-                "form",
-            ])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

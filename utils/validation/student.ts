@@ -7,9 +7,7 @@ import { roles } from "@prisma/client";
  * @param input - data corresponding to a new student
  * @returns string[] - array of errors of type string
  */
-export async function validateCreateStudent(
-    input: CreateStudentInput,
-): Promise<string[]> {
+export async function validateCreateStudent(input: CreateStudentInput): Promise<string[]> {
     const validationErrors = [];
 
     const user = await getUser(input.parentId.toString());

@@ -16,9 +16,7 @@ export type UseUpcomingClassesResponse = {
  * Upcoming classes hook to get all of upcoming class registrations
  * @param  {locale} language locale used
  */
-export default function useUpcomingClasses(
-    language: locale,
-): UseUpcomingClassesResponse {
+export default function useUpcomingClasses(language: locale): UseUpcomingClassesResponse {
     const { data, error, mutate } = useSWR("/api/class/upcoming", fetcher);
     const liveClass =
         data && data.data && data.data.liveClass
@@ -26,10 +24,7 @@ export default function useUpcomingClasses(
             : null;
     const upcomingClasses =
         data && data.data
-            ? CardInfoUtil.getClassCardInfos(
-                  data.data.upcomingClasses,
-                  language,
-              )
+            ? CardInfoUtil.getClassCardInfos(data.data.upcomingClasses, language)
             : [];
     return {
         liveClass,

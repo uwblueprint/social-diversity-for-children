@@ -43,12 +43,8 @@ export default function useStudentRegTableData(
                 accessor: "fullName",
                 Cell: (props: CellProps<StudentDataType>) => {
                     return (
-                        <Link
-                            href={`/admin/registrant/parent/${props.row.original.parentId}`}
-                        >
-                            <ChakraLink>
-                                {props.row.original.fullName}
-                            </ChakraLink>
+                        <Link href={`/admin/registrant/parent/${props.row.original.parentId}`}>
+                            <ChakraLink>{props.row.original.fullName}</ChakraLink>
                         </Link>
                     );
                 },
@@ -81,9 +77,7 @@ export default function useStudentRegTableData(
                     fullName: `${reg.student.firstName} ${reg.student.lastName}`,
                     emergFullName: `${reg.student.emergFirstName} ${reg.student.emergLastName}`,
                     emergNumber: parsePhoneNumber(reg.student.emergNumber),
-                    grade: reg.student.grade
-                        ? reg.student.grade.toString()
-                        : "-",
+                    grade: reg.student.grade ? reg.student.grade.toString() : "-",
                     cityProvince:
                         reg.student.cityName && reg.student.province
                             ? `${reg.student.cityName}, ${reg.student.province}`

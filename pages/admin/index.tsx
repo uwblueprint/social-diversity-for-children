@@ -1,12 +1,5 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import {
-    Box,
-    Heading,
-    HStack,
-    Link as ChakraLink,
-    Text,
-    VStack,
-} from "@chakra-ui/layout";
+import { Box, Heading, HStack, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
 import { Flex, List, ListItem, Spacer } from "@chakra-ui/react";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { AdminOptionButton } from "@components/admin/AdminOptionButton";
@@ -24,6 +17,7 @@ import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/client";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import React from "react";
 import { MdClass, MdCreate, MdPeople } from "react-icons/md";
@@ -114,15 +108,10 @@ export default function Admin(props: AdminProps): JSX.Element {
                         <Box h={350} w={380}>
                             {/* Here, we either show loading, empty, or box */}
                             {liveClass && link ? (
-                                <LiveClassCard
-                                    cardInfo={liveClass}
-                                    link={link}
-                                />
+                                <LiveClassCard cardInfo={liveClass} link={link} />
                             ) : (
                                 <AdminEmptyState
-                                    isLoading={
-                                        isUpcomingLoading || isZoomLoading
-                                    }
+                                    isLoading={isUpcomingLoading || isZoomLoading}
                                     h="100%"
                                 >
                                     No classes are live
@@ -144,24 +133,16 @@ export default function Admin(props: AdminProps): JSX.Element {
                         <VStack h={350}>
                             {upcomingClasses && upcomingClasses.length > 0 ? (
                                 <List spacing={5} w={625}>
-                                    {upcomingClasses
-                                        .slice(0, 2)
-                                        .map((item, idx) => {
-                                            return (
-                                                <ListItem key={idx}>
-                                                    <UpcomingClassCard
-                                                        cardInfo={item}
-                                                    />
-                                                </ListItem>
-                                            );
-                                        })}
+                                    {upcomingClasses.slice(0, 2).map((item, idx) => {
+                                        return (
+                                            <ListItem key={idx}>
+                                                <UpcomingClassCard cardInfo={item} />
+                                            </ListItem>
+                                        );
+                                    })}
                                 </List>
                             ) : (
-                                <AdminEmptyState
-                                    w={625}
-                                    h="100%"
-                                    isLoading={isUpcomingLoading}
-                                >
+                                <AdminEmptyState w={625} h="100%" isLoading={isUpcomingLoading}>
                                     No upcoming classes this week
                                 </AdminEmptyState>
                             )}
@@ -199,6 +180,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };

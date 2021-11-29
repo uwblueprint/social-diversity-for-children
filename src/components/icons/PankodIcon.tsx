@@ -11,10 +11,7 @@ function SvgPankodIcon(props: React.SVGProps<SVGSVGElement>) {
             {...props}
         >
             <defs>
-                <path
-                    id="pankod-icon_svg__a"
-                    d="M.322.275h90.963v120.483H.322z"
-                />
+                <path id="pankod-icon_svg__a" d="M.322.275h90.963v120.483H.322z" />
                 <path id="pankod-icon_svg__c" d="M0 .245h217.002V160H0z" />
             </defs>
             <g fill="none" fillRule="evenodd">

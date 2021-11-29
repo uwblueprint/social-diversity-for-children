@@ -7,6 +7,7 @@ import {
     Flex,
     Heading,
     Link as ChakraLink,
+    Spacer,
     Text,
 } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
@@ -14,30 +15,30 @@ import InfoIcon from "@components/icons/InfoIcon";
 import { roles } from "@prisma/client";
 import { UseMeResponse } from "@utils/hooks/useMe";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 type MissingDocAlertProps = {
     me?: UseMeResponse["me"];
 };
 
-const InfoCaption = [
-    {
-        heading: "Submit Proof of Income",
-        desc: "You have not submitted a proof of income yet!",
-    },
-    {
-        heading: "Submit Criminal Record Check",
-        desc: "You have not submitted a criminal record check yet!",
-    },
-];
-
 export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
     const [read, setRead] = useState(false);
-    const missingPOI =
-        me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
+    const { t } = useTranslation(["form", "common"]);
+
+    const missingPOI = me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
     const missingCriminalCheck =
-        me &&
-        me.role === roles.VOLUNTEER &&
-        me.volunteer.criminalRecordCheckLink === null;
+        me && me.role === roles.VOLUNTEER && me.volunteer.criminalRecordCheckLink === null;
+
+    const InfoCaption = [
+        {
+            heading: t("poi.submitTitle"),
+            desc: t("poi.missing"),
+        },
+        {
+            heading: t("bgc.submitTitle"),
+            desc: t("bgc.missing"),
+        },
+    ];
 
     return (
         <Box>
@@ -62,52 +63,36 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                         <Box w="60%">
                             {missingPOI && (
                                 <Box ml={4}>
-                                    <Heading
-                                        mb={2}
-                                        size="md"
-                                        color={colourTheme.colors.Blue}
-                                    >
+                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
                                         {InfoCaption[0].heading}
                                     </Heading>
-                                    <Text
-                                        display="block"
-                                        color={colourTheme.colors.Gray}
-                                    >
+                                    <Text display="block" color={colourTheme.colors.Gray}>
                                         {InfoCaption[0].desc}
                                     </Text>
                                 </Box>
                             )}
                             {missingCriminalCheck && (
                                 <Box ml={4}>
-                                    <Heading
-                                        mb={2}
-                                        size="md"
-                                        color={colourTheme.colors.Blue}
-                                    >
+                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
                                         {InfoCaption[1].heading}
                                     </Heading>
-                                    <Text
-                                        display="block"
-                                        color={colourTheme.colors.Gray}
-                                    >
+                                    <Text display="block" color={colourTheme.colors.Gray}>
                                         {InfoCaption[1].desc}
                                     </Text>
                                 </Box>
                             )}
                         </Box>
                     </Box>
-                    <Box w="25%">
+                    <Spacer />
+                    <Box pr={16}>
                         <Flex direction="column" align="center">
                             <Link href="/myaccounts">
                                 <ChakraLink _hover={{ textDecoration: "none" }}>
                                     <Button
                                         color="white"
-                                        backgroundColor={
-                                            colourTheme.colors.Blue
-                                        }
+                                        backgroundColor={colourTheme.colors.Blue}
                                         _hover={{
-                                            backgroundColor:
-                                                colourTheme.colors.LightBlue,
+                                            backgroundColor: colourTheme.colors.LightBlue,
                                         }}
                                         size="sm"
                                         py={5}
@@ -116,7 +101,7 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                                         borderRadius="6px"
                                         fontWeight={"200"}
                                     >
-                                        View Details
+                                        {t("nav.viewDetails", { ns: "common" })}
                                     </Button>
                                 </ChakraLink>
                             </Link>

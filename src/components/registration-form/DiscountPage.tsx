@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Heading, Stack, Button, Link } from "@chakra-ui/react";
+import { Box, Text, Heading, Stack, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import colourTheme from "@styles/colours";
 import { useTranslation } from "react-i18next";
@@ -26,9 +26,7 @@ type DiscountPageProps = {
     onNext: () => void;
 };
 
-export const DiscountPage: React.FC<DiscountPageProps> = ({
-    onNext,
-}): JSX.Element => {
+export const DiscountPage: React.FC<DiscountPageProps> = ({ onNext }): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation("form");
 
