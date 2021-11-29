@@ -18,16 +18,11 @@ export default async function sessionIdHandler(
             const { sessionId } = req.query;
 
             // obtain the session information from sessionId
-            const session = await stripe.checkout.sessions.retrieve(
-                sessionId as string,
-                {
-                    expand: ["payment_intent"],
-                },
-            );
+            const session = await stripe.checkout.sessions.retrieve(sessionId as string, {
+                expand: ["payment_intent"],
+            });
 
-            const items = await stripe.checkout.sessions.listLineItems(
-                sessionId as string,
-            );
+            const items = await stripe.checkout.sessions.listLineItems(sessionId as string);
 
             // return related session information
             res.status(200).json({ session, items });

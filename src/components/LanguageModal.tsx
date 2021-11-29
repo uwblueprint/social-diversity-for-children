@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 type LanguageModalProps = { currentLanguage: string };
 
@@ -21,13 +22,11 @@ const Languages = [
     { locale: "en", label: "English" },
     { locale: "zh", label: "中文" },
     { locale: "ko", label: "한국어" },
-    { locale: "ja", label: "日本語" },
 ];
 
-export const LanguageModal: React.FC<LanguageModalProps> = ({
-    currentLanguage,
-}) => {
+export const LanguageModal: React.FC<LanguageModalProps> = ({ currentLanguage }) => {
     const router = useRouter();
+    const { t } = useTranslation("common");
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [language, setLanguage] = useState(currentLanguage);
     return (
@@ -48,16 +47,12 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                 <ModalContent w={56} minH={80}>
                     <ModalBody>
                         <Text py={4} textAlign={"center"} fontWeight={"700"}>
-                            Select a language
+                            {t("language.select")}
                         </Text>
                         <RadioGroup value={language} onChange={setLanguage}>
                             <Stack>
                                 {Languages.map((language) => (
-                                    <Radio
-                                        key={language.locale}
-                                        py={2}
-                                        value={language.locale}
-                                    >
+                                    <Radio key={language.locale} py={2} value={language.locale}>
                                         {language.label}
                                     </Radio>
                                 ))}
@@ -95,7 +90,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                             }}
                             w="100%"
                         >
-                            Apply
+                            {t("language.apply")}
                         </Button>
                     </ModalFooter>
                 </ModalContent>

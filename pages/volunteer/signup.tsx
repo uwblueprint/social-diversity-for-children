@@ -10,6 +10,7 @@ import { mutate } from "swr";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
+import { Session } from "next-auth";
 
 /*
 Dynamic import is a next.js feature. 
@@ -41,10 +42,7 @@ const VolunteerSkillsPage = dynamic(
 );
 
 const CriminalPage = dynamic(
-    () =>
-        import("@components/volunteer-form/CriminalPage").then(
-            (module) => module.CriminalPage,
-        ),
+    () => import("@components/volunteer-form/CriminalPage").then((module) => module.CriminalPage),
     { ssr: false },
 );
 
@@ -82,18 +80,12 @@ const FormPage = (props) => {
  * This is the page that a volunteer will use to enter the volunteers personal information
  * onto the SDC platform as a volunteer
  */
-export default function VolunteerInfo({
-    session,
-}: {
-    session: Record<string, unknown>;
-}): JSX.Element {
+export default function VolunteerInfo({ session }: { session: Session }): JSX.Element {
     const router = useRouter();
     const { page } = router.query;
     const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
-    const [pageNum, setPageNum] = useState<number>(
-        page ? parseInt(page as string, 10) : 0,
-    );
+    const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
     const formButtonOnClick = () => {
         setPageNum(pageNum + 1);
         window.scrollTo({ top: 0 });
@@ -104,22 +96,15 @@ export default function VolunteerInfo({
 
     /* Store form fields in local storage */
     //Volunteer Info - Page 1
-    const [volunteerFirstName, setVolunteerFirstName] = useLocalStorage(
-        "volunteerFirstName",
-        "",
-    );
-    const [volunteerLastName, setVolunteerLastName] = useLocalStorage(
-        "volunteerLastName",
-        "",
-    );
+    const [volunteerFirstName, setVolunteerFirstName] = useLocalStorage("volunteerFirstName", "");
+    const [volunteerLastName, setVolunteerLastName] = useLocalStorage("volunteerLastName", "");
     const [phoneNumber, setPhoneNumber] = useLocalStorage("phoneNumber", "");
 
     //volunteer Personal Details - Page 2
     const [dateOfBirth, setDateOfBirth] = useLocalStorage("dateOfBirth", "");
     const [address1, setAddress1] = useLocalStorage("address1", "");
     const [city, setCity] = useLocalStorage("city", "");
-    const [participantProvince, setParticipantProvince] =
-        useState(DEFAULT_PROVINCE);
+    const [participantProvince, setParticipantProvince] = useState(DEFAULT_PROVINCE);
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
     const [school, setSchool] = useLocalStorage("school", "");
     const [certifyAge15, setCertifyAge15] = useLocalStorage("age15", false);
@@ -127,13 +112,9 @@ export default function VolunteerInfo({
     //volunteer personal details - Page 3
     const [skills, setSkills] = useLocalStorage("skills", "");
     const [heardFrom, setHeardFrom] = useLocalStorage("heardFrom", "");
-    const [certifyCommit, setCertifyCommit] = useLocalStorage(
-        "certifyCommit",
-        false,
-    );
+    const [certifyCommit, setCertifyCommit] = useLocalStorage("certifyCommit", false);
 
-    const [successfulAccountCreation, setSuccessfulAccountCreation] =
-        useState("pending");
+    const [successfulAccountCreation, setSuccessfulAccountCreation] = useState("pending");
 
     // JSON object with volunteer registration info
     const volunteerRegistrationInfo = {
@@ -298,7 +279,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["form"])),
+            ...(await serverSideTranslations(context.locale, ["form", "common"])),
         },
     };
 };

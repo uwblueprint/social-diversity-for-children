@@ -1,6 +1,7 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import React, { SetStateAction } from "react";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 type SelectChildForClassProps = {
     children: string[];
@@ -9,18 +10,19 @@ type SelectChildForClassProps = {
     onNext: () => void;
 };
 
-export default function SelectChildForClass(
-    props: SelectChildForClassProps,
-): JSX.Element {
+export default function SelectChildForClass(props: SelectChildForClassProps): JSX.Element {
+    const { t } = useTranslation("form");
+
     return (
         <Box>
             <Center>
                 <Text align="center" mt="15px" fontWeight="700" fontSize="36px">
-                    Program Registration
+                    {t("enroll.register")}
                 </Text>
             </Center>
             <Center>
                 <Text pb="55px" align="center" mt="30px">
+                    {/* // TODO: Fix replace hardcode */}
                     Who would you like to register for{" "}
                     <b>
                         Building Bridges with Music - <br />
@@ -54,11 +56,7 @@ export default function SelectChildForClass(
                             onClick={() => {
                                 props.setSelectedChild(index);
                             }}
-                            border={
-                                props.selectedChild === index
-                                    ? null
-                                    : "2px solid #E1E1E1"
-                            }
+                            border={props.selectedChild === index ? null : "2px solid #E1E1E1"}
                         >
                             {childName}
                         </Button>
@@ -76,7 +74,7 @@ export default function SelectChildForClass(
                     fontSize="16px"
                     onClick={props.onNext}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Center>
         </Box>

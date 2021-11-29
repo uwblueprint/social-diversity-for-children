@@ -59,6 +59,7 @@ jobs:
             - name: PR - Linting modified files Prettier on pull request
               if: github.event_name == 'pull_request'
               id: prettier-pr
+
               run: yarn lint:prettier-modified-files
               continue-on-error: true
 

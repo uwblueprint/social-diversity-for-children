@@ -3,6 +3,7 @@ import { FormLabel, FormControl, Stack, Button, Box } from "@chakra-ui/react";
 import { TextField } from "@components/formFields/TextField";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import colourTheme from "@styles/colours";
+import { useTranslation } from "next-i18next";
 
 type LearningPageProps = {
     styleProps?: Record<string, unknown>;
@@ -46,38 +47,38 @@ type LearningInfo = {
     otherTherapyDetails: JSX.Element | null;
     formButtonOnClick: () => void;
 };
-export const LearningInfoPage: React.FC<LearningPageProps> = ({
-    props,
-}): JSX.Element => {
+export const LearningInfoPage: React.FC<LearningPageProps> = ({ props }): JSX.Element => {
+    const { t } = useTranslation(["form", "common"]);
+
     return (
         <>
             <FormControl id="participant-have">
                 <Stack direction="column">
-                    <FormLabel>Does the participant have:</FormLabel>
+                    <FormLabel>{t("signUp.participantHaveDifficulties")}</FormLabel>
                     <CheckBoxField
                         value={props.hasLearningDifficulties}
-                        name={"Learning difficulties"}
+                        name={t("difficulties.learning", { ns: "common" })}
                         setValue={props.setHasLearningDifficulties}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.hasPhysicalDifficulties}
-                        name={"Physical difficulties"}
+                        name={t("difficulties.physical", { ns: "common" })}
                         setValue={props.setHasPhysicalDifficulties}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.hasSensoryDifficulties}
-                        name={"Sensory difficulties"}
+                        name={t("difficulties.sensory", { ns: "common" })}
                         setValue={props.setHasSensoryDifficulties}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.hasOtherDifficulties}
-                        name={"Other difficulties"}
+                        name={t("difficulties.other", { ns: "common" })}
                         setValue={props.setHasOtherDifficulties}
                         required={false}
                         spacing={false}
@@ -86,56 +87,52 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({
             </FormControl>
             <CheckBoxField
                 value={props.specialEd}
-                name={
-                    "Is the participant currently involved in a special education program at their school?"
-                }
+                name={t("signUp.specialEducation")}
                 setValue={props.setSpecialEd}
                 required={false}
             ></CheckBoxField>
             <br />
             <FormControl id="therapy">
-                <FormLabel>
-                    Is the participant revieving any other form of therapy?
-                </FormLabel>
+                <FormLabel>{t("signUp.therapy")}</FormLabel>
                 <Stack direction="column">
                     <CheckBoxField
                         value={props.physiotherapy}
-                        name={"Physiotherapy"}
+                        name={t("therapy.physiotherapy", { ns: "common" })}
                         setValue={props.setPhysiotherapy}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.speechTherapy}
-                        name={"Speech and Language Therapy"}
+                        name={t("therapy.language", { ns: "common" })}
                         setValue={props.setSpeechTherapy}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.occupationalTherapy}
-                        name={"Occupational Therapy"}
+                        name={t("therapy.occupational", { ns: "common" })}
                         setValue={props.setOccupationalTherapy}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.counseling}
-                        name={"Psychotherapy/Counseling"}
+                        name={t("therapy.psychotherapy", { ns: "common" })}
                         setValue={props.setCounseling}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.artTherapy}
-                        name={"Music or Art Therapy"}
+                        name={t("therapy.art", { ns: "common" })}
                         setValue={props.setArtTherapy}
                         required={false}
                         spacing={false}
                     ></CheckBoxField>
                     <CheckBoxField
                         value={props.otherTherapy}
-                        name={"Other"}
+                        name={t("therapy.other", { ns: "common" })}
                         setValue={props.setOtherTherapy}
                         required={false}
                         spacing={false}
@@ -144,7 +141,7 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({
             </FormControl>
             <>
                 <TextField
-                    name="Parent/Guardian Expectations"
+                    name={t("label.guardianExpectations")}
                     value={props.guardianExpectations}
                     setValue={props.setGuardianExpectations}
                     placeholder="Details"
@@ -164,7 +161,7 @@ export const LearningInfoPage: React.FC<LearningPageProps> = ({
                     disabled={!props.guardianExpectations}
                     onClick={props.formButtonOnClick}
                 >
-                    Next
+                    {t("form.next")}
                 </Button>
             </Box>
         </>

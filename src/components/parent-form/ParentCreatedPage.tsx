@@ -1,28 +1,29 @@
-import React from "react";
 import {
-    Center,
-    Stack,
     Box,
-    Flex,
-    Progress,
-    Text,
-    Link as ChakraLink,
     Button,
+    Center,
+    Flex,
+    Link as ChakraLink,
+    Progress,
+    Stack,
+    Text,
     VStack,
 } from "@chakra-ui/react";
-import Wrapper from "@components/SDCWrapper";
-import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
-import colourTheme from "@styles/colours";
-import Link from "next/link";
+import ApprovedIcon from "@components/icons/ApprovedIcon";
 import { Loading } from "@components/Loading";
+import Wrapper from "@components/SDCWrapper";
+import colourTheme from "@styles/colours";
+import { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import React from "react";
 
 type ParentCreatedPageProps = {
     successful: string;
     styleProps?: Record<string, unknown>;
-    session: Record<string, unknown>;
+    session: Session;
     pageNum: number;
     setPageNum: any;
     totalPages: number;
@@ -37,37 +38,30 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
     formPages,
     successful,
 }): JSX.Element => {
-    const { t } = useTranslation("form");
+    const { t } = useTranslation(["form", "common"]);
 
     const progressBarIncrement = Math.ceil(100 / totalPages);
-    const getProgressBarValue = (pageNum) =>
-        progressBarIncrement * (pageNum + 1);
+    const getProgressBarValue = (pageNum) => progressBarIncrement * (pageNum + 1);
 
     const formPageHeaders = [
-        "Participant Information",
-        "Participant Information",
-        "Participant Emergency Form",
-        "Participant Health Form",
-        "Parent Guardian Information",
+        t("account.participantInformation", { ns: "common" }),
+        t("account.participantInformation", { ns: "common" }),
+        t("label.emergencyForm"),
+        t("label.healthForm"),
+        t("label.guardianInformation"),
         t("poi.title"),
-        "How did you hear about us?",
+        t("signUp.hearAboutUsTitle"),
     ];
     return (
         <Wrapper session={session}>
             {pageNum < totalPages ? (
                 <Center>
                     <Box w={912}>
-                        <Flex
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                        >
+                        <Flex alignItems={"center"} justifyContent={"space-between"}>
                             <BackButton
                                 onClick={
                                     pageNum > 0
-                                        ? () =>
-                                              setPageNum((prevPage) =>
-                                                  Math.max(prevPage - 1, 0),
-                                              )
+                                        ? () => setPageNum((prevPage) => Math.max(prevPage - 1, 0))
                                         : null
                                 }
                             />
@@ -86,12 +80,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                             />
                             {formPages.map((formPage, idx) => {
                                 return (
-                                    <Box
-                                        key={idx}
-                                        display={
-                                            pageNum === idx ? null : "none"
-                                        }
-                                    >
+                                    <Box key={idx} display={pageNum === idx ? null : "none"}>
                                         {formPage}
                                     </Box>
                                 );
@@ -112,14 +101,11 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                         </Text>
                         <Text maxW={512} textAlign="center">
                             {successful === "success"
-                                ? "Your account has been successfully created. Click the button below to start browsing classes to register for!"
+                                ? t("form.accountCreatedInfo")
                                 : "There was an error creating your account. Please contact us"}
                         </Text>
                         <Link href="/">
-                            <ChakraLink
-                                _hover={{ textDecoration: "none" }}
-                                _focus={{}}
-                            >
+                            <ChakraLink _hover={{ textDecoration: "none" }} _focus={{}}>
                                 <Button
                                     color={"white"}
                                     bg={"#0C53A0"}
@@ -131,7 +117,7 @@ export const ParentCreatedPage: React.FC<ParentCreatedPageProps> = ({
                                     fontWeight={"200"}
                                     borderRadius="6px"
                                 >
-                                    {t("form.browseClasses")}
+                                    {t("nav.browseClasses", { ns: "common" })}
                                 </Button>
                             </ChakraLink>
                         </Link>

@@ -10,6 +10,7 @@ import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { PhoneNumberField } from "@components/formFields/PhoneNumberField";
 import "react-datepicker/dist/react-datepicker.css";
 import { therapy, difficulties } from ".prisma/client";
+import { useTranslation } from "next-i18next";
 
 type ParticipantPageProps = {
     styleProps?: Record<string, unknown>;
@@ -21,36 +22,24 @@ type ParticipantInfo = {
     save: (participant: any) => void;
     edit: boolean;
 };
-export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
-    props,
-}): JSX.Element => {
+export const ParticipantInfo: React.FC<ParticipantPageProps> = ({ props }): JSX.Element => {
+    const { t } = useTranslation(["common", "form"]);
+
     const [dateOfBirth, setDateOfBirth] = useState(props.student.dateOfBirth);
     const [address1, setAddress1] = useState(props.student.addressLine1);
     const [address2, setAddress2] = useState(props.student.addressLine2);
     const [city, setCity] = useState(props.student.cityName);
-    const [participantProvince, setParticipantProvince] = useState(
-        props.student.province,
-    );
+    const [participantProvince, setParticipantProvince] = useState(props.student.province);
     const [postalCode, setPostalCode] = useState(props.student.postalCode);
     const [school, setSchool] = useState(props.student.school);
     const [grade, setGrade] = useState(props.student.grade);
-    const [participantFirstName, setParticipantFirstName] = useState(
-        props.student.firstName,
-    );
-    const [participantLastName, setParticipantLastName] = useState(
-        props.student.lastName,
-    );
+    const [participantFirstName, setParticipantFirstName] = useState(props.student.firstName);
+    const [participantLastName, setParticipantLastName] = useState(props.student.lastName);
 
     // Emergency contact info
-    const [emergFirstName, setEmergFirstName] = useState(
-        props.student.emergFirstName,
-    );
-    const [emergLastName, setEmergLastName] = useState(
-        props.student.emergLastName,
-    );
-    const [emergPhoneNumber, setEmergPhoneNumber] = useState(
-        props.student.emergNumber,
-    );
+    const [emergFirstName, setEmergFirstName] = useState(props.student.emergFirstName);
+    const [emergLastName, setEmergLastName] = useState(props.student.emergLastName);
+    const [emergPhoneNumber, setEmergPhoneNumber] = useState(props.student.emergNumber);
     const [emergRelationship, setEmergRelationship] = useState(
         props.student.emergRelationToStudent,
     );
@@ -68,12 +57,8 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
     const [counseling, setCounseling] = useState(
         props.student.therapy.includes(therapy.COUNSELING),
     );
-    const [artTherapy, setArtTherapy] = useState(
-        props.student.therapy.includes(therapy.ART),
-    );
-    const [otherTherapy, setOtherTherapy] = useState(
-        props.student.therapy.includes(therapy.OTHER),
-    );
+    const [artTherapy, setArtTherapy] = useState(props.student.therapy.includes(therapy.ART));
+    const [otherTherapy, setOtherTherapy] = useState(props.student.therapy.includes(therapy.OTHER));
 
     // Participant difficulties
     const [hasLearningDifficulties, setHasLearningDifficulties] = useState(
@@ -108,12 +93,9 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
 
         //Save Difficulties
         const difficultiesArray = [];
-        if (hasLearningDifficulties)
-            difficultiesArray.push(difficulties.LEARNING);
-        if (hasPhysicalDifficulties)
-            difficultiesArray.push(difficulties.PHYSICAL);
-        if (hasSensoryDifficulties)
-            difficultiesArray.push(difficulties.SENSORY);
+        if (hasLearningDifficulties) difficultiesArray.push(difficulties.LEARNING);
+        if (hasPhysicalDifficulties) difficultiesArray.push(difficulties.PHYSICAL);
+        if (hasSensoryDifficulties) difficultiesArray.push(difficulties.SENSORY);
         if (hasOtherDifficulties) difficultiesArray.push(difficulties.OTHER);
 
         const data = {
@@ -147,22 +129,19 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
         <>
             <Box maxW="55rem">
                 <Text noOfLines={2} fontSize="16px" fontWeight="200">
-                    Please provide information on the participant that is being
-                    registered in the program. An opportunity to add information
-                    of additional participants you would like to register will
-                    be provided afterwards.
+                    {t("signUp.participantFormInfo", { ns: "form" })}
                 </Text>
             </Box>
             <>
                 <HStack spacing="24px" style={{ height: "100px" }}>
                     <TextField
-                        name="First Name"
+                        name={t("label.firstName", { ns: "form" })}
                         value={participantFirstName}
                         setValue={setParticipantFirstName}
                         edit={props.edit}
                     ></TextField>
                     <TextField
-                        name="Last Name"
+                        name={t("label.lastName", { ns: "form" })}
                         value={participantLastName}
                         setValue={setParticipantLastName}
                         edit={props.edit}
@@ -170,7 +149,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 </HStack>
                 <br />
                 <DateField
-                    name={"Date Of Birth"}
+                    name={t("label.dateOfBirth", { ns: "form" })}
                     value={dateOfBirth}
                     setValue={setDateOfBirth}
                     edit={props.edit}
@@ -178,7 +157,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="Street Address"
+                    name={t("label.address1", { ns: "form" })}
                     value={address1}
                     setValue={setAddress1}
                     placeholder="815 Hornby St."
@@ -187,7 +166,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="Street Address 2"
+                    name={t("label.address2", { ns: "form" })}
                     value={address2}
                     setValue={setAddress2}
                     placeholder="815 Hornby St."
@@ -197,28 +176,28 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <HStack spacing="24px" style={{ height: 100 }}>
                     <TextField
-                        name="City"
+                        name={t("label.city", { ns: "form" })}
                         value={city}
                         setValue={setCity}
                         placeholder="Vancouver"
                         edit={props.edit}
                     ></TextField>
                     <ProvinceField
-                        name="Province"
+                        name={t("label.province", { ns: "form" })}
                         value={participantProvince}
                         setValue={setParticipantProvince}
                         edit={props.edit}
                     ></ProvinceField>
                     <PostalCodeField
+                        name={t("label.postalCode", { ns: "form" })}
                         value={postalCode}
                         setValue={setPostalCode}
-                        name="Postal Code"
                         edit={props.edit}
                     ></PostalCodeField>
                 </HStack>
                 <br />
                 <TextField
-                    name="School (if applicable)"
+                    name={t("label.school", { ns: "form" })}
                     value={school}
                     setValue={setSchool}
                     placeholder="Vancouver"
@@ -228,7 +207,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="Grade (if applicable)"
+                    name={t("label.grade", { ns: "form" })}
                     value={grade}
                     setValue={setGrade}
                     placeholder="5"
@@ -238,10 +217,10 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <Stack direction="column">
-                    <FormLabel>The participant has</FormLabel>
+                    <FormLabel>{t("label.difficulties", { ns: "form" })}</FormLabel>
                     <CheckBoxField
                         value={hasLearningDifficulties}
-                        name={"Learning difficulties"}
+                        name={t("difficulties.learning")}
                         setValue={setHasLearningDifficulties}
                         required={false}
                         spacing={false}
@@ -249,7 +228,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={hasPhysicalDifficulties}
-                        name={"Physical difficulties"}
+                        name={t("difficulties.physical")}
                         setValue={setHasPhysicalDifficulties}
                         required={false}
                         spacing={false}
@@ -257,7 +236,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={hasSensoryDifficulties}
-                        name={"Sensory difficulties"}
+                        name={t("difficulties.sensory")}
                         setValue={setHasSensoryDifficulties}
                         required={false}
                         spacing={false}
@@ -265,7 +244,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={hasOtherDifficulties}
-                        name={"Other difficulties"}
+                        name={t("difficulties.other")}
                         setValue={setHasOtherDifficulties}
                         required={false}
                         spacing={false}
@@ -275,7 +254,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="Parent/Guardian Expectations"
+                    name={t("label.guardianExpectations", { ns: "form" })}
                     value={guardianExpectations}
                     setValue={setGuardianExpectations}
                     edit={props.edit}
@@ -283,7 +262,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="Food Allergies"
+                    name={t("label.allergies", { ns: "form" })}
                     value={allergies}
                     setValue={setAllergies}
                     edit={props.edit}
@@ -291,10 +270,10 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <Stack direction="column">
-                    <FormLabel>Forms of therapy</FormLabel>
+                    <FormLabel>{t("label.therapy", { ns: "form" })}</FormLabel>
                     <CheckBoxField
                         value={physiotherapy}
-                        name={"Physiotherapy"}
+                        name={t("therapy.physiotherapy")}
                         setValue={setPhysiotherapy}
                         required={false}
                         spacing={false}
@@ -302,7 +281,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={speechTherapy}
-                        name={"Speech and Language Therapy"}
+                        name={t("therapy.language")}
                         setValue={setSpeechTherapy}
                         required={false}
                         spacing={false}
@@ -310,7 +289,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={occupationalTherapy}
-                        name={"Occupational Therapy"}
+                        name={t("therapy.occupational")}
                         setValue={setOccupationalTherapy}
                         required={false}
                         spacing={false}
@@ -318,7 +297,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={counseling}
-                        name={"Psychotherapy/Counseling"}
+                        name={t("therapy.psychotherapy")}
                         setValue={setCounseling}
                         required={false}
                         spacing={false}
@@ -326,7 +305,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={artTherapy}
-                        name={"Music or Art Therapy"}
+                        name={t("therapy.art")}
                         setValue={setArtTherapy}
                         required={false}
                         spacing={false}
@@ -334,7 +313,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                     ></CheckBoxField>
                     <CheckBoxField
                         value={otherTherapy}
-                        name={"Other"}
+                        name={t("therapy.other")}
                         setValue={setOtherTherapy}
                         required={false}
                         spacing={false}
@@ -343,17 +322,17 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 </Stack>
                 <br />
                 <Text fontWeight={700} fontSize={24}>
-                    Emergency Information
+                    {t("label.emergencyContact", { ns: "form" })}
                 </Text>
                 <HStack spacing="24px" style={{ height: 100 }}>
                     <TextField
-                        name="Emergency Contact First Name"
+                        name={t("label.emergencyFirstName", { ns: "form" })}
                         value={emergFirstName}
                         setValue={setEmergFirstName}
                         edit={props.edit}
                     ></TextField>
                     <TextField
-                        name="Emergency Contact Last Name"
+                        name={t("label.emergencyLastName", { ns: "form" })}
                         value={emergLastName}
                         setValue={setEmergLastName}
                         edit={props.edit}
@@ -362,7 +341,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <PhoneNumberField
-                    name="Emergency Contact Phone Number"
+                    name={t("label.emergencyPhone", { ns: "form" })}
                     value={emergPhoneNumber}
                     setValue={setEmergPhoneNumber}
                     edit={props.edit}
@@ -370,7 +349,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="Emergency Contact Relationship to Participant"
+                    name={t("label.relation", { ns: "form" })}
                     placeholder="Mother"
                     value={emergRelationship}
                     setValue={setEmergRelationship}
@@ -379,11 +358,11 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <Text fontWeight={700} fontSize={24}>
-                    Health Information
+                    {t("label.healthInformation", { ns: "form" })}
                 </Text>
                 <br />
                 <TextField
-                    name="If yes, please provide any details if necessary"
+                    name={t("label.details", { ns: "form" })}
                     value={medication}
                     setValue={setMedication}
                     placeholder="Details"
@@ -393,7 +372,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                 <br />
                 <br />
                 <TextField
-                    name="If yes, please provide any details if necessary"
+                    name={t("label.details", { ns: "form" })}
                     value={allergies}
                     setValue={setAllergies}
                     placeholder="Details"
@@ -423,7 +402,7 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({
                             }
                             onClick={save}
                         >
-                            Save Changes
+                            {t("account.save")}
                         </Button>
                     ) : null}
                 </Box>

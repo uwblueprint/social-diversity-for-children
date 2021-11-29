@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { createUser, getUsers, updateUser } from "@database/user";
+import { UserInput } from "@models/User";
 import { ResponseUtil } from "@utils/responseUtil";
-import { createUser, getUsers } from "@database/user";
-import { getSession } from "next-auth/client";
-import { roles, UserInput } from "@models/User";
-import { updateUser } from "@database/user";
+import { isAdmin } from "@utils/session/authorization";
 import { getUserValidationErrors } from "@utils/validation/user";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client";
 import isEmail from "validator/lib/isEmail";
 
 /**
@@ -12,10 +12,7 @@ import isEmail from "validator/lib/isEmail";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
             const users = await getUsers();
@@ -25,10 +22,7 @@ export default async function handle(
         case "POST": {
             // Creation of users should only be done for teachers and admins explicitly
             const session = await getSession({ req });
-            if (
-                !session ||
-                ![roles.PROGRAM_ADMIN].includes((session as any).role)
-            ) {
+            if (!isAdmin(session)) {
                 return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
             const createUserData: UserInput = {
@@ -52,7 +46,7 @@ export default async function handle(
         }
         case "PUT": {
             const session = await getSession({ req });
-            const userId = session.id as string;
+            const userId = session.id.toString();
             const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
@@ -67,10 +61,7 @@ export default async function handle(
             }
             const updatedUser = await updateUser(updatedUserData);
             if (!updatedUser) {
-                ResponseUtil.returnBadRequest(
-                    res,
-                    `Error updating user with id ${userId}.`,
-                );
+                ResponseUtil.returnBadRequest(res, `Error updating user with id ${userId}.`);
                 return;
             }
             ResponseUtil.returnOK(res, updatedUser);

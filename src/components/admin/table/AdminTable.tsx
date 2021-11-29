@@ -26,12 +26,7 @@ import {
 import { Loading } from "@components/Loading";
 import colourTheme from "@styles/colours";
 import React from "react";
-import {
-    useSortBy,
-    useGlobalFilter,
-    useTable,
-    usePagination,
-} from "react-table";
+import { useSortBy, useGlobalFilter, useTable, usePagination } from "react-table";
 import { CSVLink } from "react-csv";
 import { GlobalTableFilter } from "./GlobalTableFilter";
 
@@ -106,9 +101,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                             <Tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
                                     <Th
-                                        {...column.getHeaderProps(
-                                            column.getSortByToggleProps(),
-                                        )}
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
                                         isNumeric={(column as any).isNumeric}
                                     >
                                         {column.render("Header")}
@@ -134,9 +127,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                                     {row.cells.map((cell) => (
                                         <Td
                                             {...cell.getCellProps()}
-                                            isNumeric={
-                                                (cell.column as any).isNumeric
-                                            }
+                                            isNumeric={(cell.column as any).isNumeric}
                                         >
                                             {cell.render("Cell")}
                                         </Td>
@@ -157,9 +148,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                     borderRadius={6}
                     maxWidth={16}
                     value={pageIndex + 1}
-                    onChange={(event) =>
-                        gotoPage(parseInt(event.target.value, 10) - 1)
-                    }
+                    onChange={(event) => gotoPage(parseInt(event.target.value, 10) - 1)}
                     mr={3}
                 >
                     {pageOptions.map((option, i) => {
@@ -179,11 +168,7 @@ export const AdminTable: React.FC<AdminTableProps> = ({
                 >
                     <ArrowBackIcon />
                 </Button>
-                <Button
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                    variant="ghost"
-                >
+                <Button onClick={() => nextPage()} disabled={!canNextPage} variant="ghost">
                     <ArrowForwardIcon />
                 </Button>
             </Flex>
