@@ -172,10 +172,7 @@ async function deleteClass(id: number): Promise<Class> {
  * @param id - classId of the class to be updated
  * @returns Promise<Class> - Promise with the updated class
  */
-async function updateClass(
-    id: number,
-    updatedClassData: ClassInput,
-): Promise<Class> {
+async function updateClass(id: number, updatedClassData: ClassInput): Promise<Class> {
     const updatedClass = await prisma.class.update({
         where: {
             id,
@@ -191,10 +188,7 @@ async function updateClass(
  * @param  {boolean} isArchive whether or not to archive the class
  * @returns Promise<Class> - Promise with the updated class
  */
-async function updateClassArchive(
-    id: number,
-    isArchive: boolean,
-): Promise<Class> {
+async function updateClassArchive(id: number, isArchive: boolean): Promise<Class> {
     const updatedClass = await prisma.class.update({
         where: {
             id,

@@ -24,9 +24,7 @@ export default function useClassesByProgram(
     language: locale,
 ): UseClassesByProgramResponse {
     const { data, error, mutate } = useSWR(["/api/class", pid], fetcherWithId);
-    const classCards = data
-        ? CardInfoUtil.getClassCardInfos(data.data, language)
-        : [];
+    const classCards = data ? CardInfoUtil.getClassCardInfos(data.data, language) : [];
     return {
         classCards,
         isLoading: !error && !data,

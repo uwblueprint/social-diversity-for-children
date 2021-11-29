@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-    FormLabel,
-    FormControl,
-    Input,
-    FormErrorMessage,
-    Box,
-} from "@chakra-ui/react";
+import { FormLabel, FormControl, Input, FormErrorMessage, Box } from "@chakra-ui/react";
 import validator from "validator";
 
 type Props = {
@@ -29,10 +23,7 @@ export const PostalCodeField: React.FC<Props> = ({
             style={{ height: "50px" }}
             isRequired={required && edit}
             isInvalid={
-                !validator.isPostalCode(value || "", "CA") &&
-                required &&
-                interactedWith &&
-                edit
+                !validator.isPostalCode(value || "", "CA") && required && interactedWith && edit
             }
         >
             <FormLabel>{name}</FormLabel>
@@ -48,9 +39,7 @@ export const PostalCodeField: React.FC<Props> = ({
                         }}
                         value={value}
                     />
-                    <FormErrorMessage>
-                        {value ? "Invalid " + name : "Required"}
-                    </FormErrorMessage>
+                    <FormErrorMessage>{value ? "Invalid " + name : "Required"}</FormErrorMessage>
                 </Box>
             )}
         </FormControl>

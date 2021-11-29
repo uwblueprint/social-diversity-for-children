@@ -1,12 +1,11 @@
 import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 
 // stripePromise object which is resolved in the component
 // for redirecting to checkout
-const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 type CheckoutButtonProps = {
     priceId: string;
@@ -25,6 +24,8 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = ({
     quantity,
     successPath,
 }) => {
+    const { t } = useTranslation("form");
+
     const handleClick = async () => {
         const { sessionId } = await fetch("/api/checkout/session", {
             method: "POST",
@@ -59,7 +60,7 @@ export const CheckoutButton: React.FC<CheckoutButtonProps> = ({
             mb="50px"
             onClick={handleClick}
         >
-            Proceed to Checkout
+            {t("enroll.proceed")}
         </Button>
     );
 };

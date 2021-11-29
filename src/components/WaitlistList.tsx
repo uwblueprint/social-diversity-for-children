@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, List, ListItem, Text } from "@chakra-ui/react";
+import { Box, Center, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import { WaitlistCardInfo } from "@models/Enroll";
 import { WaitlistCard } from "./WaitlistCard";
 import colourTheme from "@styles/colours";
@@ -8,19 +8,18 @@ import { locale } from "@prisma/client";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { EmptyState } from "./EmptyState";
+import { useTranslation } from "react-i18next";
 
 type WaitlistCardsProps = {
     waitlistInfo: WaitlistCardInfo[];
 };
 
 const WaitlistCards: React.FC<WaitlistCardsProps> = ({ waitlistInfo }) => {
+    const { t } = useTranslation("common");
     return (
         <Center width="100%">
             {waitlistInfo.length === 0 ? (
-                <EmptyState>
-                    Currently you are not waitlisted in any classes. <br />
-                    Any classes you waitlist for will show up here!
-                </EmptyState>
+                <EmptyState>{t("class.emptyWaitlist")}</EmptyState>
             ) : (
                 <List spacing="5" width="100%">
                     {waitlistInfo.map((item) => {
@@ -50,9 +49,8 @@ const WaitlistCards: React.FC<WaitlistCardsProps> = ({ waitlistInfo }) => {
  */
 export const WaitlistList: React.FC = () => {
     const router = useRouter();
-    const { waitlist, error, isLoading } = useParentWaitlist(
-        router.locale as locale,
-    );
+    const { t } = useTranslation("common");
+    const { waitlist, error, isLoading } = useParentWaitlist(router.locale as locale);
 
     if (error) {
         return (
@@ -66,8 +64,14 @@ export const WaitlistList: React.FC = () => {
     }
 
     return (
-        <>
+        <Box>
+            <Heading mb={2} size="sm">
+                {t("class.waitlistedClasses")}
+            </Heading>
+            <Text color="gray.600" fontSize="sm">
+                {t("class.waitlistedInfo")}
+            </Text>
             <WaitlistCards waitlistInfo={waitlist} />
-        </>
+        </Box>
     );
 };

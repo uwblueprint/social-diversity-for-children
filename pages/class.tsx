@@ -15,6 +15,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import React from "react";
 import { Session } from "next-auth";
+import { useTranslation } from "next-i18next";
 
 type ClassProps = {
     session: Session;
@@ -26,6 +27,7 @@ type ClassProps = {
 function Class({ session }: ClassProps): JSX.Element {
     const { me, isLoading: isMeLoading, error: meError } = useMe();
     const router = useRouter();
+    const { t } = useTranslation("common");
 
     if (meError) {
         return <CommonError session={session} cause="cannot fetch user" />;
@@ -44,15 +46,12 @@ function Class({ session }: ClassProps): JSX.Element {
             <BackButton />
             <Flex direction="column" pt={4} pb={8}>
                 <Flex align="center">
-                    <Heading mb={8}>My Classes</Heading>
+                    <Heading mb={8}>{t("nav.myClasses")}</Heading>
                 </Flex>
                 {me.role === roles.PARENT ? <EnrollmentList /> : null}
                 {me.role === roles.VOLUNTEER ? <VolunteeringList /> : null}
             </Flex>
             <Flex direction="column" pt={4} pb={8}>
-                <Flex align="center">
-                    <Heading mb={8}>My Waitlist</Heading>
-                </Flex>
                 {me.role === roles.PARENT ? <WaitlistList /> : null}
             </Flex>
         </Wrapper>

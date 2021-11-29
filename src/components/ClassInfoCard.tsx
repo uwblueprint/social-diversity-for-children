@@ -41,16 +41,11 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     isFull,
 }) => {
     const router = useRouter();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
     const { me } = useMe();
 
     return (
-        <Grid
-            templateColumns="repeat(4, 1fr)"
-            gap={6}
-            onClick={onClick}
-            cursor={"pointer"}
-        >
+        <Grid templateColumns="repeat(4, 1fr)" gap={6} onClick={onClick} cursor={"pointer"}>
             <GridItem>
                 <AspectRatio width="100%" ratio={1}>
                     <Image
@@ -79,10 +74,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                     <Flex direction={{ base: "column", xl: "row" }}>
                         <Box as="span" color="gray.600" fontSize="sm" ml="1">
                             {t("time.weekday_many", {
-                                day: weekdayToString(
-                                    cardInfo.weekday,
-                                    router.locale as locale,
-                                ),
+                                day: weekdayToString(cardInfo.weekday, router.locale as locale),
                             })}{" "}
                             {convertToShortTimeRange(
                                 cardInfo.startTimeMinutes,
@@ -96,26 +88,21 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         <Spacer />
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">
                             {me && me.role === roles.VOLUNTEER
-                                ? cardInfo.volunteerSpaceAvailable +
-                                  " volunteer spot" +
-                                  (cardInfo.volunteerSpaceAvailable != 1
-                                      ? "s"
-                                      : "") +
-                                  " available"
-                                : cardInfo.spaceAvailable +
-                                  " participant spot" +
-                                  (cardInfo.spaceAvailable != 1 ? "s" : "") +
-                                  " available"}
+                                ? t("program.volunteerSpot", {
+                                      spot: cardInfo.spaceAvailable,
+                                      context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
+                                  })
+                                : t("program.participantSpot", {
+                                      spot: cardInfo.spaceAvailable,
+                                      context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
+                                  })}
                         </Box>
                     </Flex>
                     {isFull && (
                         <Box>
                             <Divider mt={8} mb={8} mr="3" />
                             <Flex mt={3}>
-                                <Box as="h2">
-                                    We'll notify you once space becomes
-                                    available
-                                </Box>
+                                <Box as="h2">{t("program.waitlistNotify")}</Box>
                                 <Spacer />
                                 <Button
                                     border="1px"
@@ -125,7 +112,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                     mr="3"
                                     width="30%"
                                 >
-                                    Learn More
+                                    {t("program.learnMore")}
                                 </Button>
                             </Flex>
                         </Box>

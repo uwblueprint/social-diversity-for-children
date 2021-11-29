@@ -13,19 +13,11 @@ export type LiveClassCardProps = {
     link: string;
 };
 
-export const LiveClassCard: React.FC<LiveClassCardProps> = ({
-    cardInfo,
-    link,
-}) => {
+export const LiveClassCard: React.FC<LiveClassCardProps> = ({ cardInfo, link }) => {
     const router = useRouter();
 
     return (
-        <Center
-            w="100%"
-            h="100%"
-            border="1px"
-            borderColor={colourTheme.colors.Sliver}
-        >
+        <Center w="100%" h="100%" border="1px" borderColor={colourTheme.colors.Sliver}>
             <VStack mx={9} spacing={6} align="flex-start">
                 <AgeBadge
                     isAgeMinimal={cardInfo.isAgeMinimal}
@@ -41,10 +33,7 @@ export const LiveClassCard: React.FC<LiveClassCardProps> = ({
                     {cardInfo.programName} ({cardInfo.name})
                 </Heading>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">
-                    {convertToShortTimeRange(
-                        cardInfo.startTimeMinutes,
-                        cardInfo.durationMinutes,
-                    )}
+                    {convertToShortTimeRange(cardInfo.startTimeMinutes, cardInfo.durationMinutes)}
                     {" with Teacher " + cardInfo.teacherName}
                 </Text>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">

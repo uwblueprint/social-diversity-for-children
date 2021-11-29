@@ -21,6 +21,7 @@ import { Session } from "next-auth";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 type RegistrantViewProps = {
     session: Session;
@@ -30,9 +31,7 @@ type RegistrantViewProps = {
  * Admin registrant view page that displays all the registrants in the platform
  * @returns Admin class view page component
  */
-export default function RegistrantView(
-    props: RegistrantViewProps,
-): JSX.Element {
+export default function RegistrantView(props: RegistrantViewProps): JSX.Element {
     const {
         parents,
         students,
@@ -42,8 +41,7 @@ export default function RegistrantView(
     } = useUsers();
 
     const { studentColumns, studentData } = useStudentsTableData(students);
-    const { volunteerColumns, volunteerData } =
-        useVolunteersTableData(volunteers);
+    const { volunteerColumns, volunteerData } = useVolunteersTableData(volunteers);
     const { parentColumns, parentData } = useParentsTableData(parents);
 
     if (usersError) {
@@ -55,9 +53,7 @@ export default function RegistrantView(
             <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/registrant">
-                            Browse Registrants
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/registrant">Browse Registrants</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
                 <Tabs w="100%">
@@ -134,6 +130,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
+            ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };
 };
