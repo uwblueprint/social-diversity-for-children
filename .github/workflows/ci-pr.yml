@@ -19,6 +19,16 @@ jobs:
             - name: Checkout
               uses: actions/checkout@main
 
+            - name: Check modified files for Terraform
+              id: modified-files
+              uses: uwblueprint/social-diversity-for-children/.github/workflows/modified-files.yml
+              with:
+                  branch: $GITHUB_BASE_REF
+                  expression: "terraform/*"
+
+            - name: test
+              run: echo "modified files ${{steps.modified-files.outputs.modified}}"
+
             - name: Setup node env
               uses: actions/setup-node@v2.1.2
               with:

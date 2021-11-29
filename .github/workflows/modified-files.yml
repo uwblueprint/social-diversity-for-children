@@ -1,0 +1,45 @@
+name: modified-files
+
+on:
+    workflow_call:
+        inputs:
+            branch:
+                required: true
+                type: string
+            expression:
+                required: true
+                type: string
+        outputs:
+            modified:
+                description: "Boolean if a changed file matches the expression"
+                value: ${{jobs.modified-files.outputs.output2}}
+jobs:
+    modified-files:
+        runs-on: ubuntu-latest
+        outputs:
+            modified: ${{steps.check-files.outputs.modified}}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@main
+
+            - name: Fetch target pr branch for diff
+              run: git fetch origin ${{inputs.branch}}:refs/remotes/origin/${{inputs.branch}}
+
+            - name: Check modified files
+              id: check-files
+              run: |
+                  echo "List modified files"
+                  git diff --name-only --diff-filter=d origin/${{inputs.branch}} HEAD
+
+                  echo "::set-output name=modified::false"
+                  git diff --name-only --diff-filter=d origin/${{inputs.branch}} HEAD > files.txt
+
+                  while IFS= read -r file
+                  do
+                      echo $file
+                      if [[ $file == ${{inputs.expression}} ]]; then
+                      echo "Change found for $${inputs.expression}"
+                      echo "::set-output name=modified::true"
+                      break
+                      fi
+                  done < files.txt
