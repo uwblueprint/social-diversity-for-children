@@ -9,10 +9,7 @@ import { isAdmin } from "@utils/session/authorization";
  * @param req API request object
  * @param res API response object
  */
-export default async function handle(
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
+export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
 
     // If there is no session or the user is not a parent, not authorized
