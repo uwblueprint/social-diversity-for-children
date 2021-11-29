@@ -44,8 +44,6 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
 
     return (
         <Box
-            borderWidth="1px"
-            borderColor="#C1C1C1"
             width="full"
             display="flex"
             justifyContent="flex-start"

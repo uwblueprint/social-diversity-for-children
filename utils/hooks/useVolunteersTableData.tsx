@@ -46,7 +46,7 @@ export default function useVolunteersTableData(
                 Cell: (props: CellProps<VolunteerDataType>) => {
                     return (
                         <Link
-                            href={`/admin/registrant/volunteer/${props.row.original.id}`}
+                            href={`/admin/registrant/user/${props.row.original.id}`}
                         >
                             <ChakraLink>
                                 {props.row.original.fullName}

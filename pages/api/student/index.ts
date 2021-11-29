@@ -4,6 +4,7 @@ import { createStudent, updateStudent } from "@database/student";
 import { CreateStudentInput, UpdateStudentInput } from "@models/Student";
 import { validateCreateStudent } from "@utils/validation/student";
 import { getSession } from "next-auth/client";
+import { isAdmin } from "@utils/session/authorization";
 
 /**
  * handle controls the request made to the student resource
@@ -51,9 +52,9 @@ export default async function handle(
         }
         case "PUT": {
             const input = req.body as UpdateStudentInput;
-            // Check if it matches parent id (current session), if not unauthorized
-            // TODO: Allow admin access as well
-            if (input.parentId !== parentId) {
+
+            // Check if it matches parent id (current session) or is admin, if not unauthorized
+            if (input.parentId !== parentId && !isAdmin(session)) {
                 return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
 
