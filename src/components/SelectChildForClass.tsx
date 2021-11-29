@@ -29,8 +29,7 @@ export default function SelectChildForClass(props: SelectChildForClassProps): JS
             </Center>
             <Center>
                 <Text pb="55px" align="center" mt="30px" width="60%">
-                    Who would you like to register for <b>{props.className}</b>
-                    (select one)
+                    {t("enroll.selectChild")} <b>{props.className}</b>
                 </Text>
             </Center>
 
