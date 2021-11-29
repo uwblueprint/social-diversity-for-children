@@ -21,7 +21,7 @@ jobs:
 
             - name: Check modified files for Terraform
               id: modified-files
-              uses: uwblueprint/social-diversity-for-children/.github/workflows/modified-files.yml
+              uses: uwblueprint/social-diversity-for-children/.github/workflows/modified-files.yml@main
               with:
                   branch: $GITHUB_BASE_REF
                   expression: "terraform/*"
