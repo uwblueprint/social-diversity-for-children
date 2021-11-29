@@ -11,8 +11,10 @@ import { useState } from "react";
 // import { ResponseUtil } from "@utils/responseUtil";
 import { getPresignedPostForUpload } from "@aws/s3";
 import { weekday } from ".prisma/client";
+import Stripe from "stripe";
 
 export default function CreateClass(): JSX.Element {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {});
     const EDIT = true;
 
     const [image, setImage] = useLocalStorage("classImage", "");
@@ -51,6 +53,18 @@ export default function CreateClass(): JSX.Element {
     };
 
     async function save() {
+        //Create Stripe product and price
+        const product = await stripe.products.create({
+            name: className,
+        });
+
+        const stripePrice = await stripe.prices.create({
+            unit_amount: parseInt(price),
+            currency: "usd",
+            recurring: { interval: "month" }, //recurrance?
+            product: product.id,
+        });
+
         const data = {
             name: className,
             programId: associatedProgram,
@@ -63,7 +77,7 @@ export default function CreateClass(): JSX.Element {
             borderAge: age,
             isAgeMinimal: aboveUnder === "under", //Assuming that minimal means "at least"
 
-            stripePriceId: stripeLink,
+            stripePriceId: stripePrice.id,
         };
         //Save to database
         const request = {
