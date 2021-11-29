@@ -2,18 +2,17 @@ import { useRouter } from "next/router";
 import React from "react";
 import { getSession } from "next-auth/client";
 import { ProgramInfo } from "@components/ProgramInfo";
-import useSWR from "swr";
-import CardInfoUtil from "utils/cardInfoUtil";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { locale } from "@prisma/client";
 import { Loading } from "@components/Loading";
 import Participants from "@utils/containers/Participants";
 import useMe from "@utils/hooks/useMe";
-import { fetcherWithQuery } from "@utils/fetcher";
 import { CommonError } from "@components/CommonError";
 import { CommonLoading } from "@components/CommonLoading";
 import { Session } from "next-auth";
+import useClassesByProgram from "@utils/hooks/UseClassesByProgram";
+import useProgram from "@utils/hooks/useProgram";
 
 type ProgramDetailsProps = {
     session: Session;
@@ -26,29 +25,23 @@ export const ProgramDetails: React.FC<ProgramDetailsProps> = ({ session }: Progr
     // No need to handle no user since it's a public page
     const { me, isLoading: isMeLoading } = useMe();
 
-    const { data: classListResponse, error: classListError } = useSWR(
-        ["/api/class", pid],
-        fetcherWithQuery,
-    );
-    const isClassListLoading = !classListResponse && !classListError;
-    const { data: programInfoResponse, error: programInfoError } = useSWR(
-        ["/api/program/" + pid],
-        fetcherWithQuery,
-    );
-    const isProgramInfoLoading = !programInfoResponse && !programInfoError;
+    const {
+        classCards: classCardInfos,
+        error: classListError,
+        isLoading: isClassListLoading,
+    } = useClassesByProgram(pid as string, router.locale as locale);
+
+    const {
+        program: programCardInfo,
+        error: programInfoError,
+        isLoading: isProgramInfoLoading,
+    } = useProgram(parseInt(pid as string), router.locale as locale);
 
     if (classListError || programInfoError) {
         return <CommonError cause="cannot fetch classes" session={session} />;
     } else if (isClassListLoading || isProgramInfoLoading || isMeLoading) {
         return <CommonLoading session={session} />;
     }
-
-    const programCardInfo = programInfoResponse
-        ? CardInfoUtil.getProgramCardInfo(programInfoResponse.data, router.locale as locale)
-        : null;
-    const classCardInfos = classListResponse
-        ? CardInfoUtil.getClassCardInfos(classListResponse.data, router.locale as locale)
-        : [];
 
     if (!programCardInfo || !classCardInfos) {
         return <Loading />;

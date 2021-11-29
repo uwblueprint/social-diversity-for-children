@@ -33,7 +33,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
             const result = await getProgramCardInfo(
                 programId as string,
-                Boolean(JSON.parse(archived as string)),
+                Boolean(JSON.parse((archived as string) || "false")),
             );
             if (!result) {
                 return ResponseUtil.returnNotFound(res, `Program info not found.`);

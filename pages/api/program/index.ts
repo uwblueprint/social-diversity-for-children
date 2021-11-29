@@ -15,7 +15,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
         case "GET": {
             const { archived } = req.query;
 
-            const result = await getProgramCardInfos(Boolean(JSON.parse(archived as string)));
+            const result = await getProgramCardInfos(
+                Boolean(JSON.parse((archived as string) || "false")),
+            );
             if (!result) {
                 ResponseUtil.returnNotFound(res, `Program info not found.`);
                 return;
