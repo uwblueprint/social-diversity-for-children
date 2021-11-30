@@ -103,7 +103,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-
+      
+      # TODO should we format as well? Not just check?
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
@@ -127,6 +128,7 @@ jobs:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          # not sure if there is much point in having fmt, init and validate output here since if they failed we would never get here
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
