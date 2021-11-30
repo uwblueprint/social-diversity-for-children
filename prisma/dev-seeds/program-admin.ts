@@ -18,6 +18,11 @@ const programAdmins: ProgramAdmin[] = [
         createdAt: new Date(),
         updatedAt: null,
     },
+    {
+        id: 10017,
+        createdAt: new Date(),
+        updatedAt: null,
+    },
 ];
 
 /**

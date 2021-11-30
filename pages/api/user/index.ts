@@ -45,8 +45,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "PUT": {
+            const { id } = req.query;
             const session = await getSession({ req });
-            const userId = session.id.toString();
+
+            if (id && !isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
+            const userId = id ? (id as string) : session.id.toString();
             const updatedUserData: UserInput = {
                 id: userId,
                 firstName: req.body.firstName,
