@@ -138,7 +138,7 @@ export default function CriminalCheck(props: AdminProps): JSX.Element {
                         <FileDownloadCard
                             filePath={FileType.INCOME_PROOF}
                             docName={parentData.proofOfIncomeLink}
-                            docApproved={parentData.proofOfIncomeApproved}
+                            docApproved={parentData.isLowIncome}
                             participantId={user.id}
                             userEmail={user.email}
                         />

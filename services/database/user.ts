@@ -444,6 +444,30 @@ async function updateParentProofOfIncomeLink(email: string, link: string) {
 }
 
 /**
+ * update parent's proof of income approval in db when admin changes it
+ * @param  {number} id uid of parent
+ * @param  {boolean} approval proof of income approval status
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function updateParentProofOfIncomeApproval(id: number, approval: boolean) {
+    const user = prisma.user.update({
+        data: {
+            parent: {
+                update: {
+                    isLowIncome: approval,
+                },
+            },
+        },
+        where: { id },
+        include: {
+            parent: true,
+        },
+    });
+
+    return user;
+}
+
+/**
  * deleteUser deletes a user given
  * @param  {string} id
  */
@@ -492,5 +516,6 @@ export {
     updateVolunteerCriminalCheckLink,
     updateVolunteerCriminalCheckApproval,
     updateParentProofOfIncomeLink,
+    updateParentProofOfIncomeApproval,
     deleteUser,
 };
