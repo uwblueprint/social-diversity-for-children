@@ -28,6 +28,11 @@ const teachers: Teacher[] = [
         createdAt: new Date(),
         updatedAt: null,
     },
+    {
+        id: 10016,
+        createdAt: new Date(),
+        updatedAt: null,
+    },
 ];
 
 /**
