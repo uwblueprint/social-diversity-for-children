@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Call check-files-changed action for Terraform
+      - name: Check files changed - Terraform
         id: cfc-terraform
         uses: uwblueprint/sdc-actions/actions/check-files-changed@main
         with:
