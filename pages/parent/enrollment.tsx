@@ -13,7 +13,7 @@ import { ProofOfIncomePage } from "@components/registration-form/ProofOfIncomePa
 import SelectChildForClass from "@components/SelectChildForClass";
 import { locale, roles, Student } from "@prisma/client";
 import CardInfoUtil from "@utils/cardInfoUtil";
-import { fetcherWithId } from "@utils/fetcher";
+import { fetcherWithQuery } from "@utils/fetcher";
 import useUser from "@utils/hooks/useUser";
 import { pathWithQueries } from "@utils/request/query";
 import { GetServerSideProps } from "next";
@@ -49,7 +49,7 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
 
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId],
-        fetcherWithId,
+        fetcherWithQuery,
     );
 
     const isClassInfoLoading = !classInfoResponse && !classInfoError;

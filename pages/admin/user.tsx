@@ -31,6 +31,7 @@ import { deleteUser } from "@utils/deleteUser";
 import { Session } from "next-auth";
 import { AdminError } from "@components/AdminError";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
 
 type UserViewProps = {
     session: Session;
@@ -131,25 +132,19 @@ export default function UserView(props: UserViewProps): JSX.Element {
                                 onClick={async () => {
                                     const res = await deleteUser(revokeUserId).finally(onClose);
                                     if (res.ok) {
-                                        toast({
-                                            title: "Internal user has been revoked.",
-                                            description: `User ${revokeName} has been deleted.`,
-                                            status: "info",
-                                            duration: 9000,
-                                            isClosable: true,
-                                            position: "top-right",
-                                            variant: "left-accent",
-                                        });
+                                        toast(
+                                            infoToastOptions(
+                                                "Internal user has been revoked.",
+                                                `User ${revokeName} has been deleted.`,
+                                            ),
+                                        );
                                     } else {
-                                        toast({
-                                            title: "Internal user cannot be revoked.",
-                                            description: `User ${revokeName} is currently in use.`,
-                                            status: "error",
-                                            duration: 9000,
-                                            isClosable: true,
-                                            position: "top-right",
-                                            variant: "left-accent",
-                                        });
+                                        toast(
+                                            errorToastOptions(
+                                                "Internal user cannot be revoked.",
+                                                `User ${revokeName} is currently in use.`,
+                                            ),
+                                        );
                                     }
                                 }}
                                 ml={3}

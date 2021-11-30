@@ -39,7 +39,7 @@ const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
 export const AdminHeader: React.FC<AdminHeaderProps> = ({ headerLinks, children }) => {
     return (
         <>
-            <Box bg={"transparent"} px={"50px"} pt={"20px"} mx={"auto"}>
+            <Box bg={"transparent"} px={8} pt={"20px"} mx={"auto"}>
                 <Flex>
                     <HStack spacing={8}>
                         <Text fontSize="22px" fontWeight="bold" color={colourTheme.colors.Blue}>
@@ -58,7 +58,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ headerLinks, children 
                     </HStack>
                 </Flex>
             </Box>
-            <Divider orientation="horizontal" my={6} border="2px" />
+            <Divider orientation="horizontal" my={6} border="2px" w="99%" />
         </>
     );
 };

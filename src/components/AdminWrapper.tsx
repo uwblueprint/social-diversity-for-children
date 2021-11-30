@@ -19,7 +19,7 @@ const AdminWrapper: React.FC<AdminWrapperProps> = (props): JSX.Element => {
     return (
         <Flex h="100vh">
             <AdminNavBar role={props.session?.role} />
-            <Box pl={250} w="full">
+            <Box pl={230} w="full">
                 {props.children}
             </Box>
         </Flex>
@@ -31,7 +31,7 @@ const AdminNavBar: React.FC<{ role: roles }> = ({ role }) => {
         <Box
             position="fixed"
             p={5}
-            w={250}
+            w={230}
             zIndex={1}
             h="inherit"
             bg="#dfdfdf"
@@ -65,7 +65,7 @@ const AdminNavBar: React.FC<{ role: roles }> = ({ role }) => {
                                 text={"Coupons"}
                             />
                             <AdminNavbarButton
-                                href="/admin/archived"
+                                href="/admin/archive"
                                 icon={MdArchive}
                                 text={"Archived"}
                             />
