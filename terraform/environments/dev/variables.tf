@@ -1,5 +1,6 @@
 # NOTE
 # Variables without a default are inputted secretly. Generally only define variables with a default for non-secrets
+
 # ------------------------------------------------------------------
 # app
 variable "sdc_domain" {
