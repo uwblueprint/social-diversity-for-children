@@ -79,15 +79,30 @@ jobs:
         run: yarn build
 
   terraform:
-    runs-on: ubuntu-latest
     needs: ci-pr
     if: needs.ci-pr.outputs.changes-terraform == 'true'
+    environment: staging
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform/environments/dev
+    env:
+      TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
+      TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
     steps:
       - name: Checkout
         uses: actions/checkout@v2 
       
       - name: Hashicorp Terraform Setup (wraps stdout for plan)
         uses: hashicorp/setup-terraform@v1
+
+      # TODO change to OIDC provider
+      - name: Configure AWS Credentials 
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Terraform fmt
         id: fmt
@@ -115,8 +130,8 @@ jobs:
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
