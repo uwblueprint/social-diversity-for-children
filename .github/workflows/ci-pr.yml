@@ -1,81 +1,141 @@
 name: ci-pr
 
 on:
-    pull_request:
-        branches:
-            - main
-            - staging
+  pull_request:
+    branches:
+      - main
+      - staging
 
 jobs:
-    ci-pr:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node: [14]
-        steps:
-            - name: Checkout
-              uses: actions/checkout@main
+  ci-pr:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+    outputs: 
+      changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-            - name: Check modified files for Terraform
-              id: terraform-changes
-              uses: uwblueprint/sdc-actions/actions/check-files-changed@main
-              with:
-                  branch: $GITHUB_BASE_REF
-                  regex: "terraform/*"
+      - name: Call check-files-changed action for Terraform
+        id: cfc-terraform
+        uses: uwblueprint/sdc-actions/actions/check-files-changed@main
+        with:
+          branch: $GITHUB_BASE_REF
+          regex: "terraform/*"
 
-            - name: Terraform changed
-              run: echo terraform files changed ${{steps.terraform-changes.outputs.changed}}
+      - name: Setup node env
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
 
-            - name: Setup node env
-              uses: actions/setup-node@v2.1.2
-              with:
-                  node-version: ${{ matrix.node }}
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
 
-            - name: Cache node_modules
-              uses: actions/cache@v2
-              id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-              with:
-                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: yarn
 
-            - name: Install dependencies
-              run: yarn
+      - name: Fetch target pr branch for diff
+        run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
-            - name: Fetch target pr branch for diff
-              run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
+      - name: Linting modified files Prettier
+        id: prettier-pr
+        run: yarn lint:prettier-modified-files
+        continue-on-error: true
 
-            - name: Linting modified files Prettier
-              id: prettier-pr
-              run: yarn lint:prettier-modified-files
-              continue-on-error: true
+      - name: Linting modified files ESlint
+        id: eslint-pr
+        run: yarn lint:eslint-modified-files
+        continue-on-error: true
 
-            - name: Linting modified files ESlint
-              id: eslint-pr
-              run: yarn lint:eslint-modified-files
-              continue-on-error: true
+      - name: Create linting comment on error
+        if: steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
+            #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
 
-            - name: Create linting comment on error
-              if: steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure'
-              uses: actions/github-script@v5
-              with:
-                  script: |
-                      const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
-                      #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
+            core.setFailed('Linting errors. Please check prettier and eslint');
 
-                      github.rest.issues.createComment({
-                        issue_number: context.issue.number,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        body: output
-                      });
-                      core.setFailed('Linting errors. Please check prettier and eslint');
+      - name: Build
+        run: yarn build
 
-            - name: Build
-              run: yarn build
+terraform:
+  needs: ci-pr
+  if: needs.ci-pr.outputs.changes-terraform == "true"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2 
+    
+    - name: Hashicorp Terraform Setup (wraps stdout for plan)
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color
+      continue-on-error: true
+
+    - uses: actions/github-script@0.9.0
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+        const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+        #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+        #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
+        #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+        
+        <details><summary>Show Plan</summary>
+        
+        \`\`\`\n
+        ${process.env.PLAN}
+        \`\`\`
+        
+        </details>
+        
+        *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            
+        github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+        })
+
+    - name: Terraform plan status
+      if: steps.plan.outcome == 'failure' 
+      run: |
+        echo Check plan
+        exit 1
+
