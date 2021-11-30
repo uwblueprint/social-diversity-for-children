@@ -22,9 +22,9 @@ jobs:
               uses: uwblueprint/sdc-actions/actions/check-files-changed@main
               with:
                   branch: $GITHUB_BASE_REF
-                  expression: "terraform/*"
-                  
-            - name: test
+                  regex: "terraform/*"
+
+            - name: Terraform changed
               run: echo terraform files changed ${{steps.terraform-changes.outputs.changed}}
 
             - name: Setup node env
