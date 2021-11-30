@@ -158,8 +158,8 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                     createWaitlistRegistration(me.parent, classInfo.id);
                                     toast(
                                         infoToastOptions(
-                                            "Waitlist record added!",
-                                            "You will receive an email when a spot opens up.",
+                                            t("toast.waitlistAdded"),
+                                            t("toast.waitlistAddedDesc"),
                                         ),
                                     );
                                     onClose();

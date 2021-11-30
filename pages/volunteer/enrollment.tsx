@@ -18,6 +18,7 @@ import { useToast } from "@chakra-ui/react";
 import { fetcherWithQuery } from "@utils/fetcher";
 import { Session } from "next-auth";
 import { errorToastOptions } from "@utils/toast/options";
+import { useTranslation } from "next-i18next";
 
 type VolunteerEnrollmentProps = {
     session: Session;
@@ -34,6 +35,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
     const { me, isLoading: isMeLoading } = useMe();
     const toast = useToast();
+    const { t } = useTranslation("common");
 
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
@@ -83,8 +85,8 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                         router.push("/");
                         toast(
                             errorToastOptions(
-                                "Registration failed.",
-                                "The class is not available for registration at this time.",
+                                t("toast.registrationFailed"),
+                                t("toast.registrationFailedDesc"),
                             ),
                         );
                     }
