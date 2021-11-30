@@ -24,6 +24,13 @@ const parentRegs: ParentReg[] = [
         createdAt: new Date(),
         updatedAt: null,
     },
+    {
+        parentId: 10015,
+        studentId: 10006,
+        classId: 10000,
+        createdAt: new Date(),
+        updatedAt: null,
+    },
 ];
 
 /**
