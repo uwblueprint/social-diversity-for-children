@@ -95,18 +95,10 @@ jobs:
       - name: Build
         run: yarn build
 
-  test:
-    needs: ci-pr 
-    runs-on: ubuntu-latest
-    environment: ${{needs.ci-pr.outputs.env}}
-    steps:
-      - name: Test
-        run: echo ${{needs.ci-pr.outputs.env}}
-
   terraform:
     needs: ci-pr
     if: needs.ci-pr.outputs.changes-terraform == 'true'
-    environment: staging
+    environment: ${{needs.ci-pr.outputs.env}}
     runs-on: ubuntu-latest
     defaults:
       run:
