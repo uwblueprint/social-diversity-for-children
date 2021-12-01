@@ -107,6 +107,7 @@
         "other": "Other"
     },
     "nav": {
+        "signInNow": "Sign in now to register for classes",
         "register": "Register",
         "registerNow": "Register now",
         "browseProgram": "Browse Programs",

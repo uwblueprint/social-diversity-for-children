@@ -280,6 +280,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                         minW={{ base: 400, lg: 600 }}
                         p={{ base: 0, lg: 12 }}
                         mt={{ base: 6, lg: "80px" }}
+                        mb={{ base: 16 }}
                         borderWidth={{ base: "0", lg: "1px" }}
                         borderColor="#C1C1C1"
                     >
