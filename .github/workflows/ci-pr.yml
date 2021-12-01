@@ -26,14 +26,15 @@ jobs:
           if [[ $GITHUB_BASE_REF = "staging" ]]
           then
             echo "::set-output name=env::staging"
+            echo Environment set to 'staging'
           elif [[ $GITHUB_BASE_REF = "main" ]] 
           then
             echo "::set-output name=env::production"
+            echo Environment set to 'production'
           else:
             echo '$GITHUB_BASE_REF' does not equal 'staging' or 'main'
             exit 1
           fi
-          echo Environment set to ${{steps.env.outputs.env}}
 
       - name: Check files changed - Terraform
         id: cfc-terraform
@@ -179,6 +180,6 @@ jobs:
       - name: Terraform plan status
         if: steps.plan.outcome == 'failure' 
         run: |
-          echo Check plan
+          echo Check terraform plan
           exit 1
 

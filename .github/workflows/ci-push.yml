@@ -1,50 +1,156 @@
 name: ci-push
 
 on:
-    push:
-        branches:
-            - main
-            - staging
+  push:
+    branches:
+      - main
+      - staging
 
 jobs:
-    ci-push:
-        runs-on: ${{ matrix.os }}
+  ci-push:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+    outputs: 
+      changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
+      env: ${{steps.env-staging.outputs.env}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node: [14]
+      - name: Set environment based on branch
+        id: env-staging
+        run: |
+          if [[ $GITHUB_BASE_REF = "staging" ]]
+          then
+            echo "::set-output name=env::staging"
+            echo Environment set to 'staging'
+          elif [[ $GITHUB_BASE_REF = "main" ]] 
+          then
+            echo "::set-output name=env::production"
+            echo Environment set to 'production'
+          else:
+            echo '$GITHUB_BASE_REF' does not equal 'staging' or 'main'
+            exit 1
+          fi
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@main
+      - name: Check files changed - Terraform
+        id: cfc-terraform
+        uses: uwblueprint/sdc-actions/actions/check-files-changed@main
+        with:
+          branch: $GITHUB_BASE_REF
+          regex: "terraform/*"
 
-            - name: Setup node env
-              uses: actions/setup-node@v2.1.2
-              with:
-                  node-version: ${{ matrix.node }}
+      - name: Setup node env
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node }}
 
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-            - name: Cache node_modules
-              uses: actions/cache@v2
-              id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-              with:
-                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+              ${{ runner.os }}-yarn-
 
-            - name: Install dependencies
-              run: yarn
+      - name: Install dependencies
+        run: yarn
 
-            - name: Linting all Prettier on push
-              run: yarn lint:prettier
+      - name: Linting all Prettier on push
+        run: yarn lint:prettier
 
-            - name: Linting all ESlint on push
-              run: yarn lint:eslint
+      - name: Linting all ESlint on push
+        run: yarn lint:eslint
 
-            - name: Build
-              run: yarn build
+      - name: Build
+        run: yarn build
+
+  terraform:
+    needs: ci-push
+    if: needs.ci-push.outputs.changes-terraform == 'true'
+    environment: ${{needs.ci-push.outputs.env}}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform/environments
+    env:
+      TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
+      TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2 
+      
+      - name: Hashicorp Terraform Setup (wraps stdout for plan)
+        uses: hashicorp/setup-terraform@v1
+
+      # TODO change to OIDC provider
+      - name: Configure AWS Credentials 
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Terraform Init
+        id: init
+        run: |
+          cd ${{needs.ci-push.outputs.env}}
+          terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          cd ${{needs.ci-push.outputs.env}}
+          terraform plan -no-color -out=tfplan
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: apply
+        run: |
+          cd ${{needs.ci-push.outputs.env}}
+          terraform apply -auto-approve tfplan
+        continue-on-error: true
+
+      - name: Update Pull Request
+        uses: actions/github-script@0.9.0
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # not sure if there is much point in having fmt, init and validate output here since if they failed we would never get to this point
+          script: |
+            const output = `#### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Apply 🔨\`${{ steps.apply.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Apply Status
+        if: steps.apply.outcome == 'failure' 
+        run: |
+          echo Check terraform apply
+          exit 1
+
