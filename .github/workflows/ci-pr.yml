@@ -15,6 +15,7 @@ jobs:
         node: [14]
     outputs: 
       changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
+      env: ${{steps.env-staging.outputs.env}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,15 +26,16 @@ jobs:
           if [[ $GITHUB_BASE_REF = "staging" ]]
           then
             echo Environment set to 'staging'
-            echo 'ENV=staging' >> $GITHUB_ENV
+            echo "::set-output name=env::staging"
           elif [[ $GITHUB_BASE_REF = "main" ]] 
           then
             echo Environment set to 'production'
-            echo 'ENV=production' >> $GITHUB_ENV
+            echo "::set-output name=env::production"
           else:
             echo '$GITHUB_BASE_REF' does not equal 'staging' or 'main'
             exit 1
           fi
+
       - name: Check files changed - Terraform
         id: cfc-terraform
         uses: uwblueprint/sdc-actions/actions/check-files-changed@main
@@ -98,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test
-        run: echo ${{env.ENV}} 
+        run: echo ${{needs.ci-pr.outputs.env}}
 
   terraform:
     needs: ci-pr
