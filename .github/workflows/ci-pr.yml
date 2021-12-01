@@ -16,7 +16,6 @@ jobs:
     outputs: 
       changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
       env: ${{steps.env.outputs.env}}
-      dir-terraform: ${steps.env.outputs.dir-terraform}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -27,19 +26,14 @@ jobs:
           if [[ $GITHUB_BASE_REF = "staging" ]]
           then
             echo "::set-output name=env::staging"
-            echo "::set-output name=dir-terraform::./terraform/environments/dev"
-            echo Environment set to ${{steps.env.outputs.env}}
-            echo Terraform directory set to ${{steps.env.outputs.dir-terraform}}
           elif [[ $GITHUB_BASE_REF = "main" ]] 
           then
             echo "::set-output name=env::production"
-            echo "::set-output name=dir-terraform::./terraform/environments/prod"
-            echo Environment set to ${{steps.env.outputs.env}}
-            echo Terraform directory set to ${{steps.env.outputs.dir-terraform}}
           else:
             echo '$GITHUB_BASE_REF' does not equal 'staging' or 'main'
             exit 1
           fi
+          echo Environment set to ${{steps.env.outputs.env}}
 
       - name: Check files changed - Terraform
         id: cfc-terraform
@@ -107,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{needs.ci-pr.outputs.dir-terraform}}
+        working-directory: ./terraform/environments
     env:
       TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
       TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
@@ -129,19 +123,27 @@ jobs:
       # TODO should we format as well? Not just check?
       - name: Terraform fmt
         id: fmt
-        run: terraform fmt -check
+        run: |
+          cd ${{needs.ci-pr.outputs.env}}
+          terraform fmt -check
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: |
+          cd ${{needs.ci-pr.outputs.env}}
+          terraform init
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: |
+          cd ${{needs.ci-pr.outputs.env}}
+          terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: |
+          cd ${{needs.ci-pr.outputs.env}}
+          terraform plan -no-color
         continue-on-error: true
 
       - name: Update Pull Request
