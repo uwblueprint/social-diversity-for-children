@@ -9,6 +9,7 @@ import { SelectField } from "@components/formFields/SelectField";
 import { UploadField } from "@components/formFields/UploadField";
 import "react-datepicker/dist/react-datepicker.css";
 import { getPresignedPostForUpload } from "@aws/s3";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 export default function CreateProgram(): JSX.Element {
     const EDIT = true;
@@ -53,22 +54,8 @@ export default function CreateProgram(): JSX.Element {
     }
 
     return (
-        <Wrapper>
-            <Heading
-                alignSelf="flex-start"
-                fontWeight={700}
-                fontSize={22}
-                style={{ color: colourTheme.colors.Blue, margin: 25 }}
-            >
-                Create
-            </Heading>
-            <Box
-                style={{
-                    borderBottom: "2px solid lightgray",
-                    width: "100%",
-                    marginBottom: 50,
-                }}
-            ></Box>
+        <Wrapper session={props.session}>
+            <AdminHeader>Create</AdminHeader>
             <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
                 <a
                     href="/admin/create-program"

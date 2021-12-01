@@ -19,7 +19,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     // TODO make this more robost/better
     const accepted_type_paths = ["criminal-check", "income-proof", "curriculum-plans"];
 
-    const { path, file } = req.query;
+    const { path, file, bucket } = req.query;
 
     if (!accepted_type_paths.includes(path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");

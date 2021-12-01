@@ -7,6 +7,7 @@ import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
 import { SelectField } from "@components/formFields/SelectField";
 import { UploadField } from "@components/formFields/UploadField";
+import { AdminHeader } from "@components/admin/AdminHeader";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import Stripe from "stripe";
@@ -83,22 +84,8 @@ export default function CreateClass(): JSX.Element {
     }
 
     return (
-        <Wrapper>
-            <Heading
-                alignSelf="flex-start"
-                fontWeight={700}
-                fontSize={22}
-                style={{ color: colourTheme.colors.Blue, margin: 25 }}
-            >
-                Create
-            </Heading>
-            <Box
-                style={{
-                    borderBottom: "2px solid lightgray",
-                    width: "100%",
-                    marginBottom: 50,
-                }}
-            ></Box>
+        <Wrapper session={props.session}>
+            <AdminHeader>Create</AdminHeader>
             <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
                 <a href="/admin/create-program">Program</a>
                 <a

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormLabel, FormControl, Image, Input, FormErrorMessage } from "@chakra-ui/react";
 import { getPresignedPostForUpload } from "@aws/s3";
 
@@ -18,9 +18,45 @@ export const UploadField: React.FC<Props> = ({
     edit = true,
     ...props
 }): JSX.Element => {
-    const upload = (value) => {
+    const [isUploading, setIsUploading] = useState(false);
+
+    const upload = async (value) => {
         console.log(value.target.files); //returns FILELIST array (will only be the first element)
         console.log(process.env.S3_PUBLIC_IMAGES_BUCKET);
+        setIsUploading(true);
+        const file = value.target.files[0];
+
+        try {
+            // TODO don't prefix file name, instead put random file name into database eventually
+            // TODO randomize filename
+            const res = await fetch(
+                `/api/file/upload?file=${file.name}&bucket=${process.env.S3_PUBLIC_IMAGES_BUCKET}`,
+            );
+            const data = await res.json();
+            const { url, fields } = data.data;
+            const formData = new FormData();
+
+            Object.entries({ ...fields, file }).forEach(([key, value]) => {
+                formData.append(key, value as string | Blob);
+            });
+            const fileUpload = await fetch(url, {
+                method: "POST",
+                body: formData,
+                p,
+            });
+
+            if (fileUpload.ok) {
+                console.log("Uploaded successfully!");
+                //setUploadSuccess(true);
+            } else {
+                // TODO
+                console.error("Upload failed.");
+                //setUploadSuccess(false);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
         const post = getPresignedPostForUpload("sdc-public-images", "Test/image.jng");
 
         //setValue(fileUrl)

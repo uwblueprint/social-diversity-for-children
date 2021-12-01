@@ -63,11 +63,6 @@ export default function Admin(props: AdminProps): JSX.Element {
                         href="/admin/create-program"
                     />
                     <AdminOptionButton
-                        icon={MdPeople}
-                        label="Add Registrant"
-                        href="/admin/add-registrant"
-                    />
-                    <AdminOptionButton
                         icon={RiCouponFill}
                         label="Add Coupon Code"
                         href="https://dashboard.stripe.com/coupons"
