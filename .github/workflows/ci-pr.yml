@@ -22,10 +22,12 @@ jobs:
       - name: Set environment based on branch
         id: env-staging
         run: |
-          if [[ $GITHUB_BASE_REF == 'staging']]; then
+          if [[ $GITHUB_BASE_REF == 'staging']]
+          then
             echo Environment = staging
             echo 'ENV=staging' >> $GITHUB_ENV
-          elif [[ $GITHUB_BASE_REF == 'main']] then
+          elif [[ $GITHUB_BASE_REF == 'main']] 
+          then
             echo Environment = production
             echo 'ENV=production' >> $GITHUB_ENV
           else:
