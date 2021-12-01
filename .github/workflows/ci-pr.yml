@@ -26,14 +26,16 @@ jobs:
         run: |
           if [[ $GITHUB_BASE_REF = "staging" ]]
           then
-            echo Environment set to 'staging'
             echo "::set-output name=env::staging"
             echo "::set-output name=dir-terraform::dev"
+            echo Environment set to ${{steps.env.outputs.env}}
+            echo Terraform directory set to ${{steps.env.outputs.dir-terraform}}
           elif [[ $GITHUB_BASE_REF = "main" ]] 
           then
-            echo Environment set to 'production'
             echo "::set-output name=env::production"
             echo "::set-output name=dir-terraform::prod"
+            echo Environment set to ${{steps.env.outputs.env}}
+            echo Terraform directory set to ${{steps.env.outputs.dir-terraform}}
           else:
             echo '$GITHUB_BASE_REF' does not equal 'staging' or 'main'
             exit 1
@@ -103,9 +105,9 @@ jobs:
     if: needs.ci-pr.outputs.changes-terraform == 'true'
     environment: ${{needs.ci-pr.outputs.env}}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./terraform/environments/${{needs.ci-pr.outputs.dir-terraform}}
+    # defaults:
+    #   run:
+    #     working-directory: ./terraform/environments/${{needs.ci-pr.outputs.dir-terraform}}
     env:
       TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
       TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
@@ -113,7 +115,7 @@ jobs:
 
       - name: test
         run: echo ${{needs.ci-pr.outputs.dir-terraform}}
-        
+
       - name: Checkout
         uses: actions/checkout@v2 
       
