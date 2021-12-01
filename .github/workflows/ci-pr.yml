@@ -19,6 +19,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set environment based on branch
+        id: env-staging
+        run: |
+          if [[ $GITHUB_BASE_REF == "staging"]]; then
+            echo Environment = staging
+            echo 'ENV=staging' >> $GITHUB_ENV
+          elif [[ $GITHUB_BASE_REF == "main"]]; then
+            echo Environment = production
+            echo 'ENV=production' >> $GITHUB_ENV
+          fi
       - name: Check files changed - Terraform
         id: cfc-terraform
         uses: uwblueprint/sdc-actions/actions/check-files-changed@main
@@ -90,6 +100,9 @@ jobs:
       TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
       TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
     steps:
+      - name: Test
+        run: echo ${{env.ENV}}
+        
       - name: Checkout
         uses: actions/checkout@v2 
       
