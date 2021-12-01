@@ -24,11 +24,11 @@ jobs:
         run: |
           if [[ $GITHUB_BASE_REF = "staging" ]]
           then
-            echo Environment = staging
+            echo Environment set to 'staging'
             echo 'ENV=staging' >> $GITHUB_ENV
           elif [[ $GITHUB_BASE_REF = "main" ]] 
           then
-            echo Environment = production
+            echo Environment set to 'production'
             echo 'ENV=production' >> $GITHUB_ENV
           else:
             echo '$GITHUB_BASE_REF' does not equal 'staging' or 'main'
@@ -93,6 +93,13 @@ jobs:
       - name: Build
         run: yarn build
 
+  test:
+    needs: ci-pr 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo ${{env.ENV}} 
+
   terraform:
     needs: ci-pr
     if: needs.ci-pr.outputs.changes-terraform == 'true'
@@ -105,9 +112,6 @@ jobs:
       TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
       TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
     steps:
-      - name: Test
-        run: echo ${{env.ENV}}
-
       - name: Checkout
         uses: actions/checkout@v2 
       
