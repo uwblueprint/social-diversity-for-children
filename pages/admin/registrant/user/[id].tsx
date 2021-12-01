@@ -231,7 +231,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                 <BreadcrumbItem>
                     <BreadcrumbLink href="/admin/registrant">Browse Registrants</BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbItem>
+                <BreadcrumbItem isCurrentPage>
                     <BreadcrumbLink
                         href="#"
                         fontWeight="bold"

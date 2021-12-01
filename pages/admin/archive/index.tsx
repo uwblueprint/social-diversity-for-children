@@ -90,7 +90,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (prop
 
     return (
         <Wrapper session={props.session}>
-            <AdminHeader>Archive</AdminHeader>
+            <AdminHeader>Archived</AdminHeader>
 
             <Tabs mx={6}>
                 <TabList>

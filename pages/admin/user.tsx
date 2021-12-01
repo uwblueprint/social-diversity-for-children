@@ -32,10 +32,16 @@ import { Session } from "next-auth";
 import { AdminError } from "@components/AdminError";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type UserViewProps = {
     session: Session;
 };
+
+const headerLinks = [
+    { name: "Add Teacher", url: "/admin/add?role=teacher" },
+    { name: "Add Admin", url: "/admin/add" },
+];
 
 /**
  * Admin registrant view page that displays all the registrants in the platform
@@ -71,7 +77,8 @@ export default function UserView(props: UserViewProps): JSX.Element {
 
     return (
         <Wrapper session={props.session}>
-            <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
+            <AdminHeader headerLinks={headerLinks}>SDC Internal</AdminHeader>
+            <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/registrant">

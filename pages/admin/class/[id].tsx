@@ -26,10 +26,16 @@ import { AdminError } from "@components/AdminError";
 import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type ClassViewProps = {
     session: Session;
 };
+
+const headerLinks = [
+    { name: "Add Program", url: "/admin/program/create" },
+    { name: "Add Class", url: "/admin/class/create" },
+];
 
 /**
  * Admin class view page that displays the information about the class given a class id
@@ -63,7 +69,8 @@ export default function ClassView({ session }: ClassViewProps): JSX.Element {
 
     return (
         <Wrapper session={session}>
-            <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
+            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <VStack mx={8} spacing={8} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>

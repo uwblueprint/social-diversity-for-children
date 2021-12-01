@@ -58,7 +58,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ headerLinks, children 
                     </HStack>
                 </Flex>
             </Box>
-            <Divider orientation="horizontal" my={6} border="2px" w="99%" />
+            <Divider orientation="horizontal" my={5} border="2px" w="99%" />
         </>
     );
 };
