@@ -78,14 +78,14 @@ export default function ArchivedProgramClassView({
 
     return (
         <Wrapper session={session}>
-            <AdminHeader>Archive</AdminHeader>
+            <AdminHeader>Archived</AdminHeader>
             <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/archive">Browse Archived</BreadcrumbLink>
                     </BreadcrumbItem>
 
-                    <BreadcrumbItem>
+                    <BreadcrumbItem isCurrentPage>
                         <BreadcrumbLink href="#" fontWeight="bold">
                             {program.name}
                         </BreadcrumbLink>

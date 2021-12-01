@@ -22,6 +22,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import React from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type RegistrantViewProps = {
     session: Session;
@@ -50,9 +51,10 @@ export default function RegistrantView(props: RegistrantViewProps): JSX.Element 
 
     return (
         <Wrapper session={props.session}>
-            <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
+            <AdminHeader>Registrants</AdminHeader>
+            <VStack mx={8} spacing={8} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
-                    <BreadcrumbItem>
+                    <BreadcrumbItem isCurrentPage>
                         <BreadcrumbLink href="/admin/registrant">Browse Registrants</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>

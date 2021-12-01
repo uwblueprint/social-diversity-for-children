@@ -1,3 +1,4 @@
+import { roles } from ".prisma/client";
 import {
     Box,
     BoxProps,
@@ -14,6 +15,7 @@ import {
     Text,
     useToast,
 } from "@chakra-ui/react";
+import { AdminHeader } from "@components/admin/AdminHeader";
 import Wrapper from "@components/AdminWrapper";
 import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
@@ -24,6 +26,7 @@ import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
 import { getSession, signIn } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import isEmail from "validator/lib/isEmail";
@@ -45,6 +48,7 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
     const [adminEmail, setAdminEmail] = useState("");
     const [adminValid, setAdminValid] = useState(false);
     const toast = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         if (teacherFirstName && teacherLastName && isEmail(teacherEmail)) {
@@ -116,7 +120,8 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
 
     return (
         <Wrapper session={props.session}>
-            <Tabs mx={8} mt={8}>
+            <AdminHeader>Invite SDC Members</AdminHeader>
+            <Tabs mx={8} defaultIndex={router.query.role == roles.TEACHER.toLowerCase() ? 1 : 0}>
                 <TabList>
                     <Tab>Admin</Tab>
                     <Tab>Teacher</Tab>

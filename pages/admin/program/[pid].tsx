@@ -27,10 +27,16 @@ import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type ClassViewProps = {
     session: Session;
 };
+
+const headerLinks = [
+    { name: "Add Program", url: "/admin/program/create" },
+    { name: "Add Class", url: "/admin/class/create" },
+];
 
 /**
  * Admin program class view page that displays the classes of a program
@@ -75,13 +81,14 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
 
     return (
         <Wrapper session={session}>
-            <VStack mx={8} spacing={6} mt={10} alignItems="flex-start">
+            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>
                     </BreadcrumbItem>
 
-                    <BreadcrumbItem>
+                    <BreadcrumbItem isCurrentPage>
                         <BreadcrumbLink href="#" fontWeight="bold">
                             {program.name}
                         </BreadcrumbLink>
