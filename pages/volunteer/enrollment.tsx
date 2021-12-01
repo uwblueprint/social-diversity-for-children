@@ -15,8 +15,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import CardInfoUtil from "@utils/cardInfoUtil";
 import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
-import { fetcherWithId } from "@utils/fetcher";
+import { fetcherWithQuery } from "@utils/fetcher";
 import { Session } from "next-auth";
+import { errorToastOptions } from "@utils/toast/options";
+import { useTranslation } from "next-i18next";
 
 type VolunteerEnrollmentProps = {
     session: Session;
@@ -33,11 +35,12 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
     const { me, isLoading: isMeLoading } = useMe();
     const toast = useToast();
+    const { t } = useTranslation("common");
 
     // fetch classInfo from API
     const { data: classInfoResponse, error: classInfoError } = useSWR(
         ["/api/class/" + classId],
-        fetcherWithId,
+        fetcherWithQuery,
     );
 
     const isClassInfoLoading = !classInfoResponse && !classInfoError;
@@ -80,16 +83,12 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
                         nextPage();
                     } else if (res.ok === false) {
                         router.push("/");
-                        toast({
-                            title: "Registration failed.",
-                            description:
-                                "The class is not available for registration at this time.",
-                            status: "error",
-                            duration: 9000,
-                            isClosable: true,
-                            position: "top-right",
-                            variant: "left-accent",
-                        });
+                        toast(
+                            errorToastOptions(
+                                t("toast.registrationFailed"),
+                                t("toast.registrationFailedDesc"),
+                            ),
+                        );
                     }
                 });
             }}

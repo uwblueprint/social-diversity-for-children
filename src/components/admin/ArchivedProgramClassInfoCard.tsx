@@ -28,7 +28,7 @@ import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { deleteClass } from "@utils/deleteClass";
 import { weekdayToString } from "@utils/enum/weekday";
-import { infoToastOptions } from "@utils/toast/options";
+import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
 import { updateClassArchive } from "@utils/updateClassArchive";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -36,18 +36,17 @@ import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { AdminModal } from "./AdminModal";
 
-export type ProgramClassInfoCard = {
+export type ArchivedProgramClassInfoCard = {
     cardInfo: ClassCardInfo;
-    // Role of user, determines whether to show admin options
     role: roles;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutateClasses: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
- * Admin view program class card component used in the admin program details page
+ * Admin view archived program class card component used in the admin archived program details page
  */
-export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
+export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard> = ({
     cardInfo,
     role,
     mutateClasses,
@@ -55,15 +54,16 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
     const router = useRouter();
     const toast = useToast();
     const {
-        isOpen: isArchiveOpen,
-        onOpen: onArchiveOpen,
-        onClose: onArchiveClose,
+        isOpen: isUnarchiveOpen,
+        onOpen: onUnarchiveOpen,
+        onClose: onUnarchiveClose,
     } = useDisclosure();
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
-    const onArchive = async () => {
-        await updateClassArchive(cardInfo.id, true);
-        toast(infoToastOptions("Class archived.", `${cardInfo.name} has been archived.`));
+    const onUnarchive = async () => {
+        await updateClassArchive(cardInfo.id, false);
+        toast(infoToastOptions("Class is active.", `${cardInfo.name} is no longer archived.`));
+        router.push("/admin/archive");
         mutateClasses();
     };
     const onDelete = async () => {
@@ -117,7 +117,7 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
                                         <MenuDivider />
                                         <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
+                                        <MenuItem onClick={onUnarchiveOpen}>Unarchive</MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}
@@ -161,11 +161,11 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
             </Grid>
 
             <AdminModal
-                isOpen={isArchiveOpen}
-                onClose={onArchiveClose}
-                onProceed={onArchive}
-                header={`Are you sure you want to archive ${cardInfo.name}?`}
-                body="You can always view the archived classes in the Archive page."
+                isOpen={isUnarchiveOpen}
+                onClose={onUnarchiveClose}
+                onProceed={onUnarchive}
+                header={`Are you sure you want to unarchive ${cardInfo.name}?`}
+                body="You can always archive any classes in the Programs page."
             />
             <AdminModal
                 isOpen={isDeleteOpen}

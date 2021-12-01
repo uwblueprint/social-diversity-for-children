@@ -21,6 +21,12 @@ const volunteerRegs: VolunteerReg[] = [
         createdAt: new Date(),
         updatedAt: null,
     },
+    {
+        volunteerId: 10014,
+        classId: 10000,
+        createdAt: new Date(),
+        updatedAt: null,
+    },
 ];
 
 /**

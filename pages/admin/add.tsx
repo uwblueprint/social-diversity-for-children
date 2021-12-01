@@ -1,3 +1,4 @@
+import { roles } from ".prisma/client";
 import {
     Box,
     BoxProps,
@@ -14,15 +15,18 @@ import {
     Text,
     useToast,
 } from "@chakra-ui/react";
+import { AdminHeader } from "@components/admin/AdminHeader";
 import Wrapper from "@components/AdminWrapper";
 import { TextField } from "@components/formFields/TextField";
 import colourTheme from "@styles/colours";
 import { createAdminUser, createTeacherUser } from "@utils/createUser";
 import { isAdmin } from "@utils/session/authorization";
+import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
 import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
 import { getSession, signIn } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import isEmail from "validator/lib/isEmail";
@@ -44,6 +48,7 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
     const [adminEmail, setAdminEmail] = useState("");
     const [adminValid, setAdminValid] = useState(false);
     const toast = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         if (teacherFirstName && teacherLastName && isEmail(teacherEmail)) {
@@ -67,25 +72,9 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
                 email: teacherEmail,
                 redirect: false,
             });
-            toast({
-                title: "Teacher invited!",
-                description: `Invite has been sent to ${teacherEmail}.`,
-                status: "info",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(infoToastOptions("Teacher invited!", `Invite has been sent to ${teacherEmail}.`));
         } else {
-            toast({
-                title: "Teacher invitation failed.",
-                description: "Cannot invite existing users.",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(errorToastOptions("Teacher invitation failed.", "Cannot invite existing users."));
         }
     };
     const InviteEmailForAdmin = async () => {
@@ -95,25 +84,19 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
                 email: adminEmail,
                 redirect: false,
             });
-            toast({
-                title: "Program admin invited!",
-                description: `Invite has been sent to ${adminEmail}.`,
-                status: "info",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                infoToastOptions(
+                    "Program admin invited!",
+                    `Invite has been sent to ${adminEmail}.`,
+                ),
+            );
         } else {
-            toast({
-                title: "Program admin invitation failed.",
-                description: "Cannot invite existing users.",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-                position: "top-right",
-                variant: "left-accent",
-            });
+            toast(
+                infoToastOptions(
+                    "Program admin invitation failed.",
+                    "Cannot invite existing users.",
+                ),
+            );
         }
     };
 
@@ -137,7 +120,8 @@ export default function AddInternalUser(props: AddInternalUserProps): JSX.Elemen
 
     return (
         <Wrapper session={props.session}>
-            <Tabs mx={8} mt={8}>
+            <AdminHeader>Invite SDC Members</AdminHeader>
+            <Tabs mx={8} defaultIndex={router.query.role == roles.TEACHER.toLowerCase() ? 1 : 0}>
                 <TabList>
                     <Tab>Admin</Tab>
                     <Tab>Teacher</Tab>

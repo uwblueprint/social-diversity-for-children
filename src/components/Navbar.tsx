@@ -54,6 +54,7 @@ const SideBar = ({
     onClose: () => void;
     session: Session;
 }) => {
+    const { t } = useTranslation("common");
     const loggedIn = session ? true : false;
 
     return (
@@ -64,31 +65,33 @@ const SideBar = ({
                     {loggedIn ? (
                         <Box mt="20">
                             <Text fontSize="2xl" fontWeight="bold">
-                                Welcome
+                                {t("home.welcome")}
                             </Text>
                             <Text fontSize="md" fontWeight="normal" mt="5" mb="15">
                                 {session.user.email}
                             </Text>
-                            <Divider mt="15" mb="15" />
+                            <Divider mt="15" mb="15" color="#cdcdcd" />
                         </Box>
                     ) : (
                         <Box mt="20">
                             <Text fontSize="md" fontWeight="normal">
-                                Sign in now to register for classes
+                                {t("nav.signInNow")}
                             </Text>
-                            <Button
-                                height="50px"
-                                width="100%"
-                                borderRadius="6px"
-                                background={colourTheme.colors.Blue}
-                                fontWeight="normal"
-                                fontSize="16px"
-                                color="white"
-                                mt="5"
-                                mb="15"
-                            >
-                                Sign In
-                            </Button>
+                            <Link href="/login">
+                                <Button
+                                    height="50px"
+                                    width="100%"
+                                    borderRadius="6px"
+                                    background={colourTheme.colors.Blue}
+                                    fontWeight="normal"
+                                    fontSize="16px"
+                                    color="white"
+                                    mt="5"
+                                    mb="15"
+                                >
+                                    {t("nav.signIn")}
+                                </Button>
+                            </Link>
                             <Divider mt="15" mb="15" color="#cdcdcd" />
                         </Box>
                     )}
@@ -96,16 +99,16 @@ const SideBar = ({
                 <DrawerBody>
                     <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                         <Icon as={MdOutlineDns} width={6} height={6} />
-                        <NavLink href="/">Browse Programs</NavLink>
+                        <NavLink href="/">{t("nav.browseProgram")}</NavLink>
                     </Flex>
                     <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                         <Icon as={MdOutlineClass} width={6} height={6} />
-                        <NavLink href="/class">View My Classes</NavLink>
+                        <NavLink href="/class">{t("nav.myClasses")}</NavLink>
                     </Flex>
                     {loggedIn && (
                         <Flex flexDirection="row" mt="5" mb="5" alignItems="center">
                             <Icon as={BiUserCircle} width={6} height={6} />
-                            <NavLink href="/myaccounts">Account</NavLink>
+                            <NavLink href="/myaccounts">{t("nav.myAccount")}</NavLink>
                         </Flex>
                     )}
                 </DrawerBody>
@@ -116,7 +119,7 @@ const SideBar = ({
                             <Flex alignItems="center">
                                 <Icon as={MdLogout} width={6} height={6} />
                                 <Text marginLeft="5" cursor="pointer" onClick={() => signOut()}>
-                                    Log Out
+                                    {t("account.logOut")}
                                 </Text>
                             </Flex>
                         </Box>

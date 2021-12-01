@@ -14,7 +14,7 @@ import { getProgramCardInfo } from "@database/program-card-info";
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId } = req.query;
+            const { id: programId, archived } = req.query;
 
             if (!programId) {
                 return ResponseUtil.returnBadRequest(
@@ -31,7 +31,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 );
             }
 
-            const result = await getProgramCardInfo(programId as string);
+            const result = await getProgramCardInfo(
+                programId as string,
+                Boolean(JSON.parse((archived as string) || "false")),
+            );
             if (!result) {
                 return ResponseUtil.returnNotFound(res, `Program info not found.`);
             }

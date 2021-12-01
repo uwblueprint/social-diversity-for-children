@@ -2,19 +2,20 @@ import { Box, Text, InputGroup, InputLeftElement, Input, Grid, GridItem } from "
 import Wrapper from "@components/AdminWrapper";
 import React from "react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { BrowseProgramCard } from "@components/BrowseProgramCard";
+import { BrowseProgramCard } from "@components/admin/BrowseProgramCard";
 import { locale } from "@prisma/client";
 import usePrograms from "@utils/hooks/usePrograms";
 import { useRouter } from "next/router";
-import { Loading } from "@components/Loading";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { useState } from "react";
-import { roles } from ".prisma/client";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import { Session } from "next-auth";
+import { AdminLoading } from "@components/AdminLoading";
+import { AdminError } from "@components/AdminError";
+import { isInternal } from "@utils/session/authorization";
 
 type BrowseProgramsProps = {
     session: Session;
@@ -31,10 +32,10 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
 
     const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
 
-    if (isLoading) {
-        return <Loading />;
-    } else if (error) {
-        return <Box>An Error has occurred</Box>;
+    if (error) {
+        return <AdminError cause="could not fetch programs" />;
+    } else if (isLoading) {
+        return <AdminLoading />;
     }
 
     const filteredCards = programCardInfos.filter((prog) => {
@@ -52,45 +53,43 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     });
     return (
         <Wrapper session={props.session}>
-            <Box>
-                <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
 
-                <Box px="50px">
-                    <Text fontSize="16px">Browse Programs</Text>
-                    <InputGroup mt="25px">
-                        <InputLeftElement
-                            pointerEvents="none"
-                            children={<SearchIcon color="gray.300" />}
-                        />
-                        <Input
-                            pl={8}
-                            placeholder={"Search Programs"}
-                            onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                            }}
-                        />
-                    </InputGroup>
-                </Box>
+            <Box mx={8}>
+                <Text fontSize="16px">Browse Programs</Text>
+                <InputGroup mt="25px">
+                    <InputLeftElement
+                        pointerEvents="none"
+                        children={<SearchIcon color="gray.300" />}
+                    />
+                    <Input
+                        pl={8}
+                        placeholder={"Search Programs"}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                        }}
+                    />
+                </InputGroup>
+            </Box>
 
-                <Box ml="50px" mt="25px">
-                    {filteredCards && filteredCards.length > 0 ? (
-                        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                            {filteredCards.map((item, idx) => {
-                                return (
-                                    <GridItem key={idx}>
-                                        <BrowseProgramCard cardInfo={item} />
-                                    </GridItem>
-                                );
-                            })}
-                        </Grid>
-                    ) : (
-                        <Box pr="50px">
-                            <AdminEmptyState w="100%" h="250px" isLoading={isLoading}>
-                                There are no programs available!
-                            </AdminEmptyState>
-                        </Box>
-                    )}
-                </Box>
+            <Box mx={8} mt="25px">
+                {filteredCards && filteredCards.length > 0 ? (
+                    <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                        {filteredCards.map((item, idx) => {
+                            return (
+                                <GridItem key={idx}>
+                                    <BrowseProgramCard cardInfo={item} role={props.session.role} />
+                                </GridItem>
+                            );
+                        })}
+                    </Grid>
+                ) : (
+                    <Box>
+                        <AdminEmptyState w="100%" h="250px" isLoading={isLoading}>
+                            There are no programs available!
+                        </AdminEmptyState>
+                    </Box>
+                )}
             </Box>
         </Wrapper>
     );
@@ -111,10 +110,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ![roles.PROGRAM_ADMIN, roles.TEACHER].includes((session as any).role)
-    ) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",
@@ -125,6 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         props: {
+            session,
             ...(await serverSideTranslations(context.locale, ["common"])),
         },
     };

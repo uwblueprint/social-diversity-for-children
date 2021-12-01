@@ -2,6 +2,7 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { Box, Heading, HStack, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
 import { Flex, List, ListItem, Spacer } from "@chakra-ui/react";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
+import { AdminHeader } from "@components/admin/AdminHeader";
 import { AdminOptionButton } from "@components/admin/AdminOptionButton";
 import { AdminStatBox } from "@components/admin/AdminStatBox";
 import { LiveClassCard } from "@components/admin/LiveClassCard";
@@ -50,8 +51,9 @@ export default function Admin(props: AdminProps): JSX.Element {
 
     return (
         <Wrapper session={props.session}>
-            <VStack spacing={6} mx={8}>
-                <HStack spacing={4} mt={8} w="100%">
+            <AdminHeader>Dashboard</AdminHeader>
+            <VStack spacing={5} mx={8} pb={4}>
+                <HStack spacing={4} w="100%">
                     <AdminOptionButton
                         icon={MdCreate}
                         label="Create new Class"

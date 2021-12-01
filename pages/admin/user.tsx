@@ -31,10 +31,17 @@ import { deleteUser } from "@utils/deleteUser";
 import { Session } from "next-auth";
 import { AdminError } from "@components/AdminError";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
+import { AdminHeader } from "@components/admin/AdminHeader";
 
 type UserViewProps = {
     session: Session;
 };
+
+const headerLinks = [
+    { name: "Add Teacher", url: "/admin/add?role=teacher" },
+    { name: "Add Admin", url: "/admin/add" },
+];
 
 /**
  * Admin registrant view page that displays all the registrants in the platform
@@ -70,7 +77,8 @@ export default function UserView(props: UserViewProps): JSX.Element {
 
     return (
         <Wrapper session={props.session}>
-            <VStack mx={8} spacing={8} mt={10} alignItems="flex-start">
+            <AdminHeader headerLinks={headerLinks}>SDC Internal</AdminHeader>
+            <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/admin/registrant">
@@ -131,25 +139,19 @@ export default function UserView(props: UserViewProps): JSX.Element {
                                 onClick={async () => {
                                     const res = await deleteUser(revokeUserId).finally(onClose);
                                     if (res.ok) {
-                                        toast({
-                                            title: "Internal user has been revoked.",
-                                            description: `User ${revokeName} has been deleted.`,
-                                            status: "info",
-                                            duration: 9000,
-                                            isClosable: true,
-                                            position: "top-right",
-                                            variant: "left-accent",
-                                        });
+                                        toast(
+                                            infoToastOptions(
+                                                "Internal user has been revoked.",
+                                                `User ${revokeName} has been deleted.`,
+                                            ),
+                                        );
                                     } else {
-                                        toast({
-                                            title: "Internal user cannot be revoked.",
-                                            description: `User ${revokeName} is currently in use.`,
-                                            status: "error",
-                                            duration: 9000,
-                                            isClosable: true,
-                                            position: "top-right",
-                                            variant: "left-accent",
-                                        });
+                                        toast(
+                                            errorToastOptions(
+                                                "Internal user cannot be revoked.",
+                                                `User ${revokeName} is currently in use.`,
+                                            ),
+                                        );
                                     }
                                 }}
                                 ml={3}

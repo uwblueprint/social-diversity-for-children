@@ -107,6 +107,7 @@
         "other": "Other"
     },
     "nav": {
+        "signInNow": "Sign in now to register for classes",
         "register": "Register",
         "registerNow": "Register now",
         "browseProgram": "Browse Programs",
@@ -118,5 +119,11 @@
         "browseClasses": "Browse Classes",
         "viewDetails": "View Details",
         "viewAccount": "View Account"
+    },
+    "toast": {
+        "registrationFailed": "Registration failed.",
+        "registrationFailedDesc": "The class is not available for registration at this time.",
+        "waitlistAdded": "Waitlist record added!",
+        "waitlistAddedDesc": "You will receive an email when a spot opens up."
     }
 }

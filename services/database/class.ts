@@ -31,14 +31,26 @@ async function getClass(id: number) {
 
 /**
  * getClasses returns all the classes with registration counts
+ * @param  {boolean} isArchived filter option for archived classes
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function getClasses() {
+async function getClasses(isArchived: boolean) {
     const classes = await prisma.class.findMany({
         where: {
-            isArchived: false,
+            isArchived: isArchived,
         },
         include: {
+            program: { include: { programTranslation: true } },
+            classTranslation: true,
+            teacherRegs: {
+                include: {
+                    teacher: {
+                        include: {
+                            user: true,
+                        },
+                    },
+                },
+            },
             _count: {
                 select: {
                     parentRegs: true,
@@ -195,6 +207,17 @@ async function updateClassArchive(id: number, isArchive: boolean): Promise<Class
         },
         data: {
             isArchived: isArchive,
+            ...(() => {
+                if (!isArchive) {
+                    return {
+                        program: {
+                            update: {
+                                isArchived: isArchive,
+                            },
+                        },
+                    };
+                }
+            })(),
         },
     });
     return updatedClass;

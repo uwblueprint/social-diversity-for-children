@@ -13,10 +13,12 @@ import { getClassInfoWithProgramId } from "@database/program-card-info";
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
-            const { id: programId } = req.query;
+            const { id: programId, archived } = req.query;
 
             if (!programId) {
-                const classes = await getClasses();
+                const classes = await getClasses(
+                    Boolean(JSON.parse((archived as string) || "false")),
+                );
                 ResponseUtil.returnOK(res, classes);
             } else {
                 const programIdNumber = parseInt(programId as string, 10);
@@ -26,7 +28,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                         "programId should be passed in as numbers",
                     );
                 }
-                const classes = await getClassInfoWithProgramId(programId as string);
+                const classes = await getClassInfoWithProgramId(
+                    programId as string,
+                    Boolean(JSON.parse((archived as string) || "false")),
+                );
                 ResponseUtil.returnOK(res, classes);
             }
             break;

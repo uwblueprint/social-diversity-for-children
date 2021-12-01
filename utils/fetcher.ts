@@ -22,7 +22,7 @@ export function fetcher(url: string): Promise<any> {
  * @param label label of id field, default is "id"
  * @returns the promise corresponding to the response of the route
  */
-export function fetcherWithId(
+export function fetcherWithQuery(
     url: string,
     id: string,
     label = "id",

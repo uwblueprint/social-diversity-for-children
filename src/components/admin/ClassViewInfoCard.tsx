@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { AdminModal } from "./AdminModal";
+import { infoToastOptions } from "@utils/toast/options";
 
 export type ClassViewInfoCard = {
     cardInfo: ClassCardInfo;
@@ -52,29 +53,13 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
 
     const onArchive = () => {
         updateClassArchive(cardInfo.id, true);
-        toast({
-            title: "Class archived.",
-            description: `${cardInfo.name} has been archived.`,
-            status: "info",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right",
-            variant: "left-accent",
-        });
-        router.push("/admin");
+        toast(infoToastOptions("Class archived.", `${cardInfo.name} has been archived.`));
+        router.push(`/admin/program/${cardInfo.programId}`);
     };
     const onDelete = () => {
         deleteClass(cardInfo.id);
-        toast({
-            title: "Class deleted.",
-            description: `${cardInfo.name} has been deleted.`,
-            status: "info",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right",
-            variant: "left-accent",
-        });
-        router.push("/admin");
+        toast(infoToastOptions("Class deleted.", `${cardInfo.name} has been deleted.`));
+        router.push(`/admin/program/${cardInfo.programId}`);
     };
 
     return (

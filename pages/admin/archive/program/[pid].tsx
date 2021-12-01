@@ -11,8 +11,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
-import { ProgramClassInfoCard } from "@components/admin/ProgramClassInfoCard";
-import { ProgramViewInfoCard } from "@components/admin/ProgramViewInfoCard";
+import { ArchivedProgramClassInfoCard } from "@components/admin/ArchivedProgramClassInfoCard";
 import Wrapper from "@components/AdminWrapper";
 import { locale } from "@prisma/client";
 import { weekdayToString } from "@utils/enum/weekday";
@@ -26,23 +25,21 @@ import { AdminError } from "@components/AdminError";
 import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
+import { ArchivedProgramViewInfoCard } from "@components/admin/ArchivedProgramViewInfoCard";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminHeader } from "@components/admin/AdminHeader";
 
-type ClassViewProps = {
+type ArchiveProgramClassViewProps = {
     session: Session;
 };
-
-const headerLinks = [
-    { name: "Add Program", url: "/admin/program/create" },
-    { name: "Add Class", url: "/admin/class/create" },
-];
 
 /**
  * Admin program class view page that displays the classes of a program
  * @returns Admin program class view page component
  */
-export default function ProgramClassView({ session }: ClassViewProps): JSX.Element {
+export default function ArchivedProgramClassView({
+    session,
+}: ArchiveProgramClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
     const [searchTerm, setSearchTerm] = useState("");
@@ -51,13 +48,13 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
         program,
         isLoading: isProgramLoading,
         error: programError,
-    } = useProgram(parseInt(pid as string), locale.en);
+    } = useProgram(parseInt(pid as string), locale.en, true);
 
     const {
         classCards,
         isLoading: isClassLoading,
         mutate: mutateClasses,
-    } = useClassesByProgram(pid as string, locale.en);
+    } = useClassesByProgram(pid as string, locale.en, true);
 
     if (programError) {
         return <AdminError cause="program not found" />;
@@ -81,11 +78,11 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
 
     return (
         <Wrapper session={session}>
-            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <AdminHeader>Archived</AdminHeader>
             <VStack mx={8} spacing={6} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/admin/program">Browse Programs</BreadcrumbLink>
+                        <BreadcrumbLink href="/admin/archive">Browse Archived</BreadcrumbLink>
                     </BreadcrumbItem>
 
                     <BreadcrumbItem isCurrentPage>
@@ -94,7 +91,7 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
-                <ProgramViewInfoCard cardInfo={program} role={session.role} />
+                <ArchivedProgramViewInfoCard cardInfo={program} role={session.role} />
                 <InputGroup mt="25px">
                     <InputLeftElement
                         pointerEvents="none"
@@ -113,7 +110,7 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
                         {filteredClasses.map((classCard, idx) => {
                             return (
                                 <GridItem key={idx}>
-                                    <ProgramClassInfoCard
+                                    <ArchivedProgramClassInfoCard
                                         cardInfo={classCard}
                                         role={session.role}
                                         mutateClasses={mutateClasses}

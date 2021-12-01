@@ -33,41 +33,48 @@ import { AdminModal } from "./AdminModal";
 import { roles } from "@prisma/client";
 import { infoToastOptions } from "@utils/toast/options";
 
-export type ProgramViewInfoCard = {
+export type ArchivedProgramViewInfoCard = {
     cardInfo: ProgramCardInfo;
-    // Role of user, determines whether to show admin options
     role: roles;
 };
 
 /**
- * Admin program view card component used in the admin program page
+ * Admin archived program view card component used in the admin archived program page
  */
-export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, role }) => {
+export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> = ({
+    cardInfo,
+    role,
+}) => {
     const router = useRouter();
     const toast = useToast();
     const { start, end } = convertToShortDateRange(cardInfo.startDate, cardInfo.endDate, locale.en);
     const {
-        isOpen: isArchiveOpen,
-        onOpen: onArchiveOpen,
-        onClose: onArchiveClose,
+        isOpen: isUnarchiveOpen,
+        onOpen: onUnarchiveOpen,
+        onClose: onUnarchiveClose,
     } = useDisclosure();
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
 
-    const onArchive = () => {
-        updateProgramArchive(cardInfo.id, true);
+    const onUnarchive = () => {
+        updateProgramArchive(cardInfo.id, false);
         toast(
             infoToastOptions(
-                "Program archived.",
-                `${cardInfo.name} and its classes has been archived.`,
+                "Program active.",
+                `${cardInfo.name} and its classes are no longer archived.`,
             ),
         );
-        router.push("/admin/program");
+        router.push("/admin/archive");
     };
 
     const onDelete = () => {
         deleteProgram(cardInfo.id);
-        toast(infoToastOptions("Program deleted.", `${cardInfo.name} has been deleted.`));
-        router.push("/admin/program");
+        toast(
+            infoToastOptions(
+                "Program deleted.",
+                `${cardInfo.name} and its classes has been deleted.`,
+            ),
+        );
+        router.push("/admin/archive");
     };
 
     return (
@@ -114,7 +121,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, r
                                         <MenuDivider />
                                         <MenuItem onClick={onDeleteOpen}>Delete</MenuItem>
                                         <MenuDivider />
-                                        <MenuItem onClick={onArchiveOpen}>Archive</MenuItem>
+                                        <MenuItem onClick={onUnarchiveOpen}>Unarchive</MenuItem>
                                     </MenuList>
                                 </Menu>
                             )}
@@ -138,11 +145,11 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, r
             </Grid>
 
             <AdminModal
-                isOpen={isArchiveOpen}
-                onClose={onArchiveClose}
-                onProceed={onArchive}
-                header="Are you sure you want to archive this program and its classes?"
-                body="You can always view the archived programs and classes in the Archive page."
+                isOpen={isUnarchiveOpen}
+                onClose={onUnarchiveClose}
+                onProceed={onUnarchive}
+                header="Are you sure you want to unarchive this program and its classes?"
+                body="You can always archive programs in the Programs page."
             />
             <AdminModal
                 isOpen={isDeleteOpen}
