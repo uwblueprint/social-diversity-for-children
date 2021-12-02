@@ -11,7 +11,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getPresignedPostForUpload } from "@aws/s3";
 import { AdminHeader } from "@components/admin/AdminHeader";
 
-export default function CreateProgram(): JSX.Element {
+import { Session } from "next-auth";
+
+type Props = {
+    session: Session;
+};
+
+export default function CreateProgram({ session }: Props): JSX.Element {
     const EDIT = true;
 
     const [image, setImage] = useLocalStorage(
@@ -24,14 +30,6 @@ export default function CreateProgram(): JSX.Element {
     const [startDate, setStartDate] = useLocalStorage("startDate", "");
     const [endDate, setEndDate] = useLocalStorage("endDate", "");
     const [programDescription, setProgramDescription] = useLocalStorage("programDescription", "");
-
-    const upload = (value) => {
-        console.log(value.target.files); //returns FILELIST array (will only be the first element)
-        console.log(process.env.S3_PUBLIC_IMAGES_BUCKET);
-        const post = getPresignedPostForUpload("sdc-public-images", "Test/image.jng");
-
-        //setImage(awsurl)
-    };
 
     async function save() {
         const data = {
@@ -54,7 +52,7 @@ export default function CreateProgram(): JSX.Element {
     }
 
     return (
-        <Wrapper session={props.session}>
+        <Wrapper session={session}>
             <AdminHeader>Create</AdminHeader>
             <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
                 <a
@@ -68,9 +66,14 @@ export default function CreateProgram(): JSX.Element {
             <br></br>
             <HStack spacing={4} alignSelf="start">
                 <VStack spacing={2} mx={8}>
-                    <UploadField name="Cover Photo" value={image} setValue={setImage}></UploadField>
+                    <UploadField
+                        name="Cover Photo"
+                        isLarge={true}
+                        value={image}
+                        setValue={setImage}
+                    ></UploadField>
                 </VStack>
-                <Box>
+                <Box w="100%" style={{ marginLeft: 25, marginRight: 25 }}>
                     <TextField
                         name={"Program Name"}
                         value={programName}

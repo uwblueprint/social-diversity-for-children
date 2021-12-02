@@ -11,8 +11,13 @@ import { AdminHeader } from "@components/admin/AdminHeader";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import Stripe from "stripe";
+import { Session } from "next-auth";
 
-export default function CreateClass(): JSX.Element {
+type Props = {
+    session: Session;
+};
+
+export default function CreateClass({ session }: Props): JSX.Element {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {});
     const EDIT = true;
 
@@ -84,7 +89,7 @@ export default function CreateClass(): JSX.Element {
     }
 
     return (
-        <Wrapper session={props.session}>
+        <Wrapper session={session}>
             <AdminHeader>Create</AdminHeader>
             <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
                 <a href="/admin/create-program">Program</a>
@@ -100,7 +105,7 @@ export default function CreateClass(): JSX.Element {
                 <VStack spacing={2} mx={8}>
                     <UploadField name="Cover Photo" value={image} setValue={setImage}></UploadField>
                 </VStack>
-                <Box>
+                <Box w="100%" style={{ marginLeft: 25, marginRight: 25 }}>
                     <HStack spacing={8} alignSelf="start">
                         <TextField
                             name={"Class Name"}

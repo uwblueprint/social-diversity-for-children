@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { FormLabel, FormControl, Image, Input, FormErrorMessage } from "@chakra-ui/react";
+import {
+    FormLabel,
+    FormControl,
+    Image,
+    Input,
+    FormErrorMessage,
+    AspectRatio,
+    Spinner,
+} from "@chakra-ui/react";
 import { getPresignedPostForUpload } from "@aws/s3";
 
 type Props = {
@@ -8,6 +16,7 @@ type Props = {
     name: string;
     required?: boolean;
     edit?: boolean;
+    isLarge?: boolean;
 };
 
 export const UploadField: React.FC<Props> = ({
@@ -16,22 +25,24 @@ export const UploadField: React.FC<Props> = ({
     name,
     required = true,
     edit = true,
+    isLarge = false,
     ...props
 }): JSX.Element => {
     const [isUploading, setIsUploading] = useState(false);
+    const [error, setError] = useState("");
 
     const upload = async (value) => {
-        console.log(value.target.files); //returns FILELIST array (will only be the first element)
-        console.log(process.env.S3_PUBLIC_IMAGES_BUCKET);
         setIsUploading(true);
         const file = value.target.files[0];
 
+        let type = "cover-photo";
+
         try {
-            // TODO don't prefix file name, instead put random file name into database eventually
-            // TODO randomize filename
-            const res = await fetch(
-                `/api/file/upload?file=${file.name}&bucket=${process.env.S3_PUBLIC_IMAGES_BUCKET}`,
-            );
+            //If the file type is invalid return an error
+            if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
+                throw "Invalid file type";
+            }
+            const res = await fetch(`/api/file/upload?path=${type}&file=${file.name}`);
             const data = await res.json();
             const { url, fields } = data.data;
             const formData = new FormData();
@@ -46,38 +57,31 @@ export const UploadField: React.FC<Props> = ({
 
             if (fileUpload.ok) {
                 console.log("Uploaded successfully!");
-                //setUploadSuccess(true);
+                setValue(url + "/" + fields.key);
             } else {
-                // TODO
-                console.error("Upload failed.");
-                //setUploadSuccess(false);
+                throw "Upload Failed";
             }
         } catch (e) {
             console.log(e);
+            setError(e);
         }
-
-        const post = getPresignedPostForUpload("sdc-public-images", "Test/image.jng");
-
-        //setValue(fileUrl)
+        setIsUploading(false);
     };
 
     return (
         <FormControl
             isRequired={required && edit}
-            isInvalid={!value && required && edit}
+            isInvalid={(!value && required && edit) || error.length > 0}
             {...props}
         >
             <FormLabel>{name}</FormLabel>
-            <Image
-                boxSize="200px" //TODO: Figure out how to set width/length seperately
-                objectFit="cover"
-                src={value}
-                alt="Segun Adebayo"
-            />
+            <AspectRatio ratio={isLarge ? 2 : 1} width={isLarge ? "350px" : "200px"}>
+                <Image src={value} alt="Segun Adebayo" />
+            </AspectRatio>
             <br></br>
             <Input id="upload" type="file" onChange={upload} hidden disabled={!edit}></Input>
             <label
-                for="upload"
+                htmlFor="upload"
                 style={{
                     cursor: "pointer",
                     backgroundColor: "#E2E8F0",
@@ -91,9 +95,10 @@ export const UploadField: React.FC<Props> = ({
                 }}
             >
                 Upload
+                {isUploading ? <Spinner style={{ marginLeft: 10 }} size="sm"></Spinner> : null}
             </label>
 
-            <FormErrorMessage>{"Required"}</FormErrorMessage>
+            <FormErrorMessage>{error}</FormErrorMessage>
         </FormControl>
     );
 };

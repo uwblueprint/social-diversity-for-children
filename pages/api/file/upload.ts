@@ -17,11 +17,22 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     }
 
     // TODO make this more robost/better
-    const accepted_type_paths = ["criminal-check", "income-proof", "curriculum-plans"];
+    const accepted_type_paths = [
+        "criminal-check",
+        "income-proof",
+        "curriculum-plans",
+        "cover-photo",
+    ];
 
-    const { path, file, bucket } = req.query;
+    const { path, file } = req.query;
 
-    console.log(bucket);
+    let bucket = "";
+
+    if (path === "cover-photo") {
+        bucket = process.env.S3_PUBLIC_IMAGES_BUCKET;
+    } else {
+        bucket = process.env.S3_UPLOAD_BUCKET;
+    }
 
     if (!accepted_type_paths.includes(path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");
