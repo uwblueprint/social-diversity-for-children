@@ -1,17 +1,19 @@
 import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
-import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
-import { Image, Button, Input } from "@chakra-ui/react";
+import { Box, HStack, VStack } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/react";
 import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
 import { SelectField } from "@components/formFields/SelectField";
 import { UploadField } from "@components/formFields/UploadField";
+import { MultipleTextField } from "@components/formFields/MuitipleTextField";
 import "react-datepicker/dist/react-datepicker.css";
-import { getPresignedPostForUpload } from "@aws/s3";
 import { AdminHeader } from "@components/admin/AdminHeader";
-
+import { AdminModal } from "@components/admin//AdminModal";
+import { useState } from "react";
 import { Session } from "next-auth";
+import { locale } from ".prisma/client";
 
 type Props = {
     session: Session;
@@ -20,26 +22,46 @@ type Props = {
 export default function CreateProgram({ session }: Props): JSX.Element {
     const EDIT = true;
 
-    const [image, setImage] = useLocalStorage(
-        "programImage",
-        "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
-    );
+    const [saveModalOpen, setSaveModalOpen] = useState(false);
+    const sortedLocale = Object.keys(locale).sort();
+
+    const [image, setImage] = useLocalStorage("programImage", "");
     const [programName, setProgramName] = useLocalStorage("programName", "");
     const [programTag, setProgramTag] = useLocalStorage("programTags", "");
     const [dateAvailable, setDateAvailable] = useLocalStorage("dateAvailable", "");
     const [startDate, setStartDate] = useLocalStorage("startDate", "");
     const [endDate, setEndDate] = useLocalStorage("endDate", "");
-    const [programDescription, setProgramDescription] = useLocalStorage("programDescription", "");
+    const [programDescription, setProgramDescription] = useLocalStorage(
+        "programDescription",
+        Array(sortedLocale.length).join(".").split("."),
+    );
 
+    console.log(programDescription);
     async function save() {
-        const data = {
-            name: programName,
+        const programData = {
+            onlineFormat: "online",
             tag: programTag,
             startDate,
             endDate,
-            availableDate: dateAvailable,
-            description: programDescription,
+            //availableDate: dateAvailable,
             imageLink: image,
+        };
+
+        //Create an array of translation objects from the name and description
+        const translationData = [];
+        programDescription.forEach((description, index) => {
+            if (description.length !== 0) {
+                translationData.push({
+                    name: programName,
+                    description,
+                    language: sortedLocale[index],
+                });
+            }
+        });
+
+        const data = {
+            programData,
+            translationData,
         };
         //Save to database
         const request = {
@@ -48,8 +70,13 @@ export default function CreateProgram({ session }: Props): JSX.Element {
             body: JSON.stringify(data),
         };
         const response = await fetch("/api/program", request);
-        //TODO: handle error?
+        console.log(response);
     }
+
+    // console.log(image);
+    // console.log(startDate);
+    // console.log(programName);
+    // console.log(programTag);
 
     return (
         <Wrapper session={session}>
@@ -119,16 +146,17 @@ export default function CreateProgram({ session }: Props): JSX.Element {
             </HStack>
             <br></br>
             <Box style={{ marginLeft: 25, marginRight: 25 }}>
-                <TextField
+                <MultipleTextField
                     name={"Program Description"}
                     value={programDescription}
                     setValue={setProgramDescription}
                     longAnswer={true}
                     edit={EDIT}
                     placeholder={"Type Here"}
-                ></TextField>
+                ></MultipleTextField>
                 {EDIT ? (
                     <Button
+                        key={programName} //When loading from localstorage finishes this causes the button to re-render
                         id="Submit"
                         bg={colourTheme.colors.Blue}
                         color={"white"}
@@ -146,12 +174,19 @@ export default function CreateProgram({ session }: Props): JSX.Element {
                             !programTag ||
                             !image
                         }
-                        onClick={save}
+                        onClick={() => setSaveModalOpen(true)}
                     >
                         {"Create Program"}
                     </Button>
                 ) : null}
             </Box>
+            <AdminModal
+                isOpen={saveModalOpen}
+                onClose={() => setSaveModalOpen(false)}
+                onProceed={save}
+                header={`Are you sure you want to create a new program?`}
+                body="You can always edit the program you have created in the Programs page."
+            />
         </Wrapper>
     );
 }

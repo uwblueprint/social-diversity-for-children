@@ -1,6 +1,7 @@
 import prisma from "@database";
-import { ProgramInput } from "models/Program";
+import { ProgramInput, ProgramTranslationData } from "models/Program";
 import { Program } from "@prisma/client";
+import { locale } from "@prisma/client";
 
 /**
  * getProgramCount returns count of all programs
@@ -16,10 +17,21 @@ async function getProgramCount() {
  * @param newProgramData - data corresponding to new program
  * @returns Promise<Program> - Promise with the newly created program
  */
-async function createProgram(newProgramData: ProgramInput): Promise<Program> {
+async function createProgram(
+    newProgramData: ProgramInput,
+    newProgramTranslationsData: ProgramTranslationData,
+): Promise<Program> {
     const program = await prisma.program.create({
-        data: newProgramData,
+        data: {
+            ...newProgramData,
+            programTranslation: {
+                createMany: {
+                    data: newProgramTranslationsData,
+                },
+            },
+        },
     });
+
     return program;
 }
 

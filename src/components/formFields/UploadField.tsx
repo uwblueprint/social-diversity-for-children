@@ -8,7 +8,6 @@ import {
     AspectRatio,
     Spinner,
 } from "@chakra-ui/react";
-import { getPresignedPostForUpload } from "@aws/s3";
 
 type Props = {
     value: string;
@@ -35,7 +34,7 @@ export const UploadField: React.FC<Props> = ({
         setIsUploading(true);
         const file = value.target.files[0];
 
-        let type = "cover-photo";
+        const type = "cover-photo";
 
         try {
             //If the file type is invalid return an error
@@ -87,10 +86,10 @@ export const UploadField: React.FC<Props> = ({
                     backgroundColor: "#E2E8F0",
                     borderRadius: 6,
                     padding: 5,
-                    paddingLeft: 71,
-                    paddingRight: 71,
+                    paddingLeft: isLarge ? 146 : 71,
+                    paddingRight: isLarge ? 146 : 71,
                     marginTop: 10,
-                    width: 200,
+                    width: isLarge ? 350 : 200,
                     textAlign: "center",
                 }}
             >
