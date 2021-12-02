@@ -21,6 +21,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
     const { path, file, bucket } = req.query;
 
+    console.log(bucket);
+
     if (!accepted_type_paths.includes(path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");
     }
@@ -35,7 +37,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
             const uploadFilePath = `${path}/${user.email}/${file}`;
 
-            const post = getPresignedPostForUpload(process.env.S3_UPLOAD_BUCKET, uploadFilePath);
+            const post = getPresignedPostForUpload(bucket as string, uploadFilePath);
             if (!post) {
                 return ResponseUtil.returnBadRequest(res, "Could not get link for upload");
             }

@@ -42,7 +42,6 @@ export const UploadField: React.FC<Props> = ({
             const fileUpload = await fetch(url, {
                 method: "POST",
                 body: formData,
-                p,
             });
 
             if (fileUpload.ok) {
