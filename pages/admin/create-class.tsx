@@ -12,6 +12,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import Stripe from "stripe";
 import { Session } from "next-auth";
+import { locale } from ".prisma/client";
+import { MultipleTextField } from "@components/formFields/MuitipleTextField";
 
 type Props = {
     session: Session;
@@ -21,10 +23,10 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {});
     const EDIT = true;
 
-    const [image, setImage] = useLocalStorage(
-        "classImage",
-        "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
-    );
+    const [saveModalOpen, setSaveModalOpen] = useState(false);
+    const sortedLocale = Object.keys(locale).sort();
+
+    const [image, setImage] = useLocalStorage("programImage", "");
 
     const [className, setClassName] = useLocalStorage("className", "");
     const [associatedProgram, setAssociatedProgram] = useLocalStorage("associatedProgram", "");
@@ -47,7 +49,10 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [maxCapacity, setMaxCapacity] = useLocalStorage("maxCapacity", "");
     const [price, setPrice] = useLocalStorage("price", "");
 
-    const [classDescription, setClassDescription] = useLocalStorage("classDescription", "");
+    const [classDescription, setClassDescription] = useLocalStorage(
+        "classDescription",
+        Array(sortedLocale.length).join(".").split("."),
+    );
 
     const [stripeLink, setStripeLink] = useState("");
 
@@ -218,16 +223,17 @@ export default function CreateClass({ session }: Props): JSX.Element {
                 </HStack>
                 <br></br>
                 <br></br>
-                <TextField
+                <MultipleTextField
                     name={"Class Description"}
                     value={classDescription}
                     setValue={setClassDescription}
                     longAnswer={true}
                     edit={EDIT}
                     placeholder={"Type Here"}
-                ></TextField>
+                ></MultipleTextField>
                 {EDIT ? (
                     <Button
+                        key={className} //When loading from localstorage finishes this causes the button to re-render
                         id="Submit"
                         bg={colourTheme.colors.Blue}
                         color={"white"}

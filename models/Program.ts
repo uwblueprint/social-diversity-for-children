@@ -26,4 +26,5 @@ export type ProgramCardInfo = {
     startDate: Date;
     endDate: Date;
     tag: string;
+    onlineFormat: string;
 };

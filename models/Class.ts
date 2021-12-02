@@ -18,6 +18,12 @@ export type ClassInput = {
     durationMinutes: number;
 };
 
+export type ClassTranslationInput = {
+    name: string;
+    description: string;
+    language: any;
+};
+
 // Information used for the card component of a class.
 export type ClassCardInfo = {
     id: number;

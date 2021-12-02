@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getClasses, createClass } from "@database/class";
-import { ClassInput } from "@models/Class";
+import { ClassInput, ClassTranslationInput } from "@models/Class";
 import { validateClassData } from "@utils/validation/class";
 import { getClassInfoWithProgramId } from "@database/program-card-info";
 
@@ -37,7 +37,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "POST": {
-            const classInput = req.body as ClassInput;
+            const classInput = req.body.classInput as ClassInput;
+            const classTranslationInput = req.body.classTranslationInput as ClassTranslationInput;
             const validationErrors = validateClassData(classInput);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));

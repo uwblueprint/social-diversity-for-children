@@ -1,6 +1,6 @@
 import prisma from "@database";
 import { Class } from "@prisma/client";
-import { ClassInput } from "@models/Class";
+import { ClassInput, ClassTranslationInput } from "@models/Class";
 /**
  * getClass takes the id parameter and returns the class associated with the classId
  * @param {string} id - classId
@@ -145,23 +145,18 @@ async function getClassRegistrants(classId: number) {
  * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
  */
-async function createClass(input: ClassInput): Promise<Class> {
+async function createClass(input: ClassInput, translations: ClassTranslationInput): Promise<Class> {
     const newClass = await prisma.class.create({
         data: {
-            name: input.name,
-            borderAge: input.borderAge,
-            isAgeMinimal: input.isAgeMinimal,
-            programId: input.programId,
-            spaceTotal: input.spaceTotal,
-            stripePriceId: input.stripePriceId,
-            volunteerSpaceTotal: input.volunteerSpaceTotal,
-            startDate: input.startDate,
-            endDate: input.endDate,
-            weekday: input.weekday,
-            startTimeMinutes: input.startTimeMinutes,
-            durationMinutes: input.durationMinutes,
+            ...input,
+            classTranslation: {
+                createMany: {
+                    data: translations,
+                },
+            },
         },
     });
+
     return newClass;
 }
 
