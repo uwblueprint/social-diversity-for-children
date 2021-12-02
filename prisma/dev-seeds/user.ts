@@ -205,7 +205,7 @@ const users: User[] = [
         id: 10018,
         firstName: "Greg",
         lastName: "Maxin",
-        email: "gregmaxin+admin@uwblueprint.org",
+        email: "gmaxin@uwaterloo.ca",
         emailVerified: new Date(),
         role: roles.PROGRAM_ADMIN,
         image: null,
