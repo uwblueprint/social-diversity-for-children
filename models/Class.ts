@@ -1,4 +1,5 @@
 import { weekday } from "@prisma/client";
+import type { locale } from "@prisma/client";
 
 /**
  * Request Body Input for POST /class
@@ -23,7 +24,7 @@ export type ClassInput = {
 export type ClassTranslationInput = {
     name: string;
     description: string;
-    language: any;
+    language: locale;
 };
 
 // Information used for the card component of a class.

@@ -1,4 +1,5 @@
 import type { programFormat } from "@prisma/client";
+import type { locale } from "@prisma/client";
 /**
  * custom type used for the POST endpoint when creating a new program
  * id is not required and is automatically incremented in the record
@@ -7,7 +8,7 @@ import type { programFormat } from "@prisma/client";
 export type ProgramTranslationData = {
     name: string;
     description: string;
-    language: any;
+    language: locale;
 };
 export type ProgramInput = {
     onlineFormat: programFormat;
