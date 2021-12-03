@@ -51,7 +51,7 @@
         "status_pending": "Status: Pending",
         "status_declined": "Status: Declined",
         "dateSubmitted": "Date submitted: {{date}}",
-        "poi_approved": "Your income statement has been approved. You might be eligible for discounts, please be on the look out for coupon from us.",
+        "poi_approved": "Your income statement has been approved. Please be on the lookout for an email from SDC with the discount for future registrations.",
         "poi_pending": "Your income statement is under review.",
         "bgc_approved": "Your criminal record check has been approved.",
         "bgc_pending": "Your criminal record check is under review.",
