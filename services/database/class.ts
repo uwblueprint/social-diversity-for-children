@@ -145,17 +145,48 @@ async function getClassRegistrants(classId: number) {
  * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
  */
-async function createClass(input: ClassInput, translations: ClassTranslationInput): Promise<Class> {
-    const newClass = await prisma.class.create({
-        data: {
-            ...input,
-            classTranslation: {
-                createMany: {
-                    data: translations,
+async function createClass(
+    input: ClassInput,
+    translations: ClassTranslationInput[],
+): Promise<Class> {
+    let newClass = null;
+
+    //Doesn't exist (Create)
+    if (input.id === -1) {
+        delete input.id;
+        newClass = await prisma.class.create({
+            data: {
+                ...input,
+                classTranslation: {
+                    createMany: {
+                        data: translations,
+                    },
                 },
             },
-        },
-    });
+        });
+    }
+    //Update
+    else {
+        await prisma.classTranslation.deleteMany({
+            where: {
+                classId: input.id,
+            },
+        });
+
+        newClass = await prisma.class.update({
+            where: {
+                id: input.id,
+            },
+            data: {
+                ...input,
+                classTranslation: {
+                    createMany: {
+                        data: translations,
+                    },
+                },
+            },
+        });
+    }
 
     return newClass;
 }

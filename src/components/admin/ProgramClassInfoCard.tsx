@@ -109,7 +109,7 @@ export const ProgramClassInfoCard: React.FC<ProgramClassInfoCard> = ({
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/class/${cardInfo.id}`)
+                                                router.push(`/admin/class/edit/${cardInfo.id}`)
                                             }
                                         >
                                             Edit

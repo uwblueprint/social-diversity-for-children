@@ -15,7 +15,9 @@ export type ClassInput = {
     weekday: weekday;
     startTimeMinutes: number;
     durationMinutes: number;
-    program: any;
+    price: string;
+    programId: any; //Getting error type string not assignable to type never
+    id?: number;
 };
 
 export type ClassTranslationInput = {

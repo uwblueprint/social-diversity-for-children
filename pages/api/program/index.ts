@@ -11,7 +11,6 @@ import { getProgramCardInfos } from "@database/program-card-info";
  * @param res API response object
  */
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-    console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
     switch (req.method) {
         case "GET": {
             const { archived } = req.query;
@@ -27,10 +26,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "POST": {
-            console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEE");
             const validationError = validateProgramData(req.body as ProgramInput);
             if (validationError.length !== 0) {
-                console.log("validation error");
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
             } else {
                 try {
@@ -40,15 +37,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                     );
 
                     if (!newProgram) {
-                        console.log(newProgram);
                         ResponseUtil.returnBadRequest(res, `Program could not be created`);
                         break;
                     }
 
                     ResponseUtil.returnOK(res, newProgram);
                 } catch (e) {
-                    console.log("yeeeeeeeeeeeeeeeeeeeet");
-                    console.log(e);
+                    console.error(e);
                     ResponseUtil.returnBadRequest(res, `Internal Error: ` + e);
                 }
             }

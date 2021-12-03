@@ -28,7 +28,7 @@ import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { deleteClass } from "@utils/deleteClass";
 import { weekdayToString } from "@utils/enum/weekday";
-import { errorToastOptions, infoToastOptions } from "@utils/toast/options";
+import { infoToastOptions } from "@utils/toast/options";
 import { updateClassArchive } from "@utils/updateClassArchive";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -109,7 +109,7 @@ export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/class/${cardInfo.id}`)
+                                                router.push(`/admin/class/edit/${cardInfo.id}`)
                                             }
                                         >
                                             Edit

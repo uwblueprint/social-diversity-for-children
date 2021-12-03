@@ -1,7 +1,7 @@
 import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
-import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
+import { Box, HStack, VStack } from "@chakra-ui/layout";
 import { Button, useToast } from "@chakra-ui/react";
 import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
@@ -10,14 +10,14 @@ import { UploadField } from "@components/formFields/UploadField";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
-import Stripe from "stripe";
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { locale } from ".prisma/client";
 import { MultipleTextField } from "@components/formFields/MuitipleTextField";
-import { infoToastOptions } from "@utils/toast/options";
+import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
 import { AdminModal } from "@components/admin/AdminModal";
+import { weekday } from "@prisma/client";
 
 type Props = {
     session: Session;
@@ -26,82 +26,114 @@ type Props = {
 export default function CreateClass({ session }: Props): JSX.Element {
     const toast = useToast();
     const router = useRouter();
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {});
+
     const EDIT = true;
 
     const [saveModalOpen, setSaveModalOpen] = useState(false);
+    const [programs, setPrograms] = useState([]);
     const sortedLocale = Object.keys(locale).sort();
 
-    const [image, setImage] = useLocalStorage(
-        "programImage",
+    const [id, setId] = useState(-1);
+    const [image, setImage] = useState(
         "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
     );
 
-    const [className, setClassName] = useLocalStorage("className", "");
-    const [associatedProgram, setAssociatedProgram] = useLocalStorage("associatedProgram", "");
+    const [className, setClassName] = useState("");
+    const [associatedProgram, setAssociatedProgram] = useState("");
 
-    const [teacherName, setTeacherName] = useLocalStorage("teacherName", "");
-    const [dateAvailable, setDateAvailable] = useLocalStorage("dateAvailable", "");
+    const [teacherName, setTeacherName] = useState("");
 
-    const [location, setLocation] = useLocalStorage("location", "");
-    const [locationDescription, setLocationDescription] = useLocalStorage(
-        "locationDescription",
-        "",
-    );
+    const [location, setLocation] = useState("");
+    const [locationDescription, setLocationDescription] = useState("");
 
-    const [isArchived, setIsArchived] = useLocalStorage("isArchived", false);
+    const [isArchived, setIsArchived] = useState(false);
 
-    const [recurrence, setRecurrence] = useLocalStorage("recurrence", "");
-    const [repeatOn, setRepeatOn] = useLocalStorage("repeatOn", "");
-    const [endRecurrence, setEndRecurrence] = useLocalStorage("endReuccrence", "");
+    const [repeatOn, setRepeatOn] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [startDate, setStartDate] = useState("");
 
-    const [age, setAge] = useLocalStorage("age", "");
-    const [aboveUnder, setAboveUnder] = useLocalStorage("aboveUnder", "");
-    const [maxCapacity, setMaxCapacity] = useLocalStorage("maxCapacity", "");
-    const [volunteerCapacity, setVolunteerCapacity] = useLocalStorage("volunteerCapacity", "");
-    const [price, setPrice] = useLocalStorage("price", "");
+    const [age, setAge] = useState("");
+    const [aboveUnder, setAboveUnder] = useState("");
+    const [maxCapacity, setMaxCapacity] = useState("");
+    const [volunteerCapacity, setVolunteerCapacity] = useState("");
+    const [price, setPrice] = useState("");
 
-    const [classDescription, setClassDescription] = useLocalStorage(
-        "classDescription",
+    const [classDescription, setClassDescription] = useState(
         Array(sortedLocale.length).join(".").split("."),
     );
+    //Used to make sure we don't create a new stripe id when editing the class
+    //If the price changes we'll add another price
+    const [stripeId, setStripeId] = useState("");
 
-    const [stripeLink, setStripeLink] = useState("");
+    const loadPrograms = async () => {
+        const request = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        const response = await fetch("/api/program", request).then((res) => res.json());
+
+        setPrograms(response.data);
+    };
+
+    //Get a class by id
+    const getClass = async (id) => {
+        const request = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        const response = await fetch(`/api/class/${id}`, request).then((res) => res.json());
+
+        //If the class exists load the values
+        if (!response.error) {
+            const data = response.data;
+
+            setClassName(data.classTranslation[0].name);
+            setAssociatedProgram(data.program?.programTranslation[0]?.name);
+
+            //update class descriptions
+            setClassDescription([
+                ...data.classTranslation.map((translation) => translation.description),
+            ]);
+
+            setStartDate(data.startDate);
+            setEndDate(data.endDate);
+            setImage(data.imageLink);
+            setId(data.id);
+            setIsArchived(data.isArchived);
+            setRepeatOn(data.weekday);
+            setAge(data.borderAge);
+            setAboveUnder(data.isAgeMinimal ? "Under" : "Above");
+            setMaxCapacity(data.spaceTotal);
+            setVolunteerCapacity(data.volunteerSpaceTotal);
+            setStripeId(data.stripePriceId);
+        }
+    };
+
+    useEffect(() => {
+        loadPrograms();
+        getClass(router.query.id);
+    }, [router.query]);
 
     async function save() {
-        //Create Stripe product and price
-        const product = await stripe.products.create({
-            name: className,
-        });
-
-        const stripePrice = await stripe.prices.create({
-            unit_amount: parseInt(price),
-            currency: "usd",
-            product: product.id,
-        });
-
-        console.log(product);
-        console.log(stripePrice);
-
         const classData = {
-            onlineFormat: "online",
-            programId: associatedProgram,
-            imageink: image,
-            program: associatedProgram,
+            programId: programs.find(
+                (program) => program.programTranslation[0].name === associatedProgram,
+            ).id,
+            imageLink: image,
             isAgeMinimal: aboveUnder === "Under",
-            spaceTotal: maxCapacity,
-            stripePriceId: null,
-            borderAge: age,
+            spaceTotal: parseInt(maxCapacity),
+            volunteerSpaceTotal: parseInt(volunteerCapacity),
+            stripePriceId: stripeId,
+            borderAge: parseInt(age),
             weekday: repeatOn,
             name: className,
-            startDate: null,
-            endDate: null,
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
+            price,
+            id,
             //location,
             //locationDescription,
-            //availableDate: dateAvailable,
             //teacherName,
-            //recurrence,
-            //endRecurrence,
 
             //filling in
             startTimeMinutes: 0,
@@ -131,21 +163,45 @@ export default function CreateClass({ session }: Props): JSX.Element {
             body: JSON.stringify(data),
         };
         const response = await fetch("/api/class", request);
-        //TODO: handle error?
+        const programId = programs.find(
+            (program) => program.programTranslation[0].name === associatedProgram,
+        ).id;
+
+        if (response.ok) {
+            if (id !== -1) {
+                toast(
+                    infoToastOptions("Class Edited", `${className} has been successfully edited!`),
+                );
+                router.push(`/admin/program/${programId}`);
+            } else {
+                toast(
+                    infoToastOptions(
+                        "Class Created",
+                        `${className} has been successfully added! This can be monitored and edited in Classes.`,
+                    ),
+                );
+                localStorage.clear();
+                router.push(`/admin`);
+            }
+        } else {
+            errorToastOptions("Failed to create class", response.statusText);
+        }
     }
 
     return (
         <Wrapper session={session}>
             <AdminHeader>Create</AdminHeader>
-            <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
-                <a href="/admin/create-program">Program</a>
-                <a
-                    href="/admin/create-class"
-                    style={{ color: colourTheme.colors.Blue, borderBottom: "3px solid" }}
-                >
-                    Class
-                </a>
-            </HStack>
+            {id === -1 ? (
+                <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
+                    <a href="/admin/program/edit/new">Program</a>
+                    <a
+                        href="/admin/class/edit/new"
+                        style={{ color: colourTheme.colors.Blue, borderBottom: "3px solid" }}
+                    >
+                        Class
+                    </a>
+                </HStack>
+            ) : null}
             <br></br>
             <HStack spacing={4} alignSelf="start">
                 <VStack spacing={2} mx={8}>
@@ -162,7 +218,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         ></TextField>
                         <SelectField
                             name="Associated Program"
-                            options={["Program 1", "Program 2"]}
+                            options={programs?.map((program) => program.programTranslation[0].name)}
                             value={associatedProgram}
                             setValue={setAssociatedProgram}
                             edit={EDIT}
@@ -180,8 +236,8 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         ></TextField>
                         <DateField
                             name={"Start Date"}
-                            value={dateAvailable}
-                            setValue={setDateAvailable}
+                            value={startDate}
+                            setValue={setStartDate}
                             edit={EDIT}
                         />
                     </HStack>
@@ -211,15 +267,15 @@ export default function CreateClass({ session }: Props): JSX.Element {
                 <HStack spacing={8} alignSelf="start">
                     <SelectField
                         name="Repeat On"
-                        options={["Su", "M", "Tu", "W", "Th", "F", "Sa"]}
+                        options={Object.keys(weekday)}
                         value={repeatOn}
                         setValue={setRepeatOn}
                         edit={EDIT}
                     ></SelectField>
                     <DateField
                         name={"End Date"}
-                        value={endRecurrence}
-                        setValue={setEndRecurrence}
+                        value={endDate}
+                        setValue={setEndDate}
                         edit={EDIT}
                     />
                     <TextField
@@ -273,7 +329,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                     placeholder={"Type Here"}
                 ></MultipleTextField>
                 <CheckBoxField
-                    name="Archived "
+                    name="Archived"
                     value={isArchived}
                     setValue={setIsArchived}
                     required={false}
@@ -294,21 +350,21 @@ export default function CreateClass({ session }: Props): JSX.Element {
                             !className ||
                             !associatedProgram ||
                             !teacherName ||
-                            !dateAvailable ||
                             !location ||
+                            !startDate ||
+                            !endDate ||
                             !locationDescription ||
-                            !recurrence ||
                             !repeatOn ||
-                            !endRecurrence ||
                             !age ||
                             !aboveUnder ||
                             !maxCapacity ||
+                            !volunteerCapacity ||
                             !price ||
                             !classDescription
                         }
-                        onClick={save}
+                        onClick={() => setSaveModalOpen(true)}
                     >
-                        {"Create Class"}
+                        {id === -1 ? "Create Class" : "Update Class"}
                     </Button>
                 ) : null}
             </Box>
@@ -316,8 +372,16 @@ export default function CreateClass({ session }: Props): JSX.Element {
                 isOpen={saveModalOpen}
                 onClose={() => setSaveModalOpen(false)}
                 onProceed={save}
-                header={`Are you sure you want to create a new class?`}
-                body="You can always edit the program you have created in the Classes page."
+                header={
+                    id === -1
+                        ? `Are you sure you want to create a new class?`
+                        : `Are you sure you want to edit ${className}`
+                }
+                body={
+                    id === -1
+                        ? "You can always edit the class you have created in the classes page."
+                        : ""
+                }
             />
         </Wrapper>
     );

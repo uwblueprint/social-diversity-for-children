@@ -1,4 +1,3 @@
-import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
 import { Box, HStack, VStack } from "@chakra-ui/layout";
@@ -15,7 +14,7 @@ import { AdminModal } from "@components/admin/AdminModal";
 import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { locale } from ".prisma/client";
-import { infoToastOptions } from "@utils/toast/options";
+import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -28,7 +27,23 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
     const toast = useToast();
     const router = useRouter();
 
-    console.log(router.query);
+    const EDIT = edit;
+
+    const [saveModalOpen, setSaveModalOpen] = useState(false);
+    const sortedLocale = Object.keys(locale).sort();
+
+    const [id, setId] = useState(-1);
+    const [image, setImage] = useState(
+        "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
+    );
+    const [programName, setProgramName] = useState("");
+    const [programTag, setProgramTag] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [programDescription, setProgramDescription] = useState(
+        Array(sortedLocale.length).join(".").split("."),
+    );
+    const [isArchived, setIsArchived] = useState(false);
 
     //Get a program by id
     const getProgram = async (id) => {
@@ -37,11 +52,9 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             headers: { "Content-Type": "application/json" },
         };
         const response = await fetch(`/api/program/${id}`, request).then((res) => res.json());
-        console.log(response);
 
         //If the program exists load the values
         if (!response.error) {
-            console.log("Data good!");
             const data = response.data;
             setProgramName(data.programTranslation[0].name);
 
@@ -59,28 +72,6 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         }
     };
 
-    console.log(router.query.id);
-
-    const EDIT = edit;
-
-    const [saveModalOpen, setSaveModalOpen] = useState(false);
-    const sortedLocale = Object.keys(locale).sort();
-
-    const [id, setId] = useState(-1);
-    const [image, setImage] = useLocalStorage(
-        "programImage",
-        "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
-    );
-    const [programName, setProgramName] = useState("");
-    const [programTag, setProgramTag] = useState("");
-    const [dateAvailable, setDateAvailable] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [programDescription, setProgramDescription] = useState(
-        Array(sortedLocale.length).join(".").split("."),
-    );
-    const [isArchived, setIsArchived] = useState(false);
-
     useEffect(() => {
         getProgram(router.query.id);
     }, [router.query]);
@@ -91,7 +82,6 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             tag: programTag,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            //availableDate: dateAvailable,
             imageLink: image,
             isArchived: isArchived,
             id: id, //If id === -1 then a new program will be created
@@ -100,8 +90,6 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         //Create an array of translation objects from the name and description
         const translationData = [];
         programDescription.forEach((description, index) => {
-            console.log(description);
-            console.log(description.length);
             if (description.length !== 0) {
                 translationData.push({
                     name: programName,
@@ -110,7 +98,6 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                 });
             }
         });
-        console.log(translationData);
 
         //Put the data into one object
         const data = {
@@ -125,9 +112,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             body: JSON.stringify(data),
         };
         const response = await fetch("/api/program", request);
-        console.log(response);
         if (response.ok) {
-            console.log(response);
             if (id !== -1) {
                 toast(
                     infoToastOptions(
@@ -147,22 +132,24 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                 router.push(`/admin`);
             }
         } else {
-            alert("Failed to create program");
+            errorToastOptions("Failed to create program", response.statusText);
         }
     }
 
     return (
         <Wrapper session={session}>
             <AdminHeader>Create</AdminHeader>
-            <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
-                <a
-                    href="/admin/create-program"
-                    style={{ color: colourTheme.colors.Blue, borderBottom: "3px solid" }}
-                >
-                    Program
-                </a>
-                <a href="/admin/create-class">Class</a>
-            </HStack>
+            {id === -1 ? (
+                <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
+                    <a
+                        href="/admin/program/edit/new"
+                        style={{ color: colourTheme.colors.Blue, borderBottom: "3px solid" }}
+                    >
+                        Program
+                    </a>
+                    <a href="/admin/class/edit/new">Class</a>
+                </HStack>
+            ) : null}
             <br></br>
             <HStack spacing={4} alignSelf="start">
                 <VStack spacing={2} mx={8}>
@@ -191,12 +178,6 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                             setValue={setProgramTag}
                             edit={EDIT}
                         ></SelectField>
-                        <DateField
-                            name={"DateSignup"}
-                            value={dateAvailable}
-                            setValue={setDateAvailable}
-                            edit={EDIT}
-                        />
                     </HStack>
                     <br></br>
                     <br></br>
@@ -250,7 +231,6 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                             !programDescription ||
                             !startDate ||
                             !endDate ||
-                            !dateAvailable ||
                             !programTag ||
                             !image
                         }
