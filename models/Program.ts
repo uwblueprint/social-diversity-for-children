@@ -8,6 +8,7 @@ export type ProgramTranslationData = {
     name: string;
     description: string;
     language: any;
+    programId?: number;
 };
 export type ProgramInput = {
     onlineFormat: programFormat;
@@ -15,6 +16,8 @@ export type ProgramInput = {
     startDate: string;
     endDate: string;
     imageLink: string;
+    isArchived: boolean;
+    id?: number;
 };
 
 // Info for the program card on the home page

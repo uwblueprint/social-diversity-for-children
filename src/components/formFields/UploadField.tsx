@@ -75,7 +75,7 @@ export const UploadField: React.FC<Props> = ({
         >
             <FormLabel>{name}</FormLabel>
             <AspectRatio ratio={isLarge ? 2 : 1} width={isLarge ? "350px" : "200px"}>
-                <Image src={value} alt="Segun Adebayo" />
+                <Image src={value} alt="Upload a Photo" />
             </AspectRatio>
             <br></br>
             <Input id="upload" type="file" onChange={upload} hidden disabled={!edit}></Input>
@@ -86,10 +86,15 @@ export const UploadField: React.FC<Props> = ({
                     backgroundColor: "#E2E8F0",
                     borderRadius: 6,
                     padding: 5,
-                    paddingLeft: isLarge ? 146 : 71,
-                    paddingRight: isLarge ? 146 : 71,
+                    paddingLeft: isLarge
+                        ? 146 - (isUploading ? 14 : 0)
+                        : 71 - (isUploading ? 14 : 0),
+                    paddingRight: isLarge
+                        ? 146 - (isUploading ? 14 : 0)
+                        : 71 - (isUploading ? 14 : 0),
                     marginTop: 10,
                     width: isLarge ? 350 : 200,
+                    overflow: "hidden",
                     textAlign: "center",
                 }}
             >

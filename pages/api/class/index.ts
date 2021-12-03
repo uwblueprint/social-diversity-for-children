@@ -37,13 +37,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "POST": {
+            console.log(req.body);
             const classInput = req.body.classInput as ClassInput;
             const classTranslationInput = req.body.classTranslationInput as ClassTranslationInput;
             const validationErrors = validateClassData(classInput);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             } else {
-                const newClass = await createClass(classInput);
+                const newClass = await createClass(classInput, classTranslationInput);
                 if (!newClass) {
                     ResponseUtil.returnBadRequest(res, `Class could not be created`);
                     break;

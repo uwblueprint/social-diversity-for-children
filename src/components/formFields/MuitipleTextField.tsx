@@ -31,15 +31,11 @@ export const MultipleTextField: React.FC<Props> = ({
     edit = true,
     ...props
 }): JSX.Element => {
-    console.log(value);
-
     const [interactedWith, setInteractedWith] = useState(false);
     const [language, setLanguage] = useState(0); //0 is english
     const formatInput = () => {
-        setValue([...value.map((val) => val.trim())]);
+        setValue([...value?.map((val) => val.trim())]);
     };
-
-    console.log(language);
 
     //Only the english translation is required!
     return (
@@ -52,7 +48,7 @@ export const MultipleTextField: React.FC<Props> = ({
             <HStack>
                 <FormLabel w="100%">{name}</FormLabel>
                 <Select
-                    style={{ width: 60, float: "right" }}
+                    style={{ width: 70, float: "right" }}
                     size="xs"
                     onChange={(e) => setLanguage(parseInt(e.target.value))}
                 >
@@ -60,7 +56,7 @@ export const MultipleTextField: React.FC<Props> = ({
                         .sort()
                         .map((l, index) => (
                             <option key={"Language_Option_" + index} value={index}>
-                                {l}
+                                {l === "en" ? "en*" : l}
                             </option>
                         ))}
                 </Select>
@@ -72,10 +68,7 @@ export const MultipleTextField: React.FC<Props> = ({
                     placeholder={placeholder}
                     size="sm"
                     onChange={(e) => {
-                        console.log("here");
-                        console.log(value);
                         value.splice(language, 1, e.target.value);
-                        console.log(value);
                         setValue([...value]);
                         setInteractedWith(true);
                     }}
@@ -86,8 +79,6 @@ export const MultipleTextField: React.FC<Props> = ({
                 <Input
                     placeholder={placeholder || name}
                     onChange={(e) => {
-                        console.log("here2");
-                        console.log(value);
                         value.splice(language, 1, e.target.value);
                         setValue([...value]);
                         setInteractedWith(true);
@@ -96,7 +87,7 @@ export const MultipleTextField: React.FC<Props> = ({
                     value={value && value[language]}
                 />
             )}
-            <FormErrorMessage>{"Required"}</FormErrorMessage>
+            <FormErrorMessage>{"English Required"}</FormErrorMessage>
         </FormControl>
     );
 };

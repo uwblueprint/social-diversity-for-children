@@ -21,8 +21,23 @@ async function createProgram(
     newProgramData: ProgramInput,
     newProgramTranslationsData: ProgramTranslationData,
 ): Promise<Program> {
-    const program = await prisma.program.create({
-        data: {
+    const program = await prisma.program.upsert({
+        where: {
+            id: newProgramData.id || -1,
+        },
+        update: {
+            ...newProgramData,
+            programTranslation: {
+                updateMany: {
+                    where: {
+                        programId: newProgramTranslationsData.programId,
+                        language: newProgramTranslationsData.language,
+                    },
+                    data: newProgramTranslationsData,
+                },
+            },
+        },
+        create: {
             ...newProgramData,
             programTranslation: {
                 createMany: {
@@ -31,6 +46,8 @@ async function createProgram(
             },
         },
     });
+
+    console.log(program);
 
     return program;
 }

@@ -2,11 +2,12 @@ import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
 import { Box, Heading, HStack, VStack } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
 import { SelectField } from "@components/formFields/SelectField";
 import { UploadField } from "@components/formFields/UploadField";
+import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
@@ -14,19 +15,27 @@ import Stripe from "stripe";
 import { Session } from "next-auth";
 import { locale } from ".prisma/client";
 import { MultipleTextField } from "@components/formFields/MuitipleTextField";
+import { infoToastOptions } from "@utils/toast/options";
+import { useRouter } from "next/router";
+import { AdminModal } from "@components/admin/AdminModal";
 
 type Props = {
     session: Session;
 };
 
 export default function CreateClass({ session }: Props): JSX.Element {
+    const toast = useToast();
+    const router = useRouter();
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {});
     const EDIT = true;
 
     const [saveModalOpen, setSaveModalOpen] = useState(false);
     const sortedLocale = Object.keys(locale).sort();
 
-    const [image, setImage] = useLocalStorage("programImage", "");
+    const [image, setImage] = useLocalStorage(
+        "programImage",
+        "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
+    );
 
     const [className, setClassName] = useLocalStorage("className", "");
     const [associatedProgram, setAssociatedProgram] = useLocalStorage("associatedProgram", "");
@@ -40,6 +49,8 @@ export default function CreateClass({ session }: Props): JSX.Element {
         "",
     );
 
+    const [isArchived, setIsArchived] = useLocalStorage("isArchived", false);
+
     const [recurrence, setRecurrence] = useLocalStorage("recurrence", "");
     const [repeatOn, setRepeatOn] = useLocalStorage("repeatOn", "");
     const [endRecurrence, setEndRecurrence] = useLocalStorage("endReuccrence", "");
@@ -47,6 +58,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [age, setAge] = useLocalStorage("age", "");
     const [aboveUnder, setAboveUnder] = useLocalStorage("aboveUnder", "");
     const [maxCapacity, setMaxCapacity] = useLocalStorage("maxCapacity", "");
+    const [volunteerCapacity, setVolunteerCapacity] = useLocalStorage("volunteerCapacity", "");
     const [price, setPrice] = useLocalStorage("price", "");
 
     const [classDescription, setClassDescription] = useLocalStorage(
@@ -65,23 +77,52 @@ export default function CreateClass({ session }: Props): JSX.Element {
         const stripePrice = await stripe.prices.create({
             unit_amount: parseInt(price),
             currency: "usd",
-            recurring: { interval: "month" }, //recurrance?
             product: product.id,
         });
 
-        const data = {
-            name: className,
+        console.log(product);
+        console.log(stripePrice);
+
+        const classData = {
+            onlineFormat: "online",
             programId: associatedProgram,
-
-            startDate: null,
-            endRecurrence: endRecurrence,
-
-            weekday: repeatOn,
-
+            imageink: image,
+            program: associatedProgram,
+            isAgeMinimal: aboveUnder === "Under",
+            spaceTotal: maxCapacity,
+            stripePriceId: null,
             borderAge: age,
-            isAgeMinimal: aboveUnder === "under", //Assuming that minimal means "at least"
+            weekday: repeatOn,
+            name: className,
+            startDate: null,
+            endDate: null,
+            //location,
+            //locationDescription,
+            //availableDate: dateAvailable,
+            //teacherName,
+            //recurrence,
+            //endRecurrence,
 
-            stripePriceId: stripePrice.id,
+            //filling in
+            startTimeMinutes: 0,
+            durationMinutes: 0,
+        };
+
+        //Create an array of translation objects from the name and description
+        const translationData = [];
+        classDescription.forEach((description, index) => {
+            if (description.length !== 0) {
+                translationData.push({
+                    name: className,
+                    description,
+                    language: sortedLocale[index],
+                });
+            }
+        });
+
+        const data = {
+            classInput: classData,
+            classTranslationInput: translationData,
         };
         //Save to database
         const request = {
@@ -89,7 +130,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
-        const response = await fetch("/api/program", request);
+        const response = await fetch("/api/class", request);
         //TODO: handle error?
     }
 
@@ -138,7 +179,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                             edit={EDIT}
                         ></TextField>
                         <DateField
-                            name={"DateSignup"}
+                            name={"Start Date"}
                             value={dateAvailable}
                             setValue={setDateAvailable}
                             edit={EDIT}
@@ -169,13 +210,6 @@ export default function CreateClass({ session }: Props): JSX.Element {
             <Box style={{ marginLeft: 25, marginRight: 25 }}>
                 <HStack spacing={8} alignSelf="start">
                     <SelectField
-                        name="Recurrence"
-                        options={["weekly", "bi-weekly", "monthly"]}
-                        value={recurrence}
-                        setValue={setRecurrence}
-                        edit={EDIT}
-                    ></SelectField>
-                    <SelectField
                         name="Repeat On"
                         options={["Su", "M", "Tu", "W", "Th", "F", "Sa"]}
                         value={repeatOn}
@@ -183,11 +217,18 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         edit={EDIT}
                     ></SelectField>
                     <DateField
-                        name={"End Recurrence On"}
+                        name={"End Date"}
                         value={endRecurrence}
                         setValue={setEndRecurrence}
                         edit={EDIT}
                     />
+                    <TextField
+                        name={"Price ($)"}
+                        value={price}
+                        setValue={setPrice}
+                        placeholder={"5"}
+                        edit={EDIT}
+                    ></TextField>
                 </HStack>
                 <br></br>
                 <br></br>
@@ -214,9 +255,9 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         edit={EDIT}
                     ></TextField>
                     <TextField
-                        name={"Price ($)"}
-                        value={price}
-                        setValue={setPrice}
+                        name={"Volunteer Capacity"}
+                        value={volunteerCapacity}
+                        setValue={setVolunteerCapacity}
                         placeholder={"5"}
                         edit={EDIT}
                     ></TextField>
@@ -231,9 +272,16 @@ export default function CreateClass({ session }: Props): JSX.Element {
                     edit={EDIT}
                     placeholder={"Type Here"}
                 ></MultipleTextField>
+                <CheckBoxField
+                    name="Archived "
+                    value={isArchived}
+                    setValue={setIsArchived}
+                    required={false}
+                    edit={EDIT}
+                ></CheckBoxField>
                 {EDIT ? (
                     <Button
-                        key={className} //When loading from localstorage finishes this causes the button to re-render
+                        key={className + location} //When loading from localstorage finishes this causes the button to re-render
                         id="Submit"
                         bg={colourTheme.colors.Blue}
                         color={"white"}
@@ -264,6 +312,13 @@ export default function CreateClass({ session }: Props): JSX.Element {
                     </Button>
                 ) : null}
             </Box>
+            <AdminModal
+                isOpen={saveModalOpen}
+                onClose={() => setSaveModalOpen(false)}
+                onProceed={save}
+                header={`Are you sure you want to create a new class?`}
+                body="You can always edit the program you have created in the Classes page."
+            />
         </Wrapper>
     );
 }

@@ -2,32 +2,74 @@ import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
 import { Box, HStack, VStack } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import { DateField } from "@components/formFields/DateField";
 import { TextField } from "@components/formFields/TextField";
 import { SelectField } from "@components/formFields/SelectField";
 import { UploadField } from "@components/formFields/UploadField";
 import { MultipleTextField } from "@components/formFields/MuitipleTextField";
+import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import "react-datepicker/dist/react-datepicker.css";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import { AdminModal } from "@components/admin/AdminModal";
 import { useState } from "react";
 import { Session } from "next-auth";
 import { locale } from ".prisma/client";
-//import { CreatedSuccessfully } from "@components/admin/CreatedSuccessfullyPage";
+import { infoToastOptions } from "@utils/toast/options";
+import { useRouter } from "next/router";
 
 type Props = {
     session: Session;
+    edit: boolean;
 };
 
-export default function CreateProgram({ session }: Props): JSX.Element {
-    const EDIT = true;
+//TODO: For editing programs, replace the  default values with the values from the program
+export default function CreateProgram({ session, edit = true }: Props): JSX.Element {
+    const toast = useToast();
+    const router = useRouter();
+
+    console.log(router.query);
+
+    //Get a program by id
+    const getProgram = async (id) => {
+        const request = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        const response = await fetch(`/api/program/${id}`, request).then((res) => res.json());
+        console.log(response);
+
+        //If the program exists load the values
+        if (response.ok) {
+            console.log("Data good!");
+            const data = response.data;
+            setProgramName(data.programTranslations[0].name);
+            setProgramDescription([
+                ...data.programTranslations.map((translation) => translation.description),
+            ]);
+            setProgramTag(data.tag);
+            setStartDate(data.startDate);
+            setEndDate(data.endDate);
+            setImage(data.imageLink);
+            setId(data.id);
+            setIsArchived(data.isArchived);
+        }
+
+        return response;
+    };
+
+    getProgram(router.query.id);
+
+    const EDIT = edit;
 
     const [saveModalOpen, setSaveModalOpen] = useState(false);
-    //const [showSuccessScreen, setShowSuccessScreen] = useState(false);
     const sortedLocale = Object.keys(locale).sort();
 
-    const [image, setImage] = useLocalStorage("programImage", "");
+    const [id, setId] = useState(-1);
+    const [image, setImage] = useLocalStorage(
+        "programImage",
+        "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
+    );
     const [programName, setProgramName] = useLocalStorage("programName", "");
     const [programTag, setProgramTag] = useLocalStorage("programTags", "");
     const [dateAvailable, setDateAvailable] = useLocalStorage("dateAvailable", "");
@@ -37,6 +79,7 @@ export default function CreateProgram({ session }: Props): JSX.Element {
         "programDescription",
         Array(sortedLocale.length).join(".").split("."),
     );
+    const [isArchived, setIsArchived] = useLocalStorage("isArchived", false);
 
     async function save() {
         const programData = {
@@ -46,7 +89,14 @@ export default function CreateProgram({ session }: Props): JSX.Element {
             endDate,
             //availableDate: dateAvailable,
             imageLink: image,
+            isArchived: isArchived,
         };
+
+        //If the program id exists we want to update instead of create a new one
+        //If id === -1 then a new program will be created
+        if (id !== -1) {
+            programData["id"] = id;
+        }
 
         //Create an array of translation objects from the name and description
         const translationData = [];
@@ -60,28 +110,44 @@ export default function CreateProgram({ session }: Props): JSX.Element {
             }
         });
 
+        //Put the data into one object
         const data = {
             programData,
             translationData,
         };
+
         //Save to database
         const request = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
-        const response = await fetch("/api/program", request);
+        const response = await fetch("/api/program", request).then((res) => res.json());
+        console.log(response);
         if (response.ok) {
-            setShowSuccessScreen(true);
+            console.log(response);
+            if (id !== -1) {
+                toast(
+                    infoToastOptions(
+                        "Program Edited",
+                        `${programName} has been successfully edited!`,
+                    ),
+                );
+                router.push(`/admin/program`);
+            } else {
+                toast(
+                    infoToastOptions(
+                        "Program Created",
+                        `${programName} has been successfully added! This can be monitored and edited in Programs.`,
+                    ),
+                );
+                localStorage.clear();
+                router.push(`/admin`);
+            }
         } else {
             alert("Failed to create program");
         }
     }
-
-    // console.log(image);
-    // console.log(startDate);
-    // console.log(programName);
-    // console.log(programTag);
 
     return (
         <Wrapper session={session}>
@@ -159,6 +225,13 @@ export default function CreateProgram({ session }: Props): JSX.Element {
                     edit={EDIT}
                     placeholder={"Type Here"}
                 ></MultipleTextField>
+                <CheckBoxField
+                    name="Archived "
+                    value={isArchived}
+                    setValue={setIsArchived}
+                    required={false}
+                    edit={EDIT}
+                ></CheckBoxField>
                 {EDIT ? (
                     <Button
                         key={programName} //When loading from localstorage finishes this causes the button to re-render
@@ -181,7 +254,7 @@ export default function CreateProgram({ session }: Props): JSX.Element {
                         }
                         onClick={() => setSaveModalOpen(true)}
                     >
-                        {"Create Program"}
+                        {id === -1 ? "Create Program" : "Update Program"}
                     </Button>
                 ) : null}
             </Box>
@@ -189,8 +262,16 @@ export default function CreateProgram({ session }: Props): JSX.Element {
                 isOpen={saveModalOpen}
                 onClose={() => setSaveModalOpen(false)}
                 onProceed={save}
-                header={`Are you sure you want to create a new program?`}
-                body="You can always edit the program you have created in the Programs page."
+                header={
+                    id === -1
+                        ? `Are you sure you want to create a new program?`
+                        : `Are you sure you want to edit ${programName}`
+                }
+                body={
+                    id === -1
+                        ? "You can always edit the program you have created in the Programs page."
+                        : ""
+                }
             />
         </Wrapper>
     );
