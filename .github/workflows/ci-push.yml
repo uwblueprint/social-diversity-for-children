@@ -23,22 +23,24 @@ jobs:
       - name: Set environment based on branch
         id: env-staging
         run: |
-          if [[ $GITHUB_BASE_REF = "staging" ]]; then
-              echo "::set-output name=env::staging"
-              echo Environment set to 'staging'
-          elif [[ $GITHUB_BASE_REF = "main" ]]; then
-              echo "::set-output name=env::production"
-              echo Environment set to 'production'
-          else
-              echo "'$GITHUB_BASE_REF' does not equal 'staging' or 'main'"
-              exit 1
+          if [[ $GITHUB_REF = "staging" ]]
+          then
+            echo "::set-output name=env::staging"
+            echo Environment set to 'staging'
+          elif [[ $GITHUB_REF = "main" ]] 
+          then
+            echo "::set-output name=env::production"
+            echo Environment set to 'production'
+          else:
+            echo '$GITHUB_REF' does not equal 'staging' or 'main'
+            exit 1
           fi
 
       - name: Check files changed - Terraform
         id: cfc-terraform
         uses: uwblueprint/sdc-actions/actions/check-files-changed@main
         with:
-          branch: $GITHUB_BASE_REF
+          branch: $GITHUB_REF
           regex: "terraform/*"
 
       - name: Setup node env
