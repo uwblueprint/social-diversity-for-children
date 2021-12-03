@@ -29,8 +29,12 @@ export const SelectField: React.FC<Props> = ({
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                 >
-                    {options.map((tag) => {
-                        return <option value={tag}>{tag}</option>;
+                    {options.map((tag, index) => {
+                        return (
+                            <option key={index} value={tag}>
+                                {tag}
+                            </option>
+                        );
                     })}
                 </Select>
             )}

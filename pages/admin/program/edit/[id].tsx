@@ -12,7 +12,7 @@ import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import "react-datepicker/dist/react-datepicker.css";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import { AdminModal } from "@components/admin/AdminModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { locale } from ".prisma/client";
 import { infoToastOptions } from "@utils/toast/options";
@@ -40,12 +40,12 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         console.log(response);
 
         //If the program exists load the values
-        if (response.ok) {
+        if (!response.error) {
             console.log("Data good!");
             const data = response.data;
-            setProgramName(data.programTranslations[0].name);
+            setProgramName(data.programTranslation[0].name);
             setProgramDescription([
-                ...data.programTranslations.map((translation) => translation.description),
+                ...data.programTranslation.map((translation) => translation.description),
             ]);
             setProgramTag(data.tag);
             setStartDate(data.startDate);
@@ -54,11 +54,9 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             setId(data.id);
             setIsArchived(data.isArchived);
         }
-
-        return response;
     };
 
-    getProgram(router.query.id);
+    console.log(router.query.id);
 
     const EDIT = edit;
 
@@ -70,16 +68,19 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         "programImage",
         "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
     );
-    const [programName, setProgramName] = useLocalStorage("programName", "");
-    const [programTag, setProgramTag] = useLocalStorage("programTags", "");
-    const [dateAvailable, setDateAvailable] = useLocalStorage("dateAvailable", "");
-    const [startDate, setStartDate] = useLocalStorage("startDate", "");
-    const [endDate, setEndDate] = useLocalStorage("endDate", "");
-    const [programDescription, setProgramDescription] = useLocalStorage(
-        "programDescription",
+    const [programName, setProgramName] = useState("");
+    const [programTag, setProgramTag] = useState("");
+    const [dateAvailable, setDateAvailable] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [programDescription, setProgramDescription] = useState(
         Array(sortedLocale.length).join(".").split("."),
     );
-    const [isArchived, setIsArchived] = useLocalStorage("isArchived", false);
+    const [isArchived, setIsArchived] = useState(false);
+
+    useEffect(() => {
+        getProgram(router.query.id);
+    }, [router.query]);
 
     async function save() {
         const programData = {
@@ -90,6 +91,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             //availableDate: dateAvailable,
             imageLink: image,
             isArchived: isArchived,
+            id,
         };
 
         //If the program id exists we want to update instead of create a new one
@@ -106,6 +108,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                     name: programName,
                     description,
                     language: sortedLocale[index],
+                    programId: id,
                 });
             }
         });
@@ -122,7 +125,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
-        const response = await fetch("/api/program", request).then((res) => res.json());
+        const response = await fetch("/api/program", request);
         console.log(response);
         if (response.ok) {
             console.log(response);

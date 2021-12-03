@@ -23,7 +23,7 @@ async function createProgram(
 ): Promise<Program> {
     const program = await prisma.program.upsert({
         where: {
-            id: newProgramData.id || -1,
+            id: newProgramData.id,
         },
         update: {
             ...newProgramData,
@@ -46,8 +46,6 @@ async function createProgram(
             },
         },
     });
-
-    console.log(program);
 
     return program;
 }
