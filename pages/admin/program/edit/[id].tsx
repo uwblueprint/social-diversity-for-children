@@ -44,6 +44,9 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
             console.log("Data good!");
             const data = response.data;
             setProgramName(data.programTranslation[0].name);
+
+            //update program descriptions
+
             setProgramDescription([
                 ...data.programTranslation.map((translation) => translation.description),
             ]);
@@ -86,32 +89,28 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         const programData = {
             onlineFormat: "online",
             tag: programTag,
-            startDate,
-            endDate,
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
             //availableDate: dateAvailable,
             imageLink: image,
             isArchived: isArchived,
-            id,
+            id: id, //If id === -1 then a new program will be created
         };
-
-        //If the program id exists we want to update instead of create a new one
-        //If id === -1 then a new program will be created
-        if (id !== -1) {
-            programData["id"] = id;
-        }
 
         //Create an array of translation objects from the name and description
         const translationData = [];
         programDescription.forEach((description, index) => {
+            console.log(description);
+            console.log(description.length);
             if (description.length !== 0) {
                 translationData.push({
                     name: programName,
                     description,
                     language: sortedLocale[index],
-                    programId: id,
                 });
             }
         });
+        console.log(translationData);
 
         //Put the data into one object
         const data = {

@@ -8,13 +8,12 @@ export type ProgramTranslationData = {
     name: string;
     description: string;
     language: any;
-    programId?: number;
 };
 export type ProgramInput = {
     onlineFormat: programFormat;
     tag: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     imageLink: string;
     isArchived: boolean;
     id?: number;

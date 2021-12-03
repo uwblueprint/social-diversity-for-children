@@ -36,7 +36,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 try {
                     const newProgram = await createProgram(
                         req.body.programData as ProgramInput,
-                        req.body.translationData as ProgramTranslationData,
+                        req.body.translationData as ProgramTranslationData[],
                     );
 
                     if (!newProgram) {

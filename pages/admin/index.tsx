@@ -21,7 +21,7 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import React from "react";
-import { MdClass, MdCreate, MdPeople } from "react-icons/md";
+import { MdClass, MdCreate } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 
 type AdminProps = {

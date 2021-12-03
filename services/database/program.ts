@@ -19,33 +19,46 @@ async function getProgramCount() {
  */
 async function createProgram(
     newProgramData: ProgramInput,
-    newProgramTranslationsData: ProgramTranslationData,
+    newProgramTranslationsData: ProgramTranslationData[],
 ): Promise<Program> {
-    const program = await prisma.program.upsert({
-        where: {
-            id: newProgramData.id,
-        },
-        update: {
-            ...newProgramData,
-            programTranslation: {
-                updateMany: {
-                    where: {
-                        programId: newProgramTranslationsData.programId,
-                        language: newProgramTranslationsData.language,
+    let program = null;
+
+    //Doesn't exist (Create)
+    if (newProgramData.id === -1) {
+        delete newProgramData.id;
+        program = await prisma.program.create({
+            data: {
+                ...newProgramData,
+                programTranslation: {
+                    createMany: {
+                        data: newProgramTranslationsData,
                     },
-                    data: newProgramTranslationsData,
                 },
             },
-        },
-        create: {
-            ...newProgramData,
-            programTranslation: {
-                createMany: {
-                    data: newProgramTranslationsData,
+        });
+    }
+    //Update
+    else {
+        await prisma.programTranslation.deleteMany({
+            where: {
+                programId: newProgramData.id,
+            },
+        });
+
+        program = await prisma.program.update({
+            where: {
+                id: newProgramData.id,
+            },
+            data: {
+                ...newProgramData,
+                programTranslation: {
+                    createMany: {
+                        data: newProgramTranslationsData,
+                    },
                 },
             },
-        },
-    });
+        });
+    }
 
     return program;
 }
