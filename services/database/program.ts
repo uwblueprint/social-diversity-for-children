@@ -1,7 +1,6 @@
 import prisma from "@database";
 import { ProgramInput, ProgramTranslationData } from "models/Program";
 import { Program } from "@prisma/client";
-import { locale } from "@prisma/client";
 
 /**
  * getProgramCount returns count of all programs

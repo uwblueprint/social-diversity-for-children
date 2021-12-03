@@ -1,4 +1,3 @@
-import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/AdminWrapper";
 import colourTheme from "@styles/colours";
 import { Box, HStack, VStack } from "@chakra-ui/layout";
