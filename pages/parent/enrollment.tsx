@@ -43,7 +43,6 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
     const [selectedChild, setSelectedChild] = useState<number>(
         child ? parseInt(child as string, 10) : 0,
     );
-    const [couponId, setCouponId] = useState<string>();
 
     const { t } = useTranslation("common");
 
@@ -143,10 +142,6 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
 
     if (user.parent.isLowIncome) {
         pageElements.push(<DiscountPage onNext={nextPage} />);
-        if (!couponId) {
-            // TODO: If we go with automatic coupons, replace flow with post coupon creation
-            setCouponId("THRPT0Bq");
-        }
     } else if (user.parent.proofOfIncomeLink === null) {
         pageElements.push(
             <ProofOfIncomePage pageNum={pageNum} classId={numberClassId} onNext={nextPage} />,
@@ -162,7 +157,6 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
                     value: selectedChild.toString(),
                 },
             ])}
-            couponId={couponId}
         />,
     );
 
