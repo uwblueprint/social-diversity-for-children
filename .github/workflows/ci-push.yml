@@ -14,7 +14,6 @@ jobs:
         os: [ubuntu-latest]
         node: [14]
     outputs: 
-      changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
       env: ${{steps.env-staging.outputs.env}}
     steps:
       - name: Checkout
@@ -33,13 +32,6 @@ jobs:
             echo '$GITHUB_REF_NAME' does not equal 'staging' or 'main'
             exit 1
           fi
-
-      - name: Check files changed - Terraform
-        id: cfc-terraform
-        uses: uwblueprint/sdc-actions/actions/check-files-changed@main
-        with:
-          branch: $GITHUB_REF_NAME
-          regex: "terraform/*"
 
       - name: Setup node env
         uses: actions/setup-node@v2.1.2
@@ -73,7 +65,6 @@ jobs:
 
   terraform:
     needs: ci-push
-    if: needs.ci-push.outputs.changes-terraform == 'true'
     environment: ${{needs.ci-push.outputs.env}}
     runs-on: ubuntu-latest
     defaults:
@@ -89,7 +80,6 @@ jobs:
       - name: Hashicorp Terraform Setup (wraps stdout for plan)
         uses: hashicorp/setup-terraform@v1
 
-      # TODO change to OIDC provider
       - name: Configure AWS Credentials 
         uses: aws-actions/configure-aws-credentials@v1
         with:
