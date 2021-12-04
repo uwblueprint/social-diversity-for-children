@@ -17,6 +17,7 @@ import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
 import { AdminModal } from "@components/admin/AdminModal";
 import { weekday } from "@prisma/client";
+import moment from "moment";
 
 type Props = {
     session: Session;
@@ -41,6 +42,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [associatedProgram, setAssociatedProgram] = useState("");
 
     const [teacherName, setTeacherName] = useState("");
+    const [durationMinutes, setDurationMinutes] = useState("");
 
     const [location, setLocation] = useState("");
     const [locationDescription, setLocationDescription] = useState("");
@@ -135,8 +137,8 @@ export default function CreateClass({ session }: Props): JSX.Element {
             //teacherName,
 
             //filling in
-            startTimeMinutes: 0,
-            durationMinutes: 0,
+            startTimeMinutes: moment(startDate).diff(moment().startOf("day"), "minutes"),
+            durationMinutes: durationMinutes,
         };
 
         //Create an array of translation objects from the name and description
@@ -234,11 +236,19 @@ export default function CreateClass({ session }: Props): JSX.Element {
                             edit={EDIT}
                         ></TextField>
                         <DateField
-                            name={"Start Date"}
+                            name={"Start Date and Time"}
                             value={startDate}
                             setValue={setStartDate}
                             edit={EDIT}
+                            time={true}
                         />
+                        <TextField
+                            name={"Duration (minutes)"}
+                            value={durationMinutes}
+                            setValue={setDurationMinutes}
+                            placeholder={"30"}
+                            edit={EDIT}
+                        ></TextField>
                     </HStack>
                     <br></br>
                     <br></br>
