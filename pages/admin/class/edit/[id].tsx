@@ -189,7 +189,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
 
     return (
         <Wrapper session={session}>
-            <AdminHeader>Create</AdminHeader>
+            <AdminHeader>{id === -1 ? "Create" : "Edit"}</AdminHeader>
             {id === -1 ? (
                 <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
                     <a href="/admin/program/edit/new">Program</a>

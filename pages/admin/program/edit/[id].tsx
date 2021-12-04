@@ -138,7 +138,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
 
     return (
         <Wrapper session={session}>
-            <AdminHeader>Create</AdminHeader>
+            <AdminHeader>{id === -1 ? "Create" : "Edit"}</AdminHeader>
             {id === -1 ? (
                 <HStack spacing={8} alignSelf="start" style={{ margin: 25, marginLeft: 50 }}>
                     <a
