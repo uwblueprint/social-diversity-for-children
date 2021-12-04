@@ -3,7 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "NODE_OPTIONS='--inspect' next dev",
+        "dev": "next dev",
+        "debug": "NODE_OPTIONS='--inspect' next dev",
         "build": "next build",
         "start": "next start --port ${PORT-3000}",
         "svgr": "npx @svgr/cli -d src/components/icons --ignore-existing --icon --typescript public/icons",
@@ -47,6 +48,7 @@
         "stripe": "^8.154.0",
         "swr": "^0.4.2",
         "unstated-next": "^1.1.0",
+        "uuid": "^8.3.2",
         "validator": "^13.6.0"
     },
     "devDependencies": {
