@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { getWeeklySortedClasses } from "@database/class";
 import { dateToWeekday, weekdayToDay } from "@utils/enum/weekday";
+import { totalMinutes } from "@utils/time/convert";
 
 /**
  * handle controls the request made to the class resource
@@ -18,19 +19,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             const todayDay = weekdayToDay(todayWeekday);
             let hasLive = false;
 
-            console.log("all classes this week:");
-            console.log(classes);
-
             // Filter classes that is further in the week or has not ended yet
             classes = classes.filter((c) => {
                 const classDay = weekdayToDay(c.weekday);
+                const startTimeMinutes = totalMinutes(c.startDate);
 
                 if (classDay > todayDay) {
                     return true;
                 } else if (
                     classDay === todayDay &&
-                    currentTimeInMinute >= c.startTimeMinutes &&
-                    currentTimeInMinute < c.startTimeMinutes + c.durationMinutes
+                    currentTimeInMinute >= startTimeMinutes &&
+                    currentTimeInMinute < startTimeMinutes + c.durationMinutes
                 ) {
                     hasLive = true;
                     return true;
@@ -42,19 +41,19 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 }
             });
 
-            console.log("all classes this week 2:");
-            console.log(classes);
-
             // If today is the weekend, we include the classes for the next weekdays
+            console.log("check:");
             if (todayDay >= 6) {
+                console.log("weekday");
                 let index = classes.length;
 
                 classes.some((c, i) => {
                     const classDay = weekdayToDay(c.weekday);
+                    const startTimeMinutes = totalMinutes(c.startDate);
                     if (
                         classDay > todayDay ||
                         (classDay === todayDay &&
-                            currentTimeInMinute < c.startTimeMinutes + c.durationMinutes)
+                            currentTimeInMinute < startTimeMinutes + c.durationMinutes)
                     ) {
                         index = i;
                         return true;
@@ -64,9 +63,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 classes = classes.slice(0, index);
                 classes.unshift(...head);
             }
-
-            console.log("all classes this week 3:");
-            console.log(classes);
 
             // Assume there is only 1 live class at all times
             const liveClass = hasLive ? classes[0] : null;

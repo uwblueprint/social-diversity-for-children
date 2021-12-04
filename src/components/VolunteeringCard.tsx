@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import { locale } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import useGetZoomLink from "@utils/hooks/useGetZoomLink";
+import { totalMinutes } from "@utils/time/convert";
 
 type VolunteeringCardProps = {
     volunteeringInfo: VolunteeringCardInfo;
@@ -72,7 +73,7 @@ export const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ volunteering
                                         ),
                                     })}{" "}
                                     {convertToShortTimeRange(
-                                        volunteeringInfo.class.startTimeMinutes,
+                                        totalMinutes(volunteeringInfo.class.startDate),
                                         volunteeringInfo.class.durationMinutes,
                                     )}
                                     {" with " +

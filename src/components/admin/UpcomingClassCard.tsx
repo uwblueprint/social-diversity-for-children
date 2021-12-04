@@ -16,6 +16,7 @@ import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { weekdayToString } from "@utils/enum/weekday";
+import { totalMinutes } from "@utils/time/convert";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -59,7 +60,7 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({ cardInfo }
                         <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
                             {weekdayToString(cardInfo.weekday, locale.en)}{" "}
                             {convertToShortTimeRange(
-                                cardInfo.startTimeMinutes,
+                                totalMinutes(cardInfo.startDate),
                                 cardInfo.durationMinutes,
                             )}
                         </Box>
