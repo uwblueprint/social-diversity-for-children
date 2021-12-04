@@ -18,6 +18,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             const todayDay = weekdayToDay(todayWeekday);
             let hasLive = false;
 
+            console.log("all classes this week:");
+            console.log(classes);
+
             // Filter classes that is further in the week or has not ended yet
             classes = classes.filter((c) => {
                 const classDay = weekdayToDay(c.weekday);
@@ -39,6 +42,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 }
             });
 
+            console.log("all classes this week 2:");
+            console.log(classes);
+
             // If today is the weekend, we include the classes for the next weekdays
             if (todayDay >= 6) {
                 let index = classes.length;
@@ -58,6 +64,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 classes = classes.slice(0, index);
                 classes.unshift(...head);
             }
+
+            console.log("all classes this week 3:");
+            console.log(classes);
 
             // Assume there is only 1 live class at all times
             const liveClass = hasLive ? classes[0] : null;
