@@ -88,25 +88,21 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Terraform Init
-        id: init
         run: |
           cd ${{needs.ci-push.outputs.env}}
           terraform init
       
       - name: Terraform Format
-        id: fmt
         run: |
           cd ${{needs.ci-push.outputs.env}}
           terraform fmt -check
 
       - name: Terraform Validate
-        id: validate
         run: |
           cd ${{needs.ci-push.outputs.env}}
           terraform validate -no-color
 
       - name: Terraform Apply
-        id: apply
         run: |
           cd ${{needs.ci-push.outputs.env}}
           terraform apply -auto-approve 
