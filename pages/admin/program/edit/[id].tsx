@@ -33,9 +33,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
     const sortedLocale = Object.keys(locale).sort();
 
     const [id, setId] = useState(-1);
-    const [image, setImage] = useState(
-        "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
-    );
+    const [image, setImage] = useState("https://via.placeholder.com/350x175?text=Cover%20Photo");
     const [programName, setProgramName] = useState("");
     const [programTag, setProgramTag] = useState("");
     const [startDate, setStartDate] = useState("");

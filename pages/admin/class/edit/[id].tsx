@@ -16,7 +16,7 @@ import { MultipleTextField } from "@components/formFields/MuitipleTextField";
 import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
 import { AdminModal } from "@components/admin/AdminModal";
-import { weekday } from "@prisma/client";
+import { weekday, roles } from "@prisma/client";
 import moment from "moment";
 
 type Props = {
@@ -31,12 +31,11 @@ export default function CreateClass({ session }: Props): JSX.Element {
 
     const [saveModalOpen, setSaveModalOpen] = useState(false);
     const [programs, setPrograms] = useState([]);
+    const [teachers, setTeachers] = useState([]);
     const sortedLocale = Object.keys(locale).sort();
 
     const [id, setId] = useState(-1);
-    const [image, setImage] = useState(
-        "https://www.digitalcitizen.life/wp-content/uploads/2020/10/photo_gallery.jpg",
-    );
+    const [image, setImage] = useState("https://via.placeholder.com/200x175?text=Cover%20Photo");
 
     const [className, setClassName] = useState("");
     const [associatedProgram, setAssociatedProgram] = useState("");
@@ -76,6 +75,22 @@ export default function CreateClass({ session }: Props): JSX.Element {
         setPrograms(response.data);
     };
 
+    const loadTeachers = async () => {
+        const request = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        const response = await fetch("/api/user", request).then((res) => res.json());
+
+        console.log(response);
+
+        setTeachers(
+            response.data
+                .filter((user) => user.role === roles.TEACHER)
+                .map((user) => user.firstName + " " + user.lastName),
+        );
+    };
+
     //Get a class by id
     const getClass = async (id) => {
         const request = {
@@ -112,6 +127,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
 
     useEffect(() => {
         loadPrograms();
+        loadTeachers();
         getClass(router.query.id);
     }, [router.query]);
 
@@ -132,13 +148,13 @@ export default function CreateClass({ session }: Props): JSX.Element {
             endDate: new Date(endDate),
             price,
             id,
-            //location,
-            //locationDescription,
-            //teacherName,
-
-            //filling in
             startTimeMinutes: moment(startDate).diff(moment().startOf("day"), "minutes"),
             durationMinutes: durationMinutes,
+
+            //TODO: EDIT SCHEMA TO INCLUDE THESE FIELDS
+            //location,
+            //locationDescription,
+            //teacherName, //similar to programId (search through teachers given "firstName + lastName" and find id)
         };
 
         //Create an array of translation objects from the name and description
@@ -228,13 +244,13 @@ export default function CreateClass({ session }: Props): JSX.Element {
                     <br></br>
                     <br></br>
                     <HStack spacing={8} alignSelf="start">
-                        <TextField
-                            name={"Teacher Name"}
+                        <SelectField
+                            name={"Teacher"}
                             value={teacherName}
+                            options={teachers}
                             setValue={setTeacherName}
-                            placeholder={"Brian"}
                             edit={EDIT}
-                        ></TextField>
+                        ></SelectField>
                         <DateField
                             name={"Start Date and Time"}
                             value={startDate}

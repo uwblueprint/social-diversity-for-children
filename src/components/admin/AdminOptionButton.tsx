@@ -29,7 +29,8 @@ export const AdminOptionButton: React.FC<AdminOptionButtonProps> = ({
             <Button
                 border="2px"
                 borderColor={colourTheme.colors.Sliver}
-                px={9}
+                px={8}
+                w="244px"
                 py="24px"
                 backgroundColor="white"
                 _active={{}}
