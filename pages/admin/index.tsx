@@ -21,7 +21,7 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import React from "react";
-import { MdClass, MdCreate, MdPeople } from "react-icons/md";
+import { MdClass, MdCreate, MdPersonAdd } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 
 type AdminProps = {
@@ -57,17 +57,17 @@ export default function Admin(props: AdminProps): JSX.Element {
                     <AdminOptionButton
                         icon={MdCreate}
                         label="Create new Class"
-                        href="/admin/class"
+                        href="/admin/class/edit/new"
                     />
                     <AdminOptionButton
                         icon={MdClass}
                         label="Create new Program"
-                        href="/admin/program"
+                        href="/admin/program/edit/new"
                     />
                     <AdminOptionButton
-                        icon={MdPeople}
-                        label="Add Registrant"
-                        href="/admin/registrant"
+                        icon={MdPersonAdd}
+                        label="Add SDC Member"
+                        href="/admin/add"
                     />
                     <AdminOptionButton
                         icon={RiCouponFill}
