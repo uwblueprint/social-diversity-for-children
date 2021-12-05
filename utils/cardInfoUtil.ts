@@ -3,6 +3,7 @@ import { ClassCardInfo } from "models/Class";
 import { EnrollmentCardInfo, VolunteeringCardInfo, WaitlistCardInfo } from "@models/Enroll";
 import { ClassTranslation, locale, ProgramTranslation } from "@prisma/client";
 import { TranslationUtil } from "./translationUtil";
+import { totalMinutes } from "./time/convert";
 
 // Converting Program and Class information from services/database/program-card-info.ts
 // into Program/Class CardInfo objects for frontend
@@ -31,6 +32,7 @@ export class CardInfoUtil {
         );
         const mainProgramTranslation: ProgramTranslation =
             TranslationUtil.getMainProgramTranslation(result.program.programTranslation, language);
+
         return {
             borderAge: result.borderAge,
             isAgeMinimal: result.isAgeMinimal,
@@ -43,8 +45,8 @@ export class CardInfoUtil {
             volunteerSpaceTotal: result.volunteerSpaceTotal,
             volunteerSpaceAvailable: result.volunteerSpaceTotal - result._count?.volunteerRegs,
             volunteerSpaceTaken: result._count?.volunteerRegs,
-            startDate: result.startDate,
-            endDate: result.endDate,
+            startDate: new Date(result.startDate),
+            endDate: new Date(result.endDate),
             weekday: result.weekday,
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,

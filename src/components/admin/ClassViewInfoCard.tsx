@@ -30,6 +30,7 @@ import React from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { AdminModal } from "./AdminModal";
 import { infoToastOptions } from "@utils/toast/options";
+import { totalMinutes } from "@utils/time/convert";
 
 export type ClassViewInfoCard = {
     cardInfo: ClassCardInfo;
@@ -113,7 +114,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
                             <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
                                 {weekdayToString(cardInfo.weekday, locale.en)}{" "}
                                 {convertToShortTimeRange(
-                                    cardInfo.startTimeMinutes,
+                                    totalMinutes(cardInfo.startDate),
                                     cardInfo.durationMinutes,
                                 )}
                             </Box>

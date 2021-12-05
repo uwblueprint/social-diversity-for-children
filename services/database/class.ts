@@ -2,6 +2,8 @@ import prisma from "@database";
 import { Class } from "@prisma/client";
 import { ClassInput, ClassTranslationInput } from "@models/Class";
 import { stripe } from "services/stripe";
+import { totalMinutes } from "@utils/time/convert";
+import { weekdayToDay } from "@utils/enum/weekday";
 /**
  * getClass takes the id parameter and returns the class associated with the classId
  * @param {string} id - classId
@@ -85,14 +87,15 @@ async function getWeeklySortedClasses() {
                 },
             },
         },
-        orderBy: [
-            {
-                weekday: "asc",
-            },
-            {
-                startTimeMinutes: "asc",
-            },
-        ],
+    });
+
+    // To manual sort due to sorting property of startDate
+    classes.sort((x, y) => {
+        if (x.weekday === y.weekday) {
+            return totalMinutes(x.startDate) - totalMinutes(y.startDate);
+        } else {
+            return weekdayToDay(x.weekday) - weekdayToDay(y.weekday);
+        }
     });
     return classes;
 }
