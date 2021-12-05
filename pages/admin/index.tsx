@@ -1,6 +1,6 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { Box, Heading, HStack, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
-import { Flex, List, ListItem, Spacer } from "@chakra-ui/react";
+import { Box, GridItem, Heading, Link as ChakraLink, Text, VStack } from "@chakra-ui/layout";
+import { Flex, Grid, List, ListItem, Spacer } from "@chakra-ui/react";
 import { AdminEmptyState } from "@components/admin/AdminEmptyState";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import { AdminOptionButton } from "@components/admin/AdminOptionButton";
@@ -21,7 +21,7 @@ import { getSession } from "next-auth/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import React from "react";
-import { MdClass, MdCreate, MdPeople } from "react-icons/md";
+import { MdClass, MdCreate, MdPersonAdd } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 
 type AdminProps = {
@@ -52,22 +52,22 @@ export default function Admin(props: AdminProps): JSX.Element {
     return (
         <Wrapper session={props.session}>
             <AdminHeader>Dashboard</AdminHeader>
-            <VStack spacing={5} mx={8} pb={4}>
-                <HStack spacing={4} w="100%">
+            <VStack spacing={5} mx={8} pb={4} align="flex-start">
+                <Grid templateColumns="repeat(4, 1fr)" gap={4} w="100%">
                     <AdminOptionButton
                         icon={MdCreate}
                         label="Create new Class"
-                        href="/admin/class"
+                        href="/admin/class/edit/new"
                     />
                     <AdminOptionButton
                         icon={MdClass}
                         label="Create new Program"
-                        href="/admin/program"
+                        href="/admin/program/edit/new"
                     />
                     <AdminOptionButton
-                        icon={MdPeople}
-                        label="Add Registrant"
-                        href="/admin/registrant"
+                        icon={MdPersonAdd}
+                        label="Add SDC Member"
+                        href="/admin/add"
                     />
                     <AdminOptionButton
                         icon={RiCouponFill}
@@ -75,11 +75,11 @@ export default function Admin(props: AdminProps): JSX.Element {
                         href="https://dashboard.stripe.com/coupons"
                         isExternal
                     />
-                </HStack>
+                </Grid>
                 <Heading size="sm" alignSelf="flex-start" fontWeight="normal">
                     Overview and Analytics
                 </Heading>
-                <HStack spacing={4} alignSelf="start">
+                <Grid templateColumns="repeat(4, 1fr)" gap={4} w="100%">
                     <AdminStatBox
                         amount={totalRegistrants}
                         isLoading={isStatLoading}
@@ -100,14 +100,14 @@ export default function Admin(props: AdminProps): JSX.Element {
                         isLoading={isStatLoading}
                         label="Total Teachers"
                     />
-                </HStack>
-                <HStack w="100%" spacing={5}>
-                    <Box>
+                </Grid>
+                <Grid templateColumns="repeat(3, 1fr)" gap={4} w="100%">
+                    <GridItem minW={380} colSpan={1}>
                         <Flex alignItems="baseline" mb={5}>
-                            <LiveIcon />
+                            <LiveIcon filter={liveClass ? undefined : "grayscale(1)"} />
                             <Text ml={4}>Live Class</Text>
                         </Flex>
-                        <Box h={350} w={380}>
+                        <Box h={350}>
                             {/* Here, we either show loading, empty, or box */}
                             {liveClass && link ? (
                                 <LiveClassCard cardInfo={liveClass} link={link} />
@@ -120,8 +120,8 @@ export default function Admin(props: AdminProps): JSX.Element {
                                 </AdminEmptyState>
                             )}
                         </Box>
-                    </Box>
-                    <Box>
+                    </GridItem>
+                    <GridItem colSpan={2}>
                         <Flex mb={5}>
                             Upcoming Classes
                             <Spacer />
@@ -134,7 +134,7 @@ export default function Admin(props: AdminProps): JSX.Element {
                         </Flex>
                         <VStack h={350}>
                             {upcomingClasses && upcomingClasses.length > 0 ? (
-                                <List spacing={5} w={625}>
+                                <List spacing={5} w="100%">
                                     {upcomingClasses.slice(0, 2).map((item, idx) => {
                                         return (
                                             <ListItem key={idx}>
@@ -144,13 +144,13 @@ export default function Admin(props: AdminProps): JSX.Element {
                                     })}
                                 </List>
                             ) : (
-                                <AdminEmptyState w={625} h="100%" isLoading={isUpcomingLoading}>
+                                <AdminEmptyState minW={625} h="100%" isLoading={isUpcomingLoading}>
                                     No upcoming classes this week
                                 </AdminEmptyState>
                             )}
                         </VStack>
-                    </Box>
-                </HStack>
+                    </GridItem>
+                </Grid>
             </VStack>
         </Wrapper>
     );

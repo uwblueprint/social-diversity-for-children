@@ -37,8 +37,8 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({ cardInfo }
             _hover={{ borderColor: colourTheme.colors.Gray }}
             onClick={() => router.push(`/admin/class/${cardInfo.id}`)}
         >
-            <GridItem alignSelf="center">
-                <AspectRatio width="100%" ratio={1}>
+            <GridItem alignSelf="center" w={150}>
+                <AspectRatio ratio={1}>
                     <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
                 </AspectRatio>
             </GridItem>
