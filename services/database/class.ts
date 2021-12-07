@@ -1,7 +1,6 @@
 import prisma from "@database";
 import { Class } from "@prisma/client";
 import { ClassInput, ClassTranslationInput } from "@models/Class";
-import { stripe } from "services/stripe";
 import { totalMinutes } from "@utils/time/convert";
 import { weekdayToDay } from "@utils/enum/weekday";
 /**
@@ -153,38 +152,7 @@ async function createClass(
     input: ClassInput,
     translations: ClassTranslationInput[],
 ): Promise<Class> {
-    const productPrice = input.price; //Used for stripe
-    delete input.price; //Don't need this field to save to db
     let newClass = null;
-
-    //Create Stripe Key
-
-    //If the price doesn't exist create a product and the associated price
-    if (!input.stripePriceId) {
-        const product = await stripe.products.create({
-            name: input.name,
-        });
-        const stripePrice = await stripe.prices.create({
-            unit_amount: parseInt(productPrice),
-            currency: "usd",
-            product: product.id,
-        });
-
-        input.stripePriceId = stripePrice.id;
-    }
-    //Else if it exists, check if the price needs to be updated
-    else {
-        const price = await stripe.prices.retrieve(input.stripePriceId);
-        if (price.unit_amount !== parseInt(productPrice)) {
-            //Create a new price
-            const stripePrice = await stripe.prices.create({
-                unit_amount: parseInt(productPrice),
-                currency: "usd",
-                product: price.product as string,
-            });
-            input.stripePriceId = stripePrice.id;
-        }
-    }
 
     //Doesn't exist (Create)
     if (input.id === -1) {
