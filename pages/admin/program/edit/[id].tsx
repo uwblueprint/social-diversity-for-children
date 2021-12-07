@@ -13,7 +13,7 @@ import { AdminHeader } from "@components/admin/AdminHeader";
 import { AdminModal } from "@components/admin/AdminModal";
 import { useEffect, useState } from "react";
 import { Session } from "next-auth";
-import { locale } from ".prisma/client";
+import { locale, programFormat } from ".prisma/client";
 import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
 
@@ -41,6 +41,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
     const [programDescription, setProgramDescription] = useState(
         Array(sortedLocale.length).join(".").split("."),
     );
+    const [location, setLocation] = useState("");
     const [isArchived, setIsArchived] = useState(false);
 
     //Get a program by id
@@ -76,7 +77,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
 
     async function save() {
         const programData = {
-            onlineFormat: "online",
+            onlineFormat: location,
             tag: programTag,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
@@ -176,6 +177,13 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                             setValue={setProgramTag}
                             edit={EDIT}
                         ></SelectField>
+                        <SelectField
+                            name="Location"
+                            options={Object.keys(programFormat)}
+                            value={location}
+                            setValue={setLocation}
+                            edit={EDIT}
+                        ></SelectField>
                     </HStack>
                     <br></br>
                     <br></br>
@@ -230,7 +238,8 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
                             !startDate ||
                             !endDate ||
                             !programTag ||
-                            !image
+                            !image ||
+                            !location
                         }
                         onClick={() => setSaveModalOpen(true)}
                     >

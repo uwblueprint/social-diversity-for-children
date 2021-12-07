@@ -45,9 +45,6 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [teacherName, setTeacherName] = useState("");
     const [durationMinutes, setDurationMinutes] = useState("");
 
-    const [location, setLocation] = useState("");
-    const [locationDescription, setLocationDescription] = useState("");
-
     const [isArchived, setIsArchived] = useState(false);
 
     const [repeatOn, setRepeatOn] = useState("");
@@ -258,23 +255,6 @@ export default function CreateClass({ session }: Props): JSX.Element {
                     </HStack>
                     <br></br>
                     <br></br>
-                    <HStack spacing={8} alignSelf="start">
-                        <SelectField
-                            name="Location"
-                            options={["Online", "In-Person"]}
-                            value={location}
-                            setValue={setLocation}
-                            edit={EDIT}
-                        ></SelectField>
-                        <TextField
-                            name={""}
-                            value={locationDescription}
-                            setValue={setLocationDescription}
-                            placeholder={"Description"}
-                            edit={EDIT}
-                        ></TextField>
-                    </HStack>
-                    <br></br>
                 </Box>
             </HStack>
             <br></br>
@@ -352,7 +332,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                 ></CheckBoxField>
                 {EDIT ? (
                     <Button
-                        key={className + location} //When loading from localstorage finishes this causes the button to re-render
+                        key={className} //When loading from localstorage finishes this causes the button to re-render
                         id="Submit"
                         bg={colourTheme.colors.Blue}
                         color={"white"}
@@ -365,10 +345,8 @@ export default function CreateClass({ session }: Props): JSX.Element {
                             !className ||
                             !associatedProgram ||
                             !teacherName ||
-                            !location ||
                             !startDate ||
                             !endDate ||
-                            !locationDescription ||
                             !repeatOn ||
                             !age ||
                             !aboveUnder ||
