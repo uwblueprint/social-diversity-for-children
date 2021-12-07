@@ -16,13 +16,18 @@ import { Session } from "next-auth";
 import { locale, programFormat } from ".prisma/client";
 import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
+import useProgramIncludeArchived from "@utils/hooks/useProgramIncludeArchived";
+import { isAdmin } from "@utils/session/authorization";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
+import { AdminLoading } from "@components/AdminLoading";
 
 type Props = {
     session: Session;
     edit: boolean;
 };
 
-//TODO: For editing programs, replace the  default values with the values from the program
+// TODO: When changing archive, the backend should use updateProgramArchive instead of just changing the raw column value
 export default function CreateProgram({ session, edit = true }: Props): JSX.Element {
     const toast = useToast();
     const router = useRouter();
@@ -43,37 +48,31 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
     );
     const [location, setLocation] = useState("");
     const [isArchived, setIsArchived] = useState(false);
+    const [isProgramLoad, setIsProgramLoad] = useState(false);
 
-    //Get a program by id
-    const getProgram = async (id) => {
-        const request = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        const response = await fetch(`/api/program/${id}`, request).then((res) => res.json());
-
-        //If the program exists load the values
-        if (!response.error) {
-            const data = response.data;
-            setProgramName(data.programTranslation[0].name);
-
-            //update program descriptions
-
-            setProgramDescription([
-                ...data.programTranslation.map((translation) => translation.description),
-            ]);
-            setProgramTag(data.tag);
-            setStartDate(data.startDate);
-            setEndDate(data.endDate);
-            setImage(data.imageLink);
-            setId(data.id);
-            setIsArchived(data.isArchived);
-        }
-    };
+    const { program, isLoading, mutate } = useProgramIncludeArchived(
+        parseInt(router.query.id as string),
+        locale.en,
+    );
 
     useEffect(() => {
-        getProgram(router.query.id);
-    }, [router.query]);
+        if (program && !isProgramLoad) {
+            setProgramName(program.name);
+
+            //update program descriptions
+            setProgramDescription([
+                ...program.translations?.map((translation) => translation.description),
+            ]);
+            setProgramTag(program.tag);
+            setStartDate(program.startDate.toString());
+            setEndDate(program.endDate.toString());
+            setImage(program.image);
+            setId(program.id);
+            setIsArchived(program.isArchived);
+            setLocation(program.onlineFormat);
+            setIsProgramLoad(true);
+        }
+    }, [program]);
 
     async function save() {
         const programData = {
@@ -112,6 +111,7 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         };
         const response = await fetch("/api/program", request);
         if (response.ok) {
+            mutate();
             if (id !== -1) {
                 toast(
                     infoToastOptions(
@@ -133,6 +133,10 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         } else {
             errorToastOptions("Failed to create program", response.statusText);
         }
+    }
+
+    if (isLoading) {
+        return <AdminLoading />;
     }
 
     return (
@@ -265,3 +269,33 @@ export default function CreateProgram({ session, edit = true }: Props): JSX.Elem
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    } else if (!isAdmin(session)) {
+        return {
+            redirect: {
+                destination: "/no-access",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {
+            session,
+        },
+    };
+};

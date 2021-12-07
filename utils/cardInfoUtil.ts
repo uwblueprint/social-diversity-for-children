@@ -94,9 +94,11 @@ export class CardInfoUtil {
             TranslationUtil.getMainProgramTranslation(result.programTranslation, language);
         return {
             id: result.id,
+            isArchived: result.isArchived,
             image: result.imageLink,
             name: mainProgramTranslation ? mainProgramTranslation.name : "",
             description: mainProgramTranslation ? mainProgramTranslation.description : "",
+            translations: result.programTranslation,
             startDate: result.startDate,
             endDate: result.endDate,
             tag: result.tag,

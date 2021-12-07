@@ -19,7 +19,6 @@ export type ClassInput = {
     price: string;
     programId: any; //Getting error type string not assignable to type never
     id?: number;
-    //teacherRegs: any; //TODO: UPDATE
 };
 
 export type ClassTranslationInput = {
@@ -34,7 +33,7 @@ export type ClassCardInfo = {
     image?: string;
     name?: string;
     description: string;
-    translations?: { name: string; description: string }[];
+    translations?: { name: string; description: string; language: locale }[];
     borderAge?: number;
     isAgeMinimal: boolean;
     isArchived: boolean;

@@ -32,6 +32,7 @@ type Props = {
     session: Session;
 };
 
+// TODO: When changing archive, the backend should use updateClassArchive instead of just changing the raw column value
 export default function CreateClass({ session }: Props): JSX.Element {
     const toast = useToast();
     const router = useRouter();
@@ -75,7 +76,6 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [isClassLoad, setIsClassLoad] = useState(false);
     const [isPriceLoad, setIsPriceLoad] = useState(false);
 
-    // TODO: This should include programs whenever possible
     const {
         programs,
         isLoading: isProgramLoading,

@@ -23,8 +23,10 @@ export type ProgramInput = {
 // Info for the program card on the home page
 export type ProgramCardInfo = {
     id: number;
+    isArchived: boolean;
     name: string;
     description: string;
+    translations?: { name: string; description: string; language: locale }[];
     image?: string;
     startDate: Date;
     endDate: Date;
