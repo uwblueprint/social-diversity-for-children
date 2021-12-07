@@ -34,8 +34,10 @@ export type ClassCardInfo = {
     image?: string;
     name?: string;
     description: string;
+    translations?: { name: string; description: string }[];
     borderAge?: number;
     isAgeMinimal: boolean;
+    isArchived: boolean;
     stripePriceId: string;
     spaceAvailable: number;
     spaceTaken: number;
@@ -48,6 +50,7 @@ export type ClassCardInfo = {
     endDate: Date;
     startTimeMinutes: number;
     durationMinutes: number;
+    teacherId?: number;
     teacherName: string;
     teacherEmail?: string;
     teacherImage?: string;

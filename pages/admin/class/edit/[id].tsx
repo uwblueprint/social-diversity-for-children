@@ -10,7 +10,7 @@ import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import "react-datepicker/dist/react-datepicker.css";
 import useUsers from "@utils/hooks/useUsers";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { locale } from ".prisma/client";
 import { MultipleTextField } from "@components/formFields/MuitipleTextField";
@@ -19,6 +19,14 @@ import { useRouter } from "next/router";
 import { AdminModal } from "@components/admin/AdminModal";
 import { weekday } from "@prisma/client";
 import moment from "moment";
+import useStripePrice from "@utils/hooks/useStripePrice";
+import usePrograms from "@utils/hooks/usePrograms";
+import useClass from "@utils/hooks/useClass";
+import { AdminError } from "@components/AdminError";
+import { AdminLoading } from "@components/AdminLoading";
+import { isAdmin } from "@utils/session/authorization";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
 
 type Props = {
     session: Session;
@@ -31,7 +39,6 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const EDIT = true;
 
     const [saveModalOpen, setSaveModalOpen] = useState(false);
-    const [programs, setPrograms] = useState([]);
     const sortedLocale = Object.keys(locale).sort();
 
     const { teachers } = useUsers();
@@ -60,68 +67,71 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [classDescription, setClassDescription] = useState(
         Array(sortedLocale.length).join(".").split("."),
     );
+
     //Used to make sure we don't create a new stripe id when editing the class
     //If the price changes we'll add another price
     const [stripeId, setStripeId] = useState("");
 
-    const loadPrograms = async () => {
-        const request = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        const response = await fetch("/api/program", request).then((res) => res.json());
+    const [isClassLoad, setIsClassLoad] = useState(false);
+    const [isPriceLoad, setIsPriceLoad] = useState(false);
 
-        setPrograms(response.data);
-    };
+    // TODO: This should include programs whenever possible
+    const {
+        programs,
+        isLoading: isProgramLoading,
+        error: programError,
+    } = usePrograms(locale.en, false);
+    const {
+        classCard,
+        isLoading: isClassLoading,
+        mutate: mutateClass,
+    } = useClass(router.query.id as string, locale.en, true);
+    const {
+        stripePrice,
+        isLoading: isPriceLoading,
+        mutate: mutatePrice,
+    } = useStripePrice(classCard?.stripePriceId);
 
-    //Get a class by id
-    const getClass = async (id) => {
-        const request = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        const response = await fetch(`/api/class/${id}`, request).then((res) => res.json());
-
-        //If the class exists load the values
-        if (!response.error) {
-            const data = response.data;
-
-            setClassName(data.classTranslation[0].name);
-            setAssociatedProgram(data.program?.programTranslation[0]?.name);
+    useEffect(() => {
+        if (classCard && programs && !isClassLoad) {
+            setClassName(classCard.name);
+            setAssociatedProgram(classCard.programName);
 
             //update class descriptions
             setClassDescription([
-                ...data.classTranslation.map((translation) => translation.description),
+                ...classCard.translations.map((translation) => translation.description),
             ]);
-            const teacher = teachers?.find((teacher) => teacher === data.teacherReq?.teacherId);
+            const teacher = teachers?.find((teacher) => teacher.id === classCard.teacherId);
             if (teacher) {
                 setTeacherName(teacher.firstName + " " + teacher.lastName);
             }
-
-            setStartDate(data.startDate);
-            setEndDate(data.endDate);
-            setImage(data.imageLink);
-            setId(data.id);
-            setIsArchived(data.isArchived);
-            setRepeatOn(data.weekday);
-            setAge(data.borderAge);
-            setAboveUnder(data.isAgeMinimal ? "Under" : "Above");
-            setMaxCapacity(data.spaceTotal);
-            setVolunteerCapacity(data.volunteerSpaceTotal);
-            setStripeId(data.stripePriceId);
+            setStartDate(classCard.startDate.toString());
+            setEndDate(classCard.endDate.toString());
+            setImage(classCard.image);
+            setId(classCard.id);
+            setIsArchived(classCard.isArchived);
+            setRepeatOn(classCard.weekday);
+            setAge(classCard.borderAge?.toString());
+            setAboveUnder(classCard.isAgeMinimal ? "Under" : "Above");
+            setMaxCapacity(classCard.spaceTotal.toString());
+            setVolunteerCapacity(classCard.volunteerSpaceTotal.toString());
+            setStripeId(classCard.stripePriceId);
+            setDurationMinutes(classCard.durationMinutes.toString());
+            setIsClassLoad(true);
         }
-    };
+    }, [classCard]);
 
     useEffect(() => {
-        loadPrograms();
-        getClass(router.query.id);
-    }, [router.query]);
+        if (stripePrice && !isPriceLoad) {
+            // Get stripe price in dollars
+            setPrice((stripePrice.unit_amount / 100).toString());
+            setIsPriceLoad(true);
+        }
+    }, [stripePrice]);
 
     async function save() {
-        const classData = {
-            programId: programs.find(
-                (program) => program.programTranslation[0].name === associatedProgram,
-            ).id,
+        const classclassCard = {
+            programId: programs.find((program) => program.name === associatedProgram).id,
             imageLink: image,
             isAgeMinimal: aboveUnder === "Under",
             spaceTotal: parseInt(maxCapacity),
@@ -145,10 +155,10 @@ export default function CreateClass({ session }: Props): JSX.Element {
         };
 
         //Create an array of translation objects from the name and description
-        const translationData = [];
+        const translationclassCard = [];
         classDescription.forEach((description, index) => {
             if (description.length !== 0) {
-                translationData.push({
+                translationclassCard.push({
                     name: className,
                     description,
                     language: sortedLocale[index],
@@ -156,22 +166,23 @@ export default function CreateClass({ session }: Props): JSX.Element {
             }
         });
 
-        const data = {
-            classInput: classData,
-            classTranslationInput: translationData,
+        const classCard = {
+            classInput: classclassCard,
+            classTranslationInput: translationclassCard,
         };
-        //Save to database
+        //Save to classCardbase
         const request = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
+            body: JSON.stringify(classCard),
         };
         const response = await fetch("/api/class", request);
-        const programId = programs.find(
-            (program) => program.programTranslation[0].name === associatedProgram,
-        ).id;
+        const programId = programs.find((program) => program.name === associatedProgram).id;
 
         if (response.ok) {
+            mutateClass();
+            mutatePrice();
+
             if (id !== -1) {
                 toast(
                     infoToastOptions("Class Edited", `${className} has been successfully edited!`),
@@ -190,6 +201,12 @@ export default function CreateClass({ session }: Props): JSX.Element {
         } else {
             errorToastOptions("Failed to create class", response.statusText);
         }
+    }
+
+    if (programError) {
+        return <AdminError cause="cannot fetch programs" />;
+    } else if (isProgramLoading || isClassLoading || isPriceLoading) {
+        return <AdminLoading />;
     }
 
     return (
@@ -222,7 +239,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         ></TextField>
                         <SelectField
                             name="Associated Program"
-                            options={programs?.map((program) => program.programTranslation[0].name)}
+                            options={programs?.map((program) => program.name)}
                             value={associatedProgram}
                             setValue={setAssociatedProgram}
                             edit={EDIT}
@@ -379,3 +396,33 @@ export default function CreateClass({ session }: Props): JSX.Element {
         </Wrapper>
     );
 }
+
+/**
+ * getServerSideProps gets the session before this page is rendered
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // obtain the next auth session
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    } else if (!isAdmin(session)) {
+        return {
+            redirect: {
+                destination: "/no-access",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {
+            session,
+        },
+    };
+};

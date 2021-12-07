@@ -50,10 +50,13 @@ export class CardInfoUtil {
             weekday: result.weekday,
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,
+            isArchived: result.isArchived,
             programId: result.program.id,
             programName: mainProgramTranslation ? mainProgramTranslation.name : "",
             name: mainClassTranslation ? mainClassTranslation.name : result.name,
             description: mainClassTranslation ? mainClassTranslation.description : "",
+            translations: result.classTranslation,
+            teacherId: result.teacherRegs.length > 0 ? result.teacherRegs[0].teacher.id : -1,
             teacherName:
                 result.teacherRegs.length > 0
                     ? result.teacherRegs[0].teacher.user.firstName +
