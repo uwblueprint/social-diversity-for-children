@@ -157,8 +157,6 @@ async function createClass(
     delete input.price; //Don't need this field to save to db
     let newClass = null;
 
-    console.log(input);
-
     //Create Stripe Key
 
     //If the price doesn't exist create a product and the associated price
