@@ -6,13 +6,21 @@ import { weekdayToDay } from "@utils/enum/weekday";
 /**
  * getClass takes the id parameter and returns the class associated with the classId
  * @param {string} id - classId
+ * @param {boolean} includeArchived - include archived classes as well
  *
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function getClass(id: number) {
-    const classSection = await prisma.class.findUnique({
+async function getClass(id: number, includeArchived = false) {
+    const classSection = await prisma.class.findFirst({
         where: {
             id,
+            ...(() => {
+                return includeArchived
+                    ? undefined
+                    : {
+                          isArchived: false,
+                      };
+            })(),
         },
         include: {
             program: { include: { programTranslation: true } },

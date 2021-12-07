@@ -89,11 +89,7 @@ export const ArchivedProgramClassInfoCard: React.FC<ArchivedProgramClassInfoCard
                 <GridItem colSpan={4} p={1}>
                     <VStack align="left" justify="center" height="100%">
                         <Flex mr="3" alignItems="baseline">
-                            <Link href={`/admin/class/${cardInfo.id}`}>
-                                <ChakraLink>
-                                    <Heading size="md">{cardInfo.name}</Heading>
-                                </ChakraLink>
-                            </Link>
+                            <Heading size="md">{cardInfo.name}</Heading>
                             <Spacer />
                             {role !== roles.PROGRAM_ADMIN ? null : (
                                 <Menu>
