@@ -97,7 +97,10 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                 <ModalContent>
                     <ModalHeader>Confirm Unregister</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>Are you sure you would like to unregister these students?</ModalBody>
+                    <ModalBody>
+                        Are you sure you would like to unregister{" "}
+                        {studentsToUnregister.length === 1 ? "these students" : "this student"}?
+                    </ModalBody>
                     <ModalFooter>
                         <Button
                             bg={colourTheme.colors.Blue}
