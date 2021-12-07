@@ -93,7 +93,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
             setClassDescription([
                 ...data.classTranslation.map((translation) => translation.description),
             ]);
-            const teacher = teachers.find((teacher) => teacher === data.teacherReq?.teacherId);
+            const teacher = teachers?.find((teacher) => teacher === data.teacherReq?.teacherId);
             if (teacher) {
                 setTeacherName(teacher.firstName + " " + teacher.lastName);
             }
