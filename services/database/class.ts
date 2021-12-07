@@ -1,5 +1,5 @@
 import prisma from "@database";
-import { Class } from "@prisma/client";
+import { Class, Prisma } from "@prisma/client";
 import { ClassInput, ClassTranslationInput } from "@models/Class";
 import { stripe } from "services/stripe";
 import { totalMinutes } from "@utils/time/convert";
@@ -152,11 +152,11 @@ async function getClassRegistrants(classId: number) {
 async function createClass(
     input: ClassInput,
     translations: ClassTranslationInput[],
+    teacherIds: Prisma.TeacherRegCreateManyClassInput[],
 ): Promise<Class> {
     const productPrice = input.price; //Used for stripe
     delete input.price; //Don't need this field to save to db
     let newClass = null;
-
     //Create Stripe Key
 
     //If the price doesn't exist create a product and the associated price
@@ -197,12 +197,22 @@ async function createClass(
                         data: translations,
                     },
                 },
+                teacherRegs: {
+                    createMany: {
+                        data: teacherIds,
+                    },
+                },
             },
         });
     }
     //Update
     else {
         await prisma.classTranslation.deleteMany({
+            where: {
+                classId: input.id,
+            },
+        });
+        await prisma.teacherReg.deleteMany({
             where: {
                 classId: input.id,
             },
@@ -217,6 +227,11 @@ async function createClass(
                 classTranslation: {
                     createMany: {
                         data: translations,
+                    },
+                },
+                teacherRegs: {
+                    createMany: {
+                        data: teacherIds,
                     },
                 },
             },

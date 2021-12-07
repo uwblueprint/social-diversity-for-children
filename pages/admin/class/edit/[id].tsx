@@ -139,16 +139,12 @@ export default function CreateClass({ session }: Props): JSX.Element {
             id,
             startTimeMinutes: moment(startDate).diff(moment().startOf("day"), "minutes"),
             durationMinutes: parseInt(durationMinutes),
-            // teacherRegs: [
-            //     {
-            //         teacherId: teachers.find((t) => t.firstName + " " + t.lastName === teacherName)
-            //             .id,
-            //     },
-            // ],
-
-            //TODO: EDIT SCHEMA TO INCLUDE THESE FIELDS
-            //location,
-            //locationDescription,
+            teacherRegs: [
+                {
+                    teacherId: teachers.find((t) => t.firstName + " " + t.lastName === teacherName)
+                        .id,
+                },
+            ],
         };
 
         //Create an array of translation objects from the name and description
