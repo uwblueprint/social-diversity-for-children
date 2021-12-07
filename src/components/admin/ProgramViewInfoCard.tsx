@@ -106,7 +106,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, r
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/program/${cardInfo.id}`)
+                                                router.push(`/admin/program/edit/${cardInfo.id}`)
                                             }
                                         >
                                             Edit

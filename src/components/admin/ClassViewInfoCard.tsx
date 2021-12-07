@@ -97,7 +97,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/class/${cardInfo.id}`)
+                                                router.push(`/admin/class/edit/${cardInfo.id}`)
                                             }
                                         >
                                             Edit
