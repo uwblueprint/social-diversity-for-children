@@ -34,7 +34,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
     const [programs, setPrograms] = useState([]);
     const sortedLocale = Object.keys(locale).sort();
 
-    const { teachers, isLoading: isUsersLoading, error: usersError } = useUsers();
+    const { teachers } = useUsers();
 
     const [id, setId] = useState(-1);
     const [image, setImage] = useState("https://via.placeholder.com/200x175?text=Cover%20Photo");
@@ -96,6 +96,10 @@ export default function CreateClass({ session }: Props): JSX.Element {
             setClassDescription([
                 ...data.classTranslation.map((translation) => translation.description),
             ]);
+            const teacher = teachers.find((teacher) => teacher === data.teacherReq?.teacherId);
+            if (teacher) {
+                setTeacherName(teacher.firstName + " " + teacher.lastName);
+            }
 
             setStartDate(data.startDate);
             setEndDate(data.endDate);
@@ -134,12 +138,17 @@ export default function CreateClass({ session }: Props): JSX.Element {
             price,
             id,
             startTimeMinutes: moment(startDate).diff(moment().startOf("day"), "minutes"),
-            durationMinutes: durationMinutes,
+            durationMinutes: parseInt(durationMinutes),
+            // teacherRegs: [
+            //     {
+            //         teacherId: teachers.find((t) => t.firstName + " " + t.lastName === teacherName)
+            //             .id,
+            //     },
+            // ],
 
             //TODO: EDIT SCHEMA TO INCLUDE THESE FIELDS
             //location,
             //locationDescription,
-            //teacherName, //similar to programId (search through teachers given "firstName + lastName" and find id)
         };
 
         //Create an array of translation objects from the name and description

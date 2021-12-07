@@ -19,6 +19,7 @@ export type ClassInput = {
     price: string;
     programId: any; //Getting error type string not assignable to type never
     id?: number;
+    //teacherRegs: any; //TODO: UPDATE
 };
 
 export type ClassTranslationInput = {
