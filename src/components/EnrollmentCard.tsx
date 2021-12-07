@@ -63,7 +63,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     const { link } = useGetZoomLink();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [studentsToUnregister, setStudentsToUnregister] = useState(null);
+    const [studentsToUnregister, setStudentsToUnregister] = useState([]);
 
     const handleClickUnregisterStudent = (student) => {
         setStudentsToUnregister([student]);
@@ -82,12 +82,12 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
             deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
         }
         onClose();
-        setStudentsToUnregister(null);
+        setStudentsToUnregister([]);
     };
 
     const handleCancelUnregister = () => {
         onClose();
-        setStudentsToUnregister(null);
+        setStudentsToUnregister([]);
     };
 
     const UnregisterModal = () => {
@@ -99,7 +99,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <ModalCloseButton />
                     <ModalBody>
                         Are you sure you would like to unregister{" "}
-                        {studentsToUnregister.length === 1 ? "these students" : "this student"}?
+                        {studentsToUnregister.length === 1 ? "this student" : "these students"}?
                     </ModalBody>
                     <ModalFooter>
                         <Button
