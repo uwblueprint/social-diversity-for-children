@@ -46,7 +46,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
             } else {
-                const productPrice = classInput.price; //Used for stripe
+                const productPriceInCents = parseInt(classInput.price) * 100; //Used for stripe
                 delete classInput.price; //Don't need this field to save to db
                 //Create Stripe Key
 
@@ -56,8 +56,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                         name: classInput.name,
                     });
                     const stripePrice = await stripe.prices.create({
-                        unit_amount: parseInt(productPrice),
-                        currency: "usd",
+                        unit_amount: productPriceInCents,
+                        currency: "cad",
                         product: product.id,
                     });
 
@@ -66,11 +66,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 //Else if it exists, check if the price needs to be updated
                 else {
                     const price = await stripe.prices.retrieve(classInput.stripePriceId);
-                    if (price.unit_amount !== parseInt(productPrice)) {
+                    if (price.unit_amount !== productPriceInCents) {
                         //Create a new price
                         const stripePrice = await stripe.prices.create({
-                            unit_amount: parseInt(productPrice),
-                            currency: "usd",
+                            unit_amount: productPriceInCents,
+                            currency: "cad",
                             product: price.product as string,
                         });
                         classInput.stripePriceId = stripePrice.id;
