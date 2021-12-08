@@ -1,181 +1,180 @@
 name: ci-pr
 
 on:
-  pull_request:
-    branches:
-      - main
-      - staging
+    pull_request:
+        branches:
+            - main
+            - staging
 
 jobs:
-  ci-pr:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [14]
-    outputs: 
-      changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
-      env: ${{steps.env.outputs.env}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    ci-pr:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node: [14]
+        outputs:
+            changes-terraform: ${{steps.cfc-terraform.outputs.changed}}
+            env: ${{steps.env.outputs.env}}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
 
-      - name: Set environment based on branch
-        id: env
-        run: |
-          if [[ $GITHUB_BASE_REF = "staging" ]]; then
-              echo "::set-output name=env::staging"
-              echo Environment set to 'staging'
-          elif [[ $GITHUB_BASE_REF = "main" ]]; then
-              echo "::set-output name=env::production"
-              echo Environment set to 'production'
-          else
-              echo "'$GITHUB_BASE_REF' does not equal 'staging' or 'main'"
-              exit 1
-          fi
+            - name: Set environment based on branch
+              id: env
+              run: |
+                  if [[ $GITHUB_BASE_REF = "staging" ]]; then
+                      echo "::set-output name=env::staging"
+                      echo Environment set to 'staging'
+                  elif [[ $GITHUB_BASE_REF = "main" ]]; then
+                      echo "::set-output name=env::production"
+                      echo Environment set to 'production'
+                  else
+                      echo "'$GITHUB_BASE_REF' does not equal 'staging' or 'main'"
+                      exit 1
+                  fi
 
-      - name: Check files changed - Terraform
-        id: cfc-terraform
-        uses: uwblueprint/sdc-actions/actions/check-files-changed@main
-        with:
-          branch: $GITHUB_BASE_REF
-          regex: "terraform/*"
+            - name: Check files changed - Terraform
+              id: cfc-terraform
+              uses: uwblueprint/sdc-actions/actions/check-files-changed@main
+              with:
+                  branch: $GITHUB_BASE_REF
+                  regex: "terraform/*"
 
-      - name: Setup node env
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node }}
+            - name: Setup node env
+              uses: actions/setup-node@v2.1.2
+              with:
+                  node-version: ${{ matrix.node }}
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+            - name: Get yarn cache directory path
+              id: yarn-cache-dir-path
+              run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache node_modules
-        uses: actions/cache@v2
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
+            - name: Cache node_modules
+              uses: actions/cache@v2
+              id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+              with:
+                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: ${{ runner.os }}-yarn-
 
-      - name: Install dependencies
-        run: yarn
+            - name: Install dependencies
+              run: yarn
 
-      - name: Fetch target pr branch for diff
-        run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
+            - name: Fetch target pr branch for diff
+              run: git fetch origin $GITHUB_BASE_REF:refs/remotes/origin/$GITHUB_BASE_REF
 
-      - name: Linting modified files Prettier
-        id: prettier-pr
-        run: yarn lint:prettier-modified-files
-        continue-on-error: true
+            - name: Linting modified files Prettier
+              id: prettier-pr
+              run: yarn lint:prettier-modified-files
+              continue-on-error: true
 
-      - name: Linting modified files ESlint
-        id: eslint-pr
-        run: yarn lint:eslint-modified-files
-        continue-on-error: true
+            - name: Linting modified files ESlint
+              id: eslint-pr
+              run: yarn lint:eslint-modified-files
+              continue-on-error: true
 
-      - name: Create linting comment on error
-        if: steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure'
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
-            #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
+            - name: Create linting comment on error
+              if: steps.prettier-pr.outcome == 'failure' || steps.eslint-pr.outcome == 'failure'
+              uses: actions/github-script@v5
+              with:
+                  script: |
+                      const output = `#### Prettier status: \`${{ steps.prettier-pr.outcome }}\`
+                      #### Eslint status: \`${{ steps.eslint-pr.outcome }}\``;
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            });
-            core.setFailed('Linting errors. Please check prettier and eslint');
+                      github.rest.issues.createComment({
+                        issue_number: context.issue.number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: output
+                      });
+                      core.setFailed('Linting errors. Please check prettier and eslint');
 
-      - name: Build
-        run: yarn build
+            - name: Build
+              run: yarn build
 
-  terraform:
-    needs: ci-pr
-    if: needs.ci-pr.outputs.changes-terraform == 'true'
-    environment: ${{needs.ci-pr.outputs.env}}
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./terraform/environments
-    env:
-      TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }} 
-      TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }} 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2 
-      
-      - name: Hashicorp Terraform Setup (wraps stdout for plan)
-        uses: hashicorp/setup-terraform@v1
-
-      # TODO change to OIDC provider
-      - name: Configure AWS Credentials 
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-      
-      - name: Terraform fmt
-        id: fmt
-        run: |
-          cd ${{needs.ci-pr.outputs.env}}
-          terraform fmt -check
-
-      - name: Terraform Init
-        id: init
-        run: |
-          cd ${{needs.ci-pr.outputs.env}}
-          terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: |
-          cd ${{needs.ci-pr.outputs.env}}
-          terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        run: |
-          cd ${{needs.ci-pr.outputs.env}}
-          terraform plan -no-color
-        continue-on-error: true
-
-      - name: Update Pull Request
-        uses: actions/github-script@0.9.0
+    terraform:
+        needs: ci-pr
+        if: needs.ci-pr.outputs.changes-terraform == 'true'
+        environment: ${{needs.ci-pr.outputs.env}}
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./terraform/environments
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }}
+            TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
 
-            <details><summary>Show Plan</summary>
+            - name: Hashicorp Terraform Setup (wraps stdout for plan)
+              uses: hashicorp/setup-terraform@v1
 
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
+            # TODO change to OIDC provider
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ${{ secrets.AWS_REGION }}
 
-            </details>
+            - name: Terraform fmt
+              id: fmt
+              run: |
+                  cd ${{needs.ci-pr.outputs.env}}
+                  terraform fmt -check
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            - name: Terraform Init
+              id: init
+              run: |
+                  cd ${{needs.ci-pr.outputs.env}}
+                  terraform init
 
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+            - name: Terraform Validate
+              id: validate
+              run: |
+                  cd ${{needs.ci-pr.outputs.env}}
+                  terraform validate -no-color
 
-      - name: Terraform plan status
-        if: steps.plan.outcome == 'failure' 
-        run: |
-          echo Check terraform plan
-          exit 1
+            - name: Terraform Plan
+              id: plan
+              run: |
+                  cd ${{needs.ci-pr.outputs.env}}
+                  terraform plan -no-color
+              continue-on-error: true
 
+            - name: Update Pull Request
+              uses: actions/github-script@0.9.0
+              env:
+                  PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  script: |
+                      const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+                      #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+                      #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+                      #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+                      <details><summary>Show Plan</summary>
+
+                      \`\`\`\n
+                      ${process.env.PLAN}
+                      \`\`\`
+
+                      </details>
+
+                      *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+                      github.issues.createComment({
+                        issue_number: context.issue.number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: output
+                      })
+
+            - name: Terraform plan status
+              if: steps.plan.outcome == 'failure'
+              run: |
+                  echo Check terraform plan
+                  exit 1

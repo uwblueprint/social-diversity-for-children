@@ -1,9 +1,8 @@
-import { Box, Center, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import useLocalStorage from "@utils/hooks/useLocalStorage";
 import Wrapper from "@components/SDCWrapper";
 import MailSentIcon from "@components/icons/MailSentIcon";
 import { BackButton } from "@components/BackButton";
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -23,35 +22,24 @@ export default function Verify(): JSX.Element {
                         </Box>
                     </Center>
                     <Center>
-                        <Text fontWeight="700" fontSize="24px" align="center" mt="10px">
-                            A verification email has been sent.
-                            <br></br>
-                            Check your email!
+                        <Text
+                            fontWeight="700"
+                            fontSize="24px"
+                            align="center"
+                            mt="10px"
+                            width="450px"
+                        >
+                            {t("signIn.sentTitle")}
                         </Text>
                     </Center>
                     <Center>
                         <Text fontWeight="400" fontSize="16px" align="center" mt="40px">
-                            To confirm your email address, click on the link in the email we sent to{" "}
-                            <ChakraLink
-                                textDecoration={"underline"}
-                                href={`mailto:${localStorageEmail}`}
-                            >
-                                <u>
-                                    <b>{localStorageEmail}</b>
-                                </u>
-                            </ChakraLink>
-                            .<br></br>
+                            {t("signIn.sentInfo", { email: localStorageEmail })}
                         </Text>
                     </Center>
                     <Center>
                         <Text fontWeight="400" fontSize="14px" mt="60px" color="brand.300">
-                            Didn’t get an email? Return to the{" "}
-                            <Link href="/login">
-                                <ChakraLink _hover={{ textDecoration: "none" }}>
-                                    <Text as="u">{t("nav.signIn")}</Text>{" "}
-                                </ChakraLink>
-                            </Link>
-                            page and re-enter a valid email.
+                            {t("signIn.sentHint")}
                         </Text>
                     </Center>
                 </Box>
