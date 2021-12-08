@@ -16,7 +16,7 @@ type CriminalCheckProps = {
 export const CriminalCheck: React.FC<CriminalCheckProps> = ({
     link,
     approved,
-    submitDate,
+    submitDate, // add new prop for date ? or a check of some sorts
 }): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
 
@@ -34,7 +34,9 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
     } else if (link == null) {
         description = t("bgc.missing");
         icon = <InfoIcon />;
-    } else {
+    } //else if ()
+    // add else if statement here for if date added > 1 year -> expired
+    else {
         status = "pending";
         description = t("account.bgc", {
             ns: "common",
