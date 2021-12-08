@@ -112,6 +112,7 @@ model Volunteer {
   criminalRecordCheckLink String?        @map("criminal_record_check_link")
   criminalCheckApproved   Boolean?       @map("criminal_check_approved")
   criminalCheckExpired    Boolean?       @default(false) @map("criminal_check_expired")
+  criminalCheckSubmittedAt DateTime?     @map("criminal_check_submitted_at")
   postalCode              String?        @map("postal_code") @db.VarChar(10)
   cityName                String?        @map("city_name")
   province                province?

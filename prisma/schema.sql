@@ -107,6 +107,7 @@ CREATE TABLE volunteers (
   criminal_record_check_link TEXT,
   criminal_check_approved BOOLEAN,
   criminal_check_expired BOOLEAN DEFAULT false,
+  criminal_check_submitted_at TIMESTAMPTZ,
   postal_code VARCHAR(10),
   city_name TEXT,
   province provinces,
