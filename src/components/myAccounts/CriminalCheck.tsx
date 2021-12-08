@@ -6,6 +6,7 @@ import { ApprovedIcon, InfoIcon, PendingIcon } from "@components/icons";
 import convertToShortDateString from "@utils/convertToShortDateString";
 import { locale } from "@prisma/client";
 import { useTranslation } from "next-i18next";
+import checkExpiry from "@utils/checkExpiry";
 
 type CriminalCheckProps = {
     link: string;
@@ -33,6 +34,9 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
         icon = <ApprovedIcon />;
     } else if (link == null) {
         description = t("bgc.missing");
+        icon = <InfoIcon />;
+    } else if (checkExpiry(submitDate)) {
+        description = "Your Criminal Check has expired"; // to change to t()
         icon = <InfoIcon />;
     } else {
         status = "pending";
