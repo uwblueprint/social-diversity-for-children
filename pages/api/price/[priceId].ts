@@ -11,15 +11,20 @@ import { stripe } from "services/stripe";
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     switch (req.method) {
         case "GET": {
-            // obtain the priceId
-            const { priceId } = req.query;
+            try {
+                // obtain the priceId
+                const { priceId } = req.query;
 
-            // obtain the price information from priceId
-            const price = await stripe.prices.retrieve(priceId as string);
+                // obtain the price information from priceId
+                const price = await stripe.prices.retrieve(priceId as string);
 
-            // return price information
-            res.status(200).json({ price });
-            break;
+                // return price information
+                res.status(200).json({ price });
+                break;
+            } catch (e) {
+                ResponseUtil.returnBadRequest(res, e);
+                break;
+            }
         }
         default: {
             const allowedHeaders: string[] = ["GET"];

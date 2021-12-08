@@ -1,6 +1,8 @@
 import prisma from "@database";
-import { Class } from "@prisma/client";
-import { ClassInput } from "@models/Class";
+import { Class, Prisma } from "@prisma/client";
+import { ClassInput, ClassTranslationInput } from "@models/Class";
+import { totalMinutes } from "@utils/time/convert";
+import { weekdayToDay } from "@utils/enum/weekday";
 /**
  * getClass takes the id parameter and returns the class associated with the classId
  * @param {string} id - classId
@@ -92,14 +94,15 @@ async function getWeeklySortedClasses() {
                 },
             },
         },
-        orderBy: [
-            {
-                weekday: "asc",
-            },
-            {
-                startTimeMinutes: "asc",
-            },
-        ],
+    });
+
+    // To manual sort due to sorting property of startDate
+    classes.sort((x, y) => {
+        if (x.weekday === y.weekday) {
+            return totalMinutes(x.startDate) - totalMinutes(y.startDate);
+        } else {
+            return weekdayToDay(x.weekday) - weekdayToDay(y.weekday);
+        }
     });
     return classes;
 }
@@ -153,23 +156,64 @@ async function getClassRegistrants(classId: number) {
  * @param input - data of type ClassInput
  * @returns Promise<Class> - Promise with the newly created class
  */
-async function createClass(input: ClassInput): Promise<Class> {
-    const newClass = await prisma.class.create({
-        data: {
-            name: input.name,
-            borderAge: input.borderAge,
-            isAgeMinimal: input.isAgeMinimal,
-            programId: input.programId,
-            spaceTotal: input.spaceTotal,
-            stripePriceId: input.stripePriceId,
-            volunteerSpaceTotal: input.volunteerSpaceTotal,
-            startDate: input.startDate,
-            endDate: input.endDate,
-            weekday: input.weekday,
-            startTimeMinutes: input.startTimeMinutes,
-            durationMinutes: input.durationMinutes,
-        },
-    });
+async function createClass(
+    input: ClassInput,
+    translations: ClassTranslationInput[],
+    teacherIds: Prisma.TeacherRegCreateManyClassInput[],
+): Promise<Class> {
+    let newClass = null;
+
+    //Doesn't exist (Create)
+    if (input.id === -1) {
+        delete input.id;
+        newClass = await prisma.class.create({
+            data: {
+                ...input,
+                classTranslation: {
+                    createMany: {
+                        data: translations,
+                    },
+                },
+                teacherRegs: {
+                    createMany: {
+                        data: teacherIds,
+                    },
+                },
+            },
+        });
+    }
+    //Update
+    else {
+        await prisma.classTranslation.deleteMany({
+            where: {
+                classId: input.id,
+            },
+        });
+        await prisma.teacherReg.deleteMany({
+            where: {
+                classId: input.id,
+            },
+        });
+
+        newClass = await prisma.class.update({
+            where: {
+                id: input.id,
+            },
+            data: {
+                ...input,
+                classTranslation: {
+                    createMany: {
+                        data: translations,
+                    },
+                },
+                teacherRegs: {
+                    createMany: {
+                        data: teacherIds,
+                    },
+                },
+            },
+        });
+    }
     return newClass;
 }
 

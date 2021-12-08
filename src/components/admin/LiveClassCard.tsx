@@ -4,6 +4,7 @@ import { PrimaryButton } from "@components/SDCButton";
 import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { totalMinutes } from "@utils/time/convert";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -33,7 +34,10 @@ export const LiveClassCard: React.FC<LiveClassCardProps> = ({ cardInfo, link }) 
                     {cardInfo.programName} ({cardInfo.name})
                 </Heading>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">
-                    {convertToShortTimeRange(cardInfo.startTimeMinutes, cardInfo.durationMinutes)}
+                    {convertToShortTimeRange(
+                        totalMinutes(cardInfo.startDate),
+                        cardInfo.durationMinutes,
+                    )}
                     {" with Teacher " + cardInfo.teacherName}
                 </Text>
                 <Text color={colourTheme.colors.Gray} fontSize="sm">
