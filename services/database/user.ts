@@ -377,12 +377,13 @@ async function updateUser(userInput: UserInput) {
  * @param  {string} link criminal check link name
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function updateVolunteerCriminalCheckLink(email: string, link: string) {
+async function updateVolunteerCriminalCheckLink(email: string, link: string, date: Date) {
     const user = prisma.user.update({
         data: {
             volunteer: {
                 update: {
                     criminalRecordCheckLink: link,
+                    criminalCheckSubmittedAt: date,
                 },
             },
         },
