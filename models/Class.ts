@@ -17,7 +17,7 @@ export type ClassInput = {
     startTimeMinutes: number;
     durationMinutes: number;
     price: string;
-    programId: any; //Getting error type string not assignable to type never
+    programId: number;
     id?: number;
 };
 
