@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import { locale, roles } from "@prisma/client";
 import { UseMeResponse } from "@utils/hooks/useMe";
 import { infoToastOptions } from "@utils/toast/options";
+import { totalMinutes } from "@utils/time/convert";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -105,7 +106,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                                     ),
                                 })}{" "}
                                 {convertToShortTimeRange(
-                                    classInfo.startTimeMinutes,
+                                    totalMinutes(classInfo.startDate),
                                     classInfo.durationMinutes,
                                 )}
                             </Text>

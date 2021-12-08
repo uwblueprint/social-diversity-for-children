@@ -8,6 +8,7 @@ export type UseClassResponse = {
     classCard: ClassCardInfo;
     isLoading: boolean;
     error: any;
+    mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
 };
 
 /**
@@ -22,7 +23,7 @@ export default function useClass(
     language: locale,
     includeArchived = false,
 ): UseClassResponse {
-    const { data, error } = useSWR(
+    const { data, error, mutate } = useSWR(
         [`/api/class/${id}`, includeArchived, "includeArchived"],
         fetcherWithQuery,
     );
@@ -31,5 +32,6 @@ export default function useClass(
         classCard,
         isLoading: !error && !data,
         error: error,
+        mutate,
     };
 }

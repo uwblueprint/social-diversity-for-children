@@ -19,6 +19,7 @@ import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
 import { ClassCardInfo } from "@models/Class";
 import { AgeBadge } from "./AgeBadge";
+import { totalMinutes } from "@utils/time/convert";
 
 type FormClassCardProps = {
     classInfo: ClassCardInfo;
@@ -52,7 +53,7 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
                                         ),
                                     })}{" "}
                                     {convertToShortTimeRange(
-                                        classInfo.startTimeMinutes,
+                                        totalMinutes(classInfo.startDate),
                                         classInfo.durationMinutes,
                                     )}
                                     {" with " +

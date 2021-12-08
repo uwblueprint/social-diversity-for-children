@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import colourTheme from "@styles/colours";
 import useMe from "@utils/hooks/useMe";
 import { AgeBadge } from "./AgeBadge";
+import { totalMinutes } from "@utils/time/convert";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
@@ -77,7 +78,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 day: weekdayToString(cardInfo.weekday, router.locale as locale),
                             })}{" "}
                             {convertToShortTimeRange(
-                                cardInfo.startTimeMinutes,
+                                totalMinutes(cardInfo.startDate),
                                 cardInfo.durationMinutes,
                             )}
                             {" with " +

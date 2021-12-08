@@ -1,13 +1,13 @@
 import { weekday } from "@prisma/client";
+import type { locale } from "@prisma/client";
 
 /**
  * Request Body Input for POST /class
  */
 export type ClassInput = {
     name?: string;
-    borderAge?: number;
+    borderAge: number;
     isAgeMinimal: boolean;
-    programId: number;
     stripePriceId: string;
     spaceTotal: number;
     volunteerSpaceTotal: number;
@@ -16,6 +16,15 @@ export type ClassInput = {
     weekday: weekday;
     startTimeMinutes: number;
     durationMinutes: number;
+    price: string;
+    programId: number;
+    id?: number;
+};
+
+export type ClassTranslationInput = {
+    name: string;
+    description: string;
+    language: locale;
 };
 
 // Information used for the card component of a class.
@@ -24,8 +33,10 @@ export type ClassCardInfo = {
     image?: string;
     name?: string;
     description: string;
+    translations?: { name: string; description: string; language: locale }[];
     borderAge?: number;
     isAgeMinimal: boolean;
+    isArchived: boolean;
     stripePriceId: string;
     spaceAvailable: number;
     spaceTaken: number;
@@ -38,6 +49,7 @@ export type ClassCardInfo = {
     endDate: Date;
     startTimeMinutes: number;
     durationMinutes: number;
+    teacherId?: number;
     teacherName: string;
     teacherEmail?: string;
     teacherImage?: string;

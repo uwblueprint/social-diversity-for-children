@@ -9,6 +9,7 @@ type Props = {
     name: string;
     required?: boolean;
     edit?: boolean;
+    time?: boolean;
 };
 
 export const DateField: React.FC<Props> = ({
@@ -17,9 +18,10 @@ export const DateField: React.FC<Props> = ({
     name,
     required = true,
     edit = true,
+    time = false,
 }): JSX.Element => {
     if (!Date.parse(value)) {
-        setValue(String(moment().subtract(15, "year").toDate()));
+        setValue(String(moment().toDate()));
     }
     return (
         <FormControl style={{ height: "50px" }} isRequired={required && edit}>
@@ -39,9 +41,11 @@ export const DateField: React.FC<Props> = ({
                         showYearDropdown
                         yearDropdownItemNumber={10}
                         scrollableYearDropdown
-                        dateFormat="yyyy-MM-dd"
-                        selected={Date.parse(value) || moment().subtract(15, "year").toDate()}
+                        dateFormat={time ? "yyyy-MM-dd h:mm aa" : "yyyy-MM-dd"}
+                        selected={Date.parse(value) || moment().toDate()}
                         onChange={(date) => setValue(date)}
+                        showTimeSelect={time}
+                        timeFormat="HH:mm"
                     />
                 </Box>
             )}

@@ -21,6 +21,7 @@ import { deleteWaitlistRegistration } from "@utils/deleteWaitlistRegistration";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
+import { totalMinutes } from "@utils/time/convert";
 
 type WaitlistCardProps = {
     waitlistInfo: WaitlistCardInfo;
@@ -62,7 +63,7 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
                                         ),
                                     })}{" "}
                                     {convertToShortTimeRange(
-                                        waitlistInfo.class.startTimeMinutes,
+                                        totalMinutes(waitlistInfo.class.startDate),
                                         waitlistInfo.class.durationMinutes,
                                     )}
                                     {" with " +

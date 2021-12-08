@@ -8,6 +8,7 @@ import {
     updateVolunteerCriminalCheckLink,
 } from "@database/user";
 import { getPresignedPostForUpload } from "@aws/s3";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
@@ -17,9 +18,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     }
 
     // TODO make this more robost/better
-    const accepted_type_paths = ["criminal-check", "income-proof", "curriculum-plans"];
+    const accepted_type_paths = [
+        "criminal-check",
+        "income-proof",
+        "curriculum-plans",
+        "cover-photo",
+    ];
 
     const { path, file } = req.query;
+
+    let bucket = "";
+    let uploadFilePath = "";
 
     if (!accepted_type_paths.includes(path as string)) {
         return ResponseUtil.returnNotFound(res, "Type not accepted");
@@ -33,9 +42,15 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
 
-            const uploadFilePath = `${path}/${user.email}/${file}`;
+            if (path === "cover-photo") {
+                bucket = process.env.S3_PUBLIC_IMAGES_BUCKET;
+                uploadFilePath = uuidv4();
+            } else {
+                bucket = process.env.S3_UPLOAD_BUCKET;
+                uploadFilePath = `${path}/${user.email}/${file}`;
+            }
 
-            const post = getPresignedPostForUpload(process.env.S3_UPLOAD_BUCKET, uploadFilePath);
+            const post = getPresignedPostForUpload(bucket as string, uploadFilePath);
             if (!post) {
                 return ResponseUtil.returnBadRequest(res, "Could not get link for upload");
             }

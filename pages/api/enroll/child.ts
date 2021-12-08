@@ -183,7 +183,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                                 deletedRegistration.class.weekday,
                                 deletedRegistration.class.startDate,
                                 deletedRegistration.class.endDate,
-                                deletedRegistration.class.startTimeMinutes,
                                 deletedRegistration.class.durationMinutes,
                                 record.parent.preferredLanguage,
                             ),
