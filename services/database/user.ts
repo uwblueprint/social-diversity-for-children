@@ -426,12 +426,13 @@ async function updateVolunteerCriminalCheckApproval(id: number, approval: boolea
  * @param  {string} link proof of income link name
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function updateParentProofOfIncomeLink(email: string, link: string) {
+async function updateParentProofOfIncomeLink(email: string, link: string, date: Date) {
     const user = prisma.user.update({
         data: {
             parent: {
                 update: {
                     proofOfIncomeLink: link,
+                    proofOfIncomeSubmittedAt: date,
                 },
             },
         },

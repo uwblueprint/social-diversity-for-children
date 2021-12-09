@@ -64,7 +64,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                     new Date(),
                 );
             } else if (user.role === roles.PARENT && path === accepted_type_paths[1]) {
-                await updateParentProofOfIncomeLink(session.user.email, file as string);
+                await updateParentProofOfIncomeLink(session.user.email, file as string, new Date());
             }
 
             ResponseUtil.returnOK(res, post);
