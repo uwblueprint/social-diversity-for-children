@@ -61,10 +61,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 await updateVolunteerCriminalCheckLink(
                     session.user.email,
                     file as string,
-                    new Date(),
+                    new Date(new Date().toUTCString()),
                 );
             } else if (user.role === roles.PARENT && path === accepted_type_paths[1]) {
-                await updateParentProofOfIncomeLink(session.user.email, file as string, new Date());
+                await updateParentProofOfIncomeLink(
+                    session.user.email,
+                    file as string,
+                    new Date(new Date().toUTCString()),
+                );
             }
 
             ResponseUtil.returnOK(res, post);

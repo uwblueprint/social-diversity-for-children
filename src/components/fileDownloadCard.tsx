@@ -60,14 +60,14 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                     marginLeft="40px"
                     marginTop="40px"
                 />
-                <VStack alignItems="flex-start" w="300px" h="full">
+                <VStack alignItems="flex-start" w="full" h="full">
                     <Text fontSize="18px" marginTop="75px" as="u">
                         <Link href={docLink} color={colourTheme.colors.Blue} isExternal>
                             {docName}
                         </Link>
                     </Text>
                     <Text color={colourTheme.colors.Gray}>
-                        Date Submitted {convertToShortDateString(docUploadDate)}
+                        Date Submitted: {convertToShortDateString(docUploadDate)}
                     </Text>
                 </VStack>
                 <Box width="full" justifyContent="flex-end" display="flex">

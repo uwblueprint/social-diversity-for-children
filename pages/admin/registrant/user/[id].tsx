@@ -269,9 +269,10 @@ export default function Registrant(props: AdminProps): JSX.Element {
                         ))}
                     </Flex>
                 </Box>
-                <Box>
+                <Box w="full">
                     <Box
                         minW={{ base: 400, lg: 600 }}
+                        w="full"
                         p={{ base: 0, lg: 12 }}
                         mt={6}
                         borderWidth={{ base: "0", lg: "1px" }}
