@@ -13,5 +13,5 @@ export function totalMinutes(date: Date): number {
  * @returns number
  */
 export function totalUTCMinutes(date: Date): number {
-    return date.getMinutes() + date.getHours() * 60;
+    return date.getUTCMinutes() + date.getUTCHours() * 60;
 }
