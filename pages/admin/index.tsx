@@ -23,6 +23,8 @@ import Link from "next/link";
 import React from "react";
 import { MdClass, MdCreate, MdPersonAdd } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
+import useMe from "@utils/hooks/useMe";
+import { roles } from ".prisma/client";
 
 type AdminProps = {
     session: Session;
@@ -33,6 +35,7 @@ type AdminProps = {
  * @returns Admin dashboard page component
  */
 export default function Admin(props: AdminProps): JSX.Element {
+    const { me, isLoading: isMeLoading, error: meError } = useMe();
     const {
         liveClass,
         upcomingClasses,
@@ -53,29 +56,31 @@ export default function Admin(props: AdminProps): JSX.Element {
         <Wrapper session={props.session}>
             <AdminHeader>Dashboard</AdminHeader>
             <VStack spacing={5} mx={8} pb={4} align="flex-start">
-                <Grid templateColumns="repeat(4, 1fr)" gap={4} w="100%">
-                    <AdminOptionButton
-                        icon={MdCreate}
-                        label="Create new Class"
-                        href="/admin/class/edit/new"
-                    />
-                    <AdminOptionButton
-                        icon={MdClass}
-                        label="Create new Program"
-                        href="/admin/program/edit/new"
-                    />
-                    <AdminOptionButton
-                        icon={MdPersonAdd}
-                        label="Add SDC Member"
-                        href="/admin/add"
-                    />
-                    <AdminOptionButton
-                        icon={RiCouponFill}
-                        label="Add Coupon Code"
-                        href="https://dashboard.stripe.com/coupons"
-                        isExternal
-                    />
-                </Grid>
+                {!isMeLoading && !meError && me.role !== roles.TEACHER ? (
+                    <Grid templateColumns="repeat(4, 1fr)" gap={4} w="100%">
+                        <AdminOptionButton
+                            icon={MdCreate}
+                            label="Create new Class"
+                            href="/admin/class/edit/new"
+                        />
+                        <AdminOptionButton
+                            icon={MdClass}
+                            label="Create new Program"
+                            href="/admin/program/edit/new"
+                        />
+                        <AdminOptionButton
+                            icon={MdPersonAdd}
+                            label="Add SDC Member"
+                            href="/admin/add"
+                        />
+                        <AdminOptionButton
+                            icon={RiCouponFill}
+                            label="Add Coupon Code"
+                            href="https://dashboard.stripe.com/coupons"
+                            isExternal
+                        />
+                    </Grid>
+                ) : null}
                 <Heading size="sm" alignSelf="flex-start" fontWeight="normal">
                     Overview and Analytics
                 </Heading>

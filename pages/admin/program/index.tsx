@@ -16,6 +16,8 @@ import { Session } from "next-auth";
 import { AdminLoading } from "@components/AdminLoading";
 import { AdminError } from "@components/AdminError";
 import { isInternal } from "@utils/session/authorization";
+import useMe from "@utils/hooks/useMe";
+import { roles } from ".prisma/client";
 
 type BrowseProgramsProps = {
     session: Session;
@@ -28,6 +30,7 @@ const headerLinks = [
 
 export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
+    const { me, isLoading: isMeLoading, error: meError } = useMe();
     const [searchTerm, setSearchTerm] = useState("");
 
     const { programs: programCardInfos, isLoading, error } = usePrograms(router.locale as locale);
@@ -53,7 +56,13 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     });
     return (
         <Wrapper session={props.session}>
-            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <AdminHeader
+                headerLinks={
+                    !isMeLoading && !meError && me.role !== roles.TEACHER ? headerLinks : []
+                }
+            >
+                Programs
+            </AdminHeader>
 
             <Box mx={8}>
                 <Text fontSize="16px">Browse Programs</Text>
