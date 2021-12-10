@@ -22,12 +22,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     if (!parentId) {
         return ResponseUtil.returnBadRequest(res, "No user id stored in session");
     }
+    const { classId } = req.body;
 
     switch (req.method) {
         // Retrieving a waitlist by passing in the classId and parentId.
         case "GET": {
-            const { classId } = req.body;
-
             if (classId && parentId) {
                 // If both classId and parentId are passed in, retrieve the specific waitlist record
                 const waitlistRecord = await getWaitlistRecord(classId, parentId);
@@ -50,8 +49,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "POST": {
-            const { classId } = req.body;
-
             const validationErrors = validateWaitlistRecord(classId, parentId);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
@@ -66,8 +63,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "DELETE": {
-            const { classId } = req.body;
-
             const validationErrors = validateWaitlistRecord(classId, parentId);
             if (validationErrors.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationErrors.join(", "));
