@@ -70,7 +70,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                         Date Submitted: {convertToShortDateString(docUploadDate)}
                     </Text>
                 </VStack>
-                <Box width="full" justifyContent="flex-end" display="flex">
+                <Box justifyContent="flex-end" display="flex">
                     <Menu>
                         <MenuButton
                             width="125px"
