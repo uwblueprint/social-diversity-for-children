@@ -349,7 +349,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                 ></CheckBoxField>
                 {EDIT ? (
                     <Button
-                        key={className} //When loading from localstorage finishes this causes the button to re-render
+                        key={"Edit Class_" + className + "_" + price + "_" + programs.length}
                         id="Submit"
                         bg={colourTheme.colors.Blue}
                         color={"white"}
