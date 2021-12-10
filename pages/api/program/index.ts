@@ -26,26 +26,22 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "POST": {
+            // TODO: Validate program translation
             const validationError = validateProgramData(req.body as ProgramInput);
             if (validationError.length !== 0) {
                 ResponseUtil.returnBadRequest(res, validationError.join(", "));
             } else {
-                try {
-                    const newProgram = await createProgram(
-                        req.body.programData as ProgramInput,
-                        req.body.translationData as ProgramTranslationData[],
-                    );
+                const newProgram = await createProgram(
+                    req.body.programData as ProgramInput,
+                    req.body.translationData as ProgramTranslationData[],
+                );
 
-                    if (!newProgram) {
-                        ResponseUtil.returnBadRequest(res, `Program could not be created`);
-                        break;
-                    }
-
-                    ResponseUtil.returnOK(res, newProgram);
-                } catch (e) {
-                    console.error(e);
-                    ResponseUtil.returnBadRequest(res, `Internal Error: ` + e);
+                if (!newProgram) {
+                    ResponseUtil.returnBadRequest(res, `Program could not be created`);
+                    break;
                 }
+
+                ResponseUtil.returnOK(res, newProgram);
             }
             break;
         }

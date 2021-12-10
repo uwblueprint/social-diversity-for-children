@@ -3,7 +3,7 @@
         "parents": "Parents",
         "volunteers": "Volunteers",
         "welcome": "Welcome to SDC",
-        "registration": "Registration for Summer 2021 classes begins June 31, 2021!",
+        "registration": "Register for our classes when they are available!",
         "parentBrowse": "Browse through programs below and then select a class with the date and time of your choice! We make sure that 100% of our participants’ demonstrated needs are met.",
         "volunteerBrowse": "Volunteering with SDC is simple and easy! Get started with volunteering with SDC by creating an account to volunteer and then selecting the program you want to volunteer for.",
         "emptyPrograms": "There are currently no programs available to register for. Come back shortly to see the programs we have to offer for the next term!"
@@ -51,7 +51,7 @@
         "status_pending": "Status: Pending",
         "status_declined": "Status: Declined",
         "dateSubmitted": "Date submitted: {{date}}",
-        "poi_approved": "Your income statement has been approved. You might be eligible for discounts, please be on the look out for coupon from us.",
+        "poi_approved": "Your income statement has been approved. Please be on the lookout for an email from SDC with the discount for future registrations.",
         "poi_pending": "Your income statement is under review.",
         "bgc_approved": "Your criminal record check has been approved.",
         "bgc_pending": "Your criminal record check is under review.",

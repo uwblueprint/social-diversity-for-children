@@ -58,7 +58,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             // Assume that the presigned url is used immediately and save the path to records
             // Depending on whether or not it's criminal check or poi, we do a vol or parent write
             if (user.role === roles.VOLUNTEER && path === accepted_type_paths[0]) {
-                await updateVolunteerCriminalCheckLink(session.user.email, file as string);
+                await updateVolunteerCriminalCheckLink(
+                    session.user.email,
+                    file as string,
+                    new Date(),
+                );
             } else if (user.role === roles.PARENT && path === accepted_type_paths[1]) {
                 await updateParentProofOfIncomeLink(session.user.email, file as string);
             }
