@@ -1,5 +1,5 @@
 /**
- * validateWaitlistRecord takes input of type WaitlistInput and validates the input
+ * validateWaitlistRecord takes classId and parentId and validates the input
  * @param classId
  * @param parentId
  * @returns string[] - array of errors of type string

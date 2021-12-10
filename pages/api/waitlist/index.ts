@@ -18,7 +18,7 @@ import { validateWaitlistRecord } from "@utils/validation/waitlist";
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const session = await getSession({ req });
 
-    const parentId = session.id as number;
+    const parentId = session.id;
     if (!parentId) {
         return ResponseUtil.returnBadRequest(res, "No user id stored in session");
     }

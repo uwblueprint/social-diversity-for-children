@@ -99,7 +99,8 @@ async function createWaitlistRecord(classId: number, parentId: number): Promise<
 
 /**
  * deleteWaitlistRecord deletes a waitlist record
- * @param input - data of type WaitlistInput
+ * @param classId
+ * @param parentId
  * @returns Promise<Class> - Promise with the deleted class
  */
 async function deleteWaitlistRecord(classId: number, parentId: number): Promise<Waitlist> {
