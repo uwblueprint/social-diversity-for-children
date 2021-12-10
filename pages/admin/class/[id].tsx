@@ -28,7 +28,7 @@ import { Session } from "next-auth";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminHeader } from "@components/admin/AdminHeader";
 import useMe from "@utils/hooks/useMe";
-import { roles } from ".prisma/client";
+import { roles } from "@prisma/client";
 
 type ClassViewProps = {
     session: Session;

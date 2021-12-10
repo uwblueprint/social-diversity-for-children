@@ -24,7 +24,7 @@ import React from "react";
 import { MdClass, MdCreate, MdPersonAdd } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 import useMe from "@utils/hooks/useMe";
-import { roles } from ".prisma/client";
+import { roles } from "@prisma/client";
 
 type AdminProps = {
     session: Session;

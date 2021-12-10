@@ -17,7 +17,7 @@ import { AdminLoading } from "@components/AdminLoading";
 import { AdminError } from "@components/AdminError";
 import { isInternal } from "@utils/session/authorization";
 import useMe from "@utils/hooks/useMe";
-import { roles } from ".prisma/client";
+import { roles } from "@prisma/client";
 
 type BrowseProgramsProps = {
     session: Session;
