@@ -17,11 +17,13 @@ import { MdDescription } from "react-icons/md";
 import colourTheme from "@styles/colours";
 import { updateFileApproval } from "@utils/updateFileApproval";
 import { FileType } from "@utils/enum/filetype";
+import convertToShortDateString from "@utils/convertToShortDateString";
 
 type FileDownloadCardProps = {
     filePath: FileType;
     docName: string;
     docApproved: boolean | null;
+    docUploadDate: Date;
     participantId: number;
     userEmail: string;
 };
@@ -31,6 +33,7 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
     docName,
     docApproved,
     participantId,
+    docUploadDate,
     userEmail,
 }): JSX.Element => {
     const [approvalState, setApprovalState] = useState<boolean | null>(docApproved);
@@ -57,14 +60,17 @@ const FileDownloadCard: React.FC<FileDownloadCardProps> = ({
                     marginLeft="40px"
                     marginTop="40px"
                 />
-                <VStack alignItems="flex-start" w="300px" h="full">
+                <VStack alignItems="flex-start" w="full" h="full">
                     <Text fontSize="18px" marginTop="75px" as="u">
                         <Link href={docLink} color={colourTheme.colors.Blue} isExternal>
                             {docName}
                         </Link>
                     </Text>
+                    <Text color={colourTheme.colors.Gray}>
+                        Date Submitted: {convertToShortDateString(docUploadDate)}
+                    </Text>
                 </VStack>
-                <Box width="full" justifyContent="flex-end" display="flex">
+                <Box justifyContent="flex-end" display="flex">
                     <Menu>
                         <MenuButton
                             width="125px"

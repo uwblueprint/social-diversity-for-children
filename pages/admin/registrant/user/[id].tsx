@@ -164,6 +164,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                             filePath={FileType.INCOME_PROOF}
                             docName={user.parent.proofOfIncomeLink}
                             docApproved={user.parent.isLowIncome}
+                            docUploadDate={user.parent.proofOfIncomeSubmittedAt}
                             participantId={user.id}
                             userEmail={user.email}
                         />
@@ -205,6 +206,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                             filePath={FileType.CRIMINAL_CHECK}
                             docName={user.volunteer.criminalRecordCheckLink}
                             docApproved={user.volunteer.criminalCheckApproved}
+                            docUploadDate={user.volunteer.criminalCheckSubmittedAt}
                             participantId={user.id}
                             userEmail={user.email}
                         />
@@ -267,9 +269,10 @@ export default function Registrant(props: AdminProps): JSX.Element {
                         ))}
                     </Flex>
                 </Box>
-                <Box>
+                <Box w="full">
                     <Box
                         minW={{ base: 400, lg: 600 }}
+                        w="full"
                         p={{ base: 0, lg: 12 }}
                         mt={6}
                         borderWidth={{ base: "0", lg: "1px" }}
