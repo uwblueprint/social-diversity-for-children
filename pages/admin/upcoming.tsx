@@ -33,7 +33,7 @@ export const BrowseUpcoming: React.FC<BrowseUpcomingProps> = (props) => {
         error: classError,
     } = useUpcomingClasses(router.locale as locale);
 
-    const classCards = [liveClass].concat(upcomingClasses);
+    const classCards = liveClass ? [liveClass].concat(upcomingClasses) : upcomingClasses;
 
     if (classError) {
         return <AdminError cause="could not fetch upcoming classes" />;
