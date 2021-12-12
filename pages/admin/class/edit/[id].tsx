@@ -93,7 +93,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
     } = useStripePrice(classCard?.stripePriceId);
 
     useEffect(() => {
-        if (classCard && programs && !isClassLoad) {
+        if (classCard && programs && !isClassLoad && teachers) {
             setClassName(classCard.name);
             setAssociatedProgram(classCard.programName);
 
@@ -119,7 +119,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
             setDurationMinutes(classCard.durationMinutes.toString());
             setIsClassLoad(true);
         }
-    }, [classCard]);
+    }, [classCard, teachers]);
 
     useEffect(() => {
         if (stripePrice && !isPriceLoad) {
