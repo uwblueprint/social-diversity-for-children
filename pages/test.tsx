@@ -1,18 +1,17 @@
 import { Session } from "next-auth";
 import { Box } from "@chakra-ui/react";
-import { GenerateCriminalCheck } from "@components/CriminalCheck";
+import dynamic from "next/dynamic";
+
+const GenerateCriminalCheck = dynamic(() => import("@components/CriminalCheck"), {
+    ssr: false,
+});
 
 type TestProps = {
     session: Session;
 };
 
-export const Test: React.FC<TestProps> = (props) => {
-    return (
-        <>
-            <Box>Testing</Box>
-            <GenerateCriminalCheck></GenerateCriminalCheck>
-        </>
-    );
+export const CriminalCheck: React.FC<TestProps> = (props) => {
+    return <GenerateCriminalCheck />;
 };
 
-export default Test;
+export default CriminalCheck;
