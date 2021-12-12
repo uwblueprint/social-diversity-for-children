@@ -135,11 +135,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (prop
                                 </Grid>
                             ) : (
                                 <Box>
-                                    <AdminEmptyState
-                                        w="100%"
-                                        h="250px"
-                                        isLoading={isProgramsLoading}
-                                    >
+                                    <AdminEmptyState w="100%" h="250px" isLoading={isClassLoading}>
                                         There are no classes archived!
                                     </AdminEmptyState>
                                 </Box>

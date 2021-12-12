@@ -34,8 +34,8 @@ type ClassViewProps = {
 };
 
 const headerLinks = [
-    { name: "Add Program", url: "/admin/program/create" },
-    { name: "Add Class", url: "/admin/class/create" },
+    { name: "Add Program", url: "/admin/program/edit/new" },
+    { name: "Add Class", url: "/admin/class/edit/new" },
 ];
 
 /**

@@ -125,7 +125,7 @@ export default function Admin(props: AdminProps): JSX.Element {
                         <Flex mb={5}>
                             Upcoming Classes
                             <Spacer />
-                            <Link href="/admin/program">
+                            <Link href="/admin/upcoming">
                                 <ChakraLink color={colourTheme.colors.Blue}>
                                     See all
                                     <ArrowForwardIcon ml={4} />
