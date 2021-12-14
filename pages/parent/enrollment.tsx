@@ -25,6 +25,7 @@ import useSWR from "swr";
 import { Session } from "next-auth";
 import convertToAge from "@utils/convertToAge";
 import { useTranslation } from "next-i18next";
+import useParentRegistrations from "@utils/hooks/useParentRegistration";
 
 type ParentEnrollClassProps = {
     session: Session;
@@ -51,11 +52,17 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
         fetcherWithQuery,
     );
 
+    const {
+        enrollments,
+        isLoading: isRegistrationsLoading,
+        error: registrationsError,
+    } = useParentRegistrations(router.locale as locale);
+
     const isClassInfoLoading = !classInfoResponse && !classInfoError;
 
-    if (classInfoError) {
+    if (classInfoError || registrationsError) {
         return <CommonError session={session} cause="cannot fetch class" />;
-    } else if (isClassInfoLoading) {
+    } else if (isClassInfoLoading || isRegistrationsLoading) {
         return <CommonLoading session={session} />;
     }
 
@@ -99,9 +106,12 @@ export default function ParentEnrollClass({ session }: ParentEnrollClassProps): 
     });
 
     const studentEligible = studentData.map((s) => {
-        return classInfo.isAgeMinimal
-            ? convertToAge(s.dateOfBirth) >= classInfo.borderAge
-            : convertToAge(s.dateOfBirth) <= classInfo.borderAge;
+        return (
+            enrollments.every((enroll) => enroll.student.id !== s.id) &&
+            (classInfo.isAgeMinimal
+                ? convertToAge(s.dateOfBirth) >= classInfo.borderAge
+                : convertToAge(s.dateOfBirth) <= classInfo.borderAge)
+        );
     });
 
     const ageRange = t(classInfo.isAgeMinimal ? "program.ageGroupAbove" : "program.ageGroupUnder", {
