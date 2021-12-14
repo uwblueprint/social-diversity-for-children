@@ -90,8 +90,9 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">
                             {me && me.role === roles.VOLUNTEER
                                 ? t("program.volunteerSpot", {
-                                      spot: cardInfo.spaceAvailable,
-                                      context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
+                                      spot: cardInfo.volunteerSpaceAvailable,
+                                      context:
+                                          cardInfo.volunteerSpaceAvailable !== 1 ? "plural" : "",
                                   })
                                 : t("program.participantSpot", {
                                       spot: cardInfo.spaceAvailable,
