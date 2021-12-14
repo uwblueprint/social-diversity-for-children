@@ -1,18 +1,17 @@
-import { WaitlistInput } from "models/Waitlist";
-
 /**
- * validateWaitlistRecord takes input of type WaitlistInput and validates the input
- * @param input - data corresponding to a waitlist
+ * validateWaitlistRecord takes classId and parentId and validates the input
+ * @param classId
+ * @param parentId
  * @returns string[] - array of errors of type string
  */
-export function validateWaitlistRecord(input: WaitlistInput): string[] {
+export function validateWaitlistRecord(classId: number, parentId: number): string[] {
     const validationErrors: string[] = [];
 
-    if (!input.classId) {
+    if (!classId) {
         validationErrors.push("classId is not provided");
     }
 
-    if (!input.parentId) {
+    if (!parentId) {
         validationErrors.push("parentId is not provided");
     }
 
