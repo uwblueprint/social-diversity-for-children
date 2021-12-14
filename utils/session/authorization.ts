@@ -14,6 +14,7 @@ export function isInternal(session: Session): boolean {
         false;
     }
 }
+
 /**
  * A helper method to see if current user is admin
  * @param  {Session} session current user session
@@ -21,6 +22,19 @@ export function isInternal(session: Session): boolean {
  */
 export function isAdmin(session: Session): boolean {
     if (session && session.role === roles.PROGRAM_ADMIN) {
+        return true;
+    } else {
+        false;
+    }
+}
+
+/**
+ * A helper method to see if current session is a teacher
+ * @param  {Session} session current user session
+ * @returns boolean whether or not session is a teacher
+ */
+export function isTeacher(session: Session): boolean {
+    if (session && session.role === roles.TEACHER) {
         return true;
     } else {
         false;
