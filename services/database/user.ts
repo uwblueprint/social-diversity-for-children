@@ -17,7 +17,11 @@ async function getUser(id: string) {
             teacher: true,
             parent: {
                 include: {
-                    students: true,
+                    students: {
+                        orderBy: {
+                            id: "asc",
+                        },
+                    },
                 },
             },
             programAdmin: true,
@@ -41,7 +45,11 @@ async function getUserFromEmail(email: string) {
             teacher: true,
             parent: {
                 include: {
-                    students: true,
+                    students: {
+                        orderBy: {
+                            id: "asc",
+                        },
+                    },
                 },
             },
             programAdmin: true,
