@@ -125,5 +125,10 @@
         "registrationFailedDesc": "The class is not available for registration at this time.",
         "waitlistAdded": "Waitlist record added!",
         "waitlistAddedDesc": "You will receive an email when a spot opens up."
+    },
+    "404": {
+        "title": "Oh no! Page not found.",
+        "subtitle": "Sorry, but the page you are looking for does not exist. Try refreshing the page or hit the button below.",
+        "return": "Return to main page"
     }
 }
