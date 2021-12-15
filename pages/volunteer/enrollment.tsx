@@ -1,24 +1,25 @@
-import React, { useState } from "react";
-import { VolunteerEnrolledFormWrapper } from "@components/volunteer-enroll/VolunteerEnrollFormWrapper";
-import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
-import { SubmitCriminalCheckForm } from "@components/volunteer-enroll/SubmitCriminalCheck";
-import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClass";
-import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCriminalCheck";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import useMe from "@utils/hooks/useMe";
-import { Box } from "@chakra-ui/layout";
-import { Loading } from "@components/Loading";
-import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/client";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import CardInfoUtil from "@utils/cardInfoUtil";
-import { locale } from "@prisma/client";
 import { useToast } from "@chakra-ui/react";
+import { MediaReleaseForm } from "@components/agreement-form/MediaReleaseForm";
+import { CommonError } from "@components/CommonError";
+import { CommonLoading } from "@components/CommonLoading";
+import { ConfirmClassEnrollment } from "@components/volunteer-enroll/ConfirmClass";
+import { SubmitCriminalCheckForm } from "@components/volunteer-enroll/SubmitCriminalCheck";
+import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCriminalCheck";
+import { VolunteerEnrolledFormWrapper } from "@components/volunteer-enroll/VolunteerEnrollFormWrapper";
+import { locale } from "@prisma/client";
+import CardInfoUtil from "@utils/cardInfoUtil";
 import { fetcherWithQuery } from "@utils/fetcher";
-import { Session } from "next-auth";
+import useMe from "@utils/hooks/useMe";
+import useVolunteerRegistrations from "@utils/hooks/useVolunteerRegistration";
 import { errorToastOptions } from "@utils/toast/options";
+import { GetServerSideProps } from "next";
+import { Session } from "next-auth";
+import { getSession } from "next-auth/client";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import useSWR from "swr";
 
 type VolunteerEnrollmentProps = {
     session: Session;
@@ -43,17 +44,28 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
         fetcherWithQuery,
     );
 
+    const {
+        volunteering,
+        isLoading: isVolunteeringLoading,
+        error: volunteeringError,
+    } = useVolunteerRegistrations(router.locale as locale);
+
     const isClassInfoLoading = !classInfoResponse && !classInfoError;
 
-    if (isClassInfoLoading || isMeLoading) {
-        return <Loading />;
-    } else if (classInfoError) {
-        return <Box>An Error has occured</Box>;
+    if (classInfoError || volunteeringError) {
+        return <CommonError cause="could not load class info" />;
+    } else if (isClassInfoLoading || isMeLoading || isVolunteeringLoading) {
+        return <CommonLoading />;
     }
 
     const classInfo = classInfoResponse
         ? CardInfoUtil.getClassCardInfo(classInfoResponse.data, router.locale as locale)
         : null;
+
+    // if volunteer already registered in class, we redirect to the classes page
+    if (volunteering.some((reg) => reg.classId === classInfo.id)) {
+        router.push("/class");
+    }
 
     const nextPage = () => {
         setPageNum(pageNum + 1);
