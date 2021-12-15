@@ -71,6 +71,7 @@ export const ClassViewInfoCard: React.FC<ClassViewInfoCard> = ({ cardInfo, role 
                 minH={165}
                 borderColor={colourTheme.colors.Sliver}
                 borderWidth={1}
+                w="100%"
             >
                 <GridItem alignSelf="center" maxW={200}>
                     <AspectRatio width="100%" ratio={1}>
