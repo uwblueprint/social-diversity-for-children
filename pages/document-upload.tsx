@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { Button, Box, Center, Text, VStack, Spinner } from "@chakra-ui/react";
-import { GetServerSideProps } from "next"; // Get server side props
-import { getSession } from "next-auth/client";
-import Wrapper from "@components/SDCWrapper";
-import DragAndDrop from "@components/DragAndDrop";
+import { Box, Button, Center, Spinner, Text, VStack } from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
+import DragAndDrop from "@components/DragAndDrop";
 import { ApprovedIcon } from "@components/icons";
+import Wrapper from "@components/SDCWrapper";
+import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getSession } from "next-auth/client";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 type DocumentUploadProps = {
     session: Session;
 };
 export default function DocumentUpload({ session }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["common", "form"]);
 
     let { type } = router.query;
     const { redirect } = router.query;
@@ -29,12 +29,11 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
     // allows future support of multiple file uploads
     // if we really want to restrict to one document, remove the multiple from the input
     const [files, setFiles] = useState<File[]>([]);
+
     const upload = async () => {
         setIsUploading(true);
         const file = files[0];
         try {
-            // TODO don't prefix file name, instead put random file name into database eventually
-            // TODO randomize filename
             const res = await fetch(`/api/file/upload?path=${type}&file=${file.name}`);
             const data = await res.json();
             const { url, fields } = data.data;
@@ -158,46 +157,73 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
                                     {t("upload.successHint")}
                                 </Text>
                             </Center>
-                            <Center>
-                                <Button
-                                    backgroundColor="white"
-                                    borderColor="brand.400"
-                                    width="366px"
-                                    height="54px"
-                                    fontSize="16px"
-                                    fontWeight="400"
-                                    color="#0C53A0"
-                                    border="2px"
-                                    mt="20px"
-                                    onClick={() =>
-                                        router.push("/myaccounts").then(() => {
-                                            window.scrollTo({ top: 0 });
-                                        })
-                                    }
-                                >
-                                    {t("nav.viewAccount")}
-                                </Button>
-                            </Center>
-                            <Center>
-                                <Button
-                                    backgroundColor="#0C53A0"
-                                    borderColor="brand.400"
-                                    width="366px"
-                                    height="54px"
-                                    fontSize="16px"
-                                    fontWeight="400"
-                                    color="white"
-                                    border="1px"
-                                    mt="20px"
-                                    onClick={() =>
-                                        router.push("/").then(() => {
-                                            window.scrollTo({ top: 0 });
-                                        })
-                                    }
-                                >
-                                    {t("nav.browseProgram")}
-                                </Button>
-                            </Center>
+                            {redirect && redirect !== "/myaccounts" ? (
+                                <Center>
+                                    <Button
+                                        backgroundColor="#0C53A0"
+                                        borderColor="brand.400"
+                                        width="366px"
+                                        height="54px"
+                                        fontSize="16px"
+                                        fontWeight="400"
+                                        color="white"
+                                        border="1px"
+                                        mt="20px"
+                                        onClick={() =>
+                                            router
+                                                .push(redirect ? (redirect as string) : "/")
+                                                .then(() => {
+                                                    window.scrollTo({ top: 0 });
+                                                })
+                                        }
+                                    >
+                                        {t("form.continue", { ns: "form" })}
+                                    </Button>
+                                </Center>
+                            ) : (
+                                <>
+                                    <Center>
+                                        <Button
+                                            backgroundColor="white"
+                                            borderColor="brand.400"
+                                            width="366px"
+                                            height="54px"
+                                            fontSize="16px"
+                                            fontWeight="400"
+                                            color="#0C53A0"
+                                            border="2px"
+                                            mt="20px"
+                                            onClick={() =>
+                                                router.push("/myaccounts").then(() => {
+                                                    window.scrollTo({ top: 0 });
+                                                })
+                                            }
+                                        >
+                                            {t("nav.viewAccount")}
+                                        </Button>
+                                    </Center>
+                                    <Center>
+                                        <Button
+                                            backgroundColor="#0C53A0"
+                                            borderColor="brand.400"
+                                            width="366px"
+                                            height="54px"
+                                            fontSize="16px"
+                                            fontWeight="400"
+                                            color="white"
+                                            border="1px"
+                                            mt="20px"
+                                            onClick={() =>
+                                                router.push("/").then(() => {
+                                                    window.scrollTo({ top: 0 });
+                                                })
+                                            }
+                                        >
+                                            {t("nav.browseProgram")}
+                                        </Button>
+                                    </Center>
+                                </>
+                            )}
                         </Box>
                     </Center>
                 </VStack>
@@ -226,7 +252,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             session,
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };
