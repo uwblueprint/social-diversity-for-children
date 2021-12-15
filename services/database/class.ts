@@ -80,6 +80,9 @@ async function getWeeklySortedClasses() {
     const classes = await prisma.class.findMany({
         where: {
             isArchived: false,
+            endDate: {
+                gt: new Date(new Date().toUTCString()),
+            },
         },
         include: {
             program: { include: { programTranslation: true } },
