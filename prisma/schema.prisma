@@ -205,35 +205,37 @@ model ParentReg {
 }
 
 model Student {
-  id                     Int            @id @default(autoincrement())
-  parentId               Int            @map("parent_id")
-  firstName              String         @map("first_name")
-  lastName               String         @map("last_name")
-  dateOfBirth            DateTime       @map("date_of_birth") @db.Timestamptz(6)
-  addressLine1           String         @map("address_line1")
-  addressLine2           String?        @map("address_line2")
-  postalCode             String?        @map("postal_code") @db.VarChar(10)
-  cityName               String?        @map("city_name")
-  province               province?
-  school                 String?
-  grade                  Int?
-  difficulties           difficulties[]
-  otherDifficulties      String?        @map("other_difficulties")
-  therapy                therapy[]
-  otherTherapy           String?        @map("other_therapy")
-  specialEducation       Boolean?       @default(false) @map("special_education")
-  guardianExpectations   String?        @map("guardian_expectations")
-  medication             String?
-  allergies              String?
-  additionalInfo         String?        @map("additional_info")
-  emergFirstName         String         @map("emerg_first_name")
-  emergLastName          String         @map("emerg_last_name")
-  emergNumber            String         @map("emerg_number") @db.VarChar(50)
-  emergRelationToStudent String         @map("emerg_relation_to_student")
-  createdAt              DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt              DateTime?      @map("updated_at") @db.Timestamptz(6)
-  parent                 Parent         @relation("parentsTostudents", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  parentRegs             ParentReg[]
+  id                      Int            @id @default(autoincrement())
+  parentId                Int            @map("parent_id")
+  firstName               String         @map("first_name")
+  lastName                String         @map("last_name")
+  dateOfBirth             DateTime       @map("date_of_birth") @db.Timestamptz(6)
+  addressLine1            String         @map("address_line1")
+  addressLine2            String?        @map("address_line2")
+  postalCode              String?        @map("postal_code") @db.VarChar(10)
+  cityName                String?        @map("city_name")
+  province                province?
+  school                  String?
+  grade                   Int?
+  difficulties            difficulties[]
+  otherDifficulties       String?        @map("other_difficulties")
+  therapy                 therapy[]
+  otherTherapy            String?        @map("other_therapy")
+  specialEducation        Boolean?       @default(false) @map("special_education")
+  guardianExpectations    String?        @map("guardian_expectations")
+  medication              String?
+  allergies               String?
+  additionalInfo          String?        @map("additional_info")
+  emergFirstName          String         @map("emerg_first_name")
+  emergLastName           String         @map("emerg_last_name")
+  emergNumber             String         @map("emerg_number") @db.VarChar(50)
+  emergRelationToStudent  String         @map("emerg_relation_to_student")
+  // TODO: We need to save this new field, add field to parent account, registrant parent account (internal), update apis
+  parentRelationToStudent String         @map("parent_relation_to_student")
+  createdAt               DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime?      @map("updated_at") @db.Timestamptz(6)
+  parent                  Parent         @relation("parentsTostudents", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  parentRegs              ParentReg[]
   @@map("students")
 }
 

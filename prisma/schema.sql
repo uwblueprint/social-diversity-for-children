@@ -166,6 +166,7 @@ CREATE TABLE students (
   emerg_last_name TEXT NOT NULL,
   emerg_number VARCHAR(50) NOT NULL,
   emerg_relation_to_student TEXT NOT NULL,
+  parent_relation_to_student TEXT NOT NULL,
   FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ
