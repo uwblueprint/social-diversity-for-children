@@ -7,12 +7,12 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 # "State store for terraform with S3"
 resource "aws_s3_bucket" "sdc_state_terraform" {
-  bucket = "sdc-prod-terraform-state"
+  bucket = "sdc-app-terraform-state"
   # acl?
   versioning {
     enabled = true
@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "sdc_state_terraform" {
 
 # State locks for terraform with dynamo
 resource "aws_dynamodb_table" "sdc_terraform_state_lock" {
-  name           = "sdc-prod-terraform-state-lock"
+  name           = "sdc-app-terraform-state-lock"
   read_capacity  = 1
   write_capacity = 1
   # dynamo will be keyed + hashed on LockID which I think is populated by Terraform

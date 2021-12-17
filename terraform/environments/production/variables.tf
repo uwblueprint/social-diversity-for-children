@@ -28,13 +28,13 @@ variable "cloudwatch_lambda_logs_policy_name" {
 
 variable "s3_images_bucket_name" {
   description = "Name of the document uploads s3 bucket"
-  default     = "sdc-prod-public-images"
+  default     = "sdc-app-public-images"
   type        = string
 }
 
 variable "s3_uploads_bucket_name" {
   description = "Name of the document uploads s3 bucket"
-  default     = "sdc-prod-uploads"
+  default     = "sdc-app-uploads"
   type        = string
 }
 
@@ -47,12 +47,6 @@ variable "criminal_check_folder" {
 variable "income_proof_folder" {
   description = "Name of the income proof folder"
   default     = "income-proof"
-  type        = string
-}
-
-variable "curriculum_plans_folder" {
-  description = "Name of the curriculum plans folder"
-  default     = "curriculum-plans"
   type        = string
 }
 
