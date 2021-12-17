@@ -107,5 +107,6 @@ variable "api_endpoint" {
 
 variable "lambda_secret_key_name" {
   description = "Name of lambda secret key"
+  default     = "LAMBDA_SECRET_KEY"
   type        = string
 }

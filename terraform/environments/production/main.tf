@@ -73,6 +73,6 @@ module "cronMailing_eventbridge" {
   source              = "../../modules/eventbridge"
   rule_name           = var.cronMailing_rule_name
   schedule_expression = var.cronMailing_schedule_expression
-  target_arn          = module.cronMailing.lamba_function_arn
-  target_id           = module.cronMailing.lamba_function_name
+  target_arn          = module.cronMailing.lambda_function_arn
+  target_id           = module.cronMailing.lambda_function_name
 }
