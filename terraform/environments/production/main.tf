@@ -26,7 +26,7 @@ module "iam" {
 
 module "s3" {
   source          = "../../modules/s3"
-  allowed_origins = [var.sdc_domain, var.sdc_pr_domain]
+  allowed_origins = [var.sdc_domain]
 
   # uploads bucket 
   s3_uploads_bucket_name = var.s3_uploads_bucket_name

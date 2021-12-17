@@ -8,12 +8,6 @@ variable "sdc_domain" {
   type        = string
 }
 
-variable "sdc_pr_domain" {
-  description = "domain of pr deploys"
-  default     = "https://social-diversity-for-children-pr-*.up.railway.app"
-  type        = string
-}
-
 # should add variable condition checks to limit configuration discrepencies
 # ------------------------------------------------------------------
 # IAM
