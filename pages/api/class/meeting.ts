@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import getParams from "services/aws/ssm";
+import { getSession } from "next-auth/client";
 
 /**
  * handle controls the request made to the class resource
@@ -9,6 +10,11 @@ import getParams from "services/aws/ssm";
  */
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const zoomLinkParamsStoreKeyName = "zoom-class-link";
+    const session = await getSession({ req });
+
+    if (!session) {
+        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+    }
 
     switch (req.method) {
         case "GET": {

@@ -48,6 +48,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             const { id } = req.query;
             const session = await getSession({ req });
 
+            // If editing explicit user, session must belong to admin
             if (id && !isAdmin(session)) {
                 return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
@@ -73,13 +74,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             ResponseUtil.returnOK(res, updatedUser);
             break;
         }
-        case "DELETE": {
-            // TODO:
-            break;
-        }
         default: {
             const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
-            // TODO: add JSON response for method not allowed
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,
