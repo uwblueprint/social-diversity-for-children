@@ -89,7 +89,7 @@ CREATE TABLE classes (
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
-  is_low_income BOOLEAN DEFAULT false,
+  is_low_income BOOLEAN,
   preferred_language locales NOT NULL,
   proof_of_income_link TEXT,
   proof_of_income_submitted_at TIMESTAMPTZ,
