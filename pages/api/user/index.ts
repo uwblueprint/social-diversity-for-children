@@ -75,7 +75,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         default: {
-            const allowedHeaders: string[] = ["GET", "POST", "PUT", "DELETE"];
+            const allowedHeaders: string[] = ["GET", "POST", "PUT"];
             ResponseUtil.returnMethodNotAllowed(
                 res,
                 allowedHeaders,

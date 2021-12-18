@@ -392,6 +392,7 @@ async function updateVolunteerCriminalCheckLink(email: string, link: string, dat
                 update: {
                     criminalRecordCheckLink: link,
                     criminalCheckSubmittedAt: date,
+                    criminalCheckApproved: null,
                 },
             },
         },
@@ -441,6 +442,7 @@ async function updateParentProofOfIncomeLink(email: string, link: string, date: 
                 update: {
                     proofOfIncomeLink: link,
                     proofOfIncomeSubmittedAt: date,
+                    isLowIncome: null,
                 },
             },
         },
