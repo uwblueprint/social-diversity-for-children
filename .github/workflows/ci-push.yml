@@ -72,7 +72,6 @@ jobs:
                 working-directory: ./terraform/environments
         env:
             TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }}
-            TF_VAR_lambda_secret_key_name: ${{ secrets.LAMBDA_SECRET_KEY_NAME }}
         steps:
             - name: Checkout
               uses: actions/checkout@v2
