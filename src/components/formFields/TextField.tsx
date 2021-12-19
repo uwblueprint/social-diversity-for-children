@@ -42,7 +42,7 @@ export const TextField: React.FC<Props> = ({
             isRequired={required && edit}
             isInvalid={
                 (!value && required && interactedWith && edit) ||
-                (number && !validator.isNumeric(value))
+                (number && !validator.isNumeric(value) && interactedWith)
             }
             {...props}
         >
@@ -72,7 +72,7 @@ export const TextField: React.FC<Props> = ({
                 />
             )}
             <FormErrorMessage>
-                {number && !validator.isNumeric(value) ? "Must be a number" : "Required"}
+                {number && value && !validator.isNumeric(value) ? "Must be a number" : "Required"}
             </FormErrorMessage>
         </FormControl>
     );
