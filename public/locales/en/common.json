@@ -35,6 +35,7 @@
         "upcomingClasses": "Upcoming classes",
         "waitlistedClasses": "Waitlisted classes",
         "waitlistedInfo": "An email will be sent to you when a spot opens",
+        "waitlistCancel": "Remove from Waitlist",
         "emptyWaitlist": "Currently you are not waitlisted in any classes. Any classes you waitlist for will show up here!",
         "emptyClass": "Currently you have not registered in any classes. Any classes you registered for will show up here!"
     },

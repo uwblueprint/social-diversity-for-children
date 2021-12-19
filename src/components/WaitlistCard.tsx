@@ -49,7 +49,7 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
             </GridItem>
             <GridItem colSpan={3}>
                 <VStack align="left" justify="center" height="100%">
-                    <Flex mr="3">
+                    <Flex mr="3" direction="column">
                         <Box>
                             <Heading size="md" pb={4} pr={2}>
                                 {waitlistInfo.program.name} ({waitlistInfo.class.name})
@@ -114,7 +114,7 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
                                     )
                                 }
                             >
-                                Remove from Waitlist
+                                {t("class.waitlistCancel")}
                             </Button>
                         </Flex>
                     </Flex>
