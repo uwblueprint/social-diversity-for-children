@@ -268,6 +268,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                             setValue={setDurationMinutes}
                             placeholder={"30"}
                             edit={EDIT}
+                            number={true}
                         ></TextField>
                     </HStack>
                     <br></br>
@@ -296,6 +297,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         setValue={setPrice}
                         placeholder={"5"}
                         edit={EDIT}
+                        number={true}
                     ></TextField>
                 </HStack>
                 <br></br>
@@ -307,6 +309,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         setValue={setAge}
                         placeholder={"5"}
                         edit={EDIT}
+                        number={true}
                     ></TextField>
                     <SelectField
                         name="and"
@@ -321,6 +324,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         setValue={setMaxCapacity}
                         placeholder={"5"}
                         edit={EDIT}
+                        number={true}
                     ></TextField>
                     <TextField
                         name={"Volunteer Capacity"}
@@ -328,6 +332,7 @@ export default function CreateClass({ session }: Props): JSX.Element {
                         setValue={setVolunteerCapacity}
                         placeholder={"5"}
                         edit={EDIT}
+                        number={true}
                     ></TextField>
                 </HStack>
                 <br></br>

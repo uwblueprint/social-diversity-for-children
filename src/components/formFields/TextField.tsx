@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import validator from "validator";
 import {
     FormLabel,
     FormControl,
@@ -16,6 +17,7 @@ type Props = FormControlProps & {
     required?: boolean;
     longAnswer?: boolean;
     edit?: boolean;
+    number?: boolean;
 };
 
 export const TextField: React.FC<Props> = ({
@@ -26,6 +28,7 @@ export const TextField: React.FC<Props> = ({
     required = true,
     longAnswer = false,
     edit = true,
+    number = false,
     ...props
 }): JSX.Element => {
     const [interactedWith, setInteractedWith] = useState(false);
@@ -37,7 +40,10 @@ export const TextField: React.FC<Props> = ({
         <FormControl
             style={longAnswer ? { height: "160px" } : { height: "50px" }}
             isRequired={required && edit}
-            isInvalid={!value && required && interactedWith && edit}
+            isInvalid={
+                (!value && required && interactedWith && edit) ||
+                (number && !validator.isNumeric(value) && interactedWith)
+            }
             {...props}
         >
             <FormLabel>{name}</FormLabel>
@@ -65,7 +71,9 @@ export const TextField: React.FC<Props> = ({
                     value={value}
                 />
             )}
-            <FormErrorMessage>{"Required"}</FormErrorMessage>
+            <FormErrorMessage>
+                {number && value && !validator.isNumeric(value) ? "Invalid Number" : "Required"}
+            </FormErrorMessage>
         </FormControl>
     );
 };
