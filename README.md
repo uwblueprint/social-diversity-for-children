@@ -37,7 +37,7 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 7. Service: [Amazon SES](https://aws.amazon.com/ses/) for email service
 8. Service: [Amazon Lambda](https://aws.amazon.com/lambda/) and [Amazon Cloudwatch](https://aws.amazon.com/cloudwatch/) for notification mailing
 9. Service: [Amazon Systems Manager](https://aws.amazon.com/systems-manager/) for Storing one-time dynamic links
-10. Service: [Stripe](https://stripe.com/) for Class payment and product/coupon management 
+10. Service: [Stripe](https://stripe.com/) for Class payment and product/coupon management
 11. Service: [Railway](https://docs.railway.app/) for deployment and database hosting
 12. Service: [Heroku](https://www.heroku.com/postgres) for PostgreSQL DB hosting
 13. [Unstated Next](https://github.com/jamiebuilds/unstated-next) for state management
