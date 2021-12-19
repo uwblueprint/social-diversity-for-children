@@ -15,17 +15,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    # - name: Create release branch
-    #   run: git checkout -b release/v${{ github.event.inputs.version-name }}
-      # https://github.com/actions/checkout/issues/13
-    - name: Initialize git config for PR author
+    - name: Initialize git config for PR author # https://github.com/actions/checkout/issues/13
       run: |
        git config user.name "github-actions[bot]"
        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
     - name: Get next semantic version
       uses: uwblueprint/sdc-actions/actions/get-semantic-version@main
       with:
-          # bump: $${inputs.bump}
+          # bump: ${{inputs.bump}}
           bump: major
     # - name: Change version number and name
     #   run: printf 'ext.version_code = ${{ github.event.inputs.versionCode }}\next.version_name = "${{ github.event.inputs.versionName }}"\n' > app_versions.gradle
