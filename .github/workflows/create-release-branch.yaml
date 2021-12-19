@@ -5,6 +5,10 @@ on:
       bump:
         description: 'Semantic Version bump (major, minor, patch)'
         required: true
+  pull_request:
+    branches:
+      - staging
+  
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -21,6 +25,7 @@ jobs:
     - name: Get next semantic version
       uses: uwblueprint/sdc-actions/actions/get-semantic-version@main
       with:
+          # bump: $${inputs.bump}
           bump: major
     # - name: Change version number and name
     #   run: printf 'ext.version_code = ${{ github.event.inputs.versionCode }}\next.version_name = "${{ github.event.inputs.versionName }}"\n' > app_versions.gradle
