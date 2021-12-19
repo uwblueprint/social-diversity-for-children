@@ -1,27 +1,15 @@
-import React from "react";
-import {
-    Box,
-    AspectRatio,
-    Image,
-    Heading,
-    Flex,
-    Grid,
-    Text,
-    GridItem,
-    Spacer,
-    VStack,
-    Button,
-} from "@chakra-ui/react";
-import { weekdayToString } from "@utils/enum/weekday";
-import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { AspectRatio, Box, Grid, GridItem, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import { WaitlistCardInfo } from "@models/Enroll";
-import colourTheme from "@styles/colours";
-import convertToShortDateRange from "@utils/convertToShortDateRange";
-import { deleteWaitlistRegistration } from "@utils/deleteWaitlistRegistration";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
+import convertToShortDateRange from "@utils/convertToShortDateRange";
+import convertToShortTimeRange from "@utils/convertToShortTimeRange";
+import { deleteWaitlistRegistration } from "@utils/deleteWaitlistRegistration";
+import { weekdayToString } from "@utils/enum/weekday";
 import { totalMinutes } from "@utils/time/convert";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import React from "react";
+import { PrimaryButton } from "./SDCButton";
 
 type WaitlistCardProps = {
     waitlistInfo: WaitlistCardInfo;
@@ -47,77 +35,48 @@ export const WaitlistCard: React.FC<WaitlistCardProps> = ({ waitlistInfo }) => {
                     />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
-                    <Flex mr="3">
-                        <Box>
-                            <Heading size="md" pb={4} pr={2}>
-                                {waitlistInfo.program.name} ({waitlistInfo.class.name})
-                            </Heading>
-                            <Box as="span" color="gray.600" fontSize="sm">
-                                <Text>
-                                    {t("time.weekday_many", {
-                                        day: weekdayToString(
-                                            waitlistInfo.class.weekday,
-                                            router.locale as locale,
-                                        ),
-                                    })}{" "}
-                                    {convertToShortTimeRange(
-                                        totalMinutes(waitlistInfo.class.startDate),
-                                        waitlistInfo.class.durationMinutes,
-                                    )}
-                                    {" with " +
-                                        t("program.teacherName", {
-                                            name: waitlistInfo.class.teacherName,
-                                        })}
-                                </Text>
-                                <Text>
-                                    {t("time.range", {
-                                        ...convertToShortDateRange(
-                                            waitlistInfo.class.startDate,
-                                            waitlistInfo.class.endDate,
-                                            router.locale as locale,
-                                        ),
+                    <Box pb={2}>
+                        <Heading size="md" pb={4} pr={2}>
+                            {waitlistInfo.program.name} ({waitlistInfo.class.name})
+                        </Heading>
+                        <Box as="span" color="gray.600" fontSize="sm">
+                            <Text>
+                                {t("time.weekday_many", {
+                                    day: weekdayToString(
+                                        waitlistInfo.class.weekday,
+                                        router.locale as locale,
+                                    ),
+                                })}{" "}
+                                {convertToShortTimeRange(
+                                    totalMinutes(waitlistInfo.class.startDate),
+                                    waitlistInfo.class.durationMinutes,
+                                )}
+                                {" with " +
+                                    t("program.teacherName", {
+                                        name: waitlistInfo.class.teacherName,
                                     })}
-                                </Text>
-                            </Box>
+                            </Text>
+                            <Text>
+                                {t("time.range", {
+                                    ...convertToShortDateRange(
+                                        waitlistInfo.class.startDate,
+                                        waitlistInfo.class.endDate,
+                                        router.locale as locale,
+                                    ),
+                                })}
+                            </Text>
                         </Box>
-                        <Spacer />
-                        <Flex alignItems={"baseline"}>
-                            <Button
-                                bg={colourTheme.colors.Blue}
-                                color={"white"}
-                                mx={"auto"}
-                                my={2}
-                                mr={5}
-                                borderRadius="6px"
-                                fontWeight={"normal"}
-                                _hover={{
-                                    textDecoration: "none",
-                                    bg: colourTheme.colors.LightBlue,
-                                }}
-                                _active={{
-                                    bg: "lightgrey",
-                                    outlineColor: "grey",
-                                    border: "grey",
-                                    boxShadow: "lightgrey",
-                                }}
-                                _focus={{
-                                    outlineColor: "grey",
-                                    border: "grey",
-                                    boxShadow: "lightgrey",
-                                }}
-                                onClick={() =>
-                                    deleteWaitlistRegistration(
-                                        waitlistInfo.parent,
-                                        waitlistInfo.classId,
-                                    )
-                                }
-                            >
-                                Remove from Waitlist
-                            </Button>
-                        </Flex>
-                    </Flex>
+                    </Box>
+                    <PrimaryButton
+                        onClick={() =>
+                            deleteWaitlistRegistration(waitlistInfo.parent, waitlistInfo.classId)
+                        }
+                        width={"fit-content"}
+                    >
+                        {t("class.waitlistCancel")}
+                    </PrimaryButton>
                 </VStack>
             </GridItem>
         </Grid>

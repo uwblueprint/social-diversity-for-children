@@ -111,8 +111,8 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                     borderColor={colourTheme.colors.Blue}
                                     color={colourTheme.colors.Blue}
                                     variant="outline"
-                                    mr="3"
-                                    width="30%"
+                                    mx={3}
+                                    px={8}
                                 >
                                     {t("program.learnMore")}
                                 </Button>
