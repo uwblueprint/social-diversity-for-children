@@ -64,6 +64,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [studentsToUnregister, setStudentsToUnregister] = useState([]);
+    const [unregisterLoading, setUnregisterLoading] = useState(false);
 
     const handleClickUnregisterStudent = (student) => {
         setStudentsToUnregister([student]);
@@ -75,14 +76,21 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
         onOpen();
     };
 
-    const handleConfirmUnregister = () => {
-        if (studentsToUnregister.length === 1) {
-            deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
-        } else {
-            deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
+    const handleConfirmUnregister = async () => {
+        try {
+            setUnregisterLoading(true);
+            if (studentsToUnregister.length === 1) {
+                await deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
+            } else {
+                await deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
+            }
+            onClose();
+            setStudentsToUnregister([]);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setUnregisterLoading(false);
         }
-        onClose();
-        setStudentsToUnregister([]);
     };
 
     const handleCancelUnregister = () => {
@@ -100,6 +108,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <ModalBody>
                         Are you sure you would like to unregister{" "}
                         {studentsToUnregister.length === 1 ? "this student" : "these students"}?
+                        Please contact SDC directly for a refund on this class.
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -107,6 +116,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                             color="white"
                             mr={3}
                             onClick={handleConfirmUnregister}
+                            isLoading={unregisterLoading}
                         >
                             Yes
                         </Button>
