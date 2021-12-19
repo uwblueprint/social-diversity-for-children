@@ -15,25 +15,16 @@ const SocialMediaLinks = [
     },
 ];
 
-export const DEFAULT_FOOTER_HEIGHT = 364;
-
 export const Footer: React.FC<FooterProps> = (props) => {
     return (
-        <Box
-            bg={"#0C53A0"}
-            color={"white"}
-            px={{ base: 4, lg: 48 }}
-            position={"absolute"}
-            bottom={0}
-            width={"100%"}
-        >
+        <Box bg={"#0C53A0"} color={"white"} px={{ base: 4, lg: 48 }} width={"100%"}>
             <Container
                 as={Stack}
                 maxW={"100%"}
                 py={6}
                 spacing={4}
                 justify={"center"}
-                minHeight={props.height || DEFAULT_FOOTER_HEIGHT}
+                minHeight={props.height}
             >
                 <Stack>
                     <Flex direction={{ base: "column", md: "row" }}>
