@@ -14,6 +14,8 @@ import { getSession } from "next-auth/client";
  * @param res API response object
  */
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    const session = await getSession({ req });
+
     switch (req.method) {
         case "GET": {
             const { id: programId, archived, includeArchived } = req.query;
@@ -57,6 +59,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "DELETE": {
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             // Obtain program id
             const { id: programId } = req.query;
             if (!programId) {
@@ -84,6 +90,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "PUT": {
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             // validate new body
             const validationError = validateProgramData(req.body as ProgramInput);
             if (validationError.length !== 0) {

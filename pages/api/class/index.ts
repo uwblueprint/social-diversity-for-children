@@ -5,6 +5,8 @@ import { ClassInput, ClassTranslationInput } from "@models/Class";
 import { validateClassData } from "@utils/validation/class";
 import { getClassInfoWithProgramId } from "@database/program-card-info";
 import { stripe } from "services/stripe";
+import { getSession } from "next-auth/client";
+import { isAdmin } from "@utils/session/authorization";
 
 /**
  * handle controls the request made to the class resource
@@ -12,14 +14,20 @@ import { stripe } from "services/stripe";
  * @param res API response object
  */
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    const session = await getSession({ req });
     switch (req.method) {
         case "GET": {
             const { id: programId, archived } = req.query;
 
+            const archivedParsed = Boolean(JSON.parse((archived as string) || "false"));
+
+            // if archived is true, then we need user to be admin for access
+            if (archivedParsed && !isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             if (!programId) {
-                const classes = await getClasses(
-                    Boolean(JSON.parse((archived as string) || "false")),
-                );
+                const classes = await getClasses(archivedParsed);
                 ResponseUtil.returnOK(res, classes);
             } else {
                 const programIdNumber = parseInt(programId as string, 10);
@@ -31,13 +39,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 }
                 const classes = await getClassInfoWithProgramId(
                     programId as string,
-                    Boolean(JSON.parse((archived as string) || "false")),
+                    archivedParsed,
                 );
                 ResponseUtil.returnOK(res, classes);
             }
             break;
         }
         case "POST": {
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             const { teacherRegs, ...input } = req.body.classInput;
             const classInput = input as ClassInput;
             const classTranslationInput = req.body.classTranslationInput as ClassTranslationInput[];
