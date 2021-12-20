@@ -1,0 +1,116 @@
+{
+    "home": {
+        "parents": "家长",
+        "volunteers": "义工",
+        "welcome": "欢迎来到 SDC",
+        "registration": "2021暑期课程将于6月31日开始接受报名！",
+        "parentBrowse": "请浏览以下的课程，然后选择适合您的日期和时间。我们确保我们会百分百符合参加者的需求。",
+        "volunteerBrowse": "要当SDC的义工既简单又容易！先创建一個义工帐户，然后选择您想要当义工的课程。",
+        "emptyPrograms": "目前没有可供注册的计划。很快回来看看我们下学期必须提供的课程！"
+    },
+    "program": {
+        "signInToRegister": "登录完成课程/义工注册",
+        "classDetails": "课堂详情",
+        "ageGroupUnder": "{{age}}岁或以下",
+        "ageGroupAbove": "{{age}}岁或以上",
+        "teacherName": "{{name}}老师",
+        "participantSpot": "剩余{{spot}}个参与者名额",
+        "volunteerSpot": "剩余{{spot}}个义工名额",
+        "notEligible": "你的孩子不符合这个年龄组的条件。请选择一个不同的班级",
+        "understood": "明白了",
+        "waitlist": "添加到候补名单",
+        "waitlistNotify": "一旦有可用空间，我们会通知您",
+        "learnMore": "了解更多",
+        "selectClass": "选择一个班级",
+        "fullClasses": "满的班级",
+        "emptyProgram": "目前没有适用于{{program}}的课程。注册下面的候补课程或查看其他程序"
+    },
+    "class": {
+        "joinClass": "加入课程",
+        "unregister": "取消注册",
+        "unregisterFor": "取消注册: {{name}}",
+        "unregisterForAll": "全部注销",
+        "upcomingClasses": "即将开始的课程",
+        "waitlistedClasses": "候补课程",
+        "waitlistedInfo": "当一个位置开放时，将向您发送一封电子邮件",
+        "emptyWaitlist": "目前您没有被列入任何课程的候补名单。您候补名单上的任何课程都会显示在这里！",
+        "emptyClass": "目前您还没有注册任何课程。您注册的任何课程都会显示在这里！"
+    },
+    "account": {
+        "addParticipant": "添加参与者",
+        "participantInformation": "学生信息",
+        "personalInformation": "个人信息",
+        "guardianInformation": "监护人信息",
+        "generalInformation": "信息",
+        "edit": "编辑",
+        "cancel": "取消",
+        "save": "保存更改",
+        "status_approved": "状态：批准",
+        "status_pending": "状态：待定",
+        "status_declined": "状态：被拒",
+        "dateSubmitted": "提交日期: {{date}}",
+        "poi_approved": "您的收入报告已通过审核。",
+        "poi_pending": "您的损益表正在审核中。",
+        "bgc_approved": "您的无犯罪调查信已通过审核。",
+        "bgc_pending": "您的无犯罪调查信正在被审查。",
+        "logOut": "登出"
+    },
+    "upload": {
+        "title": "上传文档",
+        "instruction": "将您的文件拖放到此处",
+        "alternative": "或者",
+        "browseFiles": "浏览文件",
+        "uploaded": "文件上传",
+        "submit": "提交",
+        "replace": "您想替换当前文件吗？",
+        "success": "文件提交成功",
+        "successInfo": "文档已成功发送到SDC。",
+        "successHint": "请在接下来的几周内密切关注你的背景调查状况"
+    },
+    "signIn": {
+        "firstTime": "第一次参加吗？我们会给您发一个注册代码，让您立即注册。",
+        "sentTitle": "已发送验证邮件。请检查您的电子邮件!",
+        "successEmail": "邮件认证成功！"
+    },
+    "time": {
+        "range": "{{start}}至{{end}}",
+        "weekday_many": "{{day}}"
+    },
+    "language": {
+        "select": "选择语言",
+        "apply": "继续"
+    },
+    "difficulties": {
+        "learning": "学习障碍",
+        "physical": "身体障碍",
+        "sensory": "感知障碍",
+        "other": "其他"
+    },
+    "therapy": {
+        "physiotherapy": "物理疗法",
+        "language": "语言治疗",
+        "psychotherapy": "辅导及心理治疗",
+        "art": "音乐或艺术治疗",
+        "other": "其他"
+    },
+    "hearAboutUs": {
+        "friendsAndFamily": "朋友 & 亲属",
+        "flyers": "宣传海报",
+        "email": "邮件",
+        "social": "社交媒体",
+        "other": "其他"
+    },
+    "nav": {
+        "register": "注册",
+        "registerNow": "立即注册",
+        "browseProgram": "浏览课程",
+        "signIn": "登录",
+        "back": "返回",
+        "myClasses": "我的课程",
+        "myAccount": "我的账户",
+        "viewUpcoming": "查看即将开始的课程",
+        "browseClasses": "浏览课程",
+        "viewDetails": "浏览详情",
+        "viewAccount": "浏览账户"
+    }
+}

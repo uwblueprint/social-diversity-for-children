@@ -1,24 +1,25 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 
-import styles from "./styles";
-
-import colors from "./foundations/colors";
-
-import fontSizes from "./foundations/fontSizes";
-
-/**
- * This file is generated for providing a custom theme to Chakra UI
- *
- * To learn more about custom themes
- * please visit https://chakra-ui.com/docs/getting-started#add-custom-theme-optional
- */
-
-const overrides = {
-    ...styles,
-    colors,
-    fontSizes,
+const config: ThemeConfig = {
+    initialColorMode: "light",
+    useSystemColorMode: false,
 };
 
-const theme = extendTheme(overrides);
+const theme = extendTheme({
+    config,
+    fonts: {
+        heading: "Poppins",
+        body: "Poppins",
+    },
+    colors: {
+        brand: {
+            100: "#000000",
+            200: "#FFFFFF",
+            300: "#6C6C6C",
+            400: "#8D8D8D",
+            500: "#ECECEC",
+        },
+    },
+});
 
 export default theme;
