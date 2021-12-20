@@ -28,7 +28,7 @@ jobs:
                   elif [[ $GITHUB_REF_NAME = "main" ]]; then
                     echo "::set-output name=env::production"
                     echo Environment set to 'production'
-                  else:
+                  else
                     echo '$GITHUB_REF_NAME' does not equal 'staging' or 'main'
                     exit 1
                   fi
