@@ -54,8 +54,10 @@
         "dateSubmitted": "Date submitted: {{date}}",
         "poi_approved": "Your income statement has been approved. Please be on the lookout for an email from SDC with the discount for future registrations.",
         "poi_pending": "Your income statement is under review.",
+        "poi_declined": "You have been declined for low income discounts. Please contact SDC if you think this is a mistake or submit a new income statement.",
         "bgc_approved": "Your criminal record check has been approved.",
         "bgc_pending": "Your criminal record check is under review.",
+        "bgc_declined": "Your criminal record check has been declined. Please contact SDC if you think this is a mistake or submit a new criminal record check.",
         "logOut": "Log out"
     },
     "upload": {
