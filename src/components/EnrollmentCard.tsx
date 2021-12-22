@@ -64,24 +64,27 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [studentsToUnregister, setStudentsToUnregister] = useState([]);
+    const [confirmUnregisterLoading, setConfirmUnregisterLoading] = useState(false);
 
     const handleClickUnregisterStudent = (student) => {
         setStudentsToUnregister([student]);
         onOpen();
     };
 
-    const handleClickUnRegisterAll = (students) => {
+    const handleClickUnregisterAll = (students) => {
         setStudentsToUnregister(students);
         onOpen();
     };
 
-    const handleConfirmUnregister = () => {
+    const handleConfirmUnregister = async () => {
+        setConfirmUnregisterLoading(true);
         if (studentsToUnregister.length === 1) {
-            deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
+            await deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
         } else {
-            deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
+            await deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
         }
         onClose();
+        setConfirmUnregisterLoading(false);
         setStudentsToUnregister([]);
     };
 
@@ -98,8 +101,12 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <ModalHeader>Confirm Unregister</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        Are you sure you would like to unregister{" "}
-                        {studentsToUnregister.length === 1 ? "this student" : "these students"}?
+                        {studentsToUnregister.length === 1
+                            ? t("class.unregisterInfo", {
+                                  name: studentsToUnregister[0]?.firstName,
+                              })
+                            : t("class.unregisterInfoAll")}{" "}
+                        {t("class.unregisterRefundInfo")}
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -107,6 +114,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                             color="white"
                             mr={3}
                             onClick={handleConfirmUnregister}
+                            isLoading={confirmUnregisterLoading}
                         >
                             Yes
                         </Button>
@@ -240,7 +248,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                         {enrollmentInfo.students.length < 2 ? null : (
                                             <MenuItem
                                                 onClick={() =>
-                                                    handleClickUnRegisterAll(
+                                                    handleClickUnregisterAll(
                                                         enrollmentInfo.students,
                                                     )
                                                 }
