@@ -213,7 +213,6 @@ export const ParticipantInfo: React.FC<ParticipantPageProps> = ({ props }): JSX.
                     placeholder="5"
                     required={false}
                     edit={props.edit}
-                    number={true}
                 ></TextField>
                 <br />
                 <br />

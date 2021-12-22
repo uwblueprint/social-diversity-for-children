@@ -34,13 +34,20 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
     } else if (link == null) {
         description = t("poi.missing");
         icon = <InfoIcon />;
-    } else {
+    } else if (approved === null) {
         status = "pending";
         description = t("account.poi", {
             ns: "common",
             context: status,
         });
         icon = <PendingIcon />;
+    } else {
+        status = "declined";
+        description = t("account.poi", {
+            ns: "common",
+            context: status,
+        });
+        icon = <InfoIcon />;
     }
 
     return (

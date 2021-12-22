@@ -34,13 +34,20 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
     } else if (link == null) {
         description = t("bgc.missing");
         icon = <InfoIcon />;
-    } else {
+    } else if (approved === null) {
         status = "pending";
         description = t("account.bgc", {
             ns: "common",
             context: status,
         });
         icon = <PendingIcon />;
+    } else {
+        status = "declined";
+        description = t("account.bgc", {
+            ns: "common",
+            context: status,
+        });
+        icon = <InfoIcon />;
     }
 
     return (
