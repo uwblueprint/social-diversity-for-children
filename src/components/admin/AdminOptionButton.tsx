@@ -17,19 +17,20 @@ export const AdminOptionButton: React.FC<AdminOptionButtonProps> = ({
     isExternal,
     ...props
 }) => {
-    const button = (
+    return (
         <Link
             isExternal={isExternal}
-            href={href && isExternal ? href : undefined}
+            href={href}
             textDecoration="none"
             rounded={"md"}
             _active={{}}
             _hover={{}}
         >
             <Button
+                w="100%"
                 border="2px"
                 borderColor={colourTheme.colors.Sliver}
-                px={9}
+                px={8}
                 py="24px"
                 backgroundColor="white"
                 _active={{}}
@@ -43,6 +44,4 @@ export const AdminOptionButton: React.FC<AdminOptionButtonProps> = ({
             </Button>
         </Link>
     );
-
-    return href && !isExternal ? <Link href={href}>{button}</Link> : button;
 };

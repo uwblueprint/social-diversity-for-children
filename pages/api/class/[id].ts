@@ -14,8 +14,10 @@ import { getSession } from "next-auth/client";
  */
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     // Obtain class id
-    const { id } = req.query;
+    const { id, includeArchived } = req.query;
     const session = await getSession({ req });
+
+    const includeArchivedParsed = Boolean(JSON.parse((includeArchived as string) || "false"));
 
     //parse query parameters from string to number and validate that id is a number
     const classId = parseInt(id as string, 10);
@@ -24,8 +26,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
     }
 
     if (req.method == "GET") {
+        // include archived should be admin only
+        if (includeArchivedParsed && !isAdmin(session)) {
+            return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+        }
+
         // obtain class with provided classId
-        const classSection = await getClass(classId);
+        const classSection = await getClass(classId, includeArchivedParsed);
 
         if (!classSection) {
             ResponseUtil.returnNotFound(res, `Class with id ${classId} not found.`);
@@ -34,7 +41,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
-        // If there is no session or the user is not a internal user, not authorized
         if (!isAdmin(session)) {
             return ResponseUtil.returnUnauthorized(res, "Unauthorized");
         }

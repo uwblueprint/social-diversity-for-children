@@ -16,6 +16,7 @@ import { ClassCardInfo } from "@models/Class";
 import colourTheme from "@styles/colours";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { weekdayToString } from "@utils/enum/weekday";
+import { totalMinutes } from "@utils/time/convert";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -37,8 +38,8 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({ cardInfo }
             _hover={{ borderColor: colourTheme.colors.Gray }}
             onClick={() => router.push(`/admin/class/${cardInfo.id}`)}
         >
-            <GridItem alignSelf="center">
-                <AspectRatio width="100%" ratio={1}>
+            <GridItem alignSelf="center" w={150}>
+                <AspectRatio ratio={1}>
                     <Image src={cardInfo.image} fit="cover" alt={cardInfo.name} />
                 </AspectRatio>
             </GridItem>
@@ -59,7 +60,7 @@ export const UpcomingClassCard: React.FC<UpcomingClassCardProps> = ({ cardInfo }
                         <Box as="span" color={colourTheme.colors.Gray} fontSize="sm">
                             {weekdayToString(cardInfo.weekday, locale.en)}{" "}
                             {convertToShortTimeRange(
-                                cardInfo.startTimeMinutes,
+                                totalMinutes(cardInfo.startDate),
                                 cardInfo.durationMinutes,
                             )}
                         </Box>

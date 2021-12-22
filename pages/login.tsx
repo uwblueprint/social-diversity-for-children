@@ -33,7 +33,7 @@ export default function Login(): JSX.Element {
         signIn("email", { email });
     };
 
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["common", "form"]);
 
     return (
         <Wrapper>
@@ -51,12 +51,12 @@ export default function Login(): JSX.Element {
                     </Center>
                     <Center>
                         <Text fontWeight="400" fontSize="16px" mt="20px" textAlign="center">
-                            Registration for Summer 2021 classes begin June 31, 2021
+                            {t("home.registration")}
                         </Text>
                     </Center>
                     <Center>
                         <Text fontWeight="400" fontSize="16px" mt="50px">
-                            Email Address
+                            {t("label.email", { ns: "form" })}
                         </Text>
                     </Center>
                     <FormControl id="email">
@@ -90,7 +90,7 @@ export default function Login(): JSX.Element {
                                 _hover={{}}
                                 borderRadius="6px"
                             >
-                                Please enter a valid email to continue.
+                                {t("form.continue", { ns: "form" })}
                             </Button>
                         ) : !value ? (
                             <Button
@@ -111,7 +111,7 @@ export default function Login(): JSX.Element {
                                 }}
                                 _active={{}}
                             >
-                                Continue
+                                {t("form.continue", { ns: "form" })}
                             </Button>
                         ) : (
                             <Button
@@ -165,7 +165,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // if the user is not authenticated - continue to the page as normal
     return {
         props: {
-            ...(await serverSideTranslations(context.locale, ["common"])),
+            ...(await serverSideTranslations(context.locale, ["common", "form"])),
         },
     };
 };

@@ -70,4 +70,36 @@ async function getProgramCardInfo(id: string, isArchived: boolean) {
 
     return findResult;
 }
-export { getProgramCardInfos, getProgramCardInfo, getClassInfoWithProgramId };
+
+/**
+ * Get the card info for one program with given id regardless of it is archived
+ * @param {string} id - programId
+ * @param {boolean} includeArchived - whether to include archived program as well
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getProgramCardInfoIncludeArchived(id: string, includeArchived = true) {
+    const findResult = await prisma.program.findFirst({
+        where: {
+            id: parseInt(id),
+            ...(() => {
+                return includeArchived
+                    ? undefined
+                    : {
+                          isArchived: false,
+                      };
+            })(),
+        },
+        include: {
+            programTranslation: true,
+        },
+    });
+
+    return findResult;
+}
+
+export {
+    getProgramCardInfos,
+    getProgramCardInfo,
+    getProgramCardInfoIncludeArchived,
+    getClassInfoWithProgramId,
+};

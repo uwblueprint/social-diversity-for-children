@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import colourTheme from "@styles/colours";
 import useMe from "@utils/hooks/useMe";
 import { AgeBadge } from "./AgeBadge";
+import { totalMinutes } from "@utils/time/convert";
 
 type ClassInfoProps = {
     cardInfo: ClassCardInfo;
@@ -77,7 +78,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                 day: weekdayToString(cardInfo.weekday, router.locale as locale),
                             })}{" "}
                             {convertToShortTimeRange(
-                                cardInfo.startTimeMinutes,
+                                totalMinutes(cardInfo.startDate),
                                 cardInfo.durationMinutes,
                             )}
                             {" with " +
@@ -89,8 +90,9 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                         <Box mr="3" as="span" color="gray.600" fontSize="sm">
                             {me && me.role === roles.VOLUNTEER
                                 ? t("program.volunteerSpot", {
-                                      spot: cardInfo.spaceAvailable,
-                                      context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
+                                      spot: cardInfo.volunteerSpaceAvailable,
+                                      context:
+                                          cardInfo.volunteerSpaceAvailable !== 1 ? "plural" : "",
                                   })
                                 : t("program.participantSpot", {
                                       spot: cardInfo.spaceAvailable,
@@ -109,8 +111,8 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                     borderColor={colourTheme.colors.Blue}
                                     color={colourTheme.colors.Blue}
                                     variant="outline"
-                                    mr="3"
-                                    width="30%"
+                                    mx={3}
+                                    px={8}
                                 >
                                     {t("program.learnMore")}
                                 </Button>

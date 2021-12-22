@@ -81,7 +81,6 @@ function pushMailPromises(classes, intervalHours: number, mailerPromises: Promis
                         weekday,
                         startDate,
                         endDate,
-                        startTimeMinutes,
                         durationMinutes,
                         reg.parent.preferredLanguage,
                     ),
@@ -105,7 +104,6 @@ function pushMailPromises(classes, intervalHours: number, mailerPromises: Promis
                         weekday,
                         startDate,
                         endDate,
-                        startTimeMinutes,
                         durationMinutes,
                         reg.volunteer.preferredLanguage
                             ? reg.volunteer.preferredLanguage

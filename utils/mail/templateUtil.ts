@@ -2,6 +2,7 @@ import { locale, weekday } from "@prisma/client";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { weekdayToString } from "@utils/enum/weekday";
+import { totalMinutes } from "@utils/time/convert";
 
 /**
  * Return html representing the class notification template
@@ -9,9 +10,8 @@ import { weekdayToString } from "@utils/enum/weekday";
  * @param  {string} imageLink image link of class
  * @param  {string} name name of class
  * @param  {weekday} classWeekday repeated weekday of class
- * @param  {Date} startDate date which class starts
+ * @param  {Date} startDate date time which class starts
  * @param  {Date} endDate date which class ends
- * @param  {number} startTimeMinutes starting time in minutes
  * @param  {number} durationMinutes duration of session
  * @return {string} html template
  */
@@ -22,7 +22,6 @@ export const classStartingSoonTemplate = (
     classWeekday: weekday,
     startDate: Date,
     endDate: Date,
-    startTimeMinutes: number,
     durationMinutes: number,
     language: locale = locale.en,
 ): string => {
@@ -67,7 +66,7 @@ export const classStartingSoonTemplate = (
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
                             >${weekdayToString(classWeekday, language)} ${convertToShortTimeRange(
-        startTimeMinutes,
+        totalMinutes(startDate),
         durationMinutes,
     )}</span
                         ><br /><span
@@ -91,9 +90,8 @@ export const classStartingSoonTemplate = (
  * @param  {string} imageLink image link of class
  * @param  {string} name name of class
  * @param  {weekday} classWeekday repeated weekday of class
- * @param  {Date} startDate date which class starts
+ * @param  {Date} startDate date time which class starts
  * @param  {Date} endDate date which class ends
- * @param  {number} startTimeMinutes starting time in minutes
  * @param  {number} durationMinutes duration of session
  * @return {string} html template
  */
@@ -104,7 +102,6 @@ export const openSpotWaitlistTemplate = (
     classWeekday: weekday,
     startDate: Date,
     endDate: Date,
-    startTimeMinutes: number,
     durationMinutes: number,
     language: locale = locale.en,
 ): string => {
@@ -149,7 +146,7 @@ export const openSpotWaitlistTemplate = (
                         ><br /><span
                             style="width: 30px; color: rgba(115, 115, 115, 1); font-size: 14px"
                             >${weekdayToString(classWeekday, language)} ${convertToShortTimeRange(
-        startTimeMinutes,
+        totalMinutes(startDate),
         durationMinutes,
     )}</span
                         ><br /><span

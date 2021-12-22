@@ -3,6 +3,7 @@ import { ClassCardInfo } from "models/Class";
 import { EnrollmentCardInfo, VolunteeringCardInfo, WaitlistCardInfo } from "@models/Enroll";
 import { ClassTranslation, locale, ProgramTranslation } from "@prisma/client";
 import { TranslationUtil } from "./translationUtil";
+import { totalMinutes } from "./time/convert";
 
 // Converting Program and Class information from services/database/program-card-info.ts
 // into Program/Class CardInfo objects for frontend
@@ -31,6 +32,7 @@ export class CardInfoUtil {
         );
         const mainProgramTranslation: ProgramTranslation =
             TranslationUtil.getMainProgramTranslation(result.program.programTranslation, language);
+
         return {
             borderAge: result.borderAge,
             isAgeMinimal: result.isAgeMinimal,
@@ -43,15 +45,18 @@ export class CardInfoUtil {
             volunteerSpaceTotal: result.volunteerSpaceTotal,
             volunteerSpaceAvailable: result.volunteerSpaceTotal - result._count?.volunteerRegs,
             volunteerSpaceTaken: result._count?.volunteerRegs,
-            startDate: result.startDate,
-            endDate: result.endDate,
+            startDate: new Date(result.startDate),
+            endDate: new Date(result.endDate),
             weekday: result.weekday,
             startTimeMinutes: result.startTimeMinutes,
             durationMinutes: result.durationMinutes,
+            isArchived: result.isArchived,
             programId: result.program.id,
             programName: mainProgramTranslation ? mainProgramTranslation.name : "",
             name: mainClassTranslation ? mainClassTranslation.name : result.name,
             description: mainClassTranslation ? mainClassTranslation.description : "",
+            translations: result.classTranslation,
+            teacherId: result.teacherRegs.length > 0 ? result.teacherRegs[0].teacher.id : -1,
             teacherName:
                 result.teacherRegs.length > 0
                     ? result.teacherRegs[0].teacher.user.firstName +
@@ -89,9 +94,11 @@ export class CardInfoUtil {
             TranslationUtil.getMainProgramTranslation(result.programTranslation, language);
         return {
             id: result.id,
+            isArchived: result.isArchived,
             image: result.imageLink,
             name: mainProgramTranslation ? mainProgramTranslation.name : "",
             description: mainProgramTranslation ? mainProgramTranslation.description : "",
+            translations: result.programTranslation,
             startDate: result.startDate,
             endDate: result.endDate,
             tag: result.tag,

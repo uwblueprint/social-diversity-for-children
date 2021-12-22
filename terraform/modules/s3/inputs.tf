@@ -29,12 +29,6 @@ variable "income_proof_folder" {
   type        = string
 }
 
-variable "curriculum_plans_folder" {
-  description = "Name of the curriculum plans folder"
-  default     = "curriculum-plans"
-  type        = string
-}
-
 variable "other_folder" {
   description = "Name of the other folder (folder where files are uploaded when type isn't specified)"
   default     = "other"

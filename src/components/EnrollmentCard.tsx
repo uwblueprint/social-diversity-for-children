@@ -40,6 +40,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
 import useGetZoomLink from "@utils/hooks/useGetZoomLink";
+import { totalMinutes } from "@utils/time/convert";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
@@ -186,7 +187,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             ),
                                         })}{" "}
                                         {convertToShortTimeRange(
-                                            enrollmentInfo.class.startTimeMinutes,
+                                            totalMinutes(enrollmentInfo.class.startDate),
                                             enrollmentInfo.class.durationMinutes,
                                         )}
                                         {" with " +

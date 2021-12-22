@@ -30,6 +30,6 @@ yarn-error.log
 **/.terraform/*
 
 # lambda
-**/.zip/**
+*.zip
 **/cronMailing/*
 !**/cronMailing/*.py

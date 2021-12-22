@@ -1,17 +1,10 @@
 # NOTE
 # Variables without a default are inputted secretly. Generally only define variables with a default for non-secrets
-
 # ------------------------------------------------------------------
 # app
 variable "sdc_domain" {
   description = "full domain name"
-  default     = "https://staging.socialdiversity.org"
-  type        = string
-}
-
-variable "sdc_pr_domain" {
-  description = "domain of pr deploys"
-  default     = "https://social-diversity-for-children-pr-*.up.railway.app"
+  default     = "https://app.socialdiversity.org"
   type        = string
 }
 
@@ -29,13 +22,13 @@ variable "cloudwatch_lambda_logs_policy_name" {
 
 variable "s3_images_bucket_name" {
   description = "Name of the document uploads s3 bucket"
-  default     = "sdc-public-images"
+  default     = "sdc-app-public-images"
   type        = string
 }
 
 variable "s3_uploads_bucket_name" {
   description = "Name of the document uploads s3 bucket"
-  default     = "sdc-uploads"
+  default     = "sdc-app-uploads"
   type        = string
 }
 
@@ -48,12 +41,6 @@ variable "criminal_check_folder" {
 variable "income_proof_folder" {
   description = "Name of the income proof folder"
   default     = "income-proof"
-  type        = string
-}
-
-variable "curriculum_plans_folder" {
-  description = "Name of the curriculum plans folder"
-  default     = "curriculum-plans"
   type        = string
 }
 
@@ -114,11 +101,12 @@ variable "cronMailing_schedule_expression" {
 
 variable "api_endpoint" {
   description = "Domain api endpoint"
-  default     = "https://staging.socialdiversity.org/api"
+  default     = "https://app.socialdiversity.org/api"
   type        = string
 }
 
 variable "lambda_secret_key_name" {
   description = "Name of lambda secret key"
+  default     = "LAMBDA_SECRET_KEY"
   type        = string
 }

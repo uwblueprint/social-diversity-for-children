@@ -22,8 +22,8 @@ type BrowseProgramsProps = {
 };
 
 const headerLinks = [
-    { name: "Add Program", url: "/admin/program/create" },
-    { name: "Add Class", url: "/admin/class/create" },
+    { name: "Add Program", url: "/admin/program/edit/new" },
+    { name: "Add Class", url: "/admin/class/edit/new" },
 ];
 
 export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {

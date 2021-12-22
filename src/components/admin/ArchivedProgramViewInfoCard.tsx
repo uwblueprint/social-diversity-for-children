@@ -113,7 +113,7 @@ export const ArchivedProgramViewInfoCard: React.FC<ArchivedProgramViewInfoCard> 
                                     <MenuList>
                                         <MenuItem
                                             onClick={() =>
-                                                router.push(`/admin/edit/program/${cardInfo.id}`)
+                                                router.push(`/admin/program/edit/${cardInfo.id}`)
                                             }
                                         >
                                             Edit
