@@ -1,4 +1,4 @@
-import { Box, Button, Center, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Spinner, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { BackButton } from "@components/BackButton";
 import { CloseButton } from "@components/CloseButton";
 import DragAndDrop from "@components/DragAndDrop";
@@ -18,6 +18,7 @@ type DocumentUploadProps = {
 export default function DocumentUpload({ session }: DocumentUploadProps): JSX.Element {
     const router = useRouter();
     const { t } = useTranslation(["common", "form"]);
+    const isMobileDevice = useBreakpointValue({ base: true, md: false });
 
     let { type } = router.query;
     const { redirect } = router.query;
@@ -74,15 +75,20 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
                                 </Text>
                             </Center>
                             <Center>
-                                <DragAndDrop setFiles={setFiles} />
+                                <DragAndDrop
+                                    setFiles={setFiles}
+                                    files={files}
+                                    isMobileDevice={isMobileDevice}
+                                />
                             </Center>
                         </Box>
                     </Center>
-                    {files.map((file: File) => (
-                        <Text key={file.name}>
-                            {t("upload.uploaded")}: <u> {file.name} </u>
-                        </Text>
-                    ))}
+                    {!isMobileDevice &&
+                        files.map((file: File) => (
+                            <Text key={file.name}>
+                                {t("upload.uploaded")}: <u> {file.name} </u>
+                            </Text>
+                        ))}
                     <Center paddingBottom="40px">
                         {!!files.length && !isUploading && (
                             <Button
