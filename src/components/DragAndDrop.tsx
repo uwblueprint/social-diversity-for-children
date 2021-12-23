@@ -5,7 +5,7 @@ import { UploadIcon } from "./icons";
 import { useTranslation } from "next-i18next";
 import { Bool } from "aws-sdk/clients/inspector";
 
-type DrapAndDropProps = {
+type DragAndDropProps = {
     setFiles: (files: File[]) => void;
     files: File[];
     isMobileDevice: Bool;
@@ -13,7 +13,7 @@ type DrapAndDropProps = {
 
 // TODO could be a lot of refactor for actual drag and drop
 // TODO detect mobile users and don't show d&d
-const DragAndDrop: React.FC<DrapAndDropProps> = ({
+const DragAndDrop: React.FC<DragAndDropProps> = ({
     setFiles,
     files,
     isMobileDevice,
@@ -22,7 +22,7 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({
 
     return (
         <Box
-            width="500px"
+            width={isMobileDevice ? "none" : "500px"}
             border="2px"
             borderStyle={isMobileDevice ? "none" : "dashed"}
             borderColor="gray.500"
@@ -52,14 +52,14 @@ const DragAndDrop: React.FC<DrapAndDropProps> = ({
                 </Box>
             ) : (
                 <Box>
-                    <Center>
+                    <Text>
                         {files.map((file: File) => (
                             <Text key={file.name}>
                                 {t("upload.uploaded")}: <br />
                                 <u> {file.name} </u>
                             </Text>
                         ))}
-                    </Center>
+                    </Text>
                     <FileUploadButton
                         setFiles={setFiles}
                         changeBackground={files.length > 0 && isMobileDevice}

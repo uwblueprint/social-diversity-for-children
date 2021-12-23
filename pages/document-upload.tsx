@@ -69,10 +69,13 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
                 <VStack>
                     <Center>
                         <Box width={{ base: "90%", lg: "700px" }} mb="40px">
-                            <Center>
-                                <Text fontWeight="700" fontSize="36px" m="40px">
-                                    {t("upload.title")}
-                                </Text>
+                            <Center
+                                fontWeight="700"
+                                fontSize={isMobileDevice ? "30px" : "36px"}
+                                my={isMobileDevice ? "20px" : "40px"}
+                                mx={isMobileDevice ? undefined : "40px"}
+                            >
+                                {t("upload.title")}
                             </Center>
                             <Center>
                                 <DragAndDrop
