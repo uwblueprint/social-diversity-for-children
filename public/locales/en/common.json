@@ -66,6 +66,7 @@
     },
     "upload": {
         "title": "Upload Document",
+        "prompt": "Select a document to upload",
         "instruction": "Drag and drop your file here",
         "alternative": "or",
         "browseFiles": "Browse Files",
