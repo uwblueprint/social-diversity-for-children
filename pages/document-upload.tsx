@@ -65,73 +65,79 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
     const uploadDocumentUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <BackButton />
-                <VStack>
-                    <Center>
-                        <Box width={{ base: "90%", lg: "700px" }} mb="40px">
-                            <Center
-                                fontWeight="700"
-                                fontSize={isMobileDevice ? "30px" : "36px"}
-                                my={isMobileDevice ? "20px" : "40px"}
-                                mx={isMobileDevice ? undefined : "40px"}
-                            >
-                                {t("upload.title")}
-                            </Center>
-                            <Center>
-                                <DragAndDrop
-                                    setFiles={setFiles}
-                                    files={files}
-                                    isMobileDevice={isMobileDevice}
-                                />
-                            </Center>
-                        </Box>
-                    </Center>
-                    {!isMobileDevice &&
-                        files.map((file: File) => (
-                            <Text key={file.name}>
-                                {t("upload.uploaded")}: <u> {file.name} </u>
-                            </Text>
-                        ))}
-                    <Center paddingBottom="40px">
-                        {!!files.length && !isUploading && (
-                            <Button
-                                backgroundColor="#0C53A0"
-                                borderColor="brand.400"
-                                width="366px"
-                                height="54px"
-                                fontSize="16px"
-                                fontWeight="400"
-                                color="white"
-                                border="1px"
-                                mt="20px"
-                                onClick={upload}
-                            >
-                                {t("upload.submit")}
-                            </Button>
-                        )}
-                        {isUploading && (
-                            <Button
-                                backgroundColor="#0C53A0"
-                                borderColor="brand.400"
-                                width="366px"
-                                height="54px"
-                                fontSize="16px"
-                                fontWeight="400"
-                                color="white"
-                                border="1px"
-                                mt="20px"
-                            >
-                                <Spinner
-                                    thickness="4px"
-                                    speed="0.65s"
-                                    emptyColor="gray.200"
-                                    color="blue.500"
-                                    size="xl"
-                                />
-                            </Button>
-                        )}
-                    </Center>
-                </VStack>
+                <Box minHeight="85vh">
+                    <BackButton />
+                    <VStack>
+                        <Center>
+                            <Box width={{ base: "90%", lg: "700px" }} mb="40px">
+                                <Center
+                                    fontWeight="700"
+                                    fontSize={isMobileDevice ? "30px" : "36px"}
+                                    my={isMobileDevice ? "20px" : "40px"}
+                                    mx={isMobileDevice ? undefined : "40px"}
+                                >
+                                    {t("upload.title")}
+                                </Center>
+                                <Center>
+                                    <DragAndDrop
+                                        setFiles={setFiles}
+                                        files={files}
+                                        isMobileDevice={isMobileDevice}
+                                    />
+                                </Center>
+                            </Box>
+                        </Center>
+                        {!isMobileDevice &&
+                            files.map((file: File) => (
+                                <Text key={file.name}>
+                                    {t("upload.uploaded")}: <u> {file.name} </u>
+                                </Text>
+                            ))}
+                        <Center paddingBottom="40px">
+                            {!!files.length && !isUploading && (
+                                <Button
+                                    backgroundColor="#0C53A0"
+                                    borderColor="brand.400"
+                                    width="366px"
+                                    height="54px"
+                                    fontSize="16px"
+                                    fontWeight="400"
+                                    color="white"
+                                    border="1px"
+                                    mt="20px"
+                                    position={isMobileDevice ? "absolute" : undefined}
+                                    top={isMobileDevice ? "85vh" : undefined}
+                                    onClick={upload}
+                                >
+                                    {t("upload.submit")}
+                                </Button>
+                            )}
+                            {isUploading && (
+                                <Button
+                                    backgroundColor="#0C53A0"
+                                    borderColor="brand.400"
+                                    width="366px"
+                                    height="54px"
+                                    fontSize="16px"
+                                    fontWeight="400"
+                                    color="white"
+                                    border="1px"
+                                    mt="20px"
+                                    position={isMobileDevice ? "absolute" : undefined}
+                                    top={isMobileDevice ? "85vh" : undefined}
+                                >
+                                    <Spinner
+                                        thickness="4px"
+                                        speed="0.65s"
+                                        emptyColor="gray.200"
+                                        color="blue.500"
+                                        size="xl"
+                                    />
+                                </Button>
+                            )}
+                        </Center>
+                    </VStack>
+                </Box>
             </Wrapper>
         );
     };
@@ -139,78 +145,35 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
     const uploadSuccessUI = (): JSX.Element => {
         return (
             <Wrapper session={session}>
-                <CloseButton href={redirect ? (redirect as string) : undefined} />
-                <VStack>
-                    <Center>
-                        <Box width="400px" mb="40px">
-                            <Center>
-                                <ApprovedIcon />
-                            </Center>
-                            <Center>
-                                <Text fontWeight="700" fontSize="25px" m="20px">
-                                    {t("upload.success")}
-                                </Text>
-                            </Center>
-                            <Center>
-                                <Text fontWeight="200" fontSize="15px" mb="20px">
-                                    {t("upload.successInfo")}
-                                </Text>
-                            </Center>
-                            <Center>
-                                <Text
-                                    fontWeight="200"
-                                    fontSize="15px"
-                                    mb="20px"
-                                    textAlign={["center"]}
-                                >
-                                    {t("upload.successHint")}
-                                </Text>
-                            </Center>
-                            {redirect && redirect !== "/myaccounts" ? (
+                <Box minHeight="85vh">
+                    <CloseButton href={redirect ? (redirect as string) : undefined} />
+                    <VStack>
+                        <Center>
+                            <Box width="400px" mb="40px">
                                 <Center>
-                                    <Button
-                                        backgroundColor="#0C53A0"
-                                        borderColor="brand.400"
-                                        width="366px"
-                                        height="54px"
-                                        fontSize="16px"
-                                        fontWeight="400"
-                                        color="white"
-                                        border="1px"
-                                        mt="20px"
-                                        onClick={() =>
-                                            router
-                                                .push(redirect ? (redirect as string) : "/")
-                                                .then(() => {
-                                                    window.scrollTo({ top: 0 });
-                                                })
-                                        }
-                                    >
-                                        {t("form.continue", { ns: "form" })}
-                                    </Button>
+                                    <ApprovedIcon />
                                 </Center>
-                            ) : (
-                                <>
-                                    <Center>
-                                        <Button
-                                            backgroundColor="white"
-                                            borderColor="brand.400"
-                                            width="366px"
-                                            height="54px"
-                                            fontSize="16px"
-                                            fontWeight="400"
-                                            color="#0C53A0"
-                                            border="2px"
-                                            mt="20px"
-                                            onClick={() =>
-                                                router.push("/myaccounts").then(() => {
-                                                    window.scrollTo({ top: 0 });
-                                                })
-                                            }
-                                        >
-                                            {t("nav.viewAccount")}
-                                        </Button>
-                                    </Center>
+                                <Center>
+                                    <Text fontWeight="700" fontSize="25px" m="20px">
+                                        {t("upload.success")}
+                                    </Text>
+                                </Center>
+                                <Center>
+                                    <Text fontWeight="200" fontSize="15px" mb="20px">
+                                        {t("upload.successInfo")}
+                                    </Text>
+                                </Center>
+                                <Center>
+                                    <Text
+                                        fontWeight="200"
+                                        fontSize="15px"
+                                        mb="20px"
+                                        textAlign={["center"]}
+                                    >
+                                        {t("upload.successHint")}
+                                    </Text>
+                                </Center>
+                                {redirect && redirect !== "/myaccounts" ? (
                                     <Center>
                                         <Button
                                             backgroundColor="#0C53A0"
@@ -223,19 +186,64 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
                                             border="1px"
                                             mt="20px"
                                             onClick={() =>
-                                                router.push("/").then(() => {
-                                                    window.scrollTo({ top: 0 });
-                                                })
+                                                router
+                                                    .push(redirect ? (redirect as string) : "/")
+                                                    .then(() => {
+                                                        window.scrollTo({ top: 0 });
+                                                    })
                                             }
                                         >
-                                            {t("nav.browseProgram")}
+                                            {t("form.continue", { ns: "form" })}
                                         </Button>
                                     </Center>
-                                </>
-                            )}
-                        </Box>
-                    </Center>
-                </VStack>
+                                ) : (
+                                    <>
+                                        <Center>
+                                            <Button
+                                                backgroundColor="white"
+                                                borderColor="brand.400"
+                                                width="366px"
+                                                height="54px"
+                                                fontSize="16px"
+                                                fontWeight="400"
+                                                color="#0C53A0"
+                                                border="2px"
+                                                mt="20px"
+                                                onClick={() =>
+                                                    router.push("/myaccounts").then(() => {
+                                                        window.scrollTo({ top: 0 });
+                                                    })
+                                                }
+                                            >
+                                                {t("nav.viewAccount")}
+                                            </Button>
+                                        </Center>
+                                        <Center>
+                                            <Button
+                                                backgroundColor="#0C53A0"
+                                                borderColor="brand.400"
+                                                width="366px"
+                                                height="54px"
+                                                fontSize="16px"
+                                                fontWeight="400"
+                                                color="white"
+                                                border="1px"
+                                                mt="20px"
+                                                onClick={() =>
+                                                    router.push("/").then(() => {
+                                                        window.scrollTo({ top: 0 });
+                                                    })
+                                                }
+                                            >
+                                                {t("nav.browseProgram")}
+                                            </Button>
+                                        </Center>
+                                    </>
+                                )}
+                            </Box>
+                        </Center>
+                    </VStack>
+                </Box>
             </Wrapper>
         );
     };

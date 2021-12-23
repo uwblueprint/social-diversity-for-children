@@ -60,6 +60,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({
                             </Text>
                         ))}
                     </Text>
+                    <Text>{files.length === 0 && t("upload.prompt")}</Text>
                     <FileUploadButton
                         setFiles={setFiles}
                         changeBackground={files.length > 0 && isMobileDevice}
