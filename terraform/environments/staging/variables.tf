@@ -14,6 +14,14 @@ variable "sdc_pr_domain" {
   type        = string
 }
 
+# ------------------------------------------------------------------
+# SES
+variable "email_domain" {
+  description = "Email address for SES"
+  default     = "uwblueprint.org"
+  type        = string
+}
+
 # should add variable condition checks to limit configuration discrepencies
 # ------------------------------------------------------------------
 # IAM

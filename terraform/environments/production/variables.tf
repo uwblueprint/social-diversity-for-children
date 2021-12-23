@@ -8,6 +8,12 @@ variable "sdc_domain" {
   type        = string
 }
 
+variable "email_domain" {
+  description = "Email address for SES"
+  default     = "socialdiversity.org"
+  type        = string
+}
+
 # should add variable condition checks to limit configuration discrepencies
 # ------------------------------------------------------------------
 # IAM
