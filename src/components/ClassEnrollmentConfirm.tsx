@@ -241,7 +241,11 @@ export const ClassEnrollmentConfirmation = (
                         </Text>
                     </Box>
                 </VStack>
-                <Stack direction={["column", "row"]} spacing="50px" paddingBottom="100px">
+                <Stack
+                    direction={{ base: "column", md: "row" }}
+                    spacing="50px"
+                    paddingBottom="100px"
+                >
                     <Button
                         height="49px"
                         width="205px"

@@ -14,7 +14,7 @@ export default function Verify(): JSX.Element {
     return (
         <Wrapper>
             <BackButton />
-            <Center h="500px" mt={12} mb={16}>
+            <Center minH="500px" mt={12} mb={16}>
                 <Box width={{ base: undefined, md: "700px" }}>
                     <Center>
                         <Box>
@@ -27,7 +27,7 @@ export default function Verify(): JSX.Element {
                             fontSize="24px"
                             align="center"
                             mt="10px"
-                            width="450px"
+                            width={{ base: undefined, md: "450px" }}
                         >
                             {t("signIn.sentTitle")}
                         </Text>
