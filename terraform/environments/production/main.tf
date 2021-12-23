@@ -83,6 +83,7 @@ module "cronMailing_eventbridge" {
 # ------------------------------------------------------------------
 # SES
 module "ses" {
+  env          = var.env
   source       = "../../modules/ses"
   email        = local.email
   email_domain = var.email_domain

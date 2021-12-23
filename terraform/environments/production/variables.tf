@@ -116,3 +116,9 @@ variable "lambda_secret_key_name" {
   default     = "LAMBDA_SECRET_KEY"
   type        = string
 }
+
+variable "env" {
+  description = "environment value for internal terraform use"
+  default     = "production"
+  type        = string
+}

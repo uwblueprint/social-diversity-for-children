@@ -3,9 +3,11 @@ resource "aws_ses_email_identity" "sdc" {
 }
 
 resource "aws_ses_domain_identity" "sdc_domain" {
+  count  = var.env == "production" ? 1 : 0
   domain = var.email_domain
 }
 
 resource "aws_ses_domain_dkim" "sdc_dkim" {
-  domain = aws_ses_domain_identity.sdc_domain.domain
+  count  = var.env == "production" ? 1 : 0
+  domain = var.email_domain
 }
