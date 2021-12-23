@@ -6,17 +6,17 @@ terraform {
   }
   # not possible to have this dynamic or populated through variables 
   backend "s3" {
-    bucket         = "sdc-dev-terraform-state"
+    bucket         = "sdc-app-terraform-state"
     key            = "terraform-state/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "sdc-dev-terraform-state-lock"
+    region         = "us-west-2"
+    dynamodb_table = "sdc-app-terraform-state-lock"
     encrypt        = true
   }
 }
 
 # configures the required provider
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 module "iam" {
@@ -26,7 +26,7 @@ module "iam" {
 
 module "s3" {
   source          = "../../modules/s3"
-  allowed_origins = ["http://localhost:3000", var.sdc_domain, var.sdc_pr_domain]
+  allowed_origins = [var.sdc_domain]
 
   # uploads bucket 
   s3_uploads_bucket_name = var.s3_uploads_bucket_name

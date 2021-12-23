@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResponseUtil } from "@utils/responseUtil";
 import { deleteUser, getUser } from "@database/user";
-import { isTeacher } from "@utils/session/authorization";
+import { isAdmin, isTeacher } from "@utils/session/authorization";
 import { getSession } from "next-auth/client";
 import { roles } from "@prisma/client";
 import {
@@ -57,12 +57,18 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                         "Teacher can only view participants in their classes",
                     );
                 }
+            } else if (user.id !== session.id && !isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
             }
 
             ResponseUtil.returnOK(res, user);
             return;
         }
         case "DELETE": {
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             //  delete user with provided userId
             const user = await deleteUser(id as string);
 
