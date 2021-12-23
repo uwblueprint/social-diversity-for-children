@@ -93,7 +93,7 @@ export const BrowseProgramCard: React.FC<BrowseProgramCardProps> = ({
                                 <MenuList>
                                     <MenuItem
                                         onClick={() =>
-                                            router.push(`/admin/edit/program/${cardInfo.id}`)
+                                            router.push(`/admin/program/edit/${cardInfo.id}`)
                                         }
                                     >
                                         Edit

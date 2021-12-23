@@ -24,10 +24,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
 
     // If there is no session or the user is not a volunteer
     if (!session) {
-        return ResponseUtil.returnUnauthorized(
-            res,
-            "Only users with VOLUNTEER role can access this resource",
-        );
+        return ResponseUtil.returnUnauthorized(res, "Unauthorized");
     }
 
     const user = await getUserFromEmail(session.user.email);

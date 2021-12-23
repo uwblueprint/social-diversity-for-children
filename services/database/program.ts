@@ -1,5 +1,5 @@
 import prisma from "@database";
-import { ProgramInput } from "models/Program";
+import { ProgramInput, ProgramTranslationData } from "models/Program";
 import { Program } from "@prisma/client";
 
 /**
@@ -16,15 +16,49 @@ async function getProgramCount() {
  * @param newProgramData - data corresponding to new program
  * @returns Promise<Program> - Promise with the newly created program
  */
-async function createProgram(newProgramData: ProgramInput): Promise<Program> {
-    const program = await prisma.program.create({
-        data: {
-            onlineFormat: newProgramData.onlineFormat,
-            tag: newProgramData.tag,
-            startDate: newProgramData.startDate,
-            endDate: newProgramData.endDate,
-        },
-    });
+async function createProgram(
+    newProgramData: ProgramInput,
+    newProgramTranslationsData: ProgramTranslationData[],
+): Promise<Program> {
+    let program = null;
+
+    //Doesn't exist (Create)
+    if (newProgramData.id === -1) {
+        delete newProgramData.id;
+        program = await prisma.program.create({
+            data: {
+                ...newProgramData,
+                programTranslation: {
+                    createMany: {
+                        data: newProgramTranslationsData,
+                    },
+                },
+            },
+        });
+    }
+    //Update
+    else {
+        await prisma.programTranslation.deleteMany({
+            where: {
+                programId: newProgramData.id,
+            },
+        });
+
+        program = await prisma.program.update({
+            where: {
+                id: newProgramData.id,
+            },
+            data: {
+                ...newProgramData,
+                programTranslation: {
+                    createMany: {
+                        data: newProgramTranslationsData,
+                    },
+                },
+            },
+        });
+    }
+
     return program;
 }
 

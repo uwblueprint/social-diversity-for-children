@@ -9,15 +9,29 @@ on:
 jobs:
     ci-push:
         runs-on: ${{ matrix.os }}
-
         strategy:
             matrix:
                 os: [ubuntu-latest]
                 node: [14]
-
+        outputs:
+            env: ${{steps.env-staging.outputs.env}}
         steps:
             - name: Checkout
-              uses: actions/checkout@main
+              uses: actions/checkout@v2
+
+            - name: Set environment based on branch
+              id: env-staging
+              run: |
+                  if [[ $GITHUB_REF_NAME = "staging" ]]; then
+                    echo "::set-output name=env::staging"
+                    echo Environment set to 'staging'
+                  elif [[ $GITHUB_REF_NAME = "main" ]]; then
+                    echo "::set-output name=env::production"
+                    echo Environment set to 'production'
+                  else
+                    echo '$GITHUB_REF_NAME' does not equal 'staging' or 'main'
+                    exit 1
+                  fi
 
             - name: Setup node env
               uses: actions/setup-node@v2.1.2
@@ -48,3 +62,46 @@ jobs:
 
             - name: Build
               run: yarn build
+
+    terraform:
+        needs: ci-push
+        environment: ${{needs.ci-push.outputs.env}}
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./terraform/environments
+        env:
+            TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Hashicorp Terraform Setup (wraps stdout for plan)
+              uses: hashicorp/setup-terraform@v1
+
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ${{ secrets.AWS_REGION }}
+
+            - name: Terraform Init
+              run: |
+                  cd ${{needs.ci-push.outputs.env}}
+                  terraform init
+
+            - name: Terraform Format
+              run: |
+                  cd ${{needs.ci-push.outputs.env}}
+                  terraform fmt -check
+
+            - name: Terraform Validate
+              run: |
+                  cd ${{needs.ci-push.outputs.env}}
+                  terraform validate -no-color
+
+            - name: Terraform Apply
+              run: |
+                  cd ${{needs.ci-push.outputs.env}}
+                  terraform apply -auto-approve

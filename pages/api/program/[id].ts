@@ -3,7 +3,9 @@ import { ResponseUtil } from "@utils/responseUtil";
 import { deleteProgram, updateProgram } from "@database/program";
 import { ProgramInput } from "models/Program";
 import { validateProgramData } from "@utils/validation/program";
-import { getProgramCardInfo } from "@database/program-card-info";
+import { getProgramCardInfo, getProgramCardInfoIncludeArchived } from "@database/program-card-info";
+import { isAdmin } from "@utils/session/authorization";
+import { getSession } from "next-auth/client";
 
 /**
  * handle takes the programId parameter and returns
@@ -12,17 +14,21 @@ import { getProgramCardInfo } from "@database/program-card-info";
  * @param res API response object
  */
 export default async function handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    const session = await getSession({ req });
+
     switch (req.method) {
         case "GET": {
-            const { id: programId, archived } = req.query;
-
+            const { id: programId, archived, includeArchived } = req.query;
+            const session = await getSession({ req });
+            const includeArchivedParsed = Boolean(
+                JSON.parse((includeArchived as string) || "false"),
+            );
             if (!programId) {
                 return ResponseUtil.returnBadRequest(
                     res,
                     "programId required to obtain program info",
                 );
             }
-
             const programIdNumber = parseInt(programId as string, 10);
             if (isNaN(programIdNumber)) {
                 return ResponseUtil.returnBadRequest(
@@ -31,10 +37,21 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
                 );
             }
 
-            const result = await getProgramCardInfo(
-                programId as string,
-                Boolean(JSON.parse((archived as string) || "false")),
-            );
+            let result;
+
+            if (includeArchivedParsed) {
+                if (!isAdmin(session)) {
+                    return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+                } else {
+                    result = await getProgramCardInfoIncludeArchived(programId as string);
+                }
+            } else {
+                result = await getProgramCardInfo(
+                    programId as string,
+                    Boolean(JSON.parse((archived as string) || "false")),
+                );
+            }
+
             if (!result) {
                 return ResponseUtil.returnNotFound(res, `Program info not found.`);
             }
@@ -42,6 +59,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "DELETE": {
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             // Obtain program id
             const { id: programId } = req.query;
             if (!programId) {
@@ -69,6 +90,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
             break;
         }
         case "PUT": {
+            if (!isAdmin(session)) {
+                return ResponseUtil.returnUnauthorized(res, "Unauthorized");
+            }
+
             // validate new body
             const validationError = validateProgramData(req.body as ProgramInput);
             if (validationError.length !== 0) {

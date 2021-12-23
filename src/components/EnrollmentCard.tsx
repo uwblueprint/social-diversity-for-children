@@ -40,6 +40,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { locale } from "@prisma/client";
 import useGetZoomLink from "@utils/hooks/useGetZoomLink";
+import { totalMinutes } from "@utils/time/convert";
 
 type EnrollmentCardProps = {
     enrollmentInfo: CombinedEnrollmentCardInfo;
@@ -64,33 +65,28 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [studentsToUnregister, setStudentsToUnregister] = useState([]);
-    const [unregisterLoading, setUnregisterLoading] = useState(false);
+    const [confirmUnregisterLoading, setConfirmUnregisterLoading] = useState(false);
 
     const handleClickUnregisterStudent = (student) => {
         setStudentsToUnregister([student]);
         onOpen();
     };
 
-    const handleClickUnRegisterAll = (students) => {
+    const handleClickUnregisterAll = (students) => {
         setStudentsToUnregister(students);
         onOpen();
     };
 
     const handleConfirmUnregister = async () => {
-        try {
-            setUnregisterLoading(true);
-            if (studentsToUnregister.length === 1) {
-                await deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
-            } else {
-                await deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
-            }
-            onClose();
-            setStudentsToUnregister([]);
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setUnregisterLoading(false);
+        setConfirmUnregisterLoading(true);
+        if (studentsToUnregister.length === 1) {
+            await deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
+        } else {
+            await deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
         }
+        onClose();
+        setConfirmUnregisterLoading(false);
+        setStudentsToUnregister([]);
     };
 
     const handleCancelUnregister = () => {
@@ -106,9 +102,12 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                     <ModalHeader>Confirm Unregister</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        Are you sure you would like to unregister{" "}
-                        {studentsToUnregister.length === 1 ? "this student" : "these students"}?
-                        Please contact SDC directly for a refund on this class.
+                        {studentsToUnregister.length === 1
+                            ? t("class.unregisterInfo", {
+                                  name: studentsToUnregister[0]?.firstName,
+                              })
+                            : t("class.unregisterInfoAll")}{" "}
+                        {t("class.unregisterRefundInfo")}
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -116,7 +115,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                             color="white"
                             mr={3}
                             onClick={handleConfirmUnregister}
-                            isLoading={unregisterLoading}
+                            isLoading={confirmUnregisterLoading}
                         >
                             Yes
                         </Button>
@@ -188,7 +187,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                             ),
                                         })}{" "}
                                         {convertToShortTimeRange(
-                                            enrollmentInfo.class.startTimeMinutes,
+                                            totalMinutes(enrollmentInfo.class.startDate),
                                             enrollmentInfo.class.durationMinutes,
                                         )}
                                         {" with " +
@@ -250,7 +249,7 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
                                         {enrollmentInfo.students.length < 2 ? null : (
                                             <MenuItem
                                                 onClick={() =>
-                                                    handleClickUnRegisterAll(
+                                                    handleClickUnregisterAll(
                                                         enrollmentInfo.students,
                                                     )
                                                 }

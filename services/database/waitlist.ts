@@ -1,17 +1,16 @@
 import prisma from "@database";
 import { Waitlist } from "@prisma/client";
-import { WaitlistInput } from "models/Waitlist";
 /**
  * getWaitlistRecord takes the classId and parentId and returns the associated waitlist
  * @param classId
  * @param parentId
  */
-async function getWaitlistRecord(input: WaitlistInput): Promise<Waitlist> {
+async function getWaitlistRecord(classId: number, parentId: number): Promise<Waitlist> {
     const waitlistRecord = await prisma.waitlist.findUnique({
         where: {
             parentId_classId: {
-                classId: input.classId,
-                parentId: input.parentId,
+                classId: classId,
+                parentId: parentId,
             },
         },
     });
@@ -84,14 +83,15 @@ async function getWaitlistRecordsByParentId(parentId: number): Promise<Waitlist[
 
 /**
  * createWaitlistRecord creates a new waitlist record
- * @param input - data of type WaitlistInput
+ * @param classId
+ * @param parentId
  * @returns Promise<Waitlist> - Promise with the newly created waitlist record
  */
-async function createWaitlistRecord(input: WaitlistInput): Promise<Waitlist> {
+async function createWaitlistRecord(classId: number, parentId: number): Promise<Waitlist> {
     const waitlistRecord = await prisma.waitlist.create({
         data: {
-            classId: input.classId,
-            parentId: input.parentId,
+            classId: classId,
+            parentId: parentId,
         },
     });
     return waitlistRecord;
@@ -99,15 +99,16 @@ async function createWaitlistRecord(input: WaitlistInput): Promise<Waitlist> {
 
 /**
  * deleteWaitlistRecord deletes a waitlist record
- * @param input - data of type WaitlistInput
+ * @param classId
+ * @param parentId
  * @returns Promise<Class> - Promise with the deleted class
  */
-async function deleteWaitlistRecord(input: WaitlistInput): Promise<Waitlist> {
+async function deleteWaitlistRecord(classId: number, parentId: number): Promise<Waitlist> {
     const deletedWaitlistRecord = await prisma.waitlist.delete({
         where: {
             parentId_classId: {
-                classId: input.classId,
-                parentId: input.parentId,
+                classId: classId,
+                parentId: parentId,
             },
         },
     });

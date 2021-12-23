@@ -43,7 +43,7 @@ function Class({ session }: ClassProps): JSX.Element {
 
     return (
         <Wrapper session={session}>
-            <BackButton />
+            <BackButton onClick={() => router.push("/")} />
             <Flex direction="column" pt={4} pb={8}>
                 <Flex align="center">
                     <Heading mb={8}>{t("nav.myClasses")}</Heading>

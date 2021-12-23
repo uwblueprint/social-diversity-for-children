@@ -6,17 +6,17 @@ terraform {
   }
   # not possible to have this dynamic or populated through variables 
   backend "s3" {
-    bucket         = "sdc-dev-terraform-state"
+    bucket         = "sdc-app-terraform-state"
     key            = "terraform-state/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "sdc-dev-terraform-state-lock"
+    region         = "us-west-2"
+    dynamodb_table = "sdc-app-terraform-state-lock"
     encrypt        = true
   }
 }
 
 # configures the required provider
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 module "iam" {
@@ -26,14 +26,13 @@ module "iam" {
 
 module "s3" {
   source          = "../../modules/s3"
-  allowed_origins = ["http://localhost:3000", var.sdc_domain, var.sdc_pr_domain]
+  allowed_origins = [var.sdc_domain]
 
   # uploads bucket 
-  s3_uploads_bucket_name  = var.s3_uploads_bucket_name
-  criminal_check_folder   = var.criminal_check_folder
-  income_proof_folder     = var.income_proof_folder
-  curriculum_plans_folder = var.curriculum_plans_folder
-  other_folder            = var.other_folder
+  s3_uploads_bucket_name = var.s3_uploads_bucket_name
+  criminal_check_folder  = var.criminal_check_folder
+  income_proof_folder    = var.income_proof_folder
+  other_folder           = var.other_folder
 
   # images bucket
   s3_images_bucket_name = var.s3_images_bucket_name
@@ -74,6 +73,6 @@ module "cronMailing_eventbridge" {
   source              = "../../modules/eventbridge"
   rule_name           = var.cronMailing_rule_name
   schedule_expression = var.cronMailing_schedule_expression
-  target_arn          = module.cronMailing.lamba_function_arn
-  target_id           = module.cronMailing.lamba_function_name
+  target_arn          = module.cronMailing.lambda_function_arn
+  target_id           = module.cronMailing.lambda_function_name
 }

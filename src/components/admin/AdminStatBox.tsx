@@ -16,7 +16,14 @@ export const AdminStatBox: React.FC<AdminStatBoxProps> = ({
     ...props
 }) => {
     return (
-        <Center h={130} w={244} border="1px" borderColor={colourTheme.colors.Sliver} {...props}>
+        <Center
+            h={130}
+            minW={244}
+            w="100%"
+            border="1px"
+            borderColor={colourTheme.colors.Sliver}
+            {...props}
+        >
             <Box>
                 {isLoading ? <Spinner /> : <Heading>{amount}</Heading>}
                 <Text color={colourTheme.colors.Gray}>{label}</Text>

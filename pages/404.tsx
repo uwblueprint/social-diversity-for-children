@@ -3,24 +3,23 @@ import SvgErrorIcon from "@components/icons/ErrorIcon";
 import colourTheme from "@styles/colours";
 import { Button, Box, Center, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { Session } from "next-auth";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
-type ComponentProps = {
-    session: Session;
-};
+export default function Custom404(): JSX.Element {
+    const { t } = useTranslation("common");
 
-export default function Custom404(props: ComponentProps): JSX.Element {
     return (
-        <Wrapper session={props.session}>
+        <Wrapper>
             <Center minHeight="85vh" align="center">
                 <Box align="center" width="70%">
                     <SvgErrorIcon />
                     <Heading size="lg" mt={12}>
-                        Oh no! Page not found.
+                        {t("404.title")}
                     </Heading>
                     <Text size="md" my={9}>
-                        Sorry, but the page you are looking for does not exist. Try refreshing the
-                        page or hit the button below.
+                        {t("404.subtitle")}
                     </Text>
                     <Link href="/">
                         <Button
@@ -35,7 +34,7 @@ export default function Custom404(props: ComponentProps): JSX.Element {
                             borderRadius="6px"
                             fontWeight={"200"}
                         >
-                            Return to main page
+                            {t("404.return")}
                         </Button>
                     </Link>
                 </Box>
@@ -43,3 +42,11 @@ export default function Custom404(props: ComponentProps): JSX.Element {
         </Wrapper>
     );
 }
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    return {
+        props: {
+            ...(await serverSideTranslations(context.locale ?? "en", ["common"])),
+        },
+    };
+};

@@ -78,7 +78,7 @@ CREATE TABLE classes (
   start_date TIMESTAMPTZ NOT NULL,
   end_date TIMESTAMPTZ NOT NULL,
   weekday weekdays NOT NULL,
-  start_time_minutes INTEGER NOT NULL,
+  start_time_minutes INTEGER NOT NULL, -- deprecated TODO: remove
   duration_minutes INTEGER NOT NULL,
 
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -89,9 +89,10 @@ CREATE TABLE classes (
 CREATE TABLE parents (
   id SERIAL PRIMARY KEY NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
-  is_low_income BOOLEAN DEFAULT false,
+  is_low_income BOOLEAN,
   preferred_language locales NOT NULL,
   proof_of_income_link TEXT,
+  proof_of_income_submitted_at TIMESTAMPTZ,
   heard_from heard_from[],
   FOREIGN KEY(id) REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -107,6 +108,7 @@ CREATE TABLE volunteers (
   criminal_record_check_link TEXT,
   criminal_check_approved BOOLEAN,
   criminal_check_expired BOOLEAN DEFAULT false,
+  criminal_check_submitted_at TIMESTAMPTZ,
   postal_code VARCHAR(10),
   city_name TEXT,
   province provinces,
