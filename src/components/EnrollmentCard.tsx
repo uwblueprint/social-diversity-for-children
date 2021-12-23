@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Box,
     AspectRatio,
@@ -19,6 +19,14 @@ import {
     MenuDivider,
     Link,
     useBreakpointValue,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
 } from "@chakra-ui/react";
 import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
@@ -55,6 +63,71 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
 
     const { link } = useGetZoomLink();
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [studentsToUnregister, setStudentsToUnregister] = useState([]);
+    const [confirmUnregisterLoading, setConfirmUnregisterLoading] = useState(false);
+
+    const handleClickUnregisterStudent = (student) => {
+        setStudentsToUnregister([student]);
+        onOpen();
+    };
+
+    const handleClickUnregisterAll = (students) => {
+        setStudentsToUnregister(students);
+        onOpen();
+    };
+
+    const handleConfirmUnregister = async () => {
+        setConfirmUnregisterLoading(true);
+        if (studentsToUnregister.length === 1) {
+            await deleteClassRegistration(studentsToUnregister[0], enrollmentInfo.classId);
+        } else {
+            await deleteClassRegistrations(studentsToUnregister, enrollmentInfo.classId);
+        }
+        onClose();
+        setConfirmUnregisterLoading(false);
+        setStudentsToUnregister([]);
+    };
+
+    const handleCancelUnregister = () => {
+        onClose();
+        setStudentsToUnregister([]);
+    };
+
+    const UnregisterModal = () => {
+        return (
+            <Modal isOpen={isOpen} onClose={handleCancelUnregister}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Confirm Unregister</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {studentsToUnregister.length === 1
+                            ? t("class.unregisterInfo", {
+                                  name: studentsToUnregister[0]?.firstName,
+                              })
+                            : t("class.unregisterInfoAll")}{" "}
+                        {t("class.unregisterRefundInfo")}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button
+                            bg={colourTheme.colors.Blue}
+                            color="white"
+                            mr={3}
+                            onClick={handleConfirmUnregister}
+                            isLoading={confirmUnregisterLoading}
+                        >
+                            Yes
+                        </Button>
+                        <Button onClick={handleCancelUnregister} variant="ghost">
+                            No
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        );
+    };
+
     const joinLink = (
         <Link href={link} isExternal>
             <Button
@@ -86,112 +159,113 @@ export const EnrollmentCard: React.FC<EnrollmentCardProps> = ({
     );
 
     return (
-        <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-            <GridItem>
-                <AspectRatio width="100%" ratio={1}>
-                    <Image
-                        src={enrollmentInfo.class.image}
-                        fit="cover"
-                        alt={enrollmentInfo.class.name}
-                    />
-                </AspectRatio>
-            </GridItem>
-            <GridItem colSpan={3} py={3}>
-                <VStack align="left" justify="center" height="100%">
-                    <Flex mr="3">
-                        <Box>
-                            <Heading size="md" pb={4} pr={2}>
-                                {enrollmentInfo.program.name} ({enrollmentInfo.class.name})
-                            </Heading>
-                            <Box as="span" color="gray.600" fontSize="sm">
-                                <Text>
-                                    {t("time.weekday_many", {
-                                        day: weekdayToString(
-                                            enrollmentInfo.class.weekday,
-                                            router.locale as locale,
-                                        ),
-                                    })}{" "}
-                                    {convertToShortTimeRange(
-                                        totalMinutes(enrollmentInfo.class.startDate),
-                                        enrollmentInfo.class.durationMinutes,
-                                    )}
-                                    {" with " +
-                                        t("program.teacherName", {
-                                            name: enrollmentInfo.class.teacherName,
+        <>
+            <UnregisterModal />
+            <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+                <GridItem>
+                    <AspectRatio width="100%" ratio={1}>
+                        <Image
+                            src={enrollmentInfo.class.image}
+                            fit="cover"
+                            alt={enrollmentInfo.class.name}
+                        />
+                    </AspectRatio>
+                </GridItem>
+                <GridItem colSpan={3} py={3}>
+                    <VStack align="left" justify="center" height="100%">
+                        <Flex mr="3">
+                            <Box>
+                                <Heading size="md" pb={4} pr={2}>
+                                    {enrollmentInfo.program.name} ({enrollmentInfo.class.name})
+                                </Heading>
+                                <Box as="span" color="gray.600" fontSize="sm">
+                                    <Text>
+                                        {t("time.weekday_many", {
+                                            day: weekdayToString(
+                                                enrollmentInfo.class.weekday,
+                                                router.locale as locale,
+                                            ),
+                                        })}{" "}
+                                        {convertToShortTimeRange(
+                                            totalMinutes(enrollmentInfo.class.startDate),
+                                            enrollmentInfo.class.durationMinutes,
+                                        )}
+                                        {" with " +
+                                            t("program.teacherName", {
+                                                name: enrollmentInfo.class.teacherName,
+                                            })}
+                                    </Text>
+                                    <Text>
+                                        {t("time.range", {
+                                            ...convertToShortDateRange(
+                                                enrollmentInfo.class.startDate,
+                                                enrollmentInfo.class.endDate,
+                                                router.locale as locale,
+                                            ),
                                         })}
-                                </Text>
-                                <Text>
-                                    {t("time.range", {
-                                        ...convertToShortDateRange(
-                                            enrollmentInfo.class.startDate,
-                                            enrollmentInfo.class.endDate,
-                                            router.locale as locale,
-                                        ),
-                                    })}
-                                </Text>
+                                    </Text>
+                                </Box>
+                                {isOnlyStudent ? null : (
+                                    <Text pt={4}>
+                                        Participants:{" "}
+                                        {convertToListDisplay(
+                                            enrollmentInfo.students.map(
+                                                (student) => student.firstName,
+                                            ),
+                                        )}
+                                    </Text>
+                                )}
+                                {isJoinBesideTitle ? null : joinLink}
                             </Box>
-                            {isOnlyStudent ? null : (
-                                <Text pt={4}>
-                                    Participants:{" "}
-                                    {convertToListDisplay(
-                                        enrollmentInfo.students.map((student) => student.firstName),
-                                    )}
-                                </Text>
-                            )}
-                            {isJoinBesideTitle ? null : joinLink}
-                        </Box>
-                        <Spacer />
-                        <Flex alignItems={"baseline"}>
-                            {isJoinBesideTitle ? joinLink : null}
-                            <Menu>
-                                <MenuButton
-                                    ml={1}
-                                    as={IconButton}
-                                    aria-label="Options"
-                                    icon={<HamburgerIcon />}
-                                    outline="none"
-                                    bg="white"
-                                />
-                                <MenuList>
-                                    {enrollmentInfo.students.map((student) => (
-                                        <Box key={`${enrollmentInfo.classId}-${student.id}`}>
+                            <Spacer />
+                            <Flex alignItems={"baseline"}>
+                                {isJoinBesideTitle ? joinLink : null}
+                                <Menu>
+                                    <MenuButton
+                                        ml={1}
+                                        as={IconButton}
+                                        aria-label="Options"
+                                        icon={<HamburgerIcon />}
+                                        outline="none"
+                                        bg="white"
+                                    />
+                                    <MenuList>
+                                        {enrollmentInfo.students.map((student) => (
+                                            <Box key={`${enrollmentInfo.classId}-${student.id}`}>
+                                                <MenuItem
+                                                    onClick={() =>
+                                                        handleClickUnregisterStudent(student)
+                                                    }
+                                                >
+                                                    {t("class.unregisterFor", {
+                                                        name: student.firstName,
+                                                    })}
+                                                </MenuItem>
+                                                {enrollmentInfo.students.length < 2 ? null : (
+                                                    <MenuDivider />
+                                                )}
+                                            </Box>
+                                        ))}
+                                        {enrollmentInfo.students.length < 2 ? null : (
                                             <MenuItem
                                                 onClick={() =>
-                                                    deleteClassRegistration(
-                                                        student,
-                                                        enrollmentInfo.classId,
+                                                    handleClickUnregisterAll(
+                                                        enrollmentInfo.students,
                                                     )
                                                 }
                                             >
-                                                {t("class.unregisterFor", {
-                                                    name: student.firstName,
-                                                })}
+                                                <Text fontWeight="bold">
+                                                    {t("class.unregisterForAll")}
+                                                </Text>
                                             </MenuItem>
-                                            {enrollmentInfo.students.length < 2 ? null : (
-                                                <MenuDivider />
-                                            )}
-                                        </Box>
-                                    ))}
-                                    {enrollmentInfo.students.length < 2 ? null : (
-                                        <MenuItem
-                                            onClick={() =>
-                                                deleteClassRegistrations(
-                                                    enrollmentInfo.students,
-                                                    enrollmentInfo.classId,
-                                                )
-                                            }
-                                        >
-                                            <Text fontWeight="bold">
-                                                {t("class.unregisterForAll")}
-                                            </Text>
-                                        </MenuItem>
-                                    )}
-                                </MenuList>
-                            </Menu>
+                                        )}
+                                    </MenuList>
+                                </Menu>
+                            </Flex>
                         </Flex>
-                    </Flex>
-                </VStack>
-            </GridItem>
-        </Grid>
+                    </VStack>
+                </GridItem>
+            </Grid>
+        </>
     );
 };

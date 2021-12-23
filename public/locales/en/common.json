@@ -30,6 +30,10 @@
     "class": {
         "joinClass": "Join class",
         "unregister": "Unregister",
+        "unregisterConfirm": "Confirm Unregister",
+        "unregisterInfo": "Are you sure you would like to unregister for {{name}}?",
+        "unregisterInfoAll": "Are you sure you would like to unregister for all students?",
+        "unregisterRefundInfo": "You will need to contact SDC for a refund.",
         "unregisterFor": "Unregister for {{name}}",
         "unregisterForAll": "Unregister for all",
         "upcomingClasses": "Upcoming classes",
