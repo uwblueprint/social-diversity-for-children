@@ -130,4 +130,3 @@ variable "env" {
   default     = "staging"
   type        = string
 }
-  
