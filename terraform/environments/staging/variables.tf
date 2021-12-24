@@ -14,6 +14,14 @@ variable "sdc_pr_domain" {
   type        = string
 }
 
+# ------------------------------------------------------------------
+# SES
+variable "email_domain" {
+  description = "Email address for SES"
+  default     = "uwblueprint.org"
+  type        = string
+}
+
 # should add variable condition checks to limit configuration discrepencies
 # ------------------------------------------------------------------
 # IAM
@@ -114,5 +122,11 @@ variable "api_endpoint" {
 variable "lambda_secret_key_name" {
   description = "Name of lambda secret key"
   default     = "LAMBDA_SECRET_KEY"
+  type        = string
+}
+
+variable "env" {
+  description = "environment value for internal terraform use"
+  default     = "staging"
   type        = string
 }

@@ -19,11 +19,13 @@ provider "aws" {
   region = "us-west-2"
 }
 
+# ------------------------------------------------------------------
 module "iam" {
   source                             = "../../modules/iam"
   cloudwatch_lambda_logs_policy_name = var.cloudwatch_lambda_logs_policy_name
 }
 
+# ------------------------------------------------------------------
 module "s3" {
   source          = "../../modules/s3"
   allowed_origins = [var.sdc_domain]
@@ -38,6 +40,7 @@ module "s3" {
   s3_images_bucket_name = var.s3_images_bucket_name
 }
 
+# ------------------------------------------------------------------
 module "parameter_store" {
   source = "../../modules/parameter_store"
 
@@ -54,6 +57,7 @@ module "parameter_store" {
   lambda_secret_key_name = var.lambda_secret_key_name
 }
 
+# ------------------------------------------------------------------
 # Lambda functions, could encapsulate in another module for all lambda functions 
 module "cronMailing" {
   source = "../../modules/lambda" # essentially wraps around a lambda 
@@ -75,4 +79,12 @@ module "cronMailing_eventbridge" {
   schedule_expression = var.cronMailing_schedule_expression
   target_arn          = module.cronMailing.lambda_function_arn
   target_id           = module.cronMailing.lambda_function_name
+}
+# ------------------------------------------------------------------
+# SES
+module "ses" {
+  env          = var.env
+  source       = "../../modules/ses"
+  email        = local.email
+  email_domain = var.email_domain
 }
