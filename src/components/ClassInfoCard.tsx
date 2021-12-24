@@ -10,6 +10,7 @@ import {
     GridItem,
     Spacer,
     VStack,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { weekdayToString } from "@utils/enum/weekday";
 import { ClassCardInfo } from "@models/Class";
@@ -44,6 +45,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
     const router = useRouter();
     const { t } = useTranslation("common");
     const { me } = useMe();
+    const isAgeBadgeBesideTitle = useBreakpointValue({ base: false, md: true });
 
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={6} onClick={onClick} cursor={"pointer"}>
@@ -64,7 +66,7 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                             {cardInfo.name}
                         </Box>
                         <Spacer />
-                        {cardInfo.borderAge == null ? null : (
+                        {cardInfo.borderAge == null || !isAgeBadgeBesideTitle ? null : (
                             <AgeBadge
                                 isOff={!isEligible}
                                 isAgeMinimal={cardInfo.isAgeMinimal}
@@ -99,6 +101,15 @@ export const ClassInfoCard: React.FC<ClassInfoProps> = ({
                                       context: cardInfo.spaceAvailable !== 1 ? "plural" : "",
                                   })}
                         </Box>
+                        {cardInfo.borderAge != null && isAgeBadgeBesideTitle ? null : (
+                            <Box mt={3}>
+                                <AgeBadge
+                                    isOff={!isEligible}
+                                    isAgeMinimal={cardInfo.isAgeMinimal}
+                                    borderAge={cardInfo.borderAge}
+                                />
+                            </Box>
+                        )}
                     </Flex>
                     {isFull && (
                         <Box>

@@ -10,6 +10,7 @@ import {
     GridItem,
     Spacer,
     VStack,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { weekdayToString } from "@utils/enum/weekday";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
@@ -29,6 +30,8 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
     const router = useRouter();
     const { t } = useTranslation();
 
+    const isAgeBadgeBesideTitle = useBreakpointValue({ base: false, md: true });
+
     return (
         <Grid border="1px solid #C5C5C5" templateColumns="repeat(4, 1fr)" gap={6}>
             <GridItem>
@@ -36,7 +39,7 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
                     <Image src={classInfo.image} fit="cover" alt={classInfo.name} />
                 </AspectRatio>
             </GridItem>
-            <GridItem colSpan={3}>
+            <GridItem colSpan={3} py={3}>
                 <VStack align="left" justify="center" height="100%">
                     <Flex mr="3">
                         <Box>
@@ -71,14 +74,23 @@ export const FormClassCard: React.FC<FormClassCardProps> = ({ classInfo }) => {
                                     })}
                                 </Text>
                             </Box>
+                            {isAgeBadgeBesideTitle ? null : (
+                                <AgeBadge
+                                    borderAge={classInfo.borderAge}
+                                    isAgeMinimal={classInfo.isAgeMinimal}
+                                    mt={3}
+                                />
+                            )}
                         </Box>
                         <Spacer />
-                        <Flex alignItems={"baseline"}>
-                            <AgeBadge
-                                borderAge={classInfo.borderAge}
-                                isAgeMinimal={classInfo.isAgeMinimal}
-                            />
-                        </Flex>
+                        {!isAgeBadgeBesideTitle ? null : (
+                            <Flex alignItems={"baseline"}>
+                                <AgeBadge
+                                    borderAge={classInfo.borderAge}
+                                    isAgeMinimal={classInfo.isAgeMinimal}
+                                />
+                            </Flex>
+                        )}
                     </Flex>
                 </VStack>
             </GridItem>
