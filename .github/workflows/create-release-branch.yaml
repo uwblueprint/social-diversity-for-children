@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: 'Semantic Version bump (major, minor, patch)'
+        description: Semantic Version bump (major, minor, patch)
         required: true
-  pull_request:
-    branches:
-      - staging
+      version-override:
+        description: Version to use as an override (vx.x.x)
+        required: false
   
 jobs:
   release:
@@ -20,10 +20,10 @@ jobs:
        git config user.name "github-actions[bot]"
        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
     - name: Get next semantic version
+      if: github.event.inputs.version-override
       uses: uwblueprint/sdc-actions/actions/get-semantic-version@main
       with:
-          # bump: ${{inputs.bump}}
-          bump: major
+          bump:  ${{ github.event.inputs.bump }}
     # - name: Change version number and name
     #   run: printf 'ext.version_code = ${{ github.event.inputs.versionCode }}\next.version_name = "${{ github.event.inputs.versionName }}"\n' > app_versions.gradle
     # - name: Update Changelog
