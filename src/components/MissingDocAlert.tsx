@@ -44,10 +44,9 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
             heading: t("bgc.submitTitle"),
             desc: t("bgc.missing"),
         },
-        // to be changed to t()
         {
-            heading: "Your Criminal Record Check is Expired",
-            desc: "Please submit a new criminal record check!",
+            heading: t("bgc.submitTitle"),
+            desc: t("bgc.expired"),
         },
     ];
 
