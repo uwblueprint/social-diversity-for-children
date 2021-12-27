@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { CellProps } from "react-table";
+import checkExpiry from "@utils/checkExpiry";
 
 export type VolunteerDataType = {
     id: number;
@@ -96,7 +97,9 @@ export default function useVolunteerRegTableData(
                             : "N/A",
                     age: convertToAge(new Date(reg.volunteer.dateOfBirth)),
                     criminalCheckApproved: reg.volunteer.criminalCheckApproved
-                        ? "Complete"
+                        ? checkExpiry(reg.volunteer.criminalCheckSubmittedAt)
+                            ? "Expired"
+                            : "Complete"
                         : reg.volunteer.criminalRecordCheckLink
                         ? "Pending"
                         : "Incomplete",
