@@ -33,6 +33,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MdDescription, MdPerson, MdSupervisorAccount } from "react-icons/md";
 import { mutate } from "swr";
+import checkExpiry from "@utils/checkExpiry";
 
 type AdminProps = {
     session: Session;
@@ -173,8 +174,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                             />
                         ) : (
                             <EmptyState height="200px">
-                                The participant has not uploaded a criminal record check at this
-                                time.
+                                The participant has not uploaded a proof of income at this time.
                             </EmptyState>
                         ),
                 });
@@ -206,7 +206,12 @@ export default function Registrant(props: AdminProps): JSX.Element {
                     header: "Criminal Record Check",
                     canEdit: false,
                     component:
-                        user.volunteer.criminalRecordCheckLink !== null ? (
+                        user.volunteer.criminalRecordCheckLink !== null &&
+                        checkExpiry(user.volunteer.criminalCheckSubmittedAt) ? (
+                            <EmptyState height="200px">
+                                The participant's criminal record check is expired.
+                            </EmptyState>
+                        ) : user.volunteer.criminalRecordCheckLink !== null ? (
                             <FileDownloadCard
                                 filePath={FileType.CRIMINAL_CHECK}
                                 docName={user.volunteer.criminalRecordCheckLink}
