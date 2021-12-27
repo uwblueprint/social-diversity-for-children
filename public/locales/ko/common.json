@@ -47,7 +47,6 @@
         "save": "정보 저장",
         "status_approved": "상태: 승인",
         "status_pending": "상태: 보류 중",
-        "status_expired": "TEMP HOLD",
         "status_declined": "상태: 거절",
         "dateSubmitted": "제출 날짜: {{date}}",
         "poi_approved": "소득증명서가 확인되었습니다.",

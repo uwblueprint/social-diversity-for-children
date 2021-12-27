@@ -70,7 +70,7 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                         <Box height={{ base: "35px", md: "50px", lg: "70px" }}>
                             <InfoIcon />
                         </Box>
-                        <Box w="90%">
+                        <Box w="60%">
                             {missingPOI && (
                                 <Box ml={4}>
                                     <Heading mb={2} size="md" color={colourTheme.colors.Blue}>

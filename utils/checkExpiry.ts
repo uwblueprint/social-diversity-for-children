@@ -5,7 +5,7 @@
  */
 export default function checkExpiry(date: Date): boolean {
     const d = new Date(date);
-    const expiryDate = new Date(d.getUTCFullYear() + 1, d.getMonth(), d.getDate());
+    const expiryDate = new Date(d.getFullYear() + 1, d.getMonth(), d.getDate());
     if (expiryDate.getTime() - Date.now() > 0) {
         return false;
     }
