@@ -160,8 +160,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                     <ProofOfIncome
                         approved={me.parent.isLowIncome}
                         link={me.parent.proofOfIncomeLink}
-                        // TODO: Add submit date columns to table rows
-                        submitDate={new Date()}
+                        submitDate={me.parent.proofOfIncomeSubmittedAt}
                     />
                 ),
             });

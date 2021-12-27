@@ -19,26 +19,28 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# ------------------------------------------------------------------
 module "iam" {
   source                             = "../../modules/iam"
   cloudwatch_lambda_logs_policy_name = var.cloudwatch_lambda_logs_policy_name
 }
 
+# ------------------------------------------------------------------
 module "s3" {
   source          = "../../modules/s3"
   allowed_origins = ["http://localhost:3000", var.sdc_domain, var.sdc_pr_domain]
 
   # uploads bucket 
-  s3_uploads_bucket_name  = var.s3_uploads_bucket_name
-  criminal_check_folder   = var.criminal_check_folder
-  income_proof_folder     = var.income_proof_folder
-  curriculum_plans_folder = var.curriculum_plans_folder
-  other_folder            = var.other_folder
+  s3_uploads_bucket_name = var.s3_uploads_bucket_name
+  criminal_check_folder  = var.criminal_check_folder
+  income_proof_folder    = var.income_proof_folder
+  other_folder           = var.other_folder
 
   # images bucket
   s3_images_bucket_name = var.s3_images_bucket_name
 }
 
+# ------------------------------------------------------------------
 module "parameter_store" {
   source = "../../modules/parameter_store"
 
@@ -55,6 +57,7 @@ module "parameter_store" {
   lambda_secret_key_name = var.lambda_secret_key_name
 }
 
+# ------------------------------------------------------------------
 # Lambda functions, could encapsulate in another module for all lambda functions 
 module "cronMailing" {
   source = "../../modules/lambda" # essentially wraps around a lambda 
@@ -74,6 +77,16 @@ module "cronMailing_eventbridge" {
   source              = "../../modules/eventbridge"
   rule_name           = var.cronMailing_rule_name
   schedule_expression = var.cronMailing_schedule_expression
-  target_arn          = module.cronMailing.lamba_function_arn
-  target_id           = module.cronMailing.lamba_function_name
+  target_arn          = module.cronMailing.lambda_function_arn
+  target_id           = module.cronMailing.lambda_function_name
+}
+
+# ------------------------------------------------------------------
+# SES
+
+module "ses" {
+  env          = var.env
+  source       = "../../modules/ses"
+  email        = local.email
+  email_domain = var.email_domain
 }

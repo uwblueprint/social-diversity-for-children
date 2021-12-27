@@ -1,4 +1,3 @@
-import { WaitlistInput } from "@models/Waitlist";
 import { Parent } from "@prisma/client";
 import { mutate } from "swr";
 
@@ -12,7 +11,7 @@ export async function createWaitlistRegistration(
     parent: Parent,
     classId: number,
 ): Promise<Response> {
-    const registrationData: WaitlistInput = {
+    const registrationData = {
         parentId: parent.id,
         classId: classId,
     };

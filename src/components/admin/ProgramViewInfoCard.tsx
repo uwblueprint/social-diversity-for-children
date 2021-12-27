@@ -78,6 +78,7 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, r
                 minH={165}
                 borderColor={colourTheme.colors.gray}
                 borderWidth={1}
+                w="100%"
             >
                 <GridItem alignSelf="center" colSpan={2} h="100%">
                     <AspectRatio ratio={2} h="inherit">

@@ -102,17 +102,6 @@ resource "aws_s3_bucket_object" "income_proof_folder" {
   }
 }
 
-# curriculum_plans_folder
-resource "aws_s3_bucket_object" "curriculum_plans_folder" {
-  bucket       = aws_s3_bucket.s3_uploads.id
-  acl          = "private"
-  key          = "${var.curriculum_plans_folder}/"
-  content_type = "application/x-directory"
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
 # other folder
 resource "aws_s3_bucket_object" "other_folder" {
   bucket       = aws_s3_bucket.s3_uploads.id

@@ -1,9 +1,9 @@
-import React from "react";
-import { useRouter } from "next/router";
+import { Box, Button, Heading, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 import { IncomePage } from "@components/parent-form/IncomePage";
-import { Stack, Box, HStack, Text, Button, Heading } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import React from "react";
 
 const FormButton = (props) => {
     return (
@@ -35,6 +35,7 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
 }): JSX.Element => {
     const router = useRouter();
     const { t } = useTranslation("form");
+    const isMobileDevice = useBreakpointValue({ base: true, md: false });
 
     return (
         <>
@@ -49,7 +50,11 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
                 <IncomePage />
             </Stack>
             <Box>
-                <HStack spacing="24px">
+                <Stack
+                    mb={{ base: "20px", md: undefined }}
+                    direction={{ base: "column", md: "row" }}
+                    alignItems={{ base: undefined, md: "center" }}
+                >
                     <FormButton
                         onClick={() => {
                             router
@@ -62,16 +67,17 @@ export const ProofOfIncomePage: React.FC<ProofOfIncomePageProps> = ({
                         {t("poi.upload")}
                     </FormButton>
                     <Button
-                        variant="link"
+                        variant={isMobileDevice ? "solid" : "link"}
                         color="black"
                         fontWeight={400}
                         _hover={{ color: colourTheme.colors.Gray }}
                         onClick={onNext}
                         borderRadius="6px"
+                        pl={!isMobileDevice ? "20px" : undefined}
                     >
-                        <Text as="u">{t("form.skip")}</Text>
+                        <Text as={isMobileDevice ? undefined : "u"}>{t("form.skip")}</Text>
                     </Button>
-                </HStack>
+                </Stack>
             </Box>
         </>
     );

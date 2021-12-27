@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar } from "./Navbar";
-import { Footer, DEFAULT_FOOTER_HEIGHT } from "./Footer";
+import { DEFAULT_FOOTER_HEIGHT, Footer } from "./Footer";
 import { Box } from "@chakra-ui/react";
 import { Session } from "next-auth";
 

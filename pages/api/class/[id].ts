@@ -41,7 +41,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse):
         ResponseUtil.returnOK(res, classSection);
         return;
     } else if (req.method == "DELETE") {
-        // If there is no session or the user is not a internal user, not authorized
         if (!isAdmin(session)) {
             return ResponseUtil.returnUnauthorized(res, "Unauthorized");
         }

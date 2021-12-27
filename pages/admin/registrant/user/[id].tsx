@@ -24,7 +24,7 @@ import { UserInput } from "@models/User";
 import colourTheme from "@styles/colours";
 import { FileType } from "@utils/enum/filetype";
 import useUser from "@utils/hooks/useUser";
-import { isAdmin } from "@utils/session/authorization";
+import { isInternal } from "@utils/session/authorization";
 import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
 import { getSession } from "next-auth/client";
@@ -42,6 +42,7 @@ type ApiUserInput = Pick<UserInput, Exclude<keyof UserInput, "id">>;
 
 export default function Registrant(props: AdminProps): JSX.Element {
     const router = useRouter();
+    const [isAdmin] = useState(props.session.role === roles.PROGRAM_ADMIN);
     const { id: userId } = router.query;
     const { user, isLoading, error } = useUser(userId as string);
 
@@ -114,7 +115,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                 icon: MdSupervisorAccount,
                 title: "Guardian Information",
                 header: "Guardian Information",
-                canEdit: true,
+                canEdit: isAdmin,
                 component: (
                     <GuardianInfo
                         props={{
@@ -135,7 +136,7 @@ export default function Registrant(props: AdminProps): JSX.Element {
                     type: "PARTICIPANT",
                     title: "Personal Information",
                     header: "General Information",
-                    canEdit: true,
+                    canEdit: isAdmin,
                     component: (
                         <ParticipantInfo
                             key={student.id}
@@ -152,34 +153,38 @@ export default function Registrant(props: AdminProps): JSX.Element {
                 };
                 SideBar.push(option);
             });
-            SideBar.push({
-                name: "",
-                icon: MdDescription,
-                title: "Proof of Income",
-                header: "Proof of Income",
-                canEdit: false,
-                component:
-                    user.parent.proofOfIncomeLink !== null ? (
-                        <FileDownloadCard
-                            filePath={FileType.INCOME_PROOF}
-                            docName={user.parent.proofOfIncomeLink}
-                            docApproved={user.parent.isLowIncome}
-                            participantId={user.id}
-                            userEmail={user.email}
-                        />
-                    ) : (
-                        <EmptyState height="200px">
-                            The participant has not uploaded a criminal record check at this time.
-                        </EmptyState>
-                    ),
-            });
+
+            isAdmin &&
+                SideBar.push({
+                    name: "",
+                    icon: MdDescription,
+                    title: "Proof of Income",
+                    header: "Proof of Income",
+                    canEdit: false,
+                    component:
+                        user.parent.proofOfIncomeLink !== null ? (
+                            <FileDownloadCard
+                                filePath={FileType.INCOME_PROOF}
+                                docName={user.parent.proofOfIncomeLink}
+                                docApproved={user.parent.isLowIncome}
+                                docUploadDate={user.parent.proofOfIncomeSubmittedAt}
+                                participantId={user.id}
+                                userEmail={user.email}
+                            />
+                        ) : (
+                            <EmptyState height="200px">
+                                The participant has not uploaded a criminal record check at this
+                                time.
+                            </EmptyState>
+                        ),
+                });
         } else {
             SideBar.push({
                 name: "",
                 icon: MdPerson,
                 title: "Participant Information",
                 header: "Personal Information",
-                canEdit: true,
+                canEdit: isAdmin,
                 component: (
                     <VolunteerInfo
                         props={{
@@ -193,27 +198,30 @@ export default function Registrant(props: AdminProps): JSX.Element {
                     />
                 ),
             });
-            SideBar.push({
-                name: "",
-                icon: MdDescription,
-                title: "Criminal Record Check",
-                header: "Criminal Record Check",
-                canEdit: false,
-                component:
-                    user.volunteer.criminalRecordCheckLink !== null ? (
-                        <FileDownloadCard
-                            filePath={FileType.CRIMINAL_CHECK}
-                            docName={user.volunteer.criminalRecordCheckLink}
-                            docApproved={user.volunteer.criminalCheckApproved}
-                            participantId={user.id}
-                            userEmail={user.email}
-                        />
-                    ) : (
-                        <EmptyState height="200px">
-                            The participant has not uploaded a criminal record check at this time.
-                        </EmptyState>
-                    ),
-            });
+            isAdmin &&
+                SideBar.push({
+                    name: "",
+                    icon: MdDescription,
+                    title: "Criminal Record Check",
+                    header: "Criminal Record Check",
+                    canEdit: false,
+                    component:
+                        user.volunteer.criminalRecordCheckLink !== null ? (
+                            <FileDownloadCard
+                                filePath={FileType.CRIMINAL_CHECK}
+                                docName={user.volunteer.criminalRecordCheckLink}
+                                docApproved={user.volunteer.criminalCheckApproved}
+                                docUploadDate={user.volunteer.criminalCheckSubmittedAt}
+                                participantId={user.id}
+                                userEmail={user.email}
+                            />
+                        ) : (
+                            <EmptyState height="200px">
+                                The participant has not uploaded a criminal record check at this
+                                time.
+                            </EmptyState>
+                        ),
+                });
         }
         setSideBar(SideBar);
     }, [user, editing]);
@@ -267,9 +275,10 @@ export default function Registrant(props: AdminProps): JSX.Element {
                         ))}
                     </Flex>
                 </Box>
-                <Box>
+                <Box w="full">
                     <Box
                         minW={{ base: 400, lg: 600 }}
+                        w="full"
                         p={{ base: 0, lg: 12 }}
                         mt={6}
                         borderWidth={{ base: "0", lg: "1px" }}
@@ -315,7 +324,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 permanent: false,
             },
         };
-    } else if (!isAdmin(session)) {
+    } else if (!isInternal(session)) {
         return {
             redirect: {
                 destination: "/no-access",

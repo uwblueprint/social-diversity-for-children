@@ -30,11 +30,16 @@
     "class": {
         "joinClass": "Join class",
         "unregister": "Unregister",
+        "unregisterConfirm": "Confirm Unregister",
+        "unregisterInfo": "Are you sure you would like to unregister for {{name}}?",
+        "unregisterInfoAll": "Are you sure you would like to unregister for all students?",
+        "unregisterRefundInfo": "You will need to contact SDC for a refund.",
         "unregisterFor": "Unregister for {{name}}",
         "unregisterForAll": "Unregister for all",
         "upcomingClasses": "Upcoming classes",
         "waitlistedClasses": "Waitlisted classes",
         "waitlistedInfo": "An email will be sent to you when a spot opens",
+        "waitlistCancel": "Remove from Waitlist",
         "emptyWaitlist": "Currently you are not waitlisted in any classes. Any classes you waitlist for will show up here!",
         "emptyClass": "Currently you have not registered in any classes. Any classes you registered for will show up here!"
     },
@@ -53,12 +58,15 @@
         "dateSubmitted": "Date submitted: {{date}}",
         "poi_approved": "Your income statement has been approved. Please be on the lookout for an email from SDC with the discount for future registrations.",
         "poi_pending": "Your income statement is under review.",
+        "poi_declined": "You have been declined for low income discounts. Please contact SDC if you think this is a mistake or submit a new income statement.",
         "bgc_approved": "Your criminal record check has been approved.",
         "bgc_pending": "Your criminal record check is under review.",
+        "bgc_declined": "Your criminal record check has been declined. Please contact SDC if you think this is a mistake or submit a new criminal record check.",
         "logOut": "Log out"
     },
     "upload": {
         "title": "Upload Document",
+        "prompt": "Select a document to upload",
         "instruction": "Drag and drop your file here",
         "alternative": "or",
         "browseFiles": "Browse Files",
@@ -125,5 +133,10 @@
         "registrationFailedDesc": "The class is not available for registration at this time.",
         "waitlistAdded": "Waitlist record added!",
         "waitlistAddedDesc": "You will receive an email when a spot opens up."
+    },
+    "404": {
+        "title": "Oh no! Page not found.",
+        "subtitle": "Sorry, but the page you are looking for does not exist. Try refreshing the page or hit the button below.",
+        "return": "Return to main page"
     }
 }

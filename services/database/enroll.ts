@@ -90,11 +90,35 @@ async function createParentRegistration(
 }
 
 /**
+ * getParentRegistrationsByTeacher takes a teacher id and returns all parent registrations that for that teacher
+ * @param  {number} teacherId
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getParentRegistrationsByTeacher(teacherId: number) {
+    const users = await prisma.parentReg.findMany({
+        where: {
+            class: {
+                teacherRegs: {
+                    some: {
+                        teacherId,
+                    },
+                },
+            },
+        },
+        include: {
+            student: true,
+        },
+    });
+    return users;
+}
+
+/**
  * deleteParentRegistration deletes an existing registration record of a parent enrollment
  *
  * @param {ParentRegistrationInput} parentRegistrationData the data containing the details of the enrollment
  * @returns {Promise<ParentReg>} the deleted parent registration
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function deleteParentRegistration(parentRegistrationData: ParentRegistrationInput) {
     const parentRegistration = await prisma.parentReg.delete({
         where: {
@@ -187,6 +211,29 @@ async function getVolunteerRegistration(
 }
 
 /**
+ * getVolunteerRegistrationsByTeacher takes a teacher id and returns all volunteer registrations for that teacher
+ * @param  {number} teacherId
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+async function getVolunteerRegistrationsByTeacher(teacherId: number) {
+    const users = await prisma.volunteerReg.findMany({
+        where: {
+            class: {
+                teacherRegs: {
+                    some: {
+                        teacherId,
+                    },
+                },
+            },
+        },
+        include: {
+            volunteer: true,
+        },
+    });
+    return users;
+}
+
+/**
  * createVolunteerRegistration creates a new registration record of a volunteer enrollment
  *
  * @param {VolunteerRegistrationInput} volunteerRegistrationData the data containing the details of the enrollment
@@ -229,10 +276,12 @@ async function deleteVolunteerRegistration(
 export {
     getParentRegistration,
     getParentRegistrations,
+    getParentRegistrationsByTeacher,
     createParentRegistration,
     deleteParentRegistration,
     getVolunteerRegistration,
     getVolunteerRegistrations,
+    getVolunteerRegistrationsByTeacher,
     createVolunteerRegistration,
     deleteVolunteerRegistration,
 };

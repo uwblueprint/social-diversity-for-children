@@ -38,13 +38,20 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
     } else if (checkExpiry(submitDate)) {
         description = "Your Criminal Check has expired"; // to change to t()
         icon = <InfoIcon />;
-    } else {
+    } else if (approved === null) {
         status = "pending";
         description = t("account.bgc", {
             ns: "common",
             context: status,
         });
         icon = <PendingIcon />;
+    } else {
+        status = "declined";
+        description = t("account.bgc", {
+            ns: "common",
+            context: status,
+        });
+        icon = <InfoIcon />;
     }
 
     return (
