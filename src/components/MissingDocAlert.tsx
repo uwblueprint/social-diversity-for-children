@@ -16,6 +16,7 @@ import { roles } from "@prisma/client";
 import { UseMeResponse } from "@utils/hooks/useMe";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import checkExpiry from "@utils/checkExpiry";
 
 type MissingDocAlertProps = {
     me?: UseMeResponse["me"];
@@ -28,6 +29,11 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
     const missingPOI = me && me.role === roles.PARENT && me.parent.proofOfIncomeLink === null;
     const missingCriminalCheck =
         me && me.role === roles.VOLUNTEER && me.volunteer.criminalRecordCheckLink === null;
+    const expiredCriminalCheck =
+        me &&
+        me.role === roles.VOLUNTEER &&
+        me.volunteer.criminalRecordCheckLink != null &&
+        checkExpiry(me.volunteer.criminalCheckSubmittedAt);
 
     const InfoCaption = [
         {
@@ -38,11 +44,15 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
             heading: t("bgc.submitTitle"),
             desc: t("bgc.missing"),
         },
+        {
+            heading: t("bgc.submitTitle"),
+            desc: t("bgc.expired"),
+        },
     ];
 
     return (
         <Box>
-            {!read && (missingPOI || missingCriminalCheck) && (
+            {!read && (missingPOI || missingCriminalCheck || expiredCriminalCheck) && (
                 <Alert
                     display="flex"
                     alignItems="center"
@@ -78,6 +88,16 @@ export const MissingDocAlert: React.FC<MissingDocAlertProps> = ({ me }) => {
                                     </Heading>
                                     <Text display="block" color={colourTheme.colors.Gray}>
                                         {InfoCaption[1].desc}
+                                    </Text>
+                                </Box>
+                            )}
+                            {expiredCriminalCheck && (
+                                <Box ml={4}>
+                                    <Heading mb={2} size="md" color={colourTheme.colors.Blue}>
+                                        {InfoCaption[2].heading}
+                                    </Heading>
+                                    <Text display="block" color={colourTheme.colors.Gray}>
+                                        {InfoCaption[2].desc}
                                     </Text>
                                 </Box>
                             )}
