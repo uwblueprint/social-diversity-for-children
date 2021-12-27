@@ -35,9 +35,6 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
     } else if (link == null) {
         description = t("bgc.missing");
         icon = <InfoIcon />;
-    } else if (checkExpiry(submitDate)) {
-        description = "Your Criminal Check has expired"; // to change to t()
-        icon = <InfoIcon />;
     } else if (approved === null) {
         status = "pending";
         description = t("account.bgc", {
@@ -45,6 +42,13 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
             context: status,
         });
         icon = <PendingIcon />;
+    } else if (checkExpiry(submitDate)) {
+        status = "expired";
+        description = t("account.bgc", {
+            ns: "common",
+            context: status,
+        });
+        icon = <InfoIcon />;
     } else {
         status = "declined";
         description = t("account.bgc", {

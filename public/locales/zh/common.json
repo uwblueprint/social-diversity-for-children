@@ -47,6 +47,7 @@
         "save": "保存更改",
         "status_approved": "状态：批准",
         "status_pending": "状态：待定",
+        "status_expired": "TEMP HOLD",
         "status_declined": "状态：被拒",
         "dateSubmitted": "提交日期: {{date}}",
         "poi_approved": "您的收入报告已通过审核。",
