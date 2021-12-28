@@ -106,6 +106,16 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+              
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: '3.8'
+                cache: 'pip'
+                cache-dependency-path: '**/requirements.txt'
+
+            - name: Install lambda dependencies
+              run: pip install -r ../modules/lambda/files/cronMailing/requirements.txt 
 
             - name: Hashicorp Terraform Setup (wraps stdout for plan)
               uses: hashicorp/setup-terraform@v1

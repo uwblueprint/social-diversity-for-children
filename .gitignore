@@ -31,5 +31,6 @@ yarn-error.log
 
 # lambda
 *.zip
+!requirements.txt
 **/cronMailing/*
 !**/cronMailing/*.py
