@@ -33,7 +33,7 @@ jobs:
                     exit 1
                   fi
 
-            - name: Setup node env
+            - name: Setup Node.js
               uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node }}
