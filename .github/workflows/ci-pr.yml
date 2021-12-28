@@ -114,7 +114,7 @@ jobs:
                 cache: 'pip'
                 cache-dependency-path: '**/requirements.txt'
 
-            - name: Install lambda dependencies
+            - name: Install Lambda dependencies
               run: pip install -r ../modules/lambda/files/cronMailing/requirements.txt 
 
             - name: Hashicorp Terraform Setup (wraps stdout for plan)
@@ -182,7 +182,7 @@ jobs:
                         body: output
                       })
 
-            - name: Terraform plan status
+            - name: Terraform Plan error
               if: steps.plan.outcome == 'failure'
               run: |
                   echo Check terraform plan
