@@ -159,7 +159,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                 component: (
                     <ProofOfIncome
                         approved={me.parent.isLowIncome}
-                        link={me.parent.proofOfIncomeLink}
+                        file={me.parent.proofOfIncomeLink}
                         submitDate={me.parent.proofOfIncomeSubmittedAt}
                     />
                 ),
@@ -193,7 +193,7 @@ export default function MyAccount({ session }: MyAccountProps): JSX.Element {
                 component: (
                     <CriminalCheck
                         approved={me.volunteer.criminalCheckApproved}
-                        link={me.volunteer.criminalRecordCheckLink}
+                        file={me.volunteer.criminalRecordCheckLink}
                         submitDate={me.volunteer.criminalCheckSubmittedAt}
                     />
                 ),
