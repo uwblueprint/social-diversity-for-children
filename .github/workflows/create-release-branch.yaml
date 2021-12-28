@@ -3,57 +3,67 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: Semantic Version bump (major, minor, patch)
+        description: Semantic Version bump (major, premajor, minor, preminor, patch, prepatch, or prerelease)
+        type: choice
         required: true
-      version-override:
-        description: Version to use as an override (vx.x.x)
-        required: false
-  
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
     - name: Initialize git config for PR author # https://github.com/actions/checkout/issues/13
       run: |
        git config user.name "github-actions[bot]"
        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
     - name: Get next semantic version
-      if: github.event.inputs.version-override
+      id: semver
       uses: uwblueprint/sdc-actions/actions/get-semantic-version@main
       with:
           bump:  ${{ github.event.inputs.bump }}
-    # - name: Change version number and name
-    #   run: printf 'ext.version_code = ${{ github.event.inputs.versionCode }}\next.version_name = "${{ github.event.inputs.versionName }}"\n' > app_versions.gradle
-    # - name: Update Changelog
-    #   uses: thomaseizinger/keep-a-changelog-new-release@v1
-    #   with:
-    #     version: ${{ github.event.inputs.versionName }}
-    # - name: Commit changelog and manifest files
-    #   id: make-commit
-    #   run: |
-    #     git add app_versions.gradle
-    #     git add CHANGELOG.md
-    #     git commit --message "Prepare release ${{ github.event.inputs.versionName }}"
-    #     echo "::set-output name=commit::$(git rev-parse HEAD)"
-    # - name: Push new branch
-    #   run: git push origin release/v${{ github.event.inputs.versionName }}
-    # - name: Create pull request into main
-    #   uses: thomaseizinger/create-pull-request@1.0.0
-    #   with:
-    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #    head: release/v${{ github.event.inputs.versionName }}
-    #    base: main
-    #    title: v${{ github.event.inputs.versionName }} into main
-    #    reviewers: ${{ github.event.issue.user.login }}
-    #    body: |
-    #        Hi!
-    #        This PR was created in response workflow running.
-    #        I've updated the version name and code commit: ${{ steps.make-commit.outputs.commit }}.
-    # - name: Create pull request to develop
-  
-    #       body: |
-    #           Hi!
-    #           This PR was created in response workflow running.
-    #           I've updated the version name and code commit: ${{ steps.make-commit.outputs.commit }}.
+
+    - name: Create release branch
+      run: git checkout -b release/v${{ steps.semver.outputs.version }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'yarn'
+
+    - name: Update package.json version
+      run: yarn version --no-git-tag-version --new-version ${{ steps.semver.outputs.version }} 
+    
+    - name: Commit package.json version change
+      run: |
+        git add package.json
+        git commit -m "Updated version to ${{ steps.semver.outputs.version }}"
+      continue-on-error: true # we want this to be true in case there aren't changes commit will fail
+
+    - name: Push release branch
+      run: git push origin release/v${{ steps.semver.outputs.version }}
+   
+    - name: Create pull request to staging
+      uses: uwblueprint/sdc-actions/actions/create-pull-request@main
+      with:
+        source_branch: release/v${{ steps.semver.outputs.version }} 
+        destination_branch: staging
+        title: Staging Release v${{ steps.semver.outputs.version }}
+
+    - name: Create pull request to main
+      uses: uwblueprint/sdc-actions/actions/create-pull-request@main
+      with:
+        source_branch: release/v${{ steps.semver.outputs.version }} 
+        destination_branch: main
+        title: Main Release v${{ steps.semver.outputs.version }}
