@@ -209,6 +209,7 @@ async function updateUser(userInput: UserInput) {
                               isLowIncome: parentData.isLowIncome,
                               preferredLanguage: parentData.preferredLanguage,
                               proofOfIncomeLink: parentData.proofOfIncomeLink,
+                              proofOfIncomeSubmittedAt: parentData.proofOfIncomeSubmittedAt,
                               heardFrom: parentData.heardFrom,
                               user: {
                                   connect: { id: user.id },
@@ -249,6 +250,7 @@ async function updateUser(userInput: UserInput) {
                               phoneNumber: parentData.phoneNumber,
                               isLowIncome: parentData.isLowIncome,
                               proofOfIncomeLink: parentData.proofOfIncomeLink,
+                              proofOfIncomeSubmittedAt: parentData.proofOfIncomeSubmittedAt,
                               preferredLanguage: parentData.preferredLanguage,
                               heardFrom: parentData.heardFrom,
                               students: {
@@ -340,6 +342,7 @@ async function updateUser(userInput: UserInput) {
                         phoneNumber: volunteerData.phoneNumber,
                         dateOfBirth: volunteerData.dateOfBirth,
                         criminalRecordCheckLink: volunteerData.criminalRecordCheckLink,
+                        criminalCheckSubmittedAt: volunteerData.criminalCheckSubmittedAt,
                         addressLine1: volunteerData.addressLine1,
                         postalCode: volunteerData.postalCode,
                         cityName: volunteerData.cityName,
@@ -356,6 +359,7 @@ async function updateUser(userInput: UserInput) {
                         phoneNumber: volunteerData.phoneNumber,
                         dateOfBirth: volunteerData.dateOfBirth,
                         criminalRecordCheckLink: volunteerData.criminalRecordCheckLink,
+                        criminalCheckSubmittedAt: volunteerData.criminalCheckSubmittedAt,
                         addressLine1: volunteerData.addressLine1,
                         postalCode: volunteerData.postalCode,
                         cityName: volunteerData.cityName,

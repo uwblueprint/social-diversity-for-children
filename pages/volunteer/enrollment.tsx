@@ -8,6 +8,7 @@ import { UpdateCriminalCheckForm } from "@components/volunteer-enroll/UpdateCrim
 import { VolunteerEnrolledFormWrapper } from "@components/volunteer-enroll/VolunteerEnrollFormWrapper";
 import { locale } from "@prisma/client";
 import CardInfoUtil from "@utils/cardInfoUtil";
+import checkExpiry from "@utils/checkExpiry";
 import { fetcherWithQuery } from "@utils/fetcher";
 import useMe from "@utils/hooks/useMe";
 import useVolunteerRegistrations from "@utils/hooks/useVolunteerRegistration";
@@ -111,7 +112,7 @@ export const VolunteerEnrollment: React.FC<VolunteerEnrollmentProps> = ({
     // render update criminal check form if expired
     !me.volunteer.criminalRecordCheckLink
         ? pageElements.unshift(<SubmitCriminalCheckForm classInfo={classInfo} onNext={nextPage} />)
-        : me.volunteer.criminalCheckExpired
+        : checkExpiry(me.volunteer.criminalCheckSubmittedAt)
         ? pageElements.unshift(<UpdateCriminalCheckForm classInfo={classInfo} onNext={nextPage} />)
         : {};
 
