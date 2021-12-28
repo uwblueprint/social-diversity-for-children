@@ -14,7 +14,6 @@ terraform {
   }
 }
 
-
 # configures the required provider
 provider "aws" {
   region = "us-east-1"
