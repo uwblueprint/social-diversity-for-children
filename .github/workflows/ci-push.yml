@@ -86,8 +86,6 @@ jobs:
             - name: Install Lambda dependencies
               run: pip install -r ../modules/lambda/files/cronMailing/requirements.txt 
 
-            - name: Install lambda dependencies
-              run: pip install -r ../modules/lambda/files/cronMailing/requirements.txt 
             - name: Hashicorp Terraform Setup (wraps stdout for plan)
               uses: hashicorp/setup-terraform@v1
 
