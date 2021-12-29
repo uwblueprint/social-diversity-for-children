@@ -18,9 +18,6 @@
         "fix:prettier": "prettier --write '**/*.{js,jsx,ts,tsx}'",
         "fix:eslint": "eslint '**/*.{js,jsx,ts,tsx}' --format stylish --fix"
     },
-    "prisma": {
-        "seed": "ts-node -O {\"module\":\"CommonJS\"} prisma/seed.ts"
-    },
     "dependencies": {
         "@chakra-ui/icons": "^1.0.14",
         "@chakra-ui/react": "^1.1.4",

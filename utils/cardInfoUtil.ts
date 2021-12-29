@@ -48,7 +48,7 @@ export class CardInfoUtil {
             startDate: new Date(result.startDate),
             endDate: new Date(result.endDate),
             weekday: result.weekday,
-            startTimeMinutes: result.startTimeMinutes,
+            startTimeMinutes: totalMinutes(result.startDate),
             durationMinutes: result.durationMinutes,
             isArchived: result.isArchived,
             programId: result.program.id,

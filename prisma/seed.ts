@@ -1,5 +1,4 @@
 import seedDev from "./dev-seeds/index";
-import seedProd from "./prod-seeds/index";
 import prisma from "../services/database";
 
 /**
@@ -7,8 +6,7 @@ import prisma from "../services/database";
  */
 const main = async () => {
     if (process.env.NODE_ENV === "production") {
-        console.log("Running production seed...");
-        await seedProd();
+        console.log("No production seed...");
     } else {
         console.log("Running development seed...");
         await seedDev();

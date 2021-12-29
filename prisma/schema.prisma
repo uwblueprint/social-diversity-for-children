@@ -5,6 +5,8 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // local dev only
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Parent {
@@ -13,7 +15,7 @@ model Parent {
   isLowIncome              Boolean?    @map("is_low_income")
   preferredLanguage        locale      @map("preferred_language")
   proofOfIncomeLink        String?     @map("proof_of_income_link")
-  proofOfIncomeSubmittedAt DateTime?  @map("proof_of_income_submitted_at") @db.Timestamptz(6)
+  proofOfIncomeSubmittedAt DateTime?   @map("proof_of_income_submitted_at") @db.Timestamptz(6)
   heardFrom                heardFrom[] @map("heard_from")
   createdAt                DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt                DateTime?   @map("updated_at") @db.Timestamptz(6)
@@ -21,6 +23,7 @@ model Parent {
   parentRegs               ParentReg[] @relation("parent_regsToparents")
   students                 Student[]   @relation("parentsTostudents")
   waitlists                Waitlist[]  @relation("parentsTowaitlists")
+
   @@map("parents")
 }
 
@@ -36,6 +39,7 @@ model Program {
   updatedAt          DateTime?            @map("updated_at") @db.Timestamptz(6)
   classes            Class[]              @relation("programsToclasses")
   programTranslation ProgramTranslation[] @relation("program_translationsToprograms")
+
   @@map("programs")
 }
 
@@ -47,6 +51,7 @@ model ProgramTranslation {
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
   program     Program   @relation("program_translationsToprograms", fields: [programId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@id([programId, language])
   @@map("program_translations")
 }
@@ -57,6 +62,7 @@ model Teacher {
   updatedAt   DateTime?    @map("updated_at") @db.Timestamptz(6)
   user        User         @relation("teachersTousers", fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   teacherRegs TeacherReg[] @relation("teacher_regsToteachers")
+
   @@map("teachers")
 }
 
@@ -67,6 +73,7 @@ model TeacherReg {
   updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
   class     Class     @relation("classesToteacher_regs", fields: [classId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   teacher   Teacher   @relation("teacher_regsToteachers", fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@id([classId, teacherId])
   @@map("teacher_regs")
 }
@@ -85,6 +92,7 @@ model User {
   programAdmin  ProgramAdmin? @relation("program_adminsTousers")
   teacher       Teacher?      @relation("teachersTousers")
   volunteer     Volunteer?    @relation("usersTovolunteers")
+
   @@map("users")
 }
 
@@ -95,6 +103,7 @@ model VerificationRequest {
   expires    DateTime  @db.Timestamptz(6)
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt  DateTime? @map("updated_at") @db.Timestamptz(6)
+
   @@map("verification_requests")
 }
 
@@ -129,6 +138,7 @@ model VolunteerReg {
   updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
   class       Class     @relation("classesTovolunteer_regs", fields: [classId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   volunteer   Volunteer @relation("volunteer_regsTovolunteers", fields: [volunteerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@id([volunteerId, classId])
   @@map("volunteer_regs")
 }
@@ -138,6 +148,7 @@ model ProgramAdmin {
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
   user      User      @relation("program_adminsTousers", fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@map("program_admins")
 }
 
@@ -149,6 +160,7 @@ model ClassTranslation {
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime? @map("updated_at") @db.Timestamptz(6)
   class       Class     @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@id([classId, language])
   @@map("class_translations")
 }
@@ -167,7 +179,6 @@ model Class {
   startDate           DateTime           @map("start_date") @db.Timestamptz(6)
   endDate             DateTime           @map("end_date") @db.Timestamptz(6)
   weekday             weekday
-  startTimeMinutes    Int                @map("start_time_minutes")  // @deprecated TODO: remove
   durationMinutes     Int                @map("duration_minutes")
   createdAt           DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt           DateTime?          @map("updated_at") @db.Timestamptz(6)
@@ -177,6 +188,7 @@ model Class {
   teacherRegs         TeacherReg[]       @relation("classesToteacher_regs")
   volunteerRegs       VolunteerReg[]     @relation("classesTovolunteer_regs")
   waitlists           Waitlist[]
+
   @@map("classes")
 }
 
@@ -187,6 +199,7 @@ model Waitlist {
   updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
   class     Class     @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   parent    Parent    @relation("parentsTowaitlists", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@id([parentId, classId])
   @@map("waitlists")
 }
@@ -200,6 +213,7 @@ model ParentReg {
   class     Class     @relation("classesToparent_regs", fields: [classId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   parent    Parent    @relation("parent_regsToparents", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   student   Student   @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
   @@id([parentId, studentId, classId])
   @@map("parent_regs")
 }
@@ -234,6 +248,7 @@ model Student {
   updatedAt              DateTime?      @map("updated_at") @db.Timestamptz(6)
   parent                 Parent         @relation("parentsTostudents", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   parentRegs             ParentReg[]
+
   @@map("students")
 }
 
@@ -242,6 +257,7 @@ enum locale {
   en
   ja
   ko
+
   @@map("locales")
 }
 
@@ -259,6 +275,7 @@ enum province {
   YT
   NT
   NU
+
   @@map("provinces")
 }
 
@@ -270,6 +287,7 @@ enum weekday {
   FRI
   SAT
   SUN
+
   @@map("weekdays")
 }
 
@@ -277,6 +295,7 @@ enum programFormat {
   online
   inPerson @map("in-person")
   blended
+
   @@map("program_formats")
 }
 
@@ -300,6 +319,7 @@ enum heardFrom {
   EMAIL
   SOCIAL_MEDIA
   OTHER
+
   @@map("heard_from")
 }
 
