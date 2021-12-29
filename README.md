@@ -167,7 +167,7 @@ yarn fix
 
 ## ✈️ Migration
 
-NOTE: Before applying your migrations a production environment, ensure the diff via `prisma db pull` lines up with the migrations to be applied.
+NOTE: Before applying your migrations a production environment, ensure the diff via `npx prisma db pull` and `npx prisma migrate status` lines up with the migrations to be applied.
 
 To migrate a database schema without losing data:
 

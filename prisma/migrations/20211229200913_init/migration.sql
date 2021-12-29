@@ -179,6 +179,7 @@ CREATE TABLE "classes" (
     "start_date" TIMESTAMPTZ(6) NOT NULL,
     "end_date" TIMESTAMPTZ(6) NOT NULL,
     "weekday" "weekdays" NOT NULL,
+    "start_time_minutes" INTEGER NOT NULL,
     "duration_minutes" INTEGER NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(6),
