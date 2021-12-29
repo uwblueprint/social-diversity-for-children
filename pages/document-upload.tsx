@@ -4,6 +4,7 @@ import { CloseButton } from "@components/CloseButton";
 import DragAndDrop from "@components/DragAndDrop";
 import { ApprovedIcon } from "@components/icons";
 import Wrapper from "@components/SDCWrapper";
+import { pathWithQuery } from "@utils/request/query";
 import { GetServerSideProps } from "next"; // Get server side props
 import { Session } from "next-auth";
 import { getSession } from "next-auth/client";
@@ -30,6 +31,7 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
     // allows future support of multiple file uploads
     // if we really want to restrict to one document, remove the multiple from the input
     const [files, setFiles] = useState<File[]>([]);
+    const [fileName, setFileName] = useState<string>();
 
     const upload = async () => {
         setIsUploading(true);
@@ -50,6 +52,7 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
 
             if (fileUpload.ok) {
                 console.log("Uploaded successfully!");
+                setFileName(file.name);
                 setUploadSuccess(true);
             } else {
                 // TODO
@@ -146,7 +149,13 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
         return (
             <Wrapper session={session}>
                 <Box minHeight="85vh">
-                    <CloseButton href={redirect ? (redirect as string) : undefined} />
+                    <CloseButton
+                        href={
+                            redirect
+                                ? pathWithQuery(redirect as string, "uploaded", fileName)
+                                : undefined
+                        }
+                    />
                     <VStack>
                         <Center>
                             <Box width="400px" mb="40px">
@@ -187,7 +196,15 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
                                             mt="20px"
                                             onClick={() =>
                                                 router
-                                                    .push(redirect ? (redirect as string) : "/")
+                                                    .push(
+                                                        redirect
+                                                            ? pathWithQuery(
+                                                                  redirect as string,
+                                                                  "uploaded",
+                                                                  fileName,
+                                                              )
+                                                            : "/",
+                                                    )
                                                     .then(() => {
                                                         window.scrollTo({ top: 0 });
                                                     })
@@ -247,6 +264,7 @@ export default function DocumentUpload({ session }: DocumentUploadProps): JSX.El
             </Wrapper>
         );
     };
+
     if (uploadSuccess) {
         return uploadSuccessUI();
     } else {

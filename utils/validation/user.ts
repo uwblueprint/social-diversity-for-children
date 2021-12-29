@@ -116,6 +116,11 @@ function getUserValidationErrors(user: UserInput): Array<string> {
         if (!validatePreferredLanguage(roleData.preferredLanguage)) {
             validationErrors.push(`Invalid preferred language: ${roleData.preferredLanguage}`);
         }
+        if (roleData.proofOfIncomeLink && !roleData.proofOfIncomeSubmittedAt) {
+            validationErrors.push(
+                `Invalid submit date provided: ${roleData.proofOfIncomeSubmittedAt}`,
+            );
+        }
     } else if (user.role === roles.PROGRAM_ADMIN) {
         // pass - since program admin has no unique fields
     } else if (user.role === roles.TEACHER) {
@@ -134,6 +139,11 @@ function getUserValidationErrors(user: UserInput): Array<string> {
         if (roleData.preferredLanguage && !validatePreferredLanguage(roleData.preferredLanguage)) {
             validationErrors.push(
                 `Invalid preferred language provided: ${roleData.preferredLanguage}`,
+            );
+        }
+        if (roleData.criminalRecordCheckLink && !roleData.criminalCheckSubmittedAt) {
+            validationErrors.push(
+                `Invalid submit date provided: ${roleData.criminalCheckSubmittedAt}`,
             );
         }
     }
