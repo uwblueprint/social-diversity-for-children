@@ -42,7 +42,7 @@ jobs:
                   regex: "terraform/*"
 
             - name: Setup Node.js
-              uses: actions/setup-node@v2.1.2
+              uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node }}
 
