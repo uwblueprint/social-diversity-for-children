@@ -84,8 +84,10 @@ jobs:
                 cache-dependency-path: '**/requirements.txt'
 
             - name: Install Lambda dependencies
-              run: pip install -r ../modules/lambda/files/cronMailing/requirements.txt 
-
+              run:  |
+                cd ../modules/lambda/files/cronMailing
+                pip install -r requirements.txt -t .
+                
             - name: Hashicorp Terraform Setup (wraps stdout for plan)
               uses: hashicorp/setup-terraform@v1
 
