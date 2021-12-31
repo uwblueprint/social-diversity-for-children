@@ -27,7 +27,7 @@ const headerLinks = [
     { name: "Add Class", url: "/admin/class/edit/new" },
 ];
 
-export const BrowsePrograms: React.FC<BrowseProgramsProps> = ({ session }) => {
+export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -53,8 +53,8 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = ({ session }) => {
         }
     });
     return (
-        <Wrapper session={session}>
-            <AdminHeader headerLinks={session?.role !== roles.TEACHER ? headerLinks : []}>
+        <Wrapper session={props.session}>
+            <AdminHeader headerLinks={props.session?.role !== roles.TEACHER ? headerLinks : []}>
                 Programs
             </AdminHeader>
 
