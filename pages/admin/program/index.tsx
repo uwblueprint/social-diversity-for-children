@@ -54,7 +54,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = ({ session }) => {
     });
     return (
         <Wrapper session={session}>
-            <AdminHeader headerLinks={session.role !== roles.TEACHER ? headerLinks : []}>
+            <AdminHeader headerLinks={session?.role !== roles.TEACHER ? headerLinks : []}>
                 Programs
             </AdminHeader>
 

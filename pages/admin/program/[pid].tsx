@@ -82,7 +82,7 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
 
     return (
         <Wrapper session={session}>
-            <AdminHeader headerLinks={session.role !== roles.TEACHER ? headerLinks : []}>
+            <AdminHeader headerLinks={session?.role !== roles.TEACHER ? headerLinks : []}>
                 Programs
             </AdminHeader>
             <VStack mx={8} spacing={6} alignItems="flex-start">

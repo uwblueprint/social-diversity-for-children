@@ -54,7 +54,7 @@ export default function Admin(props: AdminProps): JSX.Element {
         <Wrapper session={props.session}>
             <AdminHeader>Dashboard</AdminHeader>
             <VStack spacing={5} mx={8} pb={4} align="flex-start">
-                {session.role !== roles.TEACHER ? (
+                {props.session?.role !== roles.TEACHER ? (
                     <Grid templateColumns="repeat(4, 1fr)" gap={4} w="100%">
                         <AdminOptionButton
                             icon={MdCreate}
