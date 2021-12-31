@@ -28,7 +28,6 @@ import { Session } from "next-auth";
 import { isInternal } from "@utils/session/authorization";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminHeader } from "@components/admin/AdminHeader";
-import useMe from "@utils/hooks/useMe";
 import { roles } from "@prisma/client";
 
 type ClassViewProps = {
@@ -47,7 +46,6 @@ const headerLinks = [
 export default function ProgramClassView({ session }: ClassViewProps): JSX.Element {
     const router = useRouter();
     const { pid } = router.query;
-    const { me, isLoading: isMeLoading, error: meError } = useMe();
     const [searchTerm, setSearchTerm] = useState("");
 
     const {
@@ -84,11 +82,7 @@ export default function ProgramClassView({ session }: ClassViewProps): JSX.Eleme
 
     return (
         <Wrapper session={session}>
-            <AdminHeader
-                headerLinks={
-                    !isMeLoading && !meError && me.role !== roles.TEACHER ? headerLinks : []
-                }
-            >
+            <AdminHeader headerLinks={session.role !== roles.TEACHER ? headerLinks : []}>
                 Programs
             </AdminHeader>
             <VStack mx={8} spacing={6} alignItems="flex-start">

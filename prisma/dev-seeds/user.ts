@@ -201,17 +201,6 @@ const users: User[] = [
         createdAt: new Date(),
         updatedAt: null,
     },
-    {
-        id: 10018,
-        firstName: "Greg",
-        lastName: "Maxin",
-        email: "gmaxin@uwaterloo.ca",
-        emailVerified: new Date(),
-        role: roles.PROGRAM_ADMIN,
-        image: null,
-        createdAt: new Date(),
-        updatedAt: null,
-    },
 ];
 
 /**
