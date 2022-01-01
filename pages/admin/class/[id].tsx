@@ -27,6 +27,7 @@ import { AdminLoading } from "@components/AdminLoading";
 import { Session } from "next-auth";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { AdminHeader } from "@components/admin/AdminHeader";
+import { roles } from "@prisma/client";
 
 type ClassViewProps = {
     session: Session;
@@ -69,7 +70,9 @@ export default function ClassView({ session }: ClassViewProps): JSX.Element {
 
     return (
         <Wrapper session={session}>
-            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <AdminHeader headerLinks={session?.role !== roles.TEACHER ? headerLinks : []}>
+                Classes
+            </AdminHeader>
             <VStack mx={8} spacing={8} alignItems="flex-start">
                 <Breadcrumb separator={">"}>
                     <BreadcrumbItem>
