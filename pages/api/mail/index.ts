@@ -6,6 +6,7 @@ import findEmails from "@database/mail";
 import convertToShortTimeRange from "@utils/convertToShortTimeRange";
 import { classStartingSoonTemplate } from "@utils/mail/templateUtil";
 import { locale } from "@prisma/client";
+import { totalMinutes } from "@utils/time/convert";
 
 /**
  * Handles the request to /api/mail (POST)
@@ -60,13 +61,12 @@ function pushMailPromises(classes, intervalHours: number, mailerPromises: Promis
         // looping through parents that are registered to EACH class
         const parentRegs = classes[i].parentRegs;
         const volunteerRegs = classes[i].volunteerRegs;
-        const { name, imageLink, weekday, startDate, endDate, startTimeMinutes, durationMinutes } =
-            classes[i];
+        const { name, imageLink, weekday, startDate, endDate, durationMinutes } = classes[i];
         const getEmailSubject = (language: locale = locale.en) =>
             `Class Reminder: ${name} ${weekdayToString(
                 weekday,
                 language,
-            )} ${convertToShortTimeRange(startTimeMinutes, durationMinutes)}`;
+            )} ${convertToShortTimeRange(totalMinutes(startDate), durationMinutes)}`;
 
         (parentRegs as any[]).forEach((reg) => {
             mailerPromises.push(
