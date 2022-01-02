@@ -30,7 +30,6 @@ export const HeardFromPage: React.FC<HeardFromPageProps> = ({ props }): JSX.Elem
             <FormControl id="hear-about-us">
                 <FormLabel>{t("signUp.hearAboutUs")}</FormLabel>
                 <Stack direction="column">
-                    <FormLabel>{t("signUp.participantHaveDifficulties")}</FormLabel>
                     <CheckBoxField
                         value={props.heardFromFriendsAndFam}
                         name={t("hearAboutUs.friendsAndFamily", {
