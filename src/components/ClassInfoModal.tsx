@@ -30,6 +30,7 @@ import { locale, roles } from "@prisma/client";
 import { UseMeResponse } from "@utils/hooks/useMe";
 import { infoToastOptions } from "@utils/toast/options";
 import { totalMinutes } from "@utils/time/convert";
+import convertCamelToText from "@utils/convertCamelToText";
 
 type ClassInfoModalProps = {
     isOpen: boolean;
@@ -83,7 +84,7 @@ export const ClassInfoModal: React.FC<ClassInfoModalProps> = ({
                         })}
                     </Text>
                     <Box my={25}>
-                        <SDCBadge children={onlineFormat} />
+                        <SDCBadge children={convertCamelToText(onlineFormat)} />
                         <SDCBadge children={tag} ml={2} />
                     </Box>
                     <Text>{classInfo.description}</Text>

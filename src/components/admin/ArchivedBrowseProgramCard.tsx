@@ -16,6 +16,7 @@ import {
 import { AdminBadge } from "@components/AdminBadge";
 import { locale, roles } from "@prisma/client";
 import colourTheme from "@styles/colours";
+import convertCamelToText from "@utils/convertCamelToText";
 import convertToShortDateRange from "@utils/convertToShortDateRange";
 import { deleteProgram } from "@utils/deleteProgram";
 import { infoToastOptions } from "@utils/toast/options";
@@ -134,7 +135,7 @@ export const ArchivedBrowseProgramCard: React.FC<ArchivedBrowseProgramCardProps>
                     </Tooltip>
                     <Box mt={6}>
                         <AdminBadge>{cardInfo.tag}</AdminBadge>
-                        <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
+                        <AdminBadge ml={2}>{convertCamelToText(cardInfo.onlineFormat)}</AdminBadge>
                     </Box>
                 </Box>
             </Box>
