@@ -38,6 +38,7 @@ export const DateField: React.FC<Props> = ({
                     }}
                 >
                     <DatePicker
+                        showMonthDropdown
                         showYearDropdown
                         yearDropdownItemNumber={10}
                         scrollableYearDropdown
@@ -46,6 +47,7 @@ export const DateField: React.FC<Props> = ({
                         onChange={(date) => setValue(date)}
                         showTimeSelect={time}
                         timeFormat="HH:mm"
+                        dropdownMode="select"
                     />
                 </Box>
             )}
