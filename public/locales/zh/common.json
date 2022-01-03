@@ -15,7 +15,9 @@
         "ageGroupAbove": "{{age}}岁或以上",
         "teacherName": "{{name}}老师",
         "participantSpot": "剩余{{spot}}个参与者名额",
+        "participantSpot_plural": "{{spot}}個开放名额",
         "volunteerSpot": "剩余{{spot}}个义工名额",
+        "volunteerSpot_plural": "{{spot}}個 开放义工名额",
         "notEligible": "你的孩子不符合这个年龄组的条件。请选择一个不同的班级",
         "understood": "明白了",
         "waitlist": "添加到候补名单",
@@ -28,11 +30,16 @@
     "class": {
         "joinClass": "加入课程",
         "unregister": "取消注册",
+        "unregisterConfirm": "确认取消注册",
+        "unregisterInfo": "您确定要取消{{name}}的注册吗？",
+        "unregisterInfoAll": "您确定要取消所有学生的注册吗？",
+        "unregisterRefundInfo": "您需要联系 SDC 職員來取得退款。",
         "unregisterFor": "取消注册: {{name}}",
         "unregisterForAll": "全部注销",
         "upcomingClasses": "即将开始的课程",
         "waitlistedClasses": "候补课程",
         "waitlistedInfo": "当一个位置开放时，将向您发送一封电子邮件",
+        "waitlistCancel": "从候补名单中删除",
         "emptyWaitlist": "目前您没有被列入任何课程的候补名单。您候补名单上的任何课程都会显示在这里！",
         "emptyClass": "目前您还没有注册任何课程。您注册的任何课程都会显示在这里！"
     },
@@ -47,16 +54,21 @@
         "save": "保存更改",
         "status_approved": "状态：批准",
         "status_pending": "状态：待定",
+        "status_expired": "状态：已过期",
         "status_declined": "状态：被拒",
         "dateSubmitted": "提交日期: {{date}}",
         "poi_approved": "您的收入报告已通过审核。",
         "poi_pending": "您的损益表正在审核中。",
+        "poi_declined": "您已被拒绝低收入折扣的申请。如果您认为这是一个错误或需要提交新的\n收入证明，请联系 SDC的職員",
         "bgc_approved": "您的无犯罪调查信已通过审核。",
         "bgc_pending": "您的无犯罪调查信正在被审查。",
+        "bgc_expired": "您的无犯罪记录已过期。请提交新的无犯罪记录",
+        "bgc_declined": "您的无犯罪记录已被拒绝。如果您认为这是一个错误或您想重新提交新的无犯罪记录，请联系 SDC的职员。",
         "logOut": "登出"
     },
     "upload": {
         "title": "上传文档",
+        "prompt": "选择要上传的檔案",
         "instruction": "将您的文件拖放到此处",
         "alternative": "或者",
         "browseFiles": "浏览文件",
@@ -70,7 +82,10 @@
     "signIn": {
         "firstTime": "第一次参加吗？我们会给您发一个注册代码，让您立即注册。",
         "sentTitle": "已发送验证邮件。请检查您的电子邮件!",
-        "successEmail": "邮件认证成功！"
+        "sentInfo": "需要确认您的邮箱地址，请按我们发送给 {{email}} 的邮件中的链接。",
+        "sentHint": "還没有收到邮件？返回登录页面并重新输入有效的郵箱。",
+        "successEmail": "邮件认证成功！",
+        "successInfo": "您已确认 {{email}}。您可以开始填写您的帐户信息！"
     },
     "time": {
         "range": "{{start}}至{{end}}",
@@ -89,6 +104,7 @@
     "therapy": {
         "physiotherapy": "物理疗法",
         "language": "语言治疗",
+        "occupational": "职业治疗",
         "psychotherapy": "辅导及心理治疗",
         "art": "音乐或艺术治疗",
         "other": "其他"
@@ -101,6 +117,7 @@
         "other": "其他"
     },
     "nav": {
+        "signInNow": "立即登录去注册课程",
         "register": "注册",
         "registerNow": "立即注册",
         "browseProgram": "浏览课程",
@@ -112,5 +129,16 @@
         "browseClasses": "浏览课程",
         "viewDetails": "浏览详情",
         "viewAccount": "浏览账户"
+    },
+    "toast": {
+        "registrationFailed": "注册失败",
+        "registrationFailedDesc": "该课程目前无法注册。",
+        "waitlistAdded": "添加候补名单",
+        "waitlistAddedDesc": "当有位置开放，您将收到一封邮件。"
+    },
+    "404": {
+        "return": "返回首页",
+        "subtitle": "抱歉! 您要找的页面不存在, 请尝试刷新页面或点击下面的按钮。",
+        "title": "抱歉! 您要找的页面不存在。"
     }
 }
