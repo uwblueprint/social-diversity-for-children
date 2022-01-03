@@ -17,6 +17,7 @@ import { AdminLoading } from "@components/AdminLoading";
 import { AdminError } from "@components/AdminError";
 import { isInternal } from "@utils/session/authorization";
 import { roles } from "@prisma/client";
+import convertCamelToText from "@utils/convertCamelToText";
 
 type BrowseProgramsProps = {
     session: Session;
@@ -46,6 +47,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
         } else if (
             prog.name.toLowerCase().includes(term) ||
             prog.description.toLowerCase().includes(term) ||
+            convertCamelToText(prog.onlineFormat).toLowerCase().includes(term) ||
             prog.onlineFormat.toLowerCase().includes(term) ||
             prog.tag.toLowerCase().includes(term)
         ) {

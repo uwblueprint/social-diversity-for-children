@@ -32,6 +32,7 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { AdminModal } from "./AdminModal";
 import { roles } from "@prisma/client";
 import { infoToastOptions } from "@utils/toast/options";
+import convertCamelToText from "@utils/convertCamelToText";
 
 export type ProgramViewInfoCard = {
     cardInfo: ProgramCardInfo;
@@ -132,7 +133,9 @@ export const ProgramViewInfoCard: React.FC<ProgramViewInfoCard> = ({ cardInfo, r
                         </Flex>
                         <Flex>
                             <AdminBadge>{cardInfo.tag}</AdminBadge>
-                            <AdminBadge ml={2}>{cardInfo.onlineFormat}</AdminBadge>
+                            <AdminBadge ml={2}>
+                                {convertCamelToText(cardInfo.onlineFormat)}
+                            </AdminBadge>
                         </Flex>
                     </VStack>
                 </GridItem>
