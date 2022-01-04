@@ -144,7 +144,6 @@ export default function CreateClass({ session }: Props): JSX.Element {
             endDate: new Date(endDate),
             price,
             id,
-            startTimeMinutes: moment(startDate).diff(moment().startOf("day"), "minutes"),
             durationMinutes: parseInt(durationMinutes),
             teacherRegs: [
                 {
