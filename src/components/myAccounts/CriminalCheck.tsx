@@ -1,37 +1,48 @@
 import React from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Link as ChakraLink } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { ApprovedIcon, InfoIcon, PendingIcon } from "@components/icons";
 import convertToShortDateString from "@utils/convertToShortDateString";
 import { locale } from "@prisma/client";
 import { useTranslation } from "next-i18next";
+import checkExpiry from "@utils/checkExpiry";
+import useFileRetrieve from "@utils/hooks/useFileRetrieve";
+import { FileType } from "@utils/enum/filetype";
 
 type CriminalCheckProps = {
-    link: string;
+    file: string;
     approved: boolean;
     submitDate?: Date;
 };
 
 export const CriminalCheck: React.FC<CriminalCheckProps> = ({
-    link,
+    file,
     approved,
     submitDate,
 }): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
+    const { url: docLink } = useFileRetrieve(FileType.CRIMINAL_CHECK, file);
 
     let description;
     let status;
     let icon;
 
-    if (approved) {
+    if (approved && checkExpiry(submitDate)) {
+        status = "expired";
+        description = t("account.bgc", {
+            ns: "common",
+            context: status,
+        });
+        icon = <InfoIcon />;
+    } else if (approved) {
         status = "approved";
         description = t("account.bgc", {
             ns: "common",
             context: status,
         });
         icon = <ApprovedIcon />;
-    } else if (link == null) {
+    } else if (file == null) {
         description = t("bgc.missing");
         icon = <InfoIcon />;
     } else if (approved === null) {
@@ -61,7 +72,7 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
                 </Box>
             </Flex>
             <Box pl={120} my={5} color={colourTheme.colors.Gray}>
-                {link == null ? null : (
+                {file == null ? null : (
                     <>
                         <Text>
                             {t("account.status", {
@@ -75,6 +86,17 @@ export const CriminalCheck: React.FC<CriminalCheckProps> = ({
                                 date: convertToShortDateString(submitDate, locale.en, true),
                             })}
                         </Text>
+                        <Flex>
+                            <Text pr={1}>
+                                {t("account.document", {
+                                    ns: "common",
+                                })}
+                                :{" "}
+                            </Text>
+                            <ChakraLink href={docLink} isExternal>
+                                {file}
+                            </ChakraLink>
+                        </Flex>
                     </>
                 )}
             </Box>

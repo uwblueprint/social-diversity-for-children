@@ -32,6 +32,7 @@ import { AdminLoading } from "@components/AdminLoading";
 import { weekdayToString } from "@utils/enum/weekday";
 import { ArchivedProgramClassInfoCard } from "@components/admin/ArchivedProgramClassInfoCard";
 import { mutate } from "swr";
+import convertCamelToText from "@utils/convertCamelToText";
 
 type ArchiveBrowseProgramsProps = {
     session: Session;
@@ -68,6 +69,7 @@ export const ArchiveBrowsePrograms: React.FC<ArchiveBrowseProgramsProps> = (prop
         } else if (
             prog.name.toLowerCase().includes(term) ||
             prog.description.toLowerCase().includes(term) ||
+            convertCamelToText(prog.onlineFormat).toLowerCase().includes(term) ||
             prog.onlineFormat.toLowerCase().includes(term) ||
             prog.tag.toLowerCase().includes(term)
         ) {

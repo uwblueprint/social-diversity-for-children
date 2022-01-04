@@ -89,7 +89,7 @@ const FormPage = (props) => {
  */
 export default function ParticipantInfo({ session }: { session: Session }): JSX.Element {
     const router = useRouter();
-    const { page } = router.query;
+    const { page, uploaded } = router.query;
     const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
@@ -417,9 +417,10 @@ export default function ParticipantInfo({ session }: { session: Session }): JSX.
 
         const parentData: ParentInput = {
             phoneNumber: parentPhoneNumber,
-            isLowIncome: undefined, // TODO
+            isLowIncome: undefined,
             preferredLanguage: locale.en,
-            proofOfIncomeLink: undefined, // TODO
+            proofOfIncomeLink: uploaded ? (uploaded as string) : undefined,
+            proofOfIncomeSubmittedAt: uploaded ? new Date() : undefined,
             heardFrom: [],
             createStudentInput: {
                 firstName: participantFirstName,

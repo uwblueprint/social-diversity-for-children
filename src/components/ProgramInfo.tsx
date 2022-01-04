@@ -27,6 +27,7 @@ import { EmptyState } from "./EmptyState";
 import Participants from "@utils/containers/Participants";
 import { UseMeResponse } from "@utils/hooks/useMe";
 import { Session } from "next-auth";
+import convertCamelToText from "@utils/convertCamelToText";
 
 /**
  * programInfo is the program information that will be displayed on the home page, follows the ProgramCardInfo type
@@ -67,7 +68,7 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
 
     const programTags = (
         <Box>
-            <SDCBadge children={programInfo.onlineFormat} />
+            <SDCBadge children={convertCamelToText(programInfo.onlineFormat)} />
             <SDCBadge ml="2" children={programInfo.tag} />
         </Box>
     );

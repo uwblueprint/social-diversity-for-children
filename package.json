@@ -1,6 +1,6 @@
 {
     "name": "social-diversity-for-children",
-    "version": "0.1.0",
+    "version": "0.0.3",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -17,9 +17,6 @@
         "fix": "yarn fix:eslint && yarn fix:prettier",
         "fix:prettier": "prettier --write '**/*.{js,jsx,ts,tsx}'",
         "fix:eslint": "eslint '**/*.{js,jsx,ts,tsx}' --format stylish --fix"
-    },
-    "prisma": {
-        "seed": "ts-node -O {\"module\":\"CommonJS\"} prisma/seed.ts"
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.0.14",

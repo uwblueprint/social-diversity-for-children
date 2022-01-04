@@ -41,8 +41,8 @@ jobs:
                   branch: $GITHUB_BASE_REF
                   regex: "terraform/*"
 
-            - name: Setup node env
-              uses: actions/setup-node@v2.1.2
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node }}
 
@@ -106,6 +106,18 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+              
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: '3.8'
+                cache: 'pip'
+                cache-dependency-path: '**/requirements.txt'
+
+            - name: Install Lambda dependencies
+              run: |
+                cd ../modules/lambda/files/cronMailing
+                pip install -r requirements.txt -t .
 
             - name: Hashicorp Terraform Setup (wraps stdout for plan)
               uses: hashicorp/setup-terraform@v1
@@ -172,7 +184,7 @@ jobs:
                         body: output
                       })
 
-            - name: Terraform plan status
+            - name: Terraform Plan error
               if: steps.plan.outcome == 'failure'
               run: |
                   echo Check terraform plan

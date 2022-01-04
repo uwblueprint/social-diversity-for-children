@@ -48,7 +48,7 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 ```bash
 .
 ├── .github
-│   ├── workflows/ci.yml # Github workflow
+│   ├── workflows # Github workflows
 │   └── pull_request_template.md # PR template
 │
 ├── pages # Pages
@@ -57,7 +57,11 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 │   └── index.tsx
 │
 ├── prisma # Prisma ORM
-│   └── schema.prisma # Prisma Schema
+│   │── dev-seeds # seeding data for dev environment
+│   │── migrations # migrations for production
+│   │── schema.prisma # Prisma Schema
+│   │── schema.sql # SQL Schema
+│   └── seed.ts # utility to script dev environment
 │
 ├── public
 │   ├── icons # Icons
@@ -67,12 +71,24 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 │
 ├── src # Frontend tools
 │   ├── components # Components
-│   └── definitions # Chakra
+│   ├── definitions # Chakra
 │   └── styles # CSS and Colours
 │
-├── types # Depdendencies types
+├── terraform # Infrastructure as code for dev and prod
+│   ├── environments # code separated by environments
+│   └── modules # terraform modules for reuse
+│
+├── types # Dependency types
 │
 ├── utils # Utility functions
+│   │── containers # unstated-next containers
+│   │── enum # enum utils
+│   │── hooks # SWR API hooks
+│   │── mail # SES mailing templates
+│   │── request # API request utils
+│   │── session # Session and authorization utils
+│   │── time # time and date utils
+│   │── toast # Chakra UI Toast msg utils
 │   └── validation # Data/Input Validators
 │
 ├── services # Third party services
@@ -85,6 +101,7 @@ Developers: Jason Huang, Soha Khan, Cindy Wang, Brandon Wong, Victor Yun, Mahad 
 # Misc individual files
 ├── .babelrc
 ├── .eslintignore
+├── .env.sample # required env vars
 ├── .gitattributes
 ├── .gitignore
 ├── .prettierignore
@@ -111,10 +128,10 @@ Reset your database on Heroku and then deploy your database schema run (one-time
 
 ```bash
 # Drop all tables from current Heroku postgres database
-heroku pg:reset -a YOUR_APP_NAME
+heroku pg:reset -a <YOUR_APP_NAME>
 
 # Deploy schema.sql to Heroku postgres
-heroku pg:psql -a YOUR_APP_NAME -f prisma/schema.sql
+heroku pg:psql -a <YOUR_APP_NAME> -f prisma/schema.sql
 
 # Regenerate Prisma schema and client
 # optional - `npx prisma introspect`
@@ -148,10 +165,26 @@ yarn lint
 yarn fix
 ```
 
+## ✈️ Migration
+
+NOTE: Before applying your migrations a production environment, ensure the diff via `npx prisma db pull` and `npx prisma migrate status` lines up with the migrations to be applied.
+
+To migrate a database schema without losing data:
+
+1. change both the `schema.sql` and `schema.prisma` file as required
+2. run `prisma migrate dev --name <DESCRIPTIVE_NAME> --create-only` (this will require a [shadow database](https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database/#cloud-hosted-shadow-databases-must-be-created-manually))
+3. after the migration is approved, run `npx prisma migrate deploy` to apply all new migrations
+
+Baseline environment:
+
+Baselining initializes a migration history for databases that contain data and cannot be reset - such as the production database. Baselining tells Prisma Migrate to assume that one or more migrations have already been applied. Run the following command to baseline for each of the required migration: `prisma migrate resolve --applied <MIGRATION_FOLDER_NAME>`
+
+For more info, please reference: [Adding Prisma Migrate to an existing project](https://www.prisma.io/docs/guides/database/developing-with-prisma-migrate/add-prisma-migrate-to-a-project)
+
 ## 🚢 Deployment
 
 Deployments occur automatically on push to main and staging branches through [Railway](https://docs.railway.app/).
 
-## License
+## 📝 License
 
 [MIT](LICENSE)

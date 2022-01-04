@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { Session } from "next-auth";
+import convertCamelToText from "@utils/convertCamelToText";
 
 type ProgramCardProps = {
     styleProps?: Record<string, unknown>;
@@ -110,7 +111,10 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ cardInfo }): JSX.Eleme
                                         </Box>
                                         <Box mt="2">
                                             <SDCBadge children={item.tag} />
-                                            <SDCBadge ml="2" children={item.onlineFormat} />
+                                            <SDCBadge
+                                                ml="2"
+                                                children={convertCamelToText(item.onlineFormat)}
+                                            />
                                         </Box>
                                     </Box>
                                 </Box>

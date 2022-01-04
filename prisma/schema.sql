@@ -78,7 +78,6 @@ CREATE TABLE classes (
   start_date TIMESTAMPTZ NOT NULL,
   end_date TIMESTAMPTZ NOT NULL,
   weekday weekdays NOT NULL,
-  start_time_minutes INTEGER NOT NULL, -- deprecated TODO: remove
   duration_minutes INTEGER NOT NULL,
 
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,

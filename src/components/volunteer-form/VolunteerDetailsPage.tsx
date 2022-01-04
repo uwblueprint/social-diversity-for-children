@@ -9,6 +9,7 @@ import { ProvinceField } from "@components/formFields/ProvinceField";
 import { CheckBoxField } from "@components/formFields/CheckBoxField";
 import { DateField } from "@components/formFields/DateField";
 import { useTranslation } from "next-i18next";
+import moment from "moment";
 
 type VolunteerDetailsPageProps = {
     styleProps?: Record<string, unknown>;
@@ -49,6 +50,7 @@ export const VolunteerDetailsPage: React.FC<VolunteerDetailsPageProps> = ({
                 value={props.certifyAge15}
                 name={t("signUp.certifyVolunteerAge")}
                 setValue={props.setCertifyAge15}
+                edit={moment().diff(props.dateOfBirth, "years") >= 15}
             ></CheckBoxField>
             <TextField
                 name={t("label.address1")}

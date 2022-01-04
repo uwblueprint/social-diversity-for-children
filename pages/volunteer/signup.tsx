@@ -82,7 +82,7 @@ const FormPage = (props) => {
  */
 export default function VolunteerInfo({ session }: { session: Session }): JSX.Element {
     const router = useRouter();
-    const { page } = router.query;
+    const { page, uploaded } = router.query;
     const { t } = useTranslation("form");
     const [progressBar, setProgressBar] = useState(Number);
     const [pageNum, setPageNum] = useState<number>(page ? parseInt(page as string, 10) : 0);
@@ -217,7 +217,8 @@ export default function VolunteerInfo({ session }: { session: Session }): JSX.El
         const volunteerData: VolunteerInput = {
             dateOfBirth: new Date(dateOfBirth),
             phoneNumber: phoneNumber,
-            criminalRecordCheckLink: undefined,
+            criminalRecordCheckLink: uploaded ? (uploaded as string) : undefined,
+            criminalCheckSubmittedAt: uploaded ? new Date() : undefined,
             addressLine1: address1,
             postalCode: postalCode,
             cityName: city,

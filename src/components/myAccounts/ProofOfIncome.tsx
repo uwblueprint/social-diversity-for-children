@@ -1,24 +1,27 @@
 import React from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Link as ChakraLink } from "@chakra-ui/react";
 import colourTheme from "@styles/colours";
 import Link from "next/link";
 import { ApprovedIcon, InfoIcon, PendingIcon } from "@components/icons";
 import convertToShortDateString from "@utils/convertToShortDateString";
 import { locale } from "@prisma/client";
 import { useTranslation } from "react-i18next";
+import useFileRetrieve from "@utils/hooks/useFileRetrieve";
+import { FileType } from "@utils/enum/filetype";
 
 type ProofOfIncomeProps = {
-    link: string;
+    file: string;
     approved: boolean;
     submitDate?: Date;
 };
 
 export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
-    link,
+    file,
     approved,
     submitDate,
 }): JSX.Element => {
     const { t } = useTranslation(["form", "common"]);
+    const { url: docLink } = useFileRetrieve(FileType.INCOME_PROOF, file);
 
     let description;
     let status;
@@ -31,7 +34,7 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
             context: status,
         });
         icon = <ApprovedIcon />;
-    } else if (link == null) {
+    } else if (file == null) {
         description = t("poi.missing");
         icon = <InfoIcon />;
     } else if (approved === null) {
@@ -61,7 +64,7 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
                 </Box>
             </Flex>
             <Box pl={120} my={5} color={colourTheme.colors.Gray}>
-                {link == null ? null : (
+                {file == null ? null : (
                     <>
                         <Text>
                             {t("account.status", {
@@ -75,6 +78,17 @@ export const ProofOfIncome: React.FC<ProofOfIncomeProps> = ({
                                 date: convertToShortDateString(submitDate, locale.en, true),
                             })}
                         </Text>
+                        <Flex>
+                            <Text pr={1}>
+                                {t("account.document", {
+                                    ns: "common",
+                                })}
+                                :{" "}
+                            </Text>
+                            <ChakraLink href={docLink} isExternal>
+                                {file}
+                            </ChakraLink>
+                        </Flex>
                     </>
                 )}
             </Box>

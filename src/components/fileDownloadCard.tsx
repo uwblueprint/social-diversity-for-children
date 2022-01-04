@@ -18,7 +18,6 @@ import colourTheme from "@styles/colours";
 import { updateFileApproval } from "@utils/updateFileApproval";
 import { FileType } from "@utils/enum/filetype";
 import convertToShortDateString from "@utils/convertToShortDateString";
-
 type FileDownloadCardProps = {
     filePath: FileType;
     docName: string;

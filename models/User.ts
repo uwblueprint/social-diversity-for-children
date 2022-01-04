@@ -11,6 +11,7 @@ export type ParentInput = {
     isLowIncome?: boolean;
     preferredLanguage: locale;
     proofOfIncomeLink?: string;
+    proofOfIncomeSubmittedAt?: Date;
     heardFrom?: heardFrom[];
     heardFromOther?: string;
     createStudentInput?: CreateStudentInput;
@@ -23,6 +24,7 @@ export type VolunteerInput = {
     criminalRecordCheckLink?: string;
     criminalCheckApproved?: boolean;
     criminalCheckExpired?: boolean;
+    criminalCheckSubmittedAt?: Date;
     addressLine1: string;
     postalCode: string;
     cityName: string;

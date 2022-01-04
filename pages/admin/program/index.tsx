@@ -16,6 +16,8 @@ import { Session } from "next-auth";
 import { AdminLoading } from "@components/AdminLoading";
 import { AdminError } from "@components/AdminError";
 import { isInternal } from "@utils/session/authorization";
+import { roles } from "@prisma/client";
+import convertCamelToText from "@utils/convertCamelToText";
 
 type BrowseProgramsProps = {
     session: Session;
@@ -45,6 +47,7 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
         } else if (
             prog.name.toLowerCase().includes(term) ||
             prog.description.toLowerCase().includes(term) ||
+            convertCamelToText(prog.onlineFormat).toLowerCase().includes(term) ||
             prog.onlineFormat.toLowerCase().includes(term) ||
             prog.tag.toLowerCase().includes(term)
         ) {
@@ -53,7 +56,9 @@ export const BrowsePrograms: React.FC<BrowseProgramsProps> = (props) => {
     });
     return (
         <Wrapper session={props.session}>
-            <AdminHeader headerLinks={headerLinks}>Programs</AdminHeader>
+            <AdminHeader headerLinks={props.session?.role !== roles.TEACHER ? headerLinks : []}>
+                Programs
+            </AdminHeader>
 
             <Box mx={8}>
                 <Text fontSize="16px">Browse Programs</Text>
