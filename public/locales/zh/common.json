@@ -57,6 +57,7 @@
         "status_expired": "状态：已过期",
         "status_declined": "状态：被拒",
         "dateSubmitted": "提交日期: {{date}}",
+        "document": "档案",
         "poi_approved": "您的收入报告已通过审核。",
         "poi_pending": "您的损益表正在审核中。",
         "poi_declined": "您已被拒绝低收入折扣的申请。如果您认为这是一个错误或需要提交新的\n收入证明，请联系 SDC的職員",
@@ -64,8 +65,7 @@
         "bgc_pending": "您的无犯罪调查信正在被审查。",
         "bgc_expired": "您的无犯罪记录已过期。请提交新的无犯罪记录",
         "bgc_declined": "您的无犯罪记录已被拒绝。如果您认为这是一个错误或您想重新提交新的无犯罪记录，请联系 SDC的职员。",
-        "logOut": "登出",
-        "document": "档案"
+        "logOut": "登出"
     },
     "upload": {
         "title": "上传文档",
