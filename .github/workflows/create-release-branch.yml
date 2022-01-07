@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: Semantic Version bump (major, premajor, minor, preminor, patch, prepatch, or prerelease)
+        description: Semantic Version bump (major, minor, patch, premajor, preminor, prepatch, or prerelease)
         type: choice
         required: true
         options:
