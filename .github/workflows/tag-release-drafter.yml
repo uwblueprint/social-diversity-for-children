@@ -21,7 +21,7 @@ jobs:
       uses: uwblueprint/sdc-actions/actions/get-package-version@main
 
     - name: Create tag
-      run: git tag -a v${{steps.package.outputs.version}} -m "Automated tag v${{steps.package.outputs.version}} pushed by ${{github.actor}}"
+      run: git tag -a v${{steps.package.outputs.version}} -m "releasing version v${{steps.package.outputs.version}}"
 
     - name: Push tag
       run: git push origin v${{steps.package.outputs.version}}
