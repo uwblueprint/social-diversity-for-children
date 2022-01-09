@@ -87,9 +87,6 @@ jobs:
               run:  |
                 cd ../modules/lambda/files/cronMailing
                 pip install -r requirements.txt -t .
-                
-            - name: Hashicorp Terraform Setup (wraps stdout for plan)
-              uses: hashicorp/setup-terraform@v1
 
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
@@ -98,22 +95,8 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ${{ secrets.AWS_REGION }}
 
-            - name: Terraform Init
-              run: |
-                  cd ${{needs.ci-push.outputs.env}}
-                  terraform init
-
-            - name: Terraform Format
-              run: |
-                  cd ${{needs.ci-push.outputs.env}}
-                  terraform fmt -check
-
-            - name: Terraform Validate
-              run: |
-                  cd ${{needs.ci-push.outputs.env}}
-                  terraform validate -no-color
-
-            - name: Terraform Apply
-              run: |
-                  cd ${{needs.ci-push.outputs.env}}
-                  terraform apply -auto-approve
+            - name: Terraform steps
+              uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
+              with:
+                plan: false
+                apply: true
