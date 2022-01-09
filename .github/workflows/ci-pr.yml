@@ -117,6 +117,7 @@ jobs:
               uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
               with: 
                 directory: ./terraform/environments/staging
+                comment-title: staging
 
     terraform-production:
         needs: ci-pr
@@ -156,3 +157,4 @@ jobs:
               uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
               with: 
                 directory: ./terraform/environments/production 
+                comment-title: production

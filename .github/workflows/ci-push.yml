@@ -63,7 +63,7 @@ jobs:
             - name: Build
               run: yarn build
 
-    terraform:
+    terraform-production:
         needs: ci-push
         environment: ${{needs.ci-push.outputs.env}}
         runs-on: ubuntu-latest
