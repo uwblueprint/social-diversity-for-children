@@ -115,6 +115,8 @@ jobs:
 
             - name: Terraform checks
               uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
+              with: 
+                directory: ./terraform/environments/staging
 
     terraform-production:
         needs: ci-pr
@@ -152,3 +154,5 @@ jobs:
 
             - name: Terraform steps
               uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
+              with: 
+                directory: ./terraform/environments/production 

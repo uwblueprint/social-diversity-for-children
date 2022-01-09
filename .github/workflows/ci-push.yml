@@ -69,7 +69,7 @@ jobs:
         runs-on: ubuntu-latest
         defaults:
             run:
-                working-directory: ./terraform/environments
+                working-directory: ./terraform/environments/production
         env:
             TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }}
         steps:
@@ -98,5 +98,6 @@ jobs:
             - name: Terraform steps
               uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
               with:
+                directory: ./terraform/environments/production
                 plan: false
                 apply: true
