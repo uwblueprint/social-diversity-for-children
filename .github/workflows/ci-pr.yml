@@ -113,7 +113,7 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ${{ secrets.AWS_REGION }}
 
-            - name: Terraform checks
+            - name: Terraform steps
               uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
               with: 
                 directory: ./terraform/environments/staging
