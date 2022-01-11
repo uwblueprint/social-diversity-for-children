@@ -13,8 +13,8 @@ export type UseStripeCouponResponse = {
  * @param  {string} id
  * @returns UseStripeSessionResponse
  */
-export default function useStripeCoupon(couponId: string): UseStripeCouponResponse {
-    const { data, error } = useSWR(`/api/coupon/${couponId}`, fetcher);
+export default function useStripeCoupon(couponId?: string): UseStripeCouponResponse {
+    const { data, error } = useSWR(`/api/coupon/${couponId ? couponId : ""}`, fetcher);
     return {
         stripeCoupon: data ? data.coupon : null,
         isLoading: !error && !data,
