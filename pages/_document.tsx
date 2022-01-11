@@ -19,7 +19,9 @@ class CustomDocument extends NextDocument {
     render(): JSX.Element {
         return (
             <Html>
-                <Head />
+                <Head>
+                    <title>Social Diversity for Children Foundation</title>
+                </Head>
                 <body>
                     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
                     <Main />
