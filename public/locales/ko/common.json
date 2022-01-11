@@ -14,8 +14,10 @@
         "ageGroupUnder": "{{age}}세 이하",
         "ageGroupAbove": "{{age}}세 이상",
         "teacherName": "선생님: {{name}}",
-        "participantSpot": "남은 참가자 정원: {{spot}}",
-        "volunteerSpot": "남은 봉사자 정원: {{spot}}",
+        "participantSpot": "남은 참가자 자리: {{spot}}",
+        "participantSpot_plural": "남은  참가자 자리: {{spot}}",
+        "volunteerSpot": "남은 자원봉사자 자리: {{spot}}",
+        "volunteerSpot_plural": "남은 자원봉사자 자리: {{spot}}",
         "notEligible": "당신의 자녀는 이 수업의 연령대에 속하지 않습니다. 다른 수업을 선택하십시오.",
         "understood": "이해했다",
         "waitlist": "대기자 명단에 추가",
@@ -28,11 +30,16 @@
     "class": {
         "joinClass": "수강 신청",
         "unregister": "등록 취소",
+        "unregisterConfirm": "등록 취소 확인",
+        "unregisterInfo": "{{name}}의 등록을 취소하시겠습니까?",
+        "unregisterInfoAll": "모든 학생의 등록을 취소하시겠습니까?",
+        "unregisterRefundInfo": "환불을 받으시려면 SDC에 문의해주세요.",
         "unregisterFor": "등록 취소: {{name}}",
         "unregisterForAll": "모두 등록 취소",
         "upcomingClasses": "다가오는 수업",
         "waitlistedClasses": "대기자 클래스",
         "waitlistedInfo": "자리가 열리면 이메일이 전송됩니다.",
+        "waitlistCancel": "대기자 명단에서 제거",
         "emptyWaitlist": "현재 귀하는 어떤 수업에서도 대기자 명단에 오르지 않았습니다. 대기자 명단에 있는 모든 수업이 여기에 표시됩니다!",
         "emptyClass": "현재 등록된 수업이 없습니다. 등록한 모든 수업이 여기에 표시됩니다!"
     },
@@ -47,16 +54,21 @@
         "save": "정보 저장",
         "status_approved": "상태: 승인",
         "status_pending": "상태: 보류 중",
+        "status_expired": "상태: 만료됨",
         "status_declined": "상태: 거절",
         "dateSubmitted": "제출 날짜: {{date}}",
         "poi_approved": "소득증명서가 확인되었습니다.",
         "poi_pending": "귀하의 손익 계산서를 검토 중입니다.",
+        "poi_declined": "저소득 할인이 거부되었습니다. 이것이 착오라고 생각되시면 SDC에 연락하시거나 소득증명서를 제출하시기 바랍니다.",
         "bgc_approved": "귀하의 범죄 없는 조사 서신이 검토되었습니다.",
         "bgc_pending": "범죄기록증명서가 확인 중에 있습니다.",
+        "bgc_expired": "신원조회 (Criminal Record Check)가 만료되었습니다. 새로운 신원조회를 제출하십시오.",
+        "bgc_declined": "신원조회 (Criminal Record Check)가 거부되었습니다. 실수라고 생각되면 SDC에 연락하거나 새로운 신원조회를 제출하십시오.",
         "logOut": "로그아웃"
     },
     "upload": {
         "title": "업로드...",
+        "prompt": "업로드할 문서 선택",
         "instruction": "여기에 파일을 끌어다 놓습니다.",
         "alternative": "또는",
         "browseFiles": "파일 보기",
@@ -70,7 +82,10 @@
     "signIn": {
         "firstTime": "처음이신가요? 이메일로 간편하게 회원가입하세요.",
         "sentTitle": "인증번호가 전송되었습니다. 이메일 확인하세요.",
-        "successEmail": "이메일 인증 성공"
+        "sentInfo": "이메일 주소 확인하기위해 {{email}}(으)로 보내드린 이메일의 링크를 클릭하세요.",
+        "sentHint": "이메일을 받지 못하셨나요? 로그인 페이지로 돌아가서 유효한 이메일을 다시 입력하십시오.",
+        "successEmail": "이메일 인증 성공",
+        "successInfo": "{{email}}이 확인되었습니다. 계정 정보를 입력할 준비가 되었습니다!"
     },
     "time": {
         "range": "{{start}}부터{{end}}까지",
@@ -89,6 +104,7 @@
     "therapy": {
         "physiotherapy": "물리치료",
         "language": "언어 치료",
+        "occupational": "작업 치료",
         "psychotherapy": "심리치료 / 상담",
         "art": "음악 또는 미술 치료",
         "other": "그 외"
@@ -101,6 +117,7 @@
         "other": "기타"
     },
     "nav": {
+        "signInNow": "수업에 등록하시려면 로그인을하십시오.",
         "register": "등록하세요",
         "registerNow": "지금 등록하세요",
         "browseProgram": "프로그램 보기",
@@ -112,5 +129,16 @@
         "browseClasses": "프로그램 보기",
         "viewDetails": "더 보기",
         "viewAccount": "계정 보기"
+    },
+    "toast": {
+        "registrationFailed": "등록 실패.",
+        "registrationFailedDesc": "현재 등록할 수 없는 수업입니다.",
+        "waitlistAdded": "대기자 명단에 추가되었습니다.",
+        "waitlistAddedDesc": "수업에 자리가 열리면  이메일을 보내드리겠습니다. "
+    },
+    "404": {
+        "title": "페이지를 찾을 수 없습니다.",
+        "subtitle": "죄송합니다. 찾고 있는 페이지가 존재하지 않습니다. 페이지를 새로고침하거나 아래 버튼을 누르세요.",
+        "return": "메인 페이지로 돌아가기"
     }
 }
