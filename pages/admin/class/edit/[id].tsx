@@ -18,7 +18,6 @@ import { infoToastOptions, errorToastOptions } from "@utils/toast/options";
 import { useRouter } from "next/router";
 import { AdminModal } from "@components/admin/AdminModal";
 import { weekday } from "@prisma/client";
-import moment from "moment";
 import useStripePrice from "@utils/hooks/useStripePrice";
 import usePrograms from "@utils/hooks/usePrograms";
 import useClass from "@utils/hooks/useClass";

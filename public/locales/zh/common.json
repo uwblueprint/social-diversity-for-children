@@ -57,6 +57,7 @@
         "status_expired": "状态：已过期",
         "status_declined": "状态：被拒",
         "dateSubmitted": "提交日期: {{date}}",
+        "document": "档案",
         "poi_approved": "您的收入报告已通过审核。",
         "poi_pending": "您的损益表正在审核中。",
         "poi_declined": "您已被拒绝低收入折扣的申请。如果您认为这是一个错误或需要提交新的\n收入证明，请联系 SDC的職員",

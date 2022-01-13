@@ -38,7 +38,7 @@ const AdminNavBar: React.FC<{ role: roles }> = ({ role }) => {
             bgColor={colourTheme.colors.Blue}
         >
             <Box pl={5}>
-                <Link href="/admin">
+                <Link href="/">
                     <ChakraLink _focus={{}}>
                         <SdcLogoWhite />
                     </ChakraLink>

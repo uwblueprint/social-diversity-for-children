@@ -1,6 +1,5 @@
 import { ParentRegistrationInput } from "@models/Enroll";
 import { Student } from "@prisma/client";
-import { mutate } from "swr";
 
 /**
  * createClassRegistration creates a registration for a class given a student
@@ -25,8 +24,6 @@ export async function createClassRegistration(
     };
 
     const response = await fetch("/api/enroll/child", request);
-
-    mutate("/api/enroll/child");
 
     return response;
 }

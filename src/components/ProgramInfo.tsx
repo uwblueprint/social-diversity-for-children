@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import Wrapper from "@components/SDCWrapper";
 import { BackButton } from "@components/BackButton";
-import { Button } from "@chakra-ui/react";
 import { ClassList } from "src/components/ClassList";
 import type { ClassCardInfo } from "models/Class";
 import { ProgramCardInfo } from "models/Program";
@@ -97,16 +96,6 @@ export const ProgramInfo: React.FC<ProgramDetailsProps> = ({
                     <Text fontSize="sm" fontWeight="semibold">
                         {t("program.selectClass")}
                     </Text>
-                    <Spacer />
-                    {/* TODO what is the filter button supposed to do? */}
-                    <Button
-                        fontSize="sm"
-                        backgroundColor="transparent"
-                        borderColor="gray.600"
-                        borderWidth="1"
-                    >
-                        Filter
-                    </Button>
                 </Flex>
                 {availableClassInfo.length === 0 ? (
                     <EmptyState>

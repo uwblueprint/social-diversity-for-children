@@ -1,0 +1,69 @@
+name: Create Release Branch
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Semantic Version bump (major, minor, patch, premajor, preminor, prepatch, or prerelease)
+        type: choice
+        required: true
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Initialize git config for PR author # https://github.com/actions/checkout/issues/13
+      run: |
+       git config user.name "github-actions[bot]"
+       git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Get next semantic version
+      id: semver
+      uses: uwblueprint/sdc-actions/actions/get-semantic-version@main
+      with:
+          bump:  ${{ github.event.inputs.bump }}
+
+    - name: Create release branch
+      run: git checkout -b release/v${{ steps.semver.outputs.version }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'yarn'
+
+    - name: Update package.json version
+      run: yarn version --no-git-tag-version --new-version ${{ steps.semver.outputs.version }} 
+    
+    - name: Commit package.json version change
+      run: |
+        git add package.json
+        git commit -m "Updated version to ${{ steps.semver.outputs.version }}"
+      continue-on-error: true # we want this to be true in case there aren't changes commit will fail
+
+    - name: Push release branch
+      run: git push origin release/v${{ steps.semver.outputs.version }}
+   
+    - name: Create pull request to staging
+      uses: uwblueprint/sdc-actions/actions/create-pull-request@main
+      with:
+        source_branch: release/v${{ steps.semver.outputs.version }} 
+        destination_branch: staging
+        title: Staging Release v${{ steps.semver.outputs.version }}
+
+    - name: Create pull request to main
+      uses: uwblueprint/sdc-actions/actions/create-pull-request@main
+      with:
+        source_branch: release/v${{ steps.semver.outputs.version }} 
+        destination_branch: main
+        title: Main Release v${{ steps.semver.outputs.version }}
