@@ -57,6 +57,7 @@
         "status_expired": "상태: 만료됨",
         "status_declined": "상태: 거절",
         "dateSubmitted": "제출 날짜: {{date}}",
+        "document": "문서",
         "poi_approved": "소득증명서가 확인되었습니다.",
         "poi_pending": "귀하의 손익 계산서를 검토 중입니다.",
         "poi_declined": "저소득 할인이 거부되었습니다. 이것이 착오라고 생각되시면 SDC에 연락하시거나 소득증명서를 제출하시기 바랍니다.",
