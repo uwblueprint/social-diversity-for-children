@@ -20,20 +20,6 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
 
-            - name: Set environment based on branch
-              id: env
-              run: |
-                  if [[ $GITHUB_BASE_REF = "staging" ]]; then
-                      echo "::set-output name=env::staging"
-                      echo Environment set to 'staging'
-                  elif [[ $GITHUB_BASE_REF = "main" ]]; then
-                      echo "::set-output name=env::production"
-                      echo Environment set to 'production'
-                  else
-                      echo "'$GITHUB_BASE_REF' does not equal 'staging' or 'main'"
-                      exit 1
-                  fi
-
             - name: Check files changed - Terraform
               id: cfc-terraform
               uses: uwblueprint/sdc-actions/actions/check-files-changed@main
@@ -93,14 +79,14 @@ jobs:
             - name: Build
               run: yarn build
 
-    terraform:
+    terraform-staging:
         needs: ci-pr
         if: needs.ci-pr.outputs.changes-terraform == 'true'
-        environment: ${{needs.ci-pr.outputs.env}}
+        environment: staging
         runs-on: ubuntu-latest
         defaults:
             run:
-                working-directory: ./terraform/environments
+                working-directory: ./terraform/environments/staging
         env:
             TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }}
         steps:
@@ -116,11 +102,8 @@ jobs:
 
             - name: Install Lambda dependencies
               run: |
-                cd ../modules/lambda/files/cronMailing
+                cd ../../modules/lambda/files/cronMailing
                 pip install -r requirements.txt -t .
-
-            - name: Hashicorp Terraform Setup (wraps stdout for plan)
-              uses: hashicorp/setup-terraform@v1
 
             # TODO change to OIDC provider
             - name: Configure AWS Credentials
@@ -130,62 +113,48 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ${{ secrets.AWS_REGION }}
 
-            - name: Terraform fmt
-              id: fmt
-              run: |
-                  cd ${{needs.ci-pr.outputs.env}}
-                  terraform fmt -check
+            - name: Terraform steps
+              uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
+              with: 
+                directory: ./terraform/environments/staging
+                comment-title: Staging Terraform
 
-            - name: Terraform Init
-              id: init
-              run: |
-                  cd ${{needs.ci-pr.outputs.env}}
-                  terraform init
-
-            - name: Terraform Validate
-              id: validate
-              run: |
-                  cd ${{needs.ci-pr.outputs.env}}
-                  terraform validate -no-color
-
-            - name: Terraform Plan
-              id: plan
-              run: |
-                  cd ${{needs.ci-pr.outputs.env}}
-                  terraform plan -no-color
-              continue-on-error: true
-
-            - name: Update Pull Request
-              uses: actions/github-script@0.9.0
-              env:
-                  PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+    terraform-production:
+        needs: ci-pr
+        if: needs.ci-pr.outputs.changes-terraform == 'true'
+        environment: production
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./terraform/environments/production
+        env:
+            TF_VAR_zoom_class_link_value: ${{ secrets.ZOOM_CLASS_LINK_VALUE }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              
+            - name: Setup Python
+              uses: actions/setup-python@v2
               with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  script: |
-                      const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-                      #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-                      #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-                      #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+                python-version: '3.8'
+                cache: 'pip'
+                cache-dependency-path: '**/requirements.txt'
 
-                      <details><summary>Show Plan</summary>
-
-                      \`\`\`\n
-                      ${process.env.PLAN}
-                      \`\`\`
-
-                      </details>
-
-                      *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-
-                      github.issues.createComment({
-                        issue_number: context.issue.number,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        body: output
-                      })
-
-            - name: Terraform Plan error
-              if: steps.plan.outcome == 'failure'
+            - name: Install Lambda dependencies
               run: |
-                  echo Check terraform plan
-                  exit 1
+                cd ../../modules/lambda/files/cronMailing
+                pip install -r requirements.txt -t .
+
+            # TODO change to OIDC provider
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ${{ secrets.AWS_REGION }}
+
+            - name: Terraform steps
+              uses: uwblueprint/sdc-actions/actions/terraform-fmt-validate-plan-apply@main
+              with: 
+                directory: ./terraform/environments/production 
+                comment-title: Production Terraform
